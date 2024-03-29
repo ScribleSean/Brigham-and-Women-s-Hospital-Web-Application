@@ -18,3 +18,33 @@ model HighScore {
   time  DateTime
   score Int
 }
+
+model Nodes {
+  nodeID     String  @id
+  xcoord     Int
+  ycoord     Int
+  floor      String
+  building   String
+  nodeType   String
+  longName   String
+  shortName  String
+  endNodes   Edges[] @relation("end")
+  startNodes Edges[] @relation("start")
+}
+
+model Edges {
+  edgeID      Int    @id @default(autoincrement())
+  startNodeID String
+  endNodeID   String
+  end         Nodes  @relation("end", fields: [endNodeID], references: [nodeID])
+  start       Nodes  @relation("start", fields: [startNodeID], references: [nodeID])
+}
+
+model Form {
+  formID       Int    @id @default(autoincrement())
+  receiverName String
+  message      String
+  senderName   String
+  flowerType   String
+  roomNumber   Int
+}
