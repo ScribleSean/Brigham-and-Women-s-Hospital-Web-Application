@@ -1581,6 +1581,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@types/papaparse", [\
+      ["npm:5.3.14", {\
+        "packageLocation": "./.yarn/cache/@types-papaparse-npm-5.3.14-864eddd3a0-9bd5cc0e6a.zip/node_modules/@types/papaparse/",\
+        "packageDependencies": [\
+          ["@types/papaparse", "npm:5.3.14"],\
+          ["@types/node", "npm:20.11.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/pg", [\
       ["npm:8.10.9", {\
         "packageLocation": "./.yarn/cache/@types-pg-npm-8.10.9-ee8620c8e7-787be5431a.zip/node_modules/@types/pg/",\
@@ -3328,6 +3338,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["csv-parse", [\
+      ["npm:5.5.5", {\
+        "packageLocation": "./.yarn/cache/csv-parse-npm-5.5.5-db6ed28c6c-759ca2e5f3.zip/node_modules/csv-parse/",\
+        "packageDependencies": [\
+          ["csv-parse", "npm:5.5.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["database", [\
       ["workspace:packages/database", {\
         "packageLocation": "./packages/database/",\
@@ -4448,6 +4467,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/react-table", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:8.11.6"],\
           ["@types/bootstrap", "npm:5.2.10"],\
           ["@types/node", "npm:20.11.5"],\
+          ["@types/papaparse", "npm:5.3.14"],\
           ["@types/prop-types", "npm:15.7.11"],\
           ["@types/react", "npm:18.2.48"],\
           ["@types/react-bootstrap", "npm:0.32.35"],\
@@ -4459,13 +4479,16 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.6.5"],\
           ["bootstrap", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:5.3.2"],\
           ["common", "workspace:packages/common"],\
+          ["csv-parse", "npm:5.5.5"],\
           ["database", "workspace:packages/database"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-custom", "workspace:configs/eslint-config-custom"],\
           ["eslint-plugin-react-hooks", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:4.6.0"],\
           ["eslint-plugin-react-refresh", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:0.4.5"],\
+          ["fs", "npm:0.0.1-security"],\
           ["localforage", "npm:1.10.0"],\
           ["match-sorter", "npm:6.3.3"],\
+          ["papaparse", "npm:5.4.1"],\
           ["postcss", "npm:8.4.35"],\
           ["prettier", "npm:3.2.4"],\
           ["prettier-config-custom", "workspace:configs/prettier-config-custom"],\
@@ -4486,6 +4509,15 @@ const RAW_RUNTIME_STATE =
           ["vitest", "virtual:281b7ec5658d805f88196484313c874810ad4b28fdb3886a7f2b6292faec9bee3b9a92af4348cfaefb8b484dd7e409e815eac63879fbb0501eb0b5d3afa613d1#npm:0.34.6"]\
         ],\
         "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["fs", [\
+      ["npm:0.0.1-security", {\
+        "packageLocation": "./.yarn/cache/fs-npm-0.0.1-security-5060b47e87-53c6230e1f.zip/node_modules/fs/",\
+        "packageDependencies": [\
+          ["fs", "npm:0.0.1-security"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["fs-minipass", [\
@@ -6095,6 +6127,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/packet-reader-npm-1.0.0-e93c92246b-8504cc8c32.zip/node_modules/packet-reader/",\
         "packageDependencies": [\
           ["packet-reader", "npm:1.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["papaparse", [\
+      ["npm:5.4.1", {\
+        "packageLocation": "./.yarn/cache/papaparse-npm-5.4.1-954555a2a7-5e6dc97818.zip/node_modules/papaparse/",\
+        "packageDependencies": [\
+          ["papaparse", "npm:5.4.1"]\
         ],\
         "linkType": "HARD"\
       }]\
