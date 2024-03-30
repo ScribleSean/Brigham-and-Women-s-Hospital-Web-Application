@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
+import "./Requests.css";
 
 //This is in here as a placeholder for the actual data
 /*
@@ -24,8 +25,6 @@ const rows = [
 function Requests() {
   return (
     <div>
-      <p>not made yet</p>
-      /*mostly copied from https://mui.com/material-ui/react-table/ */
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 10 }} aria-label="FLowers Requests Table">
           <TableHead>
@@ -39,9 +38,7 @@ function Requests() {
               <TableCell>Message</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            /*gets really messy without the actual data structure*/
-          </TableBody>
+          <TableBody></TableBody>
         </Table>
       </TableContainer>
     </div>
