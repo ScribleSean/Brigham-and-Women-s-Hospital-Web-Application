@@ -1,0 +1,45 @@
+body {
+  background-color: #f1f1f1 !important;
+}
+
+#flowerPageHeader {
+  font-size: 7vh;
+}
+
+.flowerPage {
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: left;
+  max-width: 1080px !important;
+  /*font-family: Inter, serif;*/
+  color: white;
+  background-color: #012d5a !important;
+  padding: 15px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  font-size: 3vh;
+}
+
+.form-control {
+  padding-right: 400px !important;
+}
+
+.radio-buttons {
+  font-size: 75%;
+}
+
+input[type="radio"]:checked {
+  background-color: #f6bd39 !important;
+}
+
+.submit-btn {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
+.submitted-form {
+  color: white;
+  text-align: left !important;
+}

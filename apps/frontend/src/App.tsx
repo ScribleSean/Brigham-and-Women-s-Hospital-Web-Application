@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import ExampleRoute from "./routes/ExampleRoute.tsx";
+// import ExampleRoute from "./routes/ExampleRoute.tsx";
+import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -9,18 +10,22 @@ function App() {
       element: <Root />,
       children: [
         {
-          path: "",
-          element: <ExampleRoute />,
+          // path: "",
+          // element: <FlowerDeliveryRoute />,
         },
       ],
+    },
+    {
+      path: "routes/service_request_routes/FlowerDelivery", // Define the route for Flower Delivery page
+      element: <FlowerDelivery />,
     },
   ]);
 
   return <RouterProvider router={router} />;
   function Root() {
     return (
-      <div className="w-full flex flex-col px-20 gap-5">
-        <h1>Welcome to your starter code.</h1>
+      <div className="container-fluid">
+        <FlowerDelivery />
         <Outlet />
       </div>
     );
