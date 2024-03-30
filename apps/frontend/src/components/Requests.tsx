@@ -10,22 +10,22 @@ import {
 import React from "react";
 
 function createData(
-  deliverytype: string,
-  requestnum: number,
-  sendername: string,
-  patientname: string,
-  roomnum: number,
-  flowertype: string,
-  deliverymessage: string,
+  deliveryType: string,
+  requestNum: number,
+  senderName: string,
+  patientName: string,
+  roomNum: number,
+  flowerType: string,
+  deliveryMessage: string,
 ) {
   return {
-    deliverytype,
-    requestnum,
-    sendername,
-    patientname,
-    roomnum,
-    flowertype,
-    deliverymessage,
+    deliveryType,
+    requestNum,
+    senderName,
+    patientName,
+    roomNum,
+    flowerType,
+    deliveryMessage,
   };
 }
 
@@ -72,18 +72,18 @@ function Requests() {
           <TableBody>
             {rows.map((row) => (
               <TableRow
-                key={row.deliverytype}
+                key={row.deliveryType}
                 sx={{ "&:last-child td, &:last-child th": { border: 1 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.deliverytype}
+                  {row.deliveryType}
                 </TableCell>
-                <TableCell>{row.requestnum}</TableCell>
-                <TableCell>{row.sendername}</TableCell>
-                <TableCell>{row.patientname}</TableCell>
-                <TableCell>{row.roomnum}</TableCell>
-                <TableCell>{row.flowertype}</TableCell>
-                <TableCell>{row.deliverymessage}</TableCell>
+                <TableCell>{row.requestNum}</TableCell>
+                <TableCell>{row.senderName}</TableCell>
+                <TableCell>{row.patientName}</TableCell>
+                <TableCell>{row.roomNum}</TableCell>
+                <TableCell>{row.flowerType}</TableCell>
+                <TableCell>{row.deliveryMessage}</TableCell>
               </TableRow>
             ))}
           </TableBody>
