@@ -9,17 +9,47 @@ import {
 } from "@mui/material";
 import React from "react";
 
-//This is in here as a placeholder for the actual data
-/*
+function createData(
+  deliverytype: string,
+  requestnum: number,
+  sendername: string,
+  patientname: string,
+  roomnum: number,
+  flowertype: string,
+  deliverymessage: string,
+) {
+  return {
+    deliverytype,
+    requestnum,
+    sendername,
+    patientname,
+    roomnum,
+    flowertype,
+    deliverymessage,
+  };
+}
+
+/**This is in here as a placeholder for the actual data*/
 const rows = [
-  12345,
-  "Jim Brown",
-  "Jane Brown",
-  123,
-  "violets",
-  "Get well soon! See you after work!",
+  createData(
+    "flower",
+    0,
+    "John Doe",
+    "Jane Doe",
+    123,
+    "Rose",
+    "Get Well Soon!",
+  ),
+  createData(
+    "flower",
+    1,
+    "Jess Smith",
+    "Joseph Smith",
+    38,
+    "Lilly",
+    "Good Luck!",
+  ),
 ];
-*/
 
 function Requests() {
   return (
@@ -27,7 +57,7 @@ function Requests() {
       <p>not made yet</p>
       /*mostly copied from https://mui.com/material-ui/react-table/ */
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 10 }} aria-label="FLowers Requests Table">
+        <Table sx={{ minWidth: 5 }} aria-label="FLowers Requests Table">
           <TableHead>
             <TableRow>
               <TableCell>Delivery Type</TableCell>
@@ -40,7 +70,22 @@ function Requests() {
             </TableRow>
           </TableHead>
           <TableBody>
-            /*gets really messy without the actual data structure*/
+            {rows.map((row) => (
+              <TableRow
+                key={row.deliverytype}
+                sx={{ "&:last-child td, &:last-child th": { border: 1 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.deliverytype}
+                </TableCell>
+                <TableCell>{row.requestnum}</TableCell>
+                <TableCell>{row.sendername}</TableCell>
+                <TableCell>{row.patientname}</TableCell>
+                <TableCell>{row.roomnum}</TableCell>
+                <TableCell>{row.flowertype}</TableCell>
+                <TableCell>{row.deliverymessage}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
