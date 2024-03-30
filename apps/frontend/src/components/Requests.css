@@ -1,0 +1,16 @@
+.tableAlign {
+  margin: 50%;
+}
+
+.requestsHeader {
+  background-color: #012d5a;
+  border-radius: 100px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  font-family: "Inter", serif;
+  text-align: center;
+  margin: 3vh;
+}

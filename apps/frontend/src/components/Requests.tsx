@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
+import "./Requests.css";
 
 function createData(
   deliveryType: string,
@@ -32,7 +33,7 @@ function createData(
 /**This is in here as a placeholder for the actual data*/
 const rows = [
   createData(
-    "flower",
+    "Flower",
     0,
     "John Doe",
     "Jane Doe",
@@ -41,7 +42,7 @@ const rows = [
     "Get Well Soon!",
   ),
   createData(
-    "flower",
+    "Flower",
     1,
     "Jess Smith",
     "Joseph Smith",
@@ -54,41 +55,45 @@ const rows = [
 function Requests() {
   return (
     <div>
-      <p>not made yet</p>
-      /*mostly copied from https://mui.com/material-ui/react-table/ */
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 5 }} aria-label="FLowers Requests Table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Delivery Type</TableCell>
-              <TableCell>Request Number</TableCell>
-              <TableCell>Sender Name</TableCell>
-              <TableCell>Patient Name</TableCell>
-              <TableCell>Room Number</TableCell>
-              <TableCell>Flower Type</TableCell>
-              <TableCell>Message</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.deliveryType}
-                sx={{ "&:last-child td, &:last-child th": { border: 1 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.deliveryType}
-                </TableCell>
-                <TableCell>{row.requestNum}</TableCell>
-                <TableCell>{row.senderName}</TableCell>
-                <TableCell>{row.patientName}</TableCell>
-                <TableCell>{row.roomNum}</TableCell>
-                <TableCell>{row.flowerType}</TableCell>
-                <TableCell>{row.deliveryMessage}</TableCell>
+      <div>
+        <h1 className="requestsHeader">
+          <b>Active Service Requests</b>
+        </h1>
+      </div>
+      <div>
+        <TableContainer component={Paper} className="tableAlign">
+          <Table sx={{ border: 1 }} aria-label="Flowers Requests Table">
+            <TableHead>
+              <TableRow sx={{ border: 1 }}>
+                <TableCell sx={{ border: 1 }}>Delivery Type</TableCell>
+                <TableCell sx={{ border: 1 }}>Request Number</TableCell>
+                <TableCell sx={{ border: 1 }}>Sender Name</TableCell>
+                <TableCell sx={{ border: 1 }}>Patient Name</TableCell>
+                <TableCell sx={{ border: 1 }}>Room Number</TableCell>
+                <TableCell sx={{ border: 1 }}>Flower Type</TableCell>
+                <TableCell sx={{ border: 1 }}>Message</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody sx={{ border: 1 }}>
+              {rows.map((row) => (
+                <TableRow key={row.deliveryType}>
+                  <TableCell component="th" scope="row" sx={{ border: 1 }}>
+                    {row.deliveryType}
+                  </TableCell>
+                  <TableCell sx={{ border: 1 }}>{row.requestNum}</TableCell>
+                  <TableCell sx={{ border: 1 }}>{row.senderName}</TableCell>
+                  <TableCell sx={{ border: 1 }}>{row.patientName}</TableCell>
+                  <TableCell sx={{ border: 1 }}>{row.roomNum}</TableCell>
+                  <TableCell sx={{ border: 1 }}>{row.flowerType}</TableCell>
+                  <TableCell sx={{ border: 1 }}>
+                    {row.deliveryMessage}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     </div>
   );
 }

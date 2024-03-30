@@ -1,10 +1,6 @@
-body {
-  background-color: #012d5a !important;
-}
-
 #flowerPage {
   text-align: left;
-  max-width: 1080px !important;
+  max-width: 1080px;
   font-family:
     inria Serif,
     serif;
