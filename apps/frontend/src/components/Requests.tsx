@@ -39,7 +39,8 @@ const rows = [
     "Jane Doe",
     123,
     "Rose",
-    "Get Well Soon!",
+    "I'm making this message extremely long to see what happens!" +
+      " This message will hopefully wrap around downwards so the box expands down and not off the screen in a really ugly way!",
   ),
   createData(
     "Flower",
@@ -60,32 +61,61 @@ function Requests() {
           <b>Active Service Requests</b>
         </h1>
       </div>
-      <div>
+      <div className="boxBehindTable">
+        <h1 className="filterHeader">
+          <b>
+            <u>Filter By Type:</u>
+          </b>
+        </h1>
+        <br />
+        <input type="checkbox" id="Flower" name="Flower" />
+        <label htmlFor="Flower" className="filterOption">
+          Flowers
+        </label>
+        <input type="checkbox" id="soon" name="soon" />
+        <label htmlFor="soon" className="filterOption">
+          Coming Soon
+        </label>
+      </div>
+      <br />
+      <div className="boxBehindTable">
         <TableContainer component={Paper} className="tableAlign">
-          <Table sx={{ border: 1 }} aria-label="Flowers Requests Table">
+          <Table sx={{ border: 2 }} aria-label="Flowers Requests Table">
             <TableHead>
-              <TableRow sx={{ border: 1 }}>
-                <TableCell sx={{ border: 1 }}>Delivery Type</TableCell>
-                <TableCell sx={{ border: 1 }}>Request Number</TableCell>
-                <TableCell sx={{ border: 1 }}>Sender Name</TableCell>
-                <TableCell sx={{ border: 1 }}>Patient Name</TableCell>
-                <TableCell sx={{ border: 1 }}>Room Number</TableCell>
-                <TableCell sx={{ border: 1 }}>Flower Type</TableCell>
-                <TableCell sx={{ border: 1 }}>Message</TableCell>
+              <TableRow sx={{ border: 2 }}>
+                <TableCell sx={{ border: 2 }}>
+                  <b>Delivery Type</b>
+                </TableCell>
+                <TableCell sx={{ border: 2 }}>
+                  <b>Request Number</b>
+                </TableCell>
+                <TableCell sx={{ border: 2 }}>
+                  <b>Sender Name</b>
+                </TableCell>
+                <TableCell sx={{ border: 2 }}>
+                  <b>Patient Name</b>
+                </TableCell>
+                <TableCell sx={{ border: 2 }}>
+                  <b>Room Number</b>
+                </TableCell>
+                <TableCell sx={{ border: 2 }}>
+                  <b>Flower Type</b>
+                </TableCell>
+                <TableCell sx={{ border: 2 }}>
+                  <b>Message</b>
+                </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody sx={{ border: 1 }}>
+            <TableBody sx={{ border: 2 }}>
               {rows.map((row) => (
                 <TableRow key={row.deliveryType}>
-                  <TableCell component="th" scope="row" sx={{ border: 1 }}>
-                    {row.deliveryType}
-                  </TableCell>
-                  <TableCell sx={{ border: 1 }}>{row.requestNum}</TableCell>
-                  <TableCell sx={{ border: 1 }}>{row.senderName}</TableCell>
-                  <TableCell sx={{ border: 1 }}>{row.patientName}</TableCell>
-                  <TableCell sx={{ border: 1 }}>{row.roomNum}</TableCell>
-                  <TableCell sx={{ border: 1 }}>{row.flowerType}</TableCell>
-                  <TableCell sx={{ border: 1 }}>
+                  <TableCell sx={{ border: 2 }}>{row.deliveryType}</TableCell>
+                  <TableCell sx={{ border: 2 }}>{row.requestNum}</TableCell>
+                  <TableCell sx={{ border: 2 }}>{row.senderName}</TableCell>
+                  <TableCell sx={{ border: 2 }}>{row.patientName}</TableCell>
+                  <TableCell sx={{ border: 2 }}>{row.roomNum}</TableCell>
+                  <TableCell sx={{ border: 2 }}>{row.flowerType}</TableCell>
+                  <TableCell sx={{ border: 2 }}>
                     {row.deliveryMessage}
                   </TableCell>
                 </TableRow>
