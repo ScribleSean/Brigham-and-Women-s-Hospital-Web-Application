@@ -11,7 +11,7 @@ function App() {
       element: <Root />,
       children: [
         {
-          path: "", // Define the route for Flower Delivery page
+          path: "",
           element: <div></div>,
         },
       ],
