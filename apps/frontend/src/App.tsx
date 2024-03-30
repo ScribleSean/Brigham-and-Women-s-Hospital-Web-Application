@@ -1,6 +1,7 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ExampleRoute from "./routes/ExampleRoute.tsx";
+import PathGrapher from "./components/map_page/PathGrapher.tsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -18,12 +19,7 @@ function App() {
 
   return <RouterProvider router={router} />;
   function Root() {
-    return (
-      <div className="w-full flex flex-col px-20 gap-5">
-        <h1>Welcome to your starter code.</h1>
-        <Outlet />
-      </div>
-    );
+    return <PathGrapher></PathGrapher>;
   }
 }
 
