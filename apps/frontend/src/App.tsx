@@ -1,6 +1,8 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import ExampleRoute from "./routes/ExampleRoute.tsx";
+import FlowerDelivery from "./components/FlowerDelivery.tsx";
+import Map from "./components/Map.tsx";
+import Requests from "./components/Requests.tsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -9,10 +11,22 @@ function App() {
       element: <Root />,
       children: [
         {
-          path: "",
-          element: <ExampleRoute />,
+          path: "", // Define the route for Flower Delivery page
+          element: <div></div>,
         },
       ],
+    },
+    {
+      path: "FlowerDelivery", // Define the route for Flower Delivery page
+      element: <FlowerDelivery />,
+    },
+    {
+      path: "/map",
+      element: <Map />,
+    },
+    {
+      path: "/Requests",
+      element: <Requests />,
     },
   ]);
 
