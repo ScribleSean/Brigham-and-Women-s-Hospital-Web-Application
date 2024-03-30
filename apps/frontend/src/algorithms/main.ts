@@ -10,7 +10,7 @@ function main(): void {
   const graph: Graph = new Graph(nodesCsvPath, edgesCsvPath);
 
   // instantiate the path finding algorithm class (BFS, DFS, Djistras, Astar)
-  const bfsPathFinder: IPathFinder = new BFS();
+  const bfsPathFinder: IPathFinder = new BFS(graph);
 
   // Choose the start and endNode that you want (Select the ID)
   const startNodeID: string = "ACONF00102";
@@ -27,11 +27,7 @@ function main(): void {
   }
 
   // Find the path between the two nodes
-  const path: Path | undefined = bfsPathFinder.findPath(
-    graph,
-    startNode,
-    endNode,
-  );
+  const path: Path | undefined = bfsPathFinder.findPath(startNode, endNode);
 
   // Check that the path exist
   if (!path) {
@@ -44,3 +40,4 @@ function main(): void {
 }
 
 main();
+
