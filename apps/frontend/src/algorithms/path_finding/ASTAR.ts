@@ -3,7 +3,14 @@
  import {IPathFinder} from "../PathFinder.ts";
 
  export class ASTAR implements IPathFinder {
-    findPath(graph: Graph, startNode: Node, endNode: Node): Path | undefined {
+
+    graph: Graph;
+
+    constructor(graph: Graph) {
+        this.graph = graph;
+    }
+
+    findPath(startNode: Node, endNode: Node): Path | undefined {
 
     }
 }
