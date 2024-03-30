@@ -2,16 +2,20 @@ import { Edge, Graph, Node, Path, Queue, Stack } from "../DataStructures.ts";
 import { IPathFinder } from "../PathFinder.ts";
 
 export class BFS implements IPathFinder {
-  findPath(graph: Graph, startNode: Node, endNode: Node): Path | undefined {
-    const queue = new Queue<Node>();
-    const visited = new Set<Node>();
-    const parentMap = new Map<Node, Node>();
+  private readonly graph: Graph;
+  constructor(graph: Graph) {
+    this.graph = graph;
+  }
+  findPath(startNode: Node, endNode: Node): Path | undefined {
+    const queue: Queue<Node> = new Queue<Node>();
+    const visited: Set<Node> = new Set<Node>();
+    const parentMap: Map<Node, Node> = new Map<Node, Node>();
 
     queue.enqueue(startNode);
     visited.add(startNode);
 
     while (!queue.isEmpty()) {
-      const currentNode = queue.dequeue();
+      const currentNode: Node | undefined = queue.dequeue();
 
       if (!currentNode) {
         continue;
@@ -22,7 +26,7 @@ export class BFS implements IPathFinder {
       }
 
       const edges: Array<Edge> =
-        graph.getEdges(currentNode) || new Array<Edge>();
+        this.graph.getEdges(currentNode) || new Array<Edge>();
 
       for (const edge of edges) {
         const nextNode: Node = edge.getEndNode();
@@ -46,7 +50,7 @@ export class BFS implements IPathFinder {
       const parent: Node | undefined = parentMap.get(currentNode);
       if (!parent) break;
 
-      const edge = graph.getEdge(parent, currentNode);
+      const edge: Edge | undefined = this.graph.getEdge(parent, currentNode);
 
       if (!edge) break;
       path.push(edge);
