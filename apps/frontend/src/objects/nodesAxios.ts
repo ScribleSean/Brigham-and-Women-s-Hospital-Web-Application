@@ -1,12 +1,7 @@
 import axios from "axios";
 import { link } from "./links.ts";
 
-
-
-export function postNodesAxios(
-  deleteAll: string,
-  importedMapNode: string[],
-) {
+export function postNodesAxios(deleteAll: string, importedMapNode: string[]) {
   return new Promise((resolve, reject) => {
     if (deleteAll == "true") {
       axios

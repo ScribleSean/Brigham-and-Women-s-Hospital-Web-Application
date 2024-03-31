@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import { FileRoute } from "./routes/FileRoute.tsx";function App() {
+import { FileRoute } from "./routes/FileRoute.tsx";
+function App() {
   const router = createBrowserRouter([
     {
       path: "/",

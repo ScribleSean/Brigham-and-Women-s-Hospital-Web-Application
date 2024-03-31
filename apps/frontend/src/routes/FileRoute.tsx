@@ -42,7 +42,7 @@ const Nodes = () => {
         for (let i = 1; i < lines.length; i++) {
           const line = lines[i].split(",");
           if (line[0] === "") continue;
-          const node = JSON.stringify( {
+          const node = JSON.stringify({
             nodeID: line[0],
             xcoord: parseInt(line[1]),
             ycoord: parseInt(line[2]),
@@ -85,11 +85,9 @@ const Nodes = () => {
 
   return (
     <>
-      <div >
-        <button onClick={handleExportNodes}>
-          Export CSV
-        </button>
-        <label >
+      <div>
+        <button onClick={handleExportNodes}>Export CSV</button>
+        <label>
           <input
             onChange={handleImportNodes}
             type={"file"}
@@ -183,11 +181,9 @@ const Edges = () => {
 
   return (
     <>
-      <div >
-        <button onClick={handleExportEdges}>
-          Export CSV
-        </button>
-        <label >
+      <div>
+        <button onClick={handleExportEdges}>Export CSV</button>
+        <label>
           <input
             onChange={handleImportEdges}
             type={"file"}
