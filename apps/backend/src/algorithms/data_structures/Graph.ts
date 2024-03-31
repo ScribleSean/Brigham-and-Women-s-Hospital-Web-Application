@@ -1,30 +1,14 @@
-import {
-  BuildingType,
-  Edge,
-  FloorType,
-  Node,
-  NodeType,
-} from "../DataStructures.ts";
-import Papa, { ParseResult } from "papaparse";
+import { Edge, FloorType, Node } from "../DataStructures.ts";
+
 export class Graph {
-  private readonly nodesCsv: string;
-  private readonly edgesCsv: string;
   private readonly adjList: Map<Node, Array<Edge>>;
   private readonly lookupTable: Map<string, Node>;
 
-  public constructor(nodesCsv: string, edgesCsv: string) {
-    this.nodesCsv = nodesCsv;
-    this.edgesCsv = edgesCsv;
+  public constructor() {
     this.adjList = new Map<Node, Array<Edge>>();
     this.lookupTable = new Map<string, Node>();
   }
 
-  public getNodesCsv(): string {
-    return this.nodesCsv;
-  }
-  public getEdgesCsv(): string {
-    return this.edgesCsv;
-  }
   public getAdjList(): Map<Node, Array<Edge>> {
     return this.adjList;
   }
@@ -32,95 +16,27 @@ export class Graph {
     return this.lookupTable;
   }
 
-  async populate(): Promise<void> {
-    const nodeCsvContents: string = await fetch(this.nodesCsv).then(
-      (response) => response.text(),
-    );
-    const edgesCsvContents: string = await fetch(this.edgesCsv).then(
-      (response) => response.text(),
-    );
-
-    interface NodeRecord {
-      nodeID: string;
-      xcoord: string;
-      ycoord: string;
-      floor: FloorType;
-      building: BuildingType;
-      nodeType: NodeType;
-      longName: string;
-      shortName: string;
+  public addEdge(startNode: Node, endNode: Node) {
+    const edge1: Edge = new Edge(startNode, endNode);
+    const edge2: Edge = new Edge(endNode, startNode);
+    const id1: string = startNode.getID();
+    const id2: string = endNode.getID();
+    if (this.lookupTable.has(id1)) {
+      this.lookupTable.set(id1, startNode);
+    }
+    if (this.lookupTable.has(id2)) {
+      this.lookupTable.set(id2, endNode);
     }
 
-    interface EdgeRecord {
-      edgeID: string;
-      startNode: string;
-      endNode: string;
+    if (!this.adjList.has(startNode)) {
+      this.adjList.set(startNode, []);
     }
+    this.adjList.get(startNode)!.push(edge1);
 
-    const nodeResult: ParseResult<NodeRecord> = Papa.parse<NodeRecord>(
-      nodeCsvContents,
-      {
-        header: true,
-        skipEmptyLines: true,
-      },
-    );
-    const edgeResult: ParseResult<EdgeRecord> = Papa.parse<EdgeRecord>(
-      edgesCsvContents,
-      {
-        header: true,
-        skipEmptyLines: true,
-      },
-    );
-
-    const nodeRecords: NodeRecord[] = nodeResult.data;
-    const edgeRecords: EdgeRecord[] = edgeResult.data;
-
-    // Initialize nodes
-    for (const record of nodeRecords) {
-      const node = new Node(
-        record.nodeID,
-        Number(record.xcoord),
-        Number(record.ycoord),
-        record.floor,
-        record.building,
-        record.nodeType,
-        record.longName,
-        record.shortName,
-      );
-      this.lookupTable.set(record.nodeID, node);
+    if (!this.adjList.has(endNode)) {
+      this.adjList.set(endNode, []);
     }
-
-    // Initialize edges
-    for (const record of edgeRecords) {
-      const startNode = this.lookupTable.get(record.startNode);
-      const endNode = this.lookupTable.get(record.endNode);
-
-      // Assuming edges are directed
-      /**
-             if (startNode && endNode) {
-            const edge = new Edge(record.edgeID, startNode, endNode);
-            if (!this.adjList.has(startNode)) {
-                this.adjList.set(startNode, []);
-            }
-            this.adjList.get(startNode)!.push(edge);
-        }
-             **/
-      // Assuming edges are not directed
-      if (startNode && endNode) {
-        const edge1: Edge = new Edge(record.edgeID, startNode, endNode);
-        const edge2: Edge = new Edge(record.edgeID, endNode, startNode);
-
-        if (!this.adjList.has(startNode)) {
-          this.adjList.set(startNode, []);
-        }
-        this.adjList.get(startNode)!.push(edge1);
-
-        if (!this.adjList.has(endNode)) {
-          this.adjList.set(endNode, []);
-        }
-        this.adjList.get(endNode)!.push(edge2);
-      }
-    }
+    this.adjList.get(endNode)!.push(edge2);
   }
 
   public getEdges(node: Node): Array<Edge> | undefined {

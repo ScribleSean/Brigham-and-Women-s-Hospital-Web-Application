@@ -1,6 +1,6 @@
-import { FloorSelectorProps } from "../../types/map_page_types.ts";
+import { FloorSelectorProps } from "../../../backend/src/types/map_page_types.ts";
 import React, { CSSProperties } from "react";
-import { FloorType } from "../../algorithms/DataStructures.ts";
+import { FloorType } from "../../../backend/src/algorithms/DataStructures.ts";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {

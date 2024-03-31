@@ -1,18 +1,10 @@
-import {
-  FloorMap,
-  BuildingMap,
-} from "../../../backend/src/algorithms/BuildingClasses.ts";
-import {
-  FloorType,
-  Graph,
-} from "../../../backend/src/algorithms/DataStructures.ts";
+import {FloorMap, BuildingMap,} from "../../../backend/src/algorithms/BuildingClasses.ts";
+import {FloorType, Graph,} from "../../../backend/src/algorithms/DataStructures.ts";
 import React, { useState, useEffect, CSSProperties } from "react";
 import { FloorSelector } from "./FloorSelector.tsx";
 import { FloorDisplay } from "./FloorDisplay.tsx";
-import {
-  FloorDisplayProps,
-  PathGrapherState,
-} from "../../../backend/src/types/map_page_types.ts";
+import {FloorDisplayProps, PathGrapherState,} from "../../../backend/src/types/map_page_types.ts";
+import axios from "axios";
 
 function preloadImages(urls: Array<string>): void {
   urls.forEach((url) => {
@@ -32,24 +24,21 @@ export default function PathGrapher(): React.JSX.Element {
 
   const buildingMap: BuildingMap = new BuildingMap(floorMaps);
 
-  const nodesCsvPath: string = "nodes.csv";
-  const edgesCsvPath: string = "edges.csv";
 
-  const [graph, setGraph] = useState<Graph>(
-    new Graph(nodesCsvPath, edgesCsvPath),
-  );
+  const [graph, setGraph] = useState<Graph>(new Graph());
 
   useEffect(() => {
-    async function populateGraph(): Promise<void> {
-      const tempGraph: Graph = new Graph(nodesCsvPath, edgesCsvPath);
-      await tempGraph.populate();
+    async function getGraph(): Promise<void> {
+      const response = await axios.get("/api/graph");
+      const tempGraph: Graph = response.data as Graph;
       setGraph(tempGraph);
     }
 
     preloadImages(
       buildingMap.getFloorMaps().map((floorMap) => floorMap.getPngPath()),
     );
-    populateGraph();
+
+    getGraph();
   }); // Added dependencies here
 
   const getFloorState = (floorType: FloorType): PathGrapherState => {

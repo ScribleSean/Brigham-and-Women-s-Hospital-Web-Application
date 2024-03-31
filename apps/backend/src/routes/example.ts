@@ -1,46 +1,75 @@
 import express, { Router, Request, Response } from "express";
-import { Prisma } from "database";
+import {
+  FloorType,
+  BuildingType,
+  NodeType,
+  Node,
+  Graph,
+} from "../algorithms/DataStructures.ts";
 import PrismaClient from "../bin/database-connection.ts";
 
 const router: Router = express.Router();
 
-router.post("/", async function (req: Request, res: Response) {
-  const highScoreAttempt: Prisma.HighScoreCreateInput = req.body;
-  // Attempt to save the high score
-  try {
-    // Attempt to create in the database
-    await PrismaClient.highScore.create({ data: highScoreAttempt });
-    console.info("Successfully saved high score attempt"); // Log that it was successful
-  } catch (error) {
-    // Log any failures
-    console.error(
-      `Unable to save high score attempt ${highScoreAttempt}: ${error}`,
-    );
-    res.sendStatus(400); // Send error
-    return; // Don't try to send duplicate statuses
+router.get("/api/graph", async function (req: Request, res: Response) {
+  res.status(200);
+  const graph: Graph = new Graph();
+  const edges = await PrismaClient.edges.findMany();
+  if (edges === null) {
+    res.sendStatus(404);
+    console.log("Could not get the edges");
+  }
+  for (const edge of edges) {
+    const startNodeID: string = edge.startNodeID;
+    const endNodeID: string = edge.endNodeID;
+    const node1 = await PrismaClient.nodes.findUnique({
+      where: {
+        nodeID: startNodeID,
+      },
+    });
+    const node2 = await PrismaClient.nodes.findUnique({
+      where: {
+        nodeID: endNodeID,
+      },
+    });
+
+    if (node1 === null || node2 === null) {
+      res.sendStatus(404);
+      console.log("could not find one of the nodes");
+    }
+
+    if (node1 !== null && node2 !== null) {
+      const startNode: Node = new Node(
+        node1.nodeID as string,
+        node1.xcoord as number,
+        node1.ycoord as number,
+        node1.floor as FloorType,
+        node1.building as BuildingType,
+        node1.nodeType as NodeType,
+        node1.longName as string,
+        node1.shortName as string,
+      );
+
+      const endNode: Node = new Node(
+        node2.nodeID as string,
+        node2.xcoord as number,
+        node2.ycoord as number,
+        node2.floor as FloorType,
+        node2.building as BuildingType,
+        node2.nodeType as NodeType,
+        node2.longName as string,
+        node2.shortName as string,
+      );
+
+      if (startNode !== null && endNode !== null) {
+        graph.addEdge(startNode, endNode);
+        graph.addEdge(endNode, startNode);
+      }
+    }
   }
 
-  res.sendStatus(200); // Otherwise say it's fine
-});
+  console.log();
 
-// Whenever a get request is made, return the high score
-router.get("/", async function (req: Request, res: Response) {
-  // Fetch the high score from Prisma
-  const highScore = await PrismaClient.highScore.findFirst({
-    orderBy: {
-      score: "desc",
-    },
-  });
-
-  // If the high score doesn't exist
-  if (highScore === null) {
-    // Log that (it's a problem)
-    console.error("No high score found in database!");
-    res.sendStatus(204); // and send 204, no data
-  } else {
-    // Otherwise, send the score
-    res.send(highScore);
-  }
+  res.send(JSON.stringify(graph));
 });
 
 export default router;
