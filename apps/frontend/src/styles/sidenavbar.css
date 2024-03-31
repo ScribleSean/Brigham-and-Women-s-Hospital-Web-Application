@@ -1,5 +1,5 @@
 #navbar {
-  width: 15%;
+  width: 20%;
   height: 100%;
   position: fixed;
   align-self: start;
@@ -12,8 +12,9 @@
 }
 
 #navbar-header {
-  font-size: 3vh;
+  font-size: 4vh;
   font-weight: 600;
+  line-height: 1;
 }
 
 #nav-title {

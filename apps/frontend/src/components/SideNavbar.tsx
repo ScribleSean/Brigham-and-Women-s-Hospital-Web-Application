@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../sidenavbar.css";
+import "../styles/sidenavbar.css";
 import { Nav } from "react-bootstrap";
 
 const SideNavbar = () => {
@@ -18,7 +18,7 @@ const SideNavbar = () => {
         </div>
         <div className={"rectangle my-3"}></div>
         <div id={"nav-body"} className={"mt-4"}>
-          <Nav.Link className={"nav-links border-bottom"} href="#login">
+          <Nav.Link className={"nav-links border-bottom"} href="/login">
             Login
           </Nav.Link>
           <Nav.Link
