@@ -3,3 +3,4 @@ module.exports = {
     root: true,
     parserOptions: { ecmaVersion: "ESNext", sourceType: "script" },
 }
+
