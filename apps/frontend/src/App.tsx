@@ -19,21 +19,24 @@ function App() {
       ],
     },
     {
-        path: "/login",
-        element: <Login />
-    }
+      path: "/login",
+      element: <Login />,
+    },
     {
-      path: "routes/service_request_routes/FlowerDelivery", // Define the route for Flower Delivery page
-      element: <FlowerDelivery />,
+      path: "/FlowerDelivery", // Define the route for Flower Delivery page
+      element: (
+        <div>
+          <SideNavbar />
+          <FlowerDelivery />
+        </div>
+      ),
     },
   ]);
 
   return <RouterProvider router={router} />;
   function Root() {
     return (
-      <div className="container-fluid">
-        <FlowerDelivery />
-      <div className="w-full flex flex-col px-20 gap-5">
+      <div>
         <Outlet />
       </div>
     );

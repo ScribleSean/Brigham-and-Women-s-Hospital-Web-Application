@@ -33,7 +33,7 @@ const SideNavbar = () => {
           <div className={`dropdown ${isOpen ? "open" : ""}`}>
             <Nav.Link
               className={"nav-links-inner border-bottom"}
-              href="#flower-delivery"
+              href="/FlowerDelivery"
             >
               Flower Delivery
             </Nav.Link>

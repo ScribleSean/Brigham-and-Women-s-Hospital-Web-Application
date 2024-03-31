@@ -6426,7 +6426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-bootstrap@npm:^2.10.2":
+"react-bootstrap@npm:^2.10.0":
   version: 2.10.2
   resolution: "react-bootstrap@npm:2.10.2"
   dependencies:
@@ -7128,7 +7128,7 @@ __metadata:
     prettier: "npm:2.8.8"
     prettier-config-custom: "workspace:*"
     react: "npm:^18.2.0"
-    react-bootstrap: "npm:^2.10.2"
+    react-bootstrap: "npm:^2.10.0"
     react-dom: "npm:^18.2.0"
     styled-components: "npm:^6.1.8"
     tsconfig-custom: "workspace:*"
