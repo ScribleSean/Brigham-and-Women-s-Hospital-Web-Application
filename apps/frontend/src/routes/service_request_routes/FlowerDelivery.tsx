@@ -3,6 +3,7 @@ import "frontend/src/style_sheets/FlowerDelivery.css";
 // import {Button} from "@mui/material";
 // import {Link} from "react-router-dom"; // Import your CSS file
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "@mui/material";
 
 // interface FlowerDeliveryProps {
 //   // Define your props here
@@ -32,129 +33,120 @@ const FlowerDelivery: React.FC = () => {
   };
 
   return isSubmitted ? (
-    <div className={"flowerPage submitted-form"}>
-      <h2>Order Received</h2>
-      <p>Sender Name: {formState.senderName}</p>
-      <p>Receiver Name: {formState.receiverName}</p>
-      <p>Room Number: {formState.roomNumber}</p>
-      <p>Flower Type: {formState.flowerType}</p>
-      <p>Message: {formState.message}</p>
-      {/*<div>*/}
-      {/*    <Link to={"/"} className={"backButton"}>*/}
-      {/*        <Button>Back to Homepage</Button>*/}
-      {/*    </Link>*/}
-      {/*    <Link to={"/Map"} className={"mapButton"}>*/}
-      {/*        <Button>To Map</Button>*/}
-      {/*    </Link>*/}
-      {/*</div>*/}
+    <div className={"flowerPage submitted-form m-5"}>
+      <h1 className={"flowerPageTitle text-center mb-5"}>
+        Flowers For A Loved One
+      </h1>
+      <div id={"completed-form-box"} className={"container-fluid text-center"}>
+        <h1 id={"goodbye-msg"}>Your request has been received</h1>
+        <Link href="#home">
+          <button className={"return-button py-3 px-5 mt-5"}>Return</button>
+        </Link>
+      </div>
+      {/*<p>Sender Name: {formState.senderName}</p>*/}
+      {/*<p>Receiver Name: {formState.receiverName}</p>*/}
+      {/*<p>Room Number: {formState.roomNumber}</p>*/}
+      {/*<p>Flower Type: {formState.flowerType}</p>*/}
+      {/*<p>Message: {formState.message}</p>*/}
     </div>
   ) : (
-    <div className={"flowerPage container-fluid"}>
-      <h1 id={"flowerPageHeader"} className={"mb-3"}>
-        Order Flowers For A Loved One
+    <div className={"flowerPage m-5"}>
+      <h1 className={"flowerPageTitle text-center mb-5"}>
+        Flowers For A Loved One
       </h1>
-      <form onSubmit={handleSubmit}>
+      <form
+        id={"flowerPageForm"}
+        className={"container-fluid"}
+        onSubmit={handleSubmit}
+      >
         <div className="form-group">
-          <label>
-            Sender's Name:
-            <input
-              type="text"
-              name="senderName"
-              value={formState.senderName}
-              onChange={handleChange}
-              className="form-control"
-            />
-          </label>
+          <label>Receiver's Name</label>
+          <input
+            type="text"
+            name="senderName"
+            placeholder={"Name"}
+            value={formState.senderName}
+            onChange={handleChange}
+            className="form-control"
+          />
         </div>
         <div className="form-group">
-          <label>
-            Receiver's Name:
-            <input
-              type="text"
-              name="receiverName"
-              value={formState.receiverName}
-              onChange={handleChange}
-              className="form-control"
-            />
-          </label>
+          <label>Sender's Name</label>
+          <input
+            type="text"
+            name="receiverName"
+            placeholder={"Name"}
+            value={formState.receiverName}
+            onChange={handleChange}
+            className="form-control"
+          />
         </div>
-        <div className="form-group">
-          <label>
-            Room Number:
+        <div className="row form-group">
+          <div className={"col-5"}>
+            <label>Room Number</label>
             <input
-              type="text"
+              type="number"
               name="roomNumber"
+              placeholder={"Room 112"}
               value={formState.roomNumber}
               onChange={handleChange}
               className="form-control"
             />
-          </label>
-        </div>
-        <div className="form-group mx-3">
-          <div className={"row"}>
-            <label>Flower Type:</label>
-            <br />
-            <div className="form-check col radio-buttons">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="flowerType"
-                value="Rose"
-                onChange={handleChange}
-              />
-              <label className="form-check-label">Rose</label>
-            </div>
-            <div className="form-check col radio-buttons">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="flowerType"
-                value="Tulip"
-                onChange={handleChange}
-              />
-              <label className="form-check-label">Tulip</label>
-            </div>
-            <div className="form-check col radio-buttons">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="flowerType"
-                value="Lily"
-                onChange={handleChange}
-              />
-              <label className="form-check-label">Lily</label>
+          </div>
+          <div className={"col-7"}>
+            <div className={"row"}>
+              <label>Flower Type</label>
+              <div className="form-check col radio-buttons">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flowerType"
+                  value="Rose"
+                  onChange={handleChange}
+                />
+                <label className="form-check-label">Rose</label>
+              </div>
+              <div className="form-check col radio-buttons">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flowerType"
+                  value="Tulip"
+                  onChange={handleChange}
+                />
+                <label className="form-check-label">Tulip</label>
+              </div>
+              <div className="form-check col radio-buttons">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flowerType"
+                  value="Lily"
+                  onChange={handleChange}
+                />
+                <label className="form-check-label">Lily</label>
+              </div>
             </div>
           </div>
-          {/* Add more flower types as needed */}
         </div>
         <div className="form-group">
-          <label>
-            Message:
-            <input
-              type="text"
-              name="message"
-              value={formState.message}
-              onChange={handleChange}
-              className="form-control"
-            />
-          </label>
+          <label>Message</label>
+          <input
+            type="text"
+            name="message"
+            placeholder={"Best Wishes..."}
+            value={formState.message}
+            onChange={handleChange}
+            id={"messageBox"}
+            className="form-control"
+          />
         </div>
         <div className={"text-center"}>
-          <button type="submit" className="btn submit-btn px-3">
-            Submit
+          <button type="submit" className="submit-button py-3 px-5">
+            Send
           </button>
         </div>
       </form>
-      {/*<div className="row">*/}
-      {/*    <div className="col">*/}
-      {/*        <Link to={"/"} className={"backButton"}>*/}
-      {/*            <Button>Back to Homepage</Button>*/}
-      {/*        </Link>*/}
-      {/*        <Link to={"/Map"} className={"mapButton"}>*/}
-      {/*            <Button>To Map</Button>*/}
-      {/*        </Link>*/}
-      {/*    </div>*/}
-      {/*</div>*/}
     </div>
   );
 };
