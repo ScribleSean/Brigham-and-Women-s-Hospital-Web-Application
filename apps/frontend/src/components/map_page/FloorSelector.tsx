@@ -1,5 +1,5 @@
 import { FloorSelectorProps } from "../../types/map_page_types.ts";
-import { CSSProperties } from "react";
+import React, { CSSProperties } from "react";
 import { FloorType } from "../../algorithms/DataStructures.ts";
 import "bootstrap/dist/css/bootstrap.min.css";
 
