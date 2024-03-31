@@ -1,7 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import ExampleRoute from "./routes/ExampleRoute.tsx";
-function App() {
+import { FileRoute } from "./routes/FileRoute.tsx";function App() {
   const router = createBrowserRouter([
     {
       path: "/",
@@ -10,7 +9,7 @@ function App() {
       children: [
         {
           path: "",
-          element: <ExampleRoute />,
+          element: <FileRoute />,
         },
       ],
     },
