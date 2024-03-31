@@ -2577,15 +2577,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap@npm:^5.2.3":
-  version: 5.3.2
-  resolution: "bootstrap@npm:5.3.2"
-  peerDependencies:
-    "@popperjs/core": ^2.11.8
-  checksum: 5c3eb0634218d206bc2518154432bc80f7eec225db9c0dcb04b80353ba5cb121b8e6d12993ffe025d32ffe511051290461d8ca0adcae7971d82d329025bd16ab
-  languageName: node
-  linkType: hard
-
 "bootstrap@npm:^5.3.3":
   version: 5.3.3
   resolution: "bootstrap@npm:5.3.3"
@@ -4183,6 +4174,9 @@ __metadata:
   resolution: "frontend@workspace:apps/frontend"
   dependencies:
     "@auth0/auth0-react": "npm:^2.1.1"
+    "@emotion/react": "npm:^11.11.4"
+    "@emotion/styled": "npm:^11.11.5"
+    "@mui/material": "npm:^5.15.14"
     "@popperjs/core": "npm:^2.11.8"
     "@tanstack/react-table": "npm:^8.9.3"
     "@types/bootstrap": "npm:^5.2.6"
@@ -4197,7 +4191,7 @@ __metadata:
     "@vitejs/plugin-react-swc": "npm:^3.0.0"
     autoprefixer: "npm:^10.4.18"
     axios: "npm:^1.4.0"
-    bootstrap: "npm:^5.2.3"
+    bootstrap: "npm:^5.3.3"
     common: "workspace:*"
     csv-parse: "npm:^5.5.5"
     database: "workspace:*"
@@ -4206,6 +4200,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-react-refresh: "npm:^0.4.1"
     fs: "npm:^0.0.1-security"
+    husky: "npm:^9.0.11"
     localforage: "npm:^1.10.0"
     match-sorter: "npm:^6.3.1"
     papaparse: "npm:^5.4.1"
@@ -4599,12 +4594,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^8.0.0":
-  version: 8.0.3
-  resolution: "husky@npm:8.0.3"
+"husky@npm:^9.0.11":
+  version: 9.0.11
+  resolution: "husky@npm:9.0.11"
   bin:
-    husky: lib/bin.js
-  checksum: b754cf70fdc97c3b60fec5b80056b9c11436464953b1691bf2b5dcf0081fb6685d2c5f47abb8b2b1c49f504aabea5321fdd6496f8b755d9f6e7525a493406abb
+    husky: bin.mjs
+  checksum: 8a9b7cb9dc8494b470b3b47b386e65d579608c6206da80d3cc8b71d10e37947264af3dfe00092368dad9673b51d2a5ee87afb4b2291e77ba9e7ec1ac36e56cd1
   languageName: node
   linkType: hard
 
@@ -7031,7 +7026,7 @@ __metadata:
     eslint: "npm:^8.56.0"
     eslint-config-custom: "workspace:*"
     happy-dom: "npm:^10.6.3"
-    husky: "npm:^8.0.0"
+    husky: "npm:^9.0.11"
     prettier: "npm:2.8.8"
     prettier-config-custom: "workspace:*"
     react: "npm:^18.2.0"

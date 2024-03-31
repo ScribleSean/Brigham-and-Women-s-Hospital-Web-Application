@@ -1,7 +1,9 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import Login from "./routes/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SideNavbar from "./components/SideNavbar.tsx";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -15,6 +17,10 @@ function App() {
         },
       ],
     },
+      {
+          path: "/login",
+          element: <Login />
+      }
   ]);
 
   return <RouterProvider router={router} />;
