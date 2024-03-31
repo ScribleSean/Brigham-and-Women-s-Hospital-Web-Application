@@ -1,9 +1,18 @@
-import {FloorMap, BuildingMap,} from "../../../backend/src/algorithms/BuildingClasses.ts";
-import {FloorType, Graph,} from "../../../backend/src/algorithms/DataStructures.ts";
+import {
+  FloorMap,
+  BuildingMap,
+} from "../../../backend/src/algorithms/BuildingClasses.ts";
+import {
+  FloorType,
+  Graph,
+} from "../../../backend/src/algorithms/DataStructures.ts";
 import React, { useState, useEffect, CSSProperties } from "react";
 import { FloorSelector } from "./FloorSelector.tsx";
 import { FloorDisplay } from "./FloorDisplay.tsx";
-import {FloorDisplayProps, PathGrapherState,} from "../../../backend/src/types/map_page_types.ts";
+import {
+  FloorDisplayProps,
+  PathGrapherState,
+} from "../../../backend/src/types/map_page_types.ts";
 import axios from "axios";
 
 function preloadImages(urls: Array<string>): void {
@@ -23,7 +32,6 @@ export default function PathGrapher(): React.JSX.Element {
   ];
 
   const buildingMap: BuildingMap = new BuildingMap(floorMaps);
-
 
   const [graph, setGraph] = useState<Graph>(new Graph());
 
