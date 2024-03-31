@@ -13,7 +13,7 @@ const SideNavbar = () => {
             Brigham & Women’s Hospital
           </div>
           <div className={"col-4 p-0"}>
-            <img id={"nav-img"} src="brighamLogo.png" alt="Brigham's Logo" />
+            <img id={"nav-img"} src="/logo.png" alt="Brigham's Logo" />
           </div>
         </div>
         <div className={"rectangle my-3"}></div>
@@ -33,7 +33,7 @@ const SideNavbar = () => {
           <div className={`dropdown ${isOpen ? "open" : ""}`}>
             <Nav.Link
               className={"nav-links-inner border-bottom"}
-              href="/FlowerDelivery"
+              href="/flower-delivery"
             >
               Flower Delivery
             </Nav.Link>
