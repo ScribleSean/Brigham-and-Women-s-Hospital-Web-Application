@@ -1815,7 +1815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/papaparse@npm:^5":
+"@types/papaparse@npm:^5, @types/papaparse@npm:^5.0.0, @types/papaparse@npm:^5.3.14":
   version: 5.3.14
   resolution: "@types/papaparse@npm:5.3.14"
   dependencies:
@@ -2694,6 +2694,7 @@ __metadata:
     "@types/http-errors": "npm:^2.0.1"
     "@types/morgan": "npm:^1.9.4"
     "@types/node": "npm:^20.2.3"
+    "@types/papaparse": "npm:^5.0.0"
     "@types/pg": "npm:^8.10.1"
     "@types/supertest": "npm:^2.0.12"
     common: "workspace:*"
@@ -2708,6 +2709,7 @@ __metadata:
     jose: "npm:^4.14.4"
     morgan: "npm:~1.9.1"
     nodemon: "npm:latest"
+    papaparse: "npm:^5.3.0"
     pg: "npm:^8.11.0"
     prettier: "npm:latest"
     prettier-config-custom: "workspace:*"
@@ -5903,7 +5905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"papaparse@npm:^5.4.1":
+"papaparse@npm:^5.3.0, papaparse@npm:^5.4.1":
   version: 5.4.1
   resolution: "papaparse@npm:5.4.1"
   checksum: 5e6dc978187182ad2efa1d264ffe73d2042cd23b8fb1dcb0b0f5c8c7c772c11e3eb4e166fb0893880ed24529a96abe9065d704cc5b4cb96abf037413cfe43788
@@ -7189,6 +7191,7 @@ __metadata:
     "@material/textfield": "npm:^14.0.0"
     "@mui/material": "npm:^5.15.14"
     "@types/bootstrap": "npm:^5"
+    "@types/papaparse": "npm:^5.3.14"
     "@types/react": "npm:^18.0.37"
     "@types/react-dom": "npm:^18.0.11"
     "@vitest/ui": "npm:^0.33.0"
@@ -7200,6 +7203,7 @@ __metadata:
     eslint-config-custom: "workspace:*"
     happy-dom: "npm:^10.6.3"
     husky: "npm:^8.0.0"
+    papaparse: "npm:^5.4.1"
     prettier: "npm:2.8.8"
     prettier-config-custom: "workspace:*"
     react: "npm:^18.2.0"
