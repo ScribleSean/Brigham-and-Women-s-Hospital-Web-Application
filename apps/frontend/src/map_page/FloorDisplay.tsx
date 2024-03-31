@@ -1,11 +1,16 @@
-import { Node, Edge, Graph, Path } from "../../algorithms/DataStructures.ts";
-import { BFS } from "../../algorithms/PathFinder.ts";
+import {
+  Node,
+  Edge,
+  Graph,
+  Path,
+} from "../../../backend/src/algorithms/DataStructures.ts";
+import { BFS } from "../../../backend/src/algorithms/PathFinder.ts";
 import React, { useState, useEffect, useRef, CSSProperties } from "react";
 import {
   PathDisplayProps,
   NodeDisplayProps,
   FloorDisplayProps,
-} from "../../types/map_page_types.ts";
+} from "../../../backend/src/types/map_page_types.ts";
 import { NodeDisplay } from "./NodeDisplay.tsx";
 import { PathDisplay } from "./PathDisplay.tsx";
 

@@ -1,6 +1,6 @@
-import { NodeDisplayProps } from "../../types/map_page_types.ts";
+import { NodeDisplayProps } from "../../../backend/src/types/map_page_types.ts";
 import { CSSProperties } from "react";
-import { Node } from "../../algorithms/DataStructures.ts";
+import { Node } from "../../../backend/src/algorithms/DataStructures.ts";
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const widthScaling: number = props.widthScaling;

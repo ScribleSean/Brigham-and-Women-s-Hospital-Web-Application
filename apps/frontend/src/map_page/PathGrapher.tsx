@@ -1,12 +1,18 @@
-import { FloorMap, BuildingMap } from "../../algorithms/BuildingClasses.ts";
-import { FloorType, Graph } from "../../algorithms/DataStructures.ts";
+import {
+  FloorMap,
+  BuildingMap,
+} from "../../../backend/src/algorithms/BuildingClasses.ts";
+import {
+  FloorType,
+  Graph,
+} from "../../../backend/src/algorithms/DataStructures.ts";
 import React, { useState, useEffect, CSSProperties } from "react";
 import { FloorSelector } from "./FloorSelector.tsx";
 import { FloorDisplay } from "./FloorDisplay.tsx";
 import {
   FloorDisplayProps,
   PathGrapherState,
-} from "../../types/map_page_types.ts";
+} from "../../../backend/src/types/map_page_types.ts";
 
 function preloadImages(urls: Array<string>): void {
   urls.forEach((url) => {
