@@ -59,12 +59,12 @@ router.get("/", async function (req: Request, res: Response) {
         node2.shortName as string,
       );
 
-      if (startNode !== null && endNode !== null) {
-        graph.addEdge(startNode, endNode);
-        graph.addEdge(endNode, startNode);
-      }
+      graph.addEdge(startNode, endNode);
+      graph.addEdge(endNode, startNode);
     }
   }
+
+  console.log();
 
   res.send(JSON.stringify(graph));
 });

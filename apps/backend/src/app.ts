@@ -6,7 +6,7 @@ import exampleRouter from "./routes/example.ts";
 
 const app: Express = express(); // Setup the backend
 
-// Setup generic middlewear
+// Setup generic middleware
 app.use(
   logger("dev", {
     stream: {
@@ -31,19 +31,32 @@ app.use("/healthcheck", (req, res) => {
  */
 app.use(function (req: Request, res: Response, next: NextFunction): void {
   // Have the next (generic error handler) process a 404 error
-  next(createError(404));
+  next(createError(404, `Not Found: ${req.method} ${req.path}`));
 });
 
 /**
  * Generic error handler
  */
-app.use((err: HttpError, req: Request, res: Response): void => {
-  res.statusMessage = err.message; // Provide the error message
+app.use(
+  (err: HttpError, req: Request, res: Response, next: NextFunction): void => {
+    // Log the error to the console for debugging
+    console.error(`Error - ${err.status || 500} - ${err.message}`, {
+      method: req.method,
+      path: req.path,
+      body: req.body,
+      query: req.query,
+      ip: req.ip,
+    });
 
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // Reply with the error
-  res.status(err.status || 500);
-});
+    res.status(err.status || 500).send({
+      error: {
+        message: err.message || "Internal Server Error",
+        status: err.status || 500,
+        path: req.path,
+        method: req.method,
+      },
+    });
+  },
+);
 
 export default app; // Export the backend, so that www.ts can start it

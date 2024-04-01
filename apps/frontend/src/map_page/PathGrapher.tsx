@@ -37,9 +37,13 @@ export default function PathGrapher(): React.JSX.Element {
 
   useEffect(() => {
     async function getGraph(): Promise<void> {
-      const response = await axios.get("/api/graph");
-      const tempGraph: Graph = response.data as Graph;
-      setGraph(tempGraph);
+      try {
+        const response = await axios.get("/api/graph");
+        const tempGraph: Graph = response.data as Graph;
+        setGraph(tempGraph);
+      } catch (error) {
+        console.error("Failed to fetch graph data:", error);
+      }
     }
 
     preloadImages(
