@@ -1,4 +1,6 @@
 import {
+  createMuiTheme,
+  ThemeProvider,
   Paper,
   Table,
   TableBody,
@@ -30,6 +32,12 @@ function createData(
   };
 }
 
+const tableTheme = createMuiTheme({
+  typography: {
+    fontFamily: ["Inter"].join(","),
+  },
+});
+
 /**This is in here as a placeholder for the actual data*/
 const rows = [
   createData(
@@ -48,7 +56,7 @@ const rows = [
     "Jess Smith",
     "Joseph Smith",
     38,
-    "Lilly",
+    "Lily",
     "Good Luck!",
   ),
 ];
@@ -79,50 +87,52 @@ function Requests() {
       </div>
       <br />
       <div className="boxBehindTable">
-        <TableContainer component={Paper} className="tableAlign">
-          <Table sx={{ border: 2 }} aria-label="Flowers Requests Table">
-            <TableHead>
-              <TableRow sx={{ border: 2 }}>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Delivery Type</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Request Number</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Sender Name</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Patient Name</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Room Number</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Flower Type</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Message</b>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody sx={{ border: 2 }}>
-              {rows.map((row) => (
-                <TableRow key={row.deliveryType}>
-                  <TableCell sx={{ border: 2 }}>{row.deliveryType}</TableCell>
-                  <TableCell sx={{ border: 2 }}>{row.requestNum}</TableCell>
-                  <TableCell sx={{ border: 2 }}>{row.senderName}</TableCell>
-                  <TableCell sx={{ border: 2 }}>{row.patientName}</TableCell>
-                  <TableCell sx={{ border: 2 }}>{row.roomNum}</TableCell>
-                  <TableCell sx={{ border: 2 }}>{row.flowerType}</TableCell>
+        <ThemeProvider theme={tableTheme}>
+          <TableContainer component={Paper} className="tableAlign">
+            <Table sx={{ border: 2 }} aria-label="Flowers Requests Table">
+              <TableHead>
+                <TableRow sx={{ border: 2 }}>
                   <TableCell sx={{ border: 2 }}>
-                    {row.deliveryMessage}
+                    <b>Delivery Type</b>
+                  </TableCell>
+                  <TableCell sx={{ border: 2 }}>
+                    <b>Request Number</b>
+                  </TableCell>
+                  <TableCell sx={{ border: 2 }}>
+                    <b>Sender Name</b>
+                  </TableCell>
+                  <TableCell sx={{ border: 2 }}>
+                    <b>Patient Name</b>
+                  </TableCell>
+                  <TableCell sx={{ border: 2 }}>
+                    <b>Room Number</b>
+                  </TableCell>
+                  <TableCell sx={{ border: 2 }}>
+                    <b>Flower Type</b>
+                  </TableCell>
+                  <TableCell sx={{ border: 2 }}>
+                    <b>Message</b>
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody sx={{ border: 2 }}>
+                {rows.map((row) => (
+                  <TableRow key={row.deliveryType}>
+                    <TableCell sx={{ border: 2 }}>{row.deliveryType}</TableCell>
+                    <TableCell sx={{ border: 2 }}>{row.requestNum}</TableCell>
+                    <TableCell sx={{ border: 2 }}>{row.senderName}</TableCell>
+                    <TableCell sx={{ border: 2 }}>{row.patientName}</TableCell>
+                    <TableCell sx={{ border: 2 }}>{row.roomNum}</TableCell>
+                    <TableCell sx={{ border: 2 }}>{row.flowerType}</TableCell>
+                    <TableCell sx={{ border: 2 }}>
+                      {row.deliveryMessage}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ThemeProvider>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import FlowerDelivery from "./components/FlowerDelivery.tsx";
 import Map from "./components/Map.tsx";
 import Requests from "./components/Requests.tsx";
 function App() {
@@ -15,10 +14,6 @@ function App() {
           element: <div></div>,
         },
       ],
-    },
-    {
-      path: "FlowerDelivery", // Define the route for Flower Delivery page
-      element: <FlowerDelivery />,
     },
     {
       path: "/map",
