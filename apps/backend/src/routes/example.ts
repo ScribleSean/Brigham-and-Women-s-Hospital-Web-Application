@@ -10,8 +10,7 @@ import PrismaClient from "../bin/database-connection.ts";
 
 const router: Router = express.Router();
 
-router.get("/api/graph", async function (req: Request, res: Response) {
-  res.status(200);
+router.get("/", async function (req: Request, res: Response) {
   const graph: Graph = new Graph();
   const edges = await PrismaClient.edges.findMany();
   if (edges === null) {
@@ -66,8 +65,6 @@ router.get("/api/graph", async function (req: Request, res: Response) {
       }
     }
   }
-
-  console.log();
 
   res.send(JSON.stringify(graph));
 });
