@@ -4,4 +4,4 @@ export type Form = {
   senderName: string;
   flowerType: string;
   roomNumber: number;
-}; // form
+};
