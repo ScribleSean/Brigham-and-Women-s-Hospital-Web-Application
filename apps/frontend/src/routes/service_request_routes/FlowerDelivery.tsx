@@ -3,6 +3,7 @@ import "frontend/src/style_sheets/FlowerDelivery.css";
 // import {Button} from "@mui/material";
 // import {Link} from "react-router-dom"; // Import your CSS file
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios"; // Import Axios for HTTP requests
 
 // interface FlowerDeliveryProps {
 //   // Define your props here
@@ -25,10 +26,16 @@ const FlowerDelivery: React.FC = () => {
       [event.target.name]: event.target.value,
     });
   };
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitted(true);
     // Handle form submission here
+    try {
+      const response = await axios.post("/api/form", formState);
+      console.log("Form data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
   };
 
   return isSubmitted ? (
