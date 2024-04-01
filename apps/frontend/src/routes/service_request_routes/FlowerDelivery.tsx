@@ -75,6 +75,7 @@ const FlowerDelivery: React.FC = () => {
             value={formState.senderName}
             onChange={handleChange}
             className="form-control"
+            required
           />
         </div>
         <div className="form-group">
@@ -86,6 +87,7 @@ const FlowerDelivery: React.FC = () => {
             value={formState.receiverName}
             onChange={handleChange}
             className="form-control"
+            required
           />
         </div>
         <div className="row form-group">
@@ -98,6 +100,7 @@ const FlowerDelivery: React.FC = () => {
               value={formState.roomNumber}
               onChange={handleChange}
               className="form-control"
+              required
             />
           </div>
           <div className={"col-7"}>
@@ -110,6 +113,7 @@ const FlowerDelivery: React.FC = () => {
                   name="flowerType"
                   value="Rose"
                   onChange={handleChange}
+                  required
                 />
                 <label className="form-check-label">Rose</label>
               </div>
@@ -120,6 +124,7 @@ const FlowerDelivery: React.FC = () => {
                   name="flowerType"
                   value="Tulip"
                   onChange={handleChange}
+                  required
                 />
                 <label className="form-check-label">Tulip</label>
               </div>
@@ -130,6 +135,7 @@ const FlowerDelivery: React.FC = () => {
                   name="flowerType"
                   value="Lily"
                   onChange={handleChange}
+                  required
                 />
                 <label className="form-check-label">Lily</label>
               </div>
@@ -137,7 +143,7 @@ const FlowerDelivery: React.FC = () => {
           </div>
         </div>
         <div className="form-group">
-          <label>Message</label>
+          <label>Message (optional)</label>
           <input
             type="text"
             name="message"

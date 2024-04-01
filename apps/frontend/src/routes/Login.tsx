@@ -14,7 +14,7 @@ function Login() {
     event.preventDefault();
 
     if (formUsername == usernameArr[0] && formPassword == passwordArr[0]) {
-      window.location.href = "/";
+      window.location.href = "/"; // change to useNavigate
     } else {
       // alert("The username or password you entered was incorrect.");
       setLoginError("The username or password was incorrect.");
@@ -53,6 +53,7 @@ function Login() {
               required
               size={"small"}
               onChange={handleUsernameChange}
+              fullWidth
             />
             <TextField
               label={"Password"}
@@ -62,11 +63,12 @@ function Login() {
               required
               size={"small"}
               onChange={handlePasswordChange}
+              fullWidth
             />
             {loginError && <div className={"login-error"}>{loginError}</div>}
             <div style={{ margin: "1vh 0" }}></div>
             <Button
-              className={"login"}
+              className={"login-btn"}
               type={"submit"}
               variant={"contained"}
               onClick={handleLogin}
