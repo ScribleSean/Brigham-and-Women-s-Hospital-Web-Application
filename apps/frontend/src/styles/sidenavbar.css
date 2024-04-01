@@ -19,11 +19,13 @@
 
 #nav-title {
   padding-right: 0;
+  user-select: none;
 }
 
 #nav-img {
   width: 100px;
   height: 100px;
+  user-select: none;
 }
 
 .rectangle {

@@ -23,7 +23,7 @@ function App() {
       element: <Login />,
     },
     {
-      path: "/FlowerDelivery", // Define the route for Flower Delivery page
+      path: "/flower-delivery", // Define the route for Flower Delivery page
       element: (
         <div>
           <SideNavbar />

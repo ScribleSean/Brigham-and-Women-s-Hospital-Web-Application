@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "frontend/src/style_sheets/FlowerDelivery.css";
+import "frontend/src/styles/FlowerDelivery.css";
 // import {Button} from "@mui/material";
 // import {Link} from "react-router-dom"; // Import your CSS file
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -39,9 +39,16 @@ const FlowerDelivery: React.FC = () => {
       </h1>
       <div id={"completed-form-box"} className={"container-fluid text-center"}>
         <h1 id={"goodbye-msg"}>Your request has been received</h1>
-        <Link href="#home">
-          <button className={"return-button py-3 px-5 mt-5"}>Return</button>
-        </Link>
+        <div className={"return-buttons-container"}>
+          <Link href="/">
+            <button className={"return-button py-3 mt-5 mx-2"}>Return</button>
+          </Link>
+          <Link href={"/flower-delivery"}>
+            <button className={"return-button py-3 mt-5 mx-2"}>
+              Send Another
+            </button>
+          </Link>
+        </div>
       </div>
       {/*<p>Sender Name: {formState.senderName}</p>*/}
       {/*<p>Receiver Name: {formState.receiverName}</p>*/}
@@ -68,6 +75,7 @@ const FlowerDelivery: React.FC = () => {
             value={formState.senderName}
             onChange={handleChange}
             className="form-control"
+            required
           />
         </div>
         <div className="form-group">
@@ -79,6 +87,7 @@ const FlowerDelivery: React.FC = () => {
             value={formState.receiverName}
             onChange={handleChange}
             className="form-control"
+            required
           />
         </div>
         <div className="row form-group">
@@ -87,10 +96,11 @@ const FlowerDelivery: React.FC = () => {
             <input
               type="number"
               name="roomNumber"
-              placeholder={"Room 112"}
+              placeholder={"eg. 112"}
               value={formState.roomNumber}
               onChange={handleChange}
               className="form-control"
+              required
             />
           </div>
           <div className={"col-7"}>
@@ -103,6 +113,7 @@ const FlowerDelivery: React.FC = () => {
                   name="flowerType"
                   value="Rose"
                   onChange={handleChange}
+                  required
                 />
                 <label className="form-check-label">Rose</label>
               </div>
@@ -113,6 +124,7 @@ const FlowerDelivery: React.FC = () => {
                   name="flowerType"
                   value="Tulip"
                   onChange={handleChange}
+                  required
                 />
                 <label className="form-check-label">Tulip</label>
               </div>
@@ -123,6 +135,7 @@ const FlowerDelivery: React.FC = () => {
                   name="flowerType"
                   value="Lily"
                   onChange={handleChange}
+                  required
                 />
                 <label className="form-check-label">Lily</label>
               </div>
@@ -130,7 +143,7 @@ const FlowerDelivery: React.FC = () => {
           </div>
         </div>
         <div className="form-group">
-          <label>Message</label>
+          <label>Message (optional)</label>
           <input
             type="text"
             name="message"
