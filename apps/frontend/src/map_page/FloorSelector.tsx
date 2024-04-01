@@ -27,58 +27,63 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
     backgroundColor: "012D5A",
   };
 
-    const formatButtonText = (text: string) => {
-        console.log(text.charAt(0).toUpperCase() + text.slice(1).toLowerCase());
-        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-    };
+  const formatButtonText = (text: string) => {
+    console.log(text.charAt(0).toUpperCase() + text.slice(1).toLowerCase());
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  };
 
   return (
     <form style={formStyle}>
       <Button
-          sx = {{
-              borderColor: "black",
-              backgroundColor: "white",
-              font: "Inter",
-              color: "black",
-              boxShadow: 3,
-              width: 200
-      }}
-          type="button"
-          className="btn-check"
-          id="btn-check-l2"
-          onClick={() => updateFloor(FloorType.L2)}
-      >L2</Button>
+        sx={{
+          borderColor: "black",
+          backgroundColor: "white",
+          font: "Inter",
+          color: "black",
+          boxShadow: 3,
+          width: 200,
+        }}
+        type="button"
+        className="btn-check"
+        id="btn-check-l2"
+        onClick={() => updateFloor(FloorType.L2)}
+      >
+        L2
+      </Button>
 
-        <Button
-            sx = {{
-                borderColor: "black",
-                backgroundColor: "white",
-                font: "Inter",
-                color: "black",
-                boxShadow: 3,
-                width: 200
-            }}
-            type="button"
-            className="btn-check"
-            id="btn-check-l1"
-            onClick={() => updateFloor(FloorType.L1)}
-        >L1</Button>
+      <Button
+        sx={{
+          borderColor: "black",
+          backgroundColor: "white",
+          font: "Inter",
+          color: "black",
+          boxShadow: 3,
+          width: 200,
+        }}
+        type="button"
+        className="btn-check"
+        id="btn-check-l1"
+        onClick={() => updateFloor(FloorType.L1)}
+      >
+        L1
+      </Button>
 
-        <Button
-            sx = {{
-                borderColor: "black",
-                backgroundColor: "white",
-                font: "Inter",
-                color: "black",
-                boxShadow: 3,
-                width: 200
-
-            }}
-            type="button"
-            className="btn-check"
-            id="btn-check-first"
-            onClick={() => updateFloor(FloorType.first)}
-        >{formatButtonText("Floor 1")}</Button>
+      <Button
+        sx={{
+          borderColor: "black",
+          backgroundColor: "white",
+          font: "Inter",
+          color: "black",
+          boxShadow: 3,
+          width: 200,
+        }}
+        type="button"
+        className="btn-check"
+        id="btn-check-first"
+        onClick={() => updateFloor(FloorType.first)}
+      >
+        {formatButtonText("Floor 1")}
+      </Button>
 
       <input
         type="radio"
