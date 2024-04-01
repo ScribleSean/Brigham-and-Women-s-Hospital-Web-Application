@@ -16,6 +16,6 @@ router.post("/", async function (req, res) {
 
 router.get("/", (req, res) => {
   res.json(database);
-});
+}); // get
 
 export default router;

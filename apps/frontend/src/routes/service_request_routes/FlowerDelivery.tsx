@@ -3,7 +3,7 @@ import "frontend/src/style_sheets/FlowerDelivery.css";
 // import {Button} from "@mui/material";
 // import {Link} from "react-router-dom"; // Import your CSS file
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios"; // Import Axios for HTTP requests
+import axios from "axios";
 
 // interface FlowerDeliveryProps {
 //   // Define your props here
