@@ -6,7 +6,7 @@
       <script value="dev" />
     </scripts>
     <node-interpreter value="node" />
-    <package-manager value="C:\Users\FastJ\WebstormProjects\NeonNymphs\.yarn\releases\yarn-4.0.2.cjs" />
+    <package-manager value="yarn" />
     <envs />
     <method v="2" />
   </configuration>
