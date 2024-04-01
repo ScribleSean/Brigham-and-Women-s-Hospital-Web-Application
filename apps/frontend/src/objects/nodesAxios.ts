@@ -1,12 +1,26 @@
 import axios from "axios";
-import { link } from "./links.ts";
+import { Edge } from "./mapNodes.ts";
 
-export function postNodesAxios(deleteAll: string, importedMapNode: string[]) {
+type importedMapNodes = {
+  nodeID: string;
+  xcoord: number;
+  ycoord: number;
+  floor: string;
+  building: string;
+  nodeType: string;
+  longName: string;
+  shortName: string;
+};
+
+export function postNodesAxios(
+  deleteAll: string,
+  importedMapNode: importedMapNodes[],
+) {
   return new Promise((resolve, reject) => {
     if (deleteAll == "true") {
       axios
         .post(
-          "/api/nodes/",
+          "/api/map/nodes",
           {
             deleteAll: true,
             nodes: importedMapNode,
@@ -26,7 +40,7 @@ export function postNodesAxios(deleteAll: string, importedMapNode: string[]) {
     } else {
       axios
         .post(
-          "/api/nodes/",
+          "/api/map/nodes",
           {
             deleteAll: false,
             nodes: importedMapNode,
@@ -48,15 +62,15 @@ export function postNodesAxios(deleteAll: string, importedMapNode: string[]) {
 }
 
 export function getNodesAxios() {
-  return axios.get("/api/nodes");
+  return axios.get("/api/map/nodes");
 }
 
-export function postEdgesAxios(deleteAll: string, importedMapEdge: string[]) {
+export function postEdgesAxios(deleteAll: string, importedMapEdge: Edge[]) {
   return new Promise((resolve, reject) => {
     if (deleteAll == "true") {
       axios
         .post(
-          "/api/edges/",
+          "/api/map/edges",
           {
             deleteAll: true,
             edges: importedMapEdge,
@@ -76,7 +90,7 @@ export function postEdgesAxios(deleteAll: string, importedMapEdge: string[]) {
     } else {
       axios
         .post(
-          "/api/edges",
+          "/api/map/edges",
           {
             deleteAll: false,
             edges: importedMapEdge,
@@ -98,5 +112,5 @@ export function postEdgesAxios(deleteAll: string, importedMapEdge: string[]) {
 }
 
 export function getEdgesAxios() {
-  return axios.get(link + "/api/edges/");
+  return axios.get("/api/map/edges");
 }

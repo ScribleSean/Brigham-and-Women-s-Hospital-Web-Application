@@ -29,8 +29,16 @@ const Nodes = () => {
   };
 
   const handleImportNodes = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const importedMapNodes: string[] = [];
-
+    const importedMapNodes: {
+      nodeID: string;
+      xcoord: number;
+      ycoord: number;
+      floor: string;
+      building: string;
+      nodeType: string;
+      longName: string;
+      shortName: string;
+    }[] = [];
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     const file = e.target.files[0];
@@ -42,7 +50,7 @@ const Nodes = () => {
         for (let i = 1; i < lines.length; i++) {
           const line = lines[i].split(",");
           if (line[0] === "") continue;
-          const node = JSON.stringify({
+          const node = {
             nodeID: line[0],
             xcoord: parseInt(line[1]),
             ycoord: parseInt(line[2]),
@@ -51,7 +59,7 @@ const Nodes = () => {
             nodeType: line[5],
             longName: line[6],
             shortName: line[7],
-          });
+          };
           importedMapNodes.push(node);
         }
       }
@@ -101,8 +109,8 @@ const Nodes = () => {
         <thead>
           <tr>
             <th>Node ID</th>
-            <th>xcoords</th>
-            <th>ycoords</th>
+            <th>X-Coordinate</th>
+            <th>Y-Coordinate</th>
             <th>Floor</th>
             <th>Building</th>
             <th>Node Type</th>
@@ -135,7 +143,11 @@ const Edges = () => {
   };
 
   const handleImportEdges = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const importedMapEdges: string[] = [];
+    const importedMapEdges: {
+      edgeID: string;
+      startNode: string;
+      endNode: string;
+    }[] = [];
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     const file = e.target.files[0];
@@ -145,23 +157,21 @@ const Edges = () => {
         const content = event.target.result;
         const lines = (content as string).split("\n");
         for (let i = 1; i < lines.length; i++) {
-          const line = lines[i].replace("\r", "").split(",");
+          const line = lines[i].split(",");
           if (line[0] === "") continue;
-          const edge: string = JSON.stringify({
-            edgeID: line[0],
-            startNode: line[1],
-            endNode: line[2],
-          });
+          const edge: Edge = {
+            edgeID: i.toString(),
+            startNode: line[0],
+            endNode: line[1],
+          };
           importedMapEdges.push(edge);
         }
       }
-      postEdgesAxios("true", importedMapEdges)
-        // update local store
-        .then(() => {
-          getMapNodesEdges().then(() => {
-            forceUpdate();
-          });
+      postEdgesAxios("true", importedMapEdges).then(() => {
+        getMapNodesEdges().then(() => {
+          forceUpdate();
         });
+      });
     };
     reader.readAsText(file);
 
@@ -211,8 +221,8 @@ const Edges = () => {
 export const FileRoute = () => {
   return (
     <div>
-      <Nodes />
       <Edges />
+      <Nodes />
     </div>
   );
 };

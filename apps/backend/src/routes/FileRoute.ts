@@ -1,6 +1,7 @@
 import express, { Router, Request, Response } from "express";
-import PrismaClient from "../bin/database-connection.ts";
 import { Prisma } from "database";
+import PrismaClient from "../bin/database-connection.ts";
+
 const router: Router = express.Router();
 
 // Whenever a get request is made, return the high score
@@ -9,7 +10,23 @@ router.get("/nodes", async function (req: Request, res: Response) {
   // Fetch the high score from Prisma
   let node;
 
-  node = await PrismaClient.nodes.findMany();
+  if (req.query.Floors) {
+    const floors = (req.query.Floors as string).split(",");
+    if (floors.length === 0) {
+      node = await PrismaClient.nodes.findMany();
+    } else {
+      node = await PrismaClient.nodes.findMany({
+        where: { floor: floors[0] },
+      });
+      for (let i = 1; i < floors.length; i++) {
+        node = node.concat(
+          await PrismaClient.nodes.findMany({ where: { floor: floors[i] } }),
+        );
+      }
+    }
+  } else {
+    node = await PrismaClient.nodes.findMany();
+  }
 
   // If the high score doesn't exist
   if (node === null) {

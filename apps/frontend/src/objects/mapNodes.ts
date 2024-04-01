@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { getEdgesAxios, getNodesAxios } from "../objects/nodesAxios.ts";
+import { getEdgesAxios, getNodesAxios } from "./nodesAxios.ts";
 
 export type MapNode = {
   nodeID: string;
@@ -44,7 +44,7 @@ export function getMapNodesEdges() {
                 n1.edges.push(n2);
                 n2.edges.push(n1);
               }
-              mapEdges.set(edge.edgeID, edge);
+              mapEdges.set(String(edge.edgeID), edge);
             });
             resolve(mapNodes);
           })
