@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nodesRouter from "./routes/nodes.ts";
 import pathRouter from "./routes/path.ts";
+import exampleRouter from "./routes/example.ts";
+import formRouter from "./routes/formRouter.ts";
 
 const app: Express = express(); // Setup the backend
 
@@ -22,6 +24,10 @@ app.use(cookieParser()); // Cookie parser
 
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
+app.use("/api/high-score", exampleRouter);
+app.use("/api/form", formRouter); // form router
+
+app.use("/api/request", formRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
