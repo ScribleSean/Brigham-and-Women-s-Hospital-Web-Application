@@ -38,12 +38,12 @@ function Requests() {
           </b>
         </h1>
         <br />
-        <input type="checkbox" id="Flower" name="Flower" />
         <label htmlFor="Flower" className="filterOption">
-          Flowers
+          <input type="checkbox" id="soon" name="soon" />
+          Flower
         </label>
-        <input type="checkbox" id="soon" name="soon" />
         <label htmlFor="soon" className="filterOption">
+          <input type="checkbox" id="soon" name="soon" />
           Coming Soon
         </label>
       </div>

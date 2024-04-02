@@ -36,7 +36,7 @@ function App() {
     {
       path: "/requests",
       element: (
-        <div>
+        <div className="scrollPls">
           <SideNavbar />
           <div className="navFix">
             <Requests />
