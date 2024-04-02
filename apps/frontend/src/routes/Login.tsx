@@ -63,7 +63,6 @@ function Login() {
               required
               size={"small"}
               onChange={handlePasswordChange}
-              fullWidth
             />
             {loginError && <div className={"login-error"}>{loginError}</div>}
             <div style={{ margin: "1vh 0" }}></div>

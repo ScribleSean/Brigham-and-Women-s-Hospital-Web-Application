@@ -7,14 +7,16 @@ const router: Router = express.Router();
 router.post("/", async function (req, res) {
   const form: Form = req.body;
 
+  form.roomNumber = parseInt(String(form.roomNumber));
+
   try {
-    await PrismaClient.form.create({
-      data: form,
-    });
-    res.status(200).json({ message: "success" });
+    await PrismaClient.form.create({ data: form });
+    console.log("Successfully posted to form");
   } catch (error) {
-    console.error(error);
-    res.status(400).json({ message: "error" });
+    console.error("Unable to create form");
+    console.log(error);
+    res.sendStatus(204);
+    return;
   }
 });
 
