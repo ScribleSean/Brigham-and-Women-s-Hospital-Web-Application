@@ -28,13 +28,10 @@ model Nodes {
   nodeType  String
   longName  String
   shortName String
-  Edge      Edge[]
 }
 
-// Edge Table
 model Edge {
   edgeID      String @id
-  node        Nodes  @relation(fields: [startNodeID], references: [nodeID])
   startNodeID String
   endNodeID   String
 }
