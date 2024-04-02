@@ -20,7 +20,7 @@ const TableNodes: React.FC<{ tableData: node[] }> = ({ tableData }) => {
     return (
         <div>
             <table>
-                <tbody>
+                <thead>
                 <tr>
                     <th>Node ID</th>
                     <th>X-Coordinate</th>
@@ -31,11 +31,9 @@ const TableNodes: React.FC<{ tableData: node[] }> = ({ tableData }) => {
                     <th>Long Name</th>
                     <th>Short Name</th>
                 </tr>
-                </tbody>
+                </thead>
                 <tbody>
-                <tr>
-                    {GenerateTableRowsNodes(tableData)}
-                </tr>
+                {GenerateTableRowsNodes(tableData)}
                 </tbody>
             </table>
         </div>

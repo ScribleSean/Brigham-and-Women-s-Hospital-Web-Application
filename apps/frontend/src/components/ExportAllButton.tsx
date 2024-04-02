@@ -1,65 +1,71 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 const ExportAllDataToCSVButton = () => {
-  const [fileNode, setFileNode] = useState("");
-  const [fileEdge, setFileEdge] = useState("");
-  const [loading, setLoading] = useState(true);
+    const [fileNode, setFileNode] = useState("");
+    const [fileEdge, setFileEdge] = useState("");
+    const [loading, setLoading] = useState(true);
 
-  const handleExportButton = () => {
-    // Node data export
-    const blob1 = new Blob([fileNode], { type: "text/csv" });
-    const link1 = document.createElement("a");
-    link1.href = URL.createObjectURL(blob1);
-    link1.download = "exported_node_data.csv";
-    document.body.appendChild(link1);
-    link1.click();
-    document.body.removeChild(link1);
+    const handleExportButton = () =>{
+        // Node data export
+        const blob1 = new Blob([fileNode], { type: 'text/csv' });
+        const link1 = document.createElement('a');
+        link1.href = URL.createObjectURL(blob1);
+        link1.download = 'exported_node_data.csv';
+        document.body.appendChild(link1);
+        link1.click();
+        document.body.removeChild(link1);
 
-    // Edge Data export
-    const blob2 = new Blob([fileEdge], { type: "text/csv" });
-    const link2 = document.createElement("a");
-    link2.href = URL.createObjectURL(blob2);
-    link2.download = "exported_edge_data.csv";
-    document.body.appendChild(link2);
-    link2.click();
-    document.body.removeChild(link2);
-  };
+        // Edge Data export
+        const blob2 = new Blob([fileEdge], { type: 'text/csv' });
+        const link2 = document.createElement('a');
+        link2.href = URL.createObjectURL(blob2);
+        link2.download = 'exported_edge_data.csv';
+        document.body.appendChild(link2);
+        link2.click();
+        document.body.removeChild(link2);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Make a GET request to Node endpoint
-        const response1 = await fetch("/api/download-node-csv");
-
-        if (!response1.ok) {
-          throw new Error(`HTTP error! Status: ${response1.status}`);
-        }
-        const result1 = await response1.text();
-        setFileNode(result1);
-
-        // Make a GET request to the Edge endpoint
-        const response2 = await fetch("/api/download-edge-csv");
-
-        if (!response2.ok) {
-          throw new Error(`HTTP error! Status: ${response2.status}`);
-        }
-        const result2 = await response2.text();
-        setFileEdge(result2);
-      } catch (err) {
-        console.log("Failed");
-      } finally {
-        // Set loading to false, indicating that the request has completed
-        setLoading(false);
-      }
     };
 
-    fetchData().then();
-  }, []); //
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Make a GET request to Node endpoint
+                const response1 = await fetch("/api/download-node-csv");
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+                if (!response1.ok) {
+                    throw new Error(`HTTP error! Status: ${response1.status}`);
+                }
+                const result1 = await response1.text();
+                setFileNode(result1);
 
-  return <button onClick={handleExportButton}>Export All</button>;
+                // Make a GET request to the Edge endpoint
+                const response2 = await fetch("/api/download-edge-csv");
+
+                if (!response2.ok) {
+                    throw new Error(`HTTP error! Status: ${response2.status}`);
+                }
+                const result2 = await response2.text();
+                setFileEdge(result2);
+
+
+            } catch (err) {
+                console.log("Failed");
+            } finally {
+                // Set loading to false, indicating that the request has completed
+                setLoading(false);
+            }
+        };
+
+        fetchData().then();
+    }, []); //
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    return (
+        <button onClick={handleExportButton}>Export All</button>
+    );
 };
+
 
 export default ExportAllDataToCSVButton;

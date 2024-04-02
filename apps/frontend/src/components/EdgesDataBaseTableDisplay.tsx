@@ -15,17 +15,15 @@ const TableEdges: React.FC<{ tableData: edge[] }> = ({ tableData }) => {
     return (
         <div>
             <table>
-                <tbody>
+                <thead>
                 <tr>
                     <th>Edge ID</th>
                     <th>Start Node ID</th>
                     <th>End Node ID</th>
                 </tr>
-                </tbody>
+                </thead>
                 <tbody>
-                <tr>
-                    {GenerateTableRowsEdges(tableData)}
-                </tr>
+                {GenerateTableRowsEdges(tableData)}
                 </tbody>
             </table>
         </div>
