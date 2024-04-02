@@ -5,7 +5,7 @@ import Login from "./routes/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SideNavbar from "./components/SideNavbar.tsx";
 import "./styles/App.css";
-import Requests from "./components/Requests.tsx";
+import Requests1 from "./components/Requests.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -39,7 +39,7 @@ function App() {
         <div>
           <SideNavbar />
           <div className="navFix">
-            <Requests />
+            <Requests1 />
           </div>
         </div>
       ),
