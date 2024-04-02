@@ -1,7 +1,7 @@
 import { Edge, FloorType, Node } from "../DataStructures.ts";
 
 export class Path {
-  private readonly edges: Array<Edge>;
+  public edges: Array<Edge>;
 
   public constructor(edges: Array<Edge>) {
     this.edges = edges;

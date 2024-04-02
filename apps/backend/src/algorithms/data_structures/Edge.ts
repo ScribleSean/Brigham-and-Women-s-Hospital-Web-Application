@@ -1,7 +1,7 @@
 import { Node } from "./Node.ts";
 export class Edge {
-  private readonly startNode: Node;
-  private readonly endNode: Node;
+  public startNode: Node;
+  public endNode: Node;
   private readonly weight: number;
 
   public constructor(startNode: Node, endNode: Node) {

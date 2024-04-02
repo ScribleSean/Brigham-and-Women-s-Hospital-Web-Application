@@ -23,7 +23,7 @@ export interface NodeDisplayProps {
 }
 
 export interface PathDisplayProps {
-  path: Path;
+  path: Array<Path>;
   widthScaling: number;
   heightScaling: number;
   setMiddlePoint(middleX: number, middleY: number): void;

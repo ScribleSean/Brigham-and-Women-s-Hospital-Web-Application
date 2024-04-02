@@ -20,12 +20,12 @@ function App() {
         {
           path: "",
           element: (
-              <div className="">
-                <SideNavbar />
-                <div className="mapfix">
-                  <PathGrapher></PathGrapher>
-                </div>
+            <div className="">
+              <SideNavbar />
+              <div className="mapfix">
+                <PathGrapher></PathGrapher>
               </div>
+            </div>
           ),
         },
       ],

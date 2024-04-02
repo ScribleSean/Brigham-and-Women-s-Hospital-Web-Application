@@ -51,16 +51,12 @@ export class Graph {
     return this.lookupTable.get(id);
   }
 
-  public getNodesByFloor(floorType: FloorType): Array<Node>{
-    const ids: Array<string> = new Array<string>();
+  public getNodesByFloor(floorType: FloorType): Array<Node> {
     const nodes: Array<Node> = new Array<Node>();
     const keys: Array<Node> = Array.from(this.adjList.keys());
     for (const node of keys) {
       if (node.getFloor() === floorType) {
-        if (!ids.includes(node.getID())) {
-          nodes.push(node);
-          ids.push(node.getID());
-        }
+        nodes.push(node);
       }
     }
     return nodes;

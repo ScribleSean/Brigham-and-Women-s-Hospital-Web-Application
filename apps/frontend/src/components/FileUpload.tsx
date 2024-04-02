@@ -16,8 +16,6 @@ const FileDropBox: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
     }
   };
 
-  useEffect(() => {}, []);
-
   return (
     <div>
       <div>

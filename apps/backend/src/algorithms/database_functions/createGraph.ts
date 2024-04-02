@@ -9,58 +9,73 @@ import {
 import PrismaClient from "../../bin/database-connection";
 
 export { createGraph };
-
 async function createGraph(res: Response): Promise<Graph> {
   const graph: Graph = new Graph();
   const edges = await PrismaClient.edge.findMany();
   if (edges === null) {
     res.sendStatus(404);
+    return graph;
   }
+
   for (const edge of edges) {
     const startNodeID: string = edge.startNodeID;
     const endNodeID: string = edge.endNodeID;
-    const node1 = await PrismaClient.nodes.findUnique({
-      where: {
-        nodeID: startNodeID,
-      },
-    });
-    const node2 = await PrismaClient.nodes.findUnique({
-      where: {
-        nodeID: endNodeID,
-      },
-    });
 
-    if (node1 === null || node2 === null) {
-      res.sendStatus(404);
-      console.log("could not find one of the nodes");
+    let startNode = graph.getNodeByID(startNodeID);
+    if (!startNode) {
+      const nodeData = await PrismaClient.nodes.findUnique({
+        where: {
+          nodeID: startNodeID,
+        },
+      });
+      if (nodeData === null) {
+        res.sendStatus(404);
+        console.log("Could not find start node with ID: " + startNodeID);
+        continue;
+      }
+      startNode = new Node(
+        nodeData.nodeID as string,
+        nodeData.xcoord as number,
+        nodeData.ycoord as number,
+        nodeData.floor as FloorType,
+        nodeData.building as BuildingType,
+        nodeData.nodeType as NodeType,
+        nodeData.longName as string,
+        nodeData.shortName as string,
+      );
+      graph.getLookupTable().set(startNodeID, startNode);
     }
 
-    if (node1 !== null && node2 !== null) {
-      const startNode: Node = new Node(
-        node1.nodeID as string,
-        node1.xcoord as number,
-        node1.ycoord as number,
-        node1.floor as FloorType,
-        node1.building as BuildingType,
-        node1.nodeType as NodeType,
-        node1.longName as string,
-        node1.shortName as string,
+    let endNode = graph.getNodeByID(endNodeID);
+    if (!endNode) {
+      const nodeData = await PrismaClient.nodes.findUnique({
+        where: {
+          nodeID: endNodeID,
+        },
+      });
+      if (nodeData === null) {
+        res.sendStatus(404);
+        console.log("Could not find end node with ID: " + endNodeID);
+        continue;
+      }
+      endNode = new Node(
+        nodeData.nodeID as string,
+        nodeData.xcoord as number,
+        nodeData.ycoord as number,
+        nodeData.floor as FloorType,
+        nodeData.building as BuildingType,
+        nodeData.nodeType as NodeType,
+        nodeData.longName as string,
+        nodeData.shortName as string,
       );
+      graph.getLookupTable().set(endNodeID, endNode);
+    }
 
-      const endNode: Node = new Node(
-        node2.nodeID as string,
-        node2.xcoord as number,
-        node2.ycoord as number,
-        node2.floor as FloorType,
-        node2.building as BuildingType,
-        node2.nodeType as NodeType,
-        node2.longName as string,
-        node2.shortName as string,
-      );
-
+    if (startNode && endNode) {
       graph.addEdge(startNode, endNode);
       graph.addEdge(endNode, startNode);
     }
   }
+
   return graph;
 }

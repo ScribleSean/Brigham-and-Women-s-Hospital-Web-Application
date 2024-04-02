@@ -1,8 +1,4 @@
-import {
-  Node,
-  Edge,
-  Path,
-} from "../../../backend/src/algorithms/DataStructures.ts";
+import { Node, Path } from "../../../backend/src/algorithms/DataStructures.ts";
 import React, { useState, useEffect, useRef, CSSProperties } from "react";
 import {
   PathDisplayProps,
@@ -58,7 +54,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const [startNode, setStartNode] = useState<Node | null>(null);
   const [endNode, setEndNode] = useState<Node | null>(null);
 
-  const [path, setPath] = useState<Path>(new Path(new Array<Edge>()));
+  const [path, setPath] = useState<Array<Path>>(new Array<Path>());
 
   useEffect(() => {
     async function getPath(): Promise<void> {
@@ -68,10 +64,9 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
             node1: startNode,
             node2: endNode,
           };
-          const tempPath = (await axios.post(
-            "/api/path",
-            startEndNode,
-          )) as Path;
+          console.log(startEndNode);
+          const tempPath = (await axios.post("/api/path", startEndNode))
+            .data as Array<Path>;
           console.log(tempPath);
           setPath(tempPath);
         } catch (error) {

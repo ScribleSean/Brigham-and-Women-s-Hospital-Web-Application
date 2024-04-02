@@ -3,7 +3,7 @@ import { Node, Path } from "../../../backend/src/algorithms/DataStructures.ts";
 import React, { useEffect, useRef, SVGProps, CSSProperties } from "react";
 
 export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
-  const path: Path = props.path;
+  const path: Array<Path> = props.path;
   const widthScaling: number = props.widthScaling;
   const heightScaling: number = props.heightScaling;
   const ref = useRef<HTMLDivElement | null>(null);
@@ -28,27 +28,36 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
     return () => window.removeEventListener("resize", getMiddlePoint);
   }, [props]);
 
+  function getNodes(path: Path): Array<Node> {
+    const nodes: Array<Node> = new Array<Node>();
+    for (const edge of path.edges) {
+      nodes.push(edge.startNode);
+    }
+    const endEdge = path.edges[path.edges.length - 1];
+    nodes.push(endEdge.endNode);
+    return nodes;
+  }
+
   function getPathCoordinates(path: Path): string {
-    const nodes: Array<Node> = path.getNodes();
+    const nodes: Array<Node> = getNodes(path);
     return nodes
       .map((node) => {
-        const x: number = node.getX() * widthScaling;
-        const y: number = node.getY() * heightScaling;
+        const x: number = node.x * widthScaling;
+        const y: number = node.y * heightScaling;
         return `${x},${y}`;
       })
       .join(" ");
   }
 
-  if (path.getNumEdges() === 0) {
+  if (path.length === 0) {
     return <div>no path</div>;
   }
 
-  function getSubPathsCoordinates(path: Path): Array<string> {
-    const subPaths: Array<Path> = path.getSubPathsByFloor();
-    return subPaths.map((subPath) => getPathCoordinates(subPath));
+  function getSubPathsCoordinates(): Array<string> {
+    return props.path.map((subPath) => getPathCoordinates(subPath));
   }
 
-  const subPathsCoordinates: Array<string> = getSubPathsCoordinates(path);
+  const subPathsCoordinates: Array<string> = getSubPathsCoordinates();
 
   const colors: Array<string> = [
     "#ff0000",
