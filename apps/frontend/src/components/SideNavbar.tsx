@@ -44,7 +44,7 @@ const SideNavbar = () => {
               Active Requests
             </Nav.Link>
           </div>
-          <Nav.Link className={"nav-links border-bottom"} href="#csv">
+          <Nav.Link className={"nav-links border-bottom"} href="/csvpage">
             CSV Page
           </Nav.Link>
         </div>
