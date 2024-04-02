@@ -20,21 +20,23 @@ const TableNodes: React.FC<{ tableData: node[] }> = ({ tableData }) => {
     return (
         <div>
             <table>
-                <th>
-                    <tr>
-                        <th>Node ID</th>
-                        <th>X-Coordinate</th>
-                        <th>Y-Coordinate</th>
-                        <th>Floor</th>
-                        <th>Building</th>
-                        <th>Node Type</th>
-                        <th>Long Name</th>
-                        <th>Short Name</th>
-                    </tr>
-                </th>
+                <tbody>
+                <tr>
+                    <th>Node ID</th>
+                    <th>X-Coordinate</th>
+                    <th>Y-Coordinate</th>
+                    <th>Floor</th>
+                    <th>Building</th>
+                    <th>Node Type</th>
+                    <th>Long Name</th>
+                    <th>Short Name</th>
+                </tr>
+                </tbody>
+                <tbody>
                 <tr>
                     {GenerateTableRowsNodes(tableData)}
                 </tr>
+                </tbody>
             </table>
         </div>
     );

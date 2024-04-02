@@ -25,20 +25,23 @@ export type CSVRow = { [key: string]: string };
  * row["name"] // returns "Jane"
  */
 export function parseCSV(csvString: string): CSVRow[] {
-    // Split the CSV string into lines
-    const lines = csvString.split(/\r?\n/);
+  // Split the CSV string into lines
+  const lines = csvString.split(/\r?\n/);
 
-    // Extract headers
-    const headers = lines[0].split(",");
+  // Extract headers
+  const headers = lines[0].split(",");
 
-    // Process each line
-    return lines.slice(1).filter(line => line.trim() !== '').map((line) => {
-        // Split the line by comma and create an object
-        const data = line.split(",");
-        return headers.reduce((obj, nextKey, index) => {
-            obj[nextKey] = data[index];
-            return obj;
-        }, {} as CSVRow);
+  // Process each line
+  return lines
+    .slice(1)
+    .filter((line) => line.trim() !== "")
+    .map((line) => {
+      // Split the line by comma and create an object
+      const data = line.split(",");
+      return headers.reduce((obj, nextKey, index) => {
+        obj[nextKey] = data[index];
+        return obj;
+      }, {} as CSVRow);
     });
 }
 
@@ -49,5 +52,5 @@ export function parseCSV(csvString: string): CSVRow[] {
  * @return {string} - The JSON string representation of the CSVRow objects.
  */
 export function convertToJSON(rows: CSVRow[]): string {
-    return JSON.stringify(rows, null, 2);
+  return JSON.stringify(rows, null, 2);
 }
