@@ -7,6 +7,8 @@ import SideNavbar from "./components/SideNavbar.tsx";
 import "./styles/App.css";
 import Requests from "./components/Requests.tsx";
 import { NodeEdgeData } from "./routes/CSVPage.tsx";
+import PathGrapher from "./map_page/PathGrapher.tsx";
+//import PathGrapher from "./map_page/PathGrapher.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -17,7 +19,14 @@ function App() {
       children: [
         {
           path: "",
-          element: <SideNavbar />,
+          element: (
+              <div className="">
+                <SideNavbar />
+                <div className="mapfix">
+                  <PathGrapher></PathGrapher>
+                </div>
+              </div>
+          ),
         },
       ],
     },

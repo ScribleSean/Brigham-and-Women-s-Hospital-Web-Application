@@ -17,26 +17,15 @@ export class Graph {
   }
 
   public addEdge(startNode: Node, endNode: Node) {
-    const edge1: Edge = new Edge(startNode, endNode);
-    const edge2: Edge = new Edge(endNode, startNode);
-    const id1: string = startNode.getID();
-    const id2: string = endNode.getID();
-    if (this.lookupTable.has(id1)) {
-      this.lookupTable.set(id1, startNode);
-    }
-    if (this.lookupTable.has(id2)) {
-      this.lookupTable.set(id2, endNode);
-    }
+    const edge: Edge = new Edge(startNode, endNode);
+
+    this.lookupTable.set(startNode.getID(), startNode);
 
     if (!this.adjList.has(startNode)) {
       this.adjList.set(startNode, []);
     }
-    this.adjList.get(startNode)!.push(edge1);
 
-    if (!this.adjList.has(endNode)) {
-      this.adjList.set(endNode, []);
-    }
-    this.adjList.get(endNode)!.push(edge2);
+    this.adjList.get(startNode)!.push(edge);
   }
 
   public getEdges(node: Node): Array<Edge> | undefined {
@@ -62,12 +51,16 @@ export class Graph {
     return this.lookupTable.get(id);
   }
 
-  public getNodesByFloor(floorType: FloorType): Array<Node> {
+  public getNodesByFloor(floorType: FloorType): Array<Node>{
+    const ids: Array<string> = new Array<string>();
     const nodes: Array<Node> = new Array<Node>();
     const keys: Array<Node> = Array.from(this.adjList.keys());
     for (const node of keys) {
       if (node.getFloor() === floorType) {
-        nodes.push(node);
+        if (!ids.includes(node.getID())) {
+          nodes.push(node);
+          ids.push(node.getID());
+        }
       }
     }
     return nodes;

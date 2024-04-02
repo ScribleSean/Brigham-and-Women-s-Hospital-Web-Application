@@ -12,25 +12,18 @@ export { createGraph };
 
 async function createGraph(res: Response): Promise<Graph> {
   const graph: Graph = new Graph();
-  console.log("Before FindMany Edges");
-  const edges = await PrismaClient.edges.findMany();
-  console.log("After FindMany Edges");
+  const edges = await PrismaClient.edge.findMany();
   if (edges === null) {
     res.sendStatus(404);
-    console.log("Could not get the edges");
   }
-  console.log(edges);
   for (const edge of edges) {
-    console.log(edge);
     const startNodeID: string = edge.startNodeID;
     const endNodeID: string = edge.endNodeID;
-    console.log("Before findUnique Node");
     const node1 = await PrismaClient.nodes.findUnique({
       where: {
         nodeID: startNodeID,
       },
     });
-    console.log("After FindUnique Node1");
     const node2 = await PrismaClient.nodes.findUnique({
       where: {
         nodeID: endNodeID,
@@ -65,13 +58,8 @@ async function createGraph(res: Response): Promise<Graph> {
         node2.shortName as string,
       );
 
-      console.log(startNode);
-      console.log(endNode);
-
       graph.addEdge(startNode, endNode);
       graph.addEdge(endNode, startNode);
-
-      console.log(graph);
     }
   }
   return graph;

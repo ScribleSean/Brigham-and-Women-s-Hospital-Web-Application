@@ -4,7 +4,6 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nodesRouter from "./routes/nodes.ts";
 import pathRouter from "./routes/path.ts";
-import exampleRouter from "./routes/example.ts";
 import formRouter from "./routes/formRouter.ts";
 
 import csvRouter from "./routes/csv-handler";
@@ -27,14 +26,8 @@ app.use(
 app.use(express.json()); // This processes requests as JSON
 app.use(express.urlencoded({ extended: false })); // URL parser
 app.use(cookieParser()); // Cookie parser
-
-// Setup routers. ALL ROUTERS MUST use /api as a start point, or they
-// won't be reached by the default proxy and prod setup
-app.use("/api/high-score", exampleRouter);
 app.use("/api/form", formRouter); // form router
-
 app.use("/api/request", formRouter);
-
 app.use("/api/csv-to-json", csvRouter);
 app.use("/api/node-populate", nodeRouter);
 app.use("/api/edge-populate", edgeRouter);
@@ -59,26 +52,24 @@ app.use(function (req: Request, res: Response, next: NextFunction): void {
 /**
  * Generic error handler
  */
-app.use(
-  (err: HttpError, req: Request, res: Response, next: NextFunction): void => {
-    // Log the error to the console for debugging
-    console.error(`Error - ${err.status || 500} - ${err.message}`, {
-      method: req.method,
-      path: req.path,
-      body: req.body,
-      query: req.query,
-      ip: req.ip,
-    });
+app.use((err: HttpError, req: Request, res: Response): void => {
+  // Log the error to the console for debugging
+  console.error(`Error - ${err.status || 500} - ${err.message}`, {
+    method: req.method,
+    path: req.path,
+    body: req.body,
+    query: req.query,
+    ip: req.ip,
+  });
 
-    res.status(err.status || 500).send({
-      error: {
-        message: err.message || "Internal Server Error",
-        status: err.status || 500,
-        path: req.path,
-        method: req.method,
-      },
-    });
-  },
-);
+  res.status(err.status || 500).send({
+    error: {
+      message: err.message || "Internal Server Error",
+      status: err.status || 500,
+      path: req.path,
+      method: req.method,
+    },
+  });
+});
 
 export default app; // Export the backend, so that www.ts can start it

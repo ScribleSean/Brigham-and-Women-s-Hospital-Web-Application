@@ -1,9 +1,9 @@
 import { BuildingType, FloorType, NodeType } from "../DataStructures.ts";
 
 export class Node {
-  private readonly ID: string;
-  private readonly x: number;
-  private readonly y: number;
+  public ID: string;
+  public x: number;
+  public y: number;
   private readonly floor: FloorType;
   private readonly building: BuildingType;
   private readonly type: NodeType;

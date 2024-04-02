@@ -1,13 +1,8 @@
-import { FloorMap } from "../../../../backend/src/algorithms/BuildingClasses.ts";
 import {
   FloorType,
   Node,
   Path,
 } from "../../../../backend/src/algorithms/DataStructures.ts";
-
-export interface PathGrapherState {
-  floorMap: FloorMap;
-}
 
 export interface FloorSelectorProps {
   updateFloor(floorType: FloorType): void;

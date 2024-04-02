@@ -28,12 +28,12 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
     <form style={formStyle}>
       <Button
         sx={{
-          borderColor: "black",
-          backgroundColor: "white",
-          font: "Inter",
-          color: "black",
-          boxShadow: 3,
-          width: 200,
+            borderColor: "black",
+            backgroundColor: "white",
+            font: "Inter",
+            color: "black",
+            boxShadow: 3,
+            width: 200,
         }}
         type="button"
         className="btn-check"

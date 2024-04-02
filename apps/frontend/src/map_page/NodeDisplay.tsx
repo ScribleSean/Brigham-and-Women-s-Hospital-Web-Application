@@ -9,8 +9,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const handleNodeSelection = props.handleNodeSelection;
   const changesFloor: boolean = props.changesFloor;
 
-  const newX: number = node.getX() * widthScaling;
-  const newY: number = node.getY() * heightScaling;
+  const newX: number = node.x * widthScaling;
+  const newY: number = node.y * heightScaling;
 
   const nodeStyle: CSSProperties = {
     position: "absolute",

@@ -72,6 +72,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
             "/api/path",
             startEndNode,
           )) as Path;
+          console.log(tempPath);
           setPath(tempPath);
         } catch (error) {
           console.error("Failed to get the path:", error);
@@ -114,7 +115,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     const changesFloor: boolean = changingNodes.includes(node);
     return {
       node: node,
-      key: node.getID(),
+      key: node.ID,
       widthScaling: getWidthScaling(),
       heightScaling: getHeightScaling(),
       handleNodeSelection: handleNodeSelection,
