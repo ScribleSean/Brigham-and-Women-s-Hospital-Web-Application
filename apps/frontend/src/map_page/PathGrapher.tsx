@@ -1,28 +1,12 @@
-import {
-  FloorMap,
-  BuildingMap,
-} from "../../../backend/src/algorithms/BuildingClasses.ts";
-import {
-  FloorType,
-  Graph,
-} from "../../../backend/src/algorithms/DataStructures.ts";
-import React, { useState, useEffect, CSSProperties } from "react";
+import { BuildingMap, FloorMap } from "../../../backend/src/algorithms/BuildingClasses.ts";
+import { FloorType, Node } from "../../../backend/src/algorithms/DataStructures.ts";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { FloorSelector } from "./FloorSelector.tsx";
 import { FloorDisplay } from "./FloorDisplay.tsx";
-import {
-  FloorDisplayProps,
-  PathGrapherState,
-} from "../../../backend/src/types/map_page_types.ts";
+import { FloorDisplayProps, NodesByFloor, PathGrapherState } from "./types/map_page_types.ts";
 import axios from "axios";
 
-function preloadImages(urls: Array<string>): void {
-  urls.forEach((url) => {
-    const image: HTMLImageElement = new Image();
-    image.src = url;
-  });
-}
-
-export default function PathGrapher(): React.JSX.Element {
+export default function PathGrapher() {
   const floorMaps: Array<FloorMap> = [
     new FloorMap("00_thelowerlevel1.png", FloorType.L2),
     new FloorMap("00_thelowerlevel2.png", FloorType.L1),
@@ -33,38 +17,29 @@ export default function PathGrapher(): React.JSX.Element {
 
   const buildingMap: BuildingMap = new BuildingMap(floorMaps);
 
-  const [graph, setGraph] = useState<Graph>(new Graph());
-
-  useEffect(() => {
-    async function getGraph(): Promise<void> {
-      try {
-        const response = await axios.get("/api/graph");
-        const tempGraph: Graph = response.data as Graph;
-        setGraph(tempGraph);
-      } catch (error) {
-        console.error("Failed to fetch graph data:", error);
-      }
-    }
-
-    preloadImages(
-      buildingMap.getFloorMaps().map((floorMap) => floorMap.getPngPath()),
-    );
-
-    getGraph();
-  }); // Added dependencies here
-
   const getFloorState = (floorType: FloorType): PathGrapherState => {
     const floorMap: FloorMap = buildingMap.getFloorMap(floorType);
     return { floorMap };
   };
 
-  const [floor, setFloor] = useState<PathGrapherState>(
-    getFloorState(FloorType.first),
-  );
-
   const updateFloor = (floorType: FloorType): void => {
     setFloor(getFloorState(floorType));
   };
+
+  const [nodes, setNodes] = useState<NodesByFloor | null>(null);
+  const [floor, setFloor] = useState<PathGrapherState>(getFloorState(FloorType.first));
+
+  useEffect(() => {
+    async function getNodes(): Promise<void> {
+      try {
+        const currentNodes: NodesByFloor = await axios.get("/api/nodes") as NodesByFloor;
+        setNodes(currentNodes);
+      } catch (error) {
+        console.error("Failed to fetch nodes data:", error);
+      }
+    }
+    getNodes();
+  }, [floor]);
 
   const divStyle: CSSProperties = {
     position: "absolute",
@@ -78,16 +53,33 @@ export default function PathGrapher(): React.JSX.Element {
     backgroundColor: "lightsteelblue",
   };
 
+  function getNodesByFloor(allNodes: NodesByFloor, floor: FloorType): Array<Node> {
+    if (!allNodes) return [];
+
+    const { L2, L1, firstFloor, secondFloor, thirdFloor } = allNodes;
+    switch (floor) {
+      case FloorType.first:
+        return firstFloor;
+      case FloorType.second:
+        return secondFloor;
+      case FloorType.third:
+        return thirdFloor;
+      case FloorType.L1:
+        return L1;
+      default:
+        return L2;
+    }
+  }
+
   const floorDisplayProps: FloorDisplayProps = {
-    imageUrl: floor.floorMap.getPngPath(),
-    graph: graph,
-    nodes: graph.getNodesByFloor(floor.floorMap.getFloorType()),
+    imageUrl: buildingMap.getFloorMap(floor.floorMap.getFloorType()).getPngPath(),
+    nodes: nodes ? getNodesByFloor(nodes, floor.floorMap.getFloorType()) : [],
   };
 
   return (
-    <div style={divStyle}>
-      <FloorSelector updateFloor={updateFloor}></FloorSelector>
-      <FloorDisplay {...floorDisplayProps}></FloorDisplay>
-    </div>
+      <div style={divStyle}>
+        <FloorSelector updateFloor={updateFloor} />
+        <FloorDisplay {...floorDisplayProps} />
+      </div>
   );
 }

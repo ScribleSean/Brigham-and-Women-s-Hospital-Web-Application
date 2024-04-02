@@ -1,4 +1,4 @@
-import { NodeDisplayProps } from "../../../backend/src/types/map_page_types.ts";
+import { NodeDisplayProps } from "./types/map_page_types.ts";
 import React, { CSSProperties } from "react";
 import { Node } from "../../../backend/src/algorithms/DataStructures.ts";
 

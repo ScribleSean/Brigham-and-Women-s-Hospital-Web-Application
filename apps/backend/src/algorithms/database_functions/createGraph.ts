@@ -1,30 +1,36 @@
-import express, { Router, Request, Response } from "express";
+import { Response } from "express";
 import {
-  FloorType,
   BuildingType,
-  NodeType,
-  Node,
+  FloorType,
   Graph,
-} from "../algorithms/DataStructures.ts";
-import PrismaClient from "../bin/database-connection.ts";
+  Node,
+  NodeType,
+} from "../DataStructures.ts";
+import PrismaClient from "../../bin/database-connection.ts";
 
-const router: Router = express.Router();
+export { createGraph };
 
-router.get("/", async function (req: Request, res: Response) {
+async function createGraph(res: Response): Promise<Graph> {
   const graph: Graph = new Graph();
+  console.log("Before FindMany Edges");
   const edges = await PrismaClient.edges.findMany();
+  console.log("After FindMany Edges");
   if (edges === null) {
     res.sendStatus(404);
     console.log("Could not get the edges");
   }
+  console.log(edges);
   for (const edge of edges) {
+    console.log(edge);
     const startNodeID: string = edge.startNodeID;
     const endNodeID: string = edge.endNodeID;
+    console.log("Before findUnique Node");
     const node1 = await PrismaClient.nodes.findUnique({
       where: {
         nodeID: startNodeID,
       },
     });
+    console.log("After FindUnique Node1");
     const node2 = await PrismaClient.nodes.findUnique({
       where: {
         nodeID: endNodeID,
@@ -59,14 +65,14 @@ router.get("/", async function (req: Request, res: Response) {
         node2.shortName as string,
       );
 
+      console.log(startNode);
+      console.log(endNode);
+
       graph.addEdge(startNode, endNode);
       graph.addEdge(endNode, startNode);
+
+      console.log(graph);
     }
   }
-
-  console.log();
-
-  res.send(JSON.stringify(graph));
-});
-
-export default router;
+  return graph;
+}

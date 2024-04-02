@@ -1,22 +1,20 @@
 import {
   Node,
   Edge,
-  Graph,
   Path,
 } from "../../../backend/src/algorithms/DataStructures.ts";
-import { BFS } from "../../../backend/src/algorithms/PathFinder.ts";
 import React, { useState, useEffect, useRef, CSSProperties } from "react";
 import {
   PathDisplayProps,
   NodeDisplayProps,
-  FloorDisplayProps,
-} from "../../../backend/src/types/map_page_types.ts";
+  FloorDisplayProps, StartEndNodes,
+} from "./types/map_page_types.ts";
 import { NodeDisplay } from "./NodeDisplay.tsx";
 import { PathDisplay } from "./PathDisplay.tsx";
+import axios from "axios";
 
 export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const nodes: Array<Node> = props.nodes;
-  const graph: Graph = props.graph;
 
   const imageWidth: number = 5000;
   const imageHeight: number = 3400;
@@ -59,6 +57,26 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const [startNode, setStartNode] = useState<Node | null>(null);
   const [endNode, setEndNode] = useState<Node | null>(null);
 
+  const [path, setPath] = useState<Path>(new Path(new Array<Edge>));
+
+  useEffect(() => {
+    async function getPath(): Promise<void> {
+      if (startNode !== null && endNode !== null) {
+        try {
+          const startEndNode: StartEndNodes = {
+            node1: startNode,
+            node2: endNode,
+          };
+          const tempPath = await axios.post("/api/path",startEndNode) as Path;
+          setPath(tempPath);
+        } catch (error) {
+          console.error("Failed to get the path:", error);
+        }
+      }
+    }
+    getPath();
+  }, [setPath, startNode, endNode]);
+
   const handleNodeSelection = (node: Node): void => {
     if (!startNode) {
       setStartNode(node);
@@ -73,35 +91,9 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     }
   };
 
-  const [path, setPath] = useState<Path>(new Path(new Array<Edge>()));
-  const [changingNodes, setChangingNodes] = useState<Array<Node>>(
+  const [changingNodes] = useState<Array<Node>>(
     new Array<Node>(),
   );
-
-  const pathFinderRef = useRef<BFS | null>(null);
-
-  if (!pathFinderRef.current) {
-    pathFinderRef.current = new BFS(graph);
-  }
-
-  useEffect(() => {
-    if (!startNode || !endNode) {
-      setPath(new Path(new Array<Edge>()));
-      return;
-    }
-
-    const currentPath = pathFinderRef.current?.findPath(startNode, endNode);
-    if (currentPath === undefined) {
-      return;
-    }
-
-    if (currentPath.getNumEdges() > 0 && currentPath.changesFloor()) {
-      const nodes = currentPath.getNodesChangingFloor();
-      setChangingNodes(nodes);
-    }
-
-    setPath(currentPath);
-  }, [startNode, endNode]);
 
   const divStyle: CSSProperties = {
     position: "relative",

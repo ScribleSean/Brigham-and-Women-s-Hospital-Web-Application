@@ -1,4 +1,4 @@
-import { PathDisplayProps } from "../../../backend/src/types/map_page_types.ts";
+import { PathDisplayProps } from "./types/map_page_types.ts";
 import { Node, Path } from "../../../backend/src/algorithms/DataStructures.ts";
 import React, { useEffect, useRef, SVGProps, CSSProperties } from "react";
 

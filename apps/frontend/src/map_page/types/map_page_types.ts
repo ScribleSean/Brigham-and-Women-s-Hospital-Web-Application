@@ -1,5 +1,5 @@
-import { FloorMap } from "../algorithms/BuildingClasses.ts";
-import { FloorType, Node, Graph, Path } from "../algorithms/DataStructures.ts";
+import { FloorMap } from "../../../../backend/src/algorithms/BuildingClasses.ts";
+import { FloorType, Node, Graph, Path } from "../../../../backend/src/algorithms/DataStructures.ts";
 
 export interface PathGrapherState {
   floorMap: FloorMap;
@@ -12,7 +12,6 @@ export interface FloorSelectorProps {
 export interface FloorDisplayProps {
   imageUrl: string;
   nodes: Array<Node>;
-  graph: Graph;
 }
 
 export interface NodeDisplayProps {
@@ -29,4 +28,17 @@ export interface PathDisplayProps {
   widthScaling: number;
   heightScaling: number;
   setMiddlePoint(middleX: number, middleY: number): void;
+}
+
+export interface NodesByFloor {
+  L2: Array<Node>,
+  L1: Array<Node>,
+  firstFloor: Array<Node>,
+  secondFloor: Array<Node>,
+  thirdFloor: Array<Node>
+}
+
+export interface StartEndNodes {
+  node1: Node,
+  node2: Node,
 }
