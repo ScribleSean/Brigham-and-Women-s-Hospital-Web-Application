@@ -5,6 +5,7 @@ import "frontend/src/styles/FlowerDelivery.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "@mui/material";
 import axios from "axios";
+import SideNavbar from "../../components/SideNavbar.tsx";
 
 // interface FlowerDeliveryProps {
 //   // Define your props here
@@ -41,6 +42,9 @@ const FlowerDelivery: React.FC = () => {
 
   return isSubmitted ? (
     <div className={"flowerPage submitted-form m-5"}>
+      <div>
+        <SideNavbar />
+      </div>
       <h1 className={"flowerPageTitle text-center mb-5"}>
         Flowers For A Loved One
       </h1>
@@ -64,110 +68,117 @@ const FlowerDelivery: React.FC = () => {
       {/*<p>Message: {formState.message}</p>*/}
     </div>
   ) : (
-    <div className={"flowerPage m-5"}>
-      <h1 className={"flowerPageTitle text-center mb-5"}>
-        Flowers For A Loved One
-      </h1>
-      <form
-        id={"flowerPageForm"}
-        className={"container-fluid"}
-        onSubmit={handleSubmit}
-      >
-        <div className="form-group">
-          <label>Receiver's Name</label>
-          <input
-            type="text"
-            name="senderName"
-            placeholder={"Name"}
-            value={formState.senderName}
-            onChange={handleChange}
-            className="form-control"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Sender's Name</label>
-          <input
-            type="text"
-            name="receiverName"
-            placeholder={"Name"}
-            value={formState.receiverName}
-            onChange={handleChange}
-            className="form-control"
-            required
-          />
-        </div>
-        <div className="row form-group">
-          <div className={"col-5"}>
-            <label>Room Number</label>
-            <input
-              type="number"
-              name="roomNumber"
-              placeholder={"eg. 112"}
-              value={formState.roomNumber}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
-          <div className={"col-7"}>
-            <div className={"row"}>
-              <label>Flower Type</label>
-              <div className="form-check col radio-buttons">
+    <>
+      <div>
+        <SideNavbar />
+      </div>
+      <div className={"flower-page-container"}>
+        <div className={"flowerPage vh-100"}>
+          <h1 className={"flowerPageTitle text-center mb-5 pt-5"}>
+            Flowers For A Loved One
+          </h1>
+          <form
+            id={"flowerPageForm"}
+            className={"container-fluid"}
+            onSubmit={handleSubmit}
+          >
+            <div className="form-group">
+              <label>Receiver's Name</label>
+              <input
+                type="text"
+                name="senderName"
+                placeholder={"Name"}
+                value={formState.senderName}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Sender's Name</label>
+              <input
+                type="text"
+                name="receiverName"
+                placeholder={"Name"}
+                value={formState.receiverName}
+                onChange={handleChange}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="row form-group">
+              <div className={"col-5"}>
+                <label>Room Number</label>
                 <input
-                  className="form-check-input"
-                  type="radio"
-                  name="flowerType"
-                  value="Rose"
+                  type="number"
+                  name="roomNumber"
+                  placeholder={"eg. 112"}
+                  value={formState.roomNumber}
                   onChange={handleChange}
+                  className="form-control"
                   required
                 />
-                <label className="form-check-label">Rose</label>
               </div>
-              <div className="form-check col radio-buttons">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="flowerType"
-                  value="Tulip"
-                  onChange={handleChange}
-                  required
-                />
-                <label className="form-check-label">Tulip</label>
-              </div>
-              <div className="form-check col radio-buttons">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="flowerType"
-                  value="Lily"
-                  onChange={handleChange}
-                  required
-                />
-                <label className="form-check-label">Lily</label>
+              <div className={"col-7"}>
+                <div className={"row"}>
+                  <label>Flower Type</label>
+                  <div className="form-check col radio-buttons">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flowerType"
+                      value="Rose"
+                      onChange={handleChange}
+                      required
+                    />
+                    <label className="form-check-label">Rose</label>
+                  </div>
+                  <div className="form-check col radio-buttons">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flowerType"
+                      value="Tulip"
+                      onChange={handleChange}
+                      required
+                    />
+                    <label className="form-check-label">Tulip</label>
+                  </div>
+                  <div className="form-check col radio-buttons">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flowerType"
+                      value="Lily"
+                      onChange={handleChange}
+                      required
+                    />
+                    <label className="form-check-label">Lily</label>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+            <div className="form-group">
+              <label>Message (optional)</label>
+              <input
+                type="text"
+                name="message"
+                placeholder={"Best Wishes..."}
+                value={formState.message}
+                onChange={handleChange}
+                id={"messageBox"}
+                className="form-control"
+              />
+            </div>
+            <div className={"text-center"}>
+              <button type="submit" className="submit-button py-3 px-5">
+                Send
+              </button>
+            </div>
+          </form>
         </div>
-        <div className="form-group">
-          <label>Message (optional)</label>
-          <input
-            type="text"
-            name="message"
-            placeholder={"Best Wishes..."}
-            value={formState.message}
-            onChange={handleChange}
-            id={"messageBox"}
-            className="form-control"
-          />
-        </div>
-        <div className={"text-center"}>
-          <button type="submit" className="submit-button py-3 px-5">
-            Send
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+    </>
   );
 };
 

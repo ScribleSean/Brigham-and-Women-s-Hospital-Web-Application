@@ -12,7 +12,7 @@
 }
 
 #navbar-header {
-  font-size: 4vh;
+  font-size: 2em;
   font-weight: 600;
   line-height: 1;
 }
@@ -40,7 +40,7 @@
 
 .nav-links {
   font-weight: 600;
-  font-size: 2vh;
+  font-size: 1em;
   margin-bottom: 5%;
 }
 

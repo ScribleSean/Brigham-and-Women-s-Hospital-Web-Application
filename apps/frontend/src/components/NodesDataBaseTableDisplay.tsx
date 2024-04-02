@@ -1,40 +1,74 @@
 import React, { useState, useEffect } from "react";
 import { node } from "common/src/interfaces.ts";
+import {
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  tableCellClasses,
+  TableContainer,
+  TableHead,
+  TableRow
+} from "@mui/material";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#012D5A",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+const StyledTableContainer = styled(TableContainer)(() => ({
+  borderRadius: 10, // Adjust the value as per your preference
+}));
 
 function GenerateTableRowsNodes(tableData: node[]): JSX.Element[] {
   return tableData.map((item, index) => (
-    <tr key={index}>
-      <td>{tableData[index].nodeID}</td>
-      <td>{tableData[index].xcoord}</td>
-      <td>{tableData[index].ycoord}</td>
-      <td>{tableData[index].floor}</td>
-      <td>{tableData[index].building}</td>
-      <td>{tableData[index].nodeType}</td>
-      <td>{tableData[index].longName}</td>
-      <td>{tableData[index].shortName}</td>
-    </tr>
+    <StyledTableRow key={index}>
+      <StyledTableCell>{tableData[index].nodeID}</StyledTableCell>
+      <StyledTableCell>{tableData[index].xcoord}</StyledTableCell>
+      <StyledTableCell>{tableData[index].ycoord}</StyledTableCell>
+      <StyledTableCell>{tableData[index].floor}</StyledTableCell>
+      <StyledTableCell>{tableData[index].building}</StyledTableCell>
+      <StyledTableCell>{tableData[index].nodeType}</StyledTableCell>
+      <StyledTableCell>{tableData[index].longName}</StyledTableCell>
+      <StyledTableCell>{tableData[index].shortName}</StyledTableCell>
+    </StyledTableRow>
   ));
 }
 
 const TableNodes: React.FC<{ tableData: node[] }> = ({ tableData }) => {
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Node ID</th>
-            <th>X-Coordinate</th>
-            <th>Y-Coordinate</th>
-            <th>Floor</th>
-            <th>Building</th>
-            <th>Node Type</th>
-            <th>Long Name</th>
-            <th>Short Name</th>
-          </tr>
-        </thead>
-        <tbody>{GenerateTableRowsNodes(tableData)}</tbody>
-      </table>
-    </div>
+    <StyledTableContainer>
+      <Table size={"small"}>
+        <TableHead>
+          <StyledTableRow>
+            <StyledTableCell>Node ID</StyledTableCell>
+            <StyledTableCell>X-Coordinate</StyledTableCell>
+            <StyledTableCell>Y-Coordinate</StyledTableCell>
+            <StyledTableCell>Floor</StyledTableCell>
+            <StyledTableCell>Building</StyledTableCell>
+            <StyledTableCell>Node Type</StyledTableCell>
+            <StyledTableCell>Long Name</StyledTableCell>
+            <StyledTableCell>Short Name</StyledTableCell>
+          </StyledTableRow>
+        </TableHead>
+        <TableBody>{GenerateTableRowsNodes(tableData)}</TableBody>
+      </Table>
+    </StyledTableContainer>
   );
 };
 
