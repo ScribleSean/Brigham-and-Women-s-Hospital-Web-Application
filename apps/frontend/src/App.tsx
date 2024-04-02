@@ -1,7 +1,10 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import Map from "./components/Map.tsx";
-import Requests from "./components/Requests.tsx";
+import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
+import Login from "./routes/Login.tsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+import SideNavbar from "./components/SideNavbar.tsx";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -11,25 +14,29 @@ function App() {
       children: [
         {
           path: "",
-          element: <div></div>,
+          element: <SideNavbar />,
         },
       ],
     },
     {
-      path: "/map",
-      element: <Map />,
+      path: "/login",
+      element: <Login />,
     },
     {
-      path: "/Requests",
-      element: <Requests />,
+      path: "/flower-delivery", // Define the route for Flower Delivery page
+      element: (
+        <div>
+          <SideNavbar />
+          <FlowerDelivery />
+        </div>
+      ),
     },
   ]);
 
   return <RouterProvider router={router} />;
   function Root() {
     return (
-      <div className="w-full flex flex-col px-20 gap-5">
-        <h1>Welcome to your starter code.</h1>
+      <div>
         <Outlet />
       </div>
     );

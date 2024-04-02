@@ -23,6 +23,8 @@ app.use(cookieParser()); // Cookie parser
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
 app.use("/api/high-score", exampleRouter);
+app.use("/api/form", formRouter); // form router
+
 app.use("/api/request", formRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
