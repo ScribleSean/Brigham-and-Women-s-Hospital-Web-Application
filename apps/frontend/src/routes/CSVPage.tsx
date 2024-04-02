@@ -97,6 +97,7 @@ export function NodeEdgeData() {
           <GetDataNodes></GetDataNodes>
         </div>
         <div>
+          <br />
           <GetDataEdges></GetDataEdges>
         </div>
       </div>
