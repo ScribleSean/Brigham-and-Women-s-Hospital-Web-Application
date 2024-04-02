@@ -1,8 +1,8 @@
 import express, { Request, Response, Router } from "express";
-import { Graph, Path } from "../algorithms/DataStructures.ts";
-import { createGraph } from "../algorithms/database_functions/createGraph.ts";
-import { BFS } from "../algorithms/PathFinder.ts";
-import { StartEndNodes } from "../../../frontend/src/map_page/types/map_page_types.ts";
+import { Graph, Path } from "../algorithms/DataStructures";
+import { createGraph } from "../algorithms/database_functions/createGraph";
+import { BFS } from "../algorithms/PathFinder";
+import { StartEndNodes } from "../../../frontend/src/map_page/types/map_page_types";
 
 const router: Router = express.Router();
 

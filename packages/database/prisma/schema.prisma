@@ -20,24 +20,20 @@ model HighScore {
 }
 
 model Nodes {
-  nodeID     String  @id
-  xcoord     Int
-  ycoord     Int
-  floor      String
-  building   String
-  nodeType   String
-  longName   String
-  shortName  String
-  endNodes   Edges[] @relation("end")
-  startNodes Edges[] @relation("start")
+  nodeID    String @id
+  xcoord    Int
+  ycoord    Int
+  floor     String
+  building  String
+  nodeType  String
+  longName  String
+  shortName String
 }
 
-model Edges {
-  edgeID      Int    @id @default(autoincrement())
+model Edge {
+  edgeID      String @id
   startNodeID String
   endNodeID   String
-  end         Nodes  @relation("end", fields: [endNodeID], references: [nodeID])
-  start       Nodes  @relation("start", fields: [startNodeID], references: [nodeID])
 }
 
 model Form {

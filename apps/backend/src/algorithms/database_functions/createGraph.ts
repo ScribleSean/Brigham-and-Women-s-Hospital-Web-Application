@@ -5,8 +5,8 @@ import {
   Graph,
   Node,
   NodeType,
-} from "../DataStructures.ts";
-import PrismaClient from "../../bin/database-connection.ts";
+} from "../DataStructures";
+import PrismaClient from "../../bin/database-connection";
 
 export { createGraph };
 

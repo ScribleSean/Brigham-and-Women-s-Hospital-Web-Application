@@ -1,8 +1,13 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ExampleRoute from "./routes/ExampleRoute.tsx";
-import PathGrapher from "./map_page/PathGrapher.tsx";
-//import { LocationSelector } from "./components/map_page/LocationSelector.tsx";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
+import Login from "./routes/Login.tsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+import SideNavbar from "./components/SideNavbar.tsx";
+import "./styles/App.css";
+import Requests from "./components/Requests.tsx";
+import { NodeEdgeData } from "./routes/CSVPage.tsx";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -12,16 +17,47 @@ function App() {
       children: [
         {
           path: "",
-          element: <ExampleRoute />,
+          element: <SideNavbar />,
         },
       ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/csvpage",
+      element: <NodeEdgeData />,
+    },
+    {
+      path: "/flower-delivery", // Define the route for Flower Delivery page
+      element: (
+        <div>
+          <SideNavbar />
+          <FlowerDelivery />
+        </div>
+      ),
+    },
+    {
+      path: "/requests",
+      element: (
+        <div className="scrollPls">
+          <SideNavbar />
+          <div className="navFix">
+            <Requests />
+          </div>
+        </div>
+      ),
     },
   ]);
 
   return <RouterProvider router={router} />;
   function Root() {
-    //return <PathGrapher></PathGrapher>;
-    return <PathGrapher></PathGrapher>;
+    return (
+      <div>
+        <Outlet />
+      </div>
+    );
   }
 }
 
