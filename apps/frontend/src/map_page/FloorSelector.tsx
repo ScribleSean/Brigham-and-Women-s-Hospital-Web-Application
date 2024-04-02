@@ -77,39 +77,39 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
         {formatButtonText("Floor 1")}
       </Button>
 
-        <Button
-            sx={{
-                borderColor: "black",
-                backgroundColor: "white",
-                font: "Inter",
-                color: "black",
-                boxShadow: 3,
-                width: 200,
-            }}
-            type="button"
-            className="btn-check"
-            id="btn-check-second"
-            onClick={() => updateFloor(FloorType.second)}
-        >
-            {formatButtonText("Floor 2")}
-        </Button>
+      <Button
+        sx={{
+          borderColor: "black",
+          backgroundColor: "white",
+          font: "Inter",
+          color: "black",
+          boxShadow: 3,
+          width: 200,
+        }}
+        type="button"
+        className="btn-check"
+        id="btn-check-second"
+        onClick={() => updateFloor(FloorType.second)}
+      >
+        {formatButtonText("Floor 2")}
+      </Button>
 
-        <Button
-            sx={{
-                borderColor: "black",
-                backgroundColor: "white",
-                font: "Inter",
-                color: "black",
-                boxShadow: 3,
-                width: 200,
-            }}
-            type="button"
-            className="btn-check"
-            id="btn-check-third"
-            onClick={() => updateFloor(FloorType.third)}
-        >
-            {formatButtonText("Floor 3")}
-        </Button>
+      <Button
+        sx={{
+          borderColor: "black",
+          backgroundColor: "white",
+          font: "Inter",
+          color: "black",
+          boxShadow: 3,
+          width: 200,
+        }}
+        type="button"
+        className="btn-check"
+        id="btn-check-third"
+        onClick={() => updateFloor(FloorType.third)}
+      >
+        {formatButtonText("Floor 3")}
+      </Button>
     </form>
   );
 }

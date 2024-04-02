@@ -1,9 +1,19 @@
-import { BuildingMap, FloorMap } from "../../../backend/src/algorithms/BuildingClasses.ts";
-import { FloorType, Node } from "../../../backend/src/algorithms/DataStructures.ts";
+import {
+  BuildingMap,
+  FloorMap,
+} from "../../../backend/src/algorithms/BuildingClasses.ts";
+import {
+  FloorType,
+  Node,
+} from "../../../backend/src/algorithms/DataStructures.ts";
 import React, { CSSProperties, useEffect, useState } from "react";
 import { FloorSelector } from "./FloorSelector.tsx";
 import { FloorDisplay } from "./FloorDisplay.tsx";
-import { FloorDisplayProps, NodesByFloor, PathGrapherState } from "./types/map_page_types.ts";
+import {
+  FloorDisplayProps,
+  NodesByFloor,
+  PathGrapherState,
+} from "./types/map_page_types.ts";
 import axios from "axios";
 
 export default function PathGrapher() {
@@ -27,12 +37,16 @@ export default function PathGrapher() {
   };
 
   const [nodes, setNodes] = useState<NodesByFloor | null>(null);
-  const [floor, setFloor] = useState<PathGrapherState>(getFloorState(FloorType.first));
+  const [floor, setFloor] = useState<PathGrapherState>(
+    getFloorState(FloorType.first),
+  );
 
   useEffect(() => {
     async function getNodes(): Promise<void> {
       try {
-        const currentNodes: NodesByFloor = await axios.get("/api/nodes") as NodesByFloor;
+        const currentNodes: NodesByFloor = (await axios.get(
+          "/api/nodes",
+        )) as NodesByFloor;
         setNodes(currentNodes);
       } catch (error) {
         console.error("Failed to fetch nodes data:", error);
@@ -53,7 +67,10 @@ export default function PathGrapher() {
     backgroundColor: "lightsteelblue",
   };
 
-  function getNodesByFloor(allNodes: NodesByFloor, floor: FloorType): Array<Node> {
+  function getNodesByFloor(
+    allNodes: NodesByFloor,
+    floor: FloorType,
+  ): Array<Node> {
     if (!allNodes) return [];
 
     const { L2, L1, firstFloor, secondFloor, thirdFloor } = allNodes;
@@ -72,14 +89,16 @@ export default function PathGrapher() {
   }
 
   const floorDisplayProps: FloorDisplayProps = {
-    imageUrl: buildingMap.getFloorMap(floor.floorMap.getFloorType()).getPngPath(),
+    imageUrl: buildingMap
+      .getFloorMap(floor.floorMap.getFloorType())
+      .getPngPath(),
     nodes: nodes ? getNodesByFloor(nodes, floor.floorMap.getFloorType()) : [],
   };
 
   return (
-      <div style={divStyle}>
-        <FloorSelector updateFloor={updateFloor} />
-        <FloorDisplay {...floorDisplayProps} />
-      </div>
+    <div style={divStyle}>
+      <FloorSelector updateFloor={updateFloor} />
+      <FloorDisplay {...floorDisplayProps} />
+    </div>
   );
 }

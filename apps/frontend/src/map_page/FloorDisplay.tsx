@@ -7,7 +7,8 @@ import React, { useState, useEffect, useRef, CSSProperties } from "react";
 import {
   PathDisplayProps,
   NodeDisplayProps,
-  FloorDisplayProps, StartEndNodes,
+  FloorDisplayProps,
+  StartEndNodes,
 } from "./types/map_page_types.ts";
 import { NodeDisplay } from "./NodeDisplay.tsx";
 import { PathDisplay } from "./PathDisplay.tsx";
@@ -57,7 +58,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const [startNode, setStartNode] = useState<Node | null>(null);
   const [endNode, setEndNode] = useState<Node | null>(null);
 
-  const [path, setPath] = useState<Path>(new Path(new Array<Edge>));
+  const [path, setPath] = useState<Path>(new Path(new Array<Edge>()));
 
   useEffect(() => {
     async function getPath(): Promise<void> {
@@ -67,7 +68,10 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
             node1: startNode,
             node2: endNode,
           };
-          const tempPath = await axios.post("/api/path",startEndNode) as Path;
+          const tempPath = (await axios.post(
+            "/api/path",
+            startEndNode,
+          )) as Path;
           setPath(tempPath);
         } catch (error) {
           console.error("Failed to get the path:", error);
@@ -91,9 +95,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     }
   };
 
-  const [changingNodes] = useState<Array<Node>>(
-    new Array<Node>(),
-  );
+  const [changingNodes] = useState<Array<Node>>(new Array<Node>());
 
   const divStyle: CSSProperties = {
     position: "relative",
