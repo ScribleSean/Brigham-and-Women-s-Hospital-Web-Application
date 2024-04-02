@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Form } from "common/src/form.ts";
 import axios from "axios";
-import "./Requests.css";
+import "../styles/Requests.css";
 
 function createData(
   deliveryType: string,
