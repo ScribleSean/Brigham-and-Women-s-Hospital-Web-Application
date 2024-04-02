@@ -5,6 +5,12 @@ import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
 import formRouter from "./routes/form.ts";
 
+import csvRouter from "./routes/csv-handler";
+import nodeRouter from "./routes/node-route";
+import edgeRouter from "./routes/edge-route";
+import downloadNodeDataRouter from "./routes/data-to-csv-node";
+import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
+
 const app: Express = express(); // Setup the backend
 
 // Setup generic middlewear
@@ -24,6 +30,12 @@ app.use(cookieParser()); // Cookie parser
 // won't be reached by the default proxy and prod setup
 app.use("/api/high-score", exampleRouter);
 app.use("/api/form", formRouter); // form router
+
+app.use("/api/csv-to-json", csvRouter);
+app.use("/api/node-populate", nodeRouter);
+app.use("/api/edge-populate", edgeRouter);
+app.use("/api/download-node-csv", downloadNodeDataRouter);
+app.use("/api/download-edge-csv", downloadEdgeDataRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
