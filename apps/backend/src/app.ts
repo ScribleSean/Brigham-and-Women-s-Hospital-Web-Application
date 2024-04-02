@@ -3,7 +3,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
-import formRouter from "./routes/formRoute.ts";
+import formRouter from "./routes/formRouter.ts";
 
 const app: Express = express(); // Setup the backend
 
@@ -25,6 +25,7 @@ app.use(cookieParser()); // Cookie parser
 app.use("/api/high-score", exampleRouter);
 app.use("/api/form", formRouter); // form router
 
+app.use("/api/request", formRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });

@@ -39,7 +39,7 @@ const SideNavbar = () => {
             </Nav.Link>
             <Nav.Link
               className={"nav-links-inner border-bottom"}
-              href="#active-requests"
+              href="/requests"
             >
               Active Requests
             </Nav.Link>
