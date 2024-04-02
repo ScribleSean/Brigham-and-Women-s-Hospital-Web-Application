@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SideNavbar from "./components/SideNavbar.tsx";
 import "./styles/App.css";
 import Requests from "./components/Requests.tsx";
-import {NodeEdgeData} from "./routes/CSVPage.tsx";
+import { NodeEdgeData } from "./routes/CSVPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,10 +25,10 @@ function App() {
       path: "/login",
       element: <Login />,
     },
-      {
-          path: "/csvpage",
-          element: <NodeEdgeData />,
-      },
+    {
+      path: "/csvpage",
+      element: <NodeEdgeData />,
+    },
     {
       path: "/flower-delivery", // Define the route for Flower Delivery page
       element: (
