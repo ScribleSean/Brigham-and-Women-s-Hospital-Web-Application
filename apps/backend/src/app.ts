@@ -3,7 +3,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
-import formRouter from "./routes/FormRoute.ts";
+import formRouter from "./routes/formRoute.ts";
 
 const app: Express = express(); // Setup the backend
 

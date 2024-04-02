@@ -5,7 +5,7 @@ x-prod-args: &prod-args
   PORT: *prod-port # Duplicate this under the name that the env variable will expect. Build args will override as necessary
 
 x-db-info: &db-args
-  POSTGRES_PASSWORD: Neonnymphs1!
+  POSTGRES_PASSWORD: postgres
   POSTGRES_USER: postgres
   POSTGRES_DB: postgres
 
@@ -15,7 +15,7 @@ x-db-loc: &db-loc
   POSTGRES_PORT: &pg-port "5432"
 
   # The environment variables will expect this to already be formed, build args will override it
-  POSTGRES_URL: "postgresql://postgres:Neonnymphs1!@team-n-prod.c7smwwuoo2pm.us-east-2.rds.amazonaws.com:5432/postgres?schema=public"
+  POSTGRES_URL: "postgresql://postgres:postgres@team-n-prod.c7smwwuoo2pm.us-east-2.rds.amazonaws.com:5432/postgres?schema=public"
 
 # Health check for all processes
 x-health-check: &health-check
