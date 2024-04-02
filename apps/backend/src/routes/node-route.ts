@@ -6,53 +6,53 @@ import { node } from "common/src/interfaces.ts";
 const router: Router = express.Router();
 
 router.post("/", async (req: Request, res: Response) => {
-    try {
-        // Parse the CSV string to an array of CSVRow objects
-        const rowsNode = parseCSV(req.body["csvString"]);
-        const transformedNode: node[] = rowsNode.map((row) => {
-            const rowval = Object.values(row);
-            return {
-                nodeID: rowval[0],
-                xcoord: parseInt(rowval[1]),
-                ycoord: parseInt(rowval[2]),
-                floor: rowval[3],
-                building: rowval[4],
-                nodeType: rowval[5],
-                longName: rowval[6],
-                shortName: rowval[7],
-            };
-        });
+  try {
+    // Parse the CSV string to an array of CSVRow objects
+    const rowsNode = parseCSV(req.body["csvString"]);
+    const transformedNode: node[] = rowsNode.map((row) => {
+      const rowval = Object.values(row);
+      return {
+        nodeID: rowval[0],
+        xcoord: parseInt(rowval[1]),
+        ycoord: parseInt(rowval[2]),
+        floor: rowval[3],
+        building: rowval[4],
+        nodeType: rowval[5],
+        longName: rowval[6],
+        shortName: rowval[7],
+      };
+    });
 
-        await PrismaClient.nodes.createMany({
-            data: transformedNode.map((self) => {
-                return {
-                    nodeID: self.nodeID,
-                    xcoord: self.xcoord,
-                    ycoord: self.ycoord,
-                    floor: self.floor,
-                    building: self.building,
-                    nodeType: self.nodeType,
-                    longName: self.longName,
-                    shortName: self.shortName,
-                };
-            }),
-        });
+    await PrismaClient.nodes.createMany({
+      data: transformedNode.map((self) => {
+        return {
+          nodeID: self.nodeID,
+          xcoord: self.xcoord,
+          ycoord: self.ycoord,
+          floor: self.floor,
+          building: self.building,
+          nodeType: self.nodeType,
+          longName: self.longName,
+          shortName: self.shortName,
+        };
+      }),
+    });
 
-        res.sendStatus(200);
-    } catch (error) {
-        console.error(`Error populating node data: ${error}`);
-        res.sendStatus(500);
-    }
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(`Error populating node data: ${error}`);
+    res.sendStatus(500);
+  }
 });
 
 router.get("/", async function (req: Request, res: Response) {
-    try {
-        const nodeCSV = await PrismaClient.nodes.findMany();
-        res.send(nodeCSV);
-    } catch (error) {
-        console.error(`Error exporting node data: ${error}`);
-        res.sendStatus(500);
-    }
-    res.sendStatus(200);
+  try {
+    const nodeCSV = await PrismaClient.nodes.findMany();
+    res.send(nodeCSV);
+  } catch (error) {
+    console.error(`Error exporting node data: ${error}`);
+    res.sendStatus(500);
+  }
+  res.sendStatus(200);
 });
 export default router;

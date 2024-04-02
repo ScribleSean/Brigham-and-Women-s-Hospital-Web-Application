@@ -3,13 +3,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
-import formRouter from "./routes/formRoute.ts";
-
-import csvRouter from "./routes/csv-handler";
-import nodeRouter from "./routes/node-route";
-import edgeRouter from "./routes/edge-route";
-import downloadNodeDataRouter from "./routes/data-to-csv-node";
-import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
+import formRouter from "./routes/formRouter.ts";
 
 const app: Express = express(); // Setup the backend
 
@@ -31,12 +25,7 @@ app.use(cookieParser()); // Cookie parser
 app.use("/api/high-score", exampleRouter);
 app.use("/api/form", formRouter); // form router
 
-app.use("/api/csv-to-json", csvRouter);
-app.use("/api/node-populate", nodeRouter);
-app.use("/api/edge-populate", edgeRouter);
-app.use("/api/download-node-csv", downloadNodeDataRouter);
-app.use("/api/download-edge-csv", downloadEdgeDataRouter);
-
+app.use("/api/request", formRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
