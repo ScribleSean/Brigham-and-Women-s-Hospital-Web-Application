@@ -17,6 +17,7 @@ const FileDropBox: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
     }
   };
 
+  // eslint-disable-next-line no-empty-function
   useEffect(() => {}, []);
 
   return (
