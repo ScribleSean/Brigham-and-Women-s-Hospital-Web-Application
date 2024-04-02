@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "../styles/csvPage.css";
 
 interface FileDropBoxProps {
   onFileDrop: (file: File) => void;
@@ -22,9 +23,10 @@ const FileDropBox: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
   return (
     <div>
       <div>
-        <input id="csv-upload" type="file" onChange={handleUpload} />
+        <p className={"upload-descriptor-text"}>Upload a new dataset (.csv)</p>
+        <input id="csv-upload" type="file" title={" "} onChange={handleUpload}/>
       </div>
-      <br />
+      <br/>
     </div>
   );
 };

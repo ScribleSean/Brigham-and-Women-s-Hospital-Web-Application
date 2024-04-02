@@ -4,7 +4,7 @@ body {
 
 .flowerPageTitle {
   font-weight: 650;
-  font-size: 6vh;
+  font-size: 3em;
 }
 
 .form-group {
@@ -15,13 +15,13 @@ body {
 #flowerPageForm {
   background-color: #f1f1f1;
   padding: 20px;
-  width: 50%;
+  width: 70%;
   border-radius: 20px;
 }
 
 label {
   margin-left: 1%;
-  font-size: 2vh;
+  font-size: 1em;
 }
 
 input[type="text"],
@@ -47,8 +47,6 @@ input[type="number"] {
 input[type="radio"] {
   background-color: #d9d9d9 !important;
   margin-top: 5%;
-  width: 2vh;
-  height: 2vh;
   box-shadow: 0 1px 1px black;
 }
 
@@ -71,7 +69,7 @@ input[type="radio"]:checked {
   border: none;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 2vh;
+  font-size: 1em;
 }
 
 .return-button {
@@ -87,7 +85,7 @@ input[type="radio"]:checked {
 
 #goodbye-msg {
   font-weight: lighter;
-  font-size: 5vh;
+  font-size: 3em;
 }
 
 .return-buttons-container {
@@ -98,4 +96,9 @@ input[type="radio"]:checked {
 
 .return-button {
   width: 150px;
+}
+
+.flower-page-container {
+  width: 80vw;
+  margin-left: 20vw;
 }

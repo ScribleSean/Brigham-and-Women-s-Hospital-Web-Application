@@ -18,8 +18,8 @@ const SideNavbar = () => {
         </div>
         <div className={"rectangle my-3"}></div>
         <div id={"nav-body"} className={"mt-4"}>
-          <Nav.Link className={"nav-links border-bottom"} href="/login">
-            Login
+          <Nav.Link className={"nav-links border-bottom"} href="/">
+            Home
           </Nav.Link>
           <Nav.Link
             className={"nav-links border-bottom"}
@@ -44,8 +44,11 @@ const SideNavbar = () => {
               Active Requests
             </Nav.Link>
           </div>
-          <Nav.Link className={"nav-links border-bottom"} href="/csvpage">
+          <Nav.Link className={"nav-links border-bottom"} href="/csv-page">
             CSV Page
+          </Nav.Link>
+          <Nav.Link className={"nav-links border-bottom"} href="/login">
+            Login
           </Nav.Link>
         </div>
       </div>
