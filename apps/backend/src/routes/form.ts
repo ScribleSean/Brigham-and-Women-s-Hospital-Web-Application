@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { Form } from "common/src/form.ts";
+import { Form } from "common/src/Form.ts";
 
 const router: Router = express.Router();
 
