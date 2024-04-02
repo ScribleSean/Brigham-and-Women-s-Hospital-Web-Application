@@ -41,32 +41,36 @@ const FlowerDelivery: React.FC = () => {
   };
 
   return isSubmitted ? (
-    <div className={"flowerPage submitted-form m-5"}>
+    <>
       <div>
-        <SideNavbar />
+        <SideNavbar/>
       </div>
-      <h1 className={"flowerPageTitle text-center mb-5"}>
-        Flowers For A Loved One
-      </h1>
-      <div id={"completed-form-box"} className={"container-fluid text-center"}>
-        <h1 id={"goodbye-msg"}>Your request has been received</h1>
-        <div className={"return-buttons-container"}>
-          <Link href="/">
-            <button className={"return-button py-3 mt-5 mx-2"}>Return</button>
-          </Link>
-          <Link href={"/flower-delivery"}>
-            <button className={"return-button py-3 mt-5 mx-2"}>
-              Send Another
-            </button>
-          </Link>
+      <div className={"flower-page-container"}>
+        <div className={"flowerPage vh-100"}>
+          <h1 className={"flowerPageTitle text-center mb-5 pt-5"}>
+            Flowers For A Loved One
+          </h1>
+          <div id={"completed-form-box"} className={"container-fluid text-center"}>
+            <h1 id={"goodbye-msg"}>Your request has been received!</h1>
+            <div className={"return-buttons-container"}>
+              <Link href="/">
+                <button className={"return-button py-3 mt-5 mx-2"}>Home</button>
+              </Link>
+              <Link href={"/flower-delivery"}>
+                <button className={"return-button py-3 mt-5 mx-2"}>
+                  Send Another
+                </button>
+              </Link>
+            </div>
+          </div>
+          {/*<p>Sender Name: {formState.senderName}</p>*/}
+          {/*<p>Receiver Name: {formState.receiverName}</p>*/}
+          {/*<p>Room Number: {formState.roomNumber}</p>*/}
+          {/*<p>Flower Type: {formState.flowerType}</p>*/}
+          {/*<p>Message: {formState.message}</p>*/}
         </div>
       </div>
-      {/*<p>Sender Name: {formState.senderName}</p>*/}
-      {/*<p>Receiver Name: {formState.receiverName}</p>*/}
-      {/*<p>Room Number: {formState.roomNumber}</p>*/}
-      {/*<p>Flower Type: {formState.flowerType}</p>*/}
-      {/*<p>Message: {formState.message}</p>*/}
-    </div>
+    </>
   ) : (
     <>
       <div>
