@@ -4,8 +4,8 @@ import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
 import Login from "./routes/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SideNavbar from "./components/SideNavbar.tsx";
-import Requests from "./components/Requests.tsx";
 import "./styles/App.css";
+import Requests from "./components/Requests.tsx";
 
 function App() {
   const router = createBrowserRouter([
