@@ -1,3 +1,8 @@
 .navFix {
   padding-left: 20rem;
 }
+
+.scrollPls {
+  height: 100vh;
+  overflow-y: auto;
+}
