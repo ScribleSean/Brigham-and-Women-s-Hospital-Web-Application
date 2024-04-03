@@ -1,7 +1,7 @@
 .btn-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .floor-btn {
@@ -9,7 +9,4 @@
   font-size: 1.1em !important;
   color: black !important;
   width: 10vw;
-  margin-left: 2vw;
-  margin-right: 2vw;
-  margin-top: 5vh;
 }
