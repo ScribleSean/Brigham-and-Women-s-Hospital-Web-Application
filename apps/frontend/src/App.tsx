@@ -5,6 +5,9 @@ import Login from "./routes/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SideNavbar from "./components/SideNavbar.tsx";
 import "./styles/App.css";
+import Requests from "./components/Requests.tsx";
+import { NodeEdgeData } from "./routes/CSVPage.tsx";
+import PathGrapher from "./map_page/PathGrapher.tsx";
 import Requests from "./routes/Requests.tsx";
 import {CSVPage} from "./routes/CSVPage.tsx";
 

@@ -3,11 +3,8 @@ import { BFS, IPathFinder } from "./PathFinder.ts";
 
 function main(): void {
   // Select the path to the csv with the nodes and edges
-  const nodesCsvPath: string = "./src/nodes.csv";
-  const edgesCsvPath: string = "./src/edges.csv";
-
   // Create a graph and populate it with the csv nodes and edges
-  const graph: Graph = new Graph(nodesCsvPath, edgesCsvPath);
+  const graph: Graph = new Graph();
 
   // instantiate the path finding algorithm class (BFS, DFS, Djistras, Astar)
   const bfsPathFinder: IPathFinder = new BFS(graph);

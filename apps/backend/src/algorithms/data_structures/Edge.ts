@@ -1,12 +1,10 @@
 import { Node } from "./Node.ts";
 export class Edge {
-  private readonly ID: string;
-  private readonly startNode: Node;
-  private readonly endNode: Node;
+  public startNode: Node;
+  public endNode: Node;
   private readonly weight: number;
 
-  public constructor(ID: string, startNode: Node, endNode: Node) {
-    this.ID = ID;
+  public constructor(startNode: Node, endNode: Node) {
     this.startNode = startNode;
     this.endNode = endNode;
     this.weight = this.setWeight();
@@ -18,9 +16,6 @@ export class Edge {
     return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
   }
 
-  public getID() {
-    return this.ID;
-  }
   public getStartNode() {
     return this.startNode;
   }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../styles/csvPage.css";
 
 interface FileDropBoxProps {
@@ -16,9 +16,6 @@ const FileDropBox: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
       onFileDrop(file);
     }
   };
-
-  // eslint-disable-next-line no-empty-function
-  useEffect(() => {}, []);
 
   return (
     <div>
