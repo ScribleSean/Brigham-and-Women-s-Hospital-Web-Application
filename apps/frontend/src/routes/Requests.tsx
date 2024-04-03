@@ -84,7 +84,9 @@ function Requests() {
                     <TableRow>
                       <TableCell sx={{ border: 2 }}>Flower</TableCell>
                       <TableCell sx={{ border: 2 }}>{row.senderName}</TableCell>
-                      <TableCell sx={{ border: 2 }}>{row.receiverName}</TableCell>
+                      <TableCell sx={{ border: 2 }}>
+                        {row.receiverName}
+                      </TableCell>
                       <TableCell sx={{ border: 2 }}>{row.roomNumber}</TableCell>
                       <TableCell sx={{ border: 2 }}>{row.flowerType}</TableCell>
                       <TableCell sx={{ border: 2 }}>{row.message}</TableCell>

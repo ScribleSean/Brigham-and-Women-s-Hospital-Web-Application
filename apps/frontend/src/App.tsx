@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SideNavbar from "./components/SideNavbar.tsx";
 import "./styles/App.css";
 import Requests from "./routes/Requests.tsx";
-import {CSVPage} from "./routes/CSVPage.tsx";
+import { CSVPage } from "./routes/CSVPage.tsx";
 import PathGrapher from "./map_page/PathGrapher.tsx";
 
 function App() {
@@ -27,8 +27,8 @@ function App() {
       element: <Login />,
     },
     {
-        path: "/csv-page",
-        element: <CSVPage />
+      path: "/csv-page",
+      element: <CSVPage />,
     },
     {
       path: "/flower-delivery",

@@ -21,9 +21,14 @@ const FileDropBox: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
     <div>
       <div>
         <p className={"upload-descriptor-text"}>Upload a new dataset (.csv)</p>
-        <input id="csv-upload" type="file" title={" "} onChange={handleUpload}/>
+        <input
+          id="csv-upload"
+          type="file"
+          title={" "}
+          onChange={handleUpload}
+        />
       </div>
-      <br/>
+      <br />
     </div>
   );
 };

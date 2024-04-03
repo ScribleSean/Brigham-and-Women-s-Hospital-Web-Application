@@ -92,7 +92,7 @@ export function LocationSelector(): React.JSX.Element {
                           params.inputProps.onChange &&
                           typeof params.inputProps.onChange === "function"
                         ) {
-                          params.inputProps.onChange({ target: { value: "" } });
+                          // params.inputProps.onChange({ target: { value: "" } });
                         }
                       }}
                     />
@@ -178,7 +178,7 @@ export function LocationSelector(): React.JSX.Element {
                         params.inputProps.onChange &&
                         typeof params.inputProps.onChange === "function"
                       ) {
-                        params.inputProps.onChange({ target: { value: "" } }); // Clear the input field safely
+                        // params.inputProps.onChange({ target: { value: "" } }); // Clear the input field safely
                       }
                     }}
                   />

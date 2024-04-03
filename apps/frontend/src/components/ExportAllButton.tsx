@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 const ExportAllDataToCSVButton = () => {
   const [fileNode, setFileNode] = useState("");
   const [fileEdge, setFileEdge] = useState("");
@@ -61,10 +61,7 @@ const ExportAllDataToCSVButton = () => {
   }
 
   return (
-    <Button
-      onClick={handleExportButton}
-      variant={"outlined"}
-    >
+    <Button onClick={handleExportButton} variant={"outlined"}>
       Export All
     </Button>
   );

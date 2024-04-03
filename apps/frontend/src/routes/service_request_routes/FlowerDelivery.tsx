@@ -43,14 +43,17 @@ const FlowerDelivery: React.FC = () => {
   return isSubmitted ? (
     <>
       <div>
-        <SideNavbar/>
+        <SideNavbar />
       </div>
       <div className={"flower-page-container"}>
         <div className={"flowerPage vh-100"}>
           <h1 className={"flowerPageTitle text-center mb-5 pt-5"}>
             Flowers For A Loved One
           </h1>
-          <div id={"completed-form-box"} className={"container-fluid text-center"}>
+          <div
+            id={"completed-form-box"}
+            className={"container-fluid text-center"}
+          >
             <h1 id={"goodbye-msg"}>Your request has been received!</h1>
             <div className={"return-buttons-container"}>
               <Link href="/">

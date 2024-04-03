@@ -71,7 +71,6 @@ export function CSVPage() {
 
   return (
     <div className={"sanitation-div"}>
-
       <div className={"navbar-container"}>
         <Navbar />
       </div>
@@ -102,15 +101,14 @@ export function CSVPage() {
         </div>
 
         <div className={"tables-container"}>
-
-          <hr/>
+          <hr />
 
           <h2 className={"table-title"}>Nodes</h2>
           <div className={"nodes-table-container"}>
             <GetDataNodes />
           </div>
 
-          <hr/>
+          <hr />
 
           <h2 className={"table-title"}>Edges</h2>
           <div className={"edges-table-container"}>
