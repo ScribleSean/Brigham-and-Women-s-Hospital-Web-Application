@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
 import Login from "./routes/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,66 +8,34 @@ import "./styles/App.css";
 import Requests from "./components/Requests.tsx";
 import { NodeEdgeData } from "./routes/CSVPage.tsx";
 import PathGrapher from "./map_page/PathGrapher.tsx";
-//import PathGrapher from "./map_page/PathGrapher.tsx";
+import Requests from "./routes/Requests.tsx";
+import {CSVPage} from "./routes/CSVPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      errorElement: <div />,
-      element: <Root />,
-      children: [
-        {
-          path: "",
-          element: (
-            <div className="">
-              <SideNavbar />
-              <div className="mapfix">
-                <PathGrapher></PathGrapher>
-              </div>
-            </div>
-          ),
-        },
-      ],
+      element: <SideNavbar />, // replace with map page
     },
     {
       path: "/login",
       element: <Login />,
     },
     {
-      path: "/csvpage",
-      element: <NodeEdgeData />,
+        path: "/csv-page",
+        element: <CSVPage />
     },
     {
-      path: "/flower-delivery", // Define the route for Flower Delivery page
-      element: (
-        <div>
-          <SideNavbar />
-          <FlowerDelivery />
-        </div>
-      ),
+      path: "/flower-delivery",
+      element: <FlowerDelivery />,
     },
     {
       path: "/requests",
-      element: (
-        <div className="scrollPls">
-          <SideNavbar />
-          <div className="navFix">
-            <Requests />
-          </div>
-        </div>
-      ),
+      element: <Requests />,
     },
   ]);
 
   return <RouterProvider router={router} />;
-  function Root() {
-    return (
-      <div>
-        <Outlet />
-      </div>
-    );
-  }
 }
 
 export default App;

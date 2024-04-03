@@ -5,8 +5,10 @@ import ExportNodeDataToCSVButton from "../components/ExportNodeDataButton.tsx";
 import ExportEdgeDataButton from "../components/ExportEdgeDataButton.tsx";
 import { GetDataEdges } from "../components/EdgesDataBaseTableDisplay.tsx";
 import ExportAllDataToCSVButton from "../components/ExportAllButton.tsx";
+import Navbar from "../components/SideNavbar.tsx";
+import "../styles/csvPage.css";
 
-export function NodeEdgeData() {
+export function CSVPage() {
   const handleNodeFileDrop = async (file: File) => {
     // Create a FileReader
     const nodeReader = new FileReader();
@@ -68,38 +70,57 @@ export function NodeEdgeData() {
   };
 
   return (
-    <>
+    <div className={"sanitation-div"}>
+
+      <div className={"navbar-container"}>
+        <Navbar />
+      </div>
+
       <Outlet></Outlet>
-      <div>
-        <div>
-          <div>
-            <h1>Node Data</h1>
+
+      <div className={"csv-page-container"}>
+        <div className={"input-container"}>
+          <div className={"node-data-input"}>
+            <h1 className={"input-title-text"}>Node Data</h1>
+            <DragNDrop onFileDrop={handleNodeFileDrop} />
             <div>
-              <ExportNodeDataToCSVButton></ExportNodeDataToCSVButton>
-              <ExportAllDataToCSVButton></ExportAllDataToCSVButton>
+              <ExportNodeDataToCSVButton />
             </div>
             <br />
-            <DragNDrop onFileDrop={handleNodeFileDrop}></DragNDrop>
           </div>
-          <div>
-            <h1>Edge Data</h1>
+          <div className={"edge-data-input"}>
+            <h1 className={"input-title-text"}>Edge Data</h1>
+            <DragNDrop onFileDrop={handleEdgeFileDrop}></DragNDrop>
             <div>
               <ExportEdgeDataButton></ExportEdgeDataButton>
             </div>
             <br />
-            <DragNDrop onFileDrop={handleEdgeFileDrop}></DragNDrop>
+          </div>
+          <div className={"export-all-btn"}>
+            <ExportAllDataToCSVButton />
           </div>
         </div>
-      </div>
 
-      <div>
-        <div>
-          <GetDataNodes></GetDataNodes>
+        <div className={"tables-container"}>
+
+          <hr/>
+
+          <h2 className={"table-title"}>Nodes</h2>
+          <div className={"nodes-table-container"}>
+            <GetDataNodes />
+          </div>
+
+          <hr/>
+
+          <h2 className={"table-title"}>Edges</h2>
+          <div className={"edges-table-container"}>
+            <GetDataEdges />
+          </div>
         </div>
         <div>
-          <GetDataEdges></GetDataEdges>
+          <p className={"footer"}>the end</p>
         </div>
       </div>
-    </>
+    </div>
   );
 }

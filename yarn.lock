@@ -823,6 +823,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/icons-material@npm:^5.15.14":
+  version: 5.15.14
+  resolution: "@mui/icons-material@npm:5.15.14"
+  dependencies:
+    "@babel/runtime": "npm:^7.23.9"
+  peerDependencies:
+    "@mui/material": ^5.0.0
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: a5033b67d4ff455f5fdd91fc51d26d967d634e861cde194b9dde02a8cc3f557d1b3f7e0b3175bc654b8e944f2118d46620485734ecd9d2ed4a6f748386447933
+  languageName: node
+  linkType: hard
+
 "@mui/material@npm:^5.15.14":
   version: 5.15.14
   resolution: "@mui/material@npm:5.15.14"
@@ -1047,6 +1063,18 @@ __metadata:
     prisma:
       optional: true
   checksum: 14d6609dbb41c9689731d5da06237138bc51da07aa8506bdfb3789324964f68c70ef451590a1d4c041acb1eca6227c332c3791a7f55f3ea86e16e8431a307518
+  languageName: node
+  linkType: hard
+
+"@prisma/client@npm:^5.12.0":
+  version: 5.12.0
+  resolution: "@prisma/client@npm:5.12.0"
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: cf89933b62fab7ea8c3e7a1161a6c6ef62c3965b1ea59d65e5151c2bb48358464819d1abebd07e6bb3c797bf0615c8182bf8788b07b76755fbd5d459baf334d5
   languageName: node
   linkType: hard
 
@@ -4301,6 +4329,9 @@ __metadata:
     "@auth0/auth0-react": "npm:^2.1.1"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
+    "@material-ui/core": "npm:^4.12.4"
+    "@material-ui/styles": "npm:^4.11.5"
+    "@mui/icons-material": "npm:^5.15.14"
     "@mui/material": "npm:^5.15.14"
     "@popperjs/core": "npm:^2.11.8"
     "@tanstack/react-table": "npm:^8.9.3"
@@ -6314,7 +6345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:^5.11.0":
+"prisma@npm:^5.12.0":
   version: 5.12.0
   resolution: "prisma@npm:5.12.0"
   dependencies:
@@ -7168,8 +7199,10 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
+    "@mui/icons-material": "npm:^5.15.14"
     "@mui/material": "npm:^5.15.14"
     "@mui/styled-engine-sc": "npm:6.0.0-alpha.18"
+    "@prisma/client": "npm:^5.12.0"
     "@types/bootstrap": "npm:^5"
     "@types/react": "npm:^18.2.73"
     "@types/react-dom": "npm:^18.0.11"
@@ -7184,7 +7217,7 @@ __metadata:
     husky: "npm:^9.0.11"
     prettier: "npm:2.8.8"
     prettier-config-custom: "workspace:*"
-    prisma: "npm:^5.11.0"
+    prisma: "npm:^5.12.0"
     react: "npm:^18.2.0"
     react-bootstrap: "npm:^2.10.0"
     react-dom: "npm:^18.2.0"
