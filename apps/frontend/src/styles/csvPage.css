@@ -2,10 +2,16 @@
   margin-left: 20vw;
 }
 
-.input-title-text {
+.input-title-text,
+.page-title {
   font-weight: bold;
-  padding-top: 2%;
   color: #012d5a;
+}
+
+.page-title {
+  font-size: 3em;
+  text-align: center;
+  padding: 1%;
 }
 
 .table-title {
@@ -15,8 +21,7 @@
 .input-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  padding-top: 2%;
+  justify-content: space-between;
 }
 
 .export-all-btn {
@@ -41,4 +46,11 @@
   text-align: center;
   padding: 50px;
   user-select: none;
+}
+
+.btn-cluster {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  width: 45%;
 }

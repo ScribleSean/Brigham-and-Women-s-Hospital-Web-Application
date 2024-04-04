@@ -1,11 +1,25 @@
 import React from "react";
 import "../styles/csvPage.css";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Button, styled } from "@mui/material";
 
 interface FileDropBoxProps {
   onFileDrop: (file: File) => void;
 }
 
-const FileDropBox: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+const FileUpload: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
     location.reload();
@@ -20,17 +34,27 @@ const FileDropBox: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
   return (
     <div>
       <div>
-        <p className={"upload-descriptor-text"}>Upload a new dataset (.csv)</p>
-        <input
-          id="csv-upload"
-          type="file"
-          title={" "}
-          onChange={handleUpload}
-        />
+        <Button
+          component={"label"}
+          variant={"contained"}
+          tabIndex={-1}
+          startIcon={<CloudUploadIcon />}
+          sx={{
+            backgroundColor: "#012d5a",
+            height: "40px",
+          }}
+        >
+          Upload new
+          <VisuallyHiddenInput
+            type={"file"}
+            accept={".csv"}
+            onChange={handleUpload}
+          />
+        </Button>
       </div>
       <br />
     </div>
   );
 };
 
-export default FileDropBox;
+export default FileUpload;

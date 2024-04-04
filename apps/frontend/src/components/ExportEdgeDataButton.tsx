@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
-const ExportEdgeDataToCSVButton = () => {
+const ExportEdgeDataButton = () => {
   const [file, setFile] = useState("");
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const handleExportButton = () => {
     // Convert data to CSV format
@@ -36,22 +36,30 @@ const ExportEdgeDataToCSVButton = () => {
         console.log("Failed");
       } finally {
         // Set loading to false, indicating that the request has completed
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
     fetchData().then();
   }, []); //
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
-    <Button onClick={handleExportButton} variant={"contained"}>
+    <Button
+      onClick={handleExportButton}
+      variant={"contained"}
+      sx={{
+        backgroundColor: "#012d5a",
+        height: "40px",
+        mx: "4%",
+      }}
+    >
       Export to csv
     </Button>
   );
 };
 
-export default ExportEdgeDataToCSVButton;
+export default ExportEdgeDataButton;
