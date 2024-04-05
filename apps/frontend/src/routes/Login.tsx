@@ -40,7 +40,7 @@ function Login() {
       </div>
       <div className={"login-container"}>
         <div className={"login-title-container"}>
-          <img src="../../public/logo.png" alt="logo" className={"logo-img"} />
+          <img src="/logo.png" alt="logo" className={"logo-img"} />
           <h1 className={"login-title"}>Login</h1>
         </div>
         <form className={"login-form"}>
