@@ -16,8 +16,23 @@ export class Graph {
     return this.lookupTable;
   }
 
-  public addEdge(startNode: Node, endNode: Node) {
+  public addEdge(startNode: Node, endNode: Node): void {
     const edge: Edge = new Edge(startNode, endNode);
+
+    this.lookupTable.set(startNode.getID(), startNode);
+
+    if (!this.adjList.has(startNode)) {
+      this.adjList.set(startNode, []);
+    }
+
+    this.adjList.get(startNode)!.push(edge);
+  }
+
+  public addEdgeNoStairs(startNode: Node, endNode: Node): void {
+    const edge: Edge = new Edge(startNode, endNode);
+    if (edge.usesStairs()) {
+      return;
+    }
 
     this.lookupTable.set(startNode.getID(), startNode);
 

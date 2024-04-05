@@ -801,23 +801,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/icons@npm:^4.11.3":
-  version: 4.11.3
-  resolution: "@material-ui/icons@npm:4.11.3"
-  dependencies:
-    "@babel/runtime": "npm:^7.4.4"
-  peerDependencies:
-    "@material-ui/core": ^4.0.0
-    "@types/react": ^16.8.6 || ^17.0.0
-    react: ^16.8.0 || ^17.0.0
-    react-dom: ^16.8.0 || ^17.0.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: be9bf988a8b23e0885ca0c1dc5a4960f6c28f401079dbc13f840f4bd738ef95965cb4f751d609cb6acc819e1c2f8a7293d0a6f26b3685a711506679e4834ab35
-  languageName: node
-  linkType: hard
-
 "@material-ui/styles@npm:^4.11.5":
   version: 4.11.5
   resolution: "@material-ui/styles@npm:4.11.5"
@@ -3434,6 +3417,8 @@ __metadata:
   resolution: "database@workspace:packages/database"
   dependencies:
     "@prisma/client": "npm:4.15.0"
+    dotenv: "npm:^16.4.5"
+    dotenv-cli: "npm:^7.4.1"
     eslint: "npm:latest"
     eslint-config-custom: "workspace:*"
     prettier: "npm:latest"
@@ -3644,6 +3629,20 @@ __metadata:
   bin:
     dotenv: cli.js
   checksum: 521e2c61cc862c71102f09bb03d88c1cd355fc240ded0e6ec6bed3f687f5d529c1bf72fe2e38fa5a7b2b47b1ea4540b835004316035c88413fbd67ec45cdb796
+  languageName: node
+  linkType: hard
+
+"dotenv-cli@npm:^7.4.1":
+  version: 7.4.1
+  resolution: "dotenv-cli@npm:7.4.1"
+  dependencies:
+    cross-spawn: "npm:^7.0.3"
+    dotenv: "npm:^16.3.0"
+    dotenv-expand: "npm:^10.0.0"
+    minimist: "npm:^1.2.6"
+  bin:
+    dotenv: cli.js
+  checksum: 213ed2a446db0aed329fb8792107dd3bacab409eb4904137f57f6e428e0de7abfce2e1cbf34b311ce8b36090931a316e943cf193975a2eb8e855ad7db3df8cf5
   languageName: node
   linkType: hard
 
@@ -7410,7 +7409,6 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@material-ui/icons": "npm:^4.11.3"
     "@mui/icons-material": "npm:^5.15.14"
     "@mui/material": "npm:^5.15.14"
     "@mui/styled-engine-sc": "npm:6.0.0-alpha.18"
