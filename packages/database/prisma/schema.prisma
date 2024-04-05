@@ -19,7 +19,15 @@ model HighScore {
   score Int
 }
 
-model Nodes {
+model Edge {
+  edgeID      String @id
+  startNodeID String
+  endNodeID   String
+
+  Node Node @relation(fields: [startNodeID], references: [nodeID], onDelete: Cascade)
+}
+
+model Node {
   nodeID    String @id
   xcoord    Int
   ycoord    Int
@@ -28,19 +36,32 @@ model Nodes {
   nodeType  String
   longName  String
   shortName String
+
+  Edge Edge[]
 }
 
-model Edge {
-  edgeID      String @id
-  startNodeID String
-  endNodeID   String
-}
-
-model Form {
+model ServiceRequest {
   formID       Int    @id @default(autoincrement())
   receiverName String
-  message      String
   senderName   String
-  flowerType   String
+  priority     String
+  status       String
   roomNumber   Int
+
+  FlowerForm FlowerForm?
+  GiftForm   GiftForm?
+}
+
+model FlowerForm {
+  ServiceRequest ServiceRequest @relation(fields: [formID], references: [formID])
+  formID         Int            @id
+  flowerType     String
+  message        String
+}
+
+model GiftForm {
+  ServiceRequest ServiceRequest @relation(fields: [formID], references: [formID])
+  formID         Int            @id
+  giftType       String
+  message        String
 }
