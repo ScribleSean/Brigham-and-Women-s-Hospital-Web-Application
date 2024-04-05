@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
 import Login from "./routes/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,36 +11,49 @@ import PathGrapher from "./map_page/PathGrapher.tsx";
 
 function App() {
   const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (
-        <div>
-          <SideNavbar />
-          <div className={"mapfix"}>
-            <PathGrapher />
-          </div>
-        </div>
-      ),
+      {
+          path: "/",
+          errorElement: <div />,
+          element: <Root />,
+          children: [
+              {
+                  path: "/",
+                  element:
+                      <div className={"mapfix"}>
+                          <PathGrapher/>
+                      </div>
+              },
+              {
+                  path: "/csv-page",
+                  element: <CSVPage />,
+              },
+              {
+                  path: "/flower-delivery",
+                  element: <FlowerDelivery />,
+              },
+              {
+                  path: "/requests",
+                  element: <Requests />,
+              },
+          ],
     },
     {
       path: "/login",
       element: <Login />,
     },
-    {
-      path: "/csv-page",
-      element: <CSVPage />,
-    },
-    {
-      path: "/flower-delivery",
-      element: <FlowerDelivery />,
-    },
-    {
-      path: "/requests",
-      element: <Requests />,
-    },
   ]);
 
   return <RouterProvider router={router} />;
+
+    function Root() {
+        return (
+            <div className={"container-fluid p-0"}>
+                <SideNavbar/>
+                <Outlet />
+            </div>
+
+        );
+    }
 }
 
 export default App;

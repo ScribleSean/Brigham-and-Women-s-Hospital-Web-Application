@@ -5,7 +5,6 @@ import "frontend/src/styles/FlowerDelivery.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "@mui/material";
 import axios from "axios";
-import SideNavbar from "../../components/SideNavbar.tsx";
 
 // interface FlowerDeliveryProps {
 //   // Define your props here
@@ -42,9 +41,6 @@ const FlowerDelivery: React.FC = () => {
 
   return isSubmitted ? (
     <>
-      <div>
-        <SideNavbar />
-      </div>
       <div className={"flower-page-container"}>
         <div className={"flowerPage vh-100"}>
           <h1 className={"flowerPageTitle text-center mb-5 pt-5"}>
@@ -76,9 +72,6 @@ const FlowerDelivery: React.FC = () => {
     </>
   ) : (
     <>
-      <div>
-        <SideNavbar />
-      </div>
       <div className={"flower-page-container"}>
         <div className={"flowerPage vh-100"}>
           <h1 className={"flowerPageTitle text-center mb-5 pt-5"}>

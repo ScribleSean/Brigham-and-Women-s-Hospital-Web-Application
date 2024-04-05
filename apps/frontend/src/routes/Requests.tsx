@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import { Form } from "common/src/form.ts";
 import axios from "axios";
 import "../styles/Requests.css";
-import SideNavbar from "../components/SideNavbar.tsx";
 
 function Requests() {
   const [requestData, setRequestData] = useState<Form[]>();
@@ -27,9 +26,6 @@ function Requests() {
 
   return (
     <div>
-      <div className={"navbar-container"}>
-        <SideNavbar />
-      </div>
       <div className={"requests-page-container"}>
         <div>
           <h1 className="requestsHeader">

@@ -4,15 +4,16 @@ import { Nav } from "react-bootstrap";
 
 const SideNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <Nav id={"navbar"} className={"justify-content-center"}>
+    <Nav id={"navbar"} className={`justify-content-center ${isCollapsed ? "collapsed" : "expanded col-2"}`}>
       <div id={"inner-navbar-wrapper"}>
         <div id={"navbar-header"} className={"row"}>
           <div className={"col-8"} id={"nav-title"}>
             Brigham & Women’s Hospital
           </div>
-          <div className={"col-4 p-0"}>
+          <div className={"col-4"}>
             <img id={"nav-img"} src="/logo.png" alt="Brigham's Logo" />
           </div>
         </div>
@@ -52,6 +53,9 @@ const SideNavbar = () => {
           </Nav.Link>
         </div>
       </div>
+        <button className={"expandButton"} onClick={() => setIsCollapsed(!isCollapsed)}>
+            <p>{isCollapsed ? "Collapsed" : "Expanded"}</p>
+        </button>
     </Nav>
   );
 };

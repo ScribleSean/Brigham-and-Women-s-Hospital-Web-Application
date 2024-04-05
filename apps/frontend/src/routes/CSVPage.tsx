@@ -5,7 +5,6 @@ import ExportNodeDataToCSVButton from "../components/ExportNodeDataButton.tsx";
 import ExportEdgeDataButton from "../components/ExportEdgeDataButton.tsx";
 import { GetDataEdges } from "../components/EdgesDataBaseTableDisplay.tsx";
 import ExportAllDataToCSVButton from "../components/ExportAllButton.tsx";
-import Navbar from "../components/SideNavbar.tsx";
 import "../styles/csvPage.css";
 
 export function CSVPage() {
@@ -71,9 +70,6 @@ export function CSVPage() {
 
   return (
     <div className={"sanitation-div"}>
-      <div className={"navbar-container"}>
-        <Navbar />
-      </div>
 
       <Outlet></Outlet>
 
