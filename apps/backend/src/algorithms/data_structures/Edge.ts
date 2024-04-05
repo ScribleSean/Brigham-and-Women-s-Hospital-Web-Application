@@ -1,4 +1,6 @@
 import { Node } from "./Node.ts";
+import { NodeType } from "./NodeType.ts";
+
 export class Edge {
   public startNode: Node;
   public endNode: Node;
@@ -13,7 +15,27 @@ export class Edge {
   private setWeight() {
     const [x1, y1] = this.startNode.getCoordinates();
     const [x2, y2] = this.endNode.getCoordinates();
-    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    let result: number = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    if (this.changesFloor()) {
+      result += 10;
+    }
+    return result;
+  }
+
+  public changesFloor(): boolean {
+    return this.usesStairs() || this.useElevator();
+  }
+
+  public usesStairs(): boolean {
+    const nodeType1: NodeType = this.getStartNode().getType();
+    const nodeType2: NodeType = this.getEndNode().getType();
+    return nodeType1 === NodeType.STAI || nodeType2 == NodeType.STAI;
+  }
+
+  public useElevator(): boolean {
+    const nodeType1: NodeType = this.getStartNode().getType();
+    const nodeType2: NodeType = this.getEndNode().getType();
+    return nodeType1 === NodeType.ELEV || nodeType2 == NodeType.ELEV;
   }
 
   public getStartNode() {
