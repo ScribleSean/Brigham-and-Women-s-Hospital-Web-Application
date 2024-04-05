@@ -24,7 +24,8 @@ model Edge {
   startNodeID String
   endNodeID   String
 
-  Node Node @relation(fields: [startNodeID], references: [nodeID], onDelete: Cascade)
+  startNode Node @relation("startNode", fields: [startNodeID], references: [nodeID], onDelete: Cascade)
+  endNode   Node @relation("endNode", fields: [endNodeID], references: [nodeID], onDelete: Cascade)
 }
 
 model Node {
@@ -37,7 +38,8 @@ model Node {
   longName  String
   shortName String
 
-  Edge Edge[]
+  startEdges Edge[] @relation("startNode")
+  endEdges   Edge[] @relation("endNode")
 }
 
 model ServiceRequest {
@@ -48,19 +50,19 @@ model ServiceRequest {
   status       String
   roomNumber   Int
 
-  FlowerForm FlowerForm?
-  GiftForm   GiftForm?
+  FlowerForm FlowerForm? @relation("FlowerForm")
+  GiftForm   GiftForm?   @relation("GiftForm")
 }
 
 model FlowerForm {
-  ServiceRequest ServiceRequest @relation(fields: [formID], references: [formID])
+  ServiceRequest ServiceRequest @relation("FlowerForm", fields: [formID], references: [formID])
   formID         Int            @id
   flowerType     String
   message        String
 }
 
 model GiftForm {
-  ServiceRequest ServiceRequest @relation(fields: [formID], references: [formID])
+  ServiceRequest ServiceRequest @relation("GiftForm", fields: [formID], references: [formID])
   formID         Int            @id
   giftType       String
   message        String
