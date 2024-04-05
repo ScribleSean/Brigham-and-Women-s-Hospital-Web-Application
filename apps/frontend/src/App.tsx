@@ -8,6 +8,7 @@ import "./styles/App.css";
 import Requests from "./routes/Requests.tsx";
 import { CSVPage } from "./routes/CSVPage.tsx";
 import PathGrapher from "./map_page/PathGrapher.tsx";
+import RoomScheduling from "./routes/service_request_routes/RoomScheduling.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -33,6 +34,10 @@ function App() {
     {
       path: "/flower-delivery",
       element: <FlowerDelivery />,
+    },
+    {
+      path: "/room-scheduling",
+      element: <RoomScheduling />,
     },
     {
       path: "/requests",

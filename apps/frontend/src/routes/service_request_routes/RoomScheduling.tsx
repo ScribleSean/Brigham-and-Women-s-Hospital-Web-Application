@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "frontend/src/styles/RoomScheduling.css";
 import {
@@ -12,6 +10,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import SideNavbar from "../../components/SideNavbar.tsx";
+
 // import {Link, TextField} from "@mui/material";
 
 //PLEASE NOTE that this is simply a copy-paste. There is a table here that will be moved.
@@ -69,9 +69,12 @@ function RoomScheduling() {
 
   return (
     <>
-      <div className={"room-scheduling-page-container"}>
-        <div className={"roomScheduling vh-100"}>
-          <h1 className={"roomSchedulingTitle text-center mb-5 pt-5"}>
+      <div>
+        <SideNavbar />
+      </div>
+      <div className={"scheduling-page-container"}>
+        <div className={"schedulingPage vh-100"}>
+          <h1 className={"schedulingPageTitle text-center mb-5 pt-5"}>
             Make a Room Request
           </h1>
           <form
@@ -104,7 +107,7 @@ function RoomScheduling() {
                       onChange={handlePriorityInput}
                       required
                     />
-                    <label className="form-check-label">Rose</label>
+                    <label className="form-check-label">Low</label>
                   </div>
                   <div className="form-check col radio-buttons">
                     <input
@@ -115,7 +118,7 @@ function RoomScheduling() {
                       onChange={handlePriorityInput}
                       required
                     />
-                    <label className="form-check-label">Rose</label>
+                    <label className="form-check-label">Medium</label>
                   </div>
                   <div className="form-check col radio-buttons">
                     <input
@@ -126,7 +129,7 @@ function RoomScheduling() {
                       onChange={handlePriorityInput}
                       required
                     />
-                    <label className="form-check-label">Rose</label>
+                    <label className="form-check-label">High</label>
                   </div>
                   <div className="form-check col radio-buttons">
                     <input
@@ -137,7 +140,7 @@ function RoomScheduling() {
                       onChange={handlePriorityInput}
                       required
                     />
-                    <label className="form-check-label">Rose</label>
+                    <label className="form-check-label">Emergency</label>
                   </div>
                 </div>
               </div>
