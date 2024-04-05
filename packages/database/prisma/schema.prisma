@@ -43,27 +43,27 @@ model Node {
 }
 
 model ServiceRequest {
-  formID       Int    @id @default(autoincrement())
+  SRID         Int    @id @default(autoincrement())
   receiverName String
   senderName   String
   priority     String
   status       String
   roomNumber   Int
 
-  FlowerForm FlowerForm? @relation("FlowerForm")
-  GiftForm   GiftForm?   @relation("GiftForm")
+  FlowerServiceRequest FlowerServiceRequest? @relation("FlowerServiceRequest")
+  GiftServiceRequest   GiftServiceRequest?   @relation("GiftServiceRequest")
 }
 
-model FlowerForm {
-  ServiceRequest ServiceRequest @relation("FlowerForm", fields: [formID], references: [formID])
-  formID         Int            @id
+model FlowerServiceRequest {
+  ServiceRequest ServiceRequest @relation("FlowerServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
   flowerType     String
   message        String
 }
 
-model GiftForm {
-  ServiceRequest ServiceRequest @relation("GiftForm", fields: [formID], references: [formID])
-  formID         Int            @id
+model GiftServiceRequest {
+  ServiceRequest ServiceRequest @relation("GiftServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
   giftType       String
   message        String
 }
