@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+// import { Outlet } from "react-router-dom";
 import DragNDrop from "../components/FileUpload.tsx";
 import { GetDataNodes } from "../components/NodesDataBaseTableDisplay.tsx";
 import ExportNodeDataToCSVButton from "../components/ExportNodeDataButton.tsx";
@@ -70,8 +70,7 @@ export function CSVPage() {
 
   return (
     <div className={"sanitation-div"}>
-
-      <Outlet></Outlet>
+      {/*<Outlet></Outlet>*/}
 
       <div className={"csv-page-container"}>
         <div className={"input-container"}>

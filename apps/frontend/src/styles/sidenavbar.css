@@ -77,16 +77,42 @@
 }
 
 .collapsed {
-    width: 5% !important;
-    transition: 0.5s ease-out;
+  width: 4% !important;
+  transition: 0.5s ease-out;
 }
 
 .expanded {
-    transition: 0.5s ease-out;
+  transition: 0.5s ease-out;
+}
+
+.collapsedButton {
+  height: 7%;
+  width: 85%;
+  border-radius: 12px;
+  margin-top: auto;
+  margin-bottom: 5%;
+  border: none;
+  background-color: #2196f3;
+  color: white;
+  font-size: 2em;
+  transition: 0.3s ease-out;
+}
+
+.expandedButton {
+  height: 10%;
+  width: 35%;
+  border-radius: 12px;
+  margin-top: auto;
+  margin-bottom: 5%;
+  border: none;
+  background-color: #2196f3;
+  color: white;
+  font-size: 2em;
+  transition: 0.5s ease-out;
 }
 
 .collapsed #inner-navbar-wrapper > * {
-    display: none;
+  display: none;
 }
 
 a {

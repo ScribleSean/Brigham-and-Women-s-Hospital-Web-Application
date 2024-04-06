@@ -7,7 +7,10 @@ const SideNavbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <Nav id={"navbar"} className={`justify-content-center ${isCollapsed ? "collapsed" : "expanded col-2"}`}>
+    <Nav
+      id={"navbar"}
+      className={`justify-content-center ${isCollapsed ? "collapsed" : "expanded col-2"}`}
+    >
       <div id={"inner-navbar-wrapper"}>
         <div id={"navbar-header"} className={"row"}>
           <div className={"col-8"} id={"nav-title"}>
@@ -53,9 +56,12 @@ const SideNavbar = () => {
           </Nav.Link>
         </div>
       </div>
-        <button className={"expandButton"} onClick={() => setIsCollapsed(!isCollapsed)}>
-            <p>{isCollapsed ? "Collapsed" : "Expanded"}</p>
-        </button>
+      <button
+        className={isCollapsed ? "collapsedButton" : "expandedButton"}
+        onClick={() => setIsCollapsed(!isCollapsed)}
+      >
+        <p>{isCollapsed ? ">" : "<"}</p>
+      </button>
     </Nav>
   );
 };
