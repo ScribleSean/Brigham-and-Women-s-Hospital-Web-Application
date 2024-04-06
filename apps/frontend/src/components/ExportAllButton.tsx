@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
+import {Download} from "@mui/icons-material";
 const ExportAllButton = () => {
   const [fileNode, setFileNode] = useState("");
   const [fileEdge, setFileEdge] = useState("");
@@ -63,9 +64,12 @@ const ExportAllButton = () => {
   return (
     <Button
       onClick={handleExportButton}
-      variant={"outlined"}
+      variant={"contained"}
+      startIcon={<Download />}
       sx={{
+        backgroundColor: "#012d5a",
         height: "40px",
+        marginRight: "16px"
       }}
     >
       Export Both

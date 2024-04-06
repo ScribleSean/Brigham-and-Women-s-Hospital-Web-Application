@@ -7,7 +7,8 @@ import ExportAllButton from "../components/ExportAllButton.tsx";
 import Navbar from "../components/SideNavbar.tsx";
 import "../styles/csvPage.css";
 import React, { useState } from "react";
-import { Box, Tabs, Tab } from "@mui/material";
+import {Box, Tabs, Tab} from "@mui/material";
+import ClearDataButton from "../components/ClearDataButton.tsx";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -103,7 +104,13 @@ export function CSVPage() {
         <Navbar />
       </div>
       <div className={"csv-page-container"}>
-        <h1 className={"page-title"}>Map Nodes and Edges</h1>
+        <div className={"header-container"}>
+          <h1 className={"page-title"}>Map Nodes and Edges</h1>
+          <div className={"btn-cluster"}>
+            <ExportAllButton />
+            <ClearDataButton />
+          </div>
+        </div>
         <Box sx={{ width: "100%" }}>
           <Box
             sx={{
@@ -123,7 +130,6 @@ export function CSVPage() {
               <div className={"btn-cluster"}>
                 <FileUpload onFileDrop={handleNodeFileDrop} />
                 <ExportNodeDataButton />
-                <ExportAllButton />
               </div>
             </div>
             <GetDataNodes />
@@ -134,7 +140,6 @@ export function CSVPage() {
               <div className={"btn-cluster"}>
                 <FileUpload onFileDrop={handleEdgeFileDrop} />
                 <ExportEdgeDataButton />
-                <ExportAllButton />
               </div>
             </div>
             <GetDataEdges />

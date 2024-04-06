@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
+import {Download} from "@mui/icons-material";
 const ExportEdgeDataButton = () => {
   const [file, setFile] = useState("");
   // const [loading, setLoading] = useState(true);
@@ -51,13 +52,13 @@ const ExportEdgeDataButton = () => {
     <Button
       onClick={handleExportButton}
       variant={"contained"}
+      startIcon={<Download />}
       sx={{
         backgroundColor: "#012d5a",
         height: "40px",
-        mx: "4%",
       }}
     >
-      Export to csv
+      Export Data
     </Button>
   );
 };
