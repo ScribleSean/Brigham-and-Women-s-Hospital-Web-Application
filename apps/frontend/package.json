@@ -19,7 +19,7 @@
     "@emotion/styled": "^11.11.5",
     "@material-ui/styles": "^4.11.5",
     "@mui/icons-material": "^5.15.14",
-    "@mui/material": "^5.15.14",
+    "@mui/material": "^5.15.15",
     "@popperjs/core": "^2.11.8",
     "@tanstack/react-table": "^8.9.3",
     "autoprefixer": "^10.4.18",

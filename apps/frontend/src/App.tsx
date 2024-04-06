@@ -8,6 +8,7 @@ import "./styles/App.css";
 import Requests from "./routes/Requests.tsx";
 import { CSVPage } from "./routes/CSVPage.tsx";
 import PathGrapher from "./map_page/PathGrapher.tsx";
+import GiftRequest from "./routes/service_request_routes/GiftRequest.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -33,6 +34,10 @@ function App() {
     {
       path: "/flower-delivery",
       element: <FlowerDelivery />,
+    },
+    {
+      path: "/gift-request",
+      element: <GiftRequest />,
     },
     {
       path: "/requests",

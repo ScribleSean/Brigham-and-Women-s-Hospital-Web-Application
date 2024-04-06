@@ -12,7 +12,7 @@ import edgeRouter from "./routes/edge-route";
 import downloadNodeDataRouter from "./routes/data-to-csv-node";
 import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 
-const app: Express = express(); // Setup the backend
+const app: Express = express(); // Set up the backend
 
 // Setup generic middleware
 app.use(
