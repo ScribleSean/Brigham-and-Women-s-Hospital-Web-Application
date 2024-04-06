@@ -1,6 +1,6 @@
 // flower service request router
 import express, { Router } from "express";
-// import PrismaClient from "../bin/database-connection.ts";
+import PrismaClient from "../bin/database-connection.ts";
 import { Flower } from "common/src/flowerServiceRequest.ts";
 
 const router: Router = express.Router();
@@ -8,17 +8,35 @@ const router: Router = express.Router();
 router.post("/", async function (req, res) {
   const flower: Flower = req.body;
 
-  flower.roomNumber = parseInt(String(flower.roomNumber));
-
   try {
-    // const result = await PrismaClient.serviceRequest.create({
-    //   data: {
-    //     SRID: flower.SRID,
-    //     receiverName: flower.receiverName,
-    //   },
-    // });
-    //await PrismaClient.form.create({ data: flower });
-    console.log("Successfully posted to form");
+    const serviceRequest = await PrismaClient.serviceRequest.create({
+      data: {
+        employeeName: flower.employeeName,
+        priority: flower.priority,
+        location: flower.location,
+        status: flower.status,
+      },
+    });
+
+    await PrismaClient.flowerServiceRequest.upsert({
+      where: {
+        SRID: serviceRequest.SRID,
+      },
+      create: {
+        SRID: serviceRequest.SRID,
+        flowerType: flower.flowerType,
+        message: flower.message,
+      },
+      update: {
+        flowerType: flower.flowerType,
+        message: flower.message,
+      },
+    });
+
+    res
+      .status(200)
+      .json({ message: "Flower Request has been put into the database" });
+    console.log("Successfully posted to flower");
   } catch (error) {
     console.error("Unable to create form");
     console.log(error);
@@ -26,10 +44,5 @@ router.post("/", async function (req, res) {
     return;
   }
 });
-
-// router.get("/", async function (req: Request, res: Response): Promise<void> {
-//   //const form: Flower[] = await PrismaClient.form.findMany();
-//   //res.json(form);
-// });
 
 export default router;
