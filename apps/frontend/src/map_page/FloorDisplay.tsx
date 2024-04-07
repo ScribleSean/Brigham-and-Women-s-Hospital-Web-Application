@@ -1,14 +1,16 @@
 import { Node, Path } from "../../../backend/src/algorithms/DataStructures.ts";
-import React, { useState, useEffect, useRef, CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import {
-  PathDisplayProps,
-  NodeDisplayProps,
   FloorDisplayProps,
+  NodeDisplayProps,
+  PathDisplayProps,
+  PathOptionsRequest,
   StartEndNodes,
 } from "./types/map_page_types.ts";
 import { NodeDisplay } from "./NodeDisplay.tsx";
 import { PathDisplay } from "./PathDisplay.tsx";
 import axios from "axios";
+import { AlgorithmType } from "../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
 
 export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const nodes: Array<Node> = props.nodes;
@@ -57,10 +59,13 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
             node1: startNode,
             node2: endNode,
           };
-          console.log(startEndNode);
-          const tempPath = (await axios.post("/api/path_no_stairs", startEndNode))
+          const pathOptionsRequest: PathOptionsRequest = {
+            algorithm: AlgorithmType._ASTAR,
+            includeStairs: true,
+            nodes: startEndNode,
+          };
+          const tempPath = (await axios.post("/api/path", pathOptionsRequest))
             .data as Array<Path>;
-          console.log(tempPath);
           setPath(tempPath);
         } catch (error) {
           console.error("Failed to get the path:", error);

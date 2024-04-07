@@ -68,11 +68,11 @@ export class Graph {
 
   public getNodesByFloor(
     floorType: FloorType,
-    noHallwayNodes: boolean,
+    includeHallways: boolean,
   ): Array<Node> {
-    if (noHallwayNodes) {
-      return this.getNodesByFloorNoHallways(floorType);
-    } else return this.getNodesByFloorAll(floorType);
+    if (includeHallways) {
+      return this.getNodesByFloorAll(floorType);
+    } else return this.getNodesByFloorNoHallways(floorType);
   }
 
   private getNodesByFloorNoHallways(floorType: FloorType): Array<Node> {

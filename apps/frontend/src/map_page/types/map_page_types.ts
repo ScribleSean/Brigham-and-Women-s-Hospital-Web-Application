@@ -3,6 +3,7 @@ import {
   Node,
   Path,
 } from "../../../../backend/src/algorithms/DataStructures.ts";
+import { AlgorithmType } from "../../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
 
 export interface FloorSelectorProps {
   updateFloorFunction: (floorType: FloorType) => void;
@@ -45,4 +46,14 @@ export interface NodesByFloor {
 export interface StartEndNodes {
   node1: Node;
   node2: Node;
+}
+
+export interface PathOptionsRequest {
+  algorithm: AlgorithmType;
+  includeStairs: boolean;
+  nodes: StartEndNodes;
+}
+
+export interface NodesOptionsRequest {
+  includeHallways: boolean;
 }

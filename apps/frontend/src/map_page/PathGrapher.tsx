@@ -11,6 +11,7 @@ import { FloorDisplay } from "./FloorDisplay.tsx";
 import {
   FloorDisplayProps,
   NodesByFloor,
+  NodesOptionsRequest,
   PathGrapherProps,
 } from "./types/map_page_types.ts";
 import axios from "axios";
@@ -37,8 +38,12 @@ export default function PathGrapher(props: PathGrapherProps) {
   useEffect(() => {
     async function getNodes(): Promise<void> {
       try {
-        const currentNodes: NodesByFloor = (await axios.get("/api/nodes_no_hallways"))
-          .data as NodesByFloor;
+        const nodesOptionsRequest: NodesOptionsRequest = {
+          includeHallways: false,
+        };
+        const currentNodes: NodesByFloor = (
+          await axios.post("/api/nodes", nodesOptionsRequest)
+        ).data as NodesByFloor;
         setNodes(currentNodes);
       } catch (error) {
         console.error("Failed to fetch nodes data:", error);

@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from "express";
 import { Graph, Path } from "../algorithms/DataStructures";
-import { createGraph } from "../algorithms/database_functions/createGraph";
+import { createGraph } from "../algorithms/request_functions/createGraph";
 import { StartEndNodes } from "../../../frontend/src/map_page/types/map_page_types";
 import { ASTAR } from "../algorithms/PathFinder.ts";
 

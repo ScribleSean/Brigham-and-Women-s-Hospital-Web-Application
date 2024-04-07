@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from "express";
 import { FloorType, Graph } from "../algorithms/DataStructures.ts";
-import { createGraph } from "../algorithms/database_functions/createGraph.ts";
+import { createGraph } from "../algorithms/request_functions/createGraph.ts";
 
 const router: Router = express.Router();
 
