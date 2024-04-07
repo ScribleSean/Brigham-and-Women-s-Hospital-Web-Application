@@ -7,6 +7,8 @@ import { AlgorithmType } from "../../../../backend/src/algorithms/data_structure
 
 export interface FloorSelectorProps {
   updateFloorFunction: (floorType: FloorType) => void;
+  getButtonColor: (floorType: FloorType) => string;
+  getButtonWidth: (floorType: FloorType) => string;
 }
 
 export interface PathGrapherProps {

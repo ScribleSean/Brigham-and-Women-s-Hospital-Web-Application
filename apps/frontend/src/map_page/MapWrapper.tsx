@@ -25,13 +25,35 @@ const zoomWrapperProps = {
 
 function MapWrapper() {
   const [floor, setFloor] = useState<FloorType>(FloorType.first);
+  const [selectedFloor, setSelectedFloor] = useState<FloorType>(
+    FloorType.first,
+  );
 
   const updateFloor = (floor: FloorType) => {
+    setSelectedFloor(floor);
     setFloor(floor);
+  };
+
+  const getButtonColor = (floor: FloorType): string => {
+    if (selectedFloor === floor) {
+      return "#F6BD39";
+    } else {
+      return "white";
+    }
+  };
+
+  const getButtonWidth = (floor: FloorType): string => {
+    if (selectedFloor === floor) {
+      return "14vw";
+    } else {
+      return "10vw";
+    }
   };
 
   const floorSelectorProps: FloorSelectorProps = {
     updateFloorFunction: updateFloor,
+    getButtonColor: getButtonColor,
+    getButtonWidth: getButtonWidth,
   };
 
   const pathGrapherProps: PathGrapherProps = {

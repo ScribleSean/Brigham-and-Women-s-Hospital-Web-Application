@@ -3,16 +3,10 @@
   padding-bottom: 2rem;
   display: flex;
   flex-direction: row;
+  gap: 1.4rem;
   justify-content: space-evenly;
   width: 60vw;
   margin-left: 10vw;
   position: absolute;
   z-index: 3;
-}
-
-.floor-btn {
-  background-color: white !important;
-  font-size: 1.1em !important;
-  color: black !important;
-  width: 10vw;
 }
