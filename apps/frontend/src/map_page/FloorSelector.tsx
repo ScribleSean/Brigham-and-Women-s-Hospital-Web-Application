@@ -1,7 +1,7 @@
 import React from "react";
 import { FloorType } from "../../../backend/src/algorithms/DataStructures.ts";
 import { Button } from "@mui/material";
-import "../styles/FloorSelector.css";
+import "./FloorSelector.css";
 import { FloorSelectorProps } from "./types/map_page_types.ts";
 
 export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
