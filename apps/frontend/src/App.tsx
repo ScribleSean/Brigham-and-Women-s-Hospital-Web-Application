@@ -7,7 +7,9 @@ import SideNavbar from "./components/SideNavbar.tsx";
 import "./styles/App.css";
 import Requests from "./routes/Requests.tsx";
 import { CSVPage } from "./routes/CSVPage.tsx";
-import PathGrapher from "./map_page/PathGrapher.tsx";
+//import PathGrapher from "./map_page/PathGrapher.tsx";
+import "./index.css";
+import MapWrapper from "./map_page/MapWrapper.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -18,11 +20,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: (
-            <div className={"mapfix"}>
-              <PathGrapher />
-            </div>
-          ),
+          element: <MapWrapper />,
         },
         {
           path: "/csv-page",

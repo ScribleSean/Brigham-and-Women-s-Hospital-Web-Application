@@ -5,7 +5,11 @@ import {
 } from "../../../../backend/src/algorithms/DataStructures.ts";
 
 export interface FloorSelectorProps {
-  updateFloor(floorType: FloorType): void;
+  updateFloorFunction: (floorType: FloorType) => void;
+}
+
+export interface PathGrapherProps {
+  floor: FloorType;
 }
 
 export interface FloorDisplayProps {
@@ -16,17 +20,18 @@ export interface FloorDisplayProps {
 export interface NodeDisplayProps {
   node: Node;
   key: string;
+  scaling: NodeScaling;
+  handleNodeSelection(node: Node): void;
+  changesFloor: boolean;
+}
+export interface NodeScaling {
   widthScaling: number;
   heightScaling: number;
-  changesFloor: boolean;
-  handleNodeSelection(node: Node): void;
 }
 
 export interface PathDisplayProps {
   path: Array<Path>;
-  widthScaling: number;
-  heightScaling: number;
-  setMiddlePoint(middleX: number, middleY: number): void;
+  scaling: NodeScaling;
 }
 
 export interface NodesByFloor {

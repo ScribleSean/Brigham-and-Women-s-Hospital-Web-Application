@@ -13,35 +13,17 @@ import axios from "axios";
 export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const nodes: Array<Node> = props.nodes;
 
+  const [startNode, setStartNode] = useState<Node | null>(null);
+  const [endNode, setEndNode] = useState<Node | null>(null);
+  const [path, setPath] = useState<Array<Path>>(new Array<Path>());
+
   const imageWidth: number = 5000;
   const imageHeight: number = 3400;
 
+  const ref = useRef<HTMLImageElement | null>(null);
+
   const [divWidth, setWidth] = useState(0);
   const [divHeight, setHeight] = useState(0);
-  const [middleX, setMiddleX] = useState(0);
-  const [middleY, setMiddleY] = useState(0);
-
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (ref.current) {
-        const { width, height } = ref.current.getBoundingClientRect();
-        setWidth(width);
-        setHeight(height);
-        setMiddleX(width / 2);
-        setMiddleY(height / 2);
-        console.log(middleY);
-        console.log(middleX);
-      }
-    };
-
-    updateDimensions();
-
-    window.addEventListener("resize", updateDimensions);
-
-    return () => window.removeEventListener("resize", updateDimensions);
-  });
 
   function getWidthScaling(): number {
     return divWidth / imageWidth;
@@ -51,10 +33,21 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     return divHeight / imageHeight;
   }
 
-  const [startNode, setStartNode] = useState<Node | null>(null);
-  const [endNode, setEndNode] = useState<Node | null>(null);
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (ref.current) {
+        const { width, height } = ref.current.getBoundingClientRect();
+        setWidth(width);
+        setHeight(height);
+      }
+    };
 
-  const [path, setPath] = useState<Array<Path>>(new Array<Path>());
+    updateDimensions();
+
+    window.addEventListener("resize", updateDimensions);
+
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
 
   useEffect(() => {
     async function getPath(): Promise<void> {
@@ -74,6 +67,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
         }
       }
     }
+
     getPath();
   }, [setPath, startNode, endNode]);
 
@@ -94,13 +88,10 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const [changingNodes] = useState<Array<Node>>(new Array<Node>());
 
   const divStyle: CSSProperties = {
-    position: "relative",
-    aspectRatio: "5000 / 3400",
-    minHeight: "90%",
-    maxHeight: "90%",
-    marginLeft: "auto",
-    marginRight: "auto",
-    backgroundImage: `url(${props.imageUrl})`,
+    position: "absolute",
+    width: "fit",
+    height: "100%",
+    //backgroundImage: `url(${props.imageUrl})`,
     backgroundSize: "100%",
     backgroundPosition: "center",
     zIndex: "1",
@@ -111,33 +102,38 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     return {
       node: node,
       key: node.ID,
-      widthScaling: getWidthScaling(),
-      heightScaling: getHeightScaling(),
+      scaling: {
+        widthScaling: getWidthScaling(),
+        heightScaling: getHeightScaling(),
+      },
       handleNodeSelection: handleNodeSelection,
       changesFloor: changesFloor,
     };
   }
 
-  function setMiddlePoint(middleX: number, middleY: number): void {
-    setMiddleX(middleX);
-    setMiddleY(middleY);
-  }
-
   function pathDisplayProps(): PathDisplayProps {
     return {
       path: path,
-      widthScaling: getWidthScaling(),
-      heightScaling: getHeightScaling(),
-      setMiddlePoint: setMiddlePoint,
+      scaling: {
+        widthScaling: getWidthScaling(),
+        heightScaling: getHeightScaling(),
+      },
     };
   }
 
   return (
-    <div ref={ref} style={divStyle}>
+    <div>
+      <PathDisplay {...pathDisplayProps()} />
+      <img
+        ref={ref}
+        className="image div"
+        style={divStyle}
+        src={props.imageUrl}
+        alt={"Error"}
+      ></img>
       {nodes.map((node) => (
         <NodeDisplay {...nodeDisplayProps(node)} />
       ))}
-      <PathDisplay {...pathDisplayProps()} />
     </div>
   );
 }

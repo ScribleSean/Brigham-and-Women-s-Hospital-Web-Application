@@ -1,32 +1,11 @@
 import { PathDisplayProps } from "./types/map_page_types.ts";
 import { Node, Path } from "../../../backend/src/algorithms/DataStructures.ts";
-import React, { useEffect, useRef, SVGProps, CSSProperties } from "react";
+import React, { SVGProps, CSSProperties } from "react";
 
 export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
   const path: Array<Path> = props.path;
-  const widthScaling: number = props.widthScaling;
-  const heightScaling: number = props.heightScaling;
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const getMiddlePoint = (): void => {
-      if (ref.current) {
-        const x_offset: number = ref.current.offsetLeft;
-        const y_offset: number = ref.current.offsetTop;
-        const width: number = ref.current.clientWidth;
-        const height: number = ref.current.clientHeight;
-        const middleXParent: number = x_offset + width / 2;
-        const middleYParent: number = y_offset + height / 2;
-        props.setMiddlePoint(middleXParent, middleYParent);
-      }
-    };
-
-    getMiddlePoint();
-
-    window.addEventListener("resize", getMiddlePoint);
-
-    return () => window.removeEventListener("resize", getMiddlePoint);
-  }, [props]);
+  const widthScaling: number = props.scaling.widthScaling;
+  const heightScaling: number = props.scaling.heightScaling;
 
   function getNodes(path: Path): Array<Node> {
     const nodes: Array<Node> = new Array<Node>();
@@ -49,12 +28,8 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
       .join(" ");
   }
 
-  if (path.length === 0) {
-    return <div>no path</div>;
-  }
-
   function getSubPathsCoordinates(): Array<string> {
-    return props.path.map((subPath) => getPathCoordinates(subPath));
+    return path.map((subPath) => getPathCoordinates(subPath));
   }
 
   const subPathsCoordinates: Array<string> = getSubPathsCoordinates();
@@ -90,10 +65,10 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
   }
 
   const svgStyle: CSSProperties = {
-    position: "relative",
+    position: "absolute",
     width: "100%",
     height: "100%",
-    zIndex: -1,
+    zIndex: 2,
   };
 
   return (

@@ -1,9 +1,13 @@
 .btn-container {
+  bottom: 0;
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   width: 60vw;
   margin-left: 10vw;
+  position: absolute;
+  z-index: 3;
 }
 
 .floor-btn {

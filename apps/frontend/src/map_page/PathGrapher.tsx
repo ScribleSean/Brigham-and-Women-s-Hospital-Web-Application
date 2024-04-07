@@ -7,37 +7,32 @@ import {
   Node,
 } from "../../../backend/src/algorithms/DataStructures.ts";
 import React, { CSSProperties, useEffect, useState } from "react";
-import { FloorSelector } from "./FloorSelector.tsx";
 import { FloorDisplay } from "./FloorDisplay.tsx";
-import { FloorDisplayProps, NodesByFloor } from "./types/map_page_types.ts";
+import {
+  FloorDisplayProps,
+  NodesByFloor,
+  PathGrapherProps,
+} from "./types/map_page_types.ts";
 import axios from "axios";
 
-export default function PathGrapher() {
+export default function PathGrapher(props: PathGrapherProps) {
+  const floor: FloorType = props.floor;
+
   const divStyle: CSSProperties = {
     position: "relative",
-    display: "grid",
-    gridTemplateRows: "15% 85%",
-    gridTemplateColumns: "100%",
     width: "100%",
     height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
   };
 
   const buildingMap: BuildingMap = new BuildingMap([
-    new FloorMap("00_thelowerlevel1.png", FloorType.L2),
-    new FloorMap("00_thelowerlevel2.png", FloorType.L1),
+    new FloorMap("00_thelowerlevel1.png", FloorType.L1),
+    new FloorMap("00_thelowerlevel2.png", FloorType.L2),
     new FloorMap("01_thefirstfloor.png", FloorType.first),
     new FloorMap("02_thesecondfloor.png", FloorType.second),
     new FloorMap("03_thethirdfloor.png", FloorType.third),
   ]);
 
   const [nodes, setNodes] = useState<NodesByFloor | null>(null);
-  const [floor, setFloor] = useState<FloorType>(FloorType.first);
-
-  const updateFloor = (floorType: FloorType): void => {
-    setFloor(floorType);
-  };
 
   useEffect(() => {
     async function getNodes(): Promise<void> {
@@ -79,7 +74,6 @@ export default function PathGrapher() {
 
   return (
     <div style={divStyle}>
-      <FloorSelector updateFloor={updateFloor} />
       <FloorDisplay {...floorDisplayProps} />
     </div>
   );

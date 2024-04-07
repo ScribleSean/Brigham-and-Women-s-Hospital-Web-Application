@@ -3,8 +3,8 @@ import React, { CSSProperties } from "react";
 import { Node } from "../../../backend/src/algorithms/DataStructures.ts";
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
-  const widthScaling: number = props.widthScaling;
-  const heightScaling: number = props.heightScaling;
+  const widthScaling: number = props.scaling.widthScaling;
+  const heightScaling: number = props.scaling.heightScaling;
   const node: Node = props.node;
   const handleNodeSelection = props.handleNodeSelection;
   const changesFloor: boolean = props.changesFloor;
@@ -22,6 +22,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     padding: "0",
     borderColor: changesFloor ? "red" : "blueviolet",
     color: "black",
+    zIndex: "3",
   };
 
   return (
