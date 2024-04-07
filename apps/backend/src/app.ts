@@ -3,6 +3,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nodesRouter from "./routes/nodes.ts";
+import nodesNoHallwaysRouter from "./routes/nodes_no_hallways.ts";
 import pathRouter from "./routes/path.ts";
 import formRouter from "./routes/formRouter.ts";
 
@@ -39,6 +40,7 @@ app.use("/healthcheck", (req, res) => {
 });
 
 app.use("/api/nodes", nodesRouter);
+app.use("/api/nodes_no_hallways", nodesNoHallwaysRouter);
 app.use("/api/path", pathRouter);
 
 /**

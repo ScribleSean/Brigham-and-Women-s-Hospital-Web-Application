@@ -1,4 +1,4 @@
-import { Edge, FloorType, Node } from "../DataStructures.ts";
+import { Edge, FloorType, Node, NodeType } from "../DataStructures.ts";
 
 export class Graph {
   private readonly adjList: Map<Node, Array<Edge>>;
@@ -66,7 +66,16 @@ export class Graph {
     return this.lookupTable.get(id);
   }
 
-  public getNodesByFloor(floorType: FloorType): Array<Node> {
+  public getNodesByFloor(floorType: FloorType, noHallwayNodes: boolean): Array<Node> {
+    if (noHallwayNodes){return this.getNodesByFloorNoHallways(floorType);}
+    else return this.getNodesByFloorAll(floorType);
+  }
+
+  private getNodesByFloorNoHallways(floorType: FloorType): Array<Node> {
+    return this.getNodesByFloorAll(floorType).filter((node) => node.getType() !== NodeType.HALL);
+  }
+
+  private getNodesByFloorAll(floorType: FloorType): Array<Node> {
     const nodes: Array<Node> = new Array<Node>();
     const keys: Array<Node> = Array.from(this.adjList.keys());
     for (const node of keys) {
@@ -76,4 +85,5 @@ export class Graph {
     }
     return nodes;
   }
+
 }

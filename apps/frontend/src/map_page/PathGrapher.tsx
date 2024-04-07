@@ -37,7 +37,7 @@ export default function PathGrapher(props: PathGrapherProps) {
   useEffect(() => {
     async function getNodes(): Promise<void> {
       try {
-        const currentNodes: NodesByFloor = (await axios.get("/api/nodes"))
+        const currentNodes: NodesByFloor = (await axios.get("/api/nodes_no_hallways"))
           .data as NodesByFloor;
         setNodes(currentNodes);
       } catch (error) {
