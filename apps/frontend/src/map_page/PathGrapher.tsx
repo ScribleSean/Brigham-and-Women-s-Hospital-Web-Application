@@ -75,6 +75,8 @@ export default function PathGrapher(props: PathGrapherProps) {
   const floorDisplayProps: FloorDisplayProps = {
     imageUrl: buildingMap.getFloorMap(floor).getPngPath(),
     nodes: nodes ? getNodesByFloor(nodes, floor) : [],
+    draggingNodes: props.draggingNodes,
+    scale: props.scale,
   };
 
   return (

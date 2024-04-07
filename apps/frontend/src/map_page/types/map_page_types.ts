@@ -13,11 +13,15 @@ export interface FloorSelectorProps {
 
 export interface PathGrapherProps {
   floor: FloorType;
+  draggingNodes: (isDragging: boolean) => void;
+  scale: number;
 }
 
 export interface FloorDisplayProps {
   imageUrl: string;
   nodes: Array<Node>;
+  draggingNodes: (isDragging: boolean) => void;
+  scale: number;
 }
 
 export interface NodeDisplayProps {
@@ -26,6 +30,8 @@ export interface NodeDisplayProps {
   scaling: NodeScaling;
   handleNodeSelection(node: Node): void;
   changesFloor: boolean;
+  draggingNodes: (isDragging: boolean) => void;
+  scale: number;
 }
 export interface NodeScaling {
   widthScaling: number;

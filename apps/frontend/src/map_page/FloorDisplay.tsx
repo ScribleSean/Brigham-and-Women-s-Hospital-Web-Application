@@ -113,6 +113,8 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
       },
       handleNodeSelection: handleNodeSelection,
       changesFloor: changesFloor,
+      draggingNodes: props.draggingNodes,
+      scale: props.scale,
     };
   }
 

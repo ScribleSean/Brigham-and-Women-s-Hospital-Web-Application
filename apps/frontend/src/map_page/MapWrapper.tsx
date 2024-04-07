@@ -1,5 +1,9 @@
 import "./MapWrapper.css";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import {
+  TransformWrapper,
+  TransformComponent,
+  ReactZoomPanPinchRef,
+} from "react-zoom-pan-pinch";
 import PathGrapher from "./PathGrapher.tsx";
 import { FloorSelector } from "./FloorSelector.tsx";
 import { FloorType } from "../../../backend/src/algorithms/data_structures/FloorType.ts";
@@ -15,19 +19,22 @@ const mapDiv: CSSProperties = {
   position: "relative",
 };
 
-const zoomWrapperProps = {
-  disablePadding: true,
-  minScale: 1,
-  initialScale: 1,
-  centerOnInit: false,
-  limitToBounds: true,
-};
-
 function MapWrapper() {
   const [floor, setFloor] = useState<FloorType>(FloorType.first);
   const [selectedFloor, setSelectedFloor] = useState<FloorType>(
     FloorType.first,
   );
+  const [isDraggingNode, setIsDraggingNode] = useState<boolean>(false);
+
+  const zoomWrapperProps = {
+    disablePadding: true,
+    minScale: 1,
+    initialScale: 1,
+    centerOnInit: false,
+    limitToBounds: true,
+    doubleClick: { disabled: false },
+    disabled: isDraggingNode,
+  };
 
   const updateFloor = (floor: FloorType) => {
     setSelectedFloor(floor);
@@ -56,13 +63,28 @@ function MapWrapper() {
     getButtonWidth: getButtonWidth,
   };
 
+  const selectIsDraggingNodes = (isDragging: boolean) => {
+    setIsDraggingNode(isDragging);
+  };
+
+  const [scale, setScale] = useState<number>(1);
+
+  function handleScaleChange(event: ReactZoomPanPinchRef) {
+    setScale(event.instance.transformState.scale);
+  }
+
   const pathGrapherProps: PathGrapherProps = {
     floor: floor,
+    draggingNodes: selectIsDraggingNodes,
+    scale: scale,
   };
 
   return (
     <div className="col-10 map-wrapper">
-      <TransformWrapper {...zoomWrapperProps}>
+      <TransformWrapper
+        {...zoomWrapperProps}
+        onTransformed={(e) => handleScaleChange(e)}
+      >
         <div style={mapDiv}>
           <FloorSelector {...floorSelectorProps}></FloorSelector>
           <TransformComponent>
