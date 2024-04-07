@@ -5,6 +5,7 @@ import logger from "morgan";
 import nodesRouter from "./routes/nodes.ts";
 import nodesNoHallwaysRouter from "./routes/nodes_no_hallways.ts";
 import pathRouter from "./routes/path.ts";
+import pathNoStairsRouter from "./routes/path_no_stairs.ts";
 import formRouter from "./routes/formRouter.ts";
 
 import csvRouter from "./routes/csv-handler";
@@ -13,7 +14,7 @@ import edgeRouter from "./routes/edge-route";
 import downloadNodeDataRouter from "./routes/data-to-csv-node";
 import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 
-const app: Express = express(); // Setup the backend
+const app: Express = express();
 
 // Setup generic middleware
 app.use(
@@ -42,6 +43,7 @@ app.use("/healthcheck", (req, res) => {
 app.use("/api/nodes", nodesRouter);
 app.use("/api/nodes_no_hallways", nodesNoHallwaysRouter);
 app.use("/api/path", pathRouter);
+app.use("/api/path_no_stairs", pathNoStairsRouter);
 
 /**
  * Catch all 404 errors, and forward them to the error handler

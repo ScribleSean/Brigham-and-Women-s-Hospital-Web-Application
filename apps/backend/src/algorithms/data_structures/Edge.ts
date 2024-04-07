@@ -29,13 +29,13 @@ export class Edge {
   public usesStairs(): boolean {
     const nodeType1: NodeType = this.getStartNode().getType();
     const nodeType2: NodeType = this.getEndNode().getType();
-    return nodeType1 === NodeType.STAI || nodeType2 == NodeType.STAI;
+    return nodeType1 === NodeType.STAI && nodeType2 == NodeType.STAI;
   }
 
   public useElevator(): boolean {
     const nodeType1: NodeType = this.getStartNode().getType();
     const nodeType2: NodeType = this.getEndNode().getType();
-    return nodeType1 === NodeType.ELEV || nodeType2 == NodeType.ELEV;
+    return nodeType1 === NodeType.ELEV && nodeType2 == NodeType.ELEV;
   }
 
   public getStartNode() {

@@ -66,13 +66,19 @@ export class Graph {
     return this.lookupTable.get(id);
   }
 
-  public getNodesByFloor(floorType: FloorType, noHallwayNodes: boolean): Array<Node> {
-    if (noHallwayNodes){return this.getNodesByFloorNoHallways(floorType);}
-    else return this.getNodesByFloorAll(floorType);
+  public getNodesByFloor(
+    floorType: FloorType,
+    noHallwayNodes: boolean,
+  ): Array<Node> {
+    if (noHallwayNodes) {
+      return this.getNodesByFloorNoHallways(floorType);
+    } else return this.getNodesByFloorAll(floorType);
   }
 
   private getNodesByFloorNoHallways(floorType: FloorType): Array<Node> {
-    return this.getNodesByFloorAll(floorType).filter((node) => node.getType() !== NodeType.HALL);
+    return this.getNodesByFloorAll(floorType).filter(
+      (node) => node.getType() !== NodeType.HALL,
+    );
   }
 
   private getNodesByFloorAll(floorType: FloorType): Array<Node> {
@@ -85,5 +91,4 @@ export class Graph {
     }
     return nodes;
   }
-
 }

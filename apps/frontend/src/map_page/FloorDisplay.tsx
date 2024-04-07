@@ -58,7 +58,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
             node2: endNode,
           };
           console.log(startEndNode);
-          const tempPath = (await axios.post("/api/path", startEndNode))
+          const tempPath = (await axios.post("/api/path_no_stairs", startEndNode))
             .data as Array<Path>;
           console.log(tempPath);
           setPath(tempPath);

@@ -9,7 +9,7 @@ import {
 import PrismaClient from "../../bin/database-connection";
 
 export { createGraph };
-async function createGraph(res: Response): Promise<Graph> {
+async function createGraph(res: Response, noStairs: boolean): Promise<Graph> {
   const graph: Graph = new Graph();
   const edges = await PrismaClient.edge.findMany();
   if (edges === null) {
@@ -72,8 +72,12 @@ async function createGraph(res: Response): Promise<Graph> {
     }
 
     if (startNode && endNode) {
-      graph.addEdge(startNode, endNode);
-      graph.addEdge(endNode, startNode);
+      noStairs
+        ? graph.addEdgeNoStairs(startNode, endNode)
+        : graph.addEdge(startNode, endNode);
+      noStairs
+        ? graph.addEdgeNoStairs(endNode, startNode)
+        : graph.addEdge(endNode, startNode);
     }
   }
 
