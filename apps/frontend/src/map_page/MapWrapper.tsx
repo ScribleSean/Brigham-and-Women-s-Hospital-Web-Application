@@ -16,7 +16,6 @@ import {
 const mapDiv: CSSProperties = {
   height: "100%",
   maxWidth: "80vw",
-  position: "relative",
 };
 
 function MapWrapper() {

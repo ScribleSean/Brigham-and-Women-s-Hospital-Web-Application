@@ -7,9 +7,9 @@ import SideNavbar from "./components/SideNavbar.tsx";
 import "./styles/App.css";
 import Requests from "./routes/Requests.tsx";
 import { CSVPage } from "./routes/CSVPage.tsx";
-//import PathGrapher from "./map_page/PathGrapher.tsx";
 import "./index.css";
 import MapWrapper from "./map_page/MapWrapper.tsx";
+//import {AlgorithmSelector} from "./map_page/AlgorithmSelector.tsx";
 
 function App() {
   const router = createBrowserRouter([
