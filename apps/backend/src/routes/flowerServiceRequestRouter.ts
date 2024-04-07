@@ -45,4 +45,13 @@ router.post("/", async function (req, res) {
   }
 });
 
+router.get("/", async function (req, res) {
+  const flowerForm = await PrismaClient.flowerServiceRequest.findMany({
+    include: {
+      ServiceRequest: true,
+    },
+  });
+  res.json(flowerForm);
+});
+
 export default router;

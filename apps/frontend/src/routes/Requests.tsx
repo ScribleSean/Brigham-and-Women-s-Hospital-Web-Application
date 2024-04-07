@@ -8,17 +8,17 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Form } from "common/src/form.ts";
+import { Flower } from "common/src/flowerServiceRequest.ts";
 import axios from "axios";
 import "../styles/Requests.css";
 import SideNavbar from "../components/SideNavbar.tsx";
 
 function Requests() {
-  const [requestData, setRequestData] = useState<Form[]>();
+  const [requestData, setRequestData] = useState<Flower[]>();
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get("/api/request");
+      const res = await axios.get("/api/flower-service-request");
       setRequestData(res.data);
       console.log("successfully got data from get request");
     }
@@ -83,11 +83,13 @@ function Requests() {
                   requestData.map((row) => (
                     <TableRow>
                       <TableCell sx={{ border: 2 }}>Flower</TableCell>
-                      <TableCell sx={{ border: 2 }}>{row.senderName}</TableCell>
                       <TableCell sx={{ border: 2 }}>
-                        {row.receiverName}
+                        {row.employeeName}
                       </TableCell>
-                      <TableCell sx={{ border: 2 }}>{row.roomNumber}</TableCell>
+                      <TableCell sx={{ border: 2 }}>
+                        {row.employeeName}
+                      </TableCell>
+                      <TableCell sx={{ border: 2 }}>{row.location}</TableCell>
                       <TableCell sx={{ border: 2 }}>{row.flowerType}</TableCell>
                       <TableCell sx={{ border: 2 }}>{row.message}</TableCell>
                     </TableRow>
