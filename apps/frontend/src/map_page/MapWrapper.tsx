@@ -9,9 +9,12 @@ import { FloorSelector } from "./FloorSelector.tsx";
 import { FloorType } from "../../../backend/src/algorithms/data_structures/FloorType.ts";
 import React, { CSSProperties, useState } from "react";
 import {
+  AlgorithmSelectorProps,
   FloorSelectorProps,
   PathGrapherProps,
 } from "./types/map_page_types.ts";
+import { AlgorithmSelector } from "./AlgorithmSelector.tsx";
+import { AlgorithmType } from "../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
 
 const mapDiv: CSSProperties = {
   height: "100%",
@@ -24,6 +27,9 @@ function MapWrapper() {
     FloorType.first,
   );
   const [isDraggingNode, setIsDraggingNode] = useState<boolean>(false);
+  const [selectedAlgorithm, setSelectedAlgorithm] =
+    React.useState<AlgorithmType>(AlgorithmType._ASTAR);
+  const [scale, setScale] = useState<number>(1);
 
   const zoomWrapperProps = {
     disablePadding: true,
@@ -66,8 +72,6 @@ function MapWrapper() {
     setIsDraggingNode(isDragging);
   };
 
-  const [scale, setScale] = useState<number>(1);
-
   function handleScaleChange(event: ReactZoomPanPinchRef) {
     setScale(event.instance.transformState.scale);
   }
@@ -76,6 +80,16 @@ function MapWrapper() {
     floor: floor,
     draggingNodes: selectIsDraggingNodes,
     scale: scale,
+    algorithm: selectedAlgorithm,
+  };
+
+  const updateAlgorithm = (algorithm: AlgorithmType) => {
+    setSelectedAlgorithm(algorithm);
+  };
+
+  const algorithmSelectorProps: AlgorithmSelectorProps = {
+    updateAlgorithmFunction: updateAlgorithm,
+    currentAlgorithm: selectedAlgorithm,
   };
 
   return (
@@ -85,6 +99,7 @@ function MapWrapper() {
         onTransformed={(e) => handleScaleChange(e)}
       >
         <div style={mapDiv}>
+          <AlgorithmSelector {...algorithmSelectorProps}></AlgorithmSelector>
           <FloorSelector {...floorSelectorProps}></FloorSelector>
           <TransformComponent>
             <PathGrapher {...pathGrapherProps}></PathGrapher>

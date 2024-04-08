@@ -10,7 +10,6 @@ import {
 import { NodeDisplay } from "./NodeDisplay.tsx";
 import { PathDisplay } from "./PathDisplay.tsx";
 import axios from "axios";
-import { AlgorithmType } from "../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
 
 export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const nodes: Array<Node> = props.nodes;
@@ -60,7 +59,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
             node2: endNode,
           };
           const pathOptionsRequest: PathOptionsRequest = {
-            algorithm: AlgorithmType._ASTAR,
+            algorithm: props.algorithm,
             includeStairs: true,
             nodes: startEndNode,
           };
@@ -74,7 +73,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     }
 
     getPath();
-  }, [setPath, startNode, endNode]);
+  }, [props.algorithm, setPath, startNode, endNode]);
 
   const handleNodeSelection = (node: Node): void => {
     if (!startNode) {

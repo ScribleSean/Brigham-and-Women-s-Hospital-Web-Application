@@ -11,10 +11,16 @@ export interface FloorSelectorProps {
   getButtonWidth: (floorType: FloorType) => string;
 }
 
+export interface AlgorithmSelectorProps {
+  updateAlgorithmFunction: (algorithm: AlgorithmType) => void;
+  currentAlgorithm: AlgorithmType;
+}
+
 export interface PathGrapherProps {
   floor: FloorType;
   draggingNodes: (isDragging: boolean) => void;
   scale: number;
+  algorithm: AlgorithmType;
 }
 
 export interface FloorDisplayProps {
@@ -22,6 +28,7 @@ export interface FloorDisplayProps {
   nodes: Array<Node>;
   draggingNodes: (isDragging: boolean) => void;
   scale: number;
+  algorithm: AlgorithmType;
 }
 
 export interface NodeDisplayProps {

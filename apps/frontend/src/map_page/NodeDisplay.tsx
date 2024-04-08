@@ -1,5 +1,5 @@
 import { NodeDisplayProps } from "./types/map_page_types.ts";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useRef } from "react";
 import { Node } from "../../../backend/src/algorithms/DataStructures.ts";
 import Draggable from "react-draggable";
 
@@ -30,6 +30,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const node: Node = props.node;
   const handleNodeSelection = props.handleNodeSelection;
   const changesFloor: boolean = props.changesFloor;
+  const refDraggable = useRef(null);
+  const refButtom = useRef<HTMLButtonElement | null>(null);
 
   const { displayX, displayY } = imageToDisplayCoordinates(
     node.x,
@@ -61,11 +63,13 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   return (
     <Draggable
+      nodeRef={refDraggable}
       scale={props.scale}
       onStart={handleStartDrag}
       onStop={handleStopDrag}
     >
       <button
+        ref={refButtom}
         style={nodeStyle}
         onClick={() => handleNodeSelection(node)}
       ></button>

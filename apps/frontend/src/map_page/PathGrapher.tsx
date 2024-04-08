@@ -77,6 +77,7 @@ export default function PathGrapher(props: PathGrapherProps) {
     nodes: nodes ? getNodesByFloor(nodes, floor) : [],
     draggingNodes: props.draggingNodes,
     scale: props.scale,
+    algorithm: props.algorithm,
   };
 
   return (
