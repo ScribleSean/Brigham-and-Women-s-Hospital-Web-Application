@@ -20,7 +20,7 @@ function CustomArrowIcon(props: SvgIconProps) {
 }
 
 export function AlgorithmSelector(props: AlgorithmSelectorProps) {
-  const handleChange = (event: SelectChangeEvent<string>) => {
+  const handleChange = (event: SelectChangeEvent<AlgorithmType>) => {
     props.updateAlgorithmFunction(event.target.value as AlgorithmType);
   };
 

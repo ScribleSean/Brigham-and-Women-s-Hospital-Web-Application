@@ -16,11 +16,17 @@ export interface AlgorithmSelectorProps {
   currentAlgorithm: AlgorithmType;
 }
 
+export interface AccessibilitySelectorProps {
+  updateAccessibility: (accessibilityType: AccessibilityType) => void;
+  currentAccessibility: AccessibilityType;
+}
+
 export interface PathGrapherProps {
   floor: FloorType;
   draggingNodes: (isDragging: boolean) => void;
   scale: number;
   algorithm: AlgorithmType;
+  accessibility: AccessibilityType;
 }
 
 export interface FloorDisplayProps {
@@ -29,6 +35,7 @@ export interface FloorDisplayProps {
   draggingNodes: (isDragging: boolean) => void;
   scale: number;
   algorithm: AlgorithmType;
+  accessibility: AccessibilityType;
 }
 
 export interface NodeDisplayProps {
@@ -71,4 +78,9 @@ export interface PathOptionsRequest {
 
 export interface NodesOptionsRequest {
   includeHallways: boolean;
+}
+
+export enum AccessibilityType {
+  all = "all",
+  wheelchair = "wheelchair",
 }

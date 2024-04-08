@@ -9,6 +9,8 @@ import { FloorSelector } from "./FloorSelector.tsx";
 import { FloorType } from "../../../backend/src/algorithms/data_structures/FloorType.ts";
 import React, { CSSProperties, useState } from "react";
 import {
+  AccessibilitySelectorProps,
+  AccessibilityType,
   AlgorithmSelectorProps,
   FloorSelectorProps,
   PathGrapherProps,
@@ -30,6 +32,8 @@ function MapWrapper() {
   const [isDraggingNode, setIsDraggingNode] = useState<boolean>(false);
   const [selectedAlgorithm, setSelectedAlgorithm] =
     React.useState<AlgorithmType>(AlgorithmType._ASTAR);
+  const [selectedAccessibility, setSelectedAccessibility] =
+    useState<AccessibilityType>(AccessibilityType.all);
   const [scale, setScale] = useState<number>(1);
 
   const zoomWrapperProps = {
@@ -82,10 +86,20 @@ function MapWrapper() {
     draggingNodes: selectIsDraggingNodes,
     scale: scale,
     algorithm: selectedAlgorithm,
+    accessibility: selectedAccessibility,
   };
 
   const updateAlgorithm = (algorithm: AlgorithmType) => {
     setSelectedAlgorithm(algorithm);
+  };
+
+  const updateAccessibility = (accessibility: AccessibilityType) => {
+    setSelectedAccessibility(accessibility);
+  };
+
+  const accessibilitySelectorProps: AccessibilitySelectorProps = {
+    updateAccessibility: updateAccessibility,
+    currentAccessibility: selectedAccessibility,
   };
 
   const algorithmSelectorProps: AlgorithmSelectorProps = {
@@ -101,7 +115,9 @@ function MapWrapper() {
       >
         <div style={mapDiv}>
           <AlgorithmSelector {...algorithmSelectorProps}></AlgorithmSelector>
-          <AccessibilitySelector></AccessibilitySelector>
+          <AccessibilitySelector
+            {...accessibilitySelectorProps}
+          ></AccessibilitySelector>
           <FloorSelector {...floorSelectorProps}></FloorSelector>
           <TransformComponent>
             <PathGrapher {...pathGrapherProps}></PathGrapher>

@@ -2,6 +2,10 @@ import React from "react";
 import { FormControl, Select, Box, MenuItem, SvgIcon } from "@mui/material";
 import { SvgIconProps } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
+import {
+  AccessibilitySelectorProps,
+  AccessibilityType,
+} from "./types/map_page_types.ts";
 
 function CustomArrowIcon(props: SvgIconProps) {
   return (
@@ -11,12 +15,9 @@ function CustomArrowIcon(props: SvgIconProps) {
   );
 }
 
-export function AccessibilitySelector() {
-  const [selectedAccessibility, setSelectedAccessibility] =
-    React.useState("All Accessible");
-
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    setSelectedAccessibility(event.target.value);
+export function AccessibilitySelector(props: AccessibilitySelectorProps) {
+  const handleChange = (event: SelectChangeEvent<AccessibilityType>) => {
+    props.updateAccessibility(event.target.value as AccessibilityType);
   };
 
   return (
@@ -56,7 +57,7 @@ export function AccessibilitySelector() {
           />
           <Select
             variant="standard"
-            value={selectedAccessibility}
+            value={props.currentAccessibility}
             onChange={handleChange}
             displayEmpty
             IconComponent={CustomArrowIcon}
@@ -75,7 +76,7 @@ export function AccessibilitySelector() {
             }}
           >
             <MenuItem
-              value={"All Accessible"}
+              value={AccessibilityType.all}
               sx={{
                 fontWeight: "bold",
                 fontFamily: "inter",
@@ -85,7 +86,7 @@ export function AccessibilitySelector() {
               All Accessible
             </MenuItem>
             <MenuItem
-              value={"Wheelchair Accessible"}
+              value={AccessibilityType.wheelchair}
               sx={{
                 fontWeight: "bold",
                 fontFamily: "inter",

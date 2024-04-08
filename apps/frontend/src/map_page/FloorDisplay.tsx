@@ -1,6 +1,7 @@
 import { Node, Path } from "../../../backend/src/algorithms/DataStructures.ts";
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import {
+  AccessibilityType,
   FloorDisplayProps,
   NodeDisplayProps,
   PathDisplayProps,
@@ -60,7 +61,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
           };
           const pathOptionsRequest: PathOptionsRequest = {
             algorithm: props.algorithm,
-            includeStairs: true,
+            includeStairs: props.accessibility !== AccessibilityType.wheelchair,
             nodes: startEndNode,
           };
           const tempPath = (await axios.post("/api/path", pathOptionsRequest))
@@ -73,7 +74,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     }
 
     getPath();
-  }, [props.algorithm, setPath, startNode, endNode]);
+  }, [props.accessibility, props.algorithm, setPath, startNode, endNode]);
 
   const handleNodeSelection = (node: Node): void => {
     if (!startNode) {
