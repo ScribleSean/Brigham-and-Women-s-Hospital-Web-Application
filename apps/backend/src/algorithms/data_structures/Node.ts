@@ -7,7 +7,7 @@ export class Node {
   private readonly floor: FloorType;
   private readonly building: BuildingType;
   private readonly type: NodeType;
-  private readonly longName: string;
+  public longName: string;
   private readonly shortName: string;
 
   constructor(

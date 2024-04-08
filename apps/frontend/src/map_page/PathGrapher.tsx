@@ -40,6 +40,7 @@ export default function PathGrapher(props: PathGrapherProps) {
       try {
         const nodesOptionsRequest: NodesOptionsRequest = {
           includeHallways: false,
+          byFloors: true,
         };
         const currentNodes: NodesByFloor = (
           await axios.post("/api/nodes", nodesOptionsRequest)

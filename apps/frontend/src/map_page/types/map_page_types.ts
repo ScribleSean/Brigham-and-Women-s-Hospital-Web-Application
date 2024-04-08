@@ -78,9 +78,15 @@ export interface PathOptionsRequest {
 
 export interface NodesOptionsRequest {
   includeHallways: boolean;
+  byFloors: boolean;
 }
 
 export enum AccessibilityType {
   all = "all",
   wheelchair = "wheelchair",
+}
+
+export interface Location {
+  ID: string;
+  longName: string;
 }

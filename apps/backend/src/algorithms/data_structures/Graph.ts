@@ -66,6 +66,27 @@ export class Graph {
     return this.lookupTable.get(id);
   }
 
+  public getNodes(includeHallways: boolean): Array<Node> {
+    if (includeHallways) {
+      return this.getNodesAll();
+    } else return this.getNodesNoHallways();
+  }
+
+  private getNodesNoHallways(): Array<Node> {
+    return this.getNodesAll().filter(
+      (node) => node.getType() !== NodeType.HALL,
+    );
+  }
+
+  private getNodesAll(): Array<Node> {
+    const nodes: Array<Node> = new Array<Node>();
+    const keys: Array<Node> = Array.from(this.adjList.keys());
+    for (const node of keys) {
+      nodes.push(node);
+    }
+    return nodes;
+  }
+
   public getNodesByFloor(
     floorType: FloorType,
     includeHallways: boolean,
