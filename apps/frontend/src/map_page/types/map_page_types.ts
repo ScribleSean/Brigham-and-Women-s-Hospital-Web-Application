@@ -34,6 +34,8 @@ export interface PathGrapherProps {
   accessibility: AccessibilityType;
   locationSelectorStartNodeID: string | null;
   locationSelectorEndNodeID: string | null;
+  currentDirectionsCounter: number;
+  resetDirections: () => void;
 }
 
 export interface FloorDisplayProps {
@@ -45,6 +47,8 @@ export interface FloorDisplayProps {
   accessibility: AccessibilityType;
   locationSelectorStartNodeID: string | null;
   locationSelectorEndNodeID: string | null;
+  currentDirectionsCounter: number;
+  resetDirections: () => void;
 }
 
 export interface NodeDisplayProps {
@@ -64,6 +68,8 @@ export interface NodeScaling {
 export interface PathDisplayProps {
   path: Array<Path>;
   scaling: NodeScaling;
+  currentDirectionsNumber: number;
+  resetDirections: () => void;
 }
 
 export interface NodesByFloor {
@@ -98,4 +104,9 @@ export enum AccessibilityType {
 export interface Location {
   ID: string;
   longName: string;
+}
+
+export interface DirectionsProps {
+  triggerNextDirection: (currentDirectionNumber: number) => void;
+  currentDirectionsCounter: number;
 }

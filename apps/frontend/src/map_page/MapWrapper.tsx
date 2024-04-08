@@ -12,6 +12,7 @@ import {
   AccessibilitySelectorProps,
   AccessibilityType,
   AlgorithmSelectorProps,
+  DirectionsProps,
   FloorSelectorProps,
   LocationSelectorProps,
   PathGrapherProps,
@@ -20,6 +21,7 @@ import { AlgorithmSelector } from "./AlgorithmSelector.tsx";
 import { AlgorithmType } from "../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
 import { AccessibilitySelector } from "./AccessibilitySelector.tsx";
 import { LocationSelector } from "./LocationSelector.tsx";
+import Directions from "./Directions.tsx";
 
 const mapDiv: CSSProperties = {
   height: "100%",
@@ -37,6 +39,7 @@ function MapWrapper() {
   const [selectedAccessibility, setSelectedAccessibility] =
     useState<AccessibilityType>(AccessibilityType.all);
   const [scale, setScale] = useState<number>(1);
+  const [directionsCounter, setDirectionsCounter] = useState<number>(0);
 
   const zoomWrapperProps = {
     disablePadding: true,
@@ -121,6 +124,10 @@ function MapWrapper() {
     updateEndNodeID: updateEndNodeIDSelector,
   };
 
+  const resetDirections = () => {
+    setDirectionsCounter(0);
+  };
+
   const pathGrapherProps: PathGrapherProps = {
     floor: floor,
     draggingNodes: selectIsDraggingNodes,
@@ -129,6 +136,17 @@ function MapWrapper() {
     accessibility: selectedAccessibility,
     locationSelectorStartNodeID: startNodeIDSelector,
     locationSelectorEndNodeID: endNodeIDSelector,
+    currentDirectionsCounter: directionsCounter,
+    resetDirections: resetDirections,
+  };
+
+  const triggerNextDirection = (currentDirectionNumber: number) => {
+    setDirectionsCounter(currentDirectionNumber + 1);
+  };
+
+  const directionsProps: DirectionsProps = {
+    triggerNextDirection: triggerNextDirection,
+    currentDirectionsCounter: directionsCounter,
   };
 
   return (
@@ -138,6 +156,7 @@ function MapWrapper() {
         onTransformed={(e) => handleScaleChange(e)}
       >
         <div style={mapDiv}>
+          <Directions {...directionsProps}></Directions>
           <AlgorithmSelector {...algorithmSelectorProps}></AlgorithmSelector>
           <AccessibilitySelector
             {...accessibilitySelectorProps}

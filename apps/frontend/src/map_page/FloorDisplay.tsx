@@ -71,9 +71,12 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
         }
       }
     }
-
     getPath();
   }, [props.accessibility, props.algorithm, setPath, startNode, endNode]);
+
+  useEffect(() => {
+    props.resetDirections;
+  }, [props.resetDirections, path]);
 
   const handleNodeSelection = (node: Node): void => {
     if (!startNode) {
@@ -136,6 +139,8 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
         widthScaling: getWidthScaling(),
         heightScaling: getHeightScaling(),
       },
+      currentDirectionsNumber: props.currentDirectionsCounter,
+      resetDirections: props.resetDirections,
     };
   }
 

@@ -82,6 +82,8 @@ export default function PathGrapher(props: PathGrapherProps) {
     accessibility: props.accessibility,
     locationSelectorStartNodeID: props.locationSelectorStartNodeID,
     locationSelectorEndNodeID: props.locationSelectorEndNodeID,
+    currentDirectionsCounter: props.currentDirectionsCounter,
+    resetDirections: props.resetDirections,
   };
 
   return (
