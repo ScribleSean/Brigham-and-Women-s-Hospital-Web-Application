@@ -6,7 +6,7 @@ const SideNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Nav id={"navbar"} className={"justify-content-center"}>
+    <Nav id={"navbar"} className={"justify-content-center col-2"}>
       <div id={"inner-navbar-wrapper"}>
         <div id={"navbar-header"} className={"row"}>
           <div className={"col-8"} id={"nav-title"}>

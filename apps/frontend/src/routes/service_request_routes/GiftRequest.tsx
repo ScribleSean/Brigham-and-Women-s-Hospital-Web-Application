@@ -1,6 +1,8 @@
 // import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
+import styles from "../../styles/GiftRequest.module.css";
+// import SideNavbar from "../../components/SideNavbar";
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -37,94 +39,129 @@ const GiftRequest: React.FC = () => {
 
   return (
     <>
+      {/*<SideNavbar></SideNavbar>*/}
+      <div className={`text-center my-5`}>
+        <h1>Gift Request</h1>
+      </div>
       <div
-        className={"container text-center bg-secondary justify-content-center"}
+        className={`container text-start justify-content-center mt-3`}
       >
-        <form className={"text-center"}>
-          <div className={"row"}>
-            <div className="form-group">
-              <label>Employee Name</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Name"
-              />
+        <form className={`p-5 rounded-4 ${styles.formBgColor} ${styles.blueBorder}`}>
+          <div className={`${styles.allInputs}`}>
+            <div className={`row ${styles.inputSection}`}>
+              <div className="form-group">
+                <label className={`${styles.textInputFontBold} ${styles.textInput}`}>Employee Name</label>
+                <input
+                  type="text"
+                  className={`${styles.fieldBgColor} ${styles.roundedInputBorders} form-control shadow-sm py-3`}
+                  placeholder="Name"
+                />
+              </div>
             </div>
-          </div>
-          <div className={"row"}>
-            <div className={"col"}>
-              <label>Priority</label>
-              <select className="form-select">
-                <option>Unassigned</option>
-                <option>Assigned</option>
-                <option>InProgress</option>
-                <option>Closed</option>
-              </select>
-            </div>
-            <div className={"col"}>
-              <label>Location</label>
-              <select className="form-select">
-                <option>Node 1</option>
-                <option>Node 2</option> //todo: connect to database Nodes
-              </select>
-            </div>
-          </div>
-          <div className={"row"}>
-            <div className={"col"}>
-              <label>giftType</label>
-              <select className="form-select">
-                <option>Hat</option>
-                <option>Beanie</option>
-                <option>Wrist Band</option>
-                <option>Sticker</option>
-              </select>
-            </div>
-            <div className={"col"}>
-              {/*<LocalizationProvider dateAdapter={AdapterDayjs}> c*/}
-              {/*    <DatePicker />*/}
-              {/*</LocalizationProvider>*/}
-              <label>date </label>
-              <select className="form-select">
+            <div className={`row ${styles.inputSection} ${styles.longBoxPadding}`}>
+              <label className={`${styles.textInputFontBold} ${styles.textInput}`}>Location</label>
+              <select className={`${styles.roundedInputBorders} ${styles.fieldBgColor} form-select shadow-lg py-3 rounded-input-borders`}>
                 <option>Node 1</option>
                 <option>Node 2</option>
-                //todo: connect to database Nodes
+                {/*todo: connect to database Nodes*/}
               </select>
-              {/* todo: get the date picker to actually work*/}
             </div>
-          </div>
-          <div className={"row"}>
-            <label>Status</label>
-            <div className="form-group">
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  value="option1"
-                />
-                <label className="form-check-label">1</label>
+            <div className={`row ${styles.inputSection}`}>
+              <div className={`col ${styles.col}`}>
+                <label className={`${styles.textInputFontBold} ${styles.nonTextInput}`}>Gift Type</label>
+                <select className={`${styles.roundedInputBorders} ${styles.fieldBgColor} form-select shadow py-3 rounded-input-borders`}>
+                  <option>Hat</option>
+                  <option>Beanie</option>
+                  <option>Wrist Band</option>
+                  <option>Sticker</option>
+                </select>
               </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  value="option2"
-                />
-                <label className="form-check-label">2</label>
-              </div>
-              <div className="form-check form-check-inline">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  value="option2"
-                />
-                <label className="form-check-label">2</label>
+              <div className={`col ${styles.col}`}>
+                {/*<LocalizationProvider dateAdapter={AdapterDayjs}> c*/}
+                {/*    <DatePicker />*/}
+                {/*</LocalizationProvider>*/}
+                <label className={`${styles.textInputFontBold} ${styles.nonTextInput}`}>Date</label>
+                <select className={`${styles.roundedInputBorders} ${styles.fieldBgColor} form-select shadow py-3 rounded-input-borders`}>
+                  <option>Node 1</option>
+                  <option>Node 2</option>
+                  {/*todo: connect to database Nodes*/}
+                </select>
+                {/* todo: get the date picker to actually work*/}
               </div>
             </div>
+            <div className={`row ${styles.inputSection}`}>
+              <div className={`col text-start ${styles.col}`}>
+                <label className={`${styles.textInputFontBold} ${styles.nonTextInput}`}>Priority</label>
+
+                <div className={`${styles.fieldBgColor} ${styles.roundedInputBorders} p-2 px-3 pt-3`}>
+                  <div className={`form-check ${styles.radioButtonSpacing}`}>
+                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault1">
+                      Low
+                    </label>
+                  </div>
+                  <div className={`form-check ${styles.radioButtonSpacing}`}>
+                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                           checked/>
+                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault2">
+                      Medium
+                    </label>
+                  </div>
+                  <div className={`form-check ${styles.radioButtonSpacing}`}>
+                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault1">
+                      High
+                    </label>
+                  </div>
+                  <div className={`form-check ${styles.radioButtonSpacing}`}>
+                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                           checked/>
+                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault2">
+                      Emergency
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+              <div className={`col`}>
+                <label className={`${styles.textInputFontBold} ${styles.nonTextInput}`}>Status</label>
+                <div className={`${styles.fieldBgColor} ${styles.roundedInputBorders} p-2 px-3 pt-3`}>
+                  <div className={`form-check ${styles.radioButtonSpacing}`}>
+                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault1">
+                      Unassigned
+                    </label>
+                  </div>
+                  <div className={`form-check ${styles.radioButtonSpacing}`}>
+                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                           checked/>
+                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault2">
+                      Assigned
+                    </label>
+                  </div>
+                  <div className={`form-check ${styles.radioButtonSpacing}`}>
+                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault1">
+                      InProgress
+                    </label>
+                  </div>
+                  <div className={`form-check ${styles.radioButtonSpacing}`}>
+                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                           checked/>
+                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault2">
+                      Closed
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
         </form>
+        <div className={"text-center m-4"}>
+          <button type="submit" className={`btn btn-primary rounded-pill ${styles.sendButtonBgColor}`}>
+            Send
+          </button>
+        </div>
       </div>
     </>
   );
