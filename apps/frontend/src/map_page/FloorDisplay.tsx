@@ -130,7 +130,6 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     position: "absolute",
     width: "fit",
     height: "100%",
-    //backgroundImage: `url(${props.imageUrl})`,
     backgroundSize: "100%",
     backgroundPosition: "center",
     zIndex: "1",

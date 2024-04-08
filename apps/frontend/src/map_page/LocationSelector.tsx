@@ -57,6 +57,10 @@ export function LocationSelector(
     setDestination(newValue);
   };
 
+  const handleClearClick = () => {
+    setLocation(null);
+  };
+
   return (
     <div className="locationSelector">
       <Box
@@ -71,7 +75,6 @@ export function LocationSelector(
         }}
       >
         <Autocomplete
-          sx={{ boxShadow: "0px 18px 11px -7px rgba(0,0,0,0.44)" }}
           value={location}
           onChange={(event, newValue) => handleLocationChange(newValue)}
           options={locations}
@@ -84,6 +87,19 @@ export function LocationSelector(
                 backgroundColor: "white",
                 width: "15vw",
                 color: "black",
+                borderRadius: "0.5rem",
+                boxShadow: 8,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "transparent", // Removes the border
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "transparent", // Removes the border on hover
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "transparent", // Removes the border on focus
+                  },
+                },
               }}
               InputProps={{
                 ...params.InputProps,
@@ -96,7 +112,7 @@ export function LocationSelector(
                   <InputAdornment position="end">
                     {location ? (
                       <CancelIcon
-                        onClick={() => setLocation(null)}
+                        onClick={() => handleClearClick()}
                         style={{ cursor: "pointer" }}
                       />
                     ) : null}
@@ -107,7 +123,6 @@ export function LocationSelector(
           )}
         />
         <Autocomplete
-          sx={{ boxShadow: "0px 18px 18px -10px rgba(0,0,0,0.77)" }}
           value={destination}
           onChange={(event, newValue) => handleDestinationChange(newValue)}
           options={locations}
@@ -119,6 +134,20 @@ export function LocationSelector(
               sx={{
                 backgroundColor: "white",
                 width: "15vw",
+                color: "black",
+                borderRadius: "0.5rem",
+                boxShadow: 8,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "transparent", // Removes the border
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "transparent", // Removes the border on hover
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "transparent", // Removes the border on focus
+                  },
+                },
               }}
               InputProps={{
                 ...params.InputProps,
@@ -131,7 +160,7 @@ export function LocationSelector(
                   <InputAdornment position="end">
                     {destination ? (
                       <CancelIcon
-                        onClick={() => setDestination(null)}
+                        onClick={() => handleClearClick()}
                         style={{ cursor: "pointer" }}
                       />
                     ) : null}

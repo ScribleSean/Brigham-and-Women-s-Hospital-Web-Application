@@ -1,5 +1,5 @@
-import { CSSProperties } from "react";
 import { DirectionsProps } from "./types/map_page_types.ts";
+import { Button } from "@mui/material";
 
 export default Directions;
 
@@ -8,14 +8,24 @@ function Directions(props: DirectionsProps) {
     props.triggerNextDirection(props.currentDirectionsCounter);
   };
 
-  const buttomStyle: CSSProperties = {
-    position: "absolute",
-    color: "orangered",
-    width: "20%",
-    height: "20%",
-    zIndex: 3,
-    marginLeft: "20%",
-  };
-
-  return <button style={buttomStyle} onClick={handleOnClick}></button>;
+  return (
+    <Button
+      onClick={handleOnClick}
+      sx={{
+        position: "absolute",
+        backgroundColor: "white",
+        color: "#012D5A",
+        fontWeight: "bold",
+        fontFamily: "inter",
+        textTransform: "capitalize",
+        borderRadius: "o.5rem",
+        boxShadow: 8,
+        zIndex: 4,
+        marginLeft: "2vw",
+        marginTop: "19vh",
+      }}
+    >
+      Next Floor
+    </Button>
+  );
 }
