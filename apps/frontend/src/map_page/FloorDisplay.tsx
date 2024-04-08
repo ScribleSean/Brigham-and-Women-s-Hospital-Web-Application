@@ -35,15 +35,15 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     return divHeight / imageHeight;
   }
 
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (ref.current) {
-        const { width, height } = ref.current.getBoundingClientRect();
-        setWidth(width);
-        setHeight(height);
-      }
-    };
+  const updateDimensions = () => {
+    if (ref.current) {
+      const { width, height } = ref.current.getBoundingClientRect();
+      setWidth(width);
+      setHeight(height);
+    }
+  };
 
+  useEffect(() => {
     updateDimensions();
 
     window.addEventListener("resize", updateDimensions);
@@ -137,6 +137,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
         style={divStyle}
         src={props.imageUrl}
         alt={"Error"}
+        onLoad={updateDimensions}
       ></img>
       {nodes.map((node) => (
         <NodeDisplay {...nodeDisplayProps(node)} />
