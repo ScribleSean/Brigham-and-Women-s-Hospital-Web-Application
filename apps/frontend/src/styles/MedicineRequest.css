@@ -1,0 +1,32 @@
+.san-div{
+    height:100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.request-form{
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    justify-content: center;
+    padding: 6vh;
+}
+
+h1{
+    color:#012d5a;
+    text-align: center;
+    font-size: 3em;
+    font-weight: 900;
+    margin-top: 0;
+}
+.two-input-row-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button-container{
+    display: flex;
+    justify-content: space-between;
+}
+
