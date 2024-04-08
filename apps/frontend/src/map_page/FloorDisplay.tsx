@@ -15,8 +15,8 @@ import axios from "axios";
 export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const nodes: Array<Node> = props.nodes;
 
-  const [startNode, setStartNode] = useState<Node | null>(null);
-  const [endNode, setEndNode] = useState<Node | null>(null);
+  const [startNode, setStartNode] = useState<string | null>(null);
+  const [endNode, setEndNode] = useState<string | null>(null);
   const [path, setPath] = useState<Array<Path>>(new Array<Path>());
 
   const imageWidth: number = 5000;
@@ -34,7 +34,6 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   function getHeightScaling(): number {
     return divHeight / imageHeight;
   }
-
   const updateDimensions = () => {
     if (ref.current) {
       const { width, height } = ref.current.getBoundingClientRect();
@@ -56,8 +55,8 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
       if (startNode !== null && endNode !== null) {
         try {
           const startEndNode: StartEndNodes = {
-            node1: startNode,
-            node2: endNode,
+            node1ID: startNode,
+            node2ID: endNode,
           };
           const pathOptionsRequest: PathOptionsRequest = {
             algorithm: props.algorithm,
@@ -78,17 +77,29 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
 
   const handleNodeSelection = (node: Node): void => {
     if (!startNode) {
-      setStartNode(node);
+      setStartNode(node.ID);
       //console.log("Start node: " + node + ", End node: " + null);
     } else if (!endNode) {
-      setEndNode(node);
+      setEndNode(node.ID);
       //console.log("Start node: " + startNode + ", End node: " + node);
     } else {
-      setStartNode(node);
+      setStartNode(node.ID);
       setEndNode(null);
       //console.log("Start node: " + node + ", End node: " + null);
     }
   };
+
+  useEffect(() => {
+    if (props.locationSelectorStartNodeID) {
+      setStartNode(props.locationSelectorStartNodeID);
+    }
+  }, [props.locationSelectorStartNodeID]);
+
+  useEffect(() => {
+    if (props.locationSelectorEndNodeID) {
+      setEndNode(props.locationSelectorEndNodeID);
+    }
+  }, [props.locationSelectorEndNodeID]);
 
   const [changingNodes] = useState<Array<Node>>(new Array<Node>());
 

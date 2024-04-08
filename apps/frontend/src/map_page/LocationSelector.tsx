@@ -3,11 +3,17 @@ import { Autocomplete, TextField, Box, InputAdornment } from "@mui/material";
 import LocationIcon from "@mui/icons-material/NearMe";
 import CancelIcon from "@mui/icons-material/Cancel";
 import "./LocationSelector.css";
-import { NodesOptionsRequest, Location } from "./types/map_page_types";
+import {
+  NodesOptionsRequest,
+  Location,
+  LocationSelectorProps,
+} from "./types/map_page_types";
 import axios from "axios";
 import { Node } from "../../../backend/src/algorithms/DataStructures";
 
-export function LocationSelector(): React.JSX.Element {
+export function LocationSelector(
+  props: LocationSelectorProps,
+): React.JSX.Element {
   const [locations, setLocations] = useState<Array<Location>>([]);
   const [location, setLocation] = useState<Location | null>(null);
   const [destination, setDestination] = useState<Location | null>(null);
@@ -32,9 +38,16 @@ export function LocationSelector(): React.JSX.Element {
         console.error("Failed to fetch nodes data:", error);
       }
     }
-
     getLocations();
-  }, []);
+
+    if (location && location.ID) {
+      props.updateStartNodeID(location.ID);
+    }
+
+    if (destination && destination.ID) {
+      props.updateEndNodeID(destination.ID);
+    }
+  }, [destination, location, props]);
 
   const handleLocationChange = (newValue: Location | null) => {
     setLocation(newValue);

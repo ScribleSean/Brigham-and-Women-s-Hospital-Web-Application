@@ -16,11 +16,7 @@ async function createPath(
   graph: Graph,
   startEndNodes: StartEndNodes,
 ): Promise<Array<Path> | undefined> {
-  const { node1, node2 } = startEndNodes;
-  console.log(node1);
-  console.log(node2);
-  const node1ID: string = node1.ID;
-  const node2ID: string = node2.ID;
+  const { node1ID, node2ID } = startEndNodes;
 
   const startNode = graph.getNodeByID(node1ID);
   const endNode = graph.getNodeByID(node2ID);

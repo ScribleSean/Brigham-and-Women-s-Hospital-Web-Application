@@ -21,12 +21,19 @@ export interface AccessibilitySelectorProps {
   currentAccessibility: AccessibilityType;
 }
 
+export interface LocationSelectorProps {
+  updateStartNodeID: (startNodeID: string) => void;
+  updateEndNodeID: (endNodeID: string) => void;
+}
+
 export interface PathGrapherProps {
   floor: FloorType;
   draggingNodes: (isDragging: boolean) => void;
   scale: number;
   algorithm: AlgorithmType;
   accessibility: AccessibilityType;
+  locationSelectorStartNodeID: string | null;
+  locationSelectorEndNodeID: string | null;
 }
 
 export interface FloorDisplayProps {
@@ -36,6 +43,8 @@ export interface FloorDisplayProps {
   scale: number;
   algorithm: AlgorithmType;
   accessibility: AccessibilityType;
+  locationSelectorStartNodeID: string | null;
+  locationSelectorEndNodeID: string | null;
 }
 
 export interface NodeDisplayProps {
@@ -66,8 +75,8 @@ export interface NodesByFloor {
 }
 
 export interface StartEndNodes {
-  node1: Node;
-  node2: Node;
+  node1ID: string;
+  node2ID: string;
 }
 
 export interface PathOptionsRequest {

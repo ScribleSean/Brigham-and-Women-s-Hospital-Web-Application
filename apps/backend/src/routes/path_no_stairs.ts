@@ -9,11 +9,7 @@ const router: Router = express.Router();
 router.post("/", async function (req: Request, res: Response) {
   const graph: Graph = await createGraph(res, true);
 
-  console.log(req);
-
-  const { node1, node2 } = req.body as StartEndNodes;
-  const node1ID: string = node1.ID;
-  const node2ID: string = node2.ID;
+  const { node1ID, node2ID } = req.body as StartEndNodes;
 
   const startNode = graph.getNodeByID(node1ID);
   const endNode = graph.getNodeByID(node2ID);

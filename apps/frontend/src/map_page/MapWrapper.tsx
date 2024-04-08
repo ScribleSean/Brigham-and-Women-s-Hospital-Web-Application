@@ -13,6 +13,7 @@ import {
   AccessibilityType,
   AlgorithmSelectorProps,
   FloorSelectorProps,
+  LocationSelectorProps,
   PathGrapherProps,
 } from "./types/map_page_types.ts";
 import { AlgorithmSelector } from "./AlgorithmSelector.tsx";
@@ -82,14 +83,6 @@ function MapWrapper() {
     setScale(event.instance.transformState.scale);
   }
 
-  const pathGrapherProps: PathGrapherProps = {
-    floor: floor,
-    draggingNodes: selectIsDraggingNodes,
-    scale: scale,
-    algorithm: selectedAlgorithm,
-    accessibility: selectedAccessibility,
-  };
-
   const updateAlgorithm = (algorithm: AlgorithmType) => {
     setSelectedAlgorithm(algorithm);
   };
@@ -108,6 +101,36 @@ function MapWrapper() {
     currentAlgorithm: selectedAlgorithm,
   };
 
+  const [startNodeIDSelector, setStartNodeIDSelector] = useState<string | null>(
+    null,
+  );
+  const [endNodeIDSelector, setEndNodeIDSelector] = useState<string | null>(
+    null,
+  );
+
+  const updateStartNodeIDSelector = (ID1: string) => {
+    setStartNodeIDSelector(ID1);
+  };
+
+  const updateEndNodeIDSelector = (ID2: string) => {
+    setEndNodeIDSelector(ID2);
+  };
+
+  const locationSelectorProps: LocationSelectorProps = {
+    updateStartNodeID: updateStartNodeIDSelector,
+    updateEndNodeID: updateEndNodeIDSelector,
+  };
+
+  const pathGrapherProps: PathGrapherProps = {
+    floor: floor,
+    draggingNodes: selectIsDraggingNodes,
+    scale: scale,
+    algorithm: selectedAlgorithm,
+    accessibility: selectedAccessibility,
+    locationSelectorStartNodeID: startNodeIDSelector,
+    locationSelectorEndNodeID: endNodeIDSelector,
+  };
+
   return (
     <div className="col-10 map-wrapper">
       <TransformWrapper
@@ -119,7 +142,7 @@ function MapWrapper() {
           <AccessibilitySelector
             {...accessibilitySelectorProps}
           ></AccessibilitySelector>
-          <LocationSelector></LocationSelector>
+          <LocationSelector {...locationSelectorProps}></LocationSelector>
           <FloorSelector {...floorSelectorProps}></FloorSelector>
           <TransformComponent>
             <PathGrapher {...pathGrapherProps}></PathGrapher>

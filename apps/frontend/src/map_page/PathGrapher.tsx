@@ -80,6 +80,8 @@ export default function PathGrapher(props: PathGrapherProps) {
     scale: props.scale,
     algorithm: props.algorithm,
     accessibility: props.accessibility,
+    locationSelectorStartNodeID: props.locationSelectorStartNodeID,
+    locationSelectorEndNodeID: props.locationSelectorEndNodeID,
   };
 
   return (
