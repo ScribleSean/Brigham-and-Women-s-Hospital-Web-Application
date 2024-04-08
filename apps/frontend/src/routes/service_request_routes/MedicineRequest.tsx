@@ -1,12 +1,13 @@
 import {
-    Autocomplete,
-    Button,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    TextField,
+  Autocomplete,
+  Button,
+  FormControl, InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Snackbar,
+  TextField,
 } from "@mui/material";
 import "../../styles/MedicineRequest.css";
 import {useEffect, useState } from "react";
@@ -22,6 +23,60 @@ interface FormData {
 }
 
 function MedicineRequest() {
+
+  const medicineList: string[] = [
+    "Aspirin",
+    "Ibuprofen",
+    "Paracetamol",
+    "Amoxicillin",
+    "Omeprazole",
+    "Lisinopril",
+    "Metformin",
+    "Simvastatin",
+    "Atorvastatin",
+    "Levothyroxine",
+    "Prednisone",
+    "Gabapentin",
+    "Losartan",
+    "Azithromycin",
+    "Amlodipine",
+    "Metoprolol",
+    "Albuterol",
+    "Sertraline",
+    "Citalopram",
+    "Fluoxetine",
+    "Escitalopram",
+    "Cetirizine",
+    "Furosemide",
+    "Loratadine",
+    "Tramadol",
+    "Warfarin",
+    "Hydrochlorothiazide",
+    "Clonazepam",
+    "Tamsulosin",
+    "Meloxicam",
+    "Pregabalin",
+    "Diazepam",
+    "Zolpidem",
+    "Naproxen",
+    "Bisoprolol",
+    "Cephalexin",
+    "Metronidazole",
+    "Ciprofloxacin",
+    "Doxycycline",
+    "Methylprednisolone",
+    "Amitriptyline",
+    "Venlafaxine",
+    "Duloxetine",
+    "Risperidone",
+    "Quetiapine",
+    "Mirtazapine",
+    "Carvedilol",
+    "Folic Acid",
+    "Pantoprazole",
+    "Dextromethorphan",
+  ];
+
     const [formData, setFormData] = useState<FormData>({
         employeeName: "",
         location: "",
@@ -33,6 +88,8 @@ function MedicineRequest() {
     });
 
     const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
+
+  const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
     useEffect(() => {
         console.log(submittedRequests);
@@ -84,60 +141,15 @@ function MedicineRequest() {
         });
     };
 
-    const medicineList: string[] = [
-        "Aspirin",
-        "Ibuprofen",
-        "Paracetamol",
-        "Amoxicillin",
-        "Omeprazole",
-        "Lisinopril",
-        "Metformin",
-        "Simvastatin",
-        "Atorvastatin",
-        "Levothyroxine",
-        "Prednisone",
-        "Gabapentin",
-        "Losartan",
-        "Azithromycin",
-        "Amlodipine",
-        "Metoprolol",
-        "Albuterol",
-        "Sertraline",
-        "Citalopram",
-        "Fluoxetine",
-        "Escitalopram",
-        "Cetirizine",
-        "Furosemide",
-        "Loratadine",
-        "Tramadol",
-        "Warfarin",
-        "Hydrochlorothiazide",
-        "Clonazepam",
-        "Tamsulosin",
-        "Meloxicam",
-        "Pregabalin",
-        "Diazepam",
-        "Zolpidem",
-        "Naproxen",
-        "Bisoprolol",
-        "Cephalexin",
-        "Metronidazole",
-        "Ciprofloxacin",
-        "Doxycycline",
-        "Methylprednisolone",
-        "Amitriptyline",
-        "Venlafaxine",
-        "Duloxetine",
-        "Risperidone",
-        "Quetiapine",
-        "Mirtazapine",
-        "Carvedilol",
-        "Folic Acid",
-        "Pantoprazole",
-        "Dextromethorphan",
-    ];
-
     return (
+      <>
+        <Snackbar
+          open={snackbarIsOpen}
+          autoHideDuration={5000}
+          onClose={() => {setSnackbarIsOpen(false);}}
+          message={"Request was submitted successfully!"}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        />
         <div className={"san-div"}>
             <form className={"request-form"} onSubmit={handleSubmit}>
                 <h1>Medicine Request</h1>
@@ -149,6 +161,7 @@ function MedicineRequest() {
                     sx={{ my: "1%" }}
                     onChange={handleTextFieldChange}
                     value={formData.employeeName}
+                    required
                 />
                 <TextField
                     label={"Location"}
@@ -157,6 +170,7 @@ function MedicineRequest() {
                     sx={{ my: "1%" }}
                     onChange={handleTextFieldChange}
                     value={formData.location}
+                    required
                 />
                 <br />
                 <Autocomplete
@@ -167,16 +181,26 @@ function MedicineRequest() {
                     onChange={(_event, value) => handleMedicineNameChange(value)}
                     value={formData.medicineName}
                     renderInput={(params) => (
-                        <TextField variant={"filled"} {...params} label="Medicine" />
+                        <TextField
+                          variant={"filled"}
+                          {...params}
+                          label="Medicine"
+                          required
+                        />
                     )}
                 />
                 <div className={"two-input-row-container"}>
                     <FormControl
                         variant={"filled"}
                         sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+                        required
                     >
                         <InputLabel id={"dosageForm"}>Dosage Form</InputLabel>
-                        <Select id={"dosageForm"} onChange={(e) => handleSelectChange(e, "dosageForm")} value={formData.dosageForm}>
+                        <Select
+                          id={"dosageForm"}
+                          onChange={(e) => handleSelectChange(e, "dosageForm")}
+                          value={formData.dosageForm}
+                        >
                             <MenuItem value={"Tablet"}>Tablet</MenuItem>
                             <MenuItem value={"Capsule"}>Capsule</MenuItem>
                             <MenuItem value={"Liquid"}>Liquid</MenuItem>
@@ -187,9 +211,11 @@ function MedicineRequest() {
                         label={"Dosage Amount"}
                         variant={"filled"}
                         sx={{ width: "49%", marginLeft: "1%" }}
+                        InputProps={{ endAdornment: <InputAdornment position={"end"}>mg</InputAdornment> }}
                         onChange={handleTextFieldChange}
                         type={"number"}
                         value={formData.dosageAmount}
+                        required
                     />
                 </div>
                 <br />
@@ -197,9 +223,14 @@ function MedicineRequest() {
                     <FormControl
                         variant={"filled"}
                         sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+                        required
                     >
                         <InputLabel id={"priority"}>Priority</InputLabel>
-                        <Select id={"priority"} onChange={(e) => handleSelectChange(e, "priority")} value={formData.priority}>
+                        <Select
+                          id={"priority"}
+                          onChange={(e) => handleSelectChange(e, "priority")}
+                          value={formData.priority}
+                        >
                             <MenuItem value={"Low"}>Low</MenuItem>
                             <MenuItem value={"Medium"}>Medium</MenuItem>
                             <MenuItem value={"High"}>High</MenuItem>
@@ -209,9 +240,14 @@ function MedicineRequest() {
                     <FormControl
                         variant={"filled"}
                         sx={{ width: "49%", marginLeft: "1%", my: "1%" }}
+                        required
                     >
                         <InputLabel id={"status"}>Status</InputLabel>
-                        <Select id={"status"} onChange={(e) => handleSelectChange(e, "status")} value={formData.status}>
+                        <Select
+                          id={"status"}
+                          onChange={(e) => handleSelectChange(e, "status")}
+                          value={formData.status}
+                        >
                             <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
                             <MenuItem value={"Assigned"}>Assigned</MenuItem>
                             <MenuItem value={"In Progress"}>In Progress</MenuItem>
@@ -232,8 +268,10 @@ function MedicineRequest() {
                         Submit
                     </Button>
                 </div>
+              <br/>
             </form>
         </div>
+      </>
     );
 }
 
