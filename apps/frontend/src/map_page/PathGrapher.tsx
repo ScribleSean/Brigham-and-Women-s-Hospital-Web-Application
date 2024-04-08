@@ -78,6 +78,7 @@ export default function PathGrapher(props: PathGrapherProps) {
     draggingNodes: props.draggingNodes,
     scale: props.scale,
     algorithm: props.algorithm,
+    accessibility: props.accessibility,
   };
 
   return (
