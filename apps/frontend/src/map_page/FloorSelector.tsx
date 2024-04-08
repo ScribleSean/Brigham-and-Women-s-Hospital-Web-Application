@@ -12,24 +12,28 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
   return (
     <>
       <div className={"btn-container"}>
-        <Button
-          onClick={() => updateFloor(FloorType.L1)}
-          variant={"contained"}
-          sx={{
-            backgroundColor: getButtonColor(FloorType.L1),
-            height: "6vh",
-            width: getButtonWidth(FloorType.L1),
-            color: "#012D5A",
-            fontFamily: "inter",
-            fontWeight: "bold",
-            fontSize: "1.2rem",
-            textTransform: "capitalize",
-            boxShadow: 3,
-            borderRadius: 2,
-          }}
-        >
-          L1
-        </Button>
+        <div>
+          <Button
+            onClick={() => updateFloor(FloorType.L1)}
+            variant={"contained"}
+            sx={{
+              backgroundColor: getButtonColor(FloorType.L1),
+              height: "6vh",
+              width: getButtonWidth(FloorType.L1),
+              color: "#012D5A",
+              fontFamily: "inter",
+              fontWeight: "bold",
+              fontSize: "1.2rem",
+              textTransform: "capitalize",
+              boxShadow: 3,
+              borderRadius: 2,
+              transition: "width 0.3s ease",
+            }}
+          >
+            L1
+          </Button>
+        </div>
+
         <Button
           onClick={() => updateFloor(FloorType.L2)}
           variant={"contained"}
@@ -44,6 +48,7 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
             textTransform: "capitalize",
             boxShadow: 3,
             borderRadius: 2,
+            transition: "width 0.3s ease",
           }}
         >
           L2
@@ -62,6 +67,7 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
             textTransform: "capitalize",
             boxShadow: 3,
             borderRadius: 2,
+            transition: "width 0.3s ease",
           }}
         >
           Floor 1
@@ -80,6 +86,7 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
             textTransform: "capitalize",
             boxShadow: 3,
             borderRadius: 2,
+            transition: "width 0.3s ease",
           }}
         >
           Floor 2
@@ -98,6 +105,7 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
             textTransform: "capitalize",
             boxShadow: 3,
             borderRadius: 2,
+            transition: "width 0.3s ease",
           }}
         >
           Floor 3
