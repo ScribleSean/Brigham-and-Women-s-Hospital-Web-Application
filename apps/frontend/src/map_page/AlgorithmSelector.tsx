@@ -24,14 +24,6 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
     props.updateAlgorithmFunction(event.target.value as AlgorithmType);
   };
 
-  // Function to render the value of the select
-  const renderValue = (value: string) => {
-    if (value === "") {
-      return "Algorithm";
-    }
-    return value;
-  };
-
   return (
     <Box>
       <FormControl
@@ -44,7 +36,7 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
           width: "12vw",
           height: "5vh",
           marginTop: "1.5rem",
-          marginRight: "1.7rem",
+          marginRight: "29rem",
           alignItems: "center",
           zIndex: 3,
           right: 0,
@@ -55,7 +47,7 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
             display: "flex",
             alignItems: "center",
             paddingRight: "0.6rem",
-            paddingTop: "0.6rem",
+            paddingTop: "0.3rem",
           }}
         >
           <img
@@ -71,8 +63,6 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
             variant="standard"
             value={props.currentAlgorithm}
             onChange={handleChange}
-            displayEmpty
-            renderValue={renderValue}
             IconComponent={CustomArrowIcon}
             sx={{
               fontWeight: "bold",
