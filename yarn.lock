@@ -1729,6 +1729,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jquery@npm:^3.5.29":
+  version: 3.5.29
+  resolution: "@types/jquery@npm:3.5.29"
+  dependencies:
+    "@types/sizzle": "npm:*"
+  checksum: 364facf2cb0bc935cb4b7f4af0b12c8e901b02b08a85af213172485166123b10aad8563f8e51e363f65a778c4105a59a64dedd0b0fd73f96557219d46477af56
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.12":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -1967,6 +1976,13 @@ __metadata:
     "@types/mime": "npm:*"
     "@types/node": "npm:*"
   checksum: 49aa21c367fffe4588fc8c57ea48af0ea7cbadde7418bc53cde85d8bd57fd2a09a293970d9ea86e79f17a87f8adeb3e20da76aab38e1c4d1567931fa15c8af38
+  languageName: node
+  linkType: hard
+
+"@types/sizzle@npm:*":
+  version: 2.3.8
+  resolution: "@types/sizzle@npm:2.3.8"
+  checksum: 2ac62443dc917f5f903cbd9afc51c7d6cc1c6569b4e1a15faf04aea5b13b486e7f208650014c3dc4fed34653eded3e00fe5abffe0e6300cbf0e8a01beebf11a6
   languageName: node
   linkType: hard
 
@@ -7428,6 +7444,7 @@ __metadata:
     "@mui/styled-engine-sc": "npm:6.0.0-alpha.18"
     "@prisma/client": "npm:^5.12.0"
     "@types/bootstrap": "npm:^5"
+    "@types/jquery": "npm:^3.5.29"
     "@types/react": "npm:^18.2.73"
     "@types/react-dom": "npm:^18.0.11"
     "@vitest/ui": "npm:^0.33.0"

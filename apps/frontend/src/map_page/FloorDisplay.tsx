@@ -1,5 +1,11 @@
 import { Node, Path } from "../../../backend/src/algorithms/DataStructures.ts";
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import React, {
+  CSSProperties,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 import {
   AccessibilityType,
   FloorDisplayProps,
@@ -27,6 +33,9 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const [divWidth, setWidth] = useState(0);
   const [divHeight, setHeight] = useState(0);
 
+  const isImageLoaded = useRef(false);
+  const loadImageOnce = useRef(0);
+
   function getWidthScaling(): number {
     return divWidth / imageWidth;
   }
@@ -34,21 +43,25 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   function getHeightScaling(): number {
     return divHeight / imageHeight;
   }
-  const updateDimensions = () => {
-    if (ref.current) {
+  const updateDimensions = useCallback(() => {
+    if (ref.current && !isImageLoaded.current) {
       const { width, height } = ref.current.getBoundingClientRect();
       setWidth(width);
       setHeight(height);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    updateDimensions();
-
-    window.addEventListener("resize", updateDimensions);
-
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
+    if (loadImageOnce.current === 0) {
+      loadImageOnce.current++;
+      updateDimensions();
+      isImageLoaded.current = false;
+    } else {
+      //console.log(S"here");
+      window.addEventListener("resize", updateDimensions);
+      return () => window.removeEventListener("resize", updateDimensions);
+    }
+  });
 
   useEffect(() => {
     async function getPath(): Promise<void> {
@@ -71,8 +84,15 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
         }
       }
     }
+
     getPath();
   }, [props.accessibility, props.algorithm, setPath, startNode, endNode]);
+
+  const handleImageLoad = () => {
+    if (!isImageLoaded.current) {
+      updateDimensions();
+    }
+  };
 
   useEffect(() => {
     props.resetDirections;
@@ -153,7 +173,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
         style={divStyle}
         src={props.imageUrl}
         alt={"Error"}
-        onLoad={updateDimensions}
+        onLoad={handleImageLoad}
       ></img>
       {nodes.map((node) => (
         <NodeDisplay {...nodeDisplayProps(node)} />

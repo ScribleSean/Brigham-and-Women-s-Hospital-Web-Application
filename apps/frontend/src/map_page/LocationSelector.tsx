@@ -66,6 +66,8 @@ export function LocationSelector(
           gap: 2,
           position: "absolute",
           width: "16%",
+          marginTop: "3vh",
+          marginLeft: "2vw",
         }}
       >
         <Autocomplete
@@ -78,6 +80,11 @@ export function LocationSelector(
             <TextField
               {...params}
               label="Enter Location"
+              sx={{
+                backgroundColor: "white",
+                width: "15vw",
+                color: "black",
+              }}
               InputProps={{
                 ...params.InputProps,
                 startAdornment: (
@@ -109,6 +116,10 @@ export function LocationSelector(
             <TextField
               {...params}
               label="Enter Destination"
+              sx={{
+                backgroundColor: "white",
+                width: "15vw",
+              }}
               InputProps={{
                 ...params.InputProps,
                 startAdornment: (

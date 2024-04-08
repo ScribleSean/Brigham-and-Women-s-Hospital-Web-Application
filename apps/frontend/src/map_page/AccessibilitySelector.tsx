@@ -29,10 +29,10 @@ export function AccessibilitySelector(props: AccessibilitySelectorProps) {
           borderRadius: "4rem",
           position: "absolute",
           display: "flex",
-          width: "12vw",
+          width: "15vw",
           height: "5vh",
-          marginTop: "6.5rem",
-          marginRight: "1.7rem",
+          marginTop: "1.5rem",
+          marginRight: "13rem",
           alignItems: "center",
           zIndex: 3,
           right: 0,
@@ -43,7 +43,7 @@ export function AccessibilitySelector(props: AccessibilitySelectorProps) {
             display: "flex",
             alignItems: "center",
             paddingRight: "0.6rem",
-            paddingTop: "0.6rem",
+            paddingTop: "0.3rem",
           }}
         >
           <img
