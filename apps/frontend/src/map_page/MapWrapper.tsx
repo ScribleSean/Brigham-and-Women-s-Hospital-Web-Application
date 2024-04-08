@@ -15,6 +15,7 @@ import {
 } from "./types/map_page_types.ts";
 import { AlgorithmSelector } from "./AlgorithmSelector.tsx";
 import { AlgorithmType } from "../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
+import { AccessibilitySelector } from "./AccessibilitySelector.tsx";
 
 const mapDiv: CSSProperties = {
   height: "100%",
@@ -100,6 +101,7 @@ function MapWrapper() {
       >
         <div style={mapDiv}>
           <AlgorithmSelector {...algorithmSelectorProps}></AlgorithmSelector>
+          <AccessibilitySelector></AccessibilitySelector>
           <FloorSelector {...floorSelectorProps}></FloorSelector>
           <TransformComponent>
             <PathGrapher {...pathGrapherProps}></PathGrapher>

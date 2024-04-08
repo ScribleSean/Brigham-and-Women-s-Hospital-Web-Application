@@ -1,15 +1,7 @@
 import React from "react";
-import {
-  Box,
-  FormControl,
-  MenuItem,
-  Select,
-  SvgIcon,
-  SvgIconProps,
-} from "@mui/material";
+import { FormControl, Select, Box, MenuItem, SvgIcon } from "@mui/material";
+import { SvgIconProps } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { AlgorithmType } from "../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
-import { AlgorithmSelectorProps } from "./types/map_page_types.ts";
 
 function CustomArrowIcon(props: SvgIconProps) {
   return (
@@ -19,17 +11,12 @@ function CustomArrowIcon(props: SvgIconProps) {
   );
 }
 
-export function AlgorithmSelector(props: AlgorithmSelectorProps) {
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    props.updateAlgorithmFunction(event.target.value as AlgorithmType);
-  };
+export function AccessibilitySelector() {
+  const [selectedAccessibility, setSelectedAccessibility] =
+    React.useState("All Accessible");
 
-  // Function to render the value of the select
-  const renderValue = (value: string) => {
-    if (value === "") {
-      return "Algorithm";
-    }
-    return value;
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    setSelectedAccessibility(event.target.value);
   };
 
   return (
@@ -43,7 +30,7 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
           display: "flex",
           width: "12vw",
           height: "5vh",
-          marginTop: "1.5rem",
+          marginTop: "6.5rem",
           marginRight: "1.7rem",
           alignItems: "center",
           zIndex: 3,
@@ -59,24 +46,24 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
           }}
         >
           <img
-            src="algorithm.png"
+            src="accessibility.png"
             alt=""
             style={{
               height: "1.7rem",
-              width: "2.92rem",
-              marginRight: "-0.5rem",
+              width: "2rem",
+              marginRight: "-0.1rem",
             }}
           />
           <Select
             variant="standard"
-            value={props.currentAlgorithm}
+            value={selectedAccessibility}
             onChange={handleChange}
             displayEmpty
-            renderValue={renderValue}
             IconComponent={CustomArrowIcon}
             sx={{
               fontWeight: "bold",
               fontFamily: "inter",
+              fontSize: "14px",
               "&:before, &:after": {
                 display: "none", // Remove underline
               },
@@ -88,40 +75,24 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
             }}
           >
             <MenuItem
-              value={AlgorithmType._BFS}
+              value={"All Accessible"}
               sx={{
                 fontWeight: "bold",
                 fontFamily: "inter",
+                fontSize: "14px",
               }}
             >
-              BFS
+              All Accessible
             </MenuItem>
             <MenuItem
-              value={AlgorithmType._DFS}
+              value={"Wheelchair Accessible"}
               sx={{
                 fontWeight: "bold",
                 fontFamily: "inter",
+                fontSize: "14px",
               }}
             >
-              DFS
-            </MenuItem>
-            <MenuItem
-              value={AlgorithmType._Dijkstra}
-              sx={{
-                fontWeight: "bold",
-                fontFamily: "inter",
-              }}
-            >
-              Dijkstra's
-            </MenuItem>
-            <MenuItem
-              value={AlgorithmType._ASTAR}
-              sx={{
-                fontWeight: "bold",
-                fontFamily: "inter",
-              }}
-            >
-              ASTAR
+              Wheelchair Accessible
             </MenuItem>
           </Select>
         </Box>
