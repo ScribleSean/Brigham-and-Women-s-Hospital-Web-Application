@@ -8,6 +8,12 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
   const heightScaling: number = props.scaling.heightScaling;
   const currentPathDisplayed: number = props.currentDirectionsNumber;
 
+  useEffect(() => {
+    if (currentPathDisplayed >= paths.length) {
+      props.resetDirections();
+    }
+  }, [currentPathDisplayed, paths.length, props]);
+
   function getNodes(path: Path): Array<Node> {
     const nodes: Array<Node> = [];
     if (path.edges) {
@@ -21,7 +27,7 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
 
   function getPathCoordinates(path: Path): string {
     if (!path.edges) {
-      return ""; // Return an empty string if edges are undefined
+      return "";
     }
     const nodes: Array<Node> = getNodes(path);
     return nodes
@@ -29,28 +35,24 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
       .join(" ");
   }
 
-  const colors: Array<string> = [
-    "#ff0000",
-    "#00ff00",
-    "#0000ff",
-    "#ff00ff",
-    "#00ffff",
-  ];
-  const totalLength: number = 1000;
-  const animationDuration: number = 3;
+  const lightBlue: string = "lightblue"; // Light blue color for all paths
+  const darkBlue: string = "darkblue"; // Dark blue color for the current path
+  const strokeDasharray: number = 5;
 
-  function getPolylineProps(coordinates: string): SVGProps<SVGPolylineElement> {
+  function getPolylineProps(
+    coordinates: string,
+    strokeColor: string,
+  ): SVGProps<SVGPolylineElement> {
     return {
       points: coordinates,
-      stroke: colors[currentPathDisplayed % colors.length],
-      strokeWidth: "3",
+      stroke: strokeColor,
+      strokeWidth: "2",
       fill: "none",
       strokeLinejoin: "bevel",
       strokeLinecap: "round",
       style: {
-        strokeDasharray: totalLength,
-        strokeDashoffset: totalLength,
-        animation: `draw ${animationDuration}s ease-in-out forwards`,
+        strokeDasharray,
+        animation: `march 2s linear infinite`,
       },
     };
   }
@@ -62,35 +64,29 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
     zIndex: 2,
   };
 
-  useEffect(() => {
-    if (currentPathDisplayed >= paths.length) {
-      props.resetDirections();
-    }
-  }, [currentPathDisplayed, paths.length, props]);
-
-  const currentPathCoordinates =
-    currentPathDisplayed < paths.length
-      ? getPathCoordinates(paths[currentPathDisplayed])
-      : "";
-
   return (
     <svg style={svgStyle}>
       <defs>
-        <filter id="soften">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
-        </filter>
-      </defs>
-      {currentPathCoordinates && (
-        <polyline {...getPolylineProps(currentPathCoordinates)} />
-      )}
-      <style>
-        {`
-          @keyframes draw {
-            from { stroke-dashoffset: ${totalLength}; }
-            to { stroke-dashoffset: 0; }
+        <style>
+          {`
+          @keyframes march {
+            to {
+              stroke-dashoffset: -${strokeDasharray * 2};
+            }
           }
         `}
-      </style>
+        </style>
+      </defs>
+      {paths.map((path, index) => {
+        const strokeColor =
+          index === currentPathDisplayed ? darkBlue : lightBlue;
+        return (
+          <polyline
+            key={index}
+            {...getPolylineProps(getPathCoordinates(path), strokeColor)}
+          />
+        );
+      })}
     </svg>
   );
 }
