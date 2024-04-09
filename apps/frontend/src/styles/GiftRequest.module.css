@@ -1,64 +1,64 @@
 .title {
-    padding-left: 5%;
+  padding-left: 5%;
 }
 
 .inputSection {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .roundedInputBorders {
-    border-radius: 14px;
+  border-radius: 14px;
 }
 
 .longBoxPadding {
-    padding-left: .75rem;
-    padding-right: .75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 label {
-    align-self: start;
-    padding-bottom: .25rem;
+  align-self: start;
+  padding-bottom: 0.25rem;
 }
 
 .nonTextInput {
-    padding-left: 1rem;
+  padding-left: 1rem;
 }
 
 .textInput {
-    padding-left: .75rem;
+  padding-left: 0.75rem;
 }
 
 .radioButtonSpacing {
-    padding-bottom: .5rem;
+  padding-bottom: 0.5rem;
 }
 
 .fieldBgColor {
-    background-color: #F1F1F1;
+  background-color: #f1f1f1;
 }
 
 .formBgColor {
-    background-color: #D4DEE8;
+  background-color: #d4dee8;
 }
 
 .blueBorder {
-    border-width: 4px;
-    border-color: #012D5A;
-    border-style: solid;
+  border-width: 4px;
+  border-color: #012d5a;
+  border-style: solid;
 }
 
 body {
-    background-color: #d9d9d9;
+  background-color: #d9d9d9;
 }
 
 h1 {
-    color: #012D5A;
-    font-weight: 700;
-    font-size: 4em;
+  color: #012d5a;
+  font-weight: 700;
+  font-size: 4em;
 }
 
 input[type="radio"] {
-    border-color: #F6BD39;
-    border-width: 2px;
+  border-color: #f6bd39;
+  border-width: 2px;
 }
 
 input[type="radio"]:checked {
@@ -66,28 +66,27 @@ input[type="radio"]:checked {
 }
 
 .radioButtonFontSize {
-    font-size: 1.1em;
+  font-size: 1.1em;
 }
 
 .sendButtonBgColor {
-    background-color: #012D5A;
-    border: transparent;
-    font-weight: 700;
-    font-size: 2.25em;
-    padding: 1rem 7rem;
+  background-color: #012d5a;
+  border: transparent;
+  font-weight: 700;
+  font-size: 2.25em;
+  padding: 1rem 7rem;
 }
 
 .sendButtonBgColor:hover {
-    background-color: #F6BD39;
-    color: black;
-    border: transparent;
+  background-color: #f6bd39;
+  color: black;
+  border: transparent;
 }
 
 .allInputs {
-    margin: 0 8rem;
+  margin: 0 8rem;
 }
 
 .textInputFontBold {
-    font-weight: bold;
+  font-weight: bold;
 }
-

@@ -6,6 +6,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  Snackbar,
   TextField,
 } from "@mui/material";
 import styles from "../../styles/MedicalDeviceRequest.module.css";
@@ -86,6 +87,8 @@ function MedicalDeviceRequest() {
 
   const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
 
+  const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
+
   const addSubmittedRequest = (newRequest: FormData) => {
     setSubmittedRequests([...submittedRequests, newRequest]);
   };
@@ -137,6 +140,15 @@ function MedicalDeviceRequest() {
 
   return (
     <>
+      <Snackbar
+        open={snackbarIsOpen}
+        autoHideDuration={5000}
+        onClose={() => {
+          setSnackbarIsOpen(false);
+        }}
+        message={"Request was submitted successfully!"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      />
       <div className={`${styles.sanDiv} col-10`}>
         <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
           <h1>Medical Device Request</h1>

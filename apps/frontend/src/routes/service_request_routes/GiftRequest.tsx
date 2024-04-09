@@ -43,14 +43,18 @@ const GiftRequest: React.FC = () => {
       <div className={`text-center my-5`}>
         <h1>Gift Request</h1>
       </div>
-      <div
-        className={`container text-start justify-content-center mt-3`}
-      >
-        <form className={`p-5 rounded-4 ${styles.formBgColor} ${styles.blueBorder}`}>
+      <div className={`container text-start justify-content-center mt-3`}>
+        <form
+          className={`p-5 rounded-4 ${styles.formBgColor} ${styles.blueBorder}`}
+        >
           <div className={`${styles.allInputs}`}>
             <div className={`row ${styles.inputSection}`}>
               <div className="form-group">
-                <label className={`${styles.textInputFontBold} ${styles.textInput}`}>Employee Name</label>
+                <label
+                  className={`${styles.textInputFontBold} ${styles.textInput}`}
+                >
+                  Employee Name
+                </label>
                 <input
                   type="text"
                   className={`${styles.fieldBgColor} ${styles.roundedInputBorders} form-control shadow-sm py-3`}
@@ -58,9 +62,17 @@ const GiftRequest: React.FC = () => {
                 />
               </div>
             </div>
-            <div className={`row ${styles.inputSection} ${styles.longBoxPadding}`}>
-              <label className={`${styles.textInputFontBold} ${styles.textInput}`}>Location</label>
-              <select className={`${styles.roundedInputBorders} ${styles.fieldBgColor} form-select shadow-lg py-3 rounded-input-borders`}>
+            <div
+              className={`row ${styles.inputSection} ${styles.longBoxPadding}`}
+            >
+              <label
+                className={`${styles.textInputFontBold} ${styles.textInput}`}
+              >
+                Location
+              </label>
+              <select
+                className={`${styles.roundedInputBorders} ${styles.fieldBgColor} form-select shadow-lg py-3 rounded-input-borders`}
+              >
                 <option>Node 1</option>
                 <option>Node 2</option>
                 {/*todo: connect to database Nodes*/}
@@ -68,8 +80,14 @@ const GiftRequest: React.FC = () => {
             </div>
             <div className={`row ${styles.inputSection}`}>
               <div className={`col ${styles.col}`}>
-                <label className={`${styles.textInputFontBold} ${styles.nonTextInput}`}>Gift Type</label>
-                <select className={`${styles.roundedInputBorders} ${styles.fieldBgColor} form-select shadow py-3 rounded-input-borders`}>
+                <label
+                  className={`${styles.textInputFontBold} ${styles.nonTextInput}`}
+                >
+                  Gift Type
+                </label>
+                <select
+                  className={`${styles.roundedInputBorders} ${styles.fieldBgColor} form-select shadow py-3 rounded-input-borders`}
+                >
                   <option>Hat</option>
                   <option>Beanie</option>
                   <option>Wrist Band</option>
@@ -80,8 +98,14 @@ const GiftRequest: React.FC = () => {
                 {/*<LocalizationProvider dateAdapter={AdapterDayjs}> c*/}
                 {/*    <DatePicker />*/}
                 {/*</LocalizationProvider>*/}
-                <label className={`${styles.textInputFontBold} ${styles.nonTextInput}`}>Date</label>
-                <select className={`${styles.roundedInputBorders} ${styles.fieldBgColor} form-select shadow py-3 rounded-input-borders`}>
+                <label
+                  className={`${styles.textInputFontBold} ${styles.nonTextInput}`}
+                >
+                  Date
+                </label>
+                <select
+                  className={`${styles.roundedInputBorders} ${styles.fieldBgColor} form-select shadow py-3 rounded-input-borders`}
+                >
                   <option>Node 1</option>
                   <option>Node 2</option>
                   {/*todo: connect to database Nodes*/}
@@ -91,64 +115,139 @@ const GiftRequest: React.FC = () => {
             </div>
             <div className={`row ${styles.inputSection}`}>
               <div className={`col text-start ${styles.col}`}>
-                <label className={`${styles.textInputFontBold} ${styles.nonTextInput}`}>Priority</label>
+                <label
+                  className={`${styles.textInputFontBold} ${styles.nonTextInput}`}
+                >
+                  Priority
+                </label>
 
-                <div className={`${styles.fieldBgColor} ${styles.roundedInputBorders} p-2 px-3 pt-3`}>
+                <div
+                  className={`${styles.fieldBgColor} ${styles.roundedInputBorders} p-2 px-3 pt-3`}
+                >
                   <div className={`form-check ${styles.radioButtonSpacing}`}>
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
-                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault1">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
+                    <label
+                      className={`form-check-label ${styles.radioButtonFontSize}`}
+                      htmlFor="flexRadioDefault1"
+                    >
                       Low
                     </label>
                   </div>
                   <div className={`form-check ${styles.radioButtonSpacing}`}>
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                           checked/>
-                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault2">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault2"
+                      checked
+                    />
+                    <label
+                      className={`form-check-label ${styles.radioButtonFontSize}`}
+                      htmlFor="flexRadioDefault2"
+                    >
                       Medium
                     </label>
                   </div>
                   <div className={`form-check ${styles.radioButtonSpacing}`}>
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
-                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault1">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
+                    <label
+                      className={`form-check-label ${styles.radioButtonFontSize}`}
+                      htmlFor="flexRadioDefault1"
+                    >
                       High
                     </label>
                   </div>
                   <div className={`form-check ${styles.radioButtonSpacing}`}>
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                           checked/>
-                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault2">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault2"
+                      checked
+                    />
+                    <label
+                      className={`form-check-label ${styles.radioButtonFontSize}`}
+                      htmlFor="flexRadioDefault2"
+                    >
                       Emergency
                     </label>
                   </div>
                 </div>
-
               </div>
               <div className={`col`}>
-                <label className={`${styles.textInputFontBold} ${styles.nonTextInput}`}>Status</label>
-                <div className={`${styles.fieldBgColor} ${styles.roundedInputBorders} p-2 px-3 pt-3`}>
+                <label
+                  className={`${styles.textInputFontBold} ${styles.nonTextInput}`}
+                >
+                  Status
+                </label>
+                <div
+                  className={`${styles.fieldBgColor} ${styles.roundedInputBorders} p-2 px-3 pt-3`}
+                >
                   <div className={`form-check ${styles.radioButtonSpacing}`}>
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
-                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault1">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
+                    <label
+                      className={`form-check-label ${styles.radioButtonFontSize}`}
+                      htmlFor="flexRadioDefault1"
+                    >
                       Unassigned
                     </label>
                   </div>
                   <div className={`form-check ${styles.radioButtonSpacing}`}>
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                           checked/>
-                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault2">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault2"
+                      checked
+                    />
+                    <label
+                      className={`form-check-label ${styles.radioButtonFontSize}`}
+                      htmlFor="flexRadioDefault2"
+                    >
                       Assigned
                     </label>
                   </div>
                   <div className={`form-check ${styles.radioButtonSpacing}`}>
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
-                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault1">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
+                    <label
+                      className={`form-check-label ${styles.radioButtonFontSize}`}
+                      htmlFor="flexRadioDefault1"
+                    >
                       InProgress
                     </label>
                   </div>
                   <div className={`form-check ${styles.radioButtonSpacing}`}>
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                           checked/>
-                    <label className={`form-check-label ${styles.radioButtonFontSize}`} htmlFor="flexRadioDefault2">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault2"
+                      checked
+                    />
+                    <label
+                      className={`form-check-label ${styles.radioButtonFontSize}`}
+                      htmlFor="flexRadioDefault2"
+                    >
                       Closed
                     </label>
                   </div>
@@ -158,7 +257,10 @@ const GiftRequest: React.FC = () => {
           </div>
         </form>
         <div className={"text-center m-4"}>
-          <button type="submit" className={`btn btn-primary rounded-pill ${styles.sendButtonBgColor}`}>
+          <button
+            type="submit"
+            className={`btn btn-primary rounded-pill ${styles.sendButtonBgColor}`}
+          >
             Send
           </button>
         </div>
