@@ -119,7 +119,6 @@ function RoomScheduling() {
             value={formData.employeeName}
             required
           />
-          <br />
           <TextField
             label={"Location"}
             variant={"filled"}
@@ -176,7 +175,6 @@ function RoomScheduling() {
               />
             </FormControl>
           </div>
-          <br />
 
           <div className={"two-input-row-container"}>
             <FormControl
