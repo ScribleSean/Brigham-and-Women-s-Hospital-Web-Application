@@ -1,92 +1,29 @@
-.title {
-  padding-left: 5%;
+.sanDiv {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: right;
 }
 
-.inputSection {
-  margin-bottom: 1rem;
+.requestForm {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  justify-content: center;
+  padding: 6vh;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.roundedInputBorders {
-  border-radius: 14px;
+.twoInputRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.longBoxPadding {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
-label {
-  align-self: start;
-  padding-bottom: 0.25rem;
-}
-
-.nonTextInput {
-  padding-left: 1rem;
-}
-
-.textInput {
-  padding-left: 0.75rem;
-}
-
-.radioButtonSpacing {
-  padding-bottom: 0.5rem;
-}
-
-.fieldBgColor {
-  background-color: #f1f1f1;
-}
-
-.formBgColor {
-  background-color: #d4dee8;
-}
-
-.blueBorder {
-  border-width: 4px;
-  border-color: #012d5a;
-  border-style: solid;
-}
-
-body {
-  background-color: #d9d9d9;
-}
-
-h1 {
-  color: #012d5a;
-  font-weight: 700;
-  font-size: 4em;
-}
-
-input[type="radio"] {
-  border-color: #f6bd39;
-  border-width: 2px;
-}
-
-input[type="radio"]:checked {
-  background-color: #f6bd39 !important;
-}
-
-.radioButtonFontSize {
-  font-size: 1.1em;
-}
-
-.sendButtonBgColor {
-  background-color: #012d5a;
-  border: transparent;
-  font-weight: 700;
-  font-size: 2.25em;
-  padding: 1rem 7rem;
-}
-
-.sendButtonBgColor:hover {
-  background-color: #f6bd39;
-  color: black;
-  border: transparent;
-}
-
-.allInputs {
-  margin: 0 8rem;
-}
-
-.textInputFontBold {
-  font-weight: bold;
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
 }
