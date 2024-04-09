@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
-const ExportAllDataToCSVButton = () => {
+import { Download } from "@mui/icons-material";
+const ExportAllButton = () => {
   const [fileNode, setFileNode] = useState("");
   const [fileEdge, setFileEdge] = useState("");
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const handleExportButton = () => {
     // Node data export
@@ -49,22 +50,31 @@ const ExportAllDataToCSVButton = () => {
         console.log("Failed");
       } finally {
         // Set loading to false, indicating that the request has completed
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
     fetchData().then();
   }, []); //
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
-    <Button onClick={handleExportButton} variant={"outlined"}>
-      Export All
+    <Button
+      onClick={handleExportButton}
+      variant={"contained"}
+      startIcon={<Download />}
+      sx={{
+        backgroundColor: "#012d5a",
+        height: "40px",
+        marginRight: "16px",
+      }}
+    >
+      Export Both
     </Button>
   );
 };
 
-export default ExportAllDataToCSVButton;
+export default ExportAllButton;

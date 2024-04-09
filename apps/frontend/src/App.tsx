@@ -11,6 +11,7 @@ import PathGrapher from "./map_page/PathGrapher.tsx";
 import GiftRequest from "./routes/service_request_routes/GiftRequest.tsx";
 import MedicineRequest from "./routes/service_request_routes/MedicineRequest.tsx";
 import MedicalDeviceRequest from "./routes/service_request_routes/MedicalDeviceRequest.tsx";
+import RoomScheduling from "./routes/service_request_routes/RoomScheduling.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -34,6 +35,10 @@ function App() {
         {
           path: "/flower-delivery",
           element: <FlowerDelivery />,
+        },
+        {
+          path: "/room-scheduling",
+          element: <RoomScheduling />,
         },
         {
           path: "/requests",

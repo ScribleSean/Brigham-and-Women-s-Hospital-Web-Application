@@ -1,11 +1,16 @@
 .csv-page-container {
-  margin-left: 20vw;
+  float: right;
 }
 
-.input-title-text {
+.input-title-text,
+.page-title {
   font-weight: bold;
-  padding-top: 2%;
   color: #012d5a;
+}
+
+.page-title {
+  font-size: 3em;
+  text-align: center;
 }
 
 .table-title {
@@ -15,14 +20,7 @@
 .input-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  padding-top: 2%;
-}
-
-.export-all-btn {
-  display: flex;
-  align-items: flex-end;
-  padding-bottom: 19px;
+  justify-content: space-between;
 }
 
 .upload-descriptor-text {
@@ -41,4 +39,18 @@
   text-align: center;
   padding: 50px;
   user-select: none;
+}
+
+.btn-cluster {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
 }
