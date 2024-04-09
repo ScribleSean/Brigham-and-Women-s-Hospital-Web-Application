@@ -61,6 +61,12 @@ const SideNavbar = () => {
             </Nav.Link>
             <Nav.Link
               className={"nav-links-inner border-bottom"}
+              href="/room-scheduling"
+            >
+              Room Scheduling
+            </Nav.Link>
+            <Nav.Link
+              className={"nav-links-inner border-bottom"}
               href="/requests"
             >
               Active Requests
