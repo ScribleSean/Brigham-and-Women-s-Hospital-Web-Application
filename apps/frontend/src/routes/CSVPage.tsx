@@ -1,13 +1,43 @@
-// import { Outlet } from "react-router-dom";
-import DragNDrop from "../components/FileUpload.tsx";
+import FileUpload from "../components/FileUpload.tsx";
 import { GetDataNodes } from "../components/NodesDataBaseTableDisplay.tsx";
-import ExportNodeDataToCSVButton from "../components/ExportNodeDataButton.tsx";
+import ExportNodeDataButton from "../components/ExportNodeDataButton.tsx";
 import ExportEdgeDataButton from "../components/ExportEdgeDataButton.tsx";
 import { GetDataEdges } from "../components/EdgesDataBaseTableDisplay.tsx";
-import ExportAllDataToCSVButton from "../components/ExportAllButton.tsx";
+import ExportAllButton from "../components/ExportAllButton.tsx";
+import Navbar from "../components/SideNavbar.tsx";
 import "../styles/csvPage.css";
+import React, { useState } from "react";
+import {Box, Tabs, Tab} from "@mui/material";
+import ClearDataButton from "../components/ClearDataButton.tsx";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
 
 export function CSVPage() {
+  const [value, setValue] = useState(0);
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
   const handleNodeFileDrop = async (file: File) => {
     // Create a FileReader
     const nodeReader = new FileReader();
@@ -70,46 +100,51 @@ export function CSVPage() {
 
   return (
     <div className={"sanitation-div"}>
-      {/*<Outlet></Outlet>*/}
-
+      <div className={"navbar-container"}>
+        <Navbar />
+      </div>
       <div className={"csv-page-container"}>
-        <div className={"input-container"}>
-          <div className={"node-data-input"}>
-            <h1 className={"input-title-text"}>Node Data</h1>
-            <DragNDrop onFileDrop={handleNodeFileDrop} />
-            <div>
-              <ExportNodeDataToCSVButton />
-            </div>
-            <br />
-          </div>
-          <div className={"edge-data-input"}>
-            <h1 className={"input-title-text"}>Edge Data</h1>
-            <DragNDrop onFileDrop={handleEdgeFileDrop}></DragNDrop>
-            <div>
-              <ExportEdgeDataButton></ExportEdgeDataButton>
-            </div>
-            <br />
-          </div>
-          <div className={"export-all-btn"}>
-            <ExportAllDataToCSVButton />
+        <div className={"header-container"}>
+          <h1 className={"page-title"}>Map Nodes and Edges</h1>
+          <div className={"btn-cluster"}>
+            <ExportAllButton />
+            <ClearDataButton />
           </div>
         </div>
-
-        <div className={"tables-container"}>
-          <hr />
-
-          <h2 className={"table-title"}>Nodes</h2>
-          <div className={"nodes-table-container"}>
+        <Box sx={{ width: "100%" }}>
+          <Box
+            sx={{
+              borderBottom: 1,
+              borderTop: 1,
+              borderColor: "divider",
+            }}
+          >
+            <Tabs value={value} onChange={handleChange} variant={"fullWidth"}>
+              <Tab label="Nodes" />
+              <Tab label="Edges" />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            <div className={"input-container"}>
+              <h1 className={"input-title-text"}>Node Data</h1>
+              <div className={"btn-cluster"}>
+                <FileUpload onFileDrop={handleNodeFileDrop} />
+                <ExportNodeDataButton />
+              </div>
+            </div>
             <GetDataNodes />
-          </div>
-
-          <hr />
-
-          <h2 className={"table-title"}>Edges</h2>
-          <div className={"edges-table-container"}>
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <div className={"input-container"}>
+              <h1 className={"input-title-text"}>Edge Data</h1>
+              <div className={"btn-cluster"}>
+                <FileUpload onFileDrop={handleEdgeFileDrop} />
+                <ExportEdgeDataButton />
+              </div>
+            </div>
             <GetDataEdges />
-          </div>
-        </div>
+          </CustomTabPanel>
+        </Box>
         <div>
           <p className={"footer"}>the end</p>
         </div>
