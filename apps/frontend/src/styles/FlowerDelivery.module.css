@@ -17,6 +17,7 @@ body {
   padding: 20px;
   width: 70%;
   border-radius: 20px;
+
 }
 
 label {
@@ -98,7 +99,7 @@ input[type="radio"]:checked {
   width: 150px;
 }
 
-.flower-page-container {
+.flowerPageContainer {
   width: 80vw;
   margin-left: 20vw;
 }
