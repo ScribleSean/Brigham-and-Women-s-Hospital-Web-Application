@@ -1,188 +1,240 @@
-import React, { useState } from "react";
-import "frontend/src/styles/FlowerDelivery.css";
-// import {Button} from "@mui/material";
-// import {Link} from "react-router-dom"; // Import your CSS file
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "@mui/material";
-import axios from "axios"; // back end
-// interface FlowerDeliveryProps {
-//   // Define your props here
-// }
+import {
+    Autocomplete,
+    Button,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Snackbar,
+    TextField,
 
-const FlowerRequest: React.FC = () => {
-  const [formState, setFormState] = useState({
-    employeeName: "", // text box
-    priority: "", // text box
-    location: "", // numbers only
-    status: "", // radio buttons
-    flowerType: "", // text box
-    message: "",
-  });
+} from "@mui/material";
+import styles from "../../styles/FlowerDelivery.module.css";
+import { useEffect, useState } from "react";
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+interface FormData {
+    employeeName: string;
+    location: string;
+    flowerType: string | null;
+    deliveryDate: string;
+    priority: string;
+    status: string;
+}
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormState({
-      ...formState,
-      [event.target.name]: event.target.value,
+function FlowerDelivery() {
+    const flowerTypes = [
+        "Rose",
+        "Tulip",
+        "Lily",
+        "Orchid",
+        "Sunflower",
+        "Daisy",
+        "Carnation",
+        "Hydrangea",
+        "Peony",
+        "Chrysanthemum"
+    ];
+
+    const [formData, setFormData] = useState<FormData>({
+        employeeName: "",
+        location: "",
+        flowerType: null,
+        deliveryDate: "",
+        priority: "",
+        status: "",
     });
-  };
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsSubmitted(true);
-    // Handle form submission here
-    try {
-      const response = await axios.post(
-        "/api/flower-service-request",
-        formState,
-      );
-      console.log("Form data sent successfully:", response.data);
-    } catch (error) {
-      console.error("Error submitting form data:", error);
-    }
-  };
 
-  return isSubmitted ? (
-    <>
-      <div className={"flower-page-container"}>
-        <div className={"flowerPage vh-100"}>
-          <h1 className={"flowerPageTitle text-center mb-5 pt-5"}>
-            Flowers For A Loved One
-          </h1>
-          <div
-            id={"completed-form-box"}
-            className={"container-fluid text-center"}
-          >
-            <h1 id={"goodbye-msg"}>Your request has been received!</h1>
-            <div className={"return-buttons-container"}>
-              <Link href="/">
-                <button className={"return-button py-3 mt-5 mx-2"}>Home</button>
-              </Link>
-              <Link href={"/flower-delivery"}>
-                <button className={"return-button py-3 mt-5 mx-2"}>
-                  Send Another
-                </button>
-              </Link>
-            </div>
-          </div>
-          {/*<p>Sender Name: {formState.senderName}</p>*/}
-          {/*<p>Receiver Name: {formState.receiverName}</p>*/}
-          {/*<p>Room Number: {formState.roomNumber}</p>*/}
-          {/*<p>Flower Type: {formState.flowerType}</p>*/}
-          {/*<p>Message: {formState.message}</p>*/}
-        </div>
-      </div>
-    </>
-  ) : (
-    <>
-      <div className={"flower-page-container"}>
-        <div className={"flowerPage vh-100"}>
-          <h1 className={"flowerPageTitle text-center mb-5 pt-5"}>
-            Flowers For A Loved One
-          </h1>
-          <form
-            id={"flowerPageForm"}
-            className={"container-fluid"}
-            onSubmit={handleSubmit}
-          >
-            <div className="form-group">
-              <label>Receiver's Name</label>
-              <input
-                type="text"
-                name="senderName"
-                placeholder={"Name"}
-                value={formState.employeeName}
-                onChange={handleChange}
-                className="form-control"
-                // required
-              />
-            </div>
-            {/*<div className="form-group">*/}
-            {/*  <label>Sender's Name</label>*/}
-            {/*  <input*/}
-            {/*    type="text"*/}
-            {/*    name="receiverName"*/}
-            {/*    placeholder={"Name"}*/}
-            {/*    value={formState.employeeName}*/}
-            {/*    onChange={handleChange}*/}
-            {/*    className="form-control"*/}
-            {/*    required*/}
-            {/*  />*/}
-            {/*</div>*/}
-            <div className="row form-group">
-              <div className={"col-5"}>
-                <label>Room Number</label>
-                <input
-                  type="text"
-                  name="roomNumber"
-                  placeholder={"eg. 112"}
-                  value={formState.location}
-                  onChange={handleChange}
-                  className="form-control"
-                  // required
-                />
-              </div>
-              <div className={"col-7"}>
-                <div className={"row"}>
-                  <label>Flower Type</label>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="flowerType"
-                      value="Rose"
-                      onChange={handleChange}
-                      required
-                    />
-                    <label className="form-check-label">Rose</label>
-                  </div>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="flowerType"
-                      value="Tulip"
-                      onChange={handleChange}
-                      required
-                    />
-                    <label className="form-check-label">Tulip</label>
-                  </div>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="flowerType"
-                      value="Lily"
-                      onChange={handleChange}
-                      required
-                    />
-                    <label className="form-check-label">Lily</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="form-group">
-              <label>Message (optional)</label>
-              <input
-                type="text"
-                name="message"
-                placeholder={"Best Wishes..."}
-                value={formState.message}
-                onChange={handleChange}
-                id={"messageBox"}
-                className="form-control"
-              />
-            </div>
-            <div className={"text-center"}>
-              <button type="submit" className="submit-button py-3 px-5">
-                Send
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </>
-  );
-};
+    const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
 
-export default FlowerRequest;
+    const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
+
+    const addSubmittedRequest = (newRequest: FormData) => {
+        setSubmittedRequests([...submittedRequests, newRequest]);
+    };
+
+    const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value,
+        });
+    };
+
+    const handleAutocompleteChange = (value: string | null) => {
+        setFormData({
+            ...formData,
+            flowerType: value || null,
+        });
+    };
+
+    const handleSelectChange = (
+        e: SelectChangeEvent<string>,
+        field: keyof FormData,
+    ) => {
+        setFormData({
+            ...formData,
+            [field]: e.target.value as string,
+        });
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        addSubmittedRequest(formData);
+        setFormData({
+            employeeName: "",
+            location: "",
+            flowerType: null,
+            deliveryDate: "",
+            priority: "",
+            status: "",
+        });
+    };
+
+    useEffect(() => {
+        console.log(submittedRequests);
+    }, [submittedRequests]);
+
+    useEffect(() => {
+        console.log(formData);
+    }, [formData]);
+
+    return (
+        <>
+            <Snackbar
+                open={snackbarIsOpen}
+                autoHideDuration={5000}
+                onClose={() => {
+                    setSnackbarIsOpen(false);
+                }}
+                message={"Request was submitted successfully!"}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            />
+            <div className={`${styles.sanDiv} col-10`}>
+                <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
+                    <h1>Flower Delivery Request</h1>
+                    <br />
+                    <TextField
+                        label={"Employee Name"}
+                        variant={"filled"}
+                        id={"employeeName"}
+                        sx={{ my: "1%" }}
+                        onChange={handleTextFieldChange}
+                        value={formData.employeeName}
+                        required
+                    />
+                    <TextField
+                        label={"Location"}
+                        variant={"filled"}
+                        id={"location"}
+                        sx={{ my: "1%" }}
+                        onChange={handleTextFieldChange}
+                        value={formData.location}
+                        required
+                    />
+                    <br />
+                    <div className={`${styles.twoInputRow}`}>
+                        <Autocomplete
+                            id={"flowerType"}
+                            sx={{
+                                my: "1%",
+                                width: "49%",
+                                marginRight: "1%",
+                            }}
+                            disablePortal
+                            options={flowerTypes}
+                            onChange={(_event, value) => handleAutocompleteChange(value)}
+                            value={formData.flowerType}
+                            renderInput={(params) => (
+                                <TextField
+                                    variant={"filled"}
+                                    {...params}
+                                    label="Flower Type"
+                                    required
+                                />
+                            )}
+                        />
+                        <FormControl
+                            variant={"filled"}
+                            sx={{
+                                my: "1%",
+                                width: "49%",
+                                marginLeft: "1%",
+                            }}
+                            required
+                        >
+                            <TextField
+                                label={"Delivery Date"}
+                                variant={"filled"}
+                                id={"deliveryDate"}
+                                sx={{ width: "99%", marginLeft: "1%", my: "1%" }}
+                                type={"date"}
+                                InputLabelProps={{ shrink: true }}
+                            />
+                        </FormControl>
+                    </div>
+                    {/*<br />*/}
+                    <div>
+                        <FormControl
+                            variant={"filled"}
+                            sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+                            required
+                        >
+                            <InputLabel id={"priority"}>Priority</InputLabel>
+                            <Select
+                                id={"priority"}
+                                onChange={(e) => handleSelectChange(e, "priority")}
+                                value={formData.priority}
+                            >
+                                <MenuItem value={"Low"}>Low</MenuItem>
+                                <MenuItem value={"Medium"}>Medium</MenuItem>
+                                <MenuItem value={"High"}>High</MenuItem>
+                                <MenuItem value={"Emergency"}>Emergency</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl
+                            variant={"filled"}
+                            sx={{ width: "49%", marginLeft: "1%", my: "1%" }}
+                            required
+                        >
+                            <InputLabel id={"status"}>Status</InputLabel>
+                            <Select
+                                id={"status"}
+                                onChange={(e) => handleSelectChange(e, "status")}
+                                value={formData.status}
+                            >
+                                <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+                                <MenuItem value={"Assigned"}>Assigned</MenuItem>
+                                <MenuItem value={"In Progress"}>In Progress</MenuItem>
+                                <MenuItem value={"Closed"}>Closed</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <br />
+                    <div className={"button-container"}>
+                        <Button
+                            variant={"outlined"}
+                            color={"error"}
+                            sx={{
+                                width: "25%",
+                            }}
+                        >
+                            Clear
+                        </Button>
+                        <Button
+                            variant={"contained"}
+                            type={"submit"}
+                            sx={{
+                                width: "25%",
+                                backgroundColor: "#012d5a",
+                            }}
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </>
+    );
+}
+
+export default FlowerDelivery;
