@@ -57,8 +57,12 @@ export function LocationSelector(
     setDestination(newValue);
   };
 
-  const handleClearClick = () => {
+  const handleClearClickLocation = () => {
     setLocation(null);
+  };
+
+  const handleClearClickDestination = () => {
+    setDestination(null);
   };
 
   return (
@@ -112,7 +116,7 @@ export function LocationSelector(
                   <InputAdornment position="end">
                     {location ? (
                       <CancelIcon
-                        onClick={() => handleClearClick()}
+                        onClick={() => handleClearClickLocation()}
                         style={{ cursor: "pointer" }}
                       />
                     ) : null}
@@ -160,7 +164,7 @@ export function LocationSelector(
                   <InputAdornment position="end">
                     {destination ? (
                       <CancelIcon
-                        onClick={() => handleClearClick()}
+                        onClick={() => handleClearClickDestination()}
                         style={{ cursor: "pointer" }}
                       />
                     ) : null}

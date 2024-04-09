@@ -14,12 +14,12 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
       <div className={"btn-container"}>
         <div>
           <Button
-            onClick={() => updateFloor(FloorType.L1)}
+            onClick={() => updateFloor(FloorType.L2)}
             variant={"contained"}
             sx={{
-              backgroundColor: getButtonColor(FloorType.L1),
+              backgroundColor: getButtonColor(FloorType.L2),
               height: "6vh",
-              width: getButtonWidth(FloorType.L1),
+              width: getButtonWidth(FloorType.L2),
               color: "#012D5A",
               fontFamily: "inter",
               fontWeight: "bold",
@@ -30,17 +30,17 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
               transition: "width 0.3s ease",
             }}
           >
-            L1
+            L2
           </Button>
         </div>
 
         <Button
-          onClick={() => updateFloor(FloorType.L2)}
+          onClick={() => updateFloor(FloorType.L1)}
           variant={"contained"}
           sx={{
-            backgroundColor: getButtonColor(FloorType.L2),
+            backgroundColor: getButtonColor(FloorType.L1),
             height: "6vh",
-            width: getButtonWidth(FloorType.L2),
+            width: getButtonWidth(FloorType.L1),
             color: "#012D5A",
             fontFamily: "inter",
             fontWeight: "bold",
@@ -51,7 +51,7 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
             transition: "width 0.3s ease",
           }}
         >
-          L2
+          L1
         </Button>
         <Button
           onClick={() => updateFloor(FloorType.first)}
