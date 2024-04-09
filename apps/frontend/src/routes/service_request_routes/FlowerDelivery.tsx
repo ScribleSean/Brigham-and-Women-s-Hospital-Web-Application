@@ -11,10 +11,11 @@ import {
 
 } from "@mui/material";
 import styles from "../../styles/FlowerDelivery.module.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface FormData {
     employeeName: string;
+    receiverName: string,
     location: string;
     flowerType: string | null;
     deliveryDate: string;
@@ -38,6 +39,7 @@ function FlowerDelivery() {
 
     const [formData, setFormData] = useState<FormData>({
         employeeName: "",
+        receiverName: "",
         location: "",
         flowerType: null,
         deliveryDate: "",
@@ -82,6 +84,7 @@ function FlowerDelivery() {
         addSubmittedRequest(formData);
         setFormData({
             employeeName: "",
+            receiverName: "",
             location: "",
             flowerType: null,
             deliveryDate: "",
@@ -120,6 +123,15 @@ function FlowerDelivery() {
                         sx={{ my: "1%" }}
                         onChange={handleTextFieldChange}
                         value={formData.employeeName}
+                        required
+                    />
+                    <TextField
+                        label={"Receiver Name"}
+                        variant={"filled"}
+                        id={"receiverName"}
+                        sx={{ my: "1%" }}
+                        onChange={handleTextFieldChange}
+                        value={formData.receiverName}
                         required
                     />
                     <TextField
@@ -216,6 +228,17 @@ function FlowerDelivery() {
                             color={"error"}
                             sx={{
                                 width: "25%",
+                            }}
+                            onClick={() => {
+                                setFormData({
+                                    employeeName: "",
+                                    receiverName: "",
+                                    location: "",
+                                    flowerType: null,
+                                    deliveryDate: "",
+                                    priority: "",
+                                    status: "",
+                                });
                             }}
                         >
                             Clear
