@@ -59,6 +59,8 @@ export interface NodeDisplayProps {
   scaling: NodeScaling;
   handleNodeSelection(node: Node): void;
   changesFloor: boolean;
+  isStartNode: boolean;
+  isEndNode: boolean;
   draggingNodes: (isDragging: boolean) => void;
   scale: number;
   currentEditorMode: boolean;

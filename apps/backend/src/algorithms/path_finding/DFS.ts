@@ -11,7 +11,6 @@ export class DFS implements IPathFinder {
   }
 
   findPath(startNode: Node, endNode: Node): Path | undefined {
-    //Check if start node is valid.
     if (!startNode) {
       console.error("Start Node is not valid.");
       return undefined;
@@ -19,7 +18,7 @@ export class DFS implements IPathFinder {
 
     const result: Node[] = [];
     if (!this.dfsRecursive(startNode, result, endNode)) {
-      console.error("End node not reached.");
+      console.error("End node not reachable from start node.");
       return undefined;
     }
 
@@ -42,7 +41,7 @@ export class DFS implements IPathFinder {
     this.visited.add(node);
     result.push(node);
 
-    if (endNode && node === endNode) {
+    if (node === endNode) {
       return true;
     }
 
@@ -51,15 +50,13 @@ export class DFS implements IPathFinder {
       for (const edge of neighbours) {
         const neighbour = edge.getEndNode();
         if (!this.visited.has(neighbour)) {
-          //Check if node was reached in this branch
-          const reachEnd = this.dfsRecursive(neighbour, result, endNode);
-          if (reachEnd) {
+          if (this.dfsRecursive(neighbour, result, endNode)) {
             return true;
           }
         }
       }
     }
-    //If this statement is reached, the end node was never found.
+    result.pop(); // Remove the current node from the path if it leads to no solution
     return false;
   }
 }

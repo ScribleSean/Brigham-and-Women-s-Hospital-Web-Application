@@ -8,52 +8,47 @@ export class Dijkstra implements IPathFinder {
     this.graph = graph;
   }
 
-  //returns null/undefined if no path is found. Returns the shortest path found otherwise.
+  // Returns null/undefined if no path is found. Returns the shortest path found otherwise.
   findPath(startNode: Node, endNode: Node): Path | undefined {
-    const startNodeID = startNode.getID();
-    //const endNodeID = endNode.getID();
-
-    //Check if nodes are present on the graph
+    // Check if startNode and endNode are valid
     if (!startNode || !endNode) {
-      console.error("Nodes not present on graph.");
+      console.error("Invalid start or end node.");
       return undefined;
     }
+
+    const startNodeID = startNode.getID();
 
     const distances: { [key: string]: number } = {};
     const previous: { [key: string]: Node | null } = {};
     const visited: { [key: string]: boolean } = {};
 
-    //Initialize the distances [all infinity in the beginning] and the previously visited nodes
-    //arrays.
+    // Initialize distances and previous nodes
     this.graph.getAdjList().forEach((_value, node) => {
       distances[node.getID()] = Infinity;
       previous[node.getID()] = null;
     });
 
-    //Start node distance always begins as 0.
     distances[startNodeID] = 0;
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
+
+    while (startNode !== endNode) {
       let minDistance = Infinity;
       let closestNode: Node | undefined = undefined;
 
-      //Finding the closest unvisited node
+      // Finding the closest unvisited node
       for (const [nodeID, distance] of Object.entries(distances)) {
         if (!visited[nodeID] && distance < minDistance) {
           minDistance = distance;
           closestNode = this.graph.getNodeByID(nodeID);
         }
       }
-      //No reachable nodes left on graph.
-      if (!closestNode) {
-        break;
-      } else if (closestNode === endNode) {
-        break;
-      }
+
+      // No reachable nodes left on graph.
+      if (!closestNode) break;
+      if (closestNode === endNode) break;
 
       visited[closestNode.getID()] = true;
 
-      //Updating distances to the neighboring nodes.
+      // Updating distances to the neighboring nodes
       const edges = this.graph.getEdges(closestNode);
       if (edges) {
         for (const edge of edges) {
@@ -67,9 +62,7 @@ export class Dijkstra implements IPathFinder {
       }
     }
 
-    //Backtrack through the previous[] array. path.unshift adds the currentNode
-    //to the front of the array, thus giving us the path in the correct order from which
-    //traversed. Return the path object.
+    // Backtrack through the previous[] array to construct the path
     const edges: Edge[] = [];
     let currentNode: Node | null = endNode;
 
@@ -87,9 +80,13 @@ export class Dijkstra implements IPathFinder {
       }
     }
 
+    // If no path found or startNode doesn't connect to endNode
     if (edges.length === 0 || currentNode !== startNode) {
       console.error("No path found between the specified nodes.");
       return undefined;
     }
+
+    // Construct the Path object and return it
+    return new Path(edges);
   }
 }
