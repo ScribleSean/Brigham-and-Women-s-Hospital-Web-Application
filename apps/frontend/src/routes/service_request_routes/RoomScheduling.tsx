@@ -216,10 +216,33 @@ function RoomScheduling() {
           </div>
           <br />
           <div className={"button-container"}>
-            <Button variant={"outlined"} color={"error"} sx={{ width: "25%" }}>
+            <Button
+              variant={"outlined"}
+              color={"error"}
+              sx={{
+                width: "25%",
+              }}
+              onClick={() => {
+                setFormData({
+                  employeeName: "", //text box
+                  priority: "", //radio buttons
+                  location: "", //text box
+                  startTime: "", //datetime local
+                  duration: 0, //numbers only
+                  status: "", //radio buttons
+                });
+              }}
+            >
               Clear
             </Button>
-            <Button variant={"contained"} type={"submit"} sx={{ width: "25%" }}>
+            <Button
+              variant={"contained"}
+              type={"submit"}
+              sx={{
+                width: "25%",
+                backgroundColor: "#012d5a",
+              }}
+            >
               Submit
             </Button>
           </div>
