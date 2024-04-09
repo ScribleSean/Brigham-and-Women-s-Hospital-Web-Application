@@ -13,6 +13,7 @@ import {
   AccessibilityType,
   AlgorithmSelectorProps,
   DirectionsProps,
+  EditorProps,
   FloorSelectorProps,
   LocationSelectorProps,
   PathGrapherProps,
@@ -22,6 +23,7 @@ import { AlgorithmType } from "../../../backend/src/algorithms/data_structures/A
 import { AccessibilitySelector } from "./AccessibilitySelector.tsx";
 import { LocationSelector } from "./LocationSelector.tsx";
 import Directions from "./Directions.tsx";
+import Editor from "./Editor.tsx";
 
 const mapDiv: CSSProperties = {
   height: "100%",
@@ -40,16 +42,14 @@ function MapWrapper() {
     useState<AccessibilityType>(AccessibilityType.all);
   const [scale, setScale] = useState<number>(1);
   const [directionsCounter, setDirectionsCounter] = useState<number>(0);
+  const [startNodeIDSelector, setStartNodeIDSelector] = useState<string | null>(
+    null,
+  );
+  const [endNodeIDSelector, setEndNodeIDSelector] = useState<string | null>(
+    null,
+  );
 
-  const zoomWrapperProps = {
-    disablePadding: true,
-    minScale: 1,
-    initialScale: 1,
-    centerOnInit: false,
-    limitToBounds: true,
-    doubleClick: { disabled: false },
-    disabled: isDraggingNode,
-  };
+  const [editorMode, setEditorMode] = useState<boolean>(false);
 
   const updateFloor = (floor: FloorType) => {
     setSelectedFloor(floor);
@@ -72,10 +72,8 @@ function MapWrapper() {
     }
   };
 
-  const floorSelectorProps: FloorSelectorProps = {
-    updateFloorFunction: updateFloor,
-    getButtonColor: getButtonColor,
-    getButtonWidth: getButtonWidth,
+  const changeEditorMode = (editing: boolean) => {
+    setEditorMode(!editing);
   };
 
   const selectIsDraggingNodes = (isDragging: boolean) => {
@@ -94,23 +92,6 @@ function MapWrapper() {
     setSelectedAccessibility(accessibility);
   };
 
-  const accessibilitySelectorProps: AccessibilitySelectorProps = {
-    updateAccessibility: updateAccessibility,
-    currentAccessibility: selectedAccessibility,
-  };
-
-  const algorithmSelectorProps: AlgorithmSelectorProps = {
-    updateAlgorithmFunction: updateAlgorithm,
-    currentAlgorithm: selectedAlgorithm,
-  };
-
-  const [startNodeIDSelector, setStartNodeIDSelector] = useState<string | null>(
-    null,
-  );
-  const [endNodeIDSelector, setEndNodeIDSelector] = useState<string | null>(
-    null,
-  );
-
   const updateStartNodeIDSelector = (ID1: string) => {
     setStartNodeIDSelector(ID1);
   };
@@ -119,13 +100,22 @@ function MapWrapper() {
     setEndNodeIDSelector(ID2);
   };
 
-  const locationSelectorProps: LocationSelectorProps = {
-    updateStartNodeID: updateStartNodeIDSelector,
-    updateEndNodeID: updateEndNodeIDSelector,
-  };
-
   const resetDirections = () => {
     setDirectionsCounter(0);
+  };
+
+  const triggerNextDirection = (currentDirectionNumber: number) => {
+    setDirectionsCounter(currentDirectionNumber + 1);
+  };
+
+  const zoomWrapperProps = {
+    disablePadding: true,
+    minScale: 1,
+    initialScale: 1,
+    centerOnInit: false,
+    limitToBounds: true,
+    doubleClick: { disabled: false },
+    disabled: isDraggingNode,
   };
 
   const pathGrapherProps: PathGrapherProps = {
@@ -140,13 +130,35 @@ function MapWrapper() {
     resetDirections: resetDirections,
   };
 
-  const triggerNextDirection = (currentDirectionNumber: number) => {
-    setDirectionsCounter(currentDirectionNumber + 1);
-  };
-
   const directionsProps: DirectionsProps = {
     triggerNextDirection: triggerNextDirection,
     currentDirectionsCounter: directionsCounter,
+  };
+
+  const locationSelectorProps: LocationSelectorProps = {
+    updateStartNodeID: updateStartNodeIDSelector,
+    updateEndNodeID: updateEndNodeIDSelector,
+  };
+
+  const accessibilitySelectorProps: AccessibilitySelectorProps = {
+    updateAccessibility: updateAccessibility,
+    currentAccessibility: selectedAccessibility,
+  };
+
+  const algorithmSelectorProps: AlgorithmSelectorProps = {
+    updateAlgorithmFunction: updateAlgorithm,
+    currentAlgorithm: selectedAlgorithm,
+  };
+
+  const floorSelectorProps: FloorSelectorProps = {
+    updateFloorFunction: updateFloor,
+    getButtonColor: getButtonColor,
+    getButtonWidth: getButtonWidth,
+  };
+
+  const editorProps: EditorProps = {
+    changeEditorMode: changeEditorMode,
+    currentEditorMode: editorMode,
   };
 
   return (
@@ -157,6 +169,7 @@ function MapWrapper() {
       >
         <div style={mapDiv}>
           <Directions {...directionsProps}></Directions>
+          <Editor {...editorProps}></Editor>
           <AlgorithmSelector {...algorithmSelectorProps}></AlgorithmSelector>
           <AccessibilitySelector
             {...accessibilitySelectorProps}

@@ -110,3 +110,8 @@ export interface DirectionsProps {
   triggerNextDirection: (currentDirectionNumber: number) => void;
   currentDirectionsCounter: number;
 }
+
+export interface EditorProps {
+  changeEditorMode: (editing: boolean) => void;
+  currentEditorMode: boolean;
+}
