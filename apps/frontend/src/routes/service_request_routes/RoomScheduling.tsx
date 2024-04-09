@@ -112,7 +112,7 @@ function RoomScheduling() {
           <TextField
             label={"Employee Name"}
             variant={"filled"}
-            id={"employeeName"}
+            id={"employee"}
             sx={{ my: "1%" }}
             onChange={handleTextFieldChange}
             value={formData.name}
@@ -130,16 +130,40 @@ function RoomScheduling() {
           />
           <br />
 
-          <TextField
-            label={"Duration (hrs)"}
-            variant={"filled"}
-            id={"duration"}
-            type={"number"}
-            sx={{ my: "1%" }}
-            onChange={handleTextFieldChange}
-            value={formData.duration}
-            required
-          />
+          <div className={"two-input-row-container"}>
+            <FormControl
+              variant={"filled"}
+              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+              required
+            >
+              <TextField
+                label={"Start Time"}
+                variant={"filled"}
+                id={"startTime"}
+                type={"datetime-local"}
+                sx={{ my: "1%" }}
+                onChange={handleTextFieldChange}
+                value={formData.startTime}
+                required
+              />
+            </FormControl>
+            <FormControl
+              variant={"filled"}
+              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+              required
+            >
+              <TextField
+                label={"Duration"}
+                variant={"filled"}
+                id={"duration"}
+                type={"number"}
+                sx={{ my: "1%" }}
+                onChange={handleTextFieldChange}
+                value={formData.duration}
+                required
+              />
+            </FormControl>
+          </div>
           <br />
 
           <div className={"two-input-row-container"}>
