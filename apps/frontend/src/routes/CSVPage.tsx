@@ -4,10 +4,9 @@ import ExportNodeDataButton from "../components/ExportNodeDataButton.tsx";
 import ExportEdgeDataButton from "../components/ExportEdgeDataButton.tsx";
 import { GetDataEdges } from "../components/EdgesDataBaseTableDisplay.tsx";
 import ExportAllButton from "../components/ExportAllButton.tsx";
-import Navbar from "../components/SideNavbar.tsx";
 import "../styles/csvPage.css";
 import React, { useState } from "react";
-import {Box, Tabs, Tab} from "@mui/material";
+import { Box, Tabs, Tab } from "@mui/material";
 import ClearDataButton from "../components/ClearDataButton.tsx";
 
 interface TabPanelProps {
@@ -99,11 +98,8 @@ export function CSVPage() {
   };
 
   return (
-    <div className={"sanitation-div"}>
-      <div className={"navbar-container"}>
-        <Navbar />
-      </div>
-      <div className={"csv-page-container"}>
+    <div>
+      <div className={"csv-page-container col-10"}>
         <div className={"header-container"}>
           <h1 className={"page-title"}>Map Nodes and Edges</h1>
           <div className={"btn-cluster"}>
