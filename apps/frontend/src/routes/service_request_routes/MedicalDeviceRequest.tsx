@@ -2,7 +2,6 @@ import {
   Autocomplete,
   Button,
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -10,79 +9,78 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import "../../styles/MedicineRequest.css";
+import styles from "../../styles/MedicalDeviceRequest.module.css";
 import { useEffect, useState } from "react";
 
 interface FormData {
   employeeName: string;
   location: string;
-  medicineName: string | null;
-  dosageAmount: string;
-  dosageForm: string;
+  deviceName: string | null;
+  deviceQuantity: string;
   priority: string;
   status: string;
 }
 
-function MedicineRequest() {
-  const medicineList: string[] = [
-    "Aspirin",
-    "Ibuprofen",
-    "Paracetamol",
-    "Amoxicillin",
-    "Omeprazole",
-    "Lisinopril",
-    "Metformin",
-    "Simvastatin",
-    "Atorvastatin",
-    "Levothyroxine",
-    "Prednisone",
-    "Gabapentin",
-    "Losartan",
-    "Azithromycin",
-    "Amlodipine",
-    "Metoprolol",
-    "Albuterol",
-    "Sertraline",
-    "Citalopram",
-    "Fluoxetine",
-    "Escitalopram",
-    "Cetirizine",
-    "Furosemide",
-    "Loratadine",
-    "Tramadol",
-    "Warfarin",
-    "Hydrochlorothiazide",
-    "Clonazepam",
-    "Tamsulosin",
-    "Meloxicam",
-    "Pregabalin",
-    "Diazepam",
-    "Zolpidem",
-    "Naproxen",
-    "Bisoprolol",
-    "Cephalexin",
-    "Metronidazole",
-    "Ciprofloxacin",
-    "Doxycycline",
-    "Methylprednisolone",
-    "Amitriptyline",
-    "Venlafaxine",
-    "Duloxetine",
-    "Risperidone",
-    "Quetiapine",
-    "Mirtazapine",
-    "Carvedilol",
-    "Folic Acid",
-    "Pantoprazole",
-    "Dextromethorphan",
+function MedicalDeviceRequest() {
+  const deviceOptions: string[] = [
+    "Stethoscope",
+    "Blood Pressure Monitor",
+    "Thermometer",
+    "MRI Machine",
+    "X-ray Machine",
+    "Ultrasound Machine",
+    "Defibrillator",
+    "Electrocardiogram (ECG) Machine",
+    "Pulse Oximeter",
+    "Sphygmomanometer",
+    "Glucose Meter",
+    "Infusion Pump",
+    "Ventilator",
+    "Nebulizer",
+    "Ophthalmoscope",
+    "Otoscope",
+    "Doppler",
+    "Endoscope",
+    "Laryngoscope",
+    "Colonoscope",
+    "Bronchoscope",
+    "Anesthesia Machine",
+    "Blood Gas Analyzer",
+    "Fetal Monitor",
+    "Spirometer",
+    "Catheter",
+    "Pacemaker",
+    "Implantable Cardioverter Defibrillator (ICD)",
+    "Cardiac Catheterization Lab Equipment",
+    "Hemodialysis Machine",
+    "Surgical Laser",
+    "Surgical Robot",
+    "CT Scanner",
+    "PET Scanner",
+    "EEG Machine",
+    "EMG Machine",
+    "EKG Machine",
+    "Holter Monitor",
+    "Oxygen Concentrator",
+    "Apnea Monitor",
+    "Continuous Glucose Monitor (CGM)",
+    "Insulin Pump",
+    "Wheelchair",
+    "Crutches",
+    "Walker",
+    "Hospital Bed",
+    "Suction Machine",
+    "Feeding Pump",
+    "Orthopedic Implants",
+    "Orthosis",
+    "Prosthesis",
   ];
 
   const [formData, setFormData] = useState<FormData>({
     employeeName: "",
     location: "",
-    medicineName: null,
-    dosageAmount: "",
-    dosageForm: "",
+    deviceName: null,
+    deviceQuantity: "",
     priority: "",
     status: "",
   });
@@ -91,13 +89,9 @@ function MedicineRequest() {
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  const addSubmittedRequest = (newRequest: FormData) => {
+    setSubmittedRequests([...submittedRequests, newRequest]);
+  };
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -106,10 +100,10 @@ function MedicineRequest() {
     });
   };
 
-  const handleMedicineNameChange = (value: string | null) => {
+  const handleAutocompleteChange = (value: string | null) => {
     setFormData({
       ...formData,
-      medicineName: value || null,
+      deviceName: value || null,
     });
   };
 
@@ -123,23 +117,26 @@ function MedicineRequest() {
     });
   };
 
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     addSubmittedRequest(formData);
     setFormData({
       employeeName: "",
       location: "",
-      medicineName: null,
-      dosageForm: "",
-      dosageAmount: "",
+      deviceName: null,
+      deviceQuantity: "",
       priority: "",
       status: "",
     });
   };
+
+  useEffect(() => {
+    console.log(submittedRequests);
+  }, [submittedRequests]);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   return (
     <>
@@ -152,9 +149,9 @@ function MedicineRequest() {
         message={"Request was submitted successfully!"}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       />
-      <div className={"san-div col-10"}>
-        <form className={"request-form"} onSubmit={handleSubmit}>
-          <h1>Medicine Request</h1>
+      <div className={`${styles.sanDiv} col-10`}>
+        <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
+          <h1>Medical Device Request</h1>
           <br />
           <TextField
             label={"Employee Name"}
@@ -175,57 +172,54 @@ function MedicineRequest() {
             required
           />
           <br />
-          <Autocomplete
-            id={"medicineName"}
-            sx={{ my: "1%" }}
-            disablePortal
-            options={medicineList}
-            onChange={(_event, value) => handleMedicineNameChange(value)}
-            value={formData.medicineName}
-            renderInput={(params) => (
-              <TextField
-                variant={"filled"}
-                {...params}
-                label="Medicine"
-                required
-              />
-            )}
-          />
-          <div className={"two-input-row-container"}>
+          <div className={`${styles.twoInputRow}`}>
+            <Autocomplete
+              id={"deviceName"}
+              sx={{
+                my: "1%",
+                width: "79%",
+                marginRight: "1%",
+              }}
+              disablePortal
+              options={deviceOptions}
+              onChange={(_event, value) => handleAutocompleteChange(value)}
+              value={formData.deviceName}
+              renderInput={(params) => (
+                <TextField
+                  variant={"filled"}
+                  {...params}
+                  label="Device"
+                  required
+                />
+              )}
+            />
             <FormControl
               variant={"filled"}
-              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+              sx={{
+                my: "1%",
+                width: "19%",
+                marginLeft: "1%",
+              }}
               required
             >
-              <InputLabel id={"dosageForm"}>Dosage Form</InputLabel>
+              <InputLabel id={"deviceQuantity"}>Quantity</InputLabel>
               <Select
-                id={"dosageForm"}
-                onChange={(e) => handleSelectChange(e, "dosageForm")}
-                value={formData.dosageForm}
+                id={"deviceQuantity"}
+                onChange={(e) => handleSelectChange(e, "deviceQuantity")}
+                value={formData.deviceQuantity}
               >
-                <MenuItem value={"Tablet"}>Tablet</MenuItem>
-                <MenuItem value={"Capsule"}>Capsule</MenuItem>
-                <MenuItem value={"Liquid"}>Liquid</MenuItem>
+                <MenuItem value={"1"}>1</MenuItem>
+                <MenuItem value={"2"}>2</MenuItem>
+                <MenuItem value={"3"}>3</MenuItem>
+                <MenuItem value={"4"}>4</MenuItem>
+                <MenuItem value={"5"}>5</MenuItem>
+                <MenuItem value={"6"}>6</MenuItem>
+                <MenuItem value={"7"}>7</MenuItem>
               </Select>
             </FormControl>
-            <TextField
-              id={"dosageAmount"}
-              label={"Dosage Amount"}
-              variant={"filled"}
-              sx={{ width: "49%", marginLeft: "1%" }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position={"end"}>mg</InputAdornment>
-                ),
-              }}
-              onChange={handleTextFieldChange}
-              type={"number"}
-              value={formData.dosageAmount}
-              required
-            />
           </div>
           {/*<br />*/}
-          <div className={"two-input-row-container"}>
+          <div>
             <FormControl
               variant={"filled"}
               sx={{ width: "49%", marginRight: "1%", my: "1%" }}
@@ -273,9 +267,8 @@ function MedicineRequest() {
                 setFormData({
                   employeeName: "",
                   location: "",
-                  medicineName: null,
-                  dosageAmount: "",
-                  dosageForm: "",
+                  deviceName: null,
+                  deviceQuantity: "",
                   priority: "",
                   status: "",
                 });
@@ -300,4 +293,4 @@ function MedicineRequest() {
   );
 }
 
-export default MedicineRequest;
+export default MedicalDeviceRequest;
