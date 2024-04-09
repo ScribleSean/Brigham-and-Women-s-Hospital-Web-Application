@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
 import Login from "./routes/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,44 +8,52 @@ import "./styles/App.css";
 import Requests from "./routes/Requests.tsx";
 import { CSVPage } from "./routes/CSVPage.tsx";
 import PathGrapher from "./map_page/PathGrapher.tsx";
-import RoomScheduling from "./routes/service_request_routes/RoomScheduling.tsx";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: (
-        <div>
-          <SideNavbar />
-          <div className={"mapfix"}>
-            <PathGrapher />
-          </div>
-        </div>
-      ),
+      errorElement: <div />,
+      element: <Root />,
+      children: [
+        {
+          path: "/",
+          element: (
+            <div className={"mapfix"}>
+              <PathGrapher />
+            </div>
+          ),
+        },
+        {
+          path: "/csv-page",
+          element: <CSVPage />,
+        },
+        {
+          path: "/flower-delivery",
+          element: <FlowerDelivery />,
+        },
+        {
+          path: "/requests",
+          element: <Requests />,
+        },
+      ],
     },
     {
       path: "/login",
       element: <Login />,
     },
-    {
-      path: "/csv-page",
-      element: <CSVPage />,
-    },
-    {
-      path: "/flower-delivery",
-      element: <FlowerDelivery />,
-    },
-    {
-      path: "/room-scheduling",
-      element: <RoomScheduling />,
-    },
-    {
-      path: "/requests",
-      element: <Requests />,
-    },
   ]);
 
   return <RouterProvider router={router} />;
+
+  function Root() {
+    return (
+      <div>
+        <SideNavbar />
+        <Outlet />
+      </div>
+    );
+  }
 }
 
 export default App;
