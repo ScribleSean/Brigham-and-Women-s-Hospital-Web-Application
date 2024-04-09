@@ -48,6 +48,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
       const { width, height } = ref.current.getBoundingClientRect();
       setWidth(width);
       setHeight(height);
+      isImageLoaded.current = true;
     }
   }, []);
 
@@ -57,7 +58,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
       updateDimensions();
       isImageLoaded.current = false;
     } else {
-      //console.log(S"here");
+      console.log("here");
       window.addEventListener("resize", updateDimensions);
       return () => window.removeEventListener("resize", updateDimensions);
     }
