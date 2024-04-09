@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
-import {Download} from "@mui/icons-material";
+import { Download } from "@mui/icons-material";
 const ExportEdgeDataButton = () => {
   const [file, setFile] = useState("");
   // const [loading, setLoading] = useState(true);

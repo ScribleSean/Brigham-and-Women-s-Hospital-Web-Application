@@ -42,7 +42,7 @@ const FileUpload: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
           sx={{
             backgroundColor: "#012d5a",
             height: "40px",
-            marginRight: "16px"
+            marginRight: "16px",
           }}
         >
           Upload Data
