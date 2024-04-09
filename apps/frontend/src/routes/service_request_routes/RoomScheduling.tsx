@@ -28,7 +28,7 @@ function RoomScheduling() {
     employeeName: "", //text box
     priority: "", //radio buttons
     location: "", //text box
-    startTime: "1970-01-01T00:00", //datetime local
+    startTime: "", //datetime local
     duration: 0, //numbers only
     status: "", //radio buttons
   });
@@ -150,6 +150,7 @@ function RoomScheduling() {
                 type={"datetime-local"}
                 onChange={handleTextFieldChange}
                 value={formData.startTime}
+                InputLabelProps={{ shrink: true }}
                 required
               />
             </FormControl>
