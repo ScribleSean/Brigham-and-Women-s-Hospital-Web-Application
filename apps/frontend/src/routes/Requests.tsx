@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import { Flower } from "common/src/flowerServiceRequest.ts";
 import axios from "axios";
 import "../styles/Requests.css";
-import SideNavbar from "../components/SideNavbar.tsx";
 
 function Requests() {
   const [requestData, setRequestData] = useState<Flower[]>();
@@ -27,9 +26,6 @@ function Requests() {
 
   return (
     <div>
-      <div className={"navbar-container"}>
-        <SideNavbar />
-      </div>
       <div className={"requests-page-container"}>
         <div>
           <h1 className="requestsHeader">
