@@ -32,7 +32,7 @@ export function AccessibilitySelector(props: AccessibilitySelectorProps) {
           width: "15vw",
           height: "5vh",
           marginTop: "1.5rem",
-          marginRight: "12vw",
+          marginRight: "15vw",
           alignItems: "center",
           zIndex: 3,
           right: 0,

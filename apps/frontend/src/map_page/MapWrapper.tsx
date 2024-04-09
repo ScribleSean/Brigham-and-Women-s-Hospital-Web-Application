@@ -128,7 +128,7 @@ function MapWrapper() {
     locationSelectorEndNodeID: endNodeIDSelector,
     currentDirectionsCounter: directionsCounter,
     resetDirections: resetDirections,
-    currentEditorMode: editorMode,
+    currentEditorMode: !editorMode,
   };
 
   const directionsProps: DirectionsProps = {

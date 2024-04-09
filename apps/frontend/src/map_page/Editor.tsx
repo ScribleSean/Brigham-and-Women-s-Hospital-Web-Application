@@ -1,19 +1,32 @@
 import { EditorProps } from "./types/map_page_types.ts";
-import { CSSProperties } from "react";
+import { Button } from "@mui/material";
 
 export default Editor;
-
-const buttomStyle: CSSProperties = {
-  position: "absolute",
-  width: "20%",
-  height: "20%",
-  zIndex: 5,
-};
 
 function Editor(props: EditorProps) {
   const handleOnClick = () => {
     props.changeEditorMode(props.currentEditorMode);
   };
 
-  return <button style={buttomStyle} onClick={handleOnClick}></button>;
+  return (
+    <Button
+      onClick={handleOnClick}
+      sx={{
+        position: "absolute",
+        width: "7vw",
+        backgroundColor: props.currentEditorMode ? "#F6BD39" : "#012D5A",
+        color: "white",
+        fontWeight: "bold",
+        fontFamily: "inter",
+        textTransform: "capitalize",
+        boxShadow: 8,
+        zIndex: 4,
+        marginLeft: "10vw",
+        marginTop: "22vh",
+        ":hover": { backgroundColor: "#F6BD39!important" },
+      }}
+    >
+      Edit Map
+    </Button>
+  );
 }

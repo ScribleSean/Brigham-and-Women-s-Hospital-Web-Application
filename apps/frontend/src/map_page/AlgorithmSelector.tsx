@@ -36,7 +36,7 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
           width: "12vw",
           height: "5vh",
           marginTop: "1.5rem",
-          marginRight: "28.5vw",
+          marginRight: "31.5vw",
           alignItems: "center",
           zIndex: 3,
           right: 0,

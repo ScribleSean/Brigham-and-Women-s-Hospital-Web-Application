@@ -13,16 +13,17 @@ function Directions(props: DirectionsProps) {
       onClick={handleOnClick}
       sx={{
         position: "absolute",
-        backgroundColor: "white",
-        color: "#012D5A",
+        width: "7vw",
+        backgroundColor: "#012D5A",
+        color: "white",
         fontWeight: "bold",
         fontFamily: "inter",
         textTransform: "capitalize",
-        borderRadius: "o.5rem",
         boxShadow: 8,
         zIndex: 4,
         marginLeft: "2vw",
-        marginTop: "19vh",
+        marginTop: "22vh",
+        ":hover": { backgroundColor: "#F6BD39!important" },
       }}
     >
       Next Floor
