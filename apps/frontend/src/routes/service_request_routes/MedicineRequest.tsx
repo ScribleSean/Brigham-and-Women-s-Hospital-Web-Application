@@ -224,7 +224,7 @@ function MedicineRequest() {
               required
             />
           </div>
-          <br />
+          {/*<br />*/}
           <div className={"two-input-row-container"}>
             <FormControl
               variant={"filled"}
@@ -263,10 +263,23 @@ function MedicineRequest() {
           </div>
           <br />
           <div className={"button-container"}>
-            <Button variant={"outlined"} color={"error"} sx={{ width: "25%" }}>
+            <Button
+              variant={"outlined"}
+              color={"error"}
+              sx={{
+                width: "25%",
+              }}
+            >
               Clear
             </Button>
-            <Button variant={"contained"} type={"submit"} sx={{ width: "25%" }}>
+            <Button
+              variant={"contained"}
+              type={"submit"}
+              sx={{
+                width: "25%",
+                backgroundColor: "#012d5a",
+              }}
+            >
               Submit
             </Button>
           </div>
