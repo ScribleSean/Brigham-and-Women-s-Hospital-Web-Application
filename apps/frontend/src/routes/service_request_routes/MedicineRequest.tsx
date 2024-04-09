@@ -269,6 +269,17 @@ function MedicineRequest() {
               sx={{
                 width: "25%",
               }}
+              onClick={() => {
+                setFormData({
+                  employeeName: "",
+                  location: "",
+                  medicineName: null,
+                  dosageAmount: "",
+                  dosageForm: "",
+                  priority: "",
+                  status: "",
+                });
+              }}
             >
               Clear
             </Button>

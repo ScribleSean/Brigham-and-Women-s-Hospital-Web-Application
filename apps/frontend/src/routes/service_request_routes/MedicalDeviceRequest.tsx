@@ -263,6 +263,16 @@ function MedicalDeviceRequest() {
               sx={{
                 width: "25%",
               }}
+              onClick={() => {
+                setFormData({
+                  employeeName: "",
+                  location: "",
+                  deviceName: null,
+                  deviceQuantity: "",
+                  priority: "",
+                  status: "",
+                });
+              }}
             >
               Clear
             </Button>

@@ -153,7 +153,21 @@ function GiftRequest() {
           </div>
           <br />
           <div className={`${styles.buttonContainer}`}>
-            <Button variant={"outlined"} color={"error"} sx={{ width: "25%" }}>
+            <Button
+              variant={"outlined"}
+              color={"error"}
+              sx={{ width: "25%" }}
+              onClick={() => {
+                setFormData({
+                  employeeName: "",
+                  location: "",
+                  giftType: "",
+                  deliveryDate: "",
+                  priority: "",
+                  status: "",
+                });
+              }}
+            >
               Clear
             </Button>
             <Button variant={"contained"} type={"submit"} sx={{ width: "25%" }}>
