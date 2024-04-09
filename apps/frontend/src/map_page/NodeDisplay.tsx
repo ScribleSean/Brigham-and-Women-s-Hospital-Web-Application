@@ -64,6 +64,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       scale={props.scale}
       onStart={handleStartDrag}
       onStop={handleStopDrag}
+      disabled={props.currentEditorMode}
     >
       <button
         style={nodeStyle}

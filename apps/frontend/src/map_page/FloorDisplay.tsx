@@ -149,6 +149,7 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
       changesFloor: changesFloor,
       draggingNodes: props.draggingNodes,
       scale: props.scale,
+      currentEditorMode: props.currentEditorMode,
     };
   }
 

@@ -36,6 +36,7 @@ export interface PathGrapherProps {
   locationSelectorEndNodeID: string | null;
   currentDirectionsCounter: number;
   resetDirections: () => void;
+  currentEditorMode: boolean;
 }
 
 export interface FloorDisplayProps {
@@ -49,6 +50,7 @@ export interface FloorDisplayProps {
   locationSelectorEndNodeID: string | null;
   currentDirectionsCounter: number;
   resetDirections: () => void;
+  currentEditorMode: boolean;
 }
 
 export interface NodeDisplayProps {
@@ -59,6 +61,7 @@ export interface NodeDisplayProps {
   changesFloor: boolean;
   draggingNodes: (isDragging: boolean) => void;
   scale: number;
+  currentEditorMode: boolean;
 }
 export interface NodeScaling {
   widthScaling: number;

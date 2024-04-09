@@ -84,6 +84,7 @@ export default function PathGrapher(props: PathGrapherProps) {
     locationSelectorEndNodeID: props.locationSelectorEndNodeID,
     currentDirectionsCounter: props.currentDirectionsCounter,
     resetDirections: props.resetDirections,
+    currentEditorMode: props.currentEditorMode,
   };
 
   return (
