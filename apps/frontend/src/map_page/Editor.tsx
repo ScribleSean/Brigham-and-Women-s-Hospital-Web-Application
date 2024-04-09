@@ -1,16 +1,29 @@
+import React, { useState } from "react";
 import { EditorProps } from "./types/map_page_types.ts";
 import { Button } from "@mui/material";
 
 export default Editor;
 
 function Editor(props: EditorProps) {
+  const [hoverActive, setHoverActive] = useState(false);
+
+  const handleMouseEnter = () => {
+    setHoverActive(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHoverActive(false);
+  };
   const handleOnClick = () => {
     props.changeEditorMode(props.currentEditorMode);
+    setHoverActive(false);
   };
 
   return (
     <Button
       onClick={handleOnClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       sx={{
         position: "absolute",
         width: "7vw",
@@ -23,7 +36,15 @@ function Editor(props: EditorProps) {
         zIndex: 4,
         marginLeft: "10vw",
         marginTop: "22vh",
-        ":hover": { backgroundColor: "#F6BD39!important" },
+        ":hover": {
+          backgroundColor: hoverActive
+            ? props.currentEditorMode
+              ? "#012D5A!important"
+              : "#F6BD39!important"
+            : props.currentEditorMode
+              ? "#F6BD39!important"
+              : "#012D5A!important",
+        },
       }}
     >
       Edit Map

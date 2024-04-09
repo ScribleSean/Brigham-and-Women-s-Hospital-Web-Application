@@ -35,8 +35,8 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
       .join(" ");
   }
 
-  const lightBlue: string = "lightblue"; // Light blue color for all paths
-  const darkBlue: string = "darkblue"; // Dark blue color for the current path
+  const lightBlue: string = "lightBlue"; //Light blue color for all paths
+  const darkBlue: string = "darkBlue"; // Dark blue color for the current path
   const strokeDasharray: number = 5;
 
   function getPolylineProps(
