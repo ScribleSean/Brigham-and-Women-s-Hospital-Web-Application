@@ -23,7 +23,7 @@ async function createGraph(res: Response): Promise<Graph> {
 
     let startNode = graph.getNodeByID(startNodeID);
     if (!startNode) {
-      const nodeData = await PrismaClient.nodes.findUnique({
+      const nodeData = await PrismaClient.node.findUnique({
         where: {
           nodeID: startNodeID,
         },
@@ -48,7 +48,7 @@ async function createGraph(res: Response): Promise<Graph> {
 
     let endNode = graph.getNodeByID(endNodeID);
     if (!endNode) {
-      const nodeData = await PrismaClient.nodes.findUnique({
+      const nodeData = await PrismaClient.node.findUnique({
         where: {
           nodeID: endNodeID,
         },

@@ -31,7 +31,7 @@ router.post("/", async (req: Request, res: Response) => {
     });
 
     transformedNode.pop();
-    await PrismaClient.nodes.createMany({
+    await PrismaClient.node.createMany({
       data: transformedNode.map((self) => {
         return {
           nodeID: self.nodeID,

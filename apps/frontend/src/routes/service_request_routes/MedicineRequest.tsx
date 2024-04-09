@@ -2,6 +2,7 @@ import {
   Autocomplete,
   Button,
   FormControl,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -9,39 +10,79 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import styles from "../../styles/FlowerDelivery.module.css";
-import React, { useEffect, useState } from "react";
+import "../../styles/MedicineRequest.css";
+import { useEffect, useState } from "react";
 
 interface FormData {
   employeeName: string;
-  receiverName: string;
   location: string;
-  flowerType: string | null;
-  deliveryDate: string;
+  medicineName: string | null;
+  dosageAmount: string;
+  dosageForm: string;
   priority: string;
   status: string;
 }
 
-function FlowerDelivery() {
-  const flowerTypes = [
-    "Rose",
-    "Tulip",
-    "Lily",
-    "Orchid",
-    "Sunflower",
-    "Daisy",
-    "Carnation",
-    "Hydrangea",
-    "Peony",
-    "Chrysanthemum",
+function MedicineRequest() {
+  const medicineList: string[] = [
+    "Aspirin",
+    "Ibuprofen",
+    "Paracetamol",
+    "Amoxicillin",
+    "Omeprazole",
+    "Lisinopril",
+    "Metformin",
+    "Simvastatin",
+    "Atorvastatin",
+    "Levothyroxine",
+    "Prednisone",
+    "Gabapentin",
+    "Losartan",
+    "Azithromycin",
+    "Amlodipine",
+    "Metoprolol",
+    "Albuterol",
+    "Sertraline",
+    "Citalopram",
+    "Fluoxetine",
+    "Escitalopram",
+    "Cetirizine",
+    "Furosemide",
+    "Loratadine",
+    "Tramadol",
+    "Warfarin",
+    "Hydrochlorothiazide",
+    "Clonazepam",
+    "Tamsulosin",
+    "Meloxicam",
+    "Pregabalin",
+    "Diazepam",
+    "Zolpidem",
+    "Naproxen",
+    "Bisoprolol",
+    "Cephalexin",
+    "Metronidazole",
+    "Ciprofloxacin",
+    "Doxycycline",
+    "Methylprednisolone",
+    "Amitriptyline",
+    "Venlafaxine",
+    "Duloxetine",
+    "Risperidone",
+    "Quetiapine",
+    "Mirtazapine",
+    "Carvedilol",
+    "Folic Acid",
+    "Pantoprazole",
+    "Dextromethorphan",
   ];
 
   const [formData, setFormData] = useState<FormData>({
     employeeName: "",
-    receiverName: "",
     location: "",
-    flowerType: null,
-    deliveryDate: "",
+    medicineName: null,
+    dosageAmount: "",
+    dosageForm: "",
     priority: "",
     status: "",
   });
@@ -50,9 +91,13 @@ function FlowerDelivery() {
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
+  useEffect(() => {
+    console.log(submittedRequests);
+  }, [submittedRequests]);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -61,10 +106,10 @@ function FlowerDelivery() {
     });
   };
 
-  const handleAutocompleteChange = (value: string | null) => {
+  const handleMedicineNameChange = (value: string | null) => {
     setFormData({
       ...formData,
-      flowerType: value || null,
+      medicineName: value || null,
     });
   };
 
@@ -78,27 +123,23 @@ function FlowerDelivery() {
     });
   };
 
+  const addSubmittedRequest = (newRequest: FormData) => {
+    setSubmittedRequests([...submittedRequests, newRequest]);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     addSubmittedRequest(formData);
     setFormData({
       employeeName: "",
-      receiverName: "",
       location: "",
-      flowerType: null,
-      deliveryDate: "",
+      medicineName: null,
+      dosageForm: "",
+      dosageAmount: "",
       priority: "",
       status: "",
     });
   };
-
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <>
@@ -111,9 +152,9 @@ function FlowerDelivery() {
         message={"Request was submitted successfully!"}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       />
-      <div className={`${styles.sanDiv} col-10`}>
-        <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
-          <h1>Flower Delivery Request</h1>
+      <div className={"san-div col-10"}>
+        <form className={"request-form"} onSubmit={handleSubmit}>
+          <h1>Medicine Request</h1>
           <br />
           <TextField
             label={"Employee Name"}
@@ -122,15 +163,6 @@ function FlowerDelivery() {
             sx={{ my: "1%" }}
             onChange={handleTextFieldChange}
             value={formData.employeeName}
-            required
-          />
-          <TextField
-            label={"Receiver Name"}
-            variant={"filled"}
-            id={"receiverName"}
-            sx={{ my: "1%" }}
-            onChange={handleTextFieldChange}
-            value={formData.receiverName}
             required
           />
           <TextField
@@ -143,48 +175,57 @@ function FlowerDelivery() {
             required
           />
           <br />
-          <div className={`${styles.twoInputRow}`}>
-            <Autocomplete
-              id={"flowerType"}
-              sx={{
-                my: "1%",
-                width: "49%",
-                marginRight: "1%",
-              }}
-              disablePortal
-              options={flowerTypes}
-              onChange={(_event, value) => handleAutocompleteChange(value)}
-              value={formData.flowerType}
-              renderInput={(params) => (
-                <TextField
-                  variant={"filled"}
-                  {...params}
-                  label="Flower Type"
-                  required
-                />
-              )}
-            />
+          <Autocomplete
+            id={"medicineName"}
+            sx={{ my: "1%" }}
+            disablePortal
+            options={medicineList}
+            onChange={(_event, value) => handleMedicineNameChange(value)}
+            value={formData.medicineName}
+            renderInput={(params) => (
+              <TextField
+                variant={"filled"}
+                {...params}
+                label="Medicine"
+                required
+              />
+            )}
+          />
+          <div className={"two-input-row-container"}>
             <FormControl
               variant={"filled"}
-              sx={{
-                my: "1%",
-                width: "49%",
-                marginLeft: "1%",
-              }}
+              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
               required
             >
-              <TextField
-                label={"Delivery Date"}
-                variant={"filled"}
-                id={"deliveryDate"}
-                sx={{ width: "99%", marginLeft: "1%", my: "1%" }}
-                type={"date"}
-                InputLabelProps={{ shrink: true }}
-              />
+              <InputLabel id={"dosageForm"}>Dosage Form</InputLabel>
+              <Select
+                id={"dosageForm"}
+                onChange={(e) => handleSelectChange(e, "dosageForm")}
+                value={formData.dosageForm}
+              >
+                <MenuItem value={"Tablet"}>Tablet</MenuItem>
+                <MenuItem value={"Capsule"}>Capsule</MenuItem>
+                <MenuItem value={"Liquid"}>Liquid</MenuItem>
+              </Select>
             </FormControl>
+            <TextField
+              id={"dosageAmount"}
+              label={"Dosage Amount"}
+              variant={"filled"}
+              sx={{ width: "49%", marginLeft: "1%" }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position={"end"}>mg</InputAdornment>
+                ),
+              }}
+              onChange={handleTextFieldChange}
+              type={"number"}
+              value={formData.dosageAmount}
+              required
+            />
           </div>
           {/*<br />*/}
-          <div>
+          <div className={"two-input-row-container"}>
             <FormControl
               variant={"filled"}
               sx={{ width: "49%", marginRight: "1%", my: "1%" }}
@@ -231,10 +272,10 @@ function FlowerDelivery() {
               onClick={() => {
                 setFormData({
                   employeeName: "",
-                  receiverName: "",
                   location: "",
-                  flowerType: null,
-                  deliveryDate: "",
+                  medicineName: null,
+                  dosageAmount: "",
+                  dosageForm: "",
                   priority: "",
                   status: "",
                 });
@@ -259,4 +300,4 @@ function FlowerDelivery() {
   );
 }
 
-export default FlowerDelivery;
+export default MedicineRequest;

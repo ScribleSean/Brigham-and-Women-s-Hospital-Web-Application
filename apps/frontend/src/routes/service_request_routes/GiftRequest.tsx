@@ -1,5 +1,4 @@
 import {
-  Autocomplete,
   Button,
   FormControl,
   InputLabel,
@@ -9,62 +8,35 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import styles from "../../styles/FlowerDelivery.module.css";
-import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import styles from "../../styles/GiftRequest.module.css";
+import React, { useState } from "react";
 
 interface FormData {
   employeeName: string;
-  receiverName: string;
   location: string;
-  flowerType: string | null;
+  giftType: string;
   deliveryDate: string;
   priority: string;
   status: string;
 }
 
-function FlowerDelivery() {
-  const flowerTypes = [
-    "Rose",
-    "Tulip",
-    "Lily",
-    "Orchid",
-    "Sunflower",
-    "Daisy",
-    "Carnation",
-    "Hydrangea",
-    "Peony",
-    "Chrysanthemum",
-  ];
-
+function GiftRequest() {
   const [formData, setFormData] = useState<FormData>({
     employeeName: "",
-    receiverName: "",
     location: "",
-    flowerType: null,
+    giftType: "",
     deliveryDate: "",
     priority: "",
     status: "",
   });
 
-  const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
-
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
-
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
-    });
-  };
-
-  const handleAutocompleteChange = (value: string | null) => {
-    setFormData({
-      ...formData,
-      flowerType: value || null,
     });
   };
 
@@ -80,25 +52,16 @@ function FlowerDelivery() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addSubmittedRequest(formData);
     setFormData({
       employeeName: "",
-      receiverName: "",
       location: "",
-      flowerType: null,
+      giftType: "",
       deliveryDate: "",
       priority: "",
       status: "",
     });
+    setSnackbarIsOpen(true);
   };
-
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <>
@@ -113,7 +76,7 @@ function FlowerDelivery() {
       />
       <div className={`${styles.sanDiv} col-10`}>
         <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
-          <h1>Flower Delivery Request</h1>
+          <h1>Gift Request</h1>
           <br />
           <TextField
             label={"Employee Name"}
@@ -122,15 +85,6 @@ function FlowerDelivery() {
             sx={{ my: "1%" }}
             onChange={handleTextFieldChange}
             value={formData.employeeName}
-            required
-          />
-          <TextField
-            label={"Receiver Name"}
-            variant={"filled"}
-            id={"receiverName"}
-            sx={{ my: "1%" }}
-            onChange={handleTextFieldChange}
-            value={formData.receiverName}
             required
           />
           <TextField
@@ -144,47 +98,37 @@ function FlowerDelivery() {
           />
           <br />
           <div className={`${styles.twoInputRow}`}>
-            <Autocomplete
-              id={"flowerType"}
-              sx={{
-                my: "1%",
-                width: "49%",
-                marginRight: "1%",
-              }}
-              disablePortal
-              options={flowerTypes}
-              onChange={(_event, value) => handleAutocompleteChange(value)}
-              value={formData.flowerType}
-              renderInput={(params) => (
-                <TextField
-                  variant={"filled"}
-                  {...params}
-                  label="Flower Type"
-                  required
-                />
-              )}
-            />
             <FormControl
               variant={"filled"}
-              sx={{
-                my: "1%",
-                width: "49%",
-                marginLeft: "1%",
-              }}
+              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
               required
             >
-              <TextField
-                label={"Delivery Date"}
-                variant={"filled"}
-                id={"deliveryDate"}
-                sx={{ width: "99%", marginLeft: "1%", my: "1%" }}
-                type={"date"}
-                InputLabelProps={{ shrink: true }}
-              />
+              <InputLabel id={"giftType"}>Gift Type</InputLabel>
+              <Select
+                id={"giftType"}
+                onChange={(e) => handleSelectChange(e, "giftType")}
+                value={formData.giftType}
+              >
+                <MenuItem value={"Hat"}>Hat</MenuItem>
+                <MenuItem value={"Beanie"}>Beanie</MenuItem>
+                <MenuItem value={"Wrist band"}>Wrist band</MenuItem>
+                <MenuItem value={"Sticker"}>Sticker</MenuItem>
+                <MenuItem value={"T-shirt"}>T-shirt</MenuItem>
+                <MenuItem value={"Custom pottery"}>Custom pottery</MenuItem>
+              </Select>
             </FormControl>
+            <TextField
+              label={"Delivery Date"}
+              variant={"filled"}
+              id={"deliveryDate"}
+              sx={{ width: "49%", marginLeft: "1%", my: "1%" }}
+              type={"date"}
+              InputLabelProps={{ shrink: true }}
+              onChange={handleTextFieldChange}
+              value={formData.deliveryDate}
+            />
           </div>
-          {/*<br />*/}
-          <div>
+          <div className={`${styles.twoInputRow}`}>
             <FormControl
               variant={"filled"}
               sx={{ width: "49%", marginRight: "1%", my: "1%" }}
@@ -221,19 +165,16 @@ function FlowerDelivery() {
             </FormControl>
           </div>
           <br />
-          <div className={"button-container"}>
+          <div className={`${styles.buttonContainer}`}>
             <Button
               variant={"outlined"}
               color={"error"}
-              sx={{
-                width: "25%",
-              }}
+              sx={{ width: "25%" }}
               onClick={() => {
                 setFormData({
                   employeeName: "",
-                  receiverName: "",
                   location: "",
-                  flowerType: null,
+                  giftType: "",
                   deliveryDate: "",
                   priority: "",
                   status: "",
@@ -245,10 +186,7 @@ function FlowerDelivery() {
             <Button
               variant={"contained"}
               type={"submit"}
-              sx={{
-                width: "25%",
-                backgroundColor: "#012d5a",
-              }}
+              sx={{ width: "25%", backgroundColor: "#012d5a" }}
             >
               Submit
             </Button>
@@ -259,4 +197,4 @@ function FlowerDelivery() {
   );
 }
 
-export default FlowerDelivery;
+export default GiftRequest;

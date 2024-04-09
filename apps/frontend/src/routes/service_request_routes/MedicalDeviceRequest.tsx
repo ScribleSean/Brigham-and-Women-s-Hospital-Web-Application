@@ -9,39 +9,78 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import styles from "../../styles/FlowerDelivery.module.css";
-import React, { useEffect, useState } from "react";
+import styles from "../../styles/MedicalDeviceRequest.module.css";
+import { useEffect, useState } from "react";
 
 interface FormData {
   employeeName: string;
-  receiverName: string;
   location: string;
-  flowerType: string | null;
-  deliveryDate: string;
+  deviceName: string | null;
+  deviceQuantity: string;
   priority: string;
   status: string;
 }
 
-function FlowerDelivery() {
-  const flowerTypes = [
-    "Rose",
-    "Tulip",
-    "Lily",
-    "Orchid",
-    "Sunflower",
-    "Daisy",
-    "Carnation",
-    "Hydrangea",
-    "Peony",
-    "Chrysanthemum",
+function MedicalDeviceRequest() {
+  const deviceOptions: string[] = [
+    "Stethoscope",
+    "Blood Pressure Monitor",
+    "Thermometer",
+    "MRI Machine",
+    "X-ray Machine",
+    "Ultrasound Machine",
+    "Defibrillator",
+    "Electrocardiogram (ECG) Machine",
+    "Pulse Oximeter",
+    "Sphygmomanometer",
+    "Glucose Meter",
+    "Infusion Pump",
+    "Ventilator",
+    "Nebulizer",
+    "Ophthalmoscope",
+    "Otoscope",
+    "Doppler",
+    "Endoscope",
+    "Laryngoscope",
+    "Colonoscope",
+    "Bronchoscope",
+    "Anesthesia Machine",
+    "Blood Gas Analyzer",
+    "Fetal Monitor",
+    "Spirometer",
+    "Catheter",
+    "Pacemaker",
+    "Implantable Cardioverter Defibrillator (ICD)",
+    "Cardiac Catheterization Lab Equipment",
+    "Hemodialysis Machine",
+    "Surgical Laser",
+    "Surgical Robot",
+    "CT Scanner",
+    "PET Scanner",
+    "EEG Machine",
+    "EMG Machine",
+    "EKG Machine",
+    "Holter Monitor",
+    "Oxygen Concentrator",
+    "Apnea Monitor",
+    "Continuous Glucose Monitor (CGM)",
+    "Insulin Pump",
+    "Wheelchair",
+    "Crutches",
+    "Walker",
+    "Hospital Bed",
+    "Suction Machine",
+    "Feeding Pump",
+    "Orthopedic Implants",
+    "Orthosis",
+    "Prosthesis",
   ];
 
   const [formData, setFormData] = useState<FormData>({
     employeeName: "",
-    receiverName: "",
     location: "",
-    flowerType: null,
-    deliveryDate: "",
+    deviceName: null,
+    deviceQuantity: "",
     priority: "",
     status: "",
   });
@@ -64,7 +103,7 @@ function FlowerDelivery() {
   const handleAutocompleteChange = (value: string | null) => {
     setFormData({
       ...formData,
-      flowerType: value || null,
+      deviceName: value || null,
     });
   };
 
@@ -83,10 +122,9 @@ function FlowerDelivery() {
     addSubmittedRequest(formData);
     setFormData({
       employeeName: "",
-      receiverName: "",
       location: "",
-      flowerType: null,
-      deliveryDate: "",
+      deviceName: null,
+      deviceQuantity: "",
       priority: "",
       status: "",
     });
@@ -113,7 +151,7 @@ function FlowerDelivery() {
       />
       <div className={`${styles.sanDiv} col-10`}>
         <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
-          <h1>Flower Delivery Request</h1>
+          <h1>Medical Device Request</h1>
           <br />
           <TextField
             label={"Employee Name"}
@@ -122,15 +160,6 @@ function FlowerDelivery() {
             sx={{ my: "1%" }}
             onChange={handleTextFieldChange}
             value={formData.employeeName}
-            required
-          />
-          <TextField
-            label={"Receiver Name"}
-            variant={"filled"}
-            id={"receiverName"}
-            sx={{ my: "1%" }}
-            onChange={handleTextFieldChange}
-            value={formData.receiverName}
             required
           />
           <TextField
@@ -145,21 +174,21 @@ function FlowerDelivery() {
           <br />
           <div className={`${styles.twoInputRow}`}>
             <Autocomplete
-              id={"flowerType"}
+              id={"deviceName"}
               sx={{
                 my: "1%",
-                width: "49%",
+                width: "79%",
                 marginRight: "1%",
               }}
               disablePortal
-              options={flowerTypes}
+              options={deviceOptions}
               onChange={(_event, value) => handleAutocompleteChange(value)}
-              value={formData.flowerType}
+              value={formData.deviceName}
               renderInput={(params) => (
                 <TextField
                   variant={"filled"}
                   {...params}
-                  label="Flower Type"
+                  label="Device"
                   required
                 />
               )}
@@ -168,19 +197,25 @@ function FlowerDelivery() {
               variant={"filled"}
               sx={{
                 my: "1%",
-                width: "49%",
+                width: "19%",
                 marginLeft: "1%",
               }}
               required
             >
-              <TextField
-                label={"Delivery Date"}
-                variant={"filled"}
-                id={"deliveryDate"}
-                sx={{ width: "99%", marginLeft: "1%", my: "1%" }}
-                type={"date"}
-                InputLabelProps={{ shrink: true }}
-              />
+              <InputLabel id={"deviceQuantity"}>Quantity</InputLabel>
+              <Select
+                id={"deviceQuantity"}
+                onChange={(e) => handleSelectChange(e, "deviceQuantity")}
+                value={formData.deviceQuantity}
+              >
+                <MenuItem value={"1"}>1</MenuItem>
+                <MenuItem value={"2"}>2</MenuItem>
+                <MenuItem value={"3"}>3</MenuItem>
+                <MenuItem value={"4"}>4</MenuItem>
+                <MenuItem value={"5"}>5</MenuItem>
+                <MenuItem value={"6"}>6</MenuItem>
+                <MenuItem value={"7"}>7</MenuItem>
+              </Select>
             </FormControl>
           </div>
           {/*<br />*/}
@@ -231,10 +266,9 @@ function FlowerDelivery() {
               onClick={() => {
                 setFormData({
                   employeeName: "",
-                  receiverName: "",
                   location: "",
-                  flowerType: null,
-                  deliveryDate: "",
+                  deviceName: null,
+                  deviceQuantity: "",
                   priority: "",
                   status: "",
                 });
@@ -259,4 +293,4 @@ function FlowerDelivery() {
   );
 }
 
-export default FlowerDelivery;
+export default MedicalDeviceRequest;
