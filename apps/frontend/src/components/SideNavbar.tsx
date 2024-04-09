@@ -45,7 +45,19 @@ const SideNavbar = () => {
               className={"nav-links-inner border-bottom"}
               href="/gift-request"
             >
-              Gift Requests
+              Gift
+            </Nav.Link>
+            <Nav.Link
+              className={"nav-links-inner border-bottom"}
+              href="/medicine-request"
+            >
+              Medicine
+            </Nav.Link>
+            <Nav.Link
+              className={"nav-links-inner border-bottom"}
+              href="/medical-device-request"
+            >
+              Medical Device
             </Nav.Link>
             <Nav.Link
               className={"nav-links-inner border-bottom"}

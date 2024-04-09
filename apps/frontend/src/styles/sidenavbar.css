@@ -69,11 +69,11 @@
 .dropdown {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease-out;
+  /*transition: max-height 0.5s ease-out;*/
 }
 
 .dropdown.open {
-  max-height: 100px; /* Adjust this value as needed */
+  max-height: 100%; /* Adjust this value as needed */
 }
 
 .collapsed {

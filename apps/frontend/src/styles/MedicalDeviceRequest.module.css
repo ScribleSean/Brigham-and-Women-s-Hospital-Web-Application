@@ -17,13 +17,16 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+h1 {
+  color: #012d5a;
+  text-align: center;
+  font-size: 3em;
+  font-weight: 900;
+  margin-top: 0;
+}
+
 .twoInputRow {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.buttonContainer {
-  display: flex;
-  justify-content: space-between;
 }
