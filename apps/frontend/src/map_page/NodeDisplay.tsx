@@ -1,5 +1,5 @@
 import { NodeDisplayProps } from "./types/map_page_types.ts";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useState } from "react";
 import { Node } from "../../../backend/src/algorithms/DataStructures.ts";
 import Draggable from "react-draggable";
 
@@ -29,7 +29,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const heightScaling: number = props.scaling.heightScaling;
   const node: Node = props.node;
   const handleNodeSelection = props.handleNodeSelection;
-  const changesFloor: boolean = props.changesFloor;
+  const [hoverActive, setHoverActive] = useState(false);
+  //const changesFloor: boolean = props.changesFloor;
 
   const { displayX, displayY } = imageToDisplayCoordinates(
     node.x,
@@ -42,13 +43,13 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     position: "absolute",
     left: `${displayX}px`,
     top: `${displayY}px`,
-    width: changesFloor ? "10px" : "10px",
-    height: changesFloor ? "10px" : "10px",
+    width: "0.5rem",
+    height: "0.5rem",
     borderRadius: "100%",
     padding: "0",
-    borderColor: changesFloor ? "red" : "blueviolet",
-    color: "black",
+    borderColor: "black",
     zIndex: "3",
+    backgroundColor: hoverActive ? "green" : "white",
   };
 
   const handleStartDrag = () => {
@@ -68,6 +69,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     >
       <button
         style={nodeStyle}
+        onMouseEnter={() => setHoverActive(true)}
+        onMouseLeave={() => setHoverActive(false)}
         onClick={() => handleNodeSelection(node)}
       ></button>
     </Draggable>
