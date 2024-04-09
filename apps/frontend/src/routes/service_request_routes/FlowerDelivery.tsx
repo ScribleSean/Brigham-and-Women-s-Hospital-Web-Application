@@ -4,20 +4,21 @@ import "frontend/src/styles/FlowerDelivery.css";
 // import {Link} from "react-router-dom"; // Import your CSS file
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "@mui/material";
-import axios from "axios";
+import axios from "axios"; // back end
 import SideNavbar from "../../components/SideNavbar.tsx";
 
 // interface FlowerDeliveryProps {
 //   // Define your props here
 // }
 
-const FlowerDelivery: React.FC = () => {
+const FlowerRequest: React.FC = () => {
   const [formState, setFormState] = useState({
-    senderName: "", //text box
-    receiverName: "", //text box
-    roomNumber: "", //numbers only
-    flowerType: "", //radio buttons
-    message: "", //text box
+    employeeName: "", // text box
+    priority: "", // text box
+    location: "", // numbers only
+    status: "", // radio buttons
+    flowerType: "", // text box
+    message: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -33,7 +34,10 @@ const FlowerDelivery: React.FC = () => {
     setIsSubmitted(true);
     // Handle form submission here
     try {
-      const response = await axios.post("/api/form", formState);
+      const response = await axios.post(
+        "/api/flower-service-request",
+        formState,
+      );
       console.log("Form data sent successfully:", response.data);
     } catch (error) {
       console.error("Error submitting form data:", error);
@@ -95,35 +99,35 @@ const FlowerDelivery: React.FC = () => {
                 type="text"
                 name="senderName"
                 placeholder={"Name"}
-                value={formState.senderName}
+                value={formState.employeeName}
                 onChange={handleChange}
                 className="form-control"
-                required
+                // required
               />
             </div>
-            <div className="form-group">
-              <label>Sender's Name</label>
-              <input
-                type="text"
-                name="receiverName"
-                placeholder={"Name"}
-                value={formState.receiverName}
-                onChange={handleChange}
-                className="form-control"
-                required
-              />
-            </div>
+            {/*<div className="form-group">*/}
+            {/*  <label>Sender's Name</label>*/}
+            {/*  <input*/}
+            {/*    type="text"*/}
+            {/*    name="receiverName"*/}
+            {/*    placeholder={"Name"}*/}
+            {/*    value={formState.employeeName}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    className="form-control"*/}
+            {/*    required*/}
+            {/*  />*/}
+            {/*</div>*/}
             <div className="row form-group">
               <div className={"col-5"}>
                 <label>Room Number</label>
                 <input
-                  type="number"
+                  type="text"
                   name="roomNumber"
                   placeholder={"eg. 112"}
-                  value={formState.roomNumber}
+                  value={formState.location}
                   onChange={handleChange}
                   className="form-control"
-                  required
+                  // required
                 />
               </div>
               <div className={"col-7"}>
@@ -189,4 +193,4 @@ const FlowerDelivery: React.FC = () => {
   );
 };
 
-export default FlowerDelivery;
+export default FlowerRequest;

@@ -7,6 +7,9 @@ const router: Router = express.Router();
 
 router.post("/", async (req: Request, res: Response) => {
   try {
+    // const deleteNodes = PrismaClient.nodes.deleteMany({});
+    // const deleteEdges = PrismaClient.edge.deleteMany({});
+    // await PrismaClient.$transaction([deleteEdges, deleteNodes]);
     await PrismaClient.edge.deleteMany({});
     // Parse the CSV string to an array of CSVRow objects
     const rows = parseCSV(req.body["csvString"]);

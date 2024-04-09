@@ -7,7 +7,11 @@ const router: Router = express.Router();
 
 router.post("/", async (req: Request, res: Response) => {
   try {
-    await PrismaClient.nodes.deleteMany({});
+    // const deleteNodes = PrismaClient.nodes.deleteMany({});
+    // const deleteEdges = PrismaClient.edge.deleteMany({});
+    // await PrismaClient.$transaction([deleteEdges, deleteNodes]);
+    await PrismaClient.node.deleteMany({});
+
     // Parse the CSV string to an array of CSVRow objects
     const rowsNode = parseCSV(req.body["csvString"]);
     const transformedNode: node[] = rowsNode.map((row) => {
@@ -24,7 +28,7 @@ router.post("/", async (req: Request, res: Response) => {
       };
     });
 
-    await PrismaClient.nodes.createMany({
+    await PrismaClient.node.createMany({
       data: transformedNode.map((self) => {
         return {
           nodeID: self.nodeID,
@@ -48,7 +52,7 @@ router.post("/", async (req: Request, res: Response) => {
 
 router.get("/", async function (req: Request, res: Response) {
   try {
-    const nodeCSV = await PrismaClient.nodes.findMany();
+    const nodeCSV = await PrismaClient.node.findMany();
     res.send(nodeCSV);
   } catch (error) {
     console.error(`Error exporting node data: ${error}`);

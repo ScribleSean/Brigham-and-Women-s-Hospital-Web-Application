@@ -13,7 +13,7 @@ function convertToCSV(data: node[]): string {
 
 router.get("/", async function (req: Request, res: Response) {
   try {
-    const nodeCSV = await PrismaClient.nodes.findMany();
+    const nodeCSV = await PrismaClient.node.findMany();
     const csvNode: string = convertToCSV(nodeCSV);
     res.status(200).send(csvNode);
   } catch (error) {
