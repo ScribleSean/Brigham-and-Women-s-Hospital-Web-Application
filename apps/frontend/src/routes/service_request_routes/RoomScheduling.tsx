@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 //import { useNumberInput } from '@mui/base';
 
 interface FormData {
-  name: string; //text box
+  employeeName: string; //text box
   priority: string; //radio buttons
   location: string; //text box
   startTime: string; //datetime local
@@ -24,7 +24,7 @@ interface FormData {
 
 function RoomScheduling() {
   const [formData, setFormData] = useState<FormData>({
-    name: "", //text box
+    employeeName: "", //text box
     priority: "", //radio buttons
     location: "", //text box
     startTime: "", //datetime local
@@ -73,7 +73,7 @@ function RoomScheduling() {
     e.preventDefault();
     addSubmittedRequest(formData);
     setFormData({
-      name: "", //text box
+      employeeName: "", //text box
       priority: "", //radio buttons
       location: "", //text box
       startTime: "", //datetime local
@@ -112,10 +112,10 @@ function RoomScheduling() {
           <TextField
             label={"Employee Name"}
             variant={"filled"}
-            id={"employee"}
+            id={"employeeName"}
             sx={{ my: "1%" }}
             onChange={handleTextFieldChange}
-            value={formData.name}
+            value={formData.employeeName}
             required
           />
           <br />
