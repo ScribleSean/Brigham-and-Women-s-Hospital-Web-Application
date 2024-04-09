@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -27,7 +28,7 @@ function RoomScheduling() {
     employeeName: "", //text box
     priority: "", //radio buttons
     location: "", //text box
-    startTime: "", //datetime local
+    startTime: "1970-01-01T00:00", //datetime local
     duration: 0, //numbers only
     status: "", //radio buttons
   });
@@ -140,8 +141,13 @@ function RoomScheduling() {
                 label={"Start Time"}
                 variant={"filled"}
                 id={"startTime"}
-                type={"datetime-local"}
                 sx={{ my: "1%" }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position={"start"}></InputAdornment>
+                  ),
+                }}
+                type={"datetime-local"}
                 onChange={handleTextFieldChange}
                 value={formData.startTime}
                 required
@@ -158,6 +164,11 @@ function RoomScheduling() {
                 id={"duration"}
                 type={"number"}
                 sx={{ my: "1%" }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position={"end"}>hrs</InputAdornment>
+                  ),
+                }}
                 onChange={handleTextFieldChange}
                 value={formData.duration}
                 required
