@@ -108,7 +108,7 @@ function RoomScheduling() {
 
       <div className={"san-div col-10"}>
         <form className={"request-form"} onSubmit={handleSubmit}>
-          <h1>Make a Room Request</h1>
+          <h1>Room Request</h1>
           <br />
           <TextField
             label={"Employee Name"}
