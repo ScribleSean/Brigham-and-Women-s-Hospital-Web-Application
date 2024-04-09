@@ -1,104 +1,35 @@
-body {
-  background-color: #d9d9d9 !important;
-}
-
-.schedulingPageTitle {
-  font-weight: 650;
-  font-size: 3em;
-}
-
-.form-group {
-  margin-bottom: 2%;
-  margin-top: 1%;
-}
-
-#schedulingPageForm {
-  background-color: #f1f1f1;
-  padding: 20px;
-  width: 70%;
-  border-radius: 20px;
-}
-
-label {
-  margin-left: 1%;
-  font-size: 1em;
-}
-
-input[type="text"],
-input[type="number"] {
-  background-color: #d9d9d9;
-  border-radius: 12px;
-  padding: 1%;
-}
-
-input[type="number"] {
-  padding: 3%;
-}
-
-.form-check-label {
-  margin-top: 3%;
-  margin-left: 10%;
-}
-
-.radio-buttons {
-  margin-left: 5%;
-}
-
-input[type="radio"] {
-  background-color: #d9d9d9 !important;
-  margin-top: 5%;
-  box-shadow: 0 1px 1px black;
-}
-
-input[type="radio"]:checked {
-  background-color: #f6bd39 !important;
-}
-
-#messageBox {
-  padding-bottom: 20vh;
-}
-
-::placeholder {
-  font-weight: lighter;
-}
-
-.submit-button,
-.return-button {
-  background-color: #2196f3;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1em;
-}
-
-.return-button {
-  background-color: #003a96;
-}
-
-#completed-form-box {
-  background-color: #f1f1f1;
-  width: 50%;
-  border-radius: 20px;
-  padding: 10%;
-}
-
-#goodbye-msg {
-  font-weight: lighter;
-  font-size: 3em;
-}
-
-.return-buttons-container {
+.san-div {
+  height: 100vh;
   display: flex;
-  flex-direction: row;
   justify-content: center;
+  align-items: center;
+  float: right;
 }
 
-.return-button {
-  width: 150px;
+.request-form {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  justify-content: center;
+  padding: 6vh;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.scheduling-page-container {
-  width: 80vw;
-  margin-left: 20vw;
+h1 {
+  color: #012d5a;
+  text-align: center;
+  font-size: 3em;
+  font-weight: 900;
+  margin-top: 0;
+}
+.two-input-row-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
 }

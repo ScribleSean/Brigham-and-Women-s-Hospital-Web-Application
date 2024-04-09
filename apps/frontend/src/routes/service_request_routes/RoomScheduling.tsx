@@ -1,38 +1,88 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "frontend/src/styles/RoomScheduling.css";
 import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Snackbar,
+  TextField,
 } from "@mui/material";
-import SideNavbar from "../../components/SideNavbar.tsx";
+import "../../styles/RoomScheduling.css";
+import React, { useEffect, useState } from "react";
 
-// import {Link, TextField} from "@mui/material";
+//import { useNumberInput } from '@mui/base';
 
-//PLEASE NOTE that this is simply a copy-paste. There is a table here that will be moved.
+interface FormData {
+  name: string; //text box
+  priority: string; //radio buttons
+  location: string; //text box
+  startTime: string; //datetime local
+  duration: number; //numbers only
+  status: string; //radio buttons
+}
 
-type Form = {
-  name: string;
-  priority: string;
-  roomNumber: string;
-  startTime: string;
-  duration: number;
-  status: string;
-};
 function RoomScheduling() {
-  const [formState, setFormState] = useState<Form>({
-    name: "",
-    priority: "",
-    roomNumber: "",
-    startTime: "",
-    duration: 0,
-    status: "",
+  const [formData, setFormData] = useState<FormData>({
+    name: "", //text box
+    priority: "", //radio buttons
+    location: "", //text box
+    startTime: "", //datetime local
+    duration: 0, //numbers only
+    status: "", //radio buttons
   });
+
+  const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
+
+  const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
+
+  useEffect(() => {
+    console.log(submittedRequests);
+  }, [submittedRequests]);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
+  const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleSelectChange = (
+    e: SelectChangeEvent<string>,
+    field: keyof FormData,
+  ) => {
+    setFormData({
+      ...formData,
+      [field]: e.target.value as string,
+    });
+  };
+
+  //const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //    setFormData({});
+  //};
+
+  const addSubmittedRequest = (newRequest: FormData) => {
+    setSubmittedRequests([...submittedRequests, newRequest]);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addSubmittedRequest(formData);
+    setFormData({
+      name: "", //text box
+      priority: "", //radio buttons
+      location: "", //text box
+      startTime: "", //datetime local
+      duration: 0, //numbers only
+      status: "", //radio buttons
+    });
+  };
+
+  //const RoomScheduling: React.FC = () => {
 
   // const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -43,247 +93,101 @@ function RoomScheduling() {
   //     });
   // };
 
-  function handleNameInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, name: event.target.value });
-  }
-
-  function handlePriorityInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, priority: event.target.value });
-  }
-
-  function handleRoomInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, roomNumber: event.target.value });
-  }
-
-  function handleStartInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, startTime: event.target.value });
-  }
-
-  function handleEndInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, duration: event.target.valueAsNumber });
-  }
-
-  function handleStatusInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setFormState({ ...formState, status: event.target.value });
-  }
-
   return (
     <>
-      <div>
-        <SideNavbar />
-      </div>
-      <div className={"scheduling-page-container"}>
-        <div className={"schedulingPage vh-100"}>
-          <h1 className={"schedulingPageTitle text-center mb-5 pt-5"}>
-            Make a Room Request
-          </h1>
-          <form
-            id={"roomSchedulingForm"}
-            className={"container-fluid"}
-            // onSubmit={handleSubmit}
-          >
-            <div className="form-group">
-              <label>Employee's Name</label>
-              <input
-                type="text"
-                name="employeeName"
-                placeholder={"Name"}
-                value={formState.name}
-                onChange={handleNameInput}
-                className="form-control"
-                required
-              />
-            </div>
-            <div className="row form-group">
-              <div className={"col-7"}>
-                <div className={"row"}>
-                  <label>Request Priority</label>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="requestPriority"
-                      value="Low"
-                      onChange={handlePriorityInput}
-                      required
-                    />
-                    <label className="form-check-label">Low</label>
-                  </div>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="requestPriority"
-                      value="Medium"
-                      onChange={handlePriorityInput}
-                      required
-                    />
-                    <label className="form-check-label">Medium</label>
-                  </div>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="requestPriority"
-                      value="High"
-                      onChange={handlePriorityInput}
-                      required
-                    />
-                    <label className="form-check-label">High</label>
-                  </div>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="requestPriority"
-                      value="Emergency"
-                      onChange={handlePriorityInput}
-                      required
-                    />
-                    <label className="form-check-label">Emergency</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="form-group">
-              <label>Location of Request</label>
-              <input
-                type="text"
-                name="requestLocation"
-                placeholder={"Location"}
-                value={formState.roomNumber}
-                onChange={handleRoomInput}
-                className="form-control"
-                required
-              />
-            </div>
+      <Snackbar
+        open={snackbarIsOpen}
+        autoHideDuration={5000}
+        onClose={() => {
+          setSnackbarIsOpen(false);
+        }}
+        message={"Request was submitted successfully!"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      />
 
-            <div className="form-group">
-              <label>Start Time</label>
-              <input
-                type="datetime-local"
-                id="requestStartTime"
-                name="requestStartTime"
-                placeholder={"Start Time"}
-                value={formState.startTime}
-                onChange={handleStartInput}
-                className="form-control"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Duration (hrs)</label>
-              <input
-                type="number"
-                id="timeDuration"
-                name="timeDuration"
-                placeholder={"Duration (hrs)"}
-                min="1"
-                max="6"
-                value={formState.duration}
-                onChange={handleEndInput}
-                className="form-control"
-                required
-              />
-            </div>
+      <div className={"san-div col-10"}>
+        <form className={"request-form"} onSubmit={handleSubmit}>
+          <h1>Make a Room Request</h1>
+          <br />
+          <TextField
+            label={"Employee Name"}
+            variant={"filled"}
+            id={"employeeName"}
+            sx={{ my: "1%" }}
+            onChange={handleTextFieldChange}
+            value={formData.name}
+            required
+          />
+          <br />
+          <TextField
+            label={"Location"}
+            variant={"filled"}
+            id={"location"}
+            sx={{ my: "1%" }}
+            onChange={handleTextFieldChange}
+            value={formData.location}
+            required
+          />
+          <br />
 
-            <div className="row form-group">
-              <div className={"col-7"}>
-                <div className={"row"}>
-                  <label>Request Status</label>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="requestStatus"
-                      value="Unassigned"
-                      onChange={handleStatusInput}
-                      required
-                    />
-                    <label className="form-check-label">Unassigned</label>
-                  </div>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="requestStatus"
-                      value="Assigned"
-                      onChange={handleStatusInput}
-                      required
-                    />
-                    <label className="form-check-label">Assigned</label>
-                  </div>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="requestStatus"
-                      value="In Progress"
-                      onChange={handleStatusInput}
-                      required
-                    />
-                    <label className="form-check-label">In Progress</label>
-                  </div>
-                  <div className="form-check col radio-buttons">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="requestStatus"
-                      value="Closed"
-                      onChange={handleStatusInput}
-                      required
-                    />
-                    <label className="form-check-label">Closed</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={"text-center"}>
-              <button type="submit" className="submit-button py-3 px-5">
-                Send
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <br />
-      <div className="boxBehindTable">
-        <TableContainer component={Paper} className="tableAlign">
-          <Table sx={{ border: 2 }} aria-label="Room Scheduling Table">
-            <TableHead>
-              <TableRow sx={{ border: 2 }}>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Employee Name</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Priority</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Request Location</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Start Time</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Duration (hrs.)</b>
-                </TableCell>
-                <TableCell sx={{ border: 2 }}>
-                  <b>Status</b>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody sx={{ border: 2 }}>
-              <TableRow>
-                <TableCell sx={{ border: 2 }}>{formState.name}</TableCell>
-                <TableCell sx={{ border: 2 }}>{formState.priority}</TableCell>
-                <TableCell sx={{ border: 2 }}>{formState.roomNumber}</TableCell>
-                <TableCell sx={{ border: 2 }}>{formState.startTime}</TableCell>
-                <TableCell sx={{ border: 2 }}>{formState.duration}</TableCell>
-                <TableCell sx={{ border: 2 }}>{formState.status}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+          <TextField
+            label={"Duration (hrs)"}
+            variant={"filled"}
+            id={"duration"}
+            type={"number"}
+            sx={{ my: "1%" }}
+            onChange={handleTextFieldChange}
+            value={formData.duration}
+            required
+          />
+          <br />
+
+          <div className={"two-input-row-container"}>
+            <FormControl
+              variant={"filled"}
+              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+              required
+            >
+              <InputLabel id={"priority"}>Priority</InputLabel>
+              <Select
+                id={"priority"}
+                onChange={(e) => handleSelectChange(e, "priority")}
+                value={formData.priority}
+              >
+                <MenuItem value={"Low"}>Low</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"High"}>High</MenuItem>
+                <MenuItem value={"Emergency"}>Emergency</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              variant={"filled"}
+              sx={{ width: "49%", marginLeft: "1%", my: "1%" }}
+              required
+            >
+              <InputLabel id={"status"}>Status</InputLabel>
+              <Select
+                id={"status"}
+                onChange={(e) => handleSelectChange(e, "status")}
+                value={formData.status}
+              >
+                <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+                <MenuItem value={"Assigned"}>Assigned</MenuItem>
+                <MenuItem value={"In Progress"}>In Progress</MenuItem>
+                <MenuItem value={"Closed"}>Closed</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <br />
+          <div className={"button-container"}>
+            <Button variant={"outlined"} color={"error"} sx={{ width: "25%" }}>
+              Clear
+            </Button>
+            <Button variant={"contained"} type={"submit"} sx={{ width: "25%" }}>
+              Submit
+            </Button>
+          </div>
+        </form>
       </div>
     </>
   );
