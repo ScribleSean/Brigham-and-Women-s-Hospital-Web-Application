@@ -24,16 +24,16 @@ label {
   font-size: 1em;
 }
 
-input[type="text"],
-input[type="number"] {
-  background-color: #d9d9d9;
-  border-radius: 12px;
-  padding: 1%;
-}
+/*input[type="text"],*/
+/*input[type="number"] {*/
+/*  background-color: #d9d9d9;*/
+/*  border-radius: 12px;*/
+/*  padding: 1%;*/
+/*}*/
 
-input[type="number"] {
-  padding: 3%;
-}
+/*input[type="number"] {*/
+/*  padding: 3%;*/
+/*}*/
 
 .form-check-label {
   margin-top: 3%;
@@ -98,7 +98,7 @@ input[type="radio"]:checked {
   width: 150px;
 }
 
-.flower-page-container {
+.flowerPageContainer {
   width: 80vw;
   margin-left: 20vw;
 }

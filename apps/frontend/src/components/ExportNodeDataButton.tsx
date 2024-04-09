@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import "../styles/csvPage.css";
 import { Button } from "@mui/material";
+import { Download } from "@mui/icons-material";
 const ExportNodeDataToCSVButton = () => {
   const [file, setFile] = useState("");
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const handleExportButton = () => {
     // Convert data to CSV format
@@ -37,20 +38,28 @@ const ExportNodeDataToCSVButton = () => {
         console.log("Failed");
       } finally {
         // Set loading to false, indicating that the request has completed
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
     fetchData().then();
   }, []); //
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
-    <Button onClick={handleExportButton} variant={"contained"}>
-      Export to csv
+    <Button
+      onClick={handleExportButton}
+      variant={"contained"}
+      startIcon={<Download />}
+      sx={{
+        backgroundColor: "#012d5a",
+        height: "40px",
+      }}
+    >
+      Export Data
     </Button>
   );
 };

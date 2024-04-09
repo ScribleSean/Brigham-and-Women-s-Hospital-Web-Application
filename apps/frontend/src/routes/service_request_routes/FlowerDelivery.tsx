@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import "frontend/src/styles/FlowerDelivery.css";
+// import "frontend/src/styles/FlowerDelivery.css";
 // import {Button} from "@mui/material";
+import styles from "../../styles/FlowerDelivery.module.css";
 // import {Link} from "react-router-dom"; // Import your CSS file
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "@mui/material";
@@ -41,22 +42,24 @@ const FlowerDelivery: React.FC = () => {
 
   return isSubmitted ? (
     <>
-      <div className={"flower-page-container"}>
-        <div className={"flowerPage vh-100"}>
-          <h1 className={"flowerPageTitle text-center mb-5 pt-5"}>
+      <div className={`${styles.flowerPageContainer}`}>
+        <div className={`${styles.flowerPage} vh-100`}>
+          <h1 className={`${styles.flowerPageTitle} text-center mb-5 pt-5`}>
             Flowers For A Loved One
           </h1>
           <div
-            id={"completed-form-box"}
+            id={`${styles.completedFormBox}`}
             className={"container-fluid text-center"}
           >
-            <h1 id={"goodbye-msg"}>Your request has been received!</h1>
-            <div className={"return-buttons-container"}>
+            <h1 id={`${styles.goodbyeMsg}`}>Your request has been received!</h1>
+            <div className={`${styles.returnButtonsContainer}`}>
               <Link href="/">
-                <button className={"return-button py-3 mt-5 mx-2"}>Home</button>
+                <button className={`${styles.returnButton} py-3 mt-5 mx-2`}>
+                  Home
+                </button>
               </Link>
               <Link href={"/flower-delivery"}>
-                <button className={"return-button py-3 mt-5 mx-2"}>
+                <button className={`${styles.returnButton} py-3 mt-5 mx-2`}>
                   Send Another
                 </button>
               </Link>
@@ -72,13 +75,13 @@ const FlowerDelivery: React.FC = () => {
     </>
   ) : (
     <>
-      <div className={"flower-page-container"}>
-        <div className={"flowerPage vh-100"}>
-          <h1 className={"flowerPageTitle text-center mb-5 pt-5"}>
+      <div className={`${styles.flowerPageContainer}`}>
+        <div className={`${styles.flowerPage} vh-100`}>
+          <h1 className={`${styles.flowerPageTitle} text-center mb-5 pt-5`}>
             Flowers For A Loved One
           </h1>
           <form
-            id={"flowerPageForm"}
+            id={`${styles.flowerPageForm}`}
             className={"container-fluid"}
             onSubmit={handleSubmit}
           >
@@ -122,7 +125,7 @@ const FlowerDelivery: React.FC = () => {
               <div className={"col-7"}>
                 <div className={"row"}>
                   <label>Flower Type</label>
-                  <div className="form-check col radio-buttons">
+                  <div className={`form-check col ${styles.radioButtons}`}>
                     <input
                       className="form-check-input"
                       type="radio"
@@ -133,7 +136,7 @@ const FlowerDelivery: React.FC = () => {
                     />
                     <label className="form-check-label">Rose</label>
                   </div>
-                  <div className="form-check col radio-buttons">
+                  <div className={`form-check col ${styles.radioButtons}`}>
                     <input
                       className="form-check-input"
                       type="radio"
@@ -144,7 +147,7 @@ const FlowerDelivery: React.FC = () => {
                     />
                     <label className="form-check-label">Tulip</label>
                   </div>
-                  <div className="form-check col radio-buttons">
+                  <div className={`form-check col ${styles.radioButtons}`}>
                     <input
                       className="form-check-input"
                       type="radio"
@@ -166,12 +169,15 @@ const FlowerDelivery: React.FC = () => {
                 placeholder={"Best Wishes..."}
                 value={formState.message}
                 onChange={handleChange}
-                id={"messageBox"}
+                id={`${styles.messageBox}`}
                 className="form-control"
               />
             </div>
-            <div className={"text-center"}>
-              <button type="submit" className="submit-button py-3 px-5">
+            <div className={`text-center`}>
+              <button
+                type="submit"
+                className={`${styles.submitButton} py-3 px-5`}
+              >
                 Send
               </button>
             </div>
