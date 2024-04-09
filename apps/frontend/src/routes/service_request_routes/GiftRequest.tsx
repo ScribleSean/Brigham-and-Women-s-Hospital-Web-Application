@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/GiftRequest.module.css";
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface FormData {
   employeeName: string;
@@ -50,6 +50,19 @@ function GiftRequest() {
     });
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormData({
+      employeeName: "",
+      location: "",
+      giftType: "",
+      deliveryDate: "",
+      priority: "",
+      status: "",
+    });
+    setSnackbarIsOpen(true);
+  };
+
   return (
     <>
       <Snackbar
@@ -62,7 +75,7 @@ function GiftRequest() {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       />
       <div className={`${styles.sanDiv} col-10`}>
-        <form className={`${styles.requestForm}`}>
+        <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
           <h1>Gift Request</h1>
           <br />
           <TextField
@@ -170,7 +183,11 @@ function GiftRequest() {
             >
               Clear
             </Button>
-            <Button variant={"contained"} type={"submit"} sx={{ width: "25%" }}>
+            <Button
+              variant={"contained"}
+              type={"submit"}
+              sx={{ width: "25%", backgroundColor: "#012d5a" }}
+            >
               Submit
             </Button>
           </div>
