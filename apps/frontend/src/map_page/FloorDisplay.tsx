@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import {
   AccessibilityType,
+  EdgesDisplayProps,
   FloorDisplayProps,
   NodeDisplayProps,
   PathDisplayProps,
@@ -17,6 +18,7 @@ import {
 import { NodeDisplay } from "./NodeDisplay.tsx";
 import { PathDisplay } from "./PathDisplay.tsx";
 import axios from "axios";
+import { EdgesDisplay } from "./EdgesDisplay.tsx";
 
 export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
   const nodes: Array<Node> = props.nodes;
@@ -167,8 +169,18 @@ export function FloorDisplay(props: FloorDisplayProps): React.JSX.Element {
     };
   }
 
+  const edgesDisplayProps: EdgesDisplayProps = {
+    edges: props.edges,
+    scaling: {
+      widthScaling: getWidthScaling(),
+      heightScaling: getHeightScaling(),
+    },
+    floor: props.floor,
+  };
+
   return (
     <div>
+      <EdgesDisplay {...edgesDisplayProps}></EdgesDisplay>
       <PathDisplay {...pathDisplayProps()} />
       <img
         ref={ref}

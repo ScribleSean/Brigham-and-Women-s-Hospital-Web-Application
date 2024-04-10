@@ -1,6 +1,7 @@
 import {
   FloorType,
   Node,
+  Edge,
   Path,
 } from "../../../../backend/src/algorithms/DataStructures.ts";
 import { AlgorithmType } from "../../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
@@ -51,6 +52,14 @@ export interface FloorDisplayProps {
   currentDirectionsCounter: number;
   resetDirections: () => void;
   currentEditorMode: boolean;
+  edges: EdgesByFloor | null;
+  floor: FloorType;
+}
+
+export interface EdgesDisplayProps {
+  edges: EdgesByFloor | null;
+  scaling: NodeScaling;
+  floor: FloorType;
 }
 
 export interface NodeDisplayProps {
@@ -83,6 +92,14 @@ export interface NodesByFloor {
   firstFloor: Array<Node>;
   secondFloor: Array<Node>;
   thirdFloor: Array<Node>;
+}
+
+export interface EdgesByFloor {
+  L2: Array<Edge>;
+  L1: Array<Edge>;
+  firstFloor: Array<Edge>;
+  secondFloor: Array<Edge>;
+  thirdFloor: Array<Edge>;
 }
 
 export interface StartEndNodes {
