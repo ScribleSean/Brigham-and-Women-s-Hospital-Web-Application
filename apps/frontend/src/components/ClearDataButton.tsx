@@ -17,12 +17,12 @@ function ClearDataButton() {
   const handleConfirm = async () => {
     setDialogueOpen(false);
     setSnackbarOpen(true);
-      try {
-          const response = await axios.delete("/api/delete-data");
-          console.log("Tables Cleared", response.data);
-      } catch (error) {
-          console.error("Error Clearing Tables", error);
-      }
+    try {
+      const response = await axios.delete("/api/delete-data");
+      console.log("Tables Cleared", response.data);
+    } catch (error) {
+      console.error("Error Clearing Tables", error);
+    }
   };
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
