@@ -9,14 +9,20 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
+import axios from "axios";
 
 function ClearDataButton() {
   const [dialogueOpen, setDialogueOpen] = useState(false);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setDialogueOpen(false);
-    alert("This will delete all data from the database, not yet implemented.");
     setSnackbarOpen(true);
+      try {
+          const response = await axios.delete("/api/delete-data");
+          console.log("Tables Cleared", response.data);
+      } catch (error) {
+          console.error("Error Clearing Tables", error);
+      }
   };
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -62,7 +68,7 @@ function ClearDataButton() {
         onClose={() => {
           setSnackbarOpen(false);
         }}
-        message={"Data deleted successfully. (not really)"}
+        message={"Data deleted successfully."}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       />
     </>

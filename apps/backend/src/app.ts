@@ -11,6 +11,7 @@ import nodeRouter from "./routes/node-route";
 import edgeRouter from "./routes/edge-route";
 import downloadNodeDataRouter from "./routes/data-to-csv-node";
 import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
+import deleteDataRouter from "./routes/deleteDataRoute";
 
 const app: Express = express(); // Set up the backend
 
@@ -32,6 +33,7 @@ app.use("/api/node-populate", nodeRouter);
 app.use("/api/edge-populate", edgeRouter);
 app.use("/api/download-node-csv", downloadNodeDataRouter);
 app.use("/api/download-edge-csv", downloadEdgeDataRouter);
+app.use("/api/delete-data", deleteDataRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
