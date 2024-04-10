@@ -12,11 +12,12 @@
 .hero-text {
   font-size: 7em;
   padding: 5%;
-  font-weight: 900;
+  font-weight: 1200;
   line-height: 0.85;
   color: white;
-  font-family: Inter, sans-serif;
+  /*font-family: Inter, sans-serif;*/
   user-select: none;
+  text-align: left;
 }
 
 .login-container {

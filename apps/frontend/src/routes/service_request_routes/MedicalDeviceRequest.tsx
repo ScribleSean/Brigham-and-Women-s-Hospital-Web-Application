@@ -152,6 +152,7 @@ function MedicalDeviceRequest() {
       <div className={`${styles.sanDiv} col-10`}>
         <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
           <h1>Medical Device Request</h1>
+          <h5>Peter and Sofia</h5>
           <br />
           <div className={`${styles.twoInputRow}`}>
             <TextField
