@@ -37,7 +37,6 @@ CREATE TABLE "ServiceRequest" (
     "priority" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "status" TEXT NOT NULL,
-    "requestType" TEXT NOT NULL,
 
     CONSTRAINT "ServiceRequest_pkey" PRIMARY KEY ("SRID")
 );
@@ -51,16 +50,6 @@ CREATE TABLE "FlowerServiceRequest" (
     CONSTRAINT "FlowerServiceRequest_pkey" PRIMARY KEY ("SRID")
 );
 
--- CreateTable
-CREATE TABLE "MedicineServiceRequest" (
-    "SRID" INTEGER NOT NULL,
-    "medicineName" TEXT NOT NULL,
-    "dosageForm" TEXT NOT NULL,
-    "dosageAmount" INTEGER NOT NULL,
-
-    CONSTRAINT "MedicineServiceRequest_pkey" PRIMARY KEY ("SRID")
-);
-
 -- AddForeignKey
 ALTER TABLE "Edge" ADD CONSTRAINT "Edge_startNodeID_fkey" FOREIGN KEY ("startNodeID") REFERENCES "Node"("nodeID") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -69,6 +58,3 @@ ALTER TABLE "Edge" ADD CONSTRAINT "Edge_endNodeID_fkey" FOREIGN KEY ("endNodeID"
 
 -- AddForeignKey
 ALTER TABLE "FlowerServiceRequest" ADD CONSTRAINT "FlowerServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "MedicineServiceRequest" ADD CONSTRAINT "MedicineServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
