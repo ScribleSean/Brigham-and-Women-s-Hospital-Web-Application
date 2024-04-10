@@ -5,7 +5,7 @@
     <scripts>
       <script value="dev" />
     </scripts>
-    <node-interpreter value="node" />
+    <node-interpreter value="/opt/homebrew/bin/node" />
     <package-manager value="yarn" />
     <envs />
     <method v="2" />

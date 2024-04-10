@@ -9,6 +9,7 @@ import {
 import React, { CSSProperties, useEffect, useState } from "react";
 import { FloorDisplay } from "./FloorDisplay.tsx";
 import {
+  EdgesByFloor,
   FloorDisplayProps,
   NodesByFloor,
   NodesOptionsRequest,
@@ -34,6 +35,7 @@ export default function PathGrapher(props: PathGrapherProps) {
   ]);
 
   const [nodes, setNodes] = useState<NodesByFloor | null>(null);
+  const [edges, setEdges] = useState<EdgesByFloor | null>(null);
 
   useEffect(() => {
     async function getNodes(): Promise<void> {
@@ -50,8 +52,24 @@ export default function PathGrapher(props: PathGrapherProps) {
         console.error("Failed to fetch nodes data:", error);
       }
     }
+
+    async function getEdges(): Promise<void> {
+      try {
+        if (!props.currentEditorMode) {
+          const edgesByfloor: EdgesByFloor = (await axios.get("/api/edges"))
+            .data as EdgesByFloor;
+          setEdges(edgesByfloor);
+        } else {
+          setEdges(null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch edges data:", error);
+      }
+    }
+
     getNodes();
-  }, [floor]);
+    getEdges();
+  }, [floor, props.currentEditorMode]);
 
   function getNodesByFloor(
     allNodes: NodesByFloor,
@@ -85,6 +103,8 @@ export default function PathGrapher(props: PathGrapherProps) {
     currentDirectionsCounter: props.currentDirectionsCounter,
     resetDirections: props.resetDirections,
     currentEditorMode: props.currentEditorMode,
+    edges: edges,
+    floor: props.floor,
   };
 
   return (
