@@ -1,4 +1,4 @@
-.sanDiv {
+.san-div {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -6,7 +6,7 @@
   float: right;
 }
 
-.requestForm {
+.request-form {
   display: flex;
   flex-direction: column;
   width: 60%;
@@ -24,9 +24,12 @@ h1 {
   font-weight: 900;
   margin-top: 0;
 }
-
-.twoInputRow {
+.two-input-row-container {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
 }

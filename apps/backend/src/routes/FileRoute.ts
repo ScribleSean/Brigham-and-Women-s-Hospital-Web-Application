@@ -13,19 +13,19 @@ router.get("/nodes", async function (req: Request, res: Response) {
   if (req.query.Floors) {
     const floors = (req.query.Floors as string).split(",");
     if (floors.length === 0) {
-      node = await PrismaClient.nodes.findMany();
+      node = await PrismaClient.node.findMany();
     } else {
-      node = await PrismaClient.nodes.findMany({
+      node = await PrismaClient.node.findMany({
         where: { floor: floors[0] },
       });
       for (let i = 1; i < floors.length; i++) {
         node = node.concat(
-          await PrismaClient.nodes.findMany({ where: { floor: floors[i] } }),
+          await PrismaClient.node.findMany({ where: { floor: floors[i] } }),
         );
       }
     }
   } else {
-    node = await PrismaClient.nodes.findMany();
+    node = await PrismaClient.node.findMany();
   }
 
   // If the high score doesn't exist
@@ -44,7 +44,7 @@ router.post("/nodes", async function (req: Request, res: Response) {
   console.log(req.body.deleteAll);
   if (req.body.deleteAll) {
     try {
-      await PrismaClient.nodes.deleteMany({});
+      await PrismaClient.node.deleteMany({});
       console.log("Successfully wiped Nodes");
     } catch (error) {
       console.error("Unable to wipe Nodes");
@@ -52,10 +52,10 @@ router.post("/nodes", async function (req: Request, res: Response) {
       return;
     }
   }
-  const requestAttempt: Prisma.NodesCreateManyInput = req.body.nodes;
+  const requestAttempt: Prisma.NodeCreateManyInput = req.body.nodes;
 
   try {
-    await PrismaClient.nodes.createMany({ data: requestAttempt });
+    await PrismaClient.node.createMany({ data: requestAttempt });
     console.log("Successfully created Nodes");
   } catch (error) {
     console.error("Unable to create Nodes");
@@ -74,7 +74,7 @@ router.delete("/nodes", async function (req: Request, res: Response) {
 
   if (req.body.deleteAll === "true") {
     try {
-      await PrismaClient.nodes.deleteMany({});
+      await PrismaClient.node.deleteMany({});
       console.log("Successfully wiped all Nodes");
       res.sendStatus(200);
       return;
@@ -87,7 +87,7 @@ router.delete("/nodes", async function (req: Request, res: Response) {
 
   for (let i = 0; i < req.body.deleteIDs.length; i++) {
     try {
-      await PrismaClient.nodes.delete({
+      await PrismaClient.node.delete({
         where: { nodeID: req.body.deleteIDs[i] },
       });
       console.log("Successfully deleted Node " + req.body.deleteIDs[i]);

@@ -1,7 +1,7 @@
 import {
+  Autocomplete,
   Button,
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -9,47 +9,101 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import "../../styles/RoomScheduling.css";
-import React, { useEffect, useState } from "react";
-import styles from "../../styles/GiftRequest.module.css";
-
-//import { useNumberInput } from '@mui/base';
+import styles from "../../styles/MedicalDeviceRequest.module.css";
+import { useEffect, useState } from "react";
 
 interface FormData {
-  employeeName: string; //text box
-  priority: string; //radio buttons
-  location: string; //text box
-  startTime: string; //datetime local
-  duration: number; //numbers only
-  status: string; //radio buttons
+  employeeName: string;
+  location: string;
+  deviceName: string | null;
+  deviceQuantity: string;
+  priority: string;
+  status: string;
 }
 
-function RoomScheduling() {
+function MedicalDeviceRequest() {
+  const deviceOptions: string[] = [
+    "Stethoscope",
+    "Blood Pressure Monitor",
+    "Thermometer",
+    "MRI Machine",
+    "X-ray Machine",
+    "Ultrasound Machine",
+    "Defibrillator",
+    "Electrocardiogram (ECG) Machine",
+    "Pulse Oximeter",
+    "Sphygmomanometer",
+    "Glucose Meter",
+    "Infusion Pump",
+    "Ventilator",
+    "Nebulizer",
+    "Ophthalmoscope",
+    "Otoscope",
+    "Doppler",
+    "Endoscope",
+    "Laryngoscope",
+    "Colonoscope",
+    "Bronchoscope",
+    "Anesthesia Machine",
+    "Blood Gas Analyzer",
+    "Fetal Monitor",
+    "Spirometer",
+    "Catheter",
+    "Pacemaker",
+    "Implantable Cardioverter Defibrillator (ICD)",
+    "Cardiac Catheterization Lab Equipment",
+    "Hemodialysis Machine",
+    "Surgical Laser",
+    "Surgical Robot",
+    "CT Scanner",
+    "PET Scanner",
+    "EEG Machine",
+    "EMG Machine",
+    "EKG Machine",
+    "Holter Monitor",
+    "Oxygen Concentrator",
+    "Apnea Monitor",
+    "Continuous Glucose Monitor (CGM)",
+    "Insulin Pump",
+    "Wheelchair",
+    "Crutches",
+    "Walker",
+    "Hospital Bed",
+    "Suction Machine",
+    "Feeding Pump",
+    "Orthopedic Implants",
+    "Orthosis",
+    "Prosthesis",
+  ];
+
   const [formData, setFormData] = useState<FormData>({
-    employeeName: "", //text box
-    priority: "", //radio buttons
-    location: "", //text box
-    startTime: "", //datetime local
-    duration: 0, //numbers only
-    status: "", //radio buttons
+    employeeName: "",
+    location: "",
+    deviceName: null,
+    deviceQuantity: "",
+    priority: "",
+    status: "",
   });
 
   const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  const addSubmittedRequest = (newRequest: FormData) => {
+    setSubmittedRequests([...submittedRequests, newRequest]);
+  };
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleAutocompleteChange = (value: string | null) => {
+    setFormData({
+      ...formData,
+      deviceName: value || null,
     });
   };
 
@@ -63,37 +117,26 @@ function RoomScheduling() {
     });
   };
 
-  //const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //    setFormData({});
-  //};
-
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     addSubmittedRequest(formData);
     setFormData({
-      employeeName: "", //text box
-      priority: "", //radio buttons
-      location: "", //text box
-      startTime: "", //datetime local
-      duration: 0, //numbers only
-      status: "", //radio buttons
+      employeeName: "",
+      location: "",
+      deviceName: null,
+      deviceQuantity: "",
+      priority: "",
+      status: "",
     });
   };
 
-  //const RoomScheduling: React.FC = () => {
+  useEffect(() => {
+    console.log(submittedRequests);
+  }, [submittedRequests]);
 
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setFormState({
-  //         ...formState,
-  //         [event.target.name]: event.target.value,
-  //     });
-  // };
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   return (
     <>
@@ -106,10 +149,9 @@ function RoomScheduling() {
         message={"Request was submitted successfully!"}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       />
-
-      <div className={"san-div col-10"}>
-        <form className={"request-form"} onSubmit={handleSubmit}>
-          <h1>Room Request</h1>
+      <div className={`${styles.sanDiv} col-10`}>
+        <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
+          <h1>Medical Device Request</h1>
           <br />
           <div className={`${styles.twoInputRow}`}>
             <TextField
@@ -139,54 +181,54 @@ function RoomScheduling() {
             />
           </div>
           <br />
-
-          <div className={"two-input-row-container"}>
+          <div className={`${styles.twoInputRow}`}>
+            <Autocomplete
+              id={"deviceName"}
+              sx={{
+                my: "1%",
+                width: "79%",
+                marginRight: "1%",
+              }}
+              disablePortal
+              options={deviceOptions}
+              onChange={(_event, value) => handleAutocompleteChange(value)}
+              value={formData.deviceName}
+              renderInput={(params) => (
+                <TextField
+                  variant={"filled"}
+                  {...params}
+                  label="Device"
+                  required
+                />
+              )}
+            />
             <FormControl
               variant={"filled"}
-              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+              sx={{
+                my: "1%",
+                width: "19%",
+                marginLeft: "1%",
+              }}
               required
             >
-              <TextField
-                label={"Start Time"}
-                variant={"filled"}
-                id={"startTime"}
-                sx={{ my: "1%" }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position={"start"}></InputAdornment>
-                  ),
-                }}
-                type={"datetime-local"}
-                onChange={handleTextFieldChange}
-                value={formData.startTime}
-                InputLabelProps={{ shrink: true }}
-                required
-              />
-            </FormControl>
-            <FormControl
-              variant={"filled"}
-              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
-              required
-            >
-              <TextField
-                label={"Duration"}
-                variant={"filled"}
-                id={"duration"}
-                type={"number"}
-                sx={{ my: "1%" }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position={"end"}>hrs</InputAdornment>
-                  ),
-                }}
-                onChange={handleTextFieldChange}
-                value={formData.duration}
-                required
-              />
+              <InputLabel id={"deviceQuantity"}>Quantity</InputLabel>
+              <Select
+                id={"deviceQuantity"}
+                onChange={(e) => handleSelectChange(e, "deviceQuantity")}
+                value={formData.deviceQuantity}
+              >
+                <MenuItem value={"1"}>1</MenuItem>
+                <MenuItem value={"2"}>2</MenuItem>
+                <MenuItem value={"3"}>3</MenuItem>
+                <MenuItem value={"4"}>4</MenuItem>
+                <MenuItem value={"5"}>5</MenuItem>
+                <MenuItem value={"6"}>6</MenuItem>
+                <MenuItem value={"7"}>7</MenuItem>
+              </Select>
             </FormControl>
           </div>
-
-          <div className={"two-input-row-container"}>
+          {/*<br />*/}
+          <div>
             <FormControl
               variant={"filled"}
               sx={{ width: "49%", marginRight: "1%", my: "1%" }}
@@ -232,12 +274,12 @@ function RoomScheduling() {
               }}
               onClick={() => {
                 setFormData({
-                  employeeName: "", //text box
-                  priority: "", //radio buttons
-                  location: "", //text box
-                  startTime: "", //datetime local
-                  duration: 0, //numbers only
-                  status: "", //radio buttons
+                  employeeName: "",
+                  location: "",
+                  deviceName: null,
+                  deviceQuantity: "",
+                  priority: "",
+                  status: "",
                 });
               }}
             >
@@ -260,4 +302,4 @@ function RoomScheduling() {
   );
 }
 
-export default RoomScheduling;
+export default MedicalDeviceRequest;

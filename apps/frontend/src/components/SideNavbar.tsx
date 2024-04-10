@@ -4,7 +4,7 @@ import { Nav } from "react-bootstrap";
 
 const SideNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed] = useState(false);
 
   return (
     <Nav
@@ -43,6 +43,30 @@ const SideNavbar = () => {
             </Nav.Link>
             <Nav.Link
               className={"nav-links-inner border-bottom"}
+              href="/gift-request"
+            >
+              Gift Request
+            </Nav.Link>
+            <Nav.Link
+              className={"nav-links-inner border-bottom"}
+              href="/medicine-request"
+            >
+              Medicine
+            </Nav.Link>
+            <Nav.Link
+              className={"nav-links-inner border-bottom"}
+              href="/medical-device-request"
+            >
+              Medical Device
+            </Nav.Link>
+            <Nav.Link
+              className={"nav-links-inner border-bottom"}
+              href="/room-scheduling"
+            >
+              Room Scheduling
+            </Nav.Link>
+            <Nav.Link
+              className={"nav-links-inner border-bottom"}
               href="/requests"
             >
               Active Requests
@@ -56,12 +80,12 @@ const SideNavbar = () => {
           </Nav.Link>
         </div>
       </div>
-      <button
-        className={isCollapsed ? "collapsedButton" : "expandedButton"}
-        onClick={() => setIsCollapsed(!isCollapsed)}
-      >
-        <p>{isCollapsed ? ">" : "<"}</p>
-      </button>
+      {/*<button*/}
+      {/*  className={isCollapsed ? "collapsedButton" : "expandedButton"}*/}
+      {/*  onClick={() => setIsCollapsed(!isCollapsed)}*/}
+      {/*>*/}
+      {/*  <p>{isCollapsed ? ">" : "<"}</p>*/}
+      {/*</button>*/}
     </Nav>
   );
 };

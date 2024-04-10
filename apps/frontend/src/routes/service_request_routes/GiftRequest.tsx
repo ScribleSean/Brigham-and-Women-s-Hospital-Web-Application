@@ -1,7 +1,6 @@
 import {
   Button,
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -9,42 +8,30 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import "../../styles/RoomScheduling.css";
-import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/GiftRequest.module.css";
-
-//import { useNumberInput } from '@mui/base';
+import React, { useState } from "react";
 
 interface FormData {
-  employeeName: string; //text box
-  priority: string; //radio buttons
-  location: string; //text box
-  startTime: string; //datetime local
-  duration: number; //numbers only
-  status: string; //radio buttons
+  employeeName: string;
+  location: string;
+  giftType: string;
+  deliveryDate: string;
+  priority: string;
+  status: string;
 }
 
-function RoomScheduling() {
+function GiftRequest() {
   const [formData, setFormData] = useState<FormData>({
-    employeeName: "", //text box
-    priority: "", //radio buttons
-    location: "", //text box
-    startTime: "", //datetime local
-    duration: 0, //numbers only
-    status: "", //radio buttons
+    employeeName: "",
+    location: "",
+    giftType: "",
+    deliveryDate: "",
+    priority: "",
+    status: "",
   });
 
-  const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
-
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
-
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -63,37 +50,18 @@ function RoomScheduling() {
     });
   };
 
-  //const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //    setFormData({});
-  //};
-
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addSubmittedRequest(formData);
     setFormData({
-      employeeName: "", //text box
-      priority: "", //radio buttons
-      location: "", //text box
-      startTime: "", //datetime local
-      duration: 0, //numbers only
-      status: "", //radio buttons
+      employeeName: "",
+      location: "",
+      giftType: "",
+      deliveryDate: "",
+      priority: "",
+      status: "",
     });
+    setSnackbarIsOpen(true);
   };
-
-  //const RoomScheduling: React.FC = () => {
-
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setFormState({
-  //         ...formState,
-  //         [event.target.name]: event.target.value,
-  //     });
-  // };
 
   return (
     <>
@@ -106,10 +74,9 @@ function RoomScheduling() {
         message={"Request was submitted successfully!"}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       />
-
-      <div className={"san-div col-10"}>
-        <form className={"request-form"} onSubmit={handleSubmit}>
-          <h1>Room Request</h1>
+      <div className={`${styles.sanDiv} col-10`}>
+        <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
+          <h1>Gift Request</h1>
           <br />
           <div className={`${styles.twoInputRow}`}>
             <TextField
@@ -139,54 +106,38 @@ function RoomScheduling() {
             />
           </div>
           <br />
-
-          <div className={"two-input-row-container"}>
+          <div className={`${styles.twoInputRow}`}>
             <FormControl
               variant={"filled"}
               sx={{ width: "49%", marginRight: "1%", my: "1%" }}
               required
             >
-              <TextField
-                label={"Start Time"}
-                variant={"filled"}
-                id={"startTime"}
-                sx={{ my: "1%" }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position={"start"}></InputAdornment>
-                  ),
-                }}
-                type={"datetime-local"}
-                onChange={handleTextFieldChange}
-                value={formData.startTime}
-                InputLabelProps={{ shrink: true }}
-                required
-              />
+              <InputLabel id={"giftType"}>Gift Type</InputLabel>
+              <Select
+                id={"giftType"}
+                onChange={(e) => handleSelectChange(e, "giftType")}
+                value={formData.giftType}
+              >
+                <MenuItem value={"Hat"}>Hat</MenuItem>
+                <MenuItem value={"Beanie"}>Beanie</MenuItem>
+                <MenuItem value={"Wrist band"}>Wrist band</MenuItem>
+                <MenuItem value={"Sticker"}>Sticker</MenuItem>
+                <MenuItem value={"T-shirt"}>T-shirt</MenuItem>
+                <MenuItem value={"Custom pottery"}>Custom pottery</MenuItem>
+              </Select>
             </FormControl>
-            <FormControl
+            <TextField
+              label={"Delivery Date"}
               variant={"filled"}
-              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
-              required
-            >
-              <TextField
-                label={"Duration"}
-                variant={"filled"}
-                id={"duration"}
-                type={"number"}
-                sx={{ my: "1%" }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position={"end"}>hrs</InputAdornment>
-                  ),
-                }}
-                onChange={handleTextFieldChange}
-                value={formData.duration}
-                required
-              />
-            </FormControl>
+              id={"deliveryDate"}
+              sx={{ width: "49%", marginLeft: "1%", my: "1%" }}
+              type={"date"}
+              InputLabelProps={{ shrink: true }}
+              onChange={handleTextFieldChange}
+              value={formData.deliveryDate}
+            />
           </div>
-
-          <div className={"two-input-row-container"}>
+          <div className={`${styles.twoInputRow}`}>
             <FormControl
               variant={"filled"}
               sx={{ width: "49%", marginRight: "1%", my: "1%" }}
@@ -223,21 +174,19 @@ function RoomScheduling() {
             </FormControl>
           </div>
           <br />
-          <div className={"button-container"}>
+          <div className={`${styles.buttonContainer}`}>
             <Button
               variant={"outlined"}
               color={"error"}
-              sx={{
-                width: "25%",
-              }}
+              sx={{ width: "25%" }}
               onClick={() => {
                 setFormData({
-                  employeeName: "", //text box
-                  priority: "", //radio buttons
-                  location: "", //text box
-                  startTime: "", //datetime local
-                  duration: 0, //numbers only
-                  status: "", //radio buttons
+                  employeeName: "",
+                  location: "",
+                  giftType: "",
+                  deliveryDate: "",
+                  priority: "",
+                  status: "",
                 });
               }}
             >
@@ -246,10 +195,7 @@ function RoomScheduling() {
             <Button
               variant={"contained"}
               type={"submit"}
-              sx={{
-                width: "25%",
-                backgroundColor: "#012d5a",
-              }}
+              sx={{ width: "25%", backgroundColor: "#012d5a" }}
             >
               Submit
             </Button>
@@ -260,4 +206,4 @@ function RoomScheduling() {
   );
 }
 
-export default RoomScheduling;
+export default GiftRequest;

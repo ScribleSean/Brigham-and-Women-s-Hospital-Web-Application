@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nodesRouter from "./routes/nodes.ts";
 import pathRouter from "./routes/path.ts";
-import formRouter from "./routes/formRouter.ts";
+import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
 
 import csvRouter from "./routes/csv-handler";
 import nodeRouter from "./routes/node-route";
@@ -12,7 +12,7 @@ import edgeRouter from "./routes/edge-route";
 import downloadNodeDataRouter from "./routes/data-to-csv-node";
 import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 
-const app: Express = express();
+const app: Express = express(); // Set up the backend
 
 // Setup generic middleware
 app.use(
@@ -26,8 +26,7 @@ app.use(
 app.use(express.json()); // This processes requests as JSON
 app.use(express.urlencoded({ extended: false })); // URL parser
 app.use(cookieParser()); // Cookie parser
-app.use("/api/form", formRouter); // form router
-app.use("/api/request", formRouter);
+app.use("/api/flower-service-request", flowerRouter);
 app.use("/api/csv-to-json", csvRouter);
 app.use("/api/node-populate", nodeRouter);
 app.use("/api/edge-populate", edgeRouter);

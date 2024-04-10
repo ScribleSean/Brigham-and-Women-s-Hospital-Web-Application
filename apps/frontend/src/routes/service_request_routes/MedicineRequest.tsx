@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Button,
   FormControl,
   InputAdornment,
@@ -9,29 +10,82 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import "../../styles/RoomScheduling.css";
-import React, { useEffect, useState } from "react";
+import "../../styles/MedicineRequest.css";
+import { useEffect, useState } from "react";
 import styles from "../../styles/GiftRequest.module.css";
 
-//import { useNumberInput } from '@mui/base';
-
 interface FormData {
-  employeeName: string; //text box
-  priority: string; //radio buttons
-  location: string; //text box
-  startTime: string; //datetime local
-  duration: number; //numbers only
-  status: string; //radio buttons
+  employeeName: string;
+  location: string;
+  medicineName: string | null;
+  dosageAmount: string;
+  dosageForm: string;
+  priority: string;
+  status: string;
 }
 
-function RoomScheduling() {
+function MedicineRequest() {
+  const medicineList: string[] = [
+    "Aspirin",
+    "Ibuprofen",
+    "Paracetamol",
+    "Amoxicillin",
+    "Omeprazole",
+    "Lisinopril",
+    "Metformin",
+    "Simvastatin",
+    "Atorvastatin",
+    "Levothyroxine",
+    "Prednisone",
+    "Gabapentin",
+    "Losartan",
+    "Azithromycin",
+    "Amlodipine",
+    "Metoprolol",
+    "Albuterol",
+    "Sertraline",
+    "Citalopram",
+    "Fluoxetine",
+    "Escitalopram",
+    "Cetirizine",
+    "Furosemide",
+    "Loratadine",
+    "Tramadol",
+    "Warfarin",
+    "Hydrochlorothiazide",
+    "Clonazepam",
+    "Tamsulosin",
+    "Meloxicam",
+    "Pregabalin",
+    "Diazepam",
+    "Zolpidem",
+    "Naproxen",
+    "Bisoprolol",
+    "Cephalexin",
+    "Metronidazole",
+    "Ciprofloxacin",
+    "Doxycycline",
+    "Methylprednisolone",
+    "Amitriptyline",
+    "Venlafaxine",
+    "Duloxetine",
+    "Risperidone",
+    "Quetiapine",
+    "Mirtazapine",
+    "Carvedilol",
+    "Folic Acid",
+    "Pantoprazole",
+    "Dextromethorphan",
+  ];
+
   const [formData, setFormData] = useState<FormData>({
-    employeeName: "", //text box
-    priority: "", //radio buttons
-    location: "", //text box
-    startTime: "", //datetime local
-    duration: 0, //numbers only
-    status: "", //radio buttons
+    employeeName: "",
+    location: "",
+    medicineName: null,
+    dosageAmount: "",
+    dosageForm: "",
+    priority: "",
+    status: "",
   });
 
   const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
@@ -53,6 +107,13 @@ function RoomScheduling() {
     });
   };
 
+  const handleMedicineNameChange = (value: string | null) => {
+    setFormData({
+      ...formData,
+      medicineName: value || null,
+    });
+  };
+
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
     field: keyof FormData,
@@ -63,10 +124,6 @@ function RoomScheduling() {
     });
   };
 
-  //const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //    setFormData({});
-  //};
-
   const addSubmittedRequest = (newRequest: FormData) => {
     setSubmittedRequests([...submittedRequests, newRequest]);
   };
@@ -75,25 +132,15 @@ function RoomScheduling() {
     e.preventDefault();
     addSubmittedRequest(formData);
     setFormData({
-      employeeName: "", //text box
-      priority: "", //radio buttons
-      location: "", //text box
-      startTime: "", //datetime local
-      duration: 0, //numbers only
-      status: "", //radio buttons
+      employeeName: "",
+      location: "",
+      medicineName: null,
+      dosageForm: "",
+      dosageAmount: "",
+      priority: "",
+      status: "",
     });
   };
-
-  //const RoomScheduling: React.FC = () => {
-
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setFormState({
-  //         ...formState,
-  //         [event.target.name]: event.target.value,
-  //     });
-  // };
 
   return (
     <>
@@ -106,10 +153,9 @@ function RoomScheduling() {
         message={"Request was submitted successfully!"}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       />
-
       <div className={"san-div col-10"}>
         <form className={"request-form"} onSubmit={handleSubmit}>
-          <h1>Room Request</h1>
+          <h1>Medicine Request</h1>
           <br />
           <div className={`${styles.twoInputRow}`}>
             <TextField
@@ -139,53 +185,56 @@ function RoomScheduling() {
             />
           </div>
           <br />
-
+          <Autocomplete
+            id={"medicineName"}
+            sx={{ my: "1%" }}
+            disablePortal
+            options={medicineList}
+            onChange={(_event, value) => handleMedicineNameChange(value)}
+            value={formData.medicineName}
+            renderInput={(params) => (
+              <TextField
+                variant={"filled"}
+                {...params}
+                label="Medicine"
+                required
+              />
+            )}
+          />
           <div className={"two-input-row-container"}>
             <FormControl
               variant={"filled"}
               sx={{ width: "49%", marginRight: "1%", my: "1%" }}
               required
             >
-              <TextField
-                label={"Start Time"}
-                variant={"filled"}
-                id={"startTime"}
-                sx={{ my: "1%" }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position={"start"}></InputAdornment>
-                  ),
-                }}
-                type={"datetime-local"}
-                onChange={handleTextFieldChange}
-                value={formData.startTime}
-                InputLabelProps={{ shrink: true }}
-                required
-              />
+              <InputLabel id={"dosageForm"}>Dosage Form</InputLabel>
+              <Select
+                id={"dosageForm"}
+                onChange={(e) => handleSelectChange(e, "dosageForm")}
+                value={formData.dosageForm}
+              >
+                <MenuItem value={"Tablet"}>Tablet</MenuItem>
+                <MenuItem value={"Capsule"}>Capsule</MenuItem>
+                <MenuItem value={"Liquid"}>Liquid</MenuItem>
+              </Select>
             </FormControl>
-            <FormControl
+            <TextField
+              id={"dosageAmount"}
+              label={"Dosage Amount"}
               variant={"filled"}
-              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+              sx={{ width: "49%", marginLeft: "1%" }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position={"end"}>mg</InputAdornment>
+                ),
+              }}
+              onChange={handleTextFieldChange}
+              type={"number"}
+              value={formData.dosageAmount}
               required
-            >
-              <TextField
-                label={"Duration"}
-                variant={"filled"}
-                id={"duration"}
-                type={"number"}
-                sx={{ my: "1%" }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position={"end"}>hrs</InputAdornment>
-                  ),
-                }}
-                onChange={handleTextFieldChange}
-                value={formData.duration}
-                required
-              />
-            </FormControl>
+            />
           </div>
-
+          {/*<br />*/}
           <div className={"two-input-row-container"}>
             <FormControl
               variant={"filled"}
@@ -232,12 +281,13 @@ function RoomScheduling() {
               }}
               onClick={() => {
                 setFormData({
-                  employeeName: "", //text box
-                  priority: "", //radio buttons
-                  location: "", //text box
-                  startTime: "", //datetime local
-                  duration: 0, //numbers only
-                  status: "", //radio buttons
+                  employeeName: "",
+                  location: "",
+                  medicineName: null,
+                  dosageAmount: "",
+                  dosageForm: "",
+                  priority: "",
+                  status: "",
                 });
               }}
             >
@@ -260,4 +310,4 @@ function RoomScheduling() {
   );
 }
 
-export default RoomScheduling;
+export default MedicineRequest;
