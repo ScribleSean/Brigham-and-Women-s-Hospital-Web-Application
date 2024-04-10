@@ -15,6 +15,7 @@ router.post("/", async function (req, res) {
         priority: flower.priority,
         location: flower.location,
         status: flower.status,
+        serviceType: flower.serviceType,
       },
     });
 
@@ -25,11 +26,13 @@ router.post("/", async function (req, res) {
       create: {
         SRID: serviceRequest.SRID,
         flowerType: flower.flowerType,
-        message: flower.message,
+        receiverName: flower.receiverName,
+        date: flower.date,
       },
       update: {
         flowerType: flower.flowerType,
-        message: flower.message,
+        receiverName: flower.receiverName,
+        date: flower.date,
       },
     });
 

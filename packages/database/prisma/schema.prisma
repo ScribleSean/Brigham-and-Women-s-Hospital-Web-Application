@@ -48,6 +48,7 @@ model ServiceRequest {
   priority     String
   location     String
   status       String
+  serviceType  String
 
   FlowerServiceRequest FlowerServiceRequest? @relation("FlowerServiceRequest")
   // GiftServiceRequest   GiftServiceRequest?   @relation("GiftServiceRequest")
@@ -57,7 +58,8 @@ model FlowerServiceRequest {
   ServiceRequest ServiceRequest @relation("FlowerServiceRequest", fields: [SRID], references: [SRID])
   SRID           Int            @id
   flowerType     String
-  message        String
+  receiverName   String
+  date           String
 }
 
 // model GiftServiceRequest {

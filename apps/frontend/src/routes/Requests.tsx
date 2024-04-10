@@ -1,5 +1,8 @@
 import {
+  FormControl,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -17,7 +20,7 @@ function Requests() {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get("/api/flower-service-request");
+      const res = await axios.get("/api/service-request");
       setRequestData(res.data);
       console.log("successfully got data from get request");
     }
@@ -55,23 +58,26 @@ function Requests() {
               <TableHead>
                 <TableRow sx={{ border: 2 }}>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Delivery Type</b>
+                    <b>Request Type</b>
                   </TableCell>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Sender Name</b>
+                    <b>Employee Name</b>
                   </TableCell>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Patient Name</b>
+                    <b>Location</b>
                   </TableCell>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Room Number</b>
+                    <b>Priority</b>
                   </TableCell>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Flower Type</b>
+                    <b>Status</b>
                   </TableCell>
-                  <TableCell sx={{ border: 2 }}>
-                    <b>Message</b>
-                  </TableCell>
+                  {/*<TableCell sx={{ border: 2 }}>*/}
+                  {/*  <b>Receiver Name</b>*/}
+                  {/*</TableCell>*/}
+                  {/*  <TableCell sx={{ border: 2 }}>*/}
+                  {/*      <b>Delivery Date</b>*/}
+                  {/*  </TableCell>*/}
                 </TableRow>
               </TableHead>
               <TableBody sx={{ border: 2 }}>
@@ -82,12 +88,25 @@ function Requests() {
                       <TableCell sx={{ border: 2 }}>
                         {row.employeeName}
                       </TableCell>
-                      <TableCell sx={{ border: 2 }}>
-                        {row.employeeName}
-                      </TableCell>
                       <TableCell sx={{ border: 2 }}>{row.location}</TableCell>
-                      <TableCell sx={{ border: 2 }}>{row.flowerType}</TableCell>
-                      <TableCell sx={{ border: 2 }}>{row.message}</TableCell>
+                      <TableCell sx={{ border: 2 }}>{row.priority}</TableCell>
+                      <TableCell sx={{ border: 2 }}>
+                        <FormControl size={"small"}>
+                          <Select
+                            id={"status-selector"}
+                            defaultValue={row.status}
+                          >
+                            <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+                            <MenuItem value={"Assigned"}>Assigned</MenuItem>
+                            <MenuItem value={"In Progress"}>
+                              In Progress
+                            </MenuItem>
+                            <MenuItem value={"Closed"}>Closed</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </TableCell>
+                      {/*<TableCell sx={{ border: 2 }}>{row.receiverName}</TableCell>*/}
+                      {/*<TableCell sx={{ border: 2 }}>{row.date}</TableCell>*/}
                     </TableRow>
                   ))
                 ) : (
