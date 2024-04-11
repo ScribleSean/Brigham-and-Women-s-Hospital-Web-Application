@@ -6,6 +6,12 @@ import {
   Select,
   SelectChangeEvent,
   Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
 } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -31,6 +37,12 @@ function GiftRequest() {
     status: "",
   });
 
+  const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
+
+  const addSubmittedRequest = (newRequest: FormData) => {
+    setSubmittedRequests([...submittedRequests, newRequest]);
+  };
+
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +64,7 @@ function GiftRequest() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    addSubmittedRequest(formData);
     setFormData({
       employeeName: "",
       location: "",
@@ -64,7 +77,7 @@ function GiftRequest() {
   };
 
   return (
-    <>
+    <div>
       <Snackbar
         open={snackbarIsOpen}
         autoHideDuration={5000}
@@ -77,6 +90,7 @@ function GiftRequest() {
       <div className={`${styles.sanDiv} col-10`}>
         <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
           <h1>Gift Request</h1>
+          <h5>Christian and Gabe</h5>
           <br />
           <div className={`${styles.twoInputRow}`}>
             <TextField
@@ -201,8 +215,50 @@ function GiftRequest() {
             </Button>
           </div>
         </form>
+        <br />
+        <div>
+          <h2>Active Requests</h2>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <b>Employee Name</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Location</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Gift Type</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Delivery Date</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Priority</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Status</b>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {submittedRequests.map((request) => (
+                  <TableRow>
+                    <TableCell>{request.employeeName}</TableCell>
+                    <TableCell>{request.location}</TableCell>
+                    <TableCell>{request.giftType}</TableCell>
+                    <TableCell>{request.deliveryDate}</TableCell>
+                    <TableCell>{request.priority}</TableCell>
+                    <TableCell>{request.status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

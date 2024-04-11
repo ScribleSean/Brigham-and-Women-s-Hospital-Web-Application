@@ -70,7 +70,7 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
             transition: "width 0.3s ease",
           }}
         >
-          F1
+          1
         </Button>
         <Button
           onClick={() => updateFloor(FloorType.second)}
@@ -89,7 +89,7 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
             transition: "width 0.3s ease",
           }}
         >
-          F2
+          2
         </Button>
         <Button
           onClick={() => updateFloor(FloorType.third)}
@@ -108,7 +108,7 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
             transition: "width 0.3s ease",
           }}
         >
-          F3
+          3
         </Button>
       </div>
     </>

@@ -7,6 +7,12 @@ import {
   Select,
   SelectChangeEvent,
   Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
 } from "@mui/material";
 import "../../styles/RoomScheduling.css";
@@ -110,6 +116,7 @@ function RoomScheduling() {
       <div className={"san-div col-10"}>
         <form className={"request-form"} onSubmit={handleSubmit}>
           <h1>Room Request</h1>
+          <h5>Ethan and Lorenzo</h5>
           <br />
           <div className={`${styles.twoInputRow}`}>
             <TextField
@@ -255,6 +262,48 @@ function RoomScheduling() {
             </Button>
           </div>
         </form>
+        <br />
+        <div>
+          <h2>Active Requests</h2>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <b>Employee Name</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Location</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Start Time</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Duration</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Priority</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Status</b>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {submittedRequests.map((request) => (
+                  <TableRow>
+                    <TableCell>{request.employeeName}</TableCell>
+                    <TableCell>{request.location}</TableCell>
+                    <TableCell>{request.startTime}</TableCell>
+                    <TableCell>{request.duration}</TableCell>
+                    <TableCell>{request.priority}</TableCell>
+                    <TableCell>{request.status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </div>
     </>
   );

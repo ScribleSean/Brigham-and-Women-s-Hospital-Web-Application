@@ -11,16 +11,8 @@ import {
 } from "@mui/material";
 import styles from "../../styles/FlowerDelivery.module.css";
 import React, { useEffect, useState } from "react";
-
-interface FormData {
-  employeeName: string;
-  receiverName: string;
-  location: string;
-  flowerType: string | null;
-  deliveryDate: string;
-  priority: string;
-  status: string;
-}
+import axios from "axios";
+import { Flower } from "common/src/flowerServiceRequest.ts";
 
 function FlowerDelivery() {
   const flowerTypes = [
@@ -36,25 +28,27 @@ function FlowerDelivery() {
     "Chrysanthemum",
   ];
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<Flower>({
     employeeName: "",
     receiverName: "",
     location: "",
-    flowerType: null,
-    deliveryDate: "",
+    flowerType: "",
+    date: "",
     priority: "",
     status: "",
+    serviceType: "Flower",
   });
 
-  const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
+  // const [submittedRequests, setSubmittedRequests] = useState<Flower[]>([]);
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
+  // const addSubmittedRequest = (newRequest: Flower) => {
+  //   setSubmittedRequests([...submittedRequests, newRequest]);
+  // };
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
@@ -62,39 +56,50 @@ function FlowerDelivery() {
   };
 
   const handleAutocompleteChange = (value: string | null) => {
+    if (value) {
+      setFormData({
+        ...formData,
+        flowerType: value,
+      });
+    }
+  };
+
+  const handleSelectChange = (e: SelectChangeEvent<string>, field: string) => {
+    console.log(e.target.value);
     setFormData({
       ...formData,
-      flowerType: value || null,
+      [field]: e.target.value,
     });
   };
 
-  const handleSelectChange = (
-    e: SelectChangeEvent<string>,
-    field: keyof FormData,
-  ) => {
-    setFormData({
-      ...formData,
-      [field]: e.target.value as string,
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addSubmittedRequest(formData);
+    // addSubmittedRequest(formData);
+    console.log(formData);
+    try {
+      const response = await axios.post(
+        "/api/flower-service-request",
+        formData,
+      );
+      console.log("Form data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
     setFormData({
       employeeName: "",
       receiverName: "",
       location: "",
-      flowerType: null,
-      deliveryDate: "",
+      flowerType: "",
+      date: "",
       priority: "",
       status: "",
+      serviceType: "",
     });
   };
 
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
+  // useEffect(() => {
+  //   console.log(submittedRequests);
+  // }, [submittedRequests]);
 
   useEffect(() => {
     console.log(formData);
@@ -185,13 +190,12 @@ function FlowerDelivery() {
               <TextField
                 label={"Delivery Date"}
                 variant={"filled"}
-                id={"deliveryDate"}
+                id={"date"}
                 sx={{ width: "99%", marginLeft: "1%", my: "1%" }}
                 type={"date"}
                 onChange={handleTextFieldChange}
-                value={formData.deliveryDate}
+                value={formData.date}
                 InputLabelProps={{ shrink: true }}
-                required
               />
             </FormControl>
           </div>
@@ -245,10 +249,11 @@ function FlowerDelivery() {
                   employeeName: "",
                   receiverName: "",
                   location: "",
-                  flowerType: null,
-                  deliveryDate: "",
+                  flowerType: "",
+                  date: "",
                   priority: "",
                   status: "",
+                  serviceType: "Flower",
                 });
               }}
             >

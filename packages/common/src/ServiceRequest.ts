@@ -3,4 +3,5 @@ export interface ServiceRequest {
   priority: string;
   location: string;
   status: string;
+  serviceType: string;
 }
