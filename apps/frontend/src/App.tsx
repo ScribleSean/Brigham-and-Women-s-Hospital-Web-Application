@@ -14,6 +14,7 @@ import MedicalDeviceRequest from "./routes/service_request_routes/MedicalDeviceR
 import "./index.css";
 import MapWrapper from "./map_page/MapWrapper.tsx";
 import RoomScheduling from "./routes/service_request_routes/RoomScheduling.tsx";
+import Banner from "./components/Banner.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -68,6 +69,7 @@ function App() {
     return (
       <div>
         <SideNavbar />
+        <Banner isLoggedIn={false} />
         <Outlet />
       </div>
     );
