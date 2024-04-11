@@ -19,10 +19,19 @@ function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
 }
 
 function LocationSelector(): React.JSX.Element {
-  const { nodesByFloor, startNode, setStartNode, endNode, setEndNode } =
-    useMapContext();
+  const {
+    nodesByFloor,
+    startNode,
+    setStartNode,
+    endNode,
+    setEndNode,
+    setCurrentFloor,
+  } = useMapContext();
 
   const handleLocationChange = (newValue: Node | null) => {
+    if (newValue) {
+      setCurrentFloor(newValue.floor);
+    }
     setStartNode(newValue);
   };
 

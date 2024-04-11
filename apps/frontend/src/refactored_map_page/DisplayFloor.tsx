@@ -74,8 +74,8 @@ function FloorDisplay() {
     getNodes();
   }, [setNodesByFloor]);
 
-  const imageWidth: number = 5000;
-  const imageHeight: number = 3400;
+  const IMAGE_WIDTH: number = 5000;
+  const IMAGE_HEIGHT: number = 3400;
   const ref = useRef<HTMLImageElement | null>(null);
   const [divWidth, setWidth] = useState(0);
   const [divHeight, setHeight] = useState(0);
@@ -83,11 +83,11 @@ function FloorDisplay() {
   const loadImageOnce = useRef(0);
 
   function getWidthScaling(): number {
-    return divWidth / imageWidth;
+    return divWidth / IMAGE_WIDTH;
   }
 
   function getHeightScaling(): number {
-    return divHeight / imageHeight;
+    return divHeight / IMAGE_HEIGHT;
   }
   const updateDimensions = useCallback(() => {
     if (ref.current && !isImageLoaded.current) {
@@ -108,6 +108,17 @@ function FloorDisplay() {
       window.addEventListener("resize", updateDimensions);
       return () => window.removeEventListener("resize", updateDimensions);
     }
+  });
+
+  // I optimized the image loading
+  useEffect(() => {
+    const imageUrls = buildingMap
+      .getFloorMaps()
+      .map((floorMap) => floorMap.getPngPath());
+    imageUrls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+    });
   });
 
   const handleImageLoad = () => {
@@ -151,8 +162,8 @@ function FloorDisplay() {
 
   const divStyle: CSSProperties = {
     position: "absolute",
-    width: "fit",
-    height: "100%",
+    width: "100%",
+    height: "fit",
     backgroundSize: "100%",
     backgroundPosition: "center",
     zIndex: "1",
