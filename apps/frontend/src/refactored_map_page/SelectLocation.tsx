@@ -1,66 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Autocomplete, TextField, Box, InputAdornment } from "@mui/material";
 import LocationIcon from "@mui/icons-material/NearMe";
 import CancelIcon from "@mui/icons-material/Cancel";
 import "./LocationSelector.css";
+import { Node } from "common/src/DataStructures.ts";
+import { useMapContext } from "./MapContext.ts";
+import { NodesByFloor } from "../map_page/types/map_page_types.ts";
 
-import axios from "axios";
-import { Node } from "../../../backend/src/algorithms/DataStructures";
-import {
-  Location,
-  NodesOptionsRequest,
-} from "../map_page/types/map_page_types.ts";
-import { useMapContext } from "./MapContext.tsx";
+function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
+  const nodes: Array<Node> = new Array<Node>();
+  if (!nodesByFloor) return nodes;
+  nodesByFloor.L2.forEach((node) => nodes.push(node));
+  nodesByFloor.L1.forEach((node) => nodes.push(node));
+  nodesByFloor.firstFloor.forEach((node) => nodes.push(node));
+  nodesByFloor.secondFloor.forEach((node) => nodes.push(node));
+  nodesByFloor.thirdFloor.forEach((node) => nodes.push(node));
+  return nodes;
+}
 
 export function LocationSelector(): React.JSX.Element {
-  const [locations, setLocations] = useState<Array<Location>>([]);
-  const { startNode, setStartNode, endNode, setEndNode } = useMapContext();
+  const { nodesByFloor, startNode, setStartNode, endNode, setEndNode } =
+    useMapContext();
 
-  useEffect(() => {
-    async function getLocations(): Promise<void> {
-      try {
-        const nodesOptionsRequest: NodesOptionsRequest = {
-          includeHallways: false,
-          byFloors: false,
-        };
-        const response = await axios.post<Array<Node>>(
-          "/api/nodes",
-          nodesOptionsRequest,
-        );
-        const fetchedLocations = response.data.map((node) => ({
-          ID: node.ID,
-          longName: node.longName,
-        }));
-        setLocations(fetchedLocations);
-      } catch (error) {
-        console.error("Failed to fetch nodes data:", error);
-      }
-    }
-    getLocations();
-
-    if (location && location.ID) {
-      props.updateStartNodeID(location.ID);
-    }
-
-    if (destination && destination.ID) {
-      props.updateEndNodeID(destination.ID);
-    }
-  }, [destination, location, props]);
-
-  const handleLocationChange = (newValue: Location | null) => {
-    setLocation(newValue);
-  };
-
-  const handleDestinationChange = (newValue: Location | null) => {
-    setDestination(newValue);
+  const handleLocationChange = (newValue: Node | null) => {
+    setStartNode(newValue);
   };
 
   const handleClearClickLocation = () => {
-    setLocation(null);
+    setStartNode(null);
+  };
+
+  const handleDestinationChange = (newValue: Node | null) => {
+    setEndNode(newValue);
   };
 
   const handleClearClickDestination = () => {
-    setDestination(null);
+    setEndNode(null);
   };
 
   return (
@@ -77,10 +52,10 @@ export function LocationSelector(): React.JSX.Element {
         }}
       >
         <Autocomplete
-          value={location}
+          value={startNode}
           onChange={(event, newValue) => handleLocationChange(newValue)}
-          options={locations}
-          getOptionLabel={(option) => option.longName}
+          options={nodesByFloorsToNodes(nodesByFloor)}
+          getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -112,7 +87,7 @@ export function LocationSelector(): React.JSX.Element {
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    {location ? (
+                    {startNode ? (
                       <CancelIcon
                         onClick={() => handleClearClickLocation()}
                         style={{ cursor: "pointer" }}
@@ -125,10 +100,10 @@ export function LocationSelector(): React.JSX.Element {
           )}
         />
         <Autocomplete
-          value={destination}
+          value={endNode}
           onChange={(event, newValue) => handleDestinationChange(newValue)}
-          options={locations}
-          getOptionLabel={(option) => option.longName}
+          options={nodesByFloorsToNodes(nodesByFloor)}
+          getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -160,7 +135,7 @@ export function LocationSelector(): React.JSX.Element {
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    {destination ? (
+                    {endNode ? (
                       <CancelIcon
                         onClick={() => handleClearClickDestination()}
                         style={{ cursor: "pointer" }}

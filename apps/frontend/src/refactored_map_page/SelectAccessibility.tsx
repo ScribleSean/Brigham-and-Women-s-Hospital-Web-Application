@@ -2,7 +2,7 @@ import React from "react";
 import { FormControl, Select, Box, MenuItem, SvgIcon } from "@mui/material";
 import { SvgIconProps } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { useMapContext } from "./MapContext";
+import { useMapContext } from "./MapContext.ts";
 import { AccessibilityType } from "../map_page/types/map_page_types.ts";
 
 function CustomArrowIcon(props: SvgIconProps) {

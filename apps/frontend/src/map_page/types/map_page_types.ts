@@ -118,11 +118,6 @@ export enum AccessibilityType {
   wheelchair = "wheelchair",
 }
 
-export interface Location {
-  ID: string;
-  longName: string;
-}
-
 export interface DirectionsProps {
   triggerNextDirection: (currentDirectionNumber: number) => void;
   currentDirectionsCounter: number;

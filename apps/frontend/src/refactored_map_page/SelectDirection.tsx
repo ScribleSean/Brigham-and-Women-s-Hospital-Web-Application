@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { useMapContext } from "./MapContext"; // Adjust the import path as needed
+import { useMapContext } from "./MapContext.ts"; // Adjust the import path as needed
 
 function Directions() {
   const { directionsCounter, setDirectionsCounter } = useMapContext();
