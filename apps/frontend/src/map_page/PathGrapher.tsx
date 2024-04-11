@@ -1,11 +1,5 @@
-import {
-  BuildingMap,
-  FloorMap,
-} from "../../../backend/src/algorithms/BuildingClasses.ts";
-import {
-  FloorType,
-  Node,
-} from "../../../backend/src/algorithms/DataStructures.ts";
+import { BuildingMap, FloorMap } from "common/src/BuildingClasses.ts";
+import { FloorType, Node } from "common/src/DataStructures.ts";
 import React, { CSSProperties, useEffect, useState } from "react";
 import { FloorDisplay } from "./FloorDisplay.tsx";
 import {

@@ -1,5 +1,5 @@
 import { PathDisplayProps } from "./types/map_page_types.ts";
-import { Node, Path } from "../../../backend/src/algorithms/DataStructures.ts";
+import { Node, Path } from "common/src/DataStructures.ts";
 import React, { SVGProps, CSSProperties, useEffect } from "react";
 
 export function PathDisplay(props: PathDisplayProps): React.JSX.Element {

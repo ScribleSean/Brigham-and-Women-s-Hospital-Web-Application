@@ -1,5 +1,5 @@
 import React from "react";
-import { FloorType } from "../../../backend/src/algorithms/DataStructures.ts";
+import { FloorType } from "common/src/DataStructures.ts";
 import { Button } from "@mui/material";
 import "./FloorSelector.css";
 import { FloorSelectorProps } from "./types/map_page_types.ts";

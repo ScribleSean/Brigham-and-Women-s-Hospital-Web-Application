@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from "express";
-import { FloorType, Graph, Node } from "../algorithms/DataStructures.ts";
+import { FloorType, Graph, Node } from "common/src/DataStructures.ts";
 import { createGraph } from "../algorithms/request_functions/createGraph.ts";
 import {
   NodesByFloor,

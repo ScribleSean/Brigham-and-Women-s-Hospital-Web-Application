@@ -3,6 +3,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -27,20 +28,23 @@ function Requests() {
     fetchData().then();
   }, []);
 
-    const handlePriorityChange = async (row: ServiceRequest, event: React.ChangeEvent<{ value: unknown }>) => {
-        // Update the priority of the ServiceRequest object
-        row.status = event.target.value as string;
+  const handlePriorityChange = async (
+    row: ServiceRequest,
+    event: SelectChangeEvent<unknown>,
+  ) => {
+    // Update the priority of the ServiceRequest object
+    row.status = event.target.value as string;
 
-        try {
-            // Send a POST request to the server with the updated ServiceRequest object
-            const response = await axios.post("/api/service-request", row);
-            console.log("Form data sent successfully:", response.data);
-        } catch (error) {
-            console.error("Error submitting form data:", error);
-        }
-    };
+    try {
+      // Send a POST request to the server with the updated ServiceRequest object
+      const response = await axios.post("/api/service-request", row);
+      console.log("Form data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
+  };
 
-    return (
+  return (
     <div>
       <div className={"requests-page-container"}>
         <div>
@@ -114,9 +118,11 @@ function Requests() {
                           <Select
                             id={"status-selector"}
                             defaultValue={row.status}
-                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                              // @ts-ignore
-                            onChange={(event) => handlePriorityChange(row, event)}
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-ignore
+                            onChange={(event) =>
+                              handlePriorityChange(row, event)
+                            }
                           >
                             <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
                             <MenuItem value={"Assigned"}>Assigned</MenuItem>

@@ -1,6 +1,6 @@
 import { NodeDisplayProps } from "./types/map_page_types.ts";
 import React, { CSSProperties /*useState*/ } from "react";
-import { Node } from "../../../backend/src/algorithms/DataStructures.ts";
+import { Node } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 
 function imageToDisplayCoordinates(

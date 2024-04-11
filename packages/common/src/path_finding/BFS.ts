@@ -26,7 +26,7 @@ export class BFS implements IPathFinder {
       }
 
       const edges: Array<Edge> =
-        this.graph.getEdges(currentNode) || new Array<Edge>();
+        this.graph.getEdgesFromNode(currentNode) || new Array<Edge>();
 
       for (const edge of edges) {
         const nextNode: Node = edge.getEndNode();

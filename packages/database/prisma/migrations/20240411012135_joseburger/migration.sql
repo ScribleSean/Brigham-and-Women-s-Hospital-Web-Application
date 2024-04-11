@@ -37,6 +37,7 @@ CREATE TABLE "ServiceRequest" (
     "priority" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "status" TEXT NOT NULL,
+    "serviceType" TEXT NOT NULL,
 
     CONSTRAINT "ServiceRequest_pkey" PRIMARY KEY ("SRID")
 );
@@ -45,7 +46,8 @@ CREATE TABLE "ServiceRequest" (
 CREATE TABLE "FlowerServiceRequest" (
     "SRID" INTEGER NOT NULL,
     "flowerType" TEXT NOT NULL,
-    "message" TEXT NOT NULL,
+    "receiverName" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
 
     CONSTRAINT "FlowerServiceRequest_pkey" PRIMARY KEY ("SRID")
 );

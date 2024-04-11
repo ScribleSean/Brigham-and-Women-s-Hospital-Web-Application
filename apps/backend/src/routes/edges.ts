@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from "express";
-import { FloorType, Graph } from "../algorithms/DataStructures.ts";
+import { FloorType, Graph } from "common/src/DataStructures.ts";
 import { createGraph } from "../algorithms/request_functions/createGraph.ts";
 import { EdgesByFloor } from "../../../frontend/src/map_page/types/map_page_types.ts";
 

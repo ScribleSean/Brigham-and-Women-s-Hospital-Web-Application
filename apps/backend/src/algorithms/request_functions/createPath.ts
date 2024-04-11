@@ -1,13 +1,13 @@
 import { Response } from "express";
 import { StartEndNodes } from "../../../../frontend/src/map_page/types/map_page_types.ts";
-import { Graph } from "../data_structures/Graph.ts";
-import { ASTAR } from "../path_finding/ASTAR.ts";
-import { Path } from "../data_structures/Path.ts";
-import { IPathFinder } from "../path_finding/IPathFinder.ts";
-import { BFS } from "../path_finding/BFS.ts";
-import { DFS } from "../path_finding/DFS.ts";
-import { Dijkstra } from "../path_finding/Dijkstra.ts";
-import { AlgorithmType } from "../data_structures/AlgorithmType.ts";
+import { Graph } from "common/src/data_structures/Graph.ts";
+import { ASTAR } from "common/src/path_finding/ASTAR.ts";
+import { Path } from "common/src/data_structures/Path.ts";
+import { IPathFinder } from "common/src/path_finding/IPathFinder.ts";
+import { BFS } from "common/src/path_finding/BFS.ts";
+import { DFS } from "common/src/path_finding/DFS.ts";
+import { Dijkstra } from "common/src/path_finding/Dijkstra.ts";
+import { AlgorithmType } from "common/src/data_structures/AlgorithmType.ts";
 
 export { createPath };
 async function createPath(

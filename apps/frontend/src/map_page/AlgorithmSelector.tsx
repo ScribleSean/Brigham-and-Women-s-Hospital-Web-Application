@@ -8,7 +8,7 @@ import {
   SvgIconProps,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { AlgorithmType } from "../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
+import { AlgorithmType } from "common/src/data_structures/AlgorithmType.ts";
 import { AlgorithmSelectorProps } from "./types/map_page_types.ts";
 
 function CustomArrowIcon(props: SvgIconProps) {
