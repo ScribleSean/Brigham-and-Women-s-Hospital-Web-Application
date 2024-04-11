@@ -45,7 +45,7 @@ export class DFS implements IPathFinder {
       return true;
     }
 
-    const neighbours = this.graph.getEdges(node);
+    const neighbours = this.graph.getEdgesFromNode(node);
     if (neighbours) {
       for (const edge of neighbours) {
         const neighbour = edge.getEndNode();

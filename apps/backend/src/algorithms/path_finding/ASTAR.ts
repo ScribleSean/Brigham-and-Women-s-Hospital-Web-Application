@@ -48,7 +48,7 @@ export class ASTAR implements IPathFinder {
       openSet.delete(currentNode);
       closedSet.add(currentNode);
 
-      const neighbours = this.graph.getEdges(currentNode);
+      const neighbours = this.graph.getEdgesFromNode(currentNode);
 
       if (!neighbours) continue;
 

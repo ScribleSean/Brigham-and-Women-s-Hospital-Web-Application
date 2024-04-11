@@ -49,7 +49,7 @@ export class Dijkstra implements IPathFinder {
       visited[closestNode.getID()] = true;
 
       // Updating distances to the neighboring nodes
-      const edges = this.graph.getEdges(closestNode);
+      const edges = this.graph.getEdgesFromNode(closestNode);
       if (edges) {
         for (const edge of edges) {
           const neighbour = edge.getEndNode();
