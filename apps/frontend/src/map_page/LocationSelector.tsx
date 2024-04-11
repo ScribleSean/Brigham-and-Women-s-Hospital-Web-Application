@@ -9,7 +9,7 @@ import {
   LocationSelectorProps,
 } from "./types/map_page_types";
 import axios from "axios";
-import { Node } from "../../../backend/src/algorithms/DataStructures";
+import { Node } from "common/src/DataStructures";
 
 export function LocationSelector(
   props: LocationSelectorProps,

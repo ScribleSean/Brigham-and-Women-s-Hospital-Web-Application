@@ -5,7 +5,7 @@ import {
   Graph,
   Node,
   NodeType,
-} from "../DataStructures";
+} from "common/src/DataStructures";
 import PrismaClient from "../../bin/database-connection";
 
 export { createGraph };

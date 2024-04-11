@@ -6,7 +6,7 @@ import {
 } from "react-zoom-pan-pinch";
 import PathGrapher from "./PathGrapher.tsx";
 import { FloorSelector } from "./FloorSelector.tsx";
-import { FloorType } from "../../../backend/src/algorithms/data_structures/FloorType.ts";
+import { FloorType } from "common/src/data_structures/FloorType.ts";
 import React, { CSSProperties, useState } from "react";
 import {
   AccessibilitySelectorProps,
@@ -19,7 +19,7 @@ import {
   PathGrapherProps,
 } from "./types/map_page_types.ts";
 import { AlgorithmSelector } from "./AlgorithmSelector.tsx";
-import { AlgorithmType } from "../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
+import { AlgorithmType } from "common/src/data_structures/AlgorithmType.ts";
 import { AccessibilitySelector } from "./AccessibilitySelector.tsx";
 import { LocationSelector } from "./LocationSelector.tsx";
 import Directions from "./Directions.tsx";

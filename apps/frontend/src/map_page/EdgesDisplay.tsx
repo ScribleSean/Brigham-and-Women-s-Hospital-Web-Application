@@ -1,9 +1,5 @@
 import { EdgesByFloor, EdgesDisplayProps } from "./types/map_page_types.ts";
-import {
-  FloorType,
-  Node,
-  Edge,
-} from "../../../backend/src/algorithms/DataStructures.ts";
+import { FloorType, Node, Edge } from "common/src/DataStructures.ts";
 import React, { SVGProps, CSSProperties } from "react";
 
 function getEdgesByFloor(

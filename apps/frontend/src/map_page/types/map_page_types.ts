@@ -1,10 +1,5 @@
-import {
-  FloorType,
-  Node,
-  Edge,
-  Path,
-} from "../../../../backend/src/algorithms/DataStructures.ts";
-import { AlgorithmType } from "../../../../backend/src/algorithms/data_structures/AlgorithmType.ts";
+import { FloorType, Node, Edge, Path } from "common/src/DataStructures.ts";
+import { AlgorithmType } from "common/src/data_structures/AlgorithmType.ts";
 
 export interface FloorSelectorProps {
   updateFloorFunction: (floorType: FloorType) => void;
