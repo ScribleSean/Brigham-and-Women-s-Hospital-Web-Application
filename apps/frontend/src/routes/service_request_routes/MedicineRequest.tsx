@@ -1,14 +1,20 @@
 import {
-    Autocomplete,
-    Button,
-    FormControl,
-    InputAdornment,
-    InputLabel,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-    TextField,
+  Autocomplete,
+  Button,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
 } from "@mui/material";
 import "../../styles/MedicineRequest.css";
 import { useEffect, useState } from "react";
@@ -153,202 +159,202 @@ function MedicineRequest() {
         message={"Request was submitted successfully!"}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       />
-        <div className={"san-div col-10"}>
-            <form className={"request-form"} onSubmit={handleSubmit}>
-                <h1>Medicine Request</h1>
-                <h5>Gus and Sean</h5>
-                <br/>
-                <div className={`${styles.twoInputRow}`}>
-                    <TextField
-                        label={"Employee Name"}
-                        variant={"filled"}
-                        id={"employeeName"}
-                        sx={{
-                            my: "1%",
-                            width: "49.5%",
-                            marginRight: "1%",
-                        }}
-                        onChange={handleTextFieldChange}
-                        value={formData.employeeName}
-                        required
-                    />
-                    <TextField
-                        label={"Location"}
-                        variant={"filled"}
-                        id={"location"}
-                        sx={{
-                            my: "1%",
-                            width: "49.5%",
-                        }}
-                        onChange={handleTextFieldChange}
-                        value={formData.location}
-                        required
-                    />
-                </div>
-                <br/>
-                <Autocomplete
-                    id={"medicineName"}
-                    sx={{my: "1%"}}
-                    disablePortal
-                    options={medicineList}
-                    onChange={(_event, value) => handleMedicineNameChange(value)}
-                    value={formData.medicineName}
-                    renderInput={(params) => (
-                        <TextField
-                            variant={"filled"}
-                            {...params}
-                            label="Medicine"
-                            required
-                        />
-                    )}
-                />
-                <div className={"two-input-row-container"}>
-                    <FormControl
-                        variant={"filled"}
-                        sx={{width: "49%", marginRight: "1%", my: "1%"}}
-                        required
-                    >
-                        <InputLabel id={"dosageForm"}>Dosage Form</InputLabel>
-                        <Select
-                            id={"dosageForm"}
-                            onChange={(e) => handleSelectChange(e, "dosageForm")}
-                            value={formData.dosageForm}
-                        >
-                            <MenuItem value={"Tablet"}>Tablet</MenuItem>
-                            <MenuItem value={"Capsule"}>Capsule</MenuItem>
-                            <MenuItem value={"Liquid"}>Liquid</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <TextField
-                        id={"dosageAmount"}
-                        label={"Dosage Amount"}
-                        variant={"filled"}
-                        sx={{width: "49%", marginLeft: "1%"}}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position={"end"}>mg</InputAdornment>
-                            ),
-                        }}
-                        onChange={handleTextFieldChange}
-                        type={"number"}
-                        value={formData.dosageAmount}
-                        required
-                    />
-                </div>
-                {/*<br />*/}
-                <div className={"two-input-row-container"}>
-                    <FormControl
-                        variant={"filled"}
-                        sx={{width: "49%", marginRight: "1%", my: "1%"}}
-                        required
-                    >
-                        <InputLabel id={"priority"}>Priority</InputLabel>
-                        <Select
-                            id={"priority"}
-                            onChange={(e) => handleSelectChange(e, "priority")}
-                            value={formData.priority}
-                        >
-                            <MenuItem value={"Low"}>Low</MenuItem>
-                            <MenuItem value={"Medium"}>Medium</MenuItem>
-                            <MenuItem value={"High"}>High</MenuItem>
-                            <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl
-                        variant={"filled"}
-                        sx={{width: "49%", marginLeft: "1%", my: "1%"}}
-                        required
-                    >
-                        <InputLabel id={"status"}>Status</InputLabel>
-                        <Select
-                            id={"status"}
-                            onChange={(e) => handleSelectChange(e, "status")}
-                            value={formData.status}
-                        >
-                            <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-                            <MenuItem value={"Assigned"}>Assigned</MenuItem>
-                            <MenuItem value={"In Progress"}>In Progress</MenuItem>
-                            <MenuItem value={"Closed"}>Closed</MenuItem>
-                        </Select>
-                    </FormControl>
-                </div>
-                <br/>
-                <div className={"button-container"}>
-                    <Button
-                        variant={"outlined"}
-                        color={"error"}
-                        sx={{
-                            width: "25%",
-                        }}
-                        onClick={() => {
-                            setFormData({
-                                employeeName: "",
-                                location: "",
-                                medicineName: null,
-                                dosageAmount: "",
-                                dosageForm: "",
-                                priority: "",
-                                status: "",
-                            });
-                        }}
-                    >
-                        Clear
-                    </Button>
-                    <Button
-                        variant={"contained"}
-                        type={"submit"}
-                        sx={{
-                            width: "25%",
-                            backgroundColor: "#012d5a",
-                        }}
-                    >
-                        Submit
-                    </Button>
-                </div>
-            </form>
-            <br/>
-            <div>
-                <h2>Active Requests</h2>
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>
-                                    <b>Employee Name</b>
-                                </TableCell>
-                                <TableCell>
-                                    <b>Location</b>
-                                </TableCell>
-                                <TableCell>
-                                    <b>Medicine Name</b>
-                                </TableCell>
-                                <TableCell>
-                                    <b>Dosage Amount</b>
-                                </TableCell>
-                                <TableCell>
-                                    <b>Priority</b>
-                                </TableCell>
-                                <TableCell>
-                                    <b>Status</b>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {submittedRequests.map((request) => (
-                                <TableRow>
-                                    <TableCell>{request.employeeName}</TableCell>
-                                    <TableCell>{request.location}</TableCell>
-                                    <TableCell>{request.medicineName}</TableCell>
-                                    <TableCell>{request.dosageAmount}</TableCell>
-                                    <TableCell>{request.priority}</TableCell>
-                                    <TableCell>{request.status}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
+      <div className={"san-div col-10"}>
+        <form className={"request-form"} onSubmit={handleSubmit}>
+          <h1>Medicine Request</h1>
+          <h5>Gus and Sean</h5>
+          <br />
+          <div className={`${styles.twoInputRow}`}>
+            <TextField
+              label={"Employee Name"}
+              variant={"filled"}
+              id={"employeeName"}
+              sx={{
+                my: "1%",
+                width: "49.5%",
+                marginRight: "1%",
+              }}
+              onChange={handleTextFieldChange}
+              value={formData.employeeName}
+              required
+            />
+            <TextField
+              label={"Location"}
+              variant={"filled"}
+              id={"location"}
+              sx={{
+                my: "1%",
+                width: "49.5%",
+              }}
+              onChange={handleTextFieldChange}
+              value={formData.location}
+              required
+            />
+          </div>
+          <br />
+          <Autocomplete
+            id={"medicineName"}
+            sx={{ my: "1%" }}
+            disablePortal
+            options={medicineList}
+            onChange={(_event, value) => handleMedicineNameChange(value)}
+            value={formData.medicineName}
+            renderInput={(params) => (
+              <TextField
+                variant={"filled"}
+                {...params}
+                label="Medicine"
+                required
+              />
+            )}
+          />
+          <div className={"two-input-row-container"}>
+            <FormControl
+              variant={"filled"}
+              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+              required
+            >
+              <InputLabel id={"dosageForm"}>Dosage Form</InputLabel>
+              <Select
+                id={"dosageForm"}
+                onChange={(e) => handleSelectChange(e, "dosageForm")}
+                value={formData.dosageForm}
+              >
+                <MenuItem value={"Tablet"}>Tablet</MenuItem>
+                <MenuItem value={"Capsule"}>Capsule</MenuItem>
+                <MenuItem value={"Liquid"}>Liquid</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              id={"dosageAmount"}
+              label={"Dosage Amount"}
+              variant={"filled"}
+              sx={{ width: "49%", marginLeft: "1%" }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position={"end"}>mg</InputAdornment>
+                ),
+              }}
+              onChange={handleTextFieldChange}
+              type={"number"}
+              value={formData.dosageAmount}
+              required
+            />
+          </div>
+          {/*<br />*/}
+          <div className={"two-input-row-container"}>
+            <FormControl
+              variant={"filled"}
+              sx={{ width: "49%", marginRight: "1%", my: "1%" }}
+              required
+            >
+              <InputLabel id={"priority"}>Priority</InputLabel>
+              <Select
+                id={"priority"}
+                onChange={(e) => handleSelectChange(e, "priority")}
+                value={formData.priority}
+              >
+                <MenuItem value={"Low"}>Low</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"High"}>High</MenuItem>
+                <MenuItem value={"Emergency"}>Emergency</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              variant={"filled"}
+              sx={{ width: "49%", marginLeft: "1%", my: "1%" }}
+              required
+            >
+              <InputLabel id={"status"}>Status</InputLabel>
+              <Select
+                id={"status"}
+                onChange={(e) => handleSelectChange(e, "status")}
+                value={formData.status}
+              >
+                <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+                <MenuItem value={"Assigned"}>Assigned</MenuItem>
+                <MenuItem value={"In Progress"}>In Progress</MenuItem>
+                <MenuItem value={"Closed"}>Closed</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <br />
+          <div className={"button-container"}>
+            <Button
+              variant={"outlined"}
+              color={"error"}
+              sx={{
+                width: "25%",
+              }}
+              onClick={() => {
+                setFormData({
+                  employeeName: "",
+                  location: "",
+                  medicineName: null,
+                  dosageAmount: "",
+                  dosageForm: "",
+                  priority: "",
+                  status: "",
+                });
+              }}
+            >
+              Clear
+            </Button>
+            <Button
+              variant={"contained"}
+              type={"submit"}
+              sx={{
+                width: "25%",
+                backgroundColor: "#012d5a",
+              }}
+            >
+              Submit
+            </Button>
+          </div>
+        </form>
+        <br />
+        <div>
+          <h2>Active Requests</h2>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <b>Employee Name</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Location</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Medicine Name</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Dosage Amount</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Priority</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Status</b>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {submittedRequests.map((request) => (
+                  <TableRow>
+                    <TableCell>{request.employeeName}</TableCell>
+                    <TableCell>{request.location}</TableCell>
+                    <TableCell>{request.medicineName}</TableCell>
+                    <TableCell>{request.dosageAmount}</TableCell>
+                    <TableCell>{request.priority}</TableCell>
+                    <TableCell>{request.status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
+      </div>
     </>
   );
 }
