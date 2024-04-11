@@ -2,10 +2,10 @@ import React from "react";
 import { Autocomplete, TextField, Box, InputAdornment } from "@mui/material";
 import LocationIcon from "@mui/icons-material/NearMe";
 import CancelIcon from "@mui/icons-material/Cancel";
-import "./LocationSelector.css";
+import "../map_page/LocationSelector.css";
 import { Node } from "common/src/DataStructures.ts";
 import { useMapContext } from "./MapContext.ts";
-import { NodesByFloor } from "../map_page/types/map_page_types.ts";
+import { NodesByFloor } from "../../../../packages/common/src/types/map_page_types.ts";
 
 function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
   const nodes: Array<Node> = new Array<Node>();
@@ -18,7 +18,7 @@ function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
   return nodes;
 }
 
-export function LocationSelector(): React.JSX.Element {
+function LocationSelector(): React.JSX.Element {
   const { nodesByFloor, startNode, setStartNode, endNode, setEndNode } =
     useMapContext();
 
@@ -151,3 +151,4 @@ export function LocationSelector(): React.JSX.Element {
     </div>
   );
 }
+export default LocationSelector;

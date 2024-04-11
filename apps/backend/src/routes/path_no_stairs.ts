@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from "express";
 import { Graph, Path } from "common/src/DataStructures";
 import { createGraph } from "../algorithms/request_functions/createGraph";
-import { StartEndNodes } from "../../../frontend/src/map_page/types/map_page_types";
+import { StartEndNodes } from "../../../../packages/common/src/types/map_page_types";
 import { ASTAR } from "common/src/PathFinder.ts";
 
 const router: Router = express.Router();

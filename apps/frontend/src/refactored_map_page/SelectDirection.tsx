@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useMapContext } from "./MapContext.ts"; // Adjust the import path as needed
 
-function Directions() {
+function DirectionsSelector() {
   const { directionsCounter, setDirectionsCounter } = useMapContext();
 
   const handleOnClick = () => {
@@ -32,4 +32,4 @@ function Directions() {
   );
 }
 
-export default Directions;
+export default DirectionsSelector;

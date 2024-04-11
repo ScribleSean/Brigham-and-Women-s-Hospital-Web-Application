@@ -1,25 +1,23 @@
 import React from "react";
 import { FloorType } from "common/src/DataStructures.ts";
 import { Button } from "@mui/material";
-import "./FloorSelector.css";
-import { FloorSelectorProps } from "./types/map_page_types.ts";
+import "../map_page/FloorSelector.css";
+import { useMapContext } from "./MapContext.ts";
 
-export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
-  const updateFloor = props.updateFloorFunction;
-  const getButtonColor = props.getButtonColor;
-  const getButtonWidth = props.getButtonWidth;
+export function FloorSelector(): React.JSX.Element {
+  const { setCurrentFloor } = useMapContext();
 
   return (
     <>
       <div className={"btn-container"}>
         <div>
           <Button
-            onClick={() => updateFloor(FloorType.L2)}
+            onClick={() => setCurrentFloor(FloorType.L2)}
             variant={"contained"}
             sx={{
-              backgroundColor: getButtonColor(FloorType.L2),
+              backgroundColor: "blue",
               height: "6vh",
-              width: getButtonWidth(FloorType.L2),
+              width: "10%",
               color: "#012D5A",
               fontFamily: "inter",
               fontWeight: "bold",
@@ -35,12 +33,12 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
         </div>
 
         <Button
-          onClick={() => updateFloor(FloorType.L1)}
+          onClick={() => setCurrentFloor(FloorType.L1)}
           variant={"contained"}
           sx={{
-            backgroundColor: getButtonColor(FloorType.L1),
+            backgroundColor: "blue",
             height: "6vh",
-            width: getButtonWidth(FloorType.L1),
+            width: "10%",
             color: "#012D5A",
             fontFamily: "inter",
             fontWeight: "bold",
@@ -54,12 +52,12 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
           L1
         </Button>
         <Button
-          onClick={() => updateFloor(FloorType.first)}
+          onClick={() => setCurrentFloor(FloorType.first)}
           variant={"contained"}
           sx={{
-            backgroundColor: getButtonColor(FloorType.first),
+            backgroundColor: "blue",
             height: "6vh",
-            width: getButtonWidth(FloorType.first),
+            width: "10%",
             color: "#012D5A",
             fontFamily: "inter",
             fontWeight: "bold",
@@ -73,12 +71,12 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
           1
         </Button>
         <Button
-          onClick={() => updateFloor(FloorType.second)}
+          onClick={() => setCurrentFloor(FloorType.second)}
           variant={"contained"}
           sx={{
-            backgroundColor: getButtonColor(FloorType.second),
+            backgroundColor: "blue",
             height: "6vh",
-            width: getButtonWidth(FloorType.second),
+            width: "10%",
             color: "#012D5A",
             fontFamily: "inter",
             fontWeight: "bold",
@@ -92,12 +90,12 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
           2
         </Button>
         <Button
-          onClick={() => updateFloor(FloorType.third)}
+          onClick={() => setCurrentFloor(FloorType.third)}
           variant={"contained"}
           sx={{
-            backgroundColor: getButtonColor(FloorType.third),
+            backgroundColor: "blue",
             height: "6vh",
-            width: getButtonWidth(FloorType.third),
+            width: "10%",
             color: "#012D5A",
             fontFamily: "inter",
             fontWeight: "bold",
@@ -114,3 +112,5 @@ export function FloorSelector(props: FloorSelectorProps): React.JSX.Element {
     </>
   );
 }
+
+export default FloorSelector;

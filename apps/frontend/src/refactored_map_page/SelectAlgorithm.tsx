@@ -18,7 +18,7 @@ function CustomArrowIcon(props: SvgIconProps) {
   );
 }
 
-export function AlgorithmSelector() {
+function AlgorithmSelector() {
   const { selectedAlgorithm, setSelectedAlgorithm } = useMapContext();
 
   const handleChange = (event: SelectChangeEvent<string>) => {
@@ -88,3 +88,5 @@ export function AlgorithmSelector() {
     </Box>
   );
 }
+
+export default AlgorithmSelector;

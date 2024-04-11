@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { useMapContext } from "./MapContext.ts"; // Adjust the import path as needed
 
-function Editor() {
+function EditorSelector() {
   const { editorMode, setEditorMode } = useMapContext();
   const [hoverActive, setHoverActive] = useState(false);
 
@@ -52,4 +52,4 @@ function Editor() {
   );
 }
 
-export default Editor;
+export default EditorSelector;

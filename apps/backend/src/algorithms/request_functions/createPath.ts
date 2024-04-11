@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { StartEndNodes } from "../../../../frontend/src/map_page/types/map_page_types.ts";
+import { StartEndNodes } from "../../../../../packages/common/src/types/map_page_types.ts";
 import { Graph } from "common/src/data_structures/Graph.ts";
 import { ASTAR } from "common/src/path_finding/ASTAR.ts";
 import { Path } from "common/src/data_structures/Path.ts";
@@ -15,7 +15,7 @@ async function createPath(
   algorithm: AlgorithmType,
   graph: Graph,
   startEndNodes: StartEndNodes,
-): Promise<Array<Path> | undefined> {
+): Promise<Path | undefined> {
   const { node1ID, node2ID } = startEndNodes;
 
   const startNode = graph.getNodeByID(node1ID);
@@ -43,7 +43,6 @@ async function createPath(
 
   if (startNode !== undefined && endNode !== undefined) {
     const path: Path | undefined = pathFinder.findPath(startNode, endNode);
-    const paths: Array<Path> | undefined = path?.getSubPathsByFloor();
 
     if (!path) {
       console.log("Could not find the path");
@@ -51,7 +50,7 @@ async function createPath(
       return undefined;
     }
 
-    return paths;
+    return path;
   }
 
   return undefined;

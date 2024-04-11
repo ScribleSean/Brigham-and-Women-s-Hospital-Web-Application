@@ -1,7 +1,10 @@
-import { NodeDisplayProps } from "./types/map_page_types.ts";
+import { NodeDisplayProps } from "../../../../packages/common/src/types/map_page_types.ts";
 import React, { CSSProperties /*useState*/ } from "react";
 import { Node } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
+import { useMapContext } from "./MapContext.ts";
+
+export default NodeDisplay;
 
 function imageToDisplayCoordinates(
   x: number,
@@ -24,15 +27,44 @@ function displayToImageCoordinates(x: number, scalingX: number, y: number, scali
 }
 */
 
+function sameNode(node1: Node | null, node2: Node | null) {
+  if (node1 && node2) {
+    return node1.ID == node2.ID;
+  } else {
+    return false;
+  }
+}
+
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
   const node: Node = props.node;
-  const handleNodeSelection = props.handleNodeSelection;
-  //const [hoverActive, setHoverActive] = useState(false);
-  //const changesFloor: boolean = props.changesFloor;
-  const isStartNode = props.isStartNode;
-  const isEndNode = props.isEndNode;
+  const {
+    startNode,
+    endNode,
+    setStartNode,
+    setEndNode,
+    editorMode,
+    setDisableZoomPanning,
+    scale,
+  } = useMapContext();
+
+  const handleNodeSelection = (node: Node): void => {
+    if (!startNode) {
+      setStartNode(node);
+      //console.log("Start node: " + node + ", End node: " + null);
+    } else if (!endNode) {
+      setEndNode(node);
+      //console.log("Start node: " + startNode + ", End node: " + node);
+    } else {
+      setStartNode(node);
+      setEndNode(null);
+      //console.log("Start node: " + node + ", End node: " + null);
+    }
+  };
+
+  const isStartNode = sameNode(node, startNode);
+  const isEndNode = sameNode(node, endNode);
 
   const { displayX, displayY } = imageToDisplayCoordinates(
     node.x,
@@ -55,19 +87,19 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   };
 
   const handleStartDrag = () => {
-    props.draggingNodes(true);
+    setDisableZoomPanning(true);
   };
 
   const handleStopDrag = () => {
-    props.draggingNodes(false);
+    setDisableZoomPanning(false);
   };
 
   return (
     <Draggable
-      scale={props.scale}
+      scale={scale}
       onStart={handleStartDrag}
       onStop={handleStopDrag}
-      disabled={props.currentEditorMode}
+      disabled={editorMode}
     >
       <button
         style={nodeStyle}

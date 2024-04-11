@@ -1,18 +1,21 @@
-import { PathDisplayProps } from "./types/map_page_types.ts";
+import { PathDisplayProps } from "../../../../packages/common/src/types/map_page_types.ts";
 import { Node, Path } from "common/src/DataStructures.ts";
 import React, { SVGProps, CSSProperties, useEffect } from "react";
+import { useMapContext } from "./MapContext.ts";
 
-export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
-  const paths: Array<Path> = props.path;
+export default PathDisplay;
+
+function PathDisplay(props: PathDisplayProps): React.JSX.Element {
+  const { path, directionsCounter, setDirectionsCounter } = useMapContext();
+  const paths: Array<Path> = path ? path : new Array<Path>();
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
-  const currentPathDisplayed: number = props.currentDirectionsNumber;
 
   useEffect(() => {
-    if (currentPathDisplayed >= paths.length) {
-      props.resetDirections();
+    if (directionsCounter >= paths.length) {
+      setDirectionsCounter(0);
     }
-  }, [currentPathDisplayed, paths.length, props]);
+  }, [setDirectionsCounter, directionsCounter, paths.length, props]);
 
   function getNodes(path: Path): Array<Node> {
     const nodes: Array<Node> = [];
@@ -78,8 +81,7 @@ export function PathDisplay(props: PathDisplayProps): React.JSX.Element {
         </style>
       </defs>
       {paths.map((path, index) => {
-        const strokeColor =
-          index === currentPathDisplayed ? darkBlue : lightBlue;
+        const strokeColor = index === directionsCounter ? darkBlue : lightBlue;
         return (
           <polyline
             key={index}

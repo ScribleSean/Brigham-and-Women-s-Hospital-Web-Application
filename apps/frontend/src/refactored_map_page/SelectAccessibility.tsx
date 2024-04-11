@@ -3,7 +3,7 @@ import { FormControl, Select, Box, MenuItem, SvgIcon } from "@mui/material";
 import { SvgIconProps } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useMapContext } from "./MapContext.ts";
-import { AccessibilityType } from "../map_page/types/map_page_types.ts";
+import { AccessibilityType } from "../../../../packages/common/src/types/map_page_types.ts";
 
 function CustomArrowIcon(props: SvgIconProps) {
   return (
@@ -13,7 +13,7 @@ function CustomArrowIcon(props: SvgIconProps) {
   );
 }
 
-export function AccessibilitySelector() {
+function AccessibilitySelector() {
   const { selectedAccessibility, setSelectedAccessibility } = useMapContext();
 
   const handleChange = (event: SelectChangeEvent<AccessibilityType>) => {
@@ -84,3 +84,5 @@ export function AccessibilitySelector() {
     </Box>
   );
 }
+
+export default AccessibilitySelector;

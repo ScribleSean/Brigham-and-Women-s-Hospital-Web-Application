@@ -1,6 +1,12 @@
-import { EdgesByFloor, EdgesDisplayProps } from "./types/map_page_types.ts";
+import {
+  EdgesByFloor,
+  EdgesDisplayProps,
+} from "../../../../packages/common/src/types/map_page_types.ts";
 import { FloorType, Node, Edge } from "common/src/DataStructures.ts";
 import React, { SVGProps, CSSProperties } from "react";
+import { useMapContext } from "./MapContext.ts";
+
+export default EdgesDisplay;
 
 function getEdgesByFloor(
   allEdges: EdgesByFloor | null,
@@ -22,13 +28,12 @@ function getEdgesByFloor(
   }
 }
 
-export function EdgesDisplay(props: EdgesDisplayProps): React.JSX.Element {
-  const edges: EdgesByFloor | null = props.edges;
+function EdgesDisplay(props: EdgesDisplayProps): React.JSX.Element {
+  const { currentFloor, edgesByFloor } = useMapContext();
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
-  const floor: FloorType = props.floor;
 
-  const currentEdges: Array<Edge> = getEdgesByFloor(edges, floor);
+  const currentEdges: Array<Edge> = getEdgesByFloor(edgesByFloor, currentFloor);
 
   function getEdgeCoordinates(edge: Edge): string {
     const nodes: [Node, Node] = [edge.startNode, edge.endNode];

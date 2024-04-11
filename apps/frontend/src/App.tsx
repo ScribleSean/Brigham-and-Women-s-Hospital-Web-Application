@@ -12,7 +12,7 @@ import GiftRequest from "./routes/service_request_routes/GiftRequest.tsx";
 import MedicineRequest from "./routes/service_request_routes/MedicineRequest.tsx";
 import MedicalDeviceRequest from "./routes/service_request_routes/MedicalDeviceRequest.tsx";
 import "./index.css";
-import MapWrapper from "./map_page/MapWrapper.tsx";
+import Map from "./refactored_map_page/Map.tsx";
 import RoomScheduling from "./routes/service_request_routes/RoomScheduling.tsx";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: <MapWrapper />,
+          element: <Map />,
         },
         {
           path: "/csv-page",

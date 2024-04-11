@@ -1,4 +1,4 @@
-import {createContext, useContext} from "react";
+import { createContext, useContext } from "react";
 import {
   FloorType,
   Node,
@@ -7,15 +7,17 @@ import {
 } from "common/src/DataStructures.ts";
 import {
   AccessibilityType,
+  EdgesByFloor,
   NodesByFloor,
-} from "../map_page/types/map_page_types.ts";
+} from "../../../../packages/common/src/types/map_page_types.ts";
 
 interface MapContextType {
   startNode: Node | null;
   endNode: Node | null;
 
-  path: Path | null;
+  path: Array<Path> | null;
   nodesByFloor: NodesByFloor | null;
+  edgesByFloor: EdgesByFloor | null;
 
   currentFloor: FloorType;
   directionsCounter: number;
@@ -31,8 +33,9 @@ interface MapContextType {
   setStartNode: (node: Node | null) => void;
   setEndNode: (node: Node | null) => void;
 
-  setPath: (path: Path | null) => void;
+  setPath: (path: Array<Path> | null) => void;
   setNodesByFloor: (nodesByFloor: NodesByFloor | null) => void;
+  setEdgesByFloor: (edgesByFloor: EdgesByFloor | null) => void;
 
   setCurrentFloor: (floor: FloorType) => void;
   setDirectionsCounter: (counter: number) => void;
@@ -54,6 +57,5 @@ function useMapContext() {
   return context;
 }
 export default MapContext;
-export type {MapContextType};
-export {useMapContext};
-
+export type { MapContextType };
+export { useMapContext };
