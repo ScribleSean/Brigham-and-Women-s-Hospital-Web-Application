@@ -7,6 +7,12 @@ import {
   Select,
   SelectChangeEvent,
   Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
 } from "@mui/material";
 import styles from "../../styles/MedicalDeviceRequest.module.css";
@@ -152,6 +158,7 @@ function MedicalDeviceRequest() {
       <div className={`${styles.sanDiv} col-10`}>
         <form className={`${styles.requestForm}`} onSubmit={handleSubmit}>
           <h1>Medical Device Request</h1>
+          <h5>Peter and Sofia</h5>
           <br />
           <div className={`${styles.twoInputRow}`}>
             <TextField
@@ -297,6 +304,36 @@ function MedicalDeviceRequest() {
             </Button>
           </div>
         </form>
+        <br />
+        <div>
+          <h2>Active Requests</h2>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Employee Name</TableCell>
+                  <TableCell>Location</TableCell>
+                  <TableCell>Device</TableCell>
+                  <TableCell>Quantity</TableCell>
+                  <TableCell>Priority</TableCell>
+                  <TableCell>Status</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {submittedRequests.map((request, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{request.employeeName}</TableCell>
+                    <TableCell>{request.location}</TableCell>
+                    <TableCell>{request.deviceName}</TableCell>
+                    <TableCell>{request.deviceQuantity}</TableCell>
+                    <TableCell>{request.priority}</TableCell>
+                    <TableCell>{request.status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </div>
     </>
   );

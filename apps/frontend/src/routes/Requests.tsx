@@ -1,5 +1,8 @@
 import {
+  FormControl,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -8,23 +11,36 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Flower } from "common/src/flowerServiceRequest.ts";
+import { ServiceRequest } from "common/src/serviceRequestTemp.ts";
 import axios from "axios";
 import "../styles/Requests.css";
 
 function Requests() {
-  const [requestData, setRequestData] = useState<Flower[]>();
+  const [requestData, setRequestData] = useState<ServiceRequest[]>();
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get("/api/flower-service-request");
+      const res = await axios.get("/api/service-request");
       setRequestData(res.data);
       console.log("successfully got data from get request");
     }
     fetchData().then();
   }, []);
 
-  return (
+    const handlePriorityChange = async (row: ServiceRequest, event: React.ChangeEvent<{ value: unknown }>) => {
+        // Update the priority of the ServiceRequest object
+        row.status = event.target.value as string;
+
+        try {
+            // Send a POST request to the server with the updated ServiceRequest object
+            const response = await axios.post("/api/service-request", row);
+            console.log("Form data sent successfully:", response.data);
+        } catch (error) {
+            console.error("Error submitting form data:", error);
+        }
+    };
+
+    return (
     <div>
       <div className={"requests-page-container"}>
         <div>
@@ -55,39 +71,64 @@ function Requests() {
               <TableHead>
                 <TableRow sx={{ border: 2 }}>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Delivery Type</b>
+                    <b>Service ID</b>
                   </TableCell>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Sender Name</b>
+                    <b>Request Type</b>
                   </TableCell>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Patient Name</b>
+                    <b>Employee Name</b>
                   </TableCell>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Room Number</b>
+                    <b>Location</b>
                   </TableCell>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Flower Type</b>
+                    <b>Priority</b>
                   </TableCell>
                   <TableCell sx={{ border: 2 }}>
-                    <b>Message</b>
+                    <b>Status</b>
                   </TableCell>
+                  {/*<TableCell sx={{ border: 2 }}>*/}
+                  {/*  <b>Receiver Name</b>*/}
+                  {/*</TableCell>*/}
+                  {/*  <TableCell sx={{ border: 2 }}>*/}
+                  {/*      <b>Delivery Date</b>*/}
+                  {/*  </TableCell>*/}
                 </TableRow>
               </TableHead>
               <TableBody sx={{ border: 2 }}>
                 {requestData != undefined ? (
                   requestData.map((row) => (
                     <TableRow>
-                      <TableCell sx={{ border: 2 }}>Flower</TableCell>
+                      <TableCell sx={{ border: 2 }}>{row.SRID}</TableCell>
                       <TableCell sx={{ border: 2 }}>
-                        {row.employeeName}
+                        {row.serviceType}
                       </TableCell>
                       <TableCell sx={{ border: 2 }}>
                         {row.employeeName}
                       </TableCell>
                       <TableCell sx={{ border: 2 }}>{row.location}</TableCell>
-                      <TableCell sx={{ border: 2 }}>{row.flowerType}</TableCell>
-                      <TableCell sx={{ border: 2 }}>{row.message}</TableCell>
+                      <TableCell sx={{ border: 2 }}>{row.priority}</TableCell>
+                      <TableCell sx={{ border: 2 }}>
+                        <FormControl size={"small"}>
+                          <Select
+                            id={"status-selector"}
+                            defaultValue={row.status}
+                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                              // @ts-ignore
+                            onChange={(event) => handlePriorityChange(row, event)}
+                          >
+                            <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+                            <MenuItem value={"Assigned"}>Assigned</MenuItem>
+                            <MenuItem value={"In Progress"}>
+                              In Progress
+                            </MenuItem>
+                            <MenuItem value={"Closed"}>Closed</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </TableCell>
+                      {/*<TableCell sx={{ border: 2 }}>{row.receiverName}</TableCell>*/}
+                      {/*<TableCell sx={{ border: 2 }}>{row.date}</TableCell>*/}
                     </TableRow>
                   ))
                 ) : (

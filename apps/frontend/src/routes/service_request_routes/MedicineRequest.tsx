@@ -8,6 +8,12 @@ import {
   Select,
   SelectChangeEvent,
   Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
 } from "@mui/material";
 import "../../styles/MedicineRequest.css";
@@ -156,6 +162,7 @@ function MedicineRequest() {
       <div className={"san-div col-10"}>
         <form className={"request-form"} onSubmit={handleSubmit}>
           <h1>Medicine Request</h1>
+          <h5>Gus and Sean</h5>
           <br />
           <div className={`${styles.twoInputRow}`}>
             <TextField
@@ -305,6 +312,48 @@ function MedicineRequest() {
             </Button>
           </div>
         </form>
+        <br />
+        <div>
+          <h2>Active Requests</h2>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <b>Employee Name</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Location</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Medicine Name</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Dosage Amount</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Priority</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Status</b>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {submittedRequests.map((request) => (
+                  <TableRow>
+                    <TableCell>{request.employeeName}</TableCell>
+                    <TableCell>{request.location}</TableCell>
+                    <TableCell>{request.medicineName}</TableCell>
+                    <TableCell>{request.dosageAmount}</TableCell>
+                    <TableCell>{request.priority}</TableCell>
+                    <TableCell>{request.status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </div>
     </>
   );

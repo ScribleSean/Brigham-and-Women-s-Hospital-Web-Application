@@ -4,7 +4,9 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nodesRouter from "./routes/nodes.ts";
 import pathRouter from "./routes/path.ts";
+import edgesRouter from "./routes/edges.ts";
 import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
+import serviceRequestRouter from "./routes/serviceRequestRouter.ts";
 
 import csvRouter from "./routes/csv-handler";
 import nodeRouter from "./routes/node-route";
@@ -27,6 +29,7 @@ app.use(
 app.use(express.json()); // This processes requests as JSON
 app.use(express.urlencoded({ extended: false })); // URL parser
 app.use(cookieParser()); // Cookie parser
+app.use("/api/service-request", serviceRequestRouter);
 app.use("/api/flower-service-request", flowerRouter);
 app.use("/api/csv-to-json", csvRouter);
 app.use("/api/node-populate", nodeRouter);
@@ -41,6 +44,7 @@ app.use("/healthcheck", (req, res) => {
 
 app.use("/api/nodes", nodesRouter);
 app.use("/api/path", pathRouter);
+app.use("/api/edges", edgesRouter);
 
 /**
  * Catch all 404 errors, and forward them to the error handler

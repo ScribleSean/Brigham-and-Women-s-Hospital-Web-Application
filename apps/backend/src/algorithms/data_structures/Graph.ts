@@ -43,8 +43,14 @@ export class Graph {
     this.adjList.get(startNode)!.push(edge);
   }
 
-  public getEdges(node: Node): Array<Edge> | undefined {
-    return this.adjList.get(node);
+  public getEdgesFromNode(node: Node): Array<Edge> {
+    const edges: Array<Edge> | undefined = this.adjList.get(node);
+    if (edges !== undefined) {
+      return edges;
+    } else {
+      console.log("No Edges");
+      return new Array<Edge>();
+    }
   }
 
   public getEdge(startNode: Node, endNode: Node): Edge | undefined {
@@ -87,6 +93,16 @@ export class Graph {
     return nodes;
   }
 
+  private getEdgesAll(): Array<Edge> {
+    const edges: Array<Edge> = new Array<Edge>();
+    const keys: Array<Node> = Array.from(this.adjList.keys());
+    for (const node of keys) {
+      const edgesFromNode: Array<Edge> = this.getEdgesFromNode(node);
+      edgesFromNode.forEach((edge) => edges.push(edge));
+    }
+    return edges;
+  }
+
   public getNodesByFloor(
     floorType: FloorType,
     includeHallways: boolean,
@@ -111,5 +127,17 @@ export class Graph {
       }
     }
     return nodes;
+  }
+
+  public getEdgesByFloorAll(floorType: FloorType): Array<Edge> {
+    const edges: Array<Edge> = new Array<Edge>();
+    const keys: Array<Node> = Array.from(this.adjList.keys());
+    for (const node of keys) {
+      if (node.getFloor() === floorType) {
+        const edgesFromNode: Array<Edge> = this.getEdgesFromNode(node);
+        edgesFromNode.forEach((edge) => edges.push(edge));
+      }
+    }
+    return edges;
   }
 }

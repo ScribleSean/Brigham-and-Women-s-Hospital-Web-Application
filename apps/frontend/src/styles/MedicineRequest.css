@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   float: right;
+  flex-direction: column;
 }
 
 .request-form {
@@ -32,4 +33,9 @@ h1 {
 .button-container {
   display: flex;
   justify-content: space-between;
+}
+
+h2 {
+  text-align: center;
+  color: #012d5a;
 }
