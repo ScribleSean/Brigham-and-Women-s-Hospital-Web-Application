@@ -40,7 +40,7 @@ function Requests() {
         }
     };
 
-  return (
+    return (
     <div>
       <div className={"requests-page-container"}>
         <div>
@@ -114,6 +114,8 @@ function Requests() {
                           <Select
                             id={"status-selector"}
                             defaultValue={row.status}
+                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                              // @ts-ignore
                             onChange={(event) => handlePriorityChange(row, event)}
                           >
                             <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
