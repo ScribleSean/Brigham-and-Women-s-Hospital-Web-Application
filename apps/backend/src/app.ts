@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nodesRouter from "./routes/nodes.ts";
 import pathRouter from "./routes/path.ts";
+import edgesRouter from "./routes/edges.ts";
 import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
 import serviceRequestRouter from "./routes/serviceRequestRouter.ts";
 
@@ -43,6 +44,7 @@ app.use("/healthcheck", (req, res) => {
 
 app.use("/api/nodes", nodesRouter);
 app.use("/api/path", pathRouter);
+app.use("/api/edges", edgesRouter);
 
 /**
  * Catch all 404 errors, and forward them to the error handler
