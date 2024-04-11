@@ -5,7 +5,7 @@ import { Popover } from "@mui/material";
 import React from "react";
 
 interface UserInfo {
-  isLoggedIn: boolean;
+  bannerState: string;
   name?: string;
   role?: string;
   email?: string;
@@ -26,7 +26,7 @@ function RightSide(props: UserInfo) {
 
   const open = Boolean(anchorEl);
 
-  if (props.isLoggedIn) {
+  if (props.bannerState === "loggedIn") {
     return (
       <div className={`${styles.userInfo}`}>
         <div>
@@ -68,7 +68,7 @@ function RightSide(props: UserInfo) {
         </Popover>
       </div>
     );
-  } else {
+  } else if (props.bannerState === "loggedOut") {
     return (
       <Button
         variant={"outlined"}
@@ -77,6 +77,17 @@ function RightSide(props: UserInfo) {
         }}
       >
         Staff Login
+      </Button>
+    );
+  } else if (props.bannerState === "loginPage") {
+    return (
+      <Button
+        variant={"outlined"}
+        sx={{
+          mx: "0.5vw",
+        }}
+      >
+        Back to Home
       </Button>
     );
   }
@@ -91,7 +102,7 @@ function Banner(props: UserInfo) {
           <h5 className={`${styles.title}`}>Brigham & Women's Hospital</h5>
         </div>
         <RightSide
-          isLoggedIn={props.isLoggedIn}
+          bannerState={props.bannerState}
           name={props.name}
           role={props.role}
           email={props.email}

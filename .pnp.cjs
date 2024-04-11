@@ -71,6 +71,7 @@ const RAW_RUNTIME_STATE =
           ["@prisma/client", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.12.0"],\
           ["@types/bootstrap", "npm:5.2.10"],\
           ["@types/jquery", "npm:3.5.29"],\
+          ["@types/prop-types", "npm:15.7.12"],\
           ["@types/react", "npm:18.2.73"],\
           ["@types/react-dom", "npm:18.2.18"],\
           ["@vitest/ui", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:0.33.0"],\
@@ -86,6 +87,7 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:2.8.8"],\
           ["prettier-config-custom", "workspace:configs/prettier-config-custom"],\
           ["prisma", "npm:5.12.0"],\
+          ["prop-types", "npm:15.8.1"],\
           ["react", "npm:18.2.0"],\
           ["react-bootstrap", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:2.10.2"],\
           ["react-dom", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:18.2.0"],\
@@ -1220,12 +1222,12 @@ const RAW_RUNTIME_STATE =
           ["@material-ui/core", null],\
           ["@types/date-io__core", null],\
           ["@types/material-ui__core", null],\
-          ["@types/prop-types", null],\
+          ["@types/prop-types", "npm:15.7.12"],\
           ["@types/react", "npm:18.2.73"],\
           ["@types/react-dom", "npm:18.2.18"],\
           ["@types/styled-jsx", "npm:2.2.9"],\
           ["clsx", "npm:1.2.1"],\
-          ["prop-types", null],\
+          ["prop-types", "npm:15.8.1"],\
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:18.2.0"],\
           ["react-transition-group", "virtual:4f9135f288d91920a2ec5643c880e3973dd9a66e2187a7f252feb4bb59ce53ec835762ac8423ba66eb11dc71d938a3515b08288ad1441aa21872886068906a46#npm:4.4.5"],\
@@ -9481,6 +9483,7 @@ const RAW_RUNTIME_STATE =
           ["@prisma/client", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.12.0"],\
           ["@types/bootstrap", "npm:5.2.10"],\
           ["@types/jquery", "npm:3.5.29"],\
+          ["@types/prop-types", "npm:15.7.12"],\
           ["@types/react", "npm:18.2.73"],\
           ["@types/react-dom", "npm:18.2.18"],\
           ["@vitest/ui", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:0.33.0"],\
@@ -9496,6 +9499,7 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:2.8.8"],\
           ["prettier-config-custom", "workspace:configs/prettier-config-custom"],\
           ["prisma", "npm:5.12.0"],\
+          ["prop-types", "npm:15.8.1"],\
           ["react", "npm:18.2.0"],\
           ["react-bootstrap", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:2.10.2"],\
           ["react-dom", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:18.2.0"],\

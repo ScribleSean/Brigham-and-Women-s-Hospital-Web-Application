@@ -69,7 +69,7 @@ function App() {
     return (
       <div>
         <SideNavbar />
-        <Banner isLoggedIn={false} />
+        <Banner bannerState={"loggedOut"} />
         <Outlet />
       </div>
     );
