@@ -1,21 +1,72 @@
-import { PathDisplayProps } from "../../../../packages/common/src/types/map_page_types.ts";
+import {
+  AccessibilityType,
+  PathDisplayProps,
+  PathOptionsRequest,
+  StartEndNodes,
+} from "common/src/types/map_page_types.ts";
 import { Node, Path } from "common/src/DataStructures.ts";
-import React, { SVGProps, CSSProperties, useEffect } from "react";
+import React, { SVGProps, CSSProperties, useEffect, useState } from "react";
 import { useMapContext } from "./MapContext.ts";
+import axios from "axios";
 
 export default PathDisplay;
 
 function PathDisplay(props: PathDisplayProps): React.JSX.Element {
-  const { path, directionsCounter, setDirectionsCounter } = useMapContext();
-  const paths: Array<Path> = path ? path : new Array<Path>();
+  const {
+    startNode,
+    endNode,
+    directionsCounter,
+    setDirectionsCounter,
+    selectedAlgorithm,
+    selectedAccessibility,
+    setCurrentFloor,
+  } = useMapContext();
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
+
+  const [paths, setPaths] = useState<Array<Path>>(new Array<Path>());
 
   useEffect(() => {
     if (directionsCounter >= paths.length) {
       setDirectionsCounter(0);
     }
-  }, [setDirectionsCounter, directionsCounter, paths.length, props]);
+  }, [paths, setDirectionsCounter, directionsCounter]);
+
+  useEffect(() => {
+    async function getPath(): Promise<void> {
+      if (startNode !== null && endNode !== null) {
+        try {
+          const startEndNode: StartEndNodes = {
+            node1ID: startNode.ID,
+            node2ID: endNode.ID,
+          };
+          const pathOptionsRequest: PathOptionsRequest = {
+            algorithm: selectedAlgorithm,
+            includeStairs:
+              selectedAccessibility !== AccessibilityType.wheelchair,
+            nodes: startEndNode,
+            byFloors: true,
+          };
+          const tempPath = (await axios.post("/api/path", pathOptionsRequest))
+            .data as Array<Path>;
+          setPaths(tempPath);
+          setCurrentFloor(tempPath[0].edges[0].startNode.floor);
+        } catch (error) {
+          console.error("Failed to get the path:", error);
+        }
+      } else {
+        setPaths(new Array<Path>());
+      }
+    }
+
+    getPath();
+  }, [
+    setCurrentFloor,
+    selectedAlgorithm,
+    selectedAccessibility,
+    startNode,
+    endNode,
+  ]);
 
   function getNodes(path: Path): Array<Node> {
     const nodes: Array<Node> = [];
@@ -81,7 +132,11 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
         </style>
       </defs>
       {paths.map((path, index) => {
-        const strokeColor = index === directionsCounter ? darkBlue : lightBlue;
+        let strokeColor = lightBlue;
+        if (paths[directionsCounter] === paths[index]) {
+          strokeColor = darkBlue;
+          setCurrentFloor(paths[directionsCounter].edges[0].startNode.floor);
+        }
         return (
           <polyline
             key={index}

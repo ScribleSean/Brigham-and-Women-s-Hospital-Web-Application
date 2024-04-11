@@ -99,7 +99,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       scale={scale}
       onStart={handleStartDrag}
       onStop={handleStopDrag}
-      disabled={editorMode}
+      disabled={!editorMode}
     >
       <button
         style={nodeStyle}

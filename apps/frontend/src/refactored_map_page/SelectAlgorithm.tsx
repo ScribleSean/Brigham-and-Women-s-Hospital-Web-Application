@@ -21,7 +21,7 @@ function CustomArrowIcon(props: SvgIconProps) {
 function AlgorithmSelector() {
   const { selectedAlgorithm, setSelectedAlgorithm } = useMapContext();
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
+  const handleChange = (event: SelectChangeEvent<AlgorithmType>) => {
     setSelectedAlgorithm(event.target.value as AlgorithmType);
   };
 
@@ -78,10 +78,10 @@ function AlgorithmSelector() {
               },
             }}
           >
-            <MenuItem value={"_BFS"}>BFS</MenuItem>
-            <MenuItem value={"_DFS"}>DFS</MenuItem>
-            <MenuItem value={"_Dijkstra"}>Dijkstra's</MenuItem>
-            <MenuItem value={"_ASTAR"}>ASTAR</MenuItem>
+            <MenuItem value={AlgorithmType._BFS}>BFS</MenuItem>
+            <MenuItem value={AlgorithmType._DFS}>DFS</MenuItem>
+            <MenuItem value={AlgorithmType._Dijkstra}>Dijkstra's</MenuItem>
+            <MenuItem value={AlgorithmType._ASTAR}>ASTAR</MenuItem>
           </Select>
         </Box>
       </FormControl>

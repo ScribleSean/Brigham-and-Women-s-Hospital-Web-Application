@@ -1,5 +1,5 @@
 import { BuildingMap, FloorMap } from "common/src/BuildingClasses.ts";
-import { FloorType, Node, Path } from "common/src/DataStructures.ts";
+import { FloorType, Node } from "common/src/DataStructures.ts";
 import React, {
   CSSProperties,
   useCallback,
@@ -8,20 +8,16 @@ import React, {
   useState,
 } from "react";
 import {
-  EdgesByFloor,
   NodesByFloor,
   NodesOptionsRequest,
 } from "common/src/types/map_page_types.ts";
 import axios from "axios";
 import { useMapContext } from "./MapContext.ts";
 import {
-  AccessibilityType,
   EdgesDisplayProps,
   NodeDisplayProps,
   PathDisplayProps,
-  PathOptionsRequest,
-  StartEndNodes,
-} from "../../../../packages/common/src/types/map_page_types.ts";
+} from "common/src/types/map_page_types.ts";
 import EdgesDisplay from "./DisplayEdges.tsx";
 import PathDisplay from "./DisplayPath.tsx";
 import NodeDisplay from "./DisplayNode.tsx";
@@ -49,20 +45,7 @@ function getNodesByFloor(
 }
 
 function FloorDisplay() {
-  const {
-    currentFloor,
-    nodesByFloor,
-    setNodesByFloor,
-    setEdgesByFloor,
-    editorMode,
-    selectedAccessibility,
-    selectedAlgorithm,
-    path,
-    setPath,
-    setDirectionsCounter,
-    startNode,
-    endNode,
-  } = useMapContext();
+  const { currentFloor, nodesByFloor, setNodesByFloor } = useMapContext();
 
   const buildingMap: BuildingMap = new BuildingMap([
     new FloorMap("00_thelowerlevel1.png", FloorType.L1),
@@ -72,63 +55,24 @@ function FloorDisplay() {
     new FloorMap("03_thethirdfloor.png", FloorType.third),
   ]);
 
-  async function getNodes(): Promise<void> {
-    try {
-      const nodesOptionsRequest: NodesOptionsRequest = {
-        includeHallways: false,
-        byFloors: true,
-      };
-      const currentNodes: NodesByFloor = (
-        await axios.post("/api/nodes", nodesOptionsRequest)
-      ).data as NodesByFloor;
-      setNodesByFloor(currentNodes);
-    } catch (error) {
-      console.error("Failed to fetch nodes data:", error);
-    }
-  }
-
-  async function getEdges(): Promise<void> {
-    try {
-      if (!editorMode) {
-        const edgesByfloor: EdgesByFloor = (await axios.get("/api/edges"))
-          .data as EdgesByFloor;
-        setEdgesByFloor(edgesByfloor);
-      } else {
-        setEdgesByFloor(null);
-      }
-    } catch (error) {
-      console.error("Failed to fetch edges data:", error);
-    }
-  }
-
-  getNodes();
-  getEdges();
   useEffect(() => {
-    async function getPath(): Promise<void> {
-      if (startNode !== null && endNode !== null) {
-        try {
-          const startEndNode: StartEndNodes = {
-            node1ID: startNode.ID,
-            node2ID: endNode.ID,
-          };
-          const pathOptionsRequest: PathOptionsRequest = {
-            algorithm: selectedAlgorithm,
-            includeStairs:
-              selectedAccessibility !== AccessibilityType.wheelchair,
-            nodes: startEndNode,
-            byFloors: true,
-          };
-          const tempPath = (await axios.post("/api/path", pathOptionsRequest))
-            .data as Array<Path>;
-          setPath(tempPath);
-        } catch (error) {
-          console.error("Failed to get the path:", error);
-        }
+    async function getNodes(): Promise<void> {
+      try {
+        const nodesOptionsRequest: NodesOptionsRequest = {
+          includeHallways: false,
+          byFloors: true,
+        };
+        const currentNodes: NodesByFloor = (
+          await axios.post("/api/nodes", nodesOptionsRequest)
+        ).data as NodesByFloor;
+        setNodesByFloor(currentNodes);
+      } catch (error) {
+        console.error("Failed to fetch nodes data:", error);
       }
     }
 
-    getPath();
-  }, [setPath, selectedAlgorithm, selectedAccessibility, startNode, endNode]);
+    getNodes();
+  }, [setNodesByFloor]);
 
   const imageWidth: number = 5000;
   const imageHeight: number = 3400;
@@ -171,10 +115,6 @@ function FloorDisplay() {
       updateDimensions();
     }
   };
-
-  useEffect(() => {
-    setDirectionsCounter(0);
-  }, [setDirectionsCounter, path]);
 
   function nodeDisplayProps(node: Node): NodeDisplayProps {
     return {
