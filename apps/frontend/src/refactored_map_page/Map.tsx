@@ -17,7 +17,7 @@ import FloorDisplay from "./DisplayFloor.tsx";
 
 const mapDiv: CSSProperties = {
   height: "100%",
-  maxWidth: "80vw",
+  maxWidth: "100%",
 };
 
 export default Map;

@@ -157,15 +157,13 @@ function FloorDisplay() {
   const divStyleBig: CSSProperties = {
     position: "relative",
     width: "100%",
-    height: "100%",
+    minHeight: "100%",
   };
 
   const divStyle: CSSProperties = {
-    position: "absolute",
     width: "100%",
-    height: "fit",
-    backgroundSize: "100%",
-    backgroundPosition: "center",
+    maxWidth: "100%",
+    height: "auto",
     zIndex: "1",
   };
 
