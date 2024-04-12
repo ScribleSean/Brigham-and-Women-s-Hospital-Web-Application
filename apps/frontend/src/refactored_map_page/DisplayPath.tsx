@@ -55,7 +55,6 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
           const tempPath = (await axios.post("/api/path", pathOptionsRequest))
             .data as Array<Path>;
           setPaths(tempPath);
-          setCurrentFloor(tempPath[0].edges[0].startNode.floor);
         } catch (error) {
           console.error("Failed to get the path:", error);
         }
@@ -66,7 +65,6 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
 
     getPath();
   }, [
-    setCurrentFloor,
     selectedAlgorithm,
     selectedAccessibility,
     startNode,
