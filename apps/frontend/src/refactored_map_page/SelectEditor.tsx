@@ -1,54 +1,40 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
-import { useMapContext } from "./MapContext.ts"; // Adjust the import path as needed
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import { useMapContext } from "./MapContext"; // Adjust the import path as needed
 
 function EditorSelector() {
   const { editorMode, setEditorMode } = useMapContext();
   const [hoverActive, setHoverActive] = useState(false);
 
-  const handleMouseEnter = () => {
-    setHoverActive(true);
-  };
-
-  const handleMouseLeave = () => {
-    setHoverActive(false);
-  };
-
+  const handleMouseEnter = () => setHoverActive(true);
+  const handleMouseLeave = () => setHoverActive(false);
   const handleOnClick = () => {
     setEditorMode(!editorMode);
     setHoverActive(false);
   };
 
   return (
-    <Button
+    <ModeEditOutlineIcon
       onClick={handleOnClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       sx={{
         position: "absolute",
-        width: "7vw",
-        backgroundColor: editorMode ? "#F6BD39" : "#012D5A",
-        color: "white",
-        fontWeight: "bold",
-        fontFamily: "inter",
-        textTransform: "capitalize",
+        backgroundColor: "#ffffff", // White background
+        color: editorMode ? "#F6BD39" : "#012D5A", // Blue pen
+        borderRadius: "50%", // Circular shape
+        width: 55, // Fixed size
+        height: 55, // Fixed size
+        marginLeft: "2.5vw",
+        marginTop: "89vh",
+        padding: "13px",
         boxShadow: 8,
         zIndex: 4,
-        marginLeft: "10vw",
-        marginTop: "22vh",
-        ":hover": {
-          backgroundColor: hoverActive
-            ? editorMode
-              ? "#012D5A!important"
-              : "#F6BD39!important"
-            : editorMode
-              ? "#F6BD39!important"
-              : "#012D5A!important",
+        "&:hover": {
+          backgroundColor: hoverActive ? "#D3E3FC" : "#ffffff", // Light blue on hover
         },
       }}
-    >
-      Edit Map
-    </Button>
+    ></ModeEditOutlineIcon>
   );
 }
 
