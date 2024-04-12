@@ -22,11 +22,12 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
     setCurrentFloor,
     setStartFloor,
     setEndFloor,
+    paths,
+    setPaths,
   } = useMapContext();
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
 
-  const [paths, setPaths] = useState<Array<Path>>(new Array<Path>());
   // avoid conflicts with floor selector
   const [alreadyRedirect, setAlreadyRedirected] = useState<boolean>(false);
 
@@ -72,6 +73,7 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
     setStartFloor,
     setEndFloor,
     directionsCounter,
+    setPaths,
   ]);
 
   function getNodes(path: Path): Array<Node> {

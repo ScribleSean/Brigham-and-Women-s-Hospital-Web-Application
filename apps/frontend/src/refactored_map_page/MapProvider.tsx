@@ -3,7 +3,12 @@ import {
   AccessibilityType,
   NodesByFloor,
 } from "common/src/types/map_page_types.ts";
-import { FloorType, Node, AlgorithmType } from "common/src/DataStructures.ts";
+import {
+  FloorType,
+  Node,
+  AlgorithmType,
+  Path,
+} from "common/src/DataStructures.ts";
 import MapContext from "./MapContext.ts";
 
 interface MapProviderProps {
@@ -15,6 +20,7 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [endNode, setEndNode] = useState<Node | null>(null);
 
   const [nodesByFloor, setNodesByFloor] = useState<NodesByFloor | null>(null);
+  const [paths, setPaths] = useState<Array<Path>>(new Array<Path>());
 
   const [currentFloor, setCurrentFloor] = useState<FloorType>(FloorType.first);
   const [directionsCounter, setDirectionsCounter] = useState<number>(0);
@@ -40,6 +46,8 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     nodesByFloor,
     setNodesByFloor,
+    paths,
+    setPaths,
 
     startFloor,
     setStartFloor,

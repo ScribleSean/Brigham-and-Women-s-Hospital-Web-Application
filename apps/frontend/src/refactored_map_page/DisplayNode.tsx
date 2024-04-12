@@ -1,6 +1,6 @@
 import { NodeDisplayProps } from "common/src/types/map_page_types.ts";
-import React, { CSSProperties, useEffect, useState /*useState*/ } from "react";
-import { Node } from "common/src/DataStructures.ts";
+import React, { CSSProperties, useEffect, useState } from "react";
+import { Node, Path } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
 import "../styles/DisplayNode.css";
@@ -36,6 +36,58 @@ function sameNode(node1: Node | null, node2: Node | null) {
   }
 }
 
+function startBorderNode(node: Node, path: Path) {
+  return path.edges[0].startNode.ID === node.ID;
+}
+
+function endBorderNode(node: Node, path: Path) {
+  const len: number = path.edges.length;
+  if (len === 1) return false;
+  return path.edges[len - 2].endNode.ID === node.ID;
+}
+function nodeInPathChangingFloorStart(node: Node, paths: Array<Path>) {
+  if (paths && paths.length > 0) {
+    return paths.some((path) => {
+      return path.edges.some((edge) => {
+        return (
+          startBorderNode(node, path) &&
+          (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
+          (node.type === "ELEV" || node.type === "STAI")
+        );
+      });
+    });
+  }
+  return false;
+}
+
+function nodeInPathChangingFloorEnd(node: Node, paths: Array<Path>) {
+  if (paths && paths.length > 0) {
+    return paths.some((path) => {
+      return path.edges.some((edge) => {
+        return (
+          endBorderNode(node, path) &&
+          (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
+          (node.type === "ELEV" || node.type === "STAI")
+        );
+      });
+    });
+  }
+  return false;
+}
+
+/**
+ if (paths.length === 0) return false;
+
+ paths.forEach((path: Path) => {
+ const length: number = path.edges.length;
+ const startNode: Node = path.edges[0].startNode;
+ const lastNode: Node = path.edges[length - 1].startNode;
+ if (node.ID === startNode.ID || node.ID === lastNode.ID) {console.log(node);return true;}
+ });
+
+ return false;
+ **/
+
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
@@ -48,6 +100,9 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     editorMode,
     setDisableZoomPanning,
     scale,
+    paths,
+    directionsCounter,
+    setDirectionsCounter,
   } = useMapContext();
   const [triggerRed, setTriggerRed] = useState(false);
 
@@ -89,8 +144,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     left: `${displayX}px`,
     top: `${displayY}px`,
     zIndex: 3,
-    width: "0.5rem",
-    height: "0.5rem",
     borderRadius: "100%",
     padding: "0",
     borderColor: "black",
@@ -98,17 +151,17 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   };
 
   /*
-    const startNodeIconStyle: CSSProperties = {
-        width: "0.5rem",
-        height: "0.5rem",
-        borderColor: "black",
-    };
+      const startNodeIconStyle: CSSProperties = {
+          width: "0.5rem",
+          height: "0.5rem",
+          borderColor: "black",
+      };
 
-    const endNodeIconStyle: CSSProperties = {
-        width: "0.5rem",
-        height: "0.5rem",
-        borderColor: "black",
-    };*/
+      const endNodeIconStyle: CSSProperties = {
+          width: "0.5rem",
+          height: "0.5rem",
+          borderColor: "black",
+      };*/
 
   const handleStartDrag = () => {
     setDisableZoomPanning(true);
@@ -118,11 +171,19 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setDisableZoomPanning(false);
   };
 
+  const handleChangingFloorDownNodeClick = () => {
+    setDirectionsCounter(directionsCounter - 1);
+  };
+
+  const handleChangingFloorUpNodeClick = () => {
+    setDirectionsCounter(directionsCounter + 1);
+  };
+
   return (
     <>
       {sameNode(startNode, node) ? ( // Check if it's the start node
         <button
-          className={"pulseGreen"}
+          className="pulseGreen"
           style={nodeStyle}
           onClick={() => handleNodeSelection(node)}
         ></button>
@@ -132,22 +193,33 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
           style={nodeStyle}
           onClick={() => handleNodeSelection(node)}
         ></button>
-      ) : (
-        (!startNode || !endNode) && ( // Render as a normal node only if either start or end node is undefined
-          <Draggable
-            scale={scale}
-            onStart={handleStartDrag}
-            onStop={handleStopDrag}
-            disabled={!editorMode}
-          >
-            <button
-              className={"none"}
-              style={nodeStyle}
-              onClick={() => handleNodeSelection(node)}
-            ></button>
-          </Draggable>
-        )
-      )}
+      ) : nodeInPathChangingFloorStart(node, paths) ? (
+        // Placeholder for the changing floor sign. Add your JSX here.
+        <button
+          className={triggerRed ? "pulseRed" : "none"}
+          style={nodeStyle}
+          onClick={() => handleChangingFloorDownNodeClick()}
+        ></button>
+      ) : nodeInPathChangingFloorEnd(node, paths) ? (
+        <button
+          className={triggerRed ? "pulseRed" : "none"}
+          style={nodeStyle}
+          onClick={() => handleChangingFloorUpNodeClick()}
+        ></button>
+      ) : !startNode || !endNode ? ( // Render as a normal node only if either start or end node is undefined
+        <Draggable
+          scale={scale}
+          onStart={handleStartDrag}
+          onStop={handleStopDrag}
+          disabled={!editorMode}
+        >
+          <button
+            className="none"
+            style={nodeStyle}
+            onClick={() => handleNodeSelection(node)}
+          ></button>
+        </Draggable>
+      ) : null}
     </>
   );
 }

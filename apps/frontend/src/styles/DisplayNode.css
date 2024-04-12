@@ -42,4 +42,5 @@
 
 .none {
   animation: none;
+  z-index: 4;
 }

@@ -1,5 +1,10 @@
 import { createContext, useContext } from "react";
-import { FloorType, Node, AlgorithmType } from "common/src/DataStructures.ts";
+import {
+  FloorType,
+  Node,
+  AlgorithmType,
+  Path,
+} from "common/src/DataStructures.ts";
 import {
   AccessibilityType,
   NodesByFloor,
@@ -10,6 +15,7 @@ interface MapContextType {
   endNode: Node | null;
 
   nodesByFloor: NodesByFloor | null;
+  paths: Array<Path>;
 
   startFloor: FloorType;
   endFloor: FloorType;
@@ -29,6 +35,7 @@ interface MapContextType {
   setEndNode: (node: Node | null) => void;
 
   setNodesByFloor: (nodesByFloor: NodesByFloor | null) => void;
+  setPaths: (paths: Array<Path>) => void;
 
   setStartFloor: (floor: FloorType) => void;
   setEndFloor: (floor: FloorType) => void;
