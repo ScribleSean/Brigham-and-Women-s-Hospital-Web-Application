@@ -1,0 +1,17 @@
+.newNavBar {
+  height: 100%;
+  width: 5%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #012d5a;
+  color: white;
+  padding-top: 5%;
+}
+
+.navBarIcons {
+  font-size: large;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}

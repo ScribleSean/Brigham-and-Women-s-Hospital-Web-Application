@@ -3,7 +3,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
 import Login from "./routes/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SideNavbar from "./components/SideNavbar.tsx";
+//import SideNavbar from "./components/SideNavbar.tsx";
 import "./styles/App.css";
 import Requests from "./routes/Requests.tsx";
 import { CSVPage } from "./routes/CSVPage.tsx";
@@ -14,6 +14,7 @@ import MedicalDeviceRequest from "./routes/service_request_routes/MedicalDeviceR
 import "./index.css";
 import MapWrapper from "./map_page/MapWrapper.tsx";
 import RoomScheduling from "./routes/service_request_routes/RoomScheduling.tsx";
+import NewSideNavBar from "./components/NewSideNavBar.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -67,7 +68,7 @@ function App() {
   function Root() {
     return (
       <div>
-        <SideNavbar />
+        <NewSideNavBar />
         <Outlet />
       </div>
     );
