@@ -77,6 +77,10 @@ function App() {
         </>
       ),
     },
+    {
+      path: "/navbar-test",
+      element: <NewSideNavBar />,
+    },
   ]);
 
   return <RouterProvider router={router} />;

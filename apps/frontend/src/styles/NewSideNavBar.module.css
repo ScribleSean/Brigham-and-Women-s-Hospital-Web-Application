@@ -1,0 +1,46 @@
+.navbarContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #012d5a;
+  padding-top: 70px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.collapsed {
+  width: 55px;
+}
+
+.expanded {
+  width: 185px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 10px;
+  color: white;
+  margin: 5px 5px 5px 5px;
+  padding: 5px;
+}
+
+.navbarLabels {
+  margin: 0 0 0 10px;
+}
+
+.navButtons {
+  text-decoration: none;
+}
+
+.row:hover {
+  background-color: #cde1f560;
+}
+
+.selected {
+  background-color: #cde1f5;
+  color: #012d5a;
+}
