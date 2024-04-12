@@ -7,3 +7,4 @@ export { Graph } from "./data_structures/Graph.ts";
 export { Path } from "./data_structures/Path.ts";
 export { Queue } from "./data_structures/Queue.ts";
 export { Stack } from "./data_structures/Stack.ts";
+export { AlgorithmType } from "./data_structures/AlgorithmType.ts";

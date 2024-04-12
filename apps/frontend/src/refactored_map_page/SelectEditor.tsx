@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { EditorProps } from "./types/map_page_types.ts";
 import { Button } from "@mui/material";
+import { useMapContext } from "./MapContext.ts"; // Adjust the import path as needed
 
-export default Editor;
-
-function Editor(props: EditorProps) {
+function EditorSelector() {
+  const { editorMode, setEditorMode } = useMapContext();
   const [hoverActive, setHoverActive] = useState(false);
 
   const handleMouseEnter = () => {
@@ -14,8 +13,9 @@ function Editor(props: EditorProps) {
   const handleMouseLeave = () => {
     setHoverActive(false);
   };
+
   const handleOnClick = () => {
-    props.changeEditorMode(props.currentEditorMode);
+    setEditorMode(!editorMode);
     setHoverActive(false);
   };
 
@@ -27,7 +27,7 @@ function Editor(props: EditorProps) {
       sx={{
         position: "absolute",
         width: "7vw",
-        backgroundColor: props.currentEditorMode ? "#F6BD39" : "#012D5A",
+        backgroundColor: editorMode ? "#F6BD39" : "#012D5A",
         color: "white",
         fontWeight: "bold",
         fontFamily: "inter",
@@ -38,10 +38,10 @@ function Editor(props: EditorProps) {
         marginTop: "22vh",
         ":hover": {
           backgroundColor: hoverActive
-            ? props.currentEditorMode
+            ? editorMode
               ? "#012D5A!important"
               : "#F6BD39!important"
-            : props.currentEditorMode
+            : editorMode
               ? "#F6BD39!important"
               : "#012D5A!important",
         },
@@ -51,3 +51,5 @@ function Editor(props: EditorProps) {
     </Button>
   );
 }
+
+export default EditorSelector;

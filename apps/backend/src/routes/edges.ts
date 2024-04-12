@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from "express";
 import { FloorType, Graph } from "common/src/DataStructures.ts";
 import { createGraph } from "../algorithms/request_functions/createGraph.ts";
-import { EdgesByFloor } from "../../../frontend/src/map_page/types/map_page_types.ts";
+import { EdgesByFloor } from "../../../../packages/common/src/types/map_page_types.ts";
 
 const router: Router = express.Router();
 

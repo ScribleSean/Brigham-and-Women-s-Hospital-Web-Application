@@ -1,11 +1,12 @@
-import { DirectionsProps } from "./types/map_page_types.ts";
+import React from "react";
 import { Button } from "@mui/material";
+import { useMapContext } from "./MapContext.ts"; // Adjust the import path as needed
 
-export default Directions;
+function DirectionsSelector() {
+  const { directionsCounter, setDirectionsCounter } = useMapContext();
 
-function Directions(props: DirectionsProps) {
   const handleOnClick = () => {
-    props.triggerNextDirection(props.currentDirectionsCounter);
+    setDirectionsCounter(directionsCounter + 1);
   };
 
   return (
@@ -30,3 +31,5 @@ function Directions(props: DirectionsProps) {
     </Button>
   );
 }
+
+export default DirectionsSelector;

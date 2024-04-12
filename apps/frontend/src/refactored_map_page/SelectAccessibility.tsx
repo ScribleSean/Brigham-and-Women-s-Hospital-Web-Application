@@ -2,10 +2,8 @@ import React from "react";
 import { FormControl, Select, Box, MenuItem, SvgIcon } from "@mui/material";
 import { SvgIconProps } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
-import {
-  AccessibilitySelectorProps,
-  AccessibilityType,
-} from "./types/map_page_types.ts";
+import { useMapContext } from "./MapContext.ts";
+import { AccessibilityType } from "../../../../packages/common/src/types/map_page_types.ts";
 
 function CustomArrowIcon(props: SvgIconProps) {
   return (
@@ -15,9 +13,11 @@ function CustomArrowIcon(props: SvgIconProps) {
   );
 }
 
-export function AccessibilitySelector(props: AccessibilitySelectorProps) {
+function AccessibilitySelector() {
+  const { selectedAccessibility, setSelectedAccessibility } = useMapContext();
+
   const handleChange = (event: SelectChangeEvent<AccessibilityType>) => {
-    props.updateAccessibility(event.target.value as AccessibilityType);
+    setSelectedAccessibility(event.target.value as AccessibilityType);
   };
 
   return (
@@ -57,7 +57,7 @@ export function AccessibilitySelector(props: AccessibilitySelectorProps) {
           />
           <Select
             variant="standard"
-            value={props.currentAccessibility}
+            value={selectedAccessibility}
             onChange={handleChange}
             displayEmpty
             IconComponent={CustomArrowIcon}
@@ -75,29 +75,14 @@ export function AccessibilitySelector(props: AccessibilitySelectorProps) {
               },
             }}
           >
-            <MenuItem
-              value={AccessibilityType.all}
-              sx={{
-                fontWeight: "bold",
-                fontFamily: "inter",
-                fontSize: "14px",
-              }}
-            >
-              All Accessible
-            </MenuItem>
-            <MenuItem
-              value={AccessibilityType.wheelchair}
-              sx={{
-                fontWeight: "bold",
-                fontFamily: "inter",
-                fontSize: "14px",
-              }}
-            >
-              Wheelchair Accessible
-            </MenuItem>
+            {/* You might need to adjust these values to match your `AccessibilityType` */}
+            <MenuItem value="all">All Accessible</MenuItem>
+            <MenuItem value="wheelchair">Wheelchair Accessible</MenuItem>
           </Select>
         </Box>
       </FormControl>
     </Box>
   );
 }
+
+export default AccessibilitySelector;

@@ -1,68 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Autocomplete, TextField, Box, InputAdornment } from "@mui/material";
 import LocationIcon from "@mui/icons-material/NearMe";
 import CancelIcon from "@mui/icons-material/Cancel";
-import "./LocationSelector.css";
-import {
-  NodesOptionsRequest,
-  Location,
-  LocationSelectorProps,
-} from "./types/map_page_types";
-import axios from "axios";
-import { Node } from "common/src/DataStructures";
+import "../map_page/LocationSelector.css";
+import { Node } from "common/src/DataStructures.ts";
+import { useMapContext } from "./MapContext.ts";
+import { NodesByFloor } from "../../../../packages/common/src/types/map_page_types.ts";
 
-export function LocationSelector(
-  props: LocationSelectorProps,
-): React.JSX.Element {
-  const [locations, setLocations] = useState<Array<Location>>([]);
-  const [location, setLocation] = useState<Location | null>(null);
-  const [destination, setDestination] = useState<Location | null>(null);
+function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
+  const nodes: Array<Node> = new Array<Node>();
+  if (!nodesByFloor) return nodes;
+  nodesByFloor.L2.forEach((node) => nodes.push(node));
+  nodesByFloor.L1.forEach((node) => nodes.push(node));
+  nodesByFloor.firstFloor.forEach((node) => nodes.push(node));
+  nodesByFloor.secondFloor.forEach((node) => nodes.push(node));
+  nodesByFloor.thirdFloor.forEach((node) => nodes.push(node));
+  return nodes;
+}
 
-  useEffect(() => {
-    async function getLocations(): Promise<void> {
-      try {
-        const nodesOptionsRequest: NodesOptionsRequest = {
-          includeHallways: false,
-          byFloors: false,
-        };
-        const response = await axios.post<Array<Node>>(
-          "/api/nodes",
-          nodesOptionsRequest,
-        );
-        const fetchedLocations = response.data.map((node) => ({
-          ID: node.ID,
-          longName: node.longName,
-        }));
-        setLocations(fetchedLocations);
-      } catch (error) {
-        console.error("Failed to fetch nodes data:", error);
-      }
+function LocationSelector(): React.JSX.Element {
+  const {
+    nodesByFloor,
+    startNode,
+    setStartNode,
+    endNode,
+    setEndNode,
+    setCurrentFloor,
+  } = useMapContext();
+
+  const handleLocationChange = (newValue: Node | null) => {
+    if (newValue) {
+      setCurrentFloor(newValue.floor);
     }
-    getLocations();
-
-    if (location && location.ID) {
-      props.updateStartNodeID(location.ID);
-    }
-
-    if (destination && destination.ID) {
-      props.updateEndNodeID(destination.ID);
-    }
-  }, [destination, location, props]);
-
-  const handleLocationChange = (newValue: Location | null) => {
-    setLocation(newValue);
-  };
-
-  const handleDestinationChange = (newValue: Location | null) => {
-    setDestination(newValue);
+    setStartNode(newValue);
   };
 
   const handleClearClickLocation = () => {
-    setLocation(null);
+    setStartNode(null);
+  };
+
+  const handleDestinationChange = (newValue: Node | null) => {
+    setEndNode(newValue);
   };
 
   const handleClearClickDestination = () => {
-    setDestination(null);
+    setEndNode(null);
   };
 
   return (
@@ -79,10 +61,12 @@ export function LocationSelector(
         }}
       >
         <Autocomplete
-          value={location}
+          value={startNode}
           onChange={(event, newValue) => handleLocationChange(newValue)}
-          options={locations}
-          getOptionLabel={(option) => option.longName}
+          options={nodesByFloorsToNodes(nodesByFloor).sort((a, b) =>
+            a.longName.localeCompare(b.longName),
+          )}
+          getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -114,7 +98,7 @@ export function LocationSelector(
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    {location ? (
+                    {startNode ? (
                       <CancelIcon
                         onClick={() => handleClearClickLocation()}
                         style={{ cursor: "pointer" }}
@@ -127,10 +111,10 @@ export function LocationSelector(
           )}
         />
         <Autocomplete
-          value={destination}
+          value={endNode}
           onChange={(event, newValue) => handleDestinationChange(newValue)}
-          options={locations}
-          getOptionLabel={(option) => option.longName}
+          options={nodesByFloorsToNodes(nodesByFloor)}
+          getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -162,7 +146,7 @@ export function LocationSelector(
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    {destination ? (
+                    {endNode ? (
                       <CancelIcon
                         onClick={() => handleClearClickDestination()}
                         style={{ cursor: "pointer" }}
@@ -178,3 +162,4 @@ export function LocationSelector(
     </div>
   );
 }
+export default LocationSelector;

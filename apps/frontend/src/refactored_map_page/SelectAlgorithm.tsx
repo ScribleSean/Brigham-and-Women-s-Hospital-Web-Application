@@ -8,9 +8,8 @@ import {
   SvgIconProps,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { AlgorithmType } from "common/src/data_structures/AlgorithmType.ts";
-import { AlgorithmSelectorProps } from "./types/map_page_types.ts";
-
+import { useMapContext } from "./MapContext.ts";
+import { AlgorithmType } from "common/src/DataStructures.ts";
 function CustomArrowIcon(props: SvgIconProps) {
   return (
     <SvgIcon {...props}>
@@ -19,9 +18,11 @@ function CustomArrowIcon(props: SvgIconProps) {
   );
 }
 
-export function AlgorithmSelector(props: AlgorithmSelectorProps) {
+function AlgorithmSelector() {
+  const { selectedAlgorithm, setSelectedAlgorithm } = useMapContext();
+
   const handleChange = (event: SelectChangeEvent<AlgorithmType>) => {
-    props.updateAlgorithmFunction(event.target.value as AlgorithmType);
+    setSelectedAlgorithm(event.target.value as AlgorithmType);
   };
 
   return (
@@ -61,7 +62,7 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
           />
           <Select
             variant="standard"
-            value={props.currentAlgorithm}
+            value={selectedAlgorithm}
             onChange={handleChange}
             IconComponent={CustomArrowIcon}
             sx={{
@@ -77,45 +78,15 @@ export function AlgorithmSelector(props: AlgorithmSelectorProps) {
               },
             }}
           >
-            <MenuItem
-              value={AlgorithmType._BFS}
-              sx={{
-                fontWeight: "bold",
-                fontFamily: "inter",
-              }}
-            >
-              BFS
-            </MenuItem>
-            <MenuItem
-              value={AlgorithmType._DFS}
-              sx={{
-                fontWeight: "bold",
-                fontFamily: "inter",
-              }}
-            >
-              DFS
-            </MenuItem>
-            <MenuItem
-              value={AlgorithmType._Dijkstra}
-              sx={{
-                fontWeight: "bold",
-                fontFamily: "inter",
-              }}
-            >
-              Dijkstra's
-            </MenuItem>
-            <MenuItem
-              value={AlgorithmType._ASTAR}
-              sx={{
-                fontWeight: "bold",
-                fontFamily: "inter",
-              }}
-            >
-              ASTAR
-            </MenuItem>
+            <MenuItem value={AlgorithmType._BFS}>BFS</MenuItem>
+            <MenuItem value={AlgorithmType._DFS}>DFS</MenuItem>
+            <MenuItem value={AlgorithmType._Dijkstra}>Dijkstra's</MenuItem>
+            <MenuItem value={AlgorithmType._ASTAR}>ASTAR</MenuItem>
           </Select>
         </Box>
       </FormControl>
     </Box>
   );
 }
+
+export default AlgorithmSelector;
