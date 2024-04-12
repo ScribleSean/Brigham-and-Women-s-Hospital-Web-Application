@@ -108,35 +108,53 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   };
 
   return (
-    <Draggable
-      scale={scale}
-      onStart={handleStartDrag}
-      onStop={handleStopDrag}
-      disabled={!editorMode}
-    >
-      <button
-        className={
-          node === startNode
-            ? "pulseGreen"
-            : node === endNode //&& triggerRed
-              ? "pulseRed"
-              : "none"
-        }
-        style={nodeStyle}
-        //onMouseEnter={() => setHoverActive(true)}
-        //onMouseLeave={() => setHoverActive(false)}
-        onClick={() => handleNodeSelection(node)}
-      ></button>
-
-      {/*{isPathStartNode ? (
-                  <button
-                      style={startNodeIconStyle}
-                  ></button>
-                  ) : isPathEndNode ? (
-                  <button
-                      style={endNodeIconStyle}
-                  ></button>
-              ) : null}*/}
-    </Draggable>
+    <>
+      {sameNode(startNode, node) ? ( // Check if it's the start node
+        <button
+          className={
+            node === startNode
+              ? "pulseGreen"
+              : node === endNode
+                ? "pulseRed"
+                : "none"
+          }
+          style={nodeStyle}
+          onClick={() => handleNodeSelection(node)}
+        ></button>
+      ) : sameNode(endNode, node) ? ( // Check if it's the end node
+        <button
+          className={
+            node === startNode
+              ? "pulseGreen"
+              : node === endNode
+                ? "pulseRed"
+                : "none"
+          }
+          style={nodeStyle}
+          onClick={() => handleNodeSelection(node)}
+        ></button>
+      ) : (
+        (!startNode || !endNode) && ( // Render as a normal node only if either start or end node is undefined
+          <Draggable
+            scale={scale}
+            onStart={handleStartDrag}
+            onStop={handleStopDrag}
+            disabled={!editorMode}
+          >
+            <button
+              className={
+                node === startNode
+                  ? "pulseGreen"
+                  : node === endNode
+                    ? "pulseRed"
+                    : "none"
+              }
+              style={nodeStyle}
+              onClick={() => handleNodeSelection(node)}
+            ></button>
+          </Draggable>
+        )
+      )}
+    </>
   );
 }
