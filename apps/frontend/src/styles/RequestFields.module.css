@@ -16,7 +16,11 @@
   padding: 1% 4%;
 }
 
-.inputRow {
+.descriptionField {
   padding: 0 4%;
   margin-top: 2%;
+}
+
+.inputRow {
+  padding: 0 4%;
 }

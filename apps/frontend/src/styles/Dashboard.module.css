@@ -54,6 +54,11 @@
   margin: 4%;
 }
 
+.inputRow {
+  padding: 0 4%;
+  margin-top: 2%;
+}
+
 .doubleInputRow {
   display: flex;
   flex-direction: row;
@@ -75,4 +80,33 @@
   text-align: center;
   font-style: italic;
   color: darkgray;
+}
+
+.currentRequestsHeader {
+  margin: 3.83%;
+}
+
+.filterSelectors {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tableMutators {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 4% 2%;
+  align-items: end;
+}
+
+.filterMenu {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.filterMenuText {
+  margin-bottom: 8px;
+  color: dimgray;
 }

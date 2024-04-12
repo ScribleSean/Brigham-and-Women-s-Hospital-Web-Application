@@ -62,7 +62,7 @@ function GiftFields() {
           required
         />
       </div>
-      <div className={`${styles.inputRow}`}>
+      <div className={`${styles.descriptionField}`}>
         <TextField
           id={"description"}
           fullWidth
