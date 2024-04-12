@@ -4,13 +4,11 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import { Box } from "@mui/material";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function NewSideNavBar() {
-  // State to track the currently active icon
   const [activeIcon, setActiveIcon] = useState("map");
-
-  // Function to handle icon click, setting the clicked icon as active and others as inactive
-  const handleIconClick = (icon) => {
+  const handleIconClick = (icon: string) => {
     setActiveIcon(icon); // Toggle active icon
   };
 
@@ -25,11 +23,31 @@ function NewSideNavBar() {
               width: 60,
               height: 60,
               backgroundColor: activeIcon === "map" ? "#CDE1F5" : "transparent",
-              borderRadius: "15%",
+              borderRadius: "10%",
+              transition: "width 0.7s ease-in-out",
               "&:hover": {
                 backgroundColor:
                   activeIcon === "map" ? "#CDE1F5" : "rgba(205, 225, 245, 0.4)",
                 cursor: "pointer",
+                width: 200,
+                "& .textNextToIcons": {
+                  position: "absolute",
+                  color: activeIcon === "map" ? "#012d5a" : "#FFFFFF",
+                  top: "50%",
+                  left: "35%",
+                  transform: "translateY(-50%)",
+                  fontSize: 27,
+                  visibility: "visible",
+                  opacity: 1,
+                  transition: "visibility 0s, opacity 0.7s linear",
+                },
+                "& .icon": {
+                  position: "absolute",
+                  top: "50%",
+                  left: "15%",
+                  transform: "translate(-50%, -50%)",
+                  transition: "left 0.7s ease-in-out",
+                },
               },
               "& .icon": {
                 position: "absolute",
@@ -40,10 +58,20 @@ function NewSideNavBar() {
                 zIndex: 1,
                 opacity: 1,
               },
+              "& .textNextToIcons": {
+                position: "absolute",
+                color: "transparent",
+                visibility: "hidden",
+                opacity: 0,
+                transition: "visibility 0s 0.3s, opacity 0.3s linear",
+              },
             }}
             onClick={() => handleIconClick("map")}
           >
-            <MapIcon className="icon" sx={{ fontSize: 55 }} />
+            <Link to="/">
+              <MapIcon className="icon" sx={{ fontSize: 55 }} />
+              <p className="textNextToIcons">Map</p>
+            </Link>
           </Box>
         </div>
         <div className="navBarIcons">
@@ -55,13 +83,33 @@ function NewSideNavBar() {
               height: 60,
               backgroundColor:
                 activeIcon === "dashboard" ? "#CDE1F5" : "transparent",
-              borderRadius: "15%",
+              borderRadius: "10%",
+              transition: "width 0.7s ease-in-out",
               "&:hover": {
                 backgroundColor:
                   activeIcon === "dashboard"
                     ? "#CDE1F5"
                     : "rgba(205, 225, 245, 0.4)",
                 cursor: "pointer",
+                width: 200,
+                "& .textNextToIcons": {
+                  position: "absolute",
+                  color: activeIcon === "dashboard" ? "#012d5a" : "#FFFFFF",
+                  top: "50%",
+                  left: "35%",
+                  transform: "translateY(-50%)",
+                  fontSize: 22,
+                  visibility: "visible",
+                  opacity: 1,
+                  transition: "visibility 0s, opacity 0.7s linear",
+                },
+                "& .icon": {
+                  position: "absolute",
+                  top: "50%",
+                  left: "15%",
+                  transform: "translate(-50%, -50%)",
+                  transition: "left 0.7s ease-in-out",
+                },
               },
               "& .icon": {
                 position: "absolute",
@@ -72,10 +120,20 @@ function NewSideNavBar() {
                 zIndex: 1,
                 opacity: 1,
               },
+              "& .textNextToIcons": {
+                position: "absolute",
+                color: "transparent",
+                visibility: "hidden",
+                opacity: 0,
+                transition: "visibility 0s 0.3s, opacity 0.3s linear",
+              },
             }}
             onClick={() => handleIconClick("dashboard")}
           >
-            <DashboardIcon className="icon" sx={{ fontSize: 55 }} />
+            <Link to="/gift-request">
+              <DashboardIcon className="icon" sx={{ fontSize: 55 }} />
+              <p className="textNextToIcons">Dashboard</p>
+            </Link>
           </Box>
         </div>
         <div className="navBarIcons">
@@ -87,13 +145,33 @@ function NewSideNavBar() {
               height: 60,
               backgroundColor:
                 activeIcon === "listAlt" ? "#CDE1F5" : "transparent",
-              borderRadius: "15%",
+              borderRadius: "10%",
+              transition: "width 0.7s ease-in-out",
               "&:hover": {
                 backgroundColor:
                   activeIcon === "listAlt"
                     ? "#CDE1F5"
                     : "rgba(205, 225, 245, 0.4)",
                 cursor: "pointer",
+                width: 200,
+                "& .textNextToIcons": {
+                  position: "absolute",
+                  color: activeIcon === "listAlt" ? "#012d5a" : "#FFFFFF",
+                  top: "50%",
+                  left: "35%",
+                  transform: "translateY(-50%)",
+                  fontSize: 22,
+                  visibility: "visible",
+                  opacity: 1,
+                  transition: "visibility 0s, opacity 0.7s linear",
+                },
+                "& .icon": {
+                  position: "absolute",
+                  top: "50%",
+                  left: "15%",
+                  transform: "translate(-50%, -50%)",
+                  transition: "left 0.7s ease-in-out",
+                },
               },
               "& .icon": {
                 position: "absolute",
@@ -104,10 +182,20 @@ function NewSideNavBar() {
                 zIndex: 1,
                 opacity: 1,
               },
+              "& .textNextToIcons": {
+                position: "absolute",
+                color: "transparent",
+                visibility: "hidden",
+                opacity: 0,
+                transition: "visibility 0s 0.3s, opacity 0.3s linear",
+              },
             }}
             onClick={() => handleIconClick("listAlt")}
           >
-            <ListAltIcon className="icon" sx={{ fontSize: 55 }} />
+            <Link to="/csv-page">
+              <ListAltIcon className="icon" sx={{ fontSize: 55 }} />
+              <p className="textNextToIcons">File Viewer</p>
+            </Link>
           </Box>
         </div>
       </div>
