@@ -956,6 +956,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/icons-material@npm:^5.15.15":
+  version: 5.15.15
+  resolution: "@mui/icons-material@npm:5.15.15"
+  dependencies:
+    "@babel/runtime": "npm:^7.23.9"
+  peerDependencies:
+    "@mui/material": ^5.0.0
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: e8810d7ffbba914baf21509e5d664f5f23bdba5d2a7ec7c485a3c7ddbbcb417e555c31feff2a3fa9c7d7fa0d22d4380f32488559ab3b170d891641dbc2161b22
+  languageName: node
+  linkType: hard
+
 "@mui/material@npm:^5.15.15":
   version: 5.15.15
   resolution: "@mui/material@npm:5.15.15"
@@ -7525,7 +7541,7 @@ __metadata:
     "@emotion/styled": "npm:^11.11.5"
     "@material-ui/icons": "npm:^4.11.3"
     "@material-ui/pickers": "npm:^3.3.11"
-    "@mui/icons-material": "npm:^5.15.14"
+    "@mui/icons-material": "npm:^5.15.15"
     "@mui/material": "npm:^5.15.15"
     "@mui/styled-engine-sc": "npm:6.0.0-alpha.18"
     "@prisma/client": "npm:^5.12.0"
