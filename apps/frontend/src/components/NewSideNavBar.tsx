@@ -20,11 +20,11 @@ function NewSideNavBar() {
             sx={{
               display: "inline-block",
               position: "relative",
-              width: 60,
-              height: 60,
+              width: 50,
+              height: 50,
               backgroundColor: activeIcon === "map" ? "#CDE1F5" : "transparent",
               borderRadius: "10%",
-              transition: "width 0.7s ease-in-out",
+              transition: "width 0.5s ease-in-out",
               "&:hover": {
                 backgroundColor:
                   activeIcon === "map" ? "#CDE1F5" : "rgba(205, 225, 245, 0.4)",
@@ -39,14 +39,14 @@ function NewSideNavBar() {
                   fontSize: 27,
                   visibility: "visible",
                   opacity: 1,
-                  transition: "visibility 0s, opacity 0.7s linear",
+                  transition: "visibility 0s, opacity 0.5s linear",
                 },
                 "& .icon": {
                   position: "absolute",
                   top: "50%",
                   left: "15%",
                   transform: "translate(-50%, -50%)",
-                  transition: "left 0.7s ease-in-out",
+                  transition: "left 0.5s ease-in-out",
                 },
               },
               "& .icon": {
@@ -69,7 +69,7 @@ function NewSideNavBar() {
             onClick={() => handleIconClick("map")}
           >
             <Link to="/">
-              <MapIcon className="icon" sx={{ fontSize: 55 }} />
+              <MapIcon className="icon" sx={{ fontSize: 45 }} />
               <p className="textNextToIcons">Map</p>
             </Link>
           </Box>
@@ -79,12 +79,12 @@ function NewSideNavBar() {
             sx={{
               display: "inline-block",
               position: "relative",
-              width: 60,
-              height: 60,
+              width: 50,
+              height: 50,
               backgroundColor:
                 activeIcon === "dashboard" ? "#CDE1F5" : "transparent",
               borderRadius: "10%",
-              transition: "width 0.7s ease-in-out",
+              transition: "width 0.5s ease-in-out",
               "&:hover": {
                 backgroundColor:
                   activeIcon === "dashboard"
@@ -101,14 +101,14 @@ function NewSideNavBar() {
                   fontSize: 22,
                   visibility: "visible",
                   opacity: 1,
-                  transition: "visibility 0s, opacity 0.7s linear",
+                  transition: "visibility 0s, opacity 0.5s linear",
                 },
                 "& .icon": {
                   position: "absolute",
                   top: "50%",
                   left: "15%",
                   transform: "translate(-50%, -50%)",
-                  transition: "left 0.7s ease-in-out",
+                  transition: "left 0.5s ease-in-out",
                 },
               },
               "& .icon": {
@@ -131,7 +131,7 @@ function NewSideNavBar() {
             onClick={() => handleIconClick("dashboard")}
           >
             <Link to="/gift-request">
-              <DashboardIcon className="icon" sx={{ fontSize: 55 }} />
+              <DashboardIcon className="icon" sx={{ fontSize: 45 }} />
               <p className="textNextToIcons">Dashboard</p>
             </Link>
           </Box>
@@ -141,12 +141,12 @@ function NewSideNavBar() {
             sx={{
               display: "inline-block",
               position: "relative",
-              width: 60,
-              height: 60,
+              width: 50,
+              height: 50,
               backgroundColor:
                 activeIcon === "listAlt" ? "#CDE1F5" : "transparent",
               borderRadius: "10%",
-              transition: "width 0.7s ease-in-out",
+              transition: "width 0.5s ease-in-out",
               "&:hover": {
                 backgroundColor:
                   activeIcon === "listAlt"
@@ -163,14 +163,14 @@ function NewSideNavBar() {
                   fontSize: 22,
                   visibility: "visible",
                   opacity: 1,
-                  transition: "visibility 0s, opacity 0.7s linear",
+                  transition: "visibility 0s, opacity 0.5s linear",
                 },
                 "& .icon": {
                   position: "absolute",
                   top: "50%",
                   left: "15%",
                   transform: "translate(-50%, -50%)",
-                  transition: "left 0.7s ease-in-out",
+                  transition: "left 0.5s ease-in-out",
                 },
               },
               "& .icon": {
@@ -193,7 +193,7 @@ function NewSideNavBar() {
             onClick={() => handleIconClick("listAlt")}
           >
             <Link to="/csv-page">
-              <ListAltIcon className="icon" sx={{ fontSize: 55 }} />
+              <ListAltIcon className="icon" sx={{ fontSize: 45 }} />
               <p className="textNextToIcons">File Viewer</p>
             </Link>
           </Box>

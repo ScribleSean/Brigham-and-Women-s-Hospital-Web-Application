@@ -1,18 +1,17 @@
 .newNavBar {
   height: 100%;
-  width: 5%;
+  width: 70px;
   position: fixed;
   top: 0;
   left: 0;
   background-color: #012d5a;
   color: white;
   padding-top: 5%;
-  transition: width 1s ease-in-out;
+  transition: width 0.5s ease-in-out;
 }
 
 .newNavBar:hover {
   width: 15%;
-  transition: 1s;
 }
 
 .navBarIcons {
