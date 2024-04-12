@@ -63,7 +63,9 @@ function LocationSelector(): React.JSX.Element {
         <Autocomplete
           value={startNode}
           onChange={(event, newValue) => handleLocationChange(newValue)}
-          options={nodesByFloorsToNodes(nodesByFloor)}
+          options={nodesByFloorsToNodes(nodesByFloor).sort((a, b) =>
+            a.longName.localeCompare(b.longName),
+          )}
           getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField
