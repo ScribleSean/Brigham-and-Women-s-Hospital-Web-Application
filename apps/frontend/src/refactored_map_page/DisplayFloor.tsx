@@ -8,16 +8,14 @@ import React, {
   useState,
 } from "react";
 import {
+  EdgesDisplayProps,
+  NodeDisplayProps,
   NodesByFloor,
   NodesOptionsRequest,
+  PathDisplayProps,
 } from "common/src/types/map_page_types.ts";
 import axios from "axios";
 import { useMapContext } from "./MapContext.ts";
-import {
-  EdgesDisplayProps,
-  NodeDisplayProps,
-  PathDisplayProps,
-} from "common/src/types/map_page_types.ts";
 import EdgesDisplay from "./DisplayEdges.tsx";
 import PathDisplay from "./DisplayPath.tsx";
 import NodeDisplay from "./DisplayNode.tsx";
@@ -44,16 +42,16 @@ function getNodesByFloor(
   }
 }
 
+const buildingMap: BuildingMap = new BuildingMap([
+  new FloorMap("00_thelowerlevel1.png", FloorType.L1),
+  new FloorMap("00_thelowerlevel2.png", FloorType.L2),
+  new FloorMap("01_thefirstfloor.png", FloorType.first),
+  new FloorMap("02_thesecondfloor.png", FloorType.second),
+  new FloorMap("03_thethirdfloor.png", FloorType.third),
+]);
+
 function FloorDisplay() {
   const { currentFloor, nodesByFloor, setNodesByFloor } = useMapContext();
-
-  const buildingMap: BuildingMap = new BuildingMap([
-    new FloorMap("00_thelowerlevel1.png", FloorType.L1),
-    new FloorMap("00_thelowerlevel2.png", FloorType.L2),
-    new FloorMap("01_thefirstfloor.png", FloorType.first),
-    new FloorMap("02_thesecondfloor.png", FloorType.second),
-    new FloorMap("03_thethirdfloor.png", FloorType.third),
-  ]);
 
   useEffect(() => {
     async function getNodes(): Promise<void> {

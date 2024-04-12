@@ -25,8 +25,11 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
   const heightScaling: number = props.scaling.heightScaling;
 
   const [paths, setPaths] = useState<Array<Path>>(new Array<Path>());
+  // avoid conflicts with floor selector
+  const [alreadyRedirect, setAlreadyRedirected] = useState<boolean>(false);
 
   useEffect(() => {
+    setAlreadyRedirected(false);
     if (directionsCounter >= paths.length) {
       setDirectionsCounter(0);
     }
@@ -135,7 +138,10 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
         let strokeColor = lightBlue;
         if (paths[directionsCounter] === paths[index]) {
           strokeColor = darkBlue;
-          setCurrentFloor(paths[directionsCounter].edges[0].startNode.floor);
+          if (!alreadyRedirect) {
+            setCurrentFloor(paths[directionsCounter].edges[0].startNode.floor);
+            setAlreadyRedirected(true);
+          }
         }
         return (
           <polyline
