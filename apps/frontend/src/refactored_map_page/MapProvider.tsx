@@ -19,6 +19,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [currentFloor, setCurrentFloor] = useState<FloorType>(FloorType.first);
   const [directionsCounter, setDirectionsCounter] = useState<number>(0);
 
+  const [startFloor, setStartFloor] = useState<FloorType>(FloorType.first);
+  const [endFloor, setEndFloor] = useState<FloorType>(FloorType.first);
+
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<AlgorithmType>(
     AlgorithmType._ASTAR,
   );
@@ -37,6 +40,11 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     nodesByFloor,
     setNodesByFloor,
+
+    startFloor,
+    setStartFloor,
+    endFloor,
+    setEndFloor,
 
     currentFloor,
     setCurrentFloor,

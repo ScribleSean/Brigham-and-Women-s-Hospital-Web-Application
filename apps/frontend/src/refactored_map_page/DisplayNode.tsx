@@ -1,8 +1,9 @@
-import { NodeDisplayProps } from "../../../../packages/common/src/types/map_page_types.ts";
-import React, { CSSProperties /*useState*/ } from "react";
+import { NodeDisplayProps } from "common/src/types/map_page_types.ts";
+import React, { CSSProperties, useState, useEffect } from "react";
 import { Node } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
+import "../styles/DisplayNode.css";
 
 export default NodeDisplay;
 
@@ -30,10 +31,12 @@ function displayToImageCoordinates(x: number, scalingX: number, y: number, scali
 function sameNode(node1: Node | null, node2: Node | null) {
   if (node1 && node2) {
     return node1.ID == node2.ID;
-  } else {
-    return false;
   }
 }
+
+/*function sameFloor(floor1: FloorType | null, floor2: FloorType | null) {
+    return floor1?.toString() === floor2?.toString();
+}*/
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const widthScaling: number = props.scaling.widthScaling;
@@ -47,9 +50,30 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     editorMode,
     setDisableZoomPanning,
     scale,
+    //startFloor,
+    //endFloor,
   } = useMapContext();
+  const [triggerRed, setTriggerRed] = useState(false);
+
+  useEffect(() => {
+    if (startNode) {
+      // Start the green animation immediately
+      // Schedule the red animation to start after 2 seconds (the duration of one green animation)
+      setTimeout(() => {
+        setTriggerRed(true);
+      }, 2000); // Duration of the green pulse animation
+    }
+  }, [startNode]);
+
+  useEffect(() => {
+    if (!startNode || !endNode) {
+      setTriggerRed(false);
+    }
+  }, [startNode, endNode]);
 
   const handleNodeSelection = (node: Node): void => {
+    //console.log(startFloor);
+    //console.log(endFloor);
     if (!startNode) {
       setStartNode(node);
       //console.log("Start node: " + node + ", End node: " + null);
@@ -77,14 +101,27 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     position: "absolute",
     left: `${displayX}px`,
     top: `${displayY}px`,
+    zIndex: 3,
     width: "0.5rem",
     height: "0.5rem",
     borderRadius: "100%",
     padding: "0",
     borderColor: "black",
-    zIndex: "3",
-    backgroundColor: isStartNode ? "green" : isEndNode ? "red" : "white",
+    backgroundColor: isStartNode ? "#00FF00" : isEndNode ? "#FF0000" : "white",
   };
+
+  /*
+    const startNodeIconStyle: CSSProperties = {
+        width: "0.5rem",
+        height: "0.5rem",
+        borderColor: "black",
+    };
+
+    const endNodeIconStyle: CSSProperties = {
+        width: "0.5rem",
+        height: "0.5rem",
+        borderColor: "black",
+    };*/
 
   const handleStartDrag = () => {
     setDisableZoomPanning(true);
@@ -102,11 +139,28 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       disabled={!editorMode}
     >
       <button
+        className={
+          node === startNode
+            ? "pulseGreen"
+            : node === endNode && triggerRed
+              ? "pulseRed"
+              : "none"
+        }
         style={nodeStyle}
         //onMouseEnter={() => setHoverActive(true)}
         //onMouseLeave={() => setHoverActive(false)}
         onClick={() => handleNodeSelection(node)}
       ></button>
+
+      {/*{isPathStartNode ? (
+                  <button
+                      style={startNodeIconStyle}
+                  ></button>
+                  ) : isPathEndNode ? (
+                  <button
+                      style={endNodeIconStyle}
+                  ></button>
+              ) : null}*/}
     </Draggable>
   );
 }
