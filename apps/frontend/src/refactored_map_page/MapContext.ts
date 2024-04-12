@@ -11,6 +11,9 @@ interface MapContextType {
 
   nodesByFloor: NodesByFloor | null;
 
+  startFloor: FloorType;
+  endFloor: FloorType;
+
   currentFloor: FloorType;
   directionsCounter: number;
 
@@ -26,6 +29,9 @@ interface MapContextType {
   setEndNode: (node: Node | null) => void;
 
   setNodesByFloor: (nodesByFloor: NodesByFloor | null) => void;
+
+  setStartFloor: (floor: FloorType) => void;
+  setEndFloor: (floor: FloorType) => void;
 
   setCurrentFloor: (floor: FloorType) => void;
   setDirectionsCounter: (counter: number) => void;

@@ -77,14 +77,27 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     position: "absolute",
     left: `${displayX}px`,
     top: `${displayY}px`,
+    zIndex: 3,
     width: "0.5rem",
     height: "0.5rem",
     borderRadius: "100%",
     padding: "0",
     borderColor: "black",
-    zIndex: "3",
     backgroundColor: isStartNode ? "green" : isEndNode ? "red" : "white",
   };
+
+  /*
+    const startNodeIconStyle: CSSProperties = {
+        width: "0.5rem",
+        height: "0.5rem",
+        borderColor: "black",
+    };
+
+    const endNodeIconStyle: CSSProperties = {
+        width: "0.5rem",
+        height: "0.5rem",
+        borderColor: "black",
+    };*/
 
   const handleStartDrag = () => {
     setDisableZoomPanning(true);
@@ -102,11 +115,28 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       disabled={!editorMode}
     >
       <button
+        className={
+          node === startNode
+            ? "pulseGreen"
+            : node === endNode //&& triggerRed
+              ? "pulseRed"
+              : "none"
+        }
         style={nodeStyle}
         //onMouseEnter={() => setHoverActive(true)}
         //onMouseLeave={() => setHoverActive(false)}
         onClick={() => handleNodeSelection(node)}
       ></button>
+
+      {/*{isPathStartNode ? (
+                  <button
+                      style={startNodeIconStyle}
+                  ></button>
+                  ) : isPathEndNode ? (
+                  <button
+                      style={endNodeIconStyle}
+                  ></button>
+              ) : null}*/}
     </Draggable>
   );
 }

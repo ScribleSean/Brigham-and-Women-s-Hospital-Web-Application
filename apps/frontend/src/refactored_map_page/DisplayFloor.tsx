@@ -102,7 +102,7 @@ function FloorDisplay() {
       updateDimensions();
       isImageLoaded.current = false;
     } else {
-      console.log("here");
+      //console.log("here");
       window.addEventListener("resize", updateDimensions);
       return () => window.removeEventListener("resize", updateDimensions);
     }

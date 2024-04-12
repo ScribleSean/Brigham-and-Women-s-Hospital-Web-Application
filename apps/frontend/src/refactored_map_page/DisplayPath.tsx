@@ -20,6 +20,8 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
     selectedAlgorithm,
     selectedAccessibility,
     setCurrentFloor,
+    setStartFloor,
+    setEndFloor,
   } = useMapContext();
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
@@ -69,6 +71,9 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
     selectedAccessibility,
     startNode,
     endNode,
+    setStartFloor,
+    setEndFloor,
+    directionsCounter,
   ]);
 
   function getNodes(path: Path): Array<Node> {
