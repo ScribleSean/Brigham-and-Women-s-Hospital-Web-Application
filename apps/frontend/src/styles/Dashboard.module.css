@@ -7,16 +7,14 @@
 }
 
 .pageContainer {
-  height: calc(100vh - 70px);
-  width: calc(100vw - 70px);
-  margin-top: 70px;
-  margin-left: 70px;
+  height: 100vh;
+  width: 100vw;
+  padding: calc(1% + 70px) 1% 1% calc(1% + 70px);
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
   background-color: lightblue;
-  padding: 1%;
 }
 
 .currentRequestsContainer {

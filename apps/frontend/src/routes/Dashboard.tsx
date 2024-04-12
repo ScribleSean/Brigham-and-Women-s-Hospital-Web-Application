@@ -5,6 +5,7 @@ import {
   Button,
   FormControl,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -27,6 +28,7 @@ import GiftFields from "../components/RequestFields/GiftFields";
 import { Collapse } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import SearchIcon from "@mui/icons-material/Search";
 
 function createData(
   SRID: number,
@@ -77,7 +79,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <p>more info about the request goes here</p>
@@ -187,17 +189,33 @@ function Dashboard() {
           </h1>
           <hr className={`${styles.divider}`} />
           <div className={`${styles.tableMutators}`}>
-            <TextField
-              id={"searchBar"}
-              label={"Search"}
-              variant={"outlined"}
-              size={"small"}
-              sx={{
-                width: "30%",
-              }}
-            />
             <div className={`${styles.filterMenu}`}>
-              <p className={`${styles.filterMenuText}`}>Filter by:</p>
+              <label htmlFor="searchBar" className={`${styles.filterMenuText}`}>
+                Search
+              </label>
+              <TextField
+                id={"searchBar"}
+                variant={"outlined"}
+                size={"small"}
+                sx={{
+                  width: "80%",
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </div>
+            <div className={`${styles.filterMenu}`}>
+              <label
+                htmlFor={"filterType"}
+                className={`${styles.filterMenuText}`}
+              >
+                Filter by:
+              </label>
               <div className={`${styles.filterSelectors}`}>
                 <FormControl fullWidth size={"small"}>
                   <InputLabel id="filterTypeLabel">Type</InputLabel>
@@ -260,7 +278,7 @@ function Dashboard() {
                 <TableRow>
                   <TableCell />
                   <TableCell>
-                    <b>Request ID</b>
+                    <b>ID</b>
                   </TableCell>
                   <TableCell align="right">
                     <b>Type</b>
