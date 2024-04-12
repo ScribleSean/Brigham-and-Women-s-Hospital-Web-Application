@@ -31,7 +31,7 @@ function RightSide(props: UserInfo) {
       <div className={`${styles.userInfo}`}>
         <div>
           <p className={`${styles.greeting}`}>Hello, {props.name}</p>
-          <p className={`${styles.role}`}>You are logged in as {props.role}</p>
+          <p className={`${styles.role}`}>Logged in as {props.role}</p>
         </div>
         <IconButton onClick={handleClick}>
           <PersonIcon
@@ -39,6 +39,9 @@ function RightSide(props: UserInfo) {
               fontSize: "3rem",
               mx: "0.5vw",
               color: "#012d5a",
+              "&:hover": {
+                color: "#1665c0",
+              },
             }}
           />
         </IconButton>
