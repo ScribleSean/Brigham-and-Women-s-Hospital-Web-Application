@@ -1905,7 +1905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:^15.7.11":
+"@types/prop-types@npm:^15, @types/prop-types@npm:^15.7.11":
   version: 15.7.12
   resolution: "@types/prop-types@npm:15.7.12"
   checksum: ac16cc3d0a84431ffa5cfdf89579ad1e2269549f32ce0c769321fdd078f84db4fbe1b461ed5a1a496caf09e637c0e367d600c541435716a55b1d9713f5035dfe
@@ -7547,6 +7547,7 @@ __metadata:
     "@prisma/client": "npm:^5.12.0"
     "@types/bootstrap": "npm:^5"
     "@types/jquery": "npm:^3.5.29"
+    "@types/prop-types": "npm:^15"
     "@types/react": "npm:^18.2.73"
     "@types/react-dom": "npm:^18.0.11"
     "@vitest/ui": "npm:^0.33.0"
@@ -7562,6 +7563,7 @@ __metadata:
     prettier: "npm:2.8.8"
     prettier-config-custom: "workspace:*"
     prisma: "npm:^5.12.0"
+    prop-types: "npm:^15.8.1"
     react: "npm:^18.2.0"
     react-bootstrap: "npm:^2.10.0"
     react-dom: "npm:^18.2.0"

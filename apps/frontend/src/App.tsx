@@ -15,6 +15,8 @@ import "./index.css";
 import MapWrapper from "./map_page/MapWrapper.tsx";
 import RoomScheduling from "./routes/service_request_routes/RoomScheduling.tsx";
 import NewSideNavBar from "./components/NewSideNavBar.tsx";
+import Banner from "./components/Banner.tsx";
+import Dashboard from "./routes/Dashboard.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -61,6 +63,20 @@ function App() {
       path: "/login",
       element: <Login />,
     },
+    {
+      path: "/dashboard", // this is all placeholder until we have a real login system
+      element: (
+        <>
+          <Banner
+            bannerState={"loggedIn"}
+            name={"Gus"}
+            role={"Admin"}
+            email={"gmmontana@wpi.edu"}
+          />
+          <Dashboard />
+        </>
+      ),
+    },
   ]);
 
   return <RouterProvider router={router} />;
@@ -69,6 +85,7 @@ function App() {
     return (
       <div>
         <NewSideNavBar />
+        <Banner bannerState={"loggedOut"} />
         <Outlet />
       </div>
     );
