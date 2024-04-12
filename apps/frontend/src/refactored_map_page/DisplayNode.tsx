@@ -1,8 +1,9 @@
-import { NodeDisplayProps } from "../../../../packages/common/src/types/map_page_types.ts";
-import React, { CSSProperties /*useState*/ } from "react";
+import { NodeDisplayProps } from "common/src/types/map_page_types.ts";
+import React, { CSSProperties, useEffect, useState /*useState*/ } from "react";
 import { Node } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
+import "../styles/DisplayNode.css";
 
 export default NodeDisplay;
 
@@ -48,6 +49,16 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setDisableZoomPanning,
     scale,
   } = useMapContext();
+  const [triggerRed, setTriggerRed] = useState(false);
+
+  useEffect(() => {
+    if (startNode) {
+      // Schedule the red animation to start after 2 seconds (the duration of one green animation cycle)
+      setTimeout(() => {
+        setTriggerRed(true);
+      }, 2000); // Duration of the green pulse
+    }
+  }, [startNode]);
 
   const handleNodeSelection = (node: Node): void => {
     if (!startNode) {
@@ -111,25 +122,13 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     <>
       {sameNode(startNode, node) ? ( // Check if it's the start node
         <button
-          className={
-            node === startNode
-              ? "pulseGreen"
-              : node === endNode
-                ? "pulseRed"
-                : "none"
-          }
+          className={"pulseGreen"}
           style={nodeStyle}
           onClick={() => handleNodeSelection(node)}
         ></button>
       ) : sameNode(endNode, node) ? ( // Check if it's the end node
         <button
-          className={
-            node === startNode
-              ? "pulseGreen"
-              : node === endNode
-                ? "pulseRed"
-                : "none"
-          }
+          className={triggerRed ? "pulseRed" : "none"}
           style={nodeStyle}
           onClick={() => handleNodeSelection(node)}
         ></button>
@@ -142,13 +141,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
             disabled={!editorMode}
           >
             <button
-              className={
-                node === startNode
-                  ? "pulseGreen"
-                  : node === endNode
-                    ? "pulseRed"
-                    : "none"
-              }
+              className={"none"}
               style={nodeStyle}
               onClick={() => handleNodeSelection(node)}
             ></button>
