@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import styles from "../../styles/MedicalDeviceRequest.module.css";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface FormData {
   employeeName: string;
@@ -123,9 +124,20 @@ function MedicalDeviceRequest() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addSubmittedRequest(formData);
+    //addSubmittedRequest(formData);
+    console.log(formData);
+    try {
+      const response = await axios.post(
+        "/api/medical-device-service-request",
+        formData,
+      );
+      console.log("Form data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
+
     setFormData({
       employeeName: "",
       location: "",
@@ -136,9 +148,9 @@ function MedicalDeviceRequest() {
     });
   };
 
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
+  // useEffect(() => {
+  //   console.log(submittedRequests);
+  // }, [submittedRequests]);
 
   useEffect(() => {
     console.log(formData);

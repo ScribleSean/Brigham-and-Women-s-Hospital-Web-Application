@@ -50,7 +50,8 @@ model ServiceRequest {
   status       String
   serviceType  String
 
-  FlowerServiceRequest FlowerServiceRequest? @relation("FlowerServiceRequest")
+  FlowerServiceRequest        FlowerServiceRequest?        @relation("FlowerServiceRequest")
+  MedicalDeviceServiceRequest MedicalDeviceServiceRequest? @relation("MedicalDeviceServiceRequest")
 }
 
 model FlowerServiceRequest {
@@ -59,6 +60,13 @@ model FlowerServiceRequest {
   flowerType     String
   receiverName   String
   date           String
+}
+
+model MedicalDeviceServiceRequest {
+  ServiceRequest ServiceRequest @relation("MedicalDeviceServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
+  deviceName     String
+  deviceQuantity String
 }
 
 // ONLY LOOK BELOW IF YOU WANT SPOILERS
