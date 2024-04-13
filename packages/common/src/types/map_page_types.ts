@@ -69,6 +69,24 @@ export interface AddNodesOptionsRequest {
   edges: Array<Edge>;
 }
 
+export interface RefactorNodesOptionsRequest {
+  oldNewNodes: Array<OldNewNode>;
+}
+
+export interface RefactorEdgesOptionsRequest {
+  oldNewEdges: Array<OldNewEdge>;
+}
+
+interface OldNewNode {
+  oldNode: Node;
+  newNode: Node;
+}
+
+interface OldNewEdge {
+  oldEdge: Edge;
+  newEdge: Edge;
+}
+
 export enum AccessibilityType {
   all = "all",
   wheelchair = "wheelchair",
