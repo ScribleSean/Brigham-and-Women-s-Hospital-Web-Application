@@ -32,11 +32,10 @@ router.post("/", async function (req, res) {
         deviceQuantity: medicalDevice.deviceQuantity,
       },
     });
-    res
-      .status(200)
-      .json({
-        message: "Medical Device Request has been put into the database",
-      });
+
+    res.status(200).json({
+      message: "Medical Device Request has been put into the database",
+    });
     console.log("Successfully posted to medical device.");
   } catch (error) {
     console.error("Unable to create form");
