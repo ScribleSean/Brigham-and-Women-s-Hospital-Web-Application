@@ -6,6 +6,7 @@ import nodesRouter from "./routes/nodes.ts";
 import pathRouter from "./routes/path.ts";
 import edgesRouter from "./routes/edges.ts";
 import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
+import roomSchedulingRequestRouter from "./routes/roomSchedulingRequestRouter.ts";
 import serviceRequestRouter from "./routes/serviceRequestRouter.ts";
 
 import csvRouter from "./routes/csv-handler";
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: false })); // URL parser
 app.use(cookieParser()); // Cookie parser
 app.use("/api/service-request", serviceRequestRouter);
 app.use("/api/flower-service-request", flowerRouter);
+app.use("/api/room-scheduling-request", roomSchedulingRequestRouter);
 app.use("/api/csv-to-json", csvRouter);
 app.use("/api/node-populate", nodeRouter);
 app.use("/api/edge-populate", edgeRouter);

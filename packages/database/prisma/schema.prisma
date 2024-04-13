@@ -50,7 +50,8 @@ model ServiceRequest {
   status       String
   serviceType  String
 
-  FlowerServiceRequest FlowerServiceRequest? @relation("FlowerServiceRequest")
+  FlowerServiceRequest  FlowerServiceRequest?  @relation("FlowerServiceRequest")
+  RoomSchedulingRequest RoomSchedulingRequest? @relation("RoomSchedulingRequest")
 }
 
 model FlowerServiceRequest {
@@ -59,6 +60,13 @@ model FlowerServiceRequest {
   flowerType     String
   receiverName   String
   date           String
+}
+
+model RoomSchedulingRequest {
+  ServiceRequest ServiceRequest @relation("RoomSchedulingRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
+  startTime      String // dont worry about this really being a DateTime, thats something we implement next tim
+  duration       Int
 }
 
 // ONLY LOOK BELOW IF YOU WANT SPOILERS
