@@ -1,5 +1,6 @@
 .csv-page-container {
   padding-top: 70px;
+  /*width: calc(100vw - 55px);*/
 }
 
 .input-title-text,

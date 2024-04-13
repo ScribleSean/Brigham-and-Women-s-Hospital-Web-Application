@@ -8,6 +8,7 @@ import "../styles/csvPage.css";
 import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import ClearDataButton from "../components/ClearDataButton.tsx";
+import styles from "../styles/CSVPage.module.css";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -25,7 +26,7 @@ function CustomTabPanel(props: TabPanelProps) {
       id={`tabpanel-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box>{children}</Box>}
     </div>
   );
 }
@@ -98,53 +99,52 @@ export function CSVPage() {
   };
 
   return (
-    <div>
-      <div className={"csv-page-container"}>
-        <div className={"header-container"}>
-          <h1 className={"page-title"}>Map Nodes and Edges</h1>
-          <div className={"btn-cluster"}>
-            <ExportAllButton />
-            <ClearDataButton />
-          </div>
-        </div>
-        <Box sx={{ width: "100%" }}>
-          <Box
-            sx={{
-              borderBottom: 1,
-              borderTop: 1,
-              borderColor: "divider",
-            }}
-          >
-            <Tabs value={value} onChange={handleChange} variant={"fullWidth"}>
-              <Tab label="Nodes" />
-              <Tab label="Edges" />
-            </Tabs>
-          </Box>
-          <CustomTabPanel value={value} index={0}>
-            <div className={"input-container"}>
-              <h1 className={"input-title-text"}>Node Data</h1>
-              <div className={"btn-cluster"}>
-                <FileUpload onFileDrop={handleNodeFileDrop} />
-                <ExportNodeDataButton />
-              </div>
-            </div>
-            <GetDataNodes />
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-            <div className={"input-container"}>
-              <h1 className={"input-title-text"}>Edge Data</h1>
-              <div className={"btn-cluster"}>
-                <FileUpload onFileDrop={handleEdgeFileDrop} />
-                <ExportEdgeDataButton />
-              </div>
-            </div>
-            <GetDataEdges />
-          </CustomTabPanel>
-        </Box>
-        <div>
-          <p className={"footer"}>the end</p>
+    <div className={`${styles.pageContainer}`}>
+      <div className={`${styles.header}`}>
+        <h1 className={`${styles.pageTitle}`}>Map Nodes and Edges</h1>
+        <div className={`${styles.buttonCluster}`}>
+          <ExportAllButton />
+          <ClearDataButton />
         </div>
       </div>
+      <div className={`${styles.tabs}`}>
+        <Box
+          sx={{
+            border: 1,
+            borderRadius: "5px",
+            borderColor: "divider",
+          }}
+        >
+          <Tabs value={value} onChange={handleChange} variant={"fullWidth"}>
+            <Tab label="Nodes" />
+            <Tab label="Edges" />
+          </Tabs>
+        </Box>
+      </div>
+      <CustomTabPanel value={value} index={0}>
+        <div className={`${styles.tabPanel}`}>
+          <div className={`${styles.subheader}`}>
+            <h2 className={`${styles.pageSubheading}`}>Nodes</h2>
+            <div className={`${styles.buttonCluster}`}>
+              <FileUpload onFileDrop={handleNodeFileDrop} />
+              <ExportNodeDataButton />
+            </div>
+          </div>
+          <GetDataNodes />
+        </div>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <div className={`${styles.tabPanel}`}>
+          <div className={`${styles.subheader}`}>
+            <h2 className={`${styles.pageSubheading}`}>Edges</h2>
+            <div className={`${styles.buttonCluster}`}>
+              <FileUpload onFileDrop={handleEdgeFileDrop} />
+              <ExportEdgeDataButton />
+            </div>
+          </div>
+          <GetDataEdges />
+        </div>
+      </CustomTabPanel>
     </div>
   );
 }
