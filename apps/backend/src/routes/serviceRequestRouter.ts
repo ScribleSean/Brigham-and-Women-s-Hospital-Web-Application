@@ -1,7 +1,7 @@
 // generic service request router
 import express, { Router } from "express";
 import PrismaClient from "../bin/database-connection.ts";
-import { ServiceRequest } from "common/src/serviceRequestTemp.ts";
+import { ServiceRequest } from "common/src/backend_interfaces/serviceRequestTemp.ts";
 
 const router: Router = express.Router();
 
