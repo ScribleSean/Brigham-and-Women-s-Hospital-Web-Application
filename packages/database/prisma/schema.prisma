@@ -51,7 +51,7 @@ model ServiceRequest {
   serviceType  String
 
   FlowerServiceRequest FlowerServiceRequest? @relation("FlowerServiceRequest")
-  // GiftServiceRequest   GiftServiceRequest?   @relation("GiftServiceRequest")
+  GiftServiceRequest   giftServiceRequest?   @relation("giftServiceRequest")
 }
 
 model FlowerServiceRequest {
@@ -62,9 +62,9 @@ model FlowerServiceRequest {
   date           String
 }
 
-// model GiftServiceRequest {
-//   ServiceRequest ServiceRequest @relation("GiftServiceRequest", fields: [SRID], references: [SRID])
-//   SRID           Int            @id
-//   giftType       String
-//   message        String
-// }
+model giftServiceRequest {
+  ServiceRequest ServiceRequest @relation("giftServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
+  giftType       String
+  deliveryDate        String
+}
