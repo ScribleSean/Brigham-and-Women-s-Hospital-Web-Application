@@ -22,8 +22,8 @@ function DirectionsSelector() {
         textTransform: "capitalize",
         boxShadow: 8,
         zIndex: 4,
-        marginLeft: "2vw",
-        marginTop: "22vh",
+        marginLeft: "7vw",
+        marginTop: "32vh",
         ":hover": { backgroundColor: "#F6BD39!important" },
       }}
     >

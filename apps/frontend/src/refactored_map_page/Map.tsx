@@ -18,6 +18,7 @@ import FloorDisplay from "./DisplayFloor.tsx";
 const mapDiv: CSSProperties = {
   height: "100%",
   maxWidth: "100%",
+  overflowY: "hidden",
 };
 
 export default Map;
@@ -41,6 +42,7 @@ function MapContents() {
     limitToBounds: true,
     doubleClick: { disabled: false },
     disabled: disableZoomPanning,
+    overflowY: "hidden",
   };
 
   function handleScaleChange(event: ReactZoomPanPinchRef) {
@@ -48,7 +50,7 @@ function MapContents() {
   }
 
   return (
-    <div className="col-10 map-wrapper">
+    <div className={"overflow-hidden"}>
       <TransformWrapper
         {...zoomWrapperProps}
         onTransformed={(e) => handleScaleChange(e)}

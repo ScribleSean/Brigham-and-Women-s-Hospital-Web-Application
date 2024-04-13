@@ -36,7 +36,7 @@ function AccessibilitySelector() {
           display: "flex",
           width: "15vw",
           height: "5vh",
-          marginTop: "1.5rem",
+          marginTop: "12vh",
           marginRight: "2vw",
           alignItems: "center",
           zIndex: 3,

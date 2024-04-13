@@ -65,10 +65,10 @@ export function FloorSelector(): React.JSX.Element {
             disableRipple
             sx={{
               backgroundColor:
-                currentFloor === FloorType.L2 ? "#012D5A" : "white",
+                currentFloor === FloorType.L2 ? "#2196F3" : "white",
               ":hover": {
                 backgroundColor:
-                  currentFloor === FloorType.L2 ? "#012D5A" : "#e0e0e0",
+                  currentFloor === FloorType.L2 ? "#2196F3" : "#e0e0e0",
               },
               height: currentFloor === FloorType.L2 ? "6.5vh" : "5vh",
               width: "10%",
@@ -95,10 +95,10 @@ export function FloorSelector(): React.JSX.Element {
           disableRipple
           sx={{
             backgroundColor:
-              currentFloor === FloorType.L1 ? "#012D5A" : "white",
+              currentFloor === FloorType.L1 ? "#2196F3" : "white",
             ":hover": {
               backgroundColor:
-                currentFloor === FloorType.L1 ? "#012D5A" : "#e0e0e0",
+                currentFloor === FloorType.L1 ? "#2196F3" : "#e0e0e0",
             },
             height: currentFloor === FloorType.L1 ? "6.5vh" : "5vh",
             width: "10%",
@@ -123,10 +123,10 @@ export function FloorSelector(): React.JSX.Element {
           disableRipple
           sx={{
             backgroundColor:
-              currentFloor === FloorType.first ? "#012D5A" : "white",
+              currentFloor === FloorType.first ? "#2196F3" : "white",
             ":hover": {
               backgroundColor:
-                currentFloor === FloorType.first ? "#012D5A" : "#e0e0e0",
+                currentFloor === FloorType.first ? "#2196F3" : "#e0e0e0",
             },
             height: currentFloor === FloorType.first ? "6.5vh" : "5vh",
             width: "10%",
@@ -151,10 +151,10 @@ export function FloorSelector(): React.JSX.Element {
           disableRipple
           sx={{
             backgroundColor:
-              currentFloor === FloorType.second ? "#012D5A" : "white",
+              currentFloor === FloorType.second ? "#2196F3" : "white",
             ":hover": {
               backgroundColor:
-                currentFloor === FloorType.second ? "#012D5A" : "#e0e0e0",
+                currentFloor === FloorType.second ? "#2196F3" : "#e0e0e0",
             },
             height: currentFloor === FloorType.second ? "6.5vh" : "5vh",
             width: "10%",
@@ -179,10 +179,10 @@ export function FloorSelector(): React.JSX.Element {
           disableRipple
           sx={{
             backgroundColor:
-              currentFloor === FloorType.third ? "#012D5A" : "white",
+              currentFloor === FloorType.third ? "#2196F3" : "white",
             ":hover": {
               backgroundColor:
-                currentFloor === FloorType.third ? "#012D5A" : "#e0e0e0",
+                currentFloor === FloorType.third ? "#2196F3" : "#e0e0e0",
             },
             height: currentFloor === FloorType.third ? "6.5vh" : "5vh",
             width: "10%",

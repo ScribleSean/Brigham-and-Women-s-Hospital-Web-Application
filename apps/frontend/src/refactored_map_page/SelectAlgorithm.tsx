@@ -38,7 +38,7 @@ function AlgorithmSelector() {
           display: "flex",
           width: "12vw",
           height: "5vh",
-          marginTop: "1.5rem",
+          marginTop: "12vh",
           marginRight: "18vw",
           alignItems: "center",
           zIndex: 3,

@@ -8,9 +8,9 @@
   padding-left: 15rem;
 }
 
-/*body {*/
-/*  background-color: #e1edfc;*/
-/*}*/
+body {
+  overflow-y: hidden;
+}
 
 h5 {
   color: black;

@@ -25,7 +25,7 @@ function EditorSelector() {
         borderRadius: "50%", // Circular shape
         width: 55, // Fixed size
         height: 55, // Fixed size
-        marginLeft: "2.5vw",
+        marginLeft: "7vw",
         marginTop: "89vh",
         padding: "13px",
         boxShadow: 8,
