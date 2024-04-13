@@ -1,14 +1,44 @@
 import React from "react";
-import { FloorType } from "common/src/DataStructures.ts";
+import { FloorType, Path } from "common/src/DataStructures.ts";
 import { Button } from "@mui/material";
 import "../map_page/FloorSelector.css";
 import { useMapContext } from "./MapContext.ts";
 
 export function FloorSelector(): React.JSX.Element {
-  const { currentFloor, setCurrentFloor } = useMapContext();
+  const {
+    currentFloor,
+    setCurrentFloor,
+    directionsCounter,
+    setDirectionsCounter,
+    paths,
+  } = useMapContext();
 
   const handleOnClick = (floor: FloorType) => {
     setCurrentFloor(floor);
+    const floorPaths = new Array<number>();
+    let counter = 0;
+
+    //console.log("Path Floor " + paths[directionsCounter].edges[0].startNode.floor);
+    //console.log("Current Floor " + currentFloor);
+
+    if (
+      paths.length > 0 &&
+      paths[directionsCounter].edges[0].startNode.floor !== currentFloor
+    ) {
+      paths.forEach((path: Path) => {
+        console.log(path.edges[0].startNode.floor);
+        console.log(currentFloor);
+        if (path.edges[0].startNode.floor === currentFloor) {
+          counter++;
+          floorPaths.push(Math.abs(counter - directionsCounter + counter / 5));
+        }
+      });
+      if (floorPaths.length > 0) {
+        setDirectionsCounter(Math.round(Math.min(...floorPaths)));
+      } else {
+        setCurrentFloor(paths[directionsCounter].edges[0].startNode.floor);
+      }
+    }
   };
 
   return (
