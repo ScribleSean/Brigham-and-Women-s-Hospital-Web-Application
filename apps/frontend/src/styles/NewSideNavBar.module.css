@@ -8,6 +8,7 @@
   overflow-x: hidden;
   transition: 0.5s;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  /*position: fixed;*/
 }
 
 .collapsed {
@@ -45,3 +46,14 @@
   background-color: #cde1f5;
   color: #012d5a;
 }
+
+/* doesn't really work lol (fuck z-index!!!!) */
+/*.grayOut {*/
+/*  background-color: rgba(0, 0, 0, 0.4);*/
+/*  height: calc(100vh);*/
+/*  width: calc(100vw);*/
+/*  position: absolute;*/
+/*  bottom: 0;*/
+/*  right: 0;*/
+/*  z-index: -1;*/
+/*}*/

@@ -17,40 +17,43 @@ function NewSideNavBar() {
   }, [location]);
 
   return (
-    <div
-      className={`${styles.navbarContainer} ${collapsed ? styles.collapsed : styles.expanded}`}
-      onMouseOver={() => {
-        setCollapsed(false);
-      }}
-      onMouseOut={() => {
-        setCollapsed(true);
-      }}
-    >
-      <Link to="/" className={`${styles.navButtons}`}>
-        <div
-          className={`${styles.row} ${currentLocation === "/" ? styles.selected : null}`}
-        >
-          <MapIcon sx={{ fontSize: "35px" }} />
-          <p className={`${styles.navbarLabels}`}>Map</p>
-        </div>
-      </Link>
-      <Link to="/dashboard" className={`${styles.navButtons}`}>
-        <div
-          className={`${styles.row} ${currentLocation === "/dashboard" ? styles.selected : null}\`}`}
-        >
-          <DashboardIcon sx={{ fontSize: "35px" }} />
-          <p className={`${styles.navbarLabels}`}>Dashboard</p>
-        </div>
-      </Link>
-      <Link to="/csv-page" className={`${styles.navButtons}`}>
-        <div
-          className={`${styles.row} ${currentLocation === "/csv-page" ? styles.selected : null}\`}`}
-        >
-          <ListAltIcon sx={{ fontSize: "35px" }} />
-          <p className={`${styles.navbarLabels}`}>File Viewer</p>
-        </div>
-      </Link>
-    </div>
+    <>
+      <div
+        className={`${styles.navbarContainer} ${collapsed ? styles.collapsed : styles.expanded}`}
+        onMouseOver={() => {
+          setCollapsed(false);
+        }}
+        onMouseOut={() => {
+          setCollapsed(true);
+        }}
+      >
+        <Link to="/" className={`${styles.navButtons}`}>
+          <div
+            className={`${styles.row} ${currentLocation === "/" ? styles.selected : null}`}
+          >
+            <MapIcon sx={{ fontSize: "35px" }} />
+            <p className={`${styles.navbarLabels}`}>Map</p>
+          </div>
+        </Link>
+        <Link to="/dashboard" className={`${styles.navButtons}`}>
+          <div
+            className={`${styles.row} ${currentLocation === "/dashboard" ? styles.selected : ""}`}
+          >
+            <DashboardIcon sx={{ fontSize: "35px" }} />
+            <p className={`${styles.navbarLabels}`}>Dashboard</p>
+          </div>
+        </Link>
+        <Link to="/csv-page" className={`${styles.navButtons}`}>
+          <div
+            className={`${styles.row} ${currentLocation === "/csv-page" ? styles.selected : ""}`}
+          >
+            <ListAltIcon sx={{ fontSize: "35px" }} />
+            <p className={`${styles.navbarLabels}`}>File Viewer</p>
+          </div>
+        </Link>
+      </div>
+      {!collapsed ? <div className={`${styles.grayOut}`} /> : ""}
+    </>
   );
 }
 

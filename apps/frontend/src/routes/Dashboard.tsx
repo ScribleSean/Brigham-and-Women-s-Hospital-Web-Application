@@ -18,6 +18,8 @@ import {
   TablePagination,
   TableRow,
   TextField,
+  styled,
+  tableCellClasses,
 } from "@mui/material";
 import React, { useState } from "react";
 import FlowerDeliveryFields from "../components/RequestFields/FlowerDeliveryFields";
@@ -48,9 +50,44 @@ function createData(
   };
 }
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#012D5A",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
 function Row(props: { row: ReturnType<typeof createData> }) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case "Low":
+        return "#00b300";
+      case "Medium":
+        return "#ffcc00";
+      case "High":
+        return "#ff6600";
+      case "Emergency":
+        return "#ff0000";
+      default:
+        return "#FFFFFF";
+    }
+  };
 
   return (
     <React.Fragment>
@@ -66,7 +103,18 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell align="right">{row.requestType}</TableCell>
         <TableCell align="right">{row.employeeName}</TableCell>
         <TableCell align="right">{row.location}</TableCell>
-        <TableCell align="right">{row.priority}</TableCell>
+        <TableCell align="right">
+          <span
+            style={{
+              backgroundColor: getPriorityColor(row.priority),
+              borderRadius: "10px",
+              padding: "4px 8px",
+              color: "white",
+            }}
+          >
+            {row.priority}
+          </span>
+        </TableCell>
         <TableCell align="right">
           <FormControl fullWidth size={"small"}>
             <Select id="filterStatus" defaultValue={row.status}>
@@ -179,7 +227,6 @@ function Dashboard() {
 
   return (
     <>
-      <div className={`${styles.placeholderNavbar}`} />
       <div className={`${styles.pageContainer}`}>
         <div className={`${styles.currentRequestsContainer}`}>
           <h1
@@ -272,30 +319,39 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <TableContainer sx={{ maxHeight: "60%", px: "4%" }}>
+          <TableContainer
+            style={{
+              maxHeight: 440,
+              overflow: "auto",
+              padding: "0 4% 0 4%",
+            }}
+          >
             <Table size={"small"} stickyHeader>
               <TableHead>
-                <TableRow>
-                  <TableCell />
-                  <TableCell>
+                <StyledTableRow>
+                  <StyledTableCell style={{ borderTopLeftRadius: "5px" }} />
+                  <StyledTableCell>
                     <b>ID</b>
-                  </TableCell>
-                  <TableCell align="right">
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
                     <b>Type</b>
-                  </TableCell>
-                  <TableCell align="right">
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
                     <b>Employee</b>
-                  </TableCell>
-                  <TableCell align="right">
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
                     <b>Location</b>
-                  </TableCell>
-                  <TableCell align="right">
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
                     <b>Priority</b>
-                  </TableCell>
-                  <TableCell align="right">
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="right"
+                    style={{ borderTopRightRadius: "5px" }}
+                  >
                     <b>Status</b>
-                  </TableCell>
-                </TableRow>
+                  </StyledTableCell>
+                </StyledTableRow>
               </TableHead>
               <TableBody>
                 {rows
@@ -314,6 +370,12 @@ function Dashboard() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            style={{
+              margin: "0 4% 2% 4%",
+              border: "1px solid lightgray",
+              borderBottomLeftRadius: "5px",
+              borderBottomRightRadius: "5px",
+            }}
           />
         </div>
         <div className={`${styles.requestFormContainer}`}>
@@ -339,71 +401,73 @@ function Dashboard() {
               </FormControl>
             </div>
             <hr className={`${styles.divider}`} />
-            <div className={`${styles.commonInputsContainer}`}>
-              <div className={`${styles.doubleInputRow}`}>
-                <TextField
-                  fullWidth
-                  variant={"outlined"}
-                  label={"Employee Name"}
-                  sx={{ marginRight: "2%" }}
-                  required
-                />
-                <Autocomplete
-                  disablePortal
-                  id="location"
-                  options={locationOptions}
-                  sx={{
-                    marginLeft: "2%",
-                    width: "100%",
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Location" required />
-                  )}
-                />
-              </div>
-              <div
-                className={`${styles.doubleInputRow} ${styles.priorityStatus}`}
-              >
-                <FormControl
-                  fullWidth
-                  required
-                  sx={{
-                    maxWidth: "100%",
-                    marginRight: "2%",
-                  }}
+            <div className={`${styles.formContent}`}>
+              <div className={`${styles.commonInputsContainer}`}>
+                <div className={`${styles.doubleInputRow}`}>
+                  <TextField
+                    fullWidth
+                    variant={"outlined"}
+                    label={"Employee Name"}
+                    sx={{ marginRight: "2%" }}
+                    required
+                  />
+                  <Autocomplete
+                    disablePortal
+                    id="location"
+                    options={locationOptions}
+                    sx={{
+                      marginLeft: "2%",
+                      width: "100%",
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Location" required />
+                    )}
+                  />
+                </div>
+                <div
+                  className={`${styles.doubleInputRow} ${styles.priorityStatus}`}
                 >
-                  <InputLabel id="priorityLabel">Priority</InputLabel>
-                  <Select
-                    labelId="priorityLabel"
-                    id="priority"
-                    label="Priority"
+                  <FormControl
+                    fullWidth
+                    required
+                    sx={{
+                      maxWidth: "100%",
+                      marginRight: "2%",
+                    }}
                   >
-                    <MenuItem value={"Low"}>Low</MenuItem>
-                    <MenuItem value={"Medium"}>Medium</MenuItem>
-                    <MenuItem value={"High"}>High</MenuItem>
-                    <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl
-                  fullWidth
-                  required
-                  sx={{
-                    maxWidth: "100%",
-                    marginLeft: "2%",
-                  }}
-                >
-                  <InputLabel id="statusLabel">Status</InputLabel>
-                  <Select labelId="statusLabel" id="status" label="Status">
-                    <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-                    <MenuItem value={"Assigned"}>Assigned</MenuItem>
-                    <MenuItem value={"In Progress"}>In Progress</MenuItem>
-                    <MenuItem value={"Closed"}>Closed</MenuItem>
-                  </Select>
-                </FormControl>
+                    <InputLabel id="priorityLabel">Priority</InputLabel>
+                    <Select
+                      labelId="priorityLabel"
+                      id="priority"
+                      label="Priority"
+                    >
+                      <MenuItem value={"Low"}>Low</MenuItem>
+                      <MenuItem value={"Medium"}>Medium</MenuItem>
+                      <MenuItem value={"High"}>High</MenuItem>
+                      <MenuItem value={"Emergency"}>Emergency</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl
+                    fullWidth
+                    required
+                    sx={{
+                      maxWidth: "100%",
+                      marginLeft: "2%",
+                    }}
+                  >
+                    <InputLabel id="statusLabel">Status</InputLabel>
+                    <Select labelId="statusLabel" id="status" label="Status">
+                      <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+                      <MenuItem value={"Assigned"}>Assigned</MenuItem>
+                      <MenuItem value={"In Progress"}>In Progress</MenuItem>
+                      <MenuItem value={"Closed"}>Closed</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
               </div>
+              <hr className={`${styles.divider}`} />
+              {currentReqType}
             </div>
-            <hr className={`${styles.divider}`} />
-            {currentReqType}
             {currentReqType.type != "div" ? (
               <>
                 <div className={`${styles.formButtons}`}>

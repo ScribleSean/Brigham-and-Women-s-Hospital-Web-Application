@@ -1,36 +1,37 @@
-.placeholderNavbar {
-  height: calc(100vh - 70px);
-  width: 70px;
-  background-color: #012d5a;
-  position: absolute;
-  bottom: 0;
-}
-
 .pageContainer {
+  /*height: 100vh;*/
+  /*width: 100vw;*/
+  padding: calc(1% + 70px) 0 1% 0;
   height: 100vh;
-  width: 100vw;
-  padding: calc(1% + 70px) 1% 1% calc(1% + 70px);
+  /*padding-top: 70px;*/
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: space-evenly;
   background-color: lightblue;
+  overflow: hidden;
 }
 
 .currentRequestsContainer {
-  width: 54vw;
+  width: 55vw;
   height: 100%;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  display: grid;
+  grid-template-rows: 1fr auto;
 }
 
 .requestFormContainer {
-  /*height: 95%;*/
+  max-height: calc(100vh - 100px);
   width: 38vw;
+  min-width: 0;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  overflow: auto;
+  border: 5px solid white;
 }
 
 .sectionHeader {
@@ -71,7 +72,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 4%;
+  padding: 4%;
 }
 
 .tooltip {
@@ -81,7 +82,7 @@
 }
 
 .currentRequestsHeader {
-  margin: 3.83%;
+  margin: 3.83% 3.83% 0 3.83%;
 }
 
 .filterSelectors {
@@ -94,7 +95,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 0 4% 2%;
+  margin: -2% 4% 2%;
   align-items: end;
 }
 
@@ -107,4 +108,9 @@
 .filterMenuText {
   margin-bottom: 8px;
   color: dimgray;
+}
+
+.table {
+  /*height: 50%;*/
+  overflow-y: auto;
 }

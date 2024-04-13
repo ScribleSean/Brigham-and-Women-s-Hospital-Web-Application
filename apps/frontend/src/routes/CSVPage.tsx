@@ -99,7 +99,7 @@ export function CSVPage() {
 
   return (
     <div>
-      <div className={"csv-page-container col-10"}>
+      <div className={"csv-page-container"}>
         <div className={"header-container"}>
           <h1 className={"page-title"}>Map Nodes and Edges</h1>
           <div className={"btn-cluster"}>
