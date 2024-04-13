@@ -13,32 +13,46 @@ export function FloorSelector(): React.JSX.Element {
     paths,
   } = useMapContext();
 
+  /*function closestPathNextFloor(floorPaths: Array<number>) : number {
+      let closestPath: number = 0;
+      floorPaths.some((pathNum: number) => {
+          console.log("pathNum: " + pathNum);
+          console.log("directionsCounter " + directionsCounter);
+          if (pathNum - directionsCounter > 0) {
+              closestPath = pathNum;
+          } else {
+              closestPath = pathNum;
+          }
+      });
+      console.log("made it");
+      return closestPath;
+  }*/
+
   const handleOnClick = (floor: FloorType) => {
     setCurrentFloor(floor);
+
     const floorPaths = new Array<number>();
     let counter = 0;
 
-    //console.log("Path Floor " + paths[directionsCounter].edges[0].startNode.floor);
-    //console.log("Current Floor " + currentFloor);
-
     if (
       paths.length > 0 &&
-      paths[directionsCounter].edges[0].startNode.floor !== currentFloor
+      paths[directionsCounter].edges[0].startNode.floor !== floor
+      //When currentFloor takes two clicks, currentFloor does not update on first click in time for floor check
     ) {
       paths.forEach((path: Path) => {
-        console.log(path.edges[0].startNode.floor);
-        console.log(currentFloor);
-        if (path.edges[0].startNode.floor === currentFloor) {
-          counter++;
-          floorPaths.push(Math.abs(counter - directionsCounter + counter / 5));
+        if (path.edges[0].startNode.floor === floor) {
+          floorPaths.push(counter);
         }
+        counter++;
       });
       if (floorPaths.length > 0) {
-        setDirectionsCounter(Math.round(Math.min(...floorPaths)));
+        setDirectionsCounter(Math.min(...floorPaths));
       } else {
         setCurrentFloor(paths[directionsCounter].edges[0].startNode.floor);
       }
     }
+    //console.log("Path Floor " + paths[directionsCounter].edges[0].startNode.floor);
+    //console.log("Current Floor " + currentFloor);
   };
 
   return (
