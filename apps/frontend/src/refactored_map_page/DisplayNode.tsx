@@ -45,35 +45,6 @@ function endBorderNode(node: Node, path: Path) {
   if (len === 1) return false;
   return path.edges[len - 2].endNode.ID === node.ID;
 }
-function nodeInPathChangingFloorStart(node: Node, paths: Array<Path>) {
-  if (paths && paths.length > 0) {
-    return paths.some((path) => {
-      return path.edges.some((edge) => {
-        return (
-          startBorderNode(node, path) &&
-          (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
-          (node.type === "ELEV" || node.type === "STAI")
-        );
-      });
-    });
-  }
-  return false;
-}
-
-function nodeInPathChangingFloorEnd(node: Node, paths: Array<Path>) {
-  if (paths && paths.length > 0) {
-    return paths.some((path) => {
-      return path.edges.some((edge) => {
-        return (
-          endBorderNode(node, path) &&
-          (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
-          (node.type === "ELEV" || node.type === "STAI")
-        );
-      });
-    });
-  }
-  return false;
-}
 
 /**
  if (paths.length === 0) return false;
@@ -115,7 +86,44 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     }
   }, [startNode]);
 
+  function nodeInPathChangingFloorStart(node: Node, paths: Array<Path>) {
+    if (paths && paths.length > 0) {
+      return paths.some((path) => {
+        return path.edges.some((edge) => {
+          return (
+            startBorderNode(node, path) &&
+            (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
+            (node.type === "ELEV" || node.type === "STAI") &&
+            paths[directionsCounter].edges[0].startNode.ID === node.ID
+          );
+        });
+      });
+    }
+    return false;
+  }
+
+  function nodeInPathChangingFloorEnd(node: Node, paths: Array<Path>) {
+    if (paths && paths.length > 0) {
+      return paths.some((path) => {
+        return path.edges.some((edge) => {
+          return (
+            endBorderNode(node, path) &&
+            (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
+            (node.type === "ELEV" || node.type === "STAI") &&
+            paths[directionsCounter].edges[
+              paths[directionsCounter].edges.length - 2
+            ].endNode.ID === node.ID
+          );
+        });
+      });
+    }
+    return false;
+  }
+
   const handleNodeSelection = (node: Node): void => {
+    if (editorMode) {
+      return;
+    }
     if (!startNode) {
       setStartNode(node);
       //console.log("Start node: " + node + ", End node: " + null);
@@ -150,6 +158,16 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     backgroundColor: isStartNode ? "green" : isEndNode ? "red" : "white",
   };
 
+  const floorNodeStyle: CSSProperties = {
+    position: "absolute",
+    left: `${displayX}px`,
+    top: `${displayY}px`,
+    zIndex: 3,
+    borderColor: "black",
+    backgroundColor: "white",
+    textAlign: "center",
+  };
+
   /*
       const startNodeIconStyle: CSSProperties = {
           width: "0.5rem",
@@ -171,11 +189,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setDisableZoomPanning(false);
   };
 
-  const handleChangingFloorDownNodeClick = () => {
+  const handleChangingFloorBackNodeClick = () => {
     setDirectionsCounter(directionsCounter - 1);
   };
 
-  const handleChangingFloorUpNodeClick = () => {
+  const handleChangingFloorNextNodeClick = () => {
     setDirectionsCounter(directionsCounter + 1);
   };
 
@@ -196,16 +214,26 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       ) : nodeInPathChangingFloorStart(node, paths) ? (
         // Placeholder for the changing floor sign. Add your JSX here.
         <button
-          className={triggerRed ? "pulseRed" : "none"}
-          style={nodeStyle}
-          onClick={() => handleChangingFloorDownNodeClick()}
-        ></button>
+          style={floorNodeStyle}
+          onClick={() => handleChangingFloorBackNodeClick()}
+        >
+          From Floor{" "}
+          {directionsCounter - 1 >= 0
+            ? paths[directionsCounter - 1].edges[
+                paths[directionsCounter - 1].edges.length - 1
+              ].startNode.floor
+            : ""}
+        </button>
       ) : nodeInPathChangingFloorEnd(node, paths) ? (
         <button
-          className={triggerRed ? "pulseRed" : "none"}
-          style={nodeStyle}
-          onClick={() => handleChangingFloorUpNodeClick()}
-        ></button>
+          style={floorNodeStyle}
+          onClick={() => handleChangingFloorNextNodeClick()}
+        >
+          To Floor{" "}
+          {paths.length > directionsCounter + 1
+            ? paths[directionsCounter + 1].edges[0].startNode.floor
+            : ""}
+        </button>
       ) : !startNode || !endNode ? ( // Render as a normal node only if either start or end node is undefined
         <Draggable
           scale={scale}

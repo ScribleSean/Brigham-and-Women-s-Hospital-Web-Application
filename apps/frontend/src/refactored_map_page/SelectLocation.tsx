@@ -73,7 +73,7 @@ function LocationSelector(): React.JSX.Element {
               label="Enter Location"
               sx={{
                 backgroundColor: "white",
-                width: "15vw",
+                width: "20vw",
                 color: "black",
                 borderRadius: "0.5rem",
                 boxShadow: 8,
@@ -121,7 +121,7 @@ function LocationSelector(): React.JSX.Element {
               label="Enter Destination"
               sx={{
                 backgroundColor: "white",
-                width: "15vw",
+                width: "20vw",
                 color: "black",
                 borderRadius: "0.5rem",
                 boxShadow: 8,
