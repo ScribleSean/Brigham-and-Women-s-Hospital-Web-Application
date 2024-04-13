@@ -3,7 +3,8 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import nodesRouter from "./routes/nodes.ts";
-import deleteNodesRouter from "./routes/deleteNodes.ts";
+import deleteNodesEdgesRouter from "./routes/deleteNodesEdges.ts";
+import addNodesEdgesRouter from "./routes/addNodesEdges.ts";
 import pathRouter from "./routes/path.ts";
 import edgesRouter from "./routes/edges.ts";
 import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
@@ -44,7 +45,8 @@ app.use("/healthcheck", (req, res) => {
 });
 
 app.use("/api/nodes", nodesRouter);
-app.use("/api/delete-nodes", deleteNodesRouter);
+app.use("/api/delete-nodes-and-associated-edges", deleteNodesEdgesRouter);
+app.use("/api/add-nodes-and-associated-edges", addNodesEdgesRouter);
 app.use("/api/path", pathRouter);
 app.use("/api/edges", edgesRouter);
 

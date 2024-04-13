@@ -64,6 +64,11 @@ export interface DeleteNodesOptionsRequest {
   nodes: Array<Node>;
 }
 
+export interface AddNodesOptionsRequest {
+  newNodes: Array<Node>;
+  edges: Array<Edge>;
+}
+
 export enum AccessibilityType {
   all = "all",
   wheelchair = "wheelchair",

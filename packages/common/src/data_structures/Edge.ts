@@ -2,11 +2,13 @@ import { Node } from "./Node.ts";
 import { NodeType } from "./NodeType.ts";
 
 export class Edge {
+  public ID: string;
   public startNode: Node;
   public endNode: Node;
   private readonly weight: number;
 
-  public constructor(startNode: Node, endNode: Node) {
+  public constructor(ID: string, startNode: Node, endNode: Node) {
+    this.ID = ID;
     this.startNode = startNode;
     this.endNode = endNode;
     this.weight = this.setWeight();
