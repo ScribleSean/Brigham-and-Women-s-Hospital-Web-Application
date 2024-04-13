@@ -2,11 +2,15 @@ import createError, { HttpError } from "http-errors";
 import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+
 import nodesRouter from "./routes/nodes.ts";
 import deleteNodesEdgesRouter from "./routes/deleteNodesEdges.ts";
 import addNodesEdgesRouter from "./routes/addNodesEdges.ts";
+import refactorNodesRouter from "./routes/refactorNodes.ts";
+import refactorEdgesRouter from "./routes/refactorEdges.ts";
 import pathRouter from "./routes/path.ts";
 import edgesRouter from "./routes/edges.ts";
+
 import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
 import serviceRequestRouter from "./routes/serviceRequestRouter.ts";
 
@@ -45,6 +49,8 @@ app.use("/healthcheck", (req, res) => {
 });
 
 app.use("/api/nodes", nodesRouter);
+app.use("/api/refactor-nodes", refactorNodesRouter);
+app.use("/api/refactor-edges", refactorEdgesRouter);
 app.use("/api/delete-nodes-and-associated-edges", deleteNodesEdgesRouter);
 app.use("/api/add-nodes-and-associated-edges", addNodesEdgesRouter);
 app.use("/api/path", pathRouter);

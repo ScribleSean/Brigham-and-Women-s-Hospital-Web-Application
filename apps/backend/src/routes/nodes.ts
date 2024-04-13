@@ -4,7 +4,7 @@ import { createGraph } from "../algorithms/request_functions/createGraph.ts";
 import {
   NodesByFloor,
   NodesOptionsRequest,
-} from "../../../../packages/common/src/types/map_page_types.ts";
+} from "common/src/types/map_page_types.ts";
 
 const router: Router = express.Router();
 
