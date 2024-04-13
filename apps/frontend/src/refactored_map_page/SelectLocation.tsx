@@ -63,9 +63,9 @@ function LocationSelector(): React.JSX.Element {
         <Autocomplete
           value={startNode}
           onChange={(event, newValue) => handleLocationChange(newValue)}
-          options={nodesByFloorsToNodes(nodesByFloor).sort((a, b) =>
-            a.longName.localeCompare(b.longName),
-          )}
+          options={nodesByFloorsToNodes(nodesByFloor)
+            .sort((a, b) => a.longName.localeCompare(b.longName))
+            .filter((node) => node.type !== "ELEV" && node.type !== "STAI")}
           getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField
@@ -113,7 +113,9 @@ function LocationSelector(): React.JSX.Element {
         <Autocomplete
           value={endNode}
           onChange={(event, newValue) => handleDestinationChange(newValue)}
-          options={nodesByFloorsToNodes(nodesByFloor)}
+          options={nodesByFloorsToNodes(nodesByFloor)
+            .sort((a, b) => a.longName.localeCompare(b.longName))
+            .filter((node) => node.type !== "ELEV" && node.type !== "STAI")}
           getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField

@@ -1,11 +1,13 @@
 import { NodeDisplayProps } from "common/src/types/map_page_types.ts";
 import React, { CSSProperties, useEffect, useState } from "react";
-import { Node, Path } from "common/src/DataStructures.ts";
+import { Node, NodeType, Path } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
 import "../styles/DisplayNode.css";
 import PlaceIcon from "@mui/icons-material/Place";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
+import ElevatorIcon from "@mui/icons-material/Elevator";
+import StairsIcon from "@mui/icons-material/Stairs";
 
 export default NodeDisplay;
 
@@ -64,6 +66,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     directionsCounter,
     setDirectionsCounter,
   } = useMapContext();
+
   const [triggerRed, setTriggerRed] = useState(false);
 
   useEffect(() => {
@@ -152,7 +155,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     borderRadius: "100%",
     padding: "0",
     borderColor: "black",
-    backgroundColor: "green",
+    color: "darkgreen",
+    //backgroundColor: "green",
   };
 
   const endNodeStyle: CSSProperties = {
@@ -163,7 +167,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     borderRadius: "100%",
     padding: "0",
     borderColor: "black",
-    backgroundColor: "red",
+    color: "darkred",
+    //backgroundColor: "red",
   };
 
   const floorNodeStyle: CSSProperties = {
@@ -174,6 +179,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     borderColor: "black",
     backgroundColor: "white",
     textAlign: "center",
+  };
+
+  const hidden: CSSProperties = {
+    opacity: 0,
   };
 
   const handleStartDrag = () => {
@@ -194,55 +203,96 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   return (
     <>
-      {sameNode(startNode, node) ? ( // Check if it's the start node
-        <PlaceIcon
-          className="pulseGreen"
-          style={startNodeStyle}
-          onClick={() => handleNodeSelection(node)}
-        ></PlaceIcon>
-      ) : sameNode(endNode, node) ? ( // Check if it's the end node
-        <GpsFixedIcon
-          className={triggerRed ? "pulseRed" : "none"}
-          style={endNodeStyle}
-          onClick={() => handleNodeSelection(node)}
-        ></GpsFixedIcon>
-      ) : nodeInPathChangingFloorStart(node, paths) ? (
-        // Placeholder for the changing floor sign. Add your JSX here.
-        <button
-          style={floorNodeStyle}
-          onClick={() => handleChangingFloorBackNodeClick()}
-        >
-          From Floor{" "}
-          {directionsCounter - 1 >= 0
-            ? paths[directionsCounter - 1].edges[
-                paths[directionsCounter - 1].edges.length - 1
-              ].startNode.floor
-            : ""}
-        </button>
-      ) : nodeInPathChangingFloorEnd(node, paths) ? (
-        <button
-          style={floorNodeStyle}
-          onClick={() => handleChangingFloorNextNodeClick()}
-        >
-          To Floor{" "}
-          {paths.length > directionsCounter + 1
-            ? paths[directionsCounter + 1].edges[0].startNode.floor
-            : ""}
-        </button>
-      ) : !startNode || !endNode ? ( // Render as a normal node only if either start or end node is undefined
-        <Draggable
-          scale={scale}
-          onStart={handleStartDrag}
-          onStop={handleStopDrag}
-          disabled={!editorMode}
-        >
-          <button
-            className="none"
-            style={normalNodeStyle}
-            onClick={() => handleNodeSelection(node)}
-          ></button>
-        </Draggable>
-      ) : null}
+      {(node.type === NodeType.ELEV || node.type === NodeType.STAI) && (
+        <>
+          {nodeInPathChangingFloorStart(node, paths) && (
+            <React.Fragment>
+              {node.type === NodeType.ELEV ? (
+                <ElevatorIcon
+                  style={normalNodeStyle}
+                  onClick={handleChangingFloorBackNodeClick}
+                />
+              ) : (
+                <StairsIcon
+                  style={normalNodeStyle}
+                  onClick={handleChangingFloorBackNodeClick}
+                />
+              )}
+            </React.Fragment>
+          )}
+          {nodeInPathChangingFloorEnd(node, paths) && (
+            <React.Fragment>
+              {node.type === NodeType.ELEV ? (
+                <ElevatorIcon
+                  style={normalNodeStyle}
+                  onClick={handleChangingFloorNextNodeClick}
+                />
+              ) : (
+                <StairsIcon
+                  style={normalNodeStyle}
+                  onClick={handleChangingFloorNextNodeClick}
+                />
+              )}
+            </React.Fragment>
+          )}
+          {!nodeInPathChangingFloorStart(node, paths) &&
+            !nodeInPathChangingFloorEnd(node, paths) && (
+              <button style={hidden} />
+            )}
+        </>
+      )}
+      {node.type !== NodeType.ELEV && node.type !== NodeType.STAI && (
+        <>
+          {sameNode(startNode, node) ? (
+            <PlaceIcon
+              className="pulseGreen"
+              style={startNodeStyle}
+              onClick={() => handleNodeSelection(node)}
+            />
+          ) : sameNode(endNode, node) ? (
+            <GpsFixedIcon
+              className={triggerRed ? "pulseRed" : "none"}
+              style={endNodeStyle}
+              onClick={() => handleNodeSelection(node)}
+            />
+          ) : nodeInPathChangingFloorStart(node, paths) ? (
+            <button
+              style={floorNodeStyle}
+              onClick={handleChangingFloorBackNodeClick}
+            >
+              From Floor{" "}
+              {directionsCounter - 1 >= 0
+                ? paths[directionsCounter - 1].edges[
+                    paths[directionsCounter - 1].edges.length - 1
+                  ].startNode.floor
+                : ""}
+            </button>
+          ) : nodeInPathChangingFloorEnd(node, paths) ? (
+            <button
+              style={floorNodeStyle}
+              onClick={handleChangingFloorNextNodeClick}
+            >
+              To Floor{" "}
+              {paths.length > directionsCounter + 1
+                ? paths[directionsCounter + 1].edges[0].startNode.floor
+                : ""}
+            </button>
+          ) : !startNode || !endNode ? (
+            <Draggable
+              scale={scale}
+              onStart={handleStartDrag}
+              onStop={handleStopDrag}
+              disabled={!editorMode}
+            >
+              <button
+                className="none"
+                style={normalNodeStyle}
+                onClick={() => handleNodeSelection(node)}
+              />
+            </Draggable>
+          ) : null}
+        </>
+      )}
     </>
   );
 }
