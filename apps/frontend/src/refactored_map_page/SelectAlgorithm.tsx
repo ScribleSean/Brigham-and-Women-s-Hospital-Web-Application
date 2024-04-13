@@ -19,10 +19,12 @@ function CustomArrowIcon(props: SvgIconProps) {
 }
 
 function AlgorithmSelector() {
-  const { selectedAlgorithm, setSelectedAlgorithm } = useMapContext();
+  const { selectedAlgorithm, setSelectedAlgorithm, setDirectionsCounter } =
+    useMapContext();
 
   const handleChange = (event: SelectChangeEvent<AlgorithmType>) => {
     setSelectedAlgorithm(event.target.value as AlgorithmType);
+    setDirectionsCounter(0);
   };
 
   return (

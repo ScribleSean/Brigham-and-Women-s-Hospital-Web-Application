@@ -60,6 +60,10 @@ export interface NodesOptionsRequest {
   byFloors: boolean;
 }
 
+export interface DeleteNodesOptionsRequest {
+  nodes: Array<Node>;
+}
+
 export enum AccessibilityType {
   all = "all",
   wheelchair = "wheelchair",

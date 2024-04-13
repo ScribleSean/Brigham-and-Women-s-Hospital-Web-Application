@@ -4,6 +4,8 @@ import { Node, Path } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
 import "../styles/DisplayNode.css";
+import PlaceIcon from "@mui/icons-material/Place";
+import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 
 export default NodeDisplay;
 
@@ -45,19 +47,6 @@ function endBorderNode(node: Node, path: Path) {
   if (len === 1) return false;
   return path.edges[len - 2].endNode.ID === node.ID;
 }
-
-/**
- if (paths.length === 0) return false;
-
- paths.forEach((path: Path) => {
- const length: number = path.edges.length;
- const startNode: Node = path.edges[0].startNode;
- const lastNode: Node = path.edges[length - 1].startNode;
- if (node.ID === startNode.ID || node.ID === lastNode.ID) {console.log(node);return true;}
- });
-
- return false;
- **/
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const widthScaling: number = props.scaling.widthScaling;
@@ -137,9 +126,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     }
   };
 
-  const isStartNode = sameNode(node, startNode);
-  const isEndNode = sameNode(node, endNode);
-
   const { displayX, displayY } = imageToDisplayCoordinates(
     node.x,
     widthScaling,
@@ -147,7 +133,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     heightScaling,
   );
 
-  const nodeStyle: CSSProperties = {
+  const normalNodeStyle: CSSProperties = {
     position: "absolute",
     left: `${displayX}px`,
     top: `${displayY}px`,
@@ -155,7 +141,29 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     borderRadius: "100%",
     padding: "0",
     borderColor: "black",
-    backgroundColor: isStartNode ? "green" : isEndNode ? "red" : "white",
+    backgroundColor: "white",
+  };
+
+  const startNodeStyle: CSSProperties = {
+    position: "absolute",
+    left: `${displayX}px`,
+    top: `${displayY}px`,
+    zIndex: 3,
+    borderRadius: "100%",
+    padding: "0",
+    borderColor: "black",
+    backgroundColor: "green",
+  };
+
+  const endNodeStyle: CSSProperties = {
+    position: "absolute",
+    left: `${displayX}px`,
+    top: `${displayY}px`,
+    zIndex: 3,
+    borderRadius: "100%",
+    padding: "0",
+    borderColor: "black",
+    backgroundColor: "red",
   };
 
   const floorNodeStyle: CSSProperties = {
@@ -167,19 +175,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     backgroundColor: "white",
     textAlign: "center",
   };
-
-  /*
-      const startNodeIconStyle: CSSProperties = {
-          width: "0.5rem",
-          height: "0.5rem",
-          borderColor: "black",
-      };
-
-      const endNodeIconStyle: CSSProperties = {
-          width: "0.5rem",
-          height: "0.5rem",
-          borderColor: "black",
-      };*/
 
   const handleStartDrag = () => {
     setDisableZoomPanning(true);
@@ -200,17 +195,17 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   return (
     <>
       {sameNode(startNode, node) ? ( // Check if it's the start node
-        <button
+        <PlaceIcon
           className="pulseGreen"
-          style={nodeStyle}
+          style={startNodeStyle}
           onClick={() => handleNodeSelection(node)}
-        ></button>
+        ></PlaceIcon>
       ) : sameNode(endNode, node) ? ( // Check if it's the end node
-        <button
+        <GpsFixedIcon
           className={triggerRed ? "pulseRed" : "none"}
-          style={nodeStyle}
+          style={endNodeStyle}
           onClick={() => handleNodeSelection(node)}
-        ></button>
+        ></GpsFixedIcon>
       ) : nodeInPathChangingFloorStart(node, paths) ? (
         // Placeholder for the changing floor sign. Add your JSX here.
         <button
@@ -243,7 +238,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         >
           <button
             className="none"
-            style={nodeStyle}
+            style={normalNodeStyle}
             onClick={() => handleNodeSelection(node)}
           ></button>
         </Draggable>

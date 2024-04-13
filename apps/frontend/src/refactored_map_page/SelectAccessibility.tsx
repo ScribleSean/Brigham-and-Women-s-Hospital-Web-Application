@@ -14,10 +14,15 @@ function CustomArrowIcon(props: SvgIconProps) {
 }
 
 function AccessibilitySelector() {
-  const { selectedAccessibility, setSelectedAccessibility } = useMapContext();
+  const {
+    selectedAccessibility,
+    setSelectedAccessibility,
+    setDirectionsCounter,
+  } = useMapContext();
 
   const handleChange = (event: SelectChangeEvent<AccessibilityType>) => {
     setSelectedAccessibility(event.target.value as AccessibilityType);
+    setDirectionsCounter(0);
   };
 
   return (
