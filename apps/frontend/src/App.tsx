@@ -62,6 +62,7 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+      //   element: <HeroPage/>>,
     },
     {
       path: "/dashboard", // this is all placeholder until we have a real login system
