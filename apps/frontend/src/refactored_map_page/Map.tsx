@@ -16,6 +16,7 @@ import FloorSelector from "./SelectFloor.tsx";
 import FloorDisplay from "./DisplayFloor.tsx";
 import TextDirections from "./TextDirections.tsx";
 import ConfirmChanges from "./ConfirmChanges.tsx";
+import ShowPathsButton from "./ShowAllPaths.tsx";
 
 const mapDiv: CSSProperties = {
   height: "100%",
@@ -60,6 +61,7 @@ function MapContents() {
         <div style={mapDiv}>
           <TextDirections></TextDirections>
           <DirectionsSelector></DirectionsSelector>
+          <ShowPathsButton></ShowPathsButton>
           <DisplayEditingOptions></DisplayEditingOptions>
           <AlgorithmSelector></AlgorithmSelector>
           <AccessibilitySelector></AccessibilitySelector>

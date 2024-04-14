@@ -24,6 +24,7 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
     setEndFloor,
     paths,
     setPaths,
+    showPaths,
   } = useMapContext();
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
@@ -142,15 +143,29 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
         </defs>
         {paths.map((path, index) => {
           let strokeColor = lightBlue;
-          if (paths[directionsCounter] === paths[index]) {
-            strokeColor = darkBlue;
-            if (!alreadyRedirect) {
-              setCurrentFloor(
-                paths[directionsCounter].edges[0].startNode.floor,
-              );
-              setAlreadyRedirected(true);
+          if (!showPaths) {
+            strokeColor = "transparent";
+            if (paths[directionsCounter] === paths[index]) {
+              strokeColor = darkBlue;
+              if (!alreadyRedirect) {
+                setCurrentFloor(
+                  paths[directionsCounter].edges[0].startNode.floor,
+                );
+                setAlreadyRedirected(true);
+              }
+            }
+          } else {
+            if (paths[directionsCounter] === paths[index]) {
+              strokeColor = darkBlue;
+              if (!alreadyRedirect) {
+                setCurrentFloor(
+                  paths[directionsCounter].edges[0].startNode.floor,
+                );
+                setAlreadyRedirected(true);
+              }
             }
           }
+
           return (
             <polyline
               key={index}

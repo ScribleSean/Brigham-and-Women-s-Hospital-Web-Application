@@ -28,6 +28,8 @@ interface MapContextType {
   selectedAccessibility: AccessibilityType;
 
   editorMode: EditorMode;
+  showPaths: boolean;
+
   disableZoomPanning: boolean;
   scale: number;
 
@@ -50,6 +52,8 @@ interface MapContextType {
   setSelectedAccessibility: (accessibility: AccessibilityType) => void;
 
   setEditorMode: (editorMode: EditorMode) => void;
+  setShowPaths: (showPaths: boolean) => void;
+
   setDisableZoomPanning: (disableZoomPanning: boolean) => void;
   setScale: (scale: number) => void;
 

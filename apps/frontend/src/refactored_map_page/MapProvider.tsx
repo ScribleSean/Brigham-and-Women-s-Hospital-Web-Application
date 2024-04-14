@@ -36,6 +36,8 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     useState<AccessibilityType>(AccessibilityType.all);
 
   const [editorMode, setEditorMode] = useState<EditorMode>(EditorMode.disabled);
+  const [showPaths, setShowPaths] = useState<boolean>(false);
+
   const [disableZoomPanning, setDisableZoomPanning] = useState<boolean>(false);
   const [scale, setScale] = useState<number>(1);
 
@@ -71,6 +73,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     editorMode,
     setEditorMode,
+    showPaths,
+    setShowPaths,
+
     disableZoomPanning,
     setDisableZoomPanning,
     scale,
