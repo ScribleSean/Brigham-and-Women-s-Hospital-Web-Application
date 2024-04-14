@@ -1,12 +1,13 @@
 import React, { ReactNode, useState } from "react";
 import {
   AccessibilityType,
+  EditorMode,
   NodesByFloor,
 } from "common/src/types/map_page_types.ts";
 import {
+  AlgorithmType,
   FloorType,
   Node,
-  AlgorithmType,
   Path,
 } from "common/src/DataStructures.ts";
 import MapContext from "./MapContext.ts";
@@ -34,7 +35,7 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [selectedAccessibility, setSelectedAccessibility] =
     useState<AccessibilityType>(AccessibilityType.all);
 
-  const [editorMode, setEditorMode] = useState<boolean>(false);
+  const [editorMode, setEditorMode] = useState<EditorMode>(EditorMode.disabled);
   const [disableZoomPanning, setDisableZoomPanning] = useState<boolean>(false);
   const [scale, setScale] = useState<number>(1);
 

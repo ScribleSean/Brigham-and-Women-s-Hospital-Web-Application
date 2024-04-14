@@ -1,4 +1,7 @@
-import { NodeDisplayProps } from "common/src/types/map_page_types.ts";
+import {
+  EditorMode,
+  NodeDisplayProps,
+} from "common/src/types/map_page_types.ts";
 import React, { CSSProperties, useEffect, useState } from "react";
 import { Node, NodeType, Path } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
@@ -114,7 +117,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   }
 
   const handleNodeSelection = (node: Node): void => {
-    if (editorMode) {
+    if (editorMode !== EditorMode.disabled) {
       return;
     }
     if (!startNode) {
@@ -386,7 +389,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               scale={scale}
               onStart={handleStartDrag}
               onStop={handleStopDrag}
-              disabled={!editorMode}
+              disabled={editorMode === EditorMode.disabled}
             >
               <button
                 className="none"

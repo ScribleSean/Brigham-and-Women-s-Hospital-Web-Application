@@ -1,9 +1,10 @@
 import {
   EdgesByFloor,
   EdgesDisplayProps,
+  EditorMode,
 } from "common/src/types/map_page_types.ts";
-import { FloorType, Node, Edge } from "common/src/DataStructures.ts";
-import React, { SVGProps, CSSProperties, useEffect, useState } from "react";
+import { Edge, FloorType, Node } from "common/src/DataStructures.ts";
+import React, { CSSProperties, SVGProps, useEffect, useState } from "react";
 import { useMapContext } from "./MapContext.ts";
 import axios from "axios";
 
@@ -82,7 +83,7 @@ function EdgesDisplay(props: EdgesDisplayProps): React.JSX.Element {
 
   return (
     <svg style={svgStyle}>
-      {editorMode &&
+      {editorMode !== EditorMode.disabled &&
         currentEdges.map((edge, index) => (
           <polyline
             key={index}

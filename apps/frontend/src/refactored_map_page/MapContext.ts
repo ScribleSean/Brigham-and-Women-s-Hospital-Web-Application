@@ -7,6 +7,7 @@ import {
 } from "common/src/DataStructures.ts";
 import {
   AccessibilityType,
+  EditorMode,
   NodesByFloor,
 } from "common/src/types/map_page_types.ts";
 
@@ -26,7 +27,7 @@ interface MapContextType {
   selectedAlgorithm: AlgorithmType;
   selectedAccessibility: AccessibilityType;
 
-  editorMode: boolean;
+  editorMode: EditorMode;
   disableZoomPanning: boolean;
   scale: number;
 
@@ -46,7 +47,7 @@ interface MapContextType {
   setSelectedAlgorithm: (algorithm: AlgorithmType) => void;
   setSelectedAccessibility: (accessibility: AccessibilityType) => void;
 
-  setEditorMode: (isEditing: boolean) => void;
+  setEditorMode: (editorMode: EditorMode) => void;
   setDisableZoomPanning: (disableZoomPanning: boolean) => void;
   setScale: (scale: number) => void;
 }

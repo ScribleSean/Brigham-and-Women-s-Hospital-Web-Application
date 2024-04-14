@@ -11,7 +11,7 @@ import DirectionsSelector from "./SelectDirection.tsx";
 import LocationSelector from "./SelectLocation.tsx";
 import AlgorithmSelector from "./SelectAlgorithm.tsx";
 import AccessibilitySelector from "./SelectAccessibility.tsx";
-import EditorSelector from "./SelectEditor.tsx";
+import DisplayEditingOptions from "./DisplayEditingOptions.tsx";
 import FloorSelector from "./SelectFloor.tsx";
 import FloorDisplay from "./DisplayFloor.tsx";
 import TextDirections from "./TextDirections.tsx";
@@ -59,7 +59,7 @@ function MapContents() {
         <div style={mapDiv}>
           <TextDirections></TextDirections>
           <DirectionsSelector></DirectionsSelector>
-          <EditorSelector></EditorSelector>
+          <DisplayEditingOptions></DisplayEditingOptions>
           <AlgorithmSelector></AlgorithmSelector>
           <AccessibilitySelector></AccessibilitySelector>
           <LocationSelector></LocationSelector>

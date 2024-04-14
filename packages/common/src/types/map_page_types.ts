@@ -91,3 +91,11 @@ export enum AccessibilityType {
   all = "all",
   wheelchair = "wheelchair",
 }
+
+export enum EditorMode {
+  deleteEdges = "delete edges",
+  deleteNodes = "delete nodes",
+  addNodes = "add nodes",
+  addEdges = "add edges",
+  disabled = "disabled",
+}
