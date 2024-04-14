@@ -52,6 +52,7 @@ model ServiceRequest {
 
   FlowerServiceRequest        FlowerServiceRequest?        @relation("FlowerServiceRequest")
   MedicalDeviceServiceRequest MedicalDeviceServiceRequest? @relation("MedicalDeviceServiceRequest")
+  GiftServiceRequest   giftServiceRequest?   @relation("giftServiceRequest")
 }
 
 model FlowerServiceRequest {
@@ -123,3 +124,9 @@ model MedicalDeviceServiceRequest {
 //   deviceName     String
 //   quantity       Int
 // }
+model giftServiceRequest {
+  ServiceRequest ServiceRequest @relation("giftServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
+  giftType       String
+  deliveryDate        String
+}

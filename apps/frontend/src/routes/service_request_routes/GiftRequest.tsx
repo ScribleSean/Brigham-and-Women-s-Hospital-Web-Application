@@ -17,6 +17,8 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/GiftRequest.module.css";
 import React, { useState } from "react";
+import axios from "axios";
+import {giftRequest} from "common/src/GiftServiceRequest.ts";
 
 interface FormData {
   employeeName: string;
@@ -28,13 +30,14 @@ interface FormData {
 }
 
 function GiftRequest() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<giftRequest>({
     employeeName: "",
     location: "",
     giftType: "",
     deliveryDate: "",
     priority: "",
     status: "",
+      serviceType: "Gift",
   });
 
   const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
@@ -62,9 +65,11 @@ function GiftRequest() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     addSubmittedRequest(formData);
+    const giftRequestPost = await axios.post("/api/giftServiceRequest", formData);
+    console.log(giftRequestPost);
     setFormData({
       employeeName: "",
       location: "",
@@ -72,6 +77,7 @@ function GiftRequest() {
       deliveryDate: "",
       priority: "",
       status: "",
+        serviceType: "Gift",
     });
     setSnackbarIsOpen(true);
   };
@@ -201,6 +207,7 @@ function GiftRequest() {
                   deliveryDate: "",
                   priority: "",
                   status: "",
+                    serviceType: "Gift",
                 });
               }}
             >
