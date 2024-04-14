@@ -268,6 +268,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                     sx={{
                       color: "#012D5A",
                       fontWeight: "bold",
+                      fontFamily: "inter",
                       transition: "font-size 0.3s ease",
                       ":hover": {
                         backgroundColor: "white",
@@ -276,7 +277,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                       },
                     }}
                   >
-                    Elevator Back to Floor
+                    Elevator Back to Floor {""}
                     {directionsCounter - 1 >= 0
                       ? paths[directionsCounter - 1].edges[
                           paths[directionsCounter - 1].edges.length - 1
@@ -298,6 +299,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                     sx={{
                       color: "#012D5A",
                       fontWeight: "bold",
+                      fontFamily: "inter",
                       transition: "font-size 0.3s ease",
                       ":hover": {
                         backgroundColor: "white",
@@ -306,7 +308,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                       },
                     }}
                   >
-                    Stairs Back to Floor
+                    Stairs Back to Floor {""}
                     {directionsCounter - 1 >= 0
                       ? paths[directionsCounter - 1].edges[
                           paths[directionsCounter - 1].edges.length - 1
@@ -333,6 +335,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                     sx={{
                       color: "#012D5A",
                       fontWeight: "bold",
+                      fontFamily: "inter",
                       transition: "font-size 0.3s ease",
                       ":hover": {
                         backgroundColor: "white",
@@ -341,7 +344,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                       },
                     }}
                   >
-                    Elevator to Floor
+                    Elevator to Floor {""}
                     {paths.length > directionsCounter + 1
                       ? paths[directionsCounter + 1].edges[0].startNode.floor
                       : ""}
@@ -361,6 +364,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                     sx={{
                       color: "#012D5A",
                       fontWeight: "bold",
+                      fontFamily: "inter",
                       transition: "font-size 0.3s ease",
                       ":hover": {
                         backgroundColor: "white",
@@ -369,7 +373,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                       },
                     }}
                   >
-                    Stairs to Floor
+                    Stairs to Floor {""}
                     {paths.length > directionsCounter + 1
                       ? paths[directionsCounter + 1].edges[0].startNode.floor
                       : ""}

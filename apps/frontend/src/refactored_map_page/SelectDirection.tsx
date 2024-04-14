@@ -4,11 +4,15 @@ import { useMapContext } from "./MapContext"; // Adjust the import path as neede
 import { EditorMode } from "common/src/types/map_page_types"; // Adjust the import path as needed
 
 function DirectionsSelector() {
-  const { directionsCounter, setDirectionsCounter, editorMode } =
+  const { directionsCounter, setDirectionsCounter, paths, editorMode } =
     useMapContext();
 
   const handleOnClick = () => {
-    setDirectionsCounter(directionsCounter + 1);
+    if (paths.length - 1 < directionsCounter + 1) {
+      setDirectionsCounter(0);
+    } else {
+      setDirectionsCounter(directionsCounter + 1);
+    }
   };
 
   if (editorMode !== EditorMode.disabled) {
