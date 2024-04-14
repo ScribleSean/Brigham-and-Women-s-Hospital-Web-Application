@@ -4,6 +4,7 @@ import { Node, NodeType, Path } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
 import "../styles/DisplayNode.css";
+import Typography from "@mui/material/Typography";
 import PlaceIcon from "@mui/icons-material/Place";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import ElevatorIcon from "@mui/icons-material/Elevator";
@@ -136,6 +137,13 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     heightScaling,
   );
 
+  const changingFloorNodeStyle: CSSProperties = {
+    position: "absolute",
+    left: `${displayX}px`,
+    top: `${displayY}px`,
+    zIndex: 3,
+  };
+
   const normalNodeStyle: CSSProperties = {
     position: "absolute",
     left: `${displayX}px`,
@@ -208,30 +216,126 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
           {nodeInPathChangingFloorStart(node, paths) && (
             <React.Fragment>
               {node.type === NodeType.ELEV ? (
-                <ElevatorIcon
-                  style={normalNodeStyle}
-                  onClick={handleChangingFloorBackNodeClick}
-                />
+                <div style={changingFloorNodeStyle}>
+                  <ElevatorIcon
+                    onClick={handleChangingFloorBackNodeClick}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                  />
+                  <Typography
+                    variant="button"
+                    onClick={handleChangingFloorBackNodeClick}
+                    sx={{
+                      color: "#012D5A",
+                      fontWeight: "bold",
+                      transition: "font-size 0.3s ease",
+                      ":hover": {
+                        backgroundColor: "white",
+                        fontSize: "1rem",
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
+                    Elevator Back to Floor
+                    {directionsCounter - 1 >= 0
+                      ? paths[directionsCounter - 1].edges[
+                          paths[directionsCounter - 1].edges.length - 1
+                        ].startNode.floor
+                      : ""}
+                  </Typography>
+                </div>
               ) : (
-                <StairsIcon
-                  style={normalNodeStyle}
-                  onClick={handleChangingFloorBackNodeClick}
-                />
+                <div style={changingFloorNodeStyle}>
+                  <StairsIcon
+                    onClick={handleChangingFloorBackNodeClick}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                  />
+                  <Typography
+                    variant="button"
+                    onClick={handleChangingFloorBackNodeClick}
+                    sx={{
+                      color: "#012D5A",
+                      fontWeight: "bold",
+                      transition: "font-size 0.3s ease",
+                      ":hover": {
+                        backgroundColor: "white",
+                        fontSize: "1rem",
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
+                    Stairs Back to Floor
+                    {directionsCounter - 1 >= 0
+                      ? paths[directionsCounter - 1].edges[
+                          paths[directionsCounter - 1].edges.length - 1
+                        ].startNode.floor
+                      : ""}
+                  </Typography>
+                </div>
               )}
             </React.Fragment>
           )}
           {nodeInPathChangingFloorEnd(node, paths) && (
             <React.Fragment>
               {node.type === NodeType.ELEV ? (
-                <ElevatorIcon
-                  style={normalNodeStyle}
-                  onClick={handleChangingFloorNextNodeClick}
-                />
+                <div style={changingFloorNodeStyle}>
+                  <ElevatorIcon
+                    onClick={handleChangingFloorNextNodeClick}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                  />
+                  <Typography
+                    variant="button"
+                    onClick={handleChangingFloorNextNodeClick}
+                    sx={{
+                      color: "#012D5A",
+                      fontWeight: "bold",
+                      transition: "font-size 0.3s ease",
+                      ":hover": {
+                        backgroundColor: "white",
+                        fontSize: "1rem",
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
+                    Elevator to Floor
+                    {paths.length > directionsCounter + 1
+                      ? paths[directionsCounter + 1].edges[0].startNode.floor
+                      : ""}
+                  </Typography>
+                </div>
               ) : (
-                <StairsIcon
-                  style={normalNodeStyle}
-                  onClick={handleChangingFloorNextNodeClick}
-                />
+                <div style={changingFloorNodeStyle}>
+                  <StairsIcon
+                    onClick={handleChangingFloorNextNodeClick}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                  />
+                  <Typography
+                    variant="button"
+                    onClick={handleChangingFloorNextNodeClick}
+                    sx={{
+                      color: "#012D5A",
+                      fontWeight: "bold",
+                      transition: "font-size 0.3s ease",
+                      ":hover": {
+                        backgroundColor: "white",
+                        fontSize: "1rem",
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
+                    Stairs to Floor
+                    {paths.length > directionsCounter + 1
+                      ? paths[directionsCounter + 1].edges[0].startNode.floor
+                      : ""}
+                  </Typography>
+                </div>
               )}
             </React.Fragment>
           )}
