@@ -49,9 +49,10 @@ model ServiceRequest {
   location     String
   status       String
   serviceType  String
-
   FlowerServiceRequest  FlowerServiceRequest?  @relation("FlowerServiceRequest")
   RoomSchedulingRequest RoomSchedulingRequest? @relation("RoomSchedulingRequest")
+  MedicalDeviceServiceRequest MedicalDeviceServiceRequest? @relation("MedicalDeviceServiceRequest")
+  GiftServiceRequest   giftServiceRequest?   @relation("giftServiceRequest")
 }
 
 model FlowerServiceRequest {
@@ -67,6 +68,12 @@ model RoomSchedulingRequest {
   SRID           Int            @id
   startTime      String // dont worry about this really being a DateTime, thats something we implement next tim
   duration       Int
+
+model MedicalDeviceServiceRequest {
+  ServiceRequest ServiceRequest @relation("MedicalDeviceServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
+  deviceName     String
+  deviceQuantity String
 }
 
 // ONLY LOOK BELOW IF YOU WANT SPOILERS
@@ -123,3 +130,9 @@ model RoomSchedulingRequest {
 //   deviceName     String
 //   quantity       Int
 // }
+model giftServiceRequest {
+  ServiceRequest ServiceRequest @relation("giftServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
+  giftType       String
+  deliveryDate        String
+}
