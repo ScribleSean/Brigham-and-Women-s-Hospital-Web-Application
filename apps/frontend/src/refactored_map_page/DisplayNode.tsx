@@ -3,7 +3,7 @@ import {
   NodeDisplayProps,
   NodesByFloor,
 } from "common/src/types/map_page_types.ts";
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { ChangeEvent, CSSProperties, useEffect, useState } from "react";
 import { Node, NodeType, Path } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
@@ -13,11 +13,15 @@ import PlaceIcon from "@mui/icons-material/Place";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import ElevatorIcon from "@mui/icons-material/Elevator";
 import StairsIcon from "@mui/icons-material/Stairs";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
 
 export default NodeDisplay;
 
@@ -81,9 +85,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setNodesToBeDeleted,
   } = useMapContext();
 
-  const [triggerRed, setTriggerRed] = useState(false);
+  const [triggerRed, setTriggerRed] = useState<boolean>(false);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [editedNode, setEditedNode] = useState({ ...node });
 
   useEffect(() => {
     if (startNode) {
@@ -235,6 +240,23 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
     }
   };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setEditedNode((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = () => {
+    setShowModal(false);
+  };
+
+  console.log(editedNode);
+
+  /*const editedNodes : Array<Node> = new(Array<Node>);
+        if(editedNode) {
+            editedNodes.push(editedNode);
+        }
+    };*/
 
   if (editorMode === EditorMode.deleteNodes) {
     return (
@@ -427,15 +449,82 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
             <DialogTitle>Node Information</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                <p>ID: {node.ID}</p>
-                <p>X-Coordinate: {node.x}</p>
-                <p>Y-Coordinate: {node.y}</p>
-                <p>Floor: {node.floor}</p>
-                <p>Type: {node.type}</p>
-                <p>Name: {node.longName}</p>
+                <TextField
+                  margin="dense"
+                  label="ID"
+                  type="text"
+                  fullWidth
+                  name="ID"
+                  value={editedNode.ID}
+                />
+                <TextField
+                  margin="dense"
+                  label="X-Coordinate"
+                  type="text"
+                  fullWidth
+                  name="x"
+                  value={editedNode.x}
+                  onChange={handleChange}
+                />
+                <TextField
+                  margin="dense"
+                  label="Y-Coordinate"
+                  type="text"
+                  fullWidth
+                  name="y"
+                  value={editedNode.y}
+                  onChange={handleChange}
+                />
+                <TextField
+                  margin="dense"
+                  label="Floor"
+                  type="text"
+                  fullWidth
+                  name="floor"
+                  value={editedNode.floor}
+                  onChange={handleChange}
+                />
+                <TextField
+                  margin="dense"
+                  label="Building"
+                  type="text"
+                  fullWidth
+                  name="building"
+                  value={editedNode.building}
+                  onChange={handleChange}
+                />
+                <TextField
+                  margin="dense"
+                  label="Type"
+                  type="text"
+                  fullWidth
+                  name="type"
+                  value={editedNode.type}
+                  onChange={handleChange}
+                />
+                <TextField
+                  margin="dense"
+                  label="Long Name"
+                  type="text"
+                  fullWidth
+                  name="longName"
+                  value={editedNode.longName}
+                  onChange={handleChange}
+                />
+                <TextField
+                  margin="dense"
+                  label="Short Name"
+                  type="text"
+                  fullWidth
+                  name="shortName"
+                  value={editedNode.shortName}
+                  onChange={handleChange}
+                />
               </DialogContentText>
             </DialogContent>
-            <DialogActions></DialogActions>
+            <DialogActions>
+              <Button onClick={handleSave}>Save</Button>
+            </DialogActions>
           </Dialog>
           <Draggable
             scale={scale}
