@@ -39,6 +39,10 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [disableZoomPanning, setDisableZoomPanning] = useState<boolean>(false);
   const [scale, setScale] = useState<number>(1);
 
+  const [nodesToBeDeleted, setNodesToBeDeleted] = useState<Array<Node>>(
+    new Array<Node>(),
+  );
+
   const value = {
     startNode,
     setStartNode,
@@ -71,6 +75,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     setDisableZoomPanning,
     scale,
     setScale,
+
+    nodesToBeDeleted,
+    setNodesToBeDeleted,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

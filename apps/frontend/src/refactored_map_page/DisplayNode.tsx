@@ -1,6 +1,7 @@
 import {
   EditorMode,
   NodeDisplayProps,
+  NodesByFloor,
 } from "common/src/types/map_page_types.ts";
 import React, { CSSProperties, useEffect, useState } from "react";
 import { Node, NodeType, Path } from "common/src/DataStructures.ts";
@@ -69,6 +70,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     paths,
     directionsCounter,
     setDirectionsCounter,
+    nodesByFloor,
+    setNodesByFloor,
+    nodesToBeDeleted,
+    setNodesToBeDeleted,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState(false);
@@ -211,6 +216,37 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const handleChangingFloorNextNodeClick = () => {
     setDirectionsCounter(directionsCounter + 1);
   };
+
+  const handleDeleteNode = (deletedNode: Node): void => {
+    if (nodesByFloor) {
+      const newNodesByFloor: NodesByFloor = {
+        L2: nodesByFloor.L2.filter((node) => node.ID !== deletedNode.ID),
+        L1: nodesByFloor.L1.filter((node) => node.ID !== deletedNode.ID),
+        firstFloor: nodesByFloor.firstFloor.filter(
+          (node) => node.ID !== deletedNode.ID,
+        ),
+        secondFloor: nodesByFloor.secondFloor.filter(
+          (node) => node.ID !== deletedNode.ID,
+        ),
+        thirdFloor: nodesByFloor.thirdFloor.filter(
+          (node) => node.ID !== deletedNode.ID,
+        ),
+      };
+
+      setNodesByFloor(newNodesByFloor);
+      setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
+    }
+  };
+
+  if (editorMode === EditorMode.deleteNodes) {
+    return (
+      <button
+        className="none"
+        style={normalNodeStyle}
+        onClick={() => handleDeleteNode(node)}
+      />
+    );
+  }
 
   return (
     <>

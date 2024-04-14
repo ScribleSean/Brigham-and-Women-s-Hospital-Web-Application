@@ -31,6 +31,8 @@ interface MapContextType {
   disableZoomPanning: boolean;
   scale: number;
 
+  nodesToBeDeleted: Array<Node>;
+
   //---------------------------------------
   setStartNode: (node: Node | null) => void;
   setEndNode: (node: Node | null) => void;
@@ -50,6 +52,8 @@ interface MapContextType {
   setEditorMode: (editorMode: EditorMode) => void;
   setDisableZoomPanning: (disableZoomPanning: boolean) => void;
   setScale: (scale: number) => void;
+
+  setNodesToBeDeleted: (nodes: Array<Node>) => void;
 }
 
 const MapContext = createContext<MapContextType | undefined>(undefined);
