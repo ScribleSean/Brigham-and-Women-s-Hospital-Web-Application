@@ -127,34 +127,38 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
   };
 
   return (
-    <svg style={svgStyle}>
-      <defs>
-        <style>
-          {`
-          @keyframes march {
-            to {
-              stroke-dashoffset: -${strokeDasharray * 2};
+    <div>
+      <svg style={svgStyle}>
+        <defs>
+          <style>
+            {`
+            @keyframes march {
+              to {
+                stroke-dashoffset: -${strokeDasharray * 2};
+              }
+            }
+          `}
+          </style>
+        </defs>
+        {paths.map((path, index) => {
+          let strokeColor = lightBlue;
+          if (paths[directionsCounter] === paths[index]) {
+            strokeColor = darkBlue;
+            if (!alreadyRedirect) {
+              setCurrentFloor(
+                paths[directionsCounter].edges[0].startNode.floor,
+              );
+              setAlreadyRedirected(true);
             }
           }
-        `}
-        </style>
-      </defs>
-      {paths.map((path, index) => {
-        let strokeColor = lightBlue;
-        if (paths[directionsCounter] === paths[index]) {
-          strokeColor = darkBlue;
-          if (!alreadyRedirect) {
-            setCurrentFloor(paths[directionsCounter].edges[0].startNode.floor);
-            setAlreadyRedirected(true);
-          }
-        }
-        return (
-          <polyline
-            key={index}
-            {...getPolylineProps(getPathCoordinates(path), strokeColor)}
-          />
-        );
-      })}
-    </svg>
+          return (
+            <polyline
+              key={index}
+              {...getPolylineProps(getPathCoordinates(path), strokeColor)}
+            />
+          );
+        })}
+      </svg>
+    </div>
   );
 }

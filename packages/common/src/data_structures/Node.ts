@@ -8,7 +8,7 @@ export class Node {
   private readonly building: BuildingType;
   public type: NodeType;
   public longName: string;
-  private readonly shortName: string;
+  public shortName: string;
 
   constructor(
     ID: string,
