@@ -2,11 +2,12 @@ import { Path } from "common/src/DataStructures.ts";
 import React, { useEffect, useState } from "react";
 import { useMapContext } from "./MapContext.ts";
 import { List, ListItem } from "@mui/material";
+import { EditorMode } from "common/src/types/map_page_types.ts";
 
 export default TextDirections;
 
 function TextDirections() {
-  const { paths } = useMapContext();
+  const { paths, editorMode } = useMapContext();
 
   const [directionsText, setDirectionsText] = useState<Array<string>>([]);
 
@@ -14,6 +15,10 @@ function TextDirections() {
     const newDirections = generateDirections(paths);
     setDirectionsText(newDirections);
   }, [paths]);
+
+  if (editorMode !== EditorMode.disabled) {
+    return <></>;
+  }
 
   function generateDirections(paths: Array<Path>) {
     const directions: Array<string> = [];

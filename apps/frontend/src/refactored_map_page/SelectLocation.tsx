@@ -5,7 +5,10 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import "../map_page/LocationSelector.css";
 import { Node } from "common/src/DataStructures.ts";
 import { useMapContext } from "./MapContext.ts";
-import { NodesByFloor } from "../../../../packages/common/src/types/map_page_types.ts";
+import {
+  EditorMode,
+  NodesByFloor,
+} from "../../../../packages/common/src/types/map_page_types.ts";
 
 function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
   const nodes: Array<Node> = new Array<Node>();
@@ -26,7 +29,12 @@ function LocationSelector(): React.JSX.Element {
     endNode,
     setEndNode,
     setCurrentFloor,
+    editorMode,
   } = useMapContext();
+
+  if (editorMode !== EditorMode.disabled) {
+    return <></>;
+  }
 
   const handleLocationChange = (newValue: Node | null) => {
     if (newValue) {
