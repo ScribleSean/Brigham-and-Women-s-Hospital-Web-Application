@@ -5,7 +5,7 @@ export class Node {
   public x: number;
   public y: number;
   public floor: FloorType;
-  private readonly building: BuildingType;
+  public building: BuildingType;
   public type: NodeType;
   public longName: string;
   public shortName: string;

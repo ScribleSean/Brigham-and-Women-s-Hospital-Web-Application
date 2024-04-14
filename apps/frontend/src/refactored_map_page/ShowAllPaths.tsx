@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
-import { useMapContext } from "./MapContext"; // Adjust the import path as needed
-import { EditorMode } from "common/src/types/map_page_types"; // Adjust the import path as needed
+import { useMapContext } from "./MapContext";
+import { EditorMode } from "common/src/types/map_page_types";
 
 function ShowPathsButton() {
   const { showPaths, setShowPaths, editorMode } = useMapContext();

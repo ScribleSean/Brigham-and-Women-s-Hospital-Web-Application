@@ -13,6 +13,11 @@ import PlaceIcon from "@mui/icons-material/Place";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import ElevatorIcon from "@mui/icons-material/Elevator";
 import StairsIcon from "@mui/icons-material/Stairs";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
 
 export default NodeDisplay;
 
@@ -78,6 +83,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const [triggerRed, setTriggerRed] = useState(false);
 
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     if (startNode) {
       // Schedule the red animation to start after 2 seconds (the duration of one green animation cycle)
@@ -123,6 +130,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const handleNodeSelection = (node: Node): void => {
     if (editorMode !== EditorMode.disabled) {
+      setShowModal(true);
       return;
     }
     if (!startNode) {
@@ -187,16 +195,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     //backgroundColor: "red",
   };
 
-  const floorNodeStyle: CSSProperties = {
-    position: "absolute",
-    left: `${displayX}px`,
-    top: `${displayY}px`,
-    zIndex: 3,
-    borderColor: "black",
-    backgroundColor: "white",
-    textAlign: "center",
-  };
-
   const hidden: CSSProperties = {
     opacity: 0,
   };
@@ -248,7 +246,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     );
   }
 
-  return (
+  return editorMode === EditorMode.disabled ? (
     <>
       {(node.type === NodeType.ELEV || node.type === NodeType.STAI) && (
         <>
@@ -402,28 +400,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               style={endNodeStyle}
               onClick={() => handleNodeSelection(node)}
             />
-          ) : nodeInPathChangingFloorStart(node, paths) ? (
-            <button
-              style={floorNodeStyle}
-              onClick={handleChangingFloorBackNodeClick}
-            >
-              From Floor{" "}
-              {directionsCounter - 1 >= 0
-                ? paths[directionsCounter - 1].edges[
-                    paths[directionsCounter - 1].edges.length - 1
-                  ].startNode.floor
-                : ""}
-            </button>
-          ) : nodeInPathChangingFloorEnd(node, paths) ? (
-            <button
-              style={floorNodeStyle}
-              onClick={handleChangingFloorNextNodeClick}
-            >
-              To Floor{" "}
-              {paths.length > directionsCounter + 1
-                ? paths[directionsCounter + 1].edges[0].startNode.floor
-                : ""}
-            </button>
           ) : !startNode || !endNode ? (
             <Draggable
               scale={scale}
@@ -441,5 +417,39 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         </>
       )}
     </>
+  ) : (
+    <div>
+      {node.type !== NodeType.ELEV &&
+      node.type !== NodeType.STAI &&
+      node.type !== NodeType.HALL ? (
+        <div>
+          <Dialog open={showModal} onClose={() => setShowModal(false)}>
+            <DialogTitle>Node Information</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                <p>ID: {node.ID}</p>
+                <p>X-Coordinate: {node.x}</p>
+                <p>Y-Coordinate: {node.y}</p>
+                <p>Floor: {node.floor}</p>
+                <p>Type: {node.type}</p>
+                <p>Name: {node.longName}</p>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions></DialogActions>
+          </Dialog>
+          <Draggable
+            scale={scale}
+            onStart={handleStartDrag}
+            onStop={handleStopDrag}
+          >
+            <button
+              className="none"
+              style={normalNodeStyle}
+              onClick={() => handleNodeSelection(node)}
+            />
+          </Draggable>
+        </div>
+      ) : null}
+    </div>
   );
 }
