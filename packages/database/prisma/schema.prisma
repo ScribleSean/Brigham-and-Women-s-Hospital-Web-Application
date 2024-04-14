@@ -12,13 +12,6 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-// example table used in the express router example
-model HighScore {
-  id    Int      @id @default(autoincrement())
-  time  DateTime
-  score Int
-}
-
 model Edge {
   edgeID      String @id
   startNodeID String
@@ -43,16 +36,16 @@ model Node {
 }
 
 model ServiceRequest {
-  SRID         Int    @id @default(autoincrement())
-  employeeName String
-  priority     String
-  location     String
-  status       String
-  serviceType  String
-  FlowerServiceRequest  FlowerServiceRequest?  @relation("FlowerServiceRequest")
-  RoomSchedulingRequest RoomSchedulingRequest? @relation("RoomSchedulingRequest")
+  SRID                        Int                          @id @default(autoincrement())
+  employeeName                String
+  priority                    String
+  location                    String
+  status                      String
+  serviceType                 String
+  FlowerServiceRequest        FlowerServiceRequest?        @relation("FlowerServiceRequest")
+  RoomSchedulingRequest       RoomSchedulingRequest?       @relation("RoomSchedulingRequest")
   MedicalDeviceServiceRequest MedicalDeviceServiceRequest? @relation("MedicalDeviceServiceRequest")
-  GiftServiceRequest   giftServiceRequest?   @relation("giftServiceRequest")
+  GiftServiceRequest          GiftServiceRequest?          @relation("GiftServiceRequest")
 }
 
 model FlowerServiceRequest {
@@ -66,8 +59,9 @@ model FlowerServiceRequest {
 model RoomSchedulingRequest {
   ServiceRequest ServiceRequest @relation("RoomSchedulingRequest", fields: [SRID], references: [SRID])
   SRID           Int            @id
-  startTime      String // dont worry about this really being a DateTime, thats something we implement next tim
+  startTime      String // dont worry about this really being a DateTime, thats something we implement next time
   duration       Int
+}
 
 model MedicalDeviceServiceRequest {
   ServiceRequest ServiceRequest @relation("MedicalDeviceServiceRequest", fields: [SRID], references: [SRID])
@@ -76,63 +70,9 @@ model MedicalDeviceServiceRequest {
   deviceQuantity String
 }
 
-// ONLY LOOK BELOW IF YOU WANT SPOILERS
-// YOU HAVE BEEN WARNED
-
-// model ServiceRequest {
-//   SRID         Int    @id @default(autoincrement())
-//   employeeName String
-//   priority     String
-//   location     String
-//   status       String
-//   serviceType  String
-//
-//   FlowerServiceRequest        FlowerServiceRequest?        @relation("FlowerServiceRequest")
-//   GiftServiceRequest          GiftServiceRequest?          @relation("GiftServiceRequest")
-//   RoomServiceRequest          RoomServiceRequest?          @relation("RoomServiceRequest")
-//   MedicineServiceRequest      MedicineServiceRequest?      @relation("MedicineServiceRequest")
-//   MedicalDeviceServiceRequest MedicalDeviceServiceRequest? @relation("MedicalDeviceServiceRequest")
-// }
-//
-// model FlowerServiceRequest {
-//   ServiceRequest ServiceRequest @relation("FlowerServiceRequest", fields: [SRID], references: [SRID])
-//   SRID           Int            @id
-//   flowerType     String
-//   receiverName   String
-//   date           String
-// }
-//
-// model GiftServiceRequest {
-//   ServiceRequest ServiceRequest @relation("GiftServiceRequest", fields: [SRID], references: [SRID])
-//   SRID           Int            @id
-//   giftType       String
-//   message        String
-// }
-//
-// model RoomServiceRequest {
-//   ServiceRequest ServiceRequest @relation("RoomServiceRequest", fields: [SRID], references: [SRID])
-//   SRID           Int            @id
-//   startTime      String // dont worry about this really being a DateTime, thats something we implement next tim
-//   durration      String
-// }
-//
-// model MedicineServiceRequest {
-//   ServiceRequest ServiceRequest @relation("MedicineServiceRequest", fields: [SRID], references: [SRID])
-//   SRID           Int            @id
-//   medicineName   String
-//   dosageAmount   Int
-//   dosageForm     String
-// }
-//
-// model MedicalDeviceServiceRequest {
-//   ServiceRequest ServiceRequest @relation("MedicalDeviceServiceRequest", fields: [SRID], references: [SRID])
-//   SRID           Int            @id
-//   deviceName     String
-//   quantity       Int
-// }
-model giftServiceRequest {
-  ServiceRequest ServiceRequest @relation("giftServiceRequest", fields: [SRID], references: [SRID])
+model GiftServiceRequest {
+  ServiceRequest ServiceRequest @relation("GiftServiceRequest", fields: [SRID], references: [SRID])
   SRID           Int            @id
   giftType       String
-  deliveryDate        String
+  deliveryDate   String
 }
