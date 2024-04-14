@@ -42,6 +42,7 @@ model ServiceRequest {
   location                    String
   status                      String
   serviceType                 String
+  description                 String
   FlowerServiceRequest        FlowerServiceRequest?        @relation("FlowerServiceRequest")
   RoomSchedulingRequest       RoomSchedulingRequest?       @relation("RoomSchedulingRequest")
   MedicalDeviceServiceRequest MedicalDeviceServiceRequest? @relation("MedicalDeviceServiceRequest")
@@ -60,7 +61,7 @@ model RoomSchedulingRequest {
   ServiceRequest ServiceRequest @relation("RoomSchedulingRequest", fields: [SRID], references: [SRID])
   SRID           Int            @id
   startTime      String // dont worry about this really being a DateTime, thats something we implement next time
-  duration       Int
+  endTime        String
 }
 
 model MedicalDeviceServiceRequest {
@@ -73,6 +74,8 @@ model MedicalDeviceServiceRequest {
 model GiftServiceRequest {
   ServiceRequest ServiceRequest @relation("GiftServiceRequest", fields: [SRID], references: [SRID])
   SRID           Int            @id
+  senderName     String
+  receiverName   String
   giftType       String
   deliveryDate   String
 }

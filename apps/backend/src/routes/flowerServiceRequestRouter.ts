@@ -16,6 +16,7 @@ router.post("/", async function (req, res) {
         location: flower.location,
         status: flower.status,
         serviceType: flower.serviceType,
+        description: flower.description,
       },
     });
 
