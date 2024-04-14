@@ -1,7 +1,8 @@
 import React from "react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
-import Login from "./routes/Login.tsx";
+// import Login from "./routes/Login.tsx";
+import HeroPage from "./routes/HeroPage.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 //import SideNavbar from "./components/SideNavbar.tsx";
 import "./styles/App.css";
@@ -61,7 +62,8 @@ function App() {
     },
     {
       path: "/login",
-      element: <Login />,
+      // element: <Login />,
+      element: <HeroPage />,
     },
     {
       path: "/dashboard", // this is all placeholder until we have a real login system

@@ -1,6 +1,7 @@
 import "../styles/login.css";
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import "../styles/HeroPage.css";
 
 function Login() {
   const [formUsername, setFormUsername] = useState("");
@@ -30,8 +31,9 @@ function Login() {
   };
 
   return (
-    <div className={"flex-container"}>
-      <div className={"hero"}>
+    <div className={"image_back"}>
+      {/*<div className={"hero"}>*/}
+      <div>
         <div className={"overlay"}>
           <h1 className={"hero-text"}>
             Welcome to Brigham and Women's Hospital
