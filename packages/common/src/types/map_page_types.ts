@@ -72,6 +72,10 @@ export interface AddNodesOptionsRequest {
   nodesWithAssociatedEdges: Array<NodeWithAssociatedEdges>;
 }
 
+export interface AddEdgesOptionsRequest {
+  newEdges: Array<Edge>;
+}
+
 export interface NodeWithAssociatedEdges {
   node: Node;
   associatedEdges: Array<Edge>;

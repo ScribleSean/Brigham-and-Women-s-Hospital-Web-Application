@@ -4,12 +4,17 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 
 import nodesRouter from "./routes/nodes.ts";
-import deleteNodesEdgesRouter from "./routes/deleteNodesEdges.ts";
-import addNodesEdgesRouter from "./routes/addNodesEdges.ts";
-import refactorNodesRouter from "./routes/refactorNodes.ts";
-import refactorEdgesRouter from "./routes/refactorEdges.ts";
 import pathRouter from "./routes/path.ts";
 import edgesRouter from "./routes/edges.ts";
+
+import deleteNodesEdgesRouter from "./routes/deleteNodesEdges.ts";
+import deleteEdgesRouter from "./routes/deleteEdges.ts";
+
+import addNodesEdgesRouter from "./routes/addNodesEdges.ts";
+import addEdgesRouter from "./routes/addEdges.ts";
+
+import refactorNodesRouter from "./routes/refactorNodes.ts";
+import refactorEdgesRouter from "./routes/refactorEdges.ts";
 
 import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
 import serviceRequestRouter from "./routes/serviceRequestRouter.ts";
@@ -49,12 +54,17 @@ app.use("/healthcheck", (req, res) => {
 });
 
 app.use("/api/nodes", nodesRouter);
-app.use("/api/refactor-nodes", refactorNodesRouter);
-app.use("/api/refactor-edges", refactorEdgesRouter);
-app.use("/api/delete-nodes-and-associated-edges", deleteNodesEdgesRouter);
-app.use("/api/add-nodes-and-associated-edges", addNodesEdgesRouter);
 app.use("/api/path", pathRouter);
 app.use("/api/edges", edgesRouter);
+
+app.use("/api/add-nodes-and-associated-edges", addNodesEdgesRouter);
+app.use("/api/add-edges", addEdgesRouter);
+
+app.use("/api/delete-nodes-and-associated-edges", deleteNodesEdgesRouter);
+app.use("/api/delete-edges", deleteEdgesRouter);
+
+app.use("/api/refactor-nodes", refactorNodesRouter);
+app.use("/api/refactor-edges", refactorEdgesRouter);
 
 /**
  * Catch all 404 errors, and forward them to the error handler

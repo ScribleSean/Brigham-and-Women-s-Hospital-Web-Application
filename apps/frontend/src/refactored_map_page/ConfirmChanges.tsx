@@ -2,9 +2,12 @@ import { Edge, Node } from "common/src/DataStructures.ts";
 import React, { CSSProperties } from "react";
 import { useMapContext } from "./MapContext.ts";
 import {
+  AddEdgesOptionsRequest,
+  AddNodesOptionsRequest,
   DeleteEdgesOptionsRequest,
   DeleteNodesOptionsRequest,
   EditorMode,
+  NodeWithAssociatedEdges,
   OldNewEdge,
   OldNewNode,
   RefactorEdgesOptionsRequest,
@@ -25,6 +28,10 @@ function ConfirmChanges() {
     setEdgesToBeDeleted,
     edgesToBeEdited,
     setEdgesToBeEdited,
+    nodesToBeAdded,
+    setNodesToBeAdded,
+    edgesToBeAdded,
+    setEdgesToBeAdded,
   } = useMapContext();
 
   const divStyle: CSSProperties = {
@@ -68,13 +75,25 @@ function ConfirmChanges() {
     }
   };
 
-  /**
-   * This will work sending a POST request of NodeWithAssociatedEdges[] to the server.
   const addNodes = async () => {
+    if (nodesToBeAdded.length > 0) {
+      try {
+        const addNodesOptionsRequest: AddNodesOptionsRequest = {
+          nodesWithAssociatedEdges: nodesToBeAdded,
+        };
+        await axios.post(
+          "/api/add-nodes-and-associated-edges",
+          addNodesOptionsRequest,
+        );
+        setNodesToBeAdded(new Array<NodeWithAssociatedEdges>());
+      } catch (error) {
+        console.error("Failed to add nodes data:", error);
+      }
+    }
   };
-   **/
 
-  /** Not setup yet **/
+  console.log(addNodes);
+
   const deleteEdges = async () => {
     try {
       const deleteEdgesOptionsRequest: DeleteEdgesOptionsRequest = {
@@ -90,7 +109,6 @@ function ConfirmChanges() {
     }
   };
 
-  /** Not setup yet **/
   const editEdges = async () => {
     if (edgesToBeEdited.length > 0) {
       try {
@@ -104,6 +122,22 @@ function ConfirmChanges() {
       }
     }
   };
+
+  const addEdges = async () => {
+    if (edgesToBeAdded.length > 0) {
+      try {
+        const addEdgesOptionsRequest: AddEdgesOptionsRequest = {
+          newEdges: edgesToBeAdded,
+        };
+        await axios.post("/api/add-edges", addEdgesOptionsRequest);
+        setEdgesToBeAdded(new Array<Edge>());
+      } catch (error) {
+        console.log("Failed to add edges data:", error);
+      }
+    }
+  };
+
+  console.log(addEdges);
 
   let handleOnConfirm;
   switch (editorMode) {
