@@ -73,6 +73,16 @@ CREATE TABLE "GiftServiceRequest" (
     CONSTRAINT "GiftServiceRequest_pkey" PRIMARY KEY ("SRID")
 );
 
+-- CreateTable
+CREATE TABLE "MedicineDeliveryServiceRequest" (
+    "SRID" INTEGER NOT NULL,
+    "medicineType" TEXT NOT NULL,
+    "dosageType" TEXT NOT NULL,
+    "dosageAmount" INTEGER NOT NULL,
+
+    CONSTRAINT "MedicineDeliveryServiceRequest_pkey" PRIMARY KEY ("SRID")
+);
+
 -- AddForeignKey
 ALTER TABLE "Edge" ADD CONSTRAINT "Edge_startNodeID_fkey" FOREIGN KEY ("startNodeID") REFERENCES "Node"("nodeID") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -90,3 +100,6 @@ ALTER TABLE "MedicalDeviceServiceRequest" ADD CONSTRAINT "MedicalDeviceServiceRe
 
 -- AddForeignKey
 ALTER TABLE "GiftServiceRequest" ADD CONSTRAINT "GiftServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MedicineDeliveryServiceRequest" ADD CONSTRAINT "MedicineDeliveryServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;

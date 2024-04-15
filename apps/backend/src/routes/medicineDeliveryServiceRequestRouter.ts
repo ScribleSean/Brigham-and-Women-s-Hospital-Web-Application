@@ -1,36 +1,38 @@
-import { medDeviceRequest } from "common/src/backend_interfaces/medicalDeviceServiceRequest.ts";
+import { medicineDeliveryRequest } from "common/src/backend_interfaces/medicineDeliveryRequest.ts";
 import express, { Router } from "express";
 import PrismaClient from "../bin/database-connection.ts";
 
 const router: Router = express.Router();
 
 router.post("/", async function (req, res) {
-  const medicalDevice: medDeviceRequest = req.body;
+  const medicine: medicineDeliveryRequest = req.body;
 
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({
       data: {
-        employeeName: medicalDevice.employeeName,
-        priority: medicalDevice.priority,
-        location: medicalDevice.location,
-        status: medicalDevice.status,
-        serviceType: medicalDevice.serviceType,
-        description: medicalDevice.description,
+        employeeName: medicine.employeeName,
+        priority: medicine.priority,
+        location: medicine.location,
+        status: medicine.status,
+        serviceType: medicine.serviceType,
+        description: medicine.description,
       },
     });
 
-    await PrismaClient.medicalDeviceServiceRequest.upsert({
+    await PrismaClient.medicineDeliveryServiceRequest.upsert({
       where: {
         SRID: serviceRequest.SRID,
       },
       create: {
         SRID: serviceRequest.SRID,
-        deviceName: medicalDevice.deviceName,
-        deviceQuantity: medicalDevice.deviceQuantity,
+        medicineType: medicine.medicineType,
+        dosageType: medicine.dosageType,
+        dosageAmount: medicine.dosageAmount,
       },
       update: {
-        deviceName: medicalDevice.deviceName,
-        deviceQuantity: medicalDevice.deviceQuantity,
+        medicineType: medicine.medicineType,
+        dosageType: medicine.dosageType,
+        dosageAmount: medicine.dosageAmount,
       },
     });
 
@@ -47,13 +49,12 @@ router.post("/", async function (req, res) {
 });
 
 router.get("/", async function (req, res) {
-  const medicalDeviceForm =
-    await PrismaClient.medicalDeviceServiceRequest.findMany({
+  const medicalDeliveryForm =
+    await PrismaClient.medicineDeliveryServiceRequest.findMany({
       include: {
         ServiceRequest: true,
       },
     });
-  res.json(medicalDeviceForm);
+  res.json(medicalDeliveryForm);
 });
-
 export default router;

@@ -30,13 +30,13 @@ router.post("/", async function (req, res) {
         deliveryDate: gift.deliveryDate,
       },
       update: {
+        senderName: gift.senderName,
+        receiverName: gift.receiverName,
         giftType: gift.giftType,
         deliveryDate: gift.deliveryDate,
       },
     });
-    res
-      .sendStatus(200)
-      .json({ message: "Gift Request has been put into the database" });
+    res.sendStatus(200);
   } catch (error) {
     res.sendStatus(500);
     return;

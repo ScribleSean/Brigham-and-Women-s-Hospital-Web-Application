@@ -8,27 +8,13 @@ import {
   Select,
   SelectChangeEvent,
   Snackbar,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
 } from "@mui/material";
 import "../../styles/MedicineRequest.css";
 import { useEffect, useState } from "react";
 import styles from "../../styles/GiftRequest.module.css";
-
-interface FormData {
-  employeeName: string;
-  location: string;
-  medicineName: string | null;
-  dosageAmount: string;
-  dosageForm: string;
-  priority: string;
-  status: string;
-}
+import { medicineDeliveryRequest } from "common/src/backend_interfaces/medicineDeliveryRequest.ts";
+import axios from "axios";
 
 function MedicineRequest() {
   const medicineList: string[] = [
@@ -84,23 +70,20 @@ function MedicineRequest() {
     "Dextromethorphan",
   ];
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<medicineDeliveryRequest>({
+    SRID: 0,
     employeeName: "",
     location: "",
-    medicineName: null,
-    dosageAmount: "",
-    dosageForm: "",
+    medicineType: "",
+    dosageAmount: 0,
+    dosageType: "",
     priority: "",
     status: "",
+    serviceType: "Medicine Delivery",
+    description: "",
   });
 
-  const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
-
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
-
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
 
   useEffect(() => {
     console.log(formData);
@@ -116,13 +99,13 @@ function MedicineRequest() {
   const handleMedicineNameChange = (value: string | null) => {
     setFormData({
       ...formData,
-      medicineName: value || null,
+      medicineType: value as string,
     });
   };
 
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
-    field: keyof FormData,
+    field: keyof medicineDeliveryRequest,
   ) => {
     setFormData({
       ...formData,
@@ -130,21 +113,28 @@ function MedicineRequest() {
     });
   };
 
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addSubmittedRequest(formData);
+      try {
+          const response = await axios.post(
+              "/api/medicine-delivery-service-request",
+              formData,
+          );
+          console.log("Form data sent successfully:", response.data);
+      } catch (error) {
+          console.error("Error submitting form data:", error);
+      }
     setFormData({
-      employeeName: "",
-      location: "",
-      medicineName: null,
-      dosageForm: "",
-      dosageAmount: "",
-      priority: "",
-      status: "",
+        SRID: 0,
+        employeeName: "",
+        location: "",
+        medicineType: "",
+        dosageAmount: 0,
+        dosageType: "",
+        priority: "",
+        status: "",
+        serviceType: "Medicine Delivery",
+        description: "",
     });
   };
 
@@ -198,7 +188,7 @@ function MedicineRequest() {
             disablePortal
             options={medicineList}
             onChange={(_event, value) => handleMedicineNameChange(value)}
-            value={formData.medicineName}
+            value={formData.medicineType}
             renderInput={(params) => (
               <TextField
                 variant={"filled"}
@@ -214,11 +204,11 @@ function MedicineRequest() {
               sx={{ width: "49%", marginRight: "1%", my: "1%" }}
               required
             >
-              <InputLabel id={"dosageForm"}>Dosage Form</InputLabel>
+              <InputLabel id={"dosageType"}>Dosage Form</InputLabel>
               <Select
-                id={"dosageForm"}
-                onChange={(e) => handleSelectChange(e, "dosageForm")}
-                value={formData.dosageForm}
+                id={"dosageType"}
+                onChange={(e) => handleSelectChange(e, "dosageType")}
+                value={formData.dosageType}
               >
                 <MenuItem value={"Tablet"}>Tablet</MenuItem>
                 <MenuItem value={"Capsule"}>Capsule</MenuItem>
@@ -288,13 +278,16 @@ function MedicineRequest() {
               }}
               onClick={() => {
                 setFormData({
-                  employeeName: "",
-                  location: "",
-                  medicineName: null,
-                  dosageAmount: "",
-                  dosageForm: "",
-                  priority: "",
-                  status: "",
+                    SRID: 0,
+                    employeeName: "",
+                    location: "",
+                    medicineType: "",
+                    dosageAmount: 0,
+                    dosageType: "",
+                    priority: "",
+                    status: "",
+                    serviceType: "Medicine Delivery",
+                    description: "",
                 });
               }}
             >
@@ -312,48 +305,6 @@ function MedicineRequest() {
             </Button>
           </div>
         </form>
-        <br />
-        <div>
-          <h2>Active Requests</h2>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <b>Employee Name</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Location</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Medicine Name</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Dosage Amount</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Priority</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Status</b>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {submittedRequests.map((request) => (
-                  <TableRow>
-                    <TableCell>{request.employeeName}</TableCell>
-                    <TableCell>{request.location}</TableCell>
-                    <TableCell>{request.medicineName}</TableCell>
-                    <TableCell>{request.dosageAmount}</TableCell>
-                    <TableCell>{request.priority}</TableCell>
-                    <TableCell>{request.status}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
       </div>
     </>
   );

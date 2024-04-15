@@ -36,17 +36,18 @@ model Node {
 }
 
 model ServiceRequest {
-  SRID                        Int                          @id @default(autoincrement())
-  employeeName                String
-  priority                    String
-  location                    String
-  status                      String
-  serviceType                 String
-  description                 String
-  FlowerServiceRequest        FlowerServiceRequest?        @relation("FlowerServiceRequest")
-  RoomSchedulingRequest       RoomSchedulingRequest?       @relation("RoomSchedulingRequest")
-  MedicalDeviceServiceRequest MedicalDeviceServiceRequest? @relation("MedicalDeviceServiceRequest")
-  GiftServiceRequest          GiftServiceRequest?          @relation("GiftServiceRequest")
+  SRID                           Int                             @id @default(autoincrement())
+  employeeName                   String
+  priority                       String
+  location                       String
+  status                         String
+  serviceType                    String
+  description                    String
+  FlowerServiceRequest           FlowerServiceRequest?           @relation("FlowerServiceRequest")
+  RoomSchedulingRequest          RoomSchedulingRequest?          @relation("RoomSchedulingRequest")
+  MedicalDeviceServiceRequest    MedicalDeviceServiceRequest?    @relation("MedicalDeviceServiceRequest")
+  GiftServiceRequest             GiftServiceRequest?             @relation("GiftServiceRequest")
+  MedicineDeliveryServiceRequest MedicineDeliveryServiceRequest? @relation("MedicineDeliveryServiceRequest")
 }
 
 model FlowerServiceRequest {
@@ -78,4 +79,12 @@ model GiftServiceRequest {
   receiverName   String
   giftType       String
   deliveryDate   String
+}
+
+model MedicineDeliveryServiceRequest {
+  ServiceRequest ServiceRequest @relation("MedicineDeliveryServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
+  medicineType   String
+  dosageType     String
+  dosageAmount   Int
 }

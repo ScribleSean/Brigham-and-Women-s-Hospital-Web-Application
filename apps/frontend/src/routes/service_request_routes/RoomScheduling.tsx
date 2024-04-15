@@ -25,7 +25,7 @@ function RoomScheduling() {
       startTime: "", //datetime local
       endTime: "", //numbers only
       status: "", //radio buttons
-      serviceType: "",
+      serviceType: "Room Scheduling",
       description: "",
   });
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -72,21 +72,10 @@ function RoomScheduling() {
         startTime: "", //datetime local
         endTime: "", //numbers only
         status: "", //radio buttons
-        serviceType: "",
+        serviceType: "Room Scheduling",
         description: "",
     });
   };
-
-  //const RoomScheduling: React.FC = () => {
-
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setFormState({
-  //         ...formState,
-  //         [event.target.name]: event.target.value,
-  //     });
-  // };
 
   return (
     <>
@@ -232,7 +221,7 @@ function RoomScheduling() {
                     startTime: "", //datetime local
                     endTime: "", //numbers only
                     status: "", //radio buttons
-                    serviceType: "",
+                    serviceType: "Room Scheduling",
                     description: "",
                 });
               }}
