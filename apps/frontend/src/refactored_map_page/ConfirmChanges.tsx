@@ -1,10 +1,13 @@
-import { Node } from "common/src/DataStructures.ts";
+import { Edge, Node } from "common/src/DataStructures.ts";
 import React, { CSSProperties } from "react";
 import { useMapContext } from "./MapContext.ts";
 import {
+  DeleteEdgesOptionsRequest,
   DeleteNodesOptionsRequest,
   EditorMode,
+  OldNewEdge,
   OldNewNode,
+  RefactorEdgesOptionsRequest,
   RefactorNodesOptionsRequest,
 } from "common/src/types/map_page_types.ts";
 import axios from "axios";
@@ -13,11 +16,15 @@ export default ConfirmChanges;
 
 function ConfirmChanges() {
   const {
+    editorMode,
     nodesToBeDeleted,
     setNodesToBeDeleted,
-    editorMode,
     nodesToBeEdited,
     setNodesToBeEdited,
+    edgesToBeDeleted,
+    setEdgesToBeDeleted,
+    edgesToBeEdited,
+    setEdgesToBeEdited,
   } = useMapContext();
 
   const divStyle: CSSProperties = {
@@ -29,10 +36,7 @@ function ConfirmChanges() {
     top: "20%",
   };
 
-  if (
-    editorMode !== EditorMode.deleteNodes &&
-    editorMode !== EditorMode.addNodes
-  ) {
+  if (editorMode === EditorMode.disabled) {
     return <></>;
   }
 
@@ -59,7 +63,44 @@ function ConfirmChanges() {
         await axios.post("/api/refactor-nodes", refactorNodesOptionsRequest);
         setNodesToBeEdited(new Array<OldNewNode>());
       } catch (error) {
-        console.error("Failed to delete nodes data:", error);
+        console.error("Failed to refactor nodes data:", error);
+      }
+    }
+  };
+
+  /**
+   * This will work sending a POST request of NodeWithAssociatedEdges[] to the server.
+  const addNodes = async () => {
+  };
+   **/
+
+  /** Not setup yet **/
+  const deleteEdges = async () => {
+    try {
+      const deleteEdgesOptionsRequest: DeleteEdgesOptionsRequest = {
+        edges: edgesToBeDeleted,
+      };
+      // Not setup yet
+      await axios.delete("/api/delete-edges", {
+        data: deleteEdgesOptionsRequest,
+      });
+      setEdgesToBeDeleted(new Array<Edge>());
+    } catch (error) {
+      console.error("Failed to delete edges data:", error);
+    }
+  };
+
+  /** Not setup yet **/
+  const editEdges = async () => {
+    if (edgesToBeEdited.length > 0) {
+      try {
+        const refactorEdgesOptionsRequest: RefactorEdgesOptionsRequest = {
+          oldNewEdges: edgesToBeEdited,
+        };
+        await axios.post("/api/refactor-edges", refactorEdgesOptionsRequest);
+        setEdgesToBeEdited(new Array<OldNewEdge>());
+      } catch (error) {
+        console.error("Failed to refactor edges data:", error);
       }
     }
   };
@@ -74,6 +115,16 @@ function ConfirmChanges() {
     case EditorMode.addNodes:
       handleOnConfirm = () => {
         editNodes();
+      };
+      break;
+    case EditorMode.deleteEdges:
+      handleOnConfirm = () => {
+        deleteEdges();
+      };
+      break;
+    case EditorMode.addEdges:
+      handleOnConfirm = () => {
+        editEdges();
       };
       break;
   }

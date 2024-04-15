@@ -7,9 +7,16 @@ const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
   try {
-    const { newNodes, edges } = req.body as AddNodesOptionsRequest;
+    const { nodesWithAssociatedEdges } = req.body as AddNodesOptionsRequest;
 
-    // check that the addedEdges are new (different IDs)
+    const newNodes = nodesWithAssociatedEdges.map(
+      (nodesWithAssociatedEdge) => nodesWithAssociatedEdge.node,
+    );
+    const newEdges = nodesWithAssociatedEdges
+      .map((nodesWithAssociatedEdge) => nodesWithAssociatedEdge.associatedEdges)
+      .flat();
+
+    // check that the new Nodes do not already exist
     const newNodeIds = newNodes.map((newNode) => newNode.ID);
     const existingNodes = await PrismaClient.node.findMany({
       where: {
@@ -27,7 +34,7 @@ router.post("/", async function (req: Request, res: Response) {
     // not same ID, not same start and endNode, not same endNode startNode
     const existingEdges = await PrismaClient.edge.findMany({
       where: {
-        OR: edges.map((edge) => ({
+        OR: newEdges.map((edge) => ({
           OR: [
             {
               AND: [
@@ -54,14 +61,14 @@ router.post("/", async function (req: Request, res: Response) {
     }
 
     // Check that the start node and endNode are not the same
-    if (edges.some((edge: Edge) => (edge.startNode.ID = edge.endNode.ID))) {
+    if (newEdges.some((edge: Edge) => (edge.startNode.ID = edge.endNode.ID))) {
       return res.status(400).json({
         message: "Edge with the same start and endNode",
       });
     }
 
     //Check that each edge references at least one node that is newly added
-    const newEdgesContainNewNodes: boolean = edges.every((edge) =>
+    const newEdgesContainNewNodes: boolean = newEdges.every((edge) =>
       newNodes.some(
         (node) => node.ID === edge.startNode.ID || node.ID === edge.endNode.ID,
       ),
@@ -72,7 +79,10 @@ router.post("/", async function (req: Request, res: Response) {
       });
     }
 
-    // add nodes and edges to the database
+    // We also need to check that it references an already existing node
+
+    // TODO: CHECK THAT THE START AND END NODE IN EACH EDGE EXISTS
+
     const transaction = await PrismaClient.$transaction([
       PrismaClient.node.createMany({
         data: newNodes.map((newNode: Node) => {
@@ -89,7 +99,7 @@ router.post("/", async function (req: Request, res: Response) {
         }),
       }),
       PrismaClient.edge.createMany({
-        data: edges.map((edge: Edge) => {
+        data: newEdges.map((edge: Edge) => {
           return {
             edgeID: edge.ID,
             startNodeID: edge.startNode.ID,

@@ -3,11 +3,15 @@ import {
   AccessibilityType,
   EditorMode,
   NodesByFloor,
+  NodeWithAssociatedEdges,
+  OldNewEdge,
+  OldNewNode,
 } from "common/src/types/map_page_types.ts";
 import {
   AlgorithmType,
   FloorType,
   Node,
+  Edge,
   Path,
 } from "common/src/DataStructures.ts";
 import MapContext from "./MapContext.ts";
@@ -15,8 +19,6 @@ import MapContext from "./MapContext.ts";
 interface MapProviderProps {
   children: ReactNode;
 }
-
-import { OldNewNode } from "common/src/types/map_page_types.ts";
 
 const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [startNode, setStartNode] = useState<Node | null>(null);
@@ -46,9 +48,20 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [nodesToBeDeleted, setNodesToBeDeleted] = useState<Array<Node>>(
     new Array<Node>(),
   );
-
+  const [edgesToBeDeleted, setEdgesToBeDeleted] = useState<Array<Edge>>(
+    new Array<Edge>(),
+  );
   const [nodesToBeEdited, setNodesToBeEdited] = useState<Array<OldNewNode>>(
     new Array<OldNewNode>(),
+  );
+  const [edgesToBeEdited, setEdgesToBeEdited] = useState<Array<OldNewEdge>>(
+    new Array<OldNewEdge>(),
+  );
+  const [nodesToBeAdded, setNodesToBeAdded] = useState<
+    Array<NodeWithAssociatedEdges>
+  >(new Array<NodeWithAssociatedEdges>());
+  const [edgesToBeAdded, setEdgesToBeAdded] = useState<Array<Edge>>(
+    new Array<Edge>(),
   );
 
   const value = {
@@ -89,8 +102,16 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     nodesToBeDeleted,
     setNodesToBeDeleted,
+    edgesToBeDeleted,
+    setEdgesToBeDeleted,
     nodesToBeEdited,
     setNodesToBeEdited,
+    edgesToBeEdited,
+    setEdgesToBeEdited,
+    nodesToBeAdded,
+    setNodesToBeAdded,
+    edgesToBeAdded,
+    setEdgesToBeAdded,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

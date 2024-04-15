@@ -64,9 +64,17 @@ export interface DeleteNodesOptionsRequest {
   nodes: Array<Node>;
 }
 
-export interface AddNodesOptionsRequest {
-  newNodes: Array<Node>;
+export interface DeleteEdgesOptionsRequest {
   edges: Array<Edge>;
+}
+
+export interface AddNodesOptionsRequest {
+  nodesWithAssociatedEdges: Array<NodeWithAssociatedEdges>;
+}
+
+export interface NodeWithAssociatedEdges {
+  node: Node;
+  associatedEdges: Array<Edge>;
 }
 
 export interface RefactorNodesOptionsRequest {
@@ -80,6 +88,11 @@ export interface RefactorEdgesOptionsRequest {
 export interface OldNewNode {
   oldNode: Node;
   newNode: Node;
+}
+
+export interface OldNewEdge {
+  oldEdge: Edge;
+  newEdge: Edge;
 }
 
 export interface OldNewEdge {

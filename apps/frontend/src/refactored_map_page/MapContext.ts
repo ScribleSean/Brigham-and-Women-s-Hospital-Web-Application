@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import {
   FloorType,
   Node,
+  Edge,
   AlgorithmType,
   Path,
 } from "common/src/DataStructures.ts";
@@ -9,6 +10,8 @@ import {
   AccessibilityType,
   EditorMode,
   NodesByFloor,
+  NodeWithAssociatedEdges,
+  OldNewEdge,
 } from "common/src/types/map_page_types.ts";
 import { OldNewNode } from "common/src/types/map_page_types.ts";
 
@@ -35,7 +38,11 @@ interface MapContextType {
   scale: number;
 
   nodesToBeDeleted: Array<Node>;
+  edgesToBeDeleted: Array<Edge>;
   nodesToBeEdited: Array<OldNewNode>;
+  edgesToBeEdited: Array<OldNewEdge>;
+  nodesToBeAdded: Array<NodeWithAssociatedEdges>;
+  edgesToBeAdded: Array<Edge>;
 
   //---------------------------------------
   setStartNode: (node: Node | null) => void;
@@ -60,7 +67,11 @@ interface MapContextType {
   setScale: (scale: number) => void;
 
   setNodesToBeDeleted: (nodes: Array<Node>) => void;
+  setEdgesToBeDeleted: (edges: Array<Edge>) => void;
   setNodesToBeEdited: (nodes: Array<OldNewNode>) => void;
+  setEdgesToBeEdited: (edges: Array<OldNewEdge>) => void;
+  setNodesToBeAdded: (nodes: Array<NodeWithAssociatedEdges>) => void;
+  setEdgesToBeAdded: (edges: Array<Edge>) => void;
 }
 
 const MapContext = createContext<MapContextType | undefined>(undefined);
