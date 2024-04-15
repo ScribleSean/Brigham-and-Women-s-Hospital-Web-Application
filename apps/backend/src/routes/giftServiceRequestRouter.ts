@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import PrismaClient from "../bin/database-connection.ts";
-import { giftRequest } from "common/src/GiftServiceRequest.ts";
+import { giftRequest } from "common/src/backend_interfaces/GiftServiceRequest.ts";
 
 const router: Router = express.Router();
 
@@ -15,6 +15,7 @@ router.post("/", async function (req, res) {
         location: gift.location,
         status: gift.status,
         serviceType: gift.serviceType,
+        description: gift.description,
       },
     });
     await PrismaClient.giftServiceRequest.upsert({
@@ -23,6 +24,8 @@ router.post("/", async function (req, res) {
       },
       create: {
         SRID: serviceRequest.SRID,
+        senderName: gift.senderName,
+        receiverName: gift.receiverName,
         giftType: gift.giftType,
         deliveryDate: gift.deliveryDate,
       },

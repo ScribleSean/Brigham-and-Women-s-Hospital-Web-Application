@@ -18,7 +18,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/GiftRequest.module.css";
 import React, { useState } from "react";
 import axios from "axios";
-import {giftRequest} from "common/src/GiftServiceRequest.ts";
+import {giftRequest} from "common/src/backend_interfaces/GiftServiceRequest.ts";
 
 interface FormData {
   employeeName: string;
@@ -31,13 +31,17 @@ interface FormData {
 
 function GiftRequest() {
   const [formData, setFormData] = useState<giftRequest>({
+    SRID: 0,
+    senderName: "",
+    receiverName: "",
     employeeName: "",
     location: "",
     giftType: "",
     deliveryDate: "",
     priority: "",
     status: "",
-      serviceType: "Gift",
+    serviceType: "Gift",
+    description: "",
   });
 
   const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
@@ -71,13 +75,17 @@ function GiftRequest() {
     const giftRequestPost = await axios.post("/api/giftServiceRequest", formData);
     console.log(giftRequestPost);
     setFormData({
-      employeeName: "",
-      location: "",
-      giftType: "",
-      deliveryDate: "",
-      priority: "",
-      status: "",
+        SRID: 0,
+        senderName: "",
+        receiverName: "",
+        employeeName: "",
+        location: "",
+        giftType: "",
+        deliveryDate: "",
+        priority: "",
+        status: "",
         serviceType: "Gift",
+        description: "",
     });
     setSnackbarIsOpen(true);
   };
@@ -201,13 +209,17 @@ function GiftRequest() {
               sx={{ width: "25%" }}
               onClick={() => {
                 setFormData({
-                  employeeName: "",
-                  location: "",
-                  giftType: "",
-                  deliveryDate: "",
-                  priority: "",
-                  status: "",
+                    SRID: 0,
+                    senderName: "",
+                    receiverName: "",
+                    employeeName: "",
+                    location: "",
+                    giftType: "",
+                    deliveryDate: "",
+                    priority: "",
+                    status: "",
                     serviceType: "Gift",
+                    description: "",
                 });
               }}
             >
