@@ -37,7 +37,7 @@ app.use("/api/flower-service-request", flowerRouter);
 app.use("/api/room-scheduling-request", roomSchedulingRequestRouter);
 app.use("/api/medical-device-service-request", medicalDeviceRouter);
 app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
-app.use("/api/giftServiceRequest", giftServiceRequestRouter);
+app.use("/api/gift-service-request", giftServiceRequestRouter);
 app.use("/api/csv-to-json", csvRouter);
 app.use("/api/node-populate", nodeRouter);
 app.use("/api/edge-populate", edgeRouter);

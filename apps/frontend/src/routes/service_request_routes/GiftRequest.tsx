@@ -50,7 +50,7 @@ function GiftRequest() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const giftRequestPost = await axios.post("/api/giftServiceRequest", formData);
+    const giftRequestPost = await axios.post("/api/gift-service-request", formData);
     console.log(giftRequestPost);
     setFormData({
         SRID: 0,
