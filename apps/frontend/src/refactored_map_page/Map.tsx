@@ -14,6 +14,7 @@ import AccessibilitySelector from "./SelectAccessibility.tsx";
 import DisplayEditingOptions from "./DisplayEditingOptions.tsx";
 import FloorSelector from "./SelectFloor.tsx";
 import FloorDisplay from "./DisplayFloor.tsx";
+import ClearPathButton from "./ClearPathButton.tsx";
 import TextDirections from "./TextDirections.tsx";
 import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
@@ -59,6 +60,7 @@ function MapContents() {
         onTransformed={(e) => handleScaleChange(e)}
       >
         <div style={mapDiv}>
+          <ClearPathButton></ClearPathButton>
           <TextDirections></TextDirections>
           <DirectionsSelector></DirectionsSelector>
           <ShowPathsButton></ShowPathsButton>
