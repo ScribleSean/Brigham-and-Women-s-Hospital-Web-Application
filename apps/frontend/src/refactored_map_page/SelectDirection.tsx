@@ -24,7 +24,7 @@ function DirectionsSelector() {
       onClick={handleOnClick}
       sx={{
         position: "absolute",
-        width: "7vw",
+        width: "6vw",
         backgroundColor: "#012D5A",
         color: "white",
         fontWeight: "bold",
@@ -32,7 +32,7 @@ function DirectionsSelector() {
         textTransform: "capitalize",
         boxShadow: 8,
         zIndex: 4,
-        marginLeft: "7vw",
+        marginLeft: "21vw",
         marginTop: "32vh",
         ":hover": {
           backgroundColor: "#F6BD39!important",

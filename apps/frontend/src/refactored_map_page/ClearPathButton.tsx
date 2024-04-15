@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, Box, FormControl } from "@mui/material";
+import { Button } from "@mui/material";
 import { useMapContext } from "./MapContext";
 
 const ClearPathButton: React.FC = () => {
@@ -12,15 +12,28 @@ const ClearPathButton: React.FC = () => {
   };
 
   return (
-    <Box mt={2}>
-      <Box mb={2} display="flex" justifyContent="flex-start">
-        <FormControl>
-          <Button variant="contained" color="primary" onClick={handleClick}>
-            CLEAR PATH
-          </Button>
-        </FormControl>
-      </Box>
-    </Box>
+    <Button
+      color="primary"
+      onClick={handleClick}
+      sx={{
+        position: "absolute",
+        backgroundColor: "#C62828",
+        color: "white",
+        fontWeight: "bold",
+        fontFamily: "inter",
+        textTransform: "capitalize",
+        boxShadow: 8,
+        marginLeft: "7vw",
+        marginTop: "32vh",
+        width: "6vw",
+        zIndex: 3,
+        ":hover": {
+          backgroundColor: "#9B2626",
+        },
+      }}
+    >
+      Clear Path
+    </Button>
   );
 };
 

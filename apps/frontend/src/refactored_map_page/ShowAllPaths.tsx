@@ -32,7 +32,7 @@ function ShowPathsButton() {
       onMouseLeave={handleMouseLeave}
       sx={{
         position: "absolute",
-        width: "7vw",
+        width: "6vw",
         backgroundColor: showPaths ? "#F6BD39" : "#012D5A",
         color: "white",
         fontWeight: "bold",
@@ -40,7 +40,7 @@ function ShowPathsButton() {
         textTransform: "capitalize",
         boxShadow: 8,
         zIndex: 4,
-        marginLeft: "20vw",
+        marginLeft: "14vw",
         marginTop: "32vh",
         ":hover": {
           backgroundColor: hoverActive
