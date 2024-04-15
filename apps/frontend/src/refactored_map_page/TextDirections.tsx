@@ -51,7 +51,7 @@ function TextDirections() {
     const currentNumPages = Math.ceil(newDirections.length / directionsPerPage);
 
     if (currentPage >= currentNumPages) {
-      setCurrentPage(currentNumPages - 1);
+      setCurrentPage(currentNumPages > 0 ? currentNumPages - 1 : 0);
     }
   }, [paths, generateDirections, currentPage]);
 
