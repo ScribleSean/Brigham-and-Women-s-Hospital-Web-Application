@@ -8,6 +8,7 @@ import {
 } from "common/src/DataStructures.ts";
 import {
   AccessibilityType,
+  EdgesByFloor,
   EditorMode,
   NodesByFloor,
   NodeWithAssociatedEdges,
@@ -20,6 +21,7 @@ interface MapContextType {
   endNode: Node | null;
 
   nodesByFloor: NodesByFloor | null;
+  edgesByFloor: EdgesByFloor | null;
   paths: Array<Path>;
 
   startFloor: FloorType;
@@ -49,6 +51,7 @@ interface MapContextType {
   setEndNode: (node: Node | null) => void;
 
   setNodesByFloor: (nodesByFloor: NodesByFloor | null) => void;
+  setEdgesByFloor: (edgesByFloor: EdgesByFloor | null) => void;
   setPaths: (paths: Array<Path>) => void;
 
   setStartFloor: (floor: FloorType) => void;

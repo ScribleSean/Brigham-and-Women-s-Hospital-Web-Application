@@ -3,6 +3,7 @@ import {
   AccessibilityType,
   EditorMode,
   NodesByFloor,
+  EdgesByFloor,
   NodeWithAssociatedEdges,
   OldNewEdge,
   OldNewNode,
@@ -25,6 +26,7 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [endNode, setEndNode] = useState<Node | null>(null);
 
   const [nodesByFloor, setNodesByFloor] = useState<NodesByFloor | null>(null);
+  const [edgesByFloor, setEdgesByFloor] = useState<EdgesByFloor | null>(null);
   const [paths, setPaths] = useState<Array<Path>>(new Array<Path>());
 
   const [currentFloor, setCurrentFloor] = useState<FloorType>(FloorType.first);
@@ -72,6 +74,8 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     nodesByFloor,
     setNodesByFloor,
+    edgesByFloor,
+    setEdgesByFloor,
     paths,
     setPaths,
 

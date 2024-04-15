@@ -2,21 +2,27 @@ import { Node, Edge, Path } from "../DataStructures.ts";
 import { AlgorithmType } from "../data_structures/AlgorithmType.ts";
 
 export interface EdgesDisplayProps {
-  scaling: NodeScaling;
+  scaling: Scaling;
 }
 
 export interface NodeDisplayProps {
   node: Node;
   key: string;
-  scaling: NodeScaling;
+  scaling: Scaling;
 }
-export interface NodeScaling {
+
+export interface EdgeDisplayProps {
+  edge: Edge;
+  key: string;
+  scaling: Scaling;
+}
+export interface Scaling {
   widthScaling: number;
   heightScaling: number;
 }
 
 export interface PathDisplayProps {
-  scaling: NodeScaling;
+  scaling: Scaling;
 }
 
 export interface NodesByFloor {
