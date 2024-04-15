@@ -44,6 +44,58 @@ function imageToDisplayCoordinates(
   };
 }
 
+function addNode(nodesByFloor: NodesByFloor, node: Node): NodesByFloor {
+  const L1: Array<Node> = nodesByFloor.L1;
+  const L2: Array<Node> = nodesByFloor.L2;
+  const firstFloor: Array<Node> = nodesByFloor.firstFloor;
+  const secondFloor: Array<Node> = nodesByFloor.secondFloor;
+  const thirdFloor: Array<Node> = nodesByFloor.thirdFloor;
+
+  switch (node.floor) {
+    case FloorType.L2:
+      L2.push(node);
+      break;
+    case FloorType.L1:
+      L1.push(node);
+      break;
+    case FloorType.first:
+      firstFloor.push(node);
+      break;
+    case FloorType.second:
+      secondFloor.push(node);
+      break;
+    case FloorType.third:
+      thirdFloor.push(node);
+      break;
+  }
+  return {
+    L2: L2,
+    L1: L1,
+    firstFloor: firstFloor,
+    secondFloor: secondFloor,
+    thirdFloor: thirdFloor,
+  };
+}
+
+function deleteNode(
+  nodesByFloor: NodesByFloor,
+  nodeToBeDeleted: Node,
+): NodesByFloor {
+  return {
+    L2: nodesByFloor.L2.filter((node: Node) => node.ID === nodeToBeDeleted.ID),
+    L1: nodesByFloor.L1.filter((node: Node) => node.ID === nodeToBeDeleted.ID),
+    firstFloor: nodesByFloor.firstFloor.filter(
+      (node: Node) => node.ID === nodeToBeDeleted.ID,
+    ),
+    secondFloor: nodesByFloor?.secondFloor.filter(
+      (node: Node) => node.ID === nodeToBeDeleted.ID,
+    ),
+    thirdFloor: nodesByFloor?.thirdFloor.filter(
+      (node: Node) => node.ID === nodeToBeDeleted.ID,
+    ),
+  };
+}
+
 /*
 function displayToImageCoordinates(x: number, scalingX: number, y: number, scalingY: number): { imageX: number; imageY: number } {
   return {
@@ -320,10 +372,25 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         newNode: newNode,
       };
       setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
+      if (nodesByFloor) {
+        let newNodesByFloor: NodesByFloor;
+        newNodesByFloor = deleteNode(nodesByFloor, oldNode);
+        newNodesByFloor = addNode(nodesByFloor, newNode);
+        setNodesByFloor(newNodesByFloor);
+      }
+
       //console.log(newOldNewNode);
       setIsSaved(false);
     }
-  }, [node, nodesToBeEdited, setNodesToBeEdited, editedNode, isSaved]);
+  }, [
+    nodesByFloor,
+    setNodesByFloor,
+    node,
+    nodesToBeEdited,
+    setNodesToBeEdited,
+    editedNode,
+    isSaved,
+  ]);
 
   const handleSave = () => {
     setIsSaved(true);

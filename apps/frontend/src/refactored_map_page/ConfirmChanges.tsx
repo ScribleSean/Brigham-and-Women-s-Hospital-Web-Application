@@ -4,13 +4,21 @@ import { useMapContext } from "./MapContext.ts";
 import {
   DeleteNodesOptionsRequest,
   EditorMode,
+  OldNewNode,
+  RefactorNodesOptionsRequest,
 } from "common/src/types/map_page_types.ts";
 import axios from "axios";
 
 export default ConfirmChanges;
 
 function ConfirmChanges() {
-  const { nodesToBeDeleted, setNodesToBeDeleted, editorMode } = useMapContext();
+  const {
+    nodesToBeDeleted,
+    setNodesToBeDeleted,
+    editorMode,
+    nodesToBeEdited,
+    setNodesToBeEdited,
+  } = useMapContext();
 
   const divStyle: CSSProperties = {
     width: "10%",
@@ -21,27 +29,54 @@ function ConfirmChanges() {
     top: "20%",
   };
 
-  if (editorMode !== EditorMode.deleteNodes) {
+  if (
+    editorMode !== EditorMode.deleteNodes &&
+    editorMode !== EditorMode.addNodes
+  ) {
     return <></>;
   }
 
-  const handleOnConfirm = () => {
-    async function deleteNodes(): Promise<void> {
+  const deleteNodes = async () => {
+    try {
+      const deleteNodesOptionsRequest: DeleteNodesOptionsRequest = {
+        nodes: nodesToBeDeleted,
+      };
+      await axios.delete("/api/delete-nodes-and-associated-edges", {
+        data: deleteNodesOptionsRequest,
+      });
+      setNodesToBeDeleted(new Array<Node>());
+    } catch (error) {
+      console.error("Failed to delete nodes data:", error);
+    }
+  };
+
+  const editNodes = async () => {
+    if (nodesToBeEdited.length > 0) {
       try {
-        const deleteNodesOptionsRequest: DeleteNodesOptionsRequest = {
-          nodes: nodesToBeDeleted,
+        const refactorNodesOptionsRequest: RefactorNodesOptionsRequest = {
+          oldNewNodes: nodesToBeEdited,
         };
-        await axios.delete("/api/delete-nodes-and-associated-edges", {
-          data: deleteNodesOptionsRequest,
-        });
-        setNodesToBeDeleted(new Array<Node>());
+        await axios.post("/api/refactor-nodes", refactorNodesOptionsRequest);
+        setNodesToBeEdited(new Array<OldNewNode>());
       } catch (error) {
         console.error("Failed to delete nodes data:", error);
       }
     }
-
-    deleteNodes();
   };
+
+  let handleOnConfirm;
+  switch (editorMode) {
+    case EditorMode.deleteNodes:
+      handleOnConfirm = () => {
+        deleteNodes();
+      };
+      break;
+    case EditorMode.addNodes:
+      handleOnConfirm = () => {
+        editNodes();
+      };
+      break;
+  }
 
   return (
     <button style={divStyle} onClick={handleOnConfirm}>

@@ -1,12 +1,20 @@
 import express, { Request, Response, Router } from "express";
 import PrismaClient from "../bin/database-connection";
-import { RefactorNodesOptionsRequest } from "common/src/types/map_page_types.ts";
+import {
+  OldNewNode,
+  RefactorNodesOptionsRequest,
+} from "common/src/types/map_page_types.ts";
 
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
   try {
-    const { oldNewNodes } = req.body as RefactorNodesOptionsRequest;
+    console.log(req.body);
+    const refactorNodesOptionsRequest = req.body as RefactorNodesOptionsRequest;
+    const oldNewNodes: Array<OldNewNode> =
+      refactorNodesOptionsRequest.oldNewNodes;
+
+    console.log(oldNewNodes);
 
     // Check that the ID of the node has not been changed
     const changesID: boolean = oldNewNodes.some((oldNewNode) => {
@@ -34,13 +42,13 @@ router.post("/", async function (req: Request, res: Response) {
       PrismaClient.node.update({
         where: { nodeID: newNode.ID },
         data: {
-          xcoord: newNode.getX(),
-          ycoord: newNode.getY(),
-          floor: newNode.getFloor(),
-          building: newNode.getBuilding(),
-          nodeType: newNode.getType(),
-          longName: newNode.getLongName(),
-          shortName: newNode.getShortName(),
+          xcoord: newNode.x,
+          ycoord: newNode.y,
+          floor: newNode.floor,
+          building: newNode.building,
+          nodeType: newNode.type,
+          longName: newNode.longName,
+          shortName: newNode.shortName,
         },
       }),
     );
