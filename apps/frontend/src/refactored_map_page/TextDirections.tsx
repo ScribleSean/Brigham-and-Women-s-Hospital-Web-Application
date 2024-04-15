@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useMapContext } from "./MapContext.ts";
 import { List, ListItem, ListSubheader, Typography } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
+import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 
 export default TextDirections;
 
@@ -11,6 +12,7 @@ function TextDirections() {
     useMapContext();
 
   const [directionsText, setDirectionsText] = useState<Array<string>>([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const generateDirections = useCallback(
     (paths: Array<Path>) => {
@@ -45,67 +47,135 @@ function TextDirections() {
   useEffect(() => {
     const newDirections: Array<string> = generateDirections(paths);
     setDirectionsText(newDirections);
-  }, [paths, generateDirections]);
+
+    const currentNumPages = Math.ceil(newDirections.length / directionsPerPage);
+
+    if (currentPage >= currentNumPages) {
+      setCurrentPage(currentNumPages - 1);
+    }
+  }, [paths, generateDirections, currentPage]);
 
   if (editorMode !== EditorMode.disabled) {
     return <></>;
   }
 
+  const directionsPerPage = 4;
+  const numPages = Math.ceil(directionsText.length / directionsPerPage);
+  const pagedDirections = directionsText.slice(
+    currentPage * directionsPerPage,
+    (currentPage + 1) * directionsPerPage,
+  );
+
+  const handleNext = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, numPages - 1));
+  };
+
+  const handlePrev = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 0));
+  };
+
   return (
     <div>
       {startNode && endNode ? (
-        <List
-          subheader={
-            <ListSubheader
-              sx={{
-                textAlign: "center",
-                color: "#012D5A",
-                fontWeight: "bold",
-                fontSize: "1.5rem",
-                fontFamily: "inter",
-              }}
-            >
-              Directions
-            </ListSubheader>
-          }
-          sx={{
-            position: "absolute",
-            height: "20vh",
-            width: "20vw",
-            backgroundColor: "background.paper",
-            borderRadius: "1rem",
-            bottom: 0,
-            right: 0,
-            marginBottom: "5vh",
-            marginRight: "10vw",
-            zIndex: 1,
-            boxShadow: 5,
-            overflow: "auto",
-          }}
-        >
-          {directionsText.map((direction, i) => (
-            <ListItem
-              key={i}
-              sx={{
-                fontFamily: "inter",
-                color: "black",
-                backgroundColor: "lightgray",
-              }}
-            >
-              <Typography
+        <div>
+          <List
+            subheader={
+              <ListSubheader
                 sx={{
-                  fontWeight: "bold",
-                  fontFamily: "inter",
-                  marginRight: "1rem",
                   color: "#012D5A",
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  fontFamily: "inter",
+                  textAlign: "center",
                 }}
               >
-                {i + 1}.
-              </Typography>
-              <Typography>{direction}</Typography>
+                Directions
+              </ListSubheader>
+            }
+            sx={{
+              position: "absolute",
+              height: "26vh",
+              width: "24.5vw",
+              backgroundColor: "background.paper",
+              borderRadius: "1rem",
+              bottom: 0,
+              right: 0,
+              marginBottom: "5vh",
+              marginRight: "10vw",
+              zIndex: 1,
+              boxShadow: 5,
+              overflow: "hidden",
+            }}
+          >
+            {pagedDirections.map((direction, i) => (
+              <ListItem
+                key={i}
+                sx={{
+                  color: "black",
+                  backgroundColor: "#e0e0e0",
+                  fontFamily: "inter",
+                }}
+              >
+                <Typography
+                  sx={{
+                    marginRight: "1rem",
+                    color: "#012D5A",
+                    fontFamily: "inter",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {i + 1 + currentPage * directionsPerPage}.
+                </Typography>
+                <Typography>{direction}</Typography>
+              </ListItem>
+            ))}
+            <ListItem
+              sx={{
+                color: "black",
+                fontSize: "0.8rem",
+                textAlign: "right!important",
+              }}
+            >
+              Page {currentPage + 1} of {numPages}
             </ListItem>
-          ))}
-        </List>
+          </List>
+          <ForwardRoundedIcon
+            onClick={handleNext}
+            sx={{
+              position: "absolute",
+              color: "#012D5A!important",
+              fontSize: "3rem",
+              bottom: 0,
+              right: 0,
+              marginBottom: "26vh",
+              marginRight: "10vw",
+              zIndex: 3,
+              ":hover": {
+                cursor: "pointer",
+                color: "#2196F3!important",
+              },
+            }}
+          />
+
+          <ForwardRoundedIcon
+            onClick={handlePrev}
+            sx={{
+              position: "absolute",
+              color: "#012D5A!important",
+              fontSize: "3rem",
+              bottom: 0,
+              right: 0,
+              marginBottom: "26vh",
+              marginRight: "12vw",
+              zIndex: 3,
+              transform: "rotate(180deg)",
+              ":hover": {
+                cursor: "pointer",
+                color: "#2196F3!important",
+              },
+            }}
+          />
+        </div>
       ) : null}
     </div>
   );
