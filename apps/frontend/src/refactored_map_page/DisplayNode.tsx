@@ -2,6 +2,7 @@ import {
   EditorMode,
   NodeDisplayProps,
   NodesByFloor,
+  EdgesByFloor,
   OldNewNode,
 } from "common/src/types/map_page_types.ts";
 import React, { CSSProperties, useEffect, useState } from "react";
@@ -11,6 +12,7 @@ import {
   Node,
   NodeType,
   Path,
+  Edge,
 } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
@@ -20,6 +22,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import ElevatorIcon from "@mui/icons-material/Elevator";
 import StairsIcon from "@mui/icons-material/Stairs";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
   Button,
   Dialog,
@@ -82,17 +85,41 @@ function deleteNode(
   nodeToBeDeleted: Node,
 ): NodesByFloor {
   return {
-    L2: nodesByFloor.L2.filter((node: Node) => node.ID === nodeToBeDeleted.ID),
-    L1: nodesByFloor.L1.filter((node: Node) => node.ID === nodeToBeDeleted.ID),
+    L2: nodesByFloor.L2.filter((node: Node) => node.ID !== nodeToBeDeleted.ID),
+    L1: nodesByFloor.L1.filter((node: Node) => node.ID !== nodeToBeDeleted.ID),
     firstFloor: nodesByFloor.firstFloor.filter(
-      (node: Node) => node.ID === nodeToBeDeleted.ID,
+      (node: Node) => node.ID !== nodeToBeDeleted.ID,
     ),
     secondFloor: nodesByFloor?.secondFloor.filter(
-      (node: Node) => node.ID === nodeToBeDeleted.ID,
+      (node: Node) => node.ID !== nodeToBeDeleted.ID,
     ),
     thirdFloor: nodesByFloor?.thirdFloor.filter(
-      (node: Node) => node.ID === nodeToBeDeleted.ID,
+      (node: Node) => node.ID !== nodeToBeDeleted.ID,
     ),
+  };
+}
+
+function editEdges(
+  edgesByFloor: EdgesByFloor,
+  nodeToBeEdited: Node,
+): EdgesByFloor {
+  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
+  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
+  floors.forEach((edges: Array<Edge>) => {
+    edges.forEach((edge: Edge) => {
+      if (edge.startNode.ID === nodeToBeEdited.ID) {
+        edge.startNode = nodeToBeEdited;
+      } else if (edge.endNode.ID === nodeToBeEdited.ID) {
+        edge.endNode = nodeToBeEdited;
+      }
+    });
+  });
+  return {
+    L2: floors[0],
+    L1: floors[1],
+    firstFloor: floors[2],
+    secondFloor: floors[3],
+    thirdFloor: floors[4],
   };
 }
 
@@ -144,6 +171,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setNodesToBeDeleted,
     nodesToBeEdited,
     setNodesToBeEdited,
+    edgesByFloor,
+    setEdgesByFloor,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -309,20 +338,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const handleDeleteNode = (deletedNode: Node): void => {
     if (nodesByFloor) {
-      const newNodesByFloor: NodesByFloor = {
-        L2: nodesByFloor.L2.filter((node) => node.ID !== deletedNode.ID),
-        L1: nodesByFloor.L1.filter((node) => node.ID !== deletedNode.ID),
-        firstFloor: nodesByFloor.firstFloor.filter(
-          (node) => node.ID !== deletedNode.ID,
-        ),
-        secondFloor: nodesByFloor.secondFloor.filter(
-          (node) => node.ID !== deletedNode.ID,
-        ),
-        thirdFloor: nodesByFloor.thirdFloor.filter(
-          (node) => node.ID !== deletedNode.ID,
-        ),
-      };
-
+      const newNodesByFloor: NodesByFloor = deleteNode(
+        nodesByFloor,
+        deletedNode,
+      );
       setNodesByFloor(newNodesByFloor);
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
     }
@@ -361,25 +380,27 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     );
   }
 
-  // oldNdoe is simply the node rop that we passed to DisplayNode
+  // oldNode is simply the node that we passed to DisplayNode
   // newNode is the edited node that we created
   useEffect(() => {
-    const oldNode: Node = node;
     if (isSaved) {
       const newNode: Node = makeNode(editedNode);
       const newOldNewNode: OldNewNode = {
-        oldNode: oldNode,
+        oldNode: node,
         newNode: newNode,
       };
-      setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
-      if (nodesByFloor) {
-        let newNodesByFloor: NodesByFloor;
-        newNodesByFloor = deleteNode(nodesByFloor, oldNode);
-        newNodesByFloor = addNode(nodesByFloor, newNode);
-        setNodesByFloor(newNodesByFloor);
-      }
 
-      //console.log(newOldNewNode);
+      if (nodesByFloor && edgesByFloor) {
+        let updatedNodesByFloor: NodesByFloor = deleteNode(nodesByFloor, node);
+        updatedNodesByFloor = addNode(updatedNodesByFloor, newNode);
+        const updatedEdgesByFloor: EdgesByFloor = editEdges(
+          edgesByFloor,
+          newNode,
+        );
+        setNodesByFloor(updatedNodesByFloor);
+        setEdgesByFloor(updatedEdgesByFloor);
+        setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
+      }
       setIsSaved(false);
     }
   }, [
@@ -390,11 +411,15 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setNodesToBeEdited,
     editedNode,
     isSaved,
+    edgesByFloor,
+    setEdgesByFloor,
+    tempNode,
   ]);
 
   const handleSave = () => {
     setIsSaved(true);
     setShowModal(false);
+    setTempNode(makeNode(editedNode));
   };
 
   const handleClose = () => {
@@ -668,6 +693,17 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleSave}>Save</Button>
+              <DeleteForeverIcon
+                onClick={() => handleDeleteNode(node)}
+                sx={{
+                  position: "absolute",
+                  left: 0,
+                  fontSize: "2rem",
+                  ":hover": {
+                    cursor: "pointer",
+                  },
+                }}
+              ></DeleteForeverIcon>
             </DialogActions>
           </Dialog>
           <Draggable
