@@ -110,6 +110,7 @@ function FloorDisplay() {
         console.error("Failed to fetch edges data:", error);
       }
     }
+
     getEdges();
   }, [setEdgesByFloor]);
 
@@ -128,6 +129,7 @@ function FloorDisplay() {
   function getHeightScaling(): number {
     return divHeight / IMAGE_HEIGHT;
   }
+
   const updateDimensions = useCallback(() => {
     if (ref.current && !isImageLoaded.current) {
       const { width, height } = ref.current.getBoundingClientRect();
@@ -208,6 +210,15 @@ function FloorDisplay() {
     zIndex: "1",
   };
 
+  const svgStyle: CSSProperties = {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    top: 0,
+    left: 0,
+    zIndex: 2,
+  };
+
   return (
     <div style={divStyleBig}>
       <img
@@ -221,9 +232,11 @@ function FloorDisplay() {
       {getNodesByFloor(nodesByFloor, currentFloor).map((node) => (
         <NodeDisplay {...nodeDisplayProps(node)} />
       ))}
-      {getEdgesByFloor(edgesByFloor, currentFloor).map((edge) => (
-        <EdgeDisplay {...edgeDisplayProps(edge)} />
-      ))}
+      <svg style={svgStyle}>
+        {getEdgesByFloor(edgesByFloor, currentFloor).map((edge) => (
+          <EdgeDisplay {...edgeDisplayProps(edge)} />
+        ))}
+      </svg>
       <PathDisplay {...pathDisplayProps()} />
     </div>
   );
