@@ -1,6 +1,6 @@
 import { ServiceRequest } from "./ServiceRequest.ts";
 
-export interface Room extends ServiceRequest {
+export interface roomSchedRequest extends ServiceRequest {
   startTime: string;
-  duration: number;
+  endTime: string;
 }

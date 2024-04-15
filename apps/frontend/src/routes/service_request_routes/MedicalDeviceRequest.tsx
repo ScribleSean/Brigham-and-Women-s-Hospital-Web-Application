@@ -12,15 +12,7 @@ import {
 import styles from "../../styles/MedicalDeviceRequest.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-interface FormData {
-  employeeName: string;
-  location: string;
-  deviceName: string | null;
-  deviceQuantity: string;
-  priority: string;
-  status: string;
-}
+import {medDeviceRequest} from "common/src/backend_interfaces/medicalDeviceServiceRequest.ts";
 
 function MedicalDeviceRequest() {
   const deviceOptions: string[] = [
@@ -77,14 +69,16 @@ function MedicalDeviceRequest() {
     "Prosthesis",
   ];
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<medDeviceRequest>({
+    SRID: 0,
     employeeName: "",
     location: "",
-    deviceName: null,
+    deviceName: "",
     deviceQuantity: "",
     priority: "",
     status: "",
-      serviceType: "MedicalDevice",
+    serviceType: "MedicalDevice",
+    description: "",
   });
 
   // const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
@@ -105,13 +99,13 @@ function MedicalDeviceRequest() {
   const handleAutocompleteChange = (value: string | null) => {
     setFormData({
       ...formData,
-      deviceName: value || null,
+      deviceName: value as string,
     });
   };
 
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
-    field: keyof FormData,
+    field: keyof medDeviceRequest,
   ) => {
     setFormData({
       ...formData,
@@ -134,13 +128,15 @@ function MedicalDeviceRequest() {
     }
 
     setFormData({
-      employeeName: "",
-      location: "",
-      deviceName: null,
-      deviceQuantity: "",
-      priority: "",
-      status: "",
+        SRID: 0,
+        employeeName: "",
+        location: "",
+        deviceName: "",
+        deviceQuantity: "",
+        priority: "",
+        status: "",
         serviceType: "MedicalDevice",
+        description: "",
     });
   };
 
@@ -289,12 +285,15 @@ function MedicalDeviceRequest() {
               }}
               onClick={() => {
                 setFormData({
-                  employeeName: "",
-                  location: "",
-                  deviceName: null,
-                  deviceQuantity: "",
-                  priority: "",
-                  status: "",
+                    SRID: 0,
+                    employeeName: "",
+                    location: "",
+                    deviceName: "",
+                    deviceQuantity: "",
+                    priority: "",
+                    status: "",
+                    serviceType: "MedicalDevice",
+                    description: "",
                 });
               }}
             >
@@ -312,12 +311,8 @@ function MedicalDeviceRequest() {
             </Button>
           </div>
         </form>
-        <br />
-
-
       </div>
     </>
   );
 }
-
 export default MedicalDeviceRequest;

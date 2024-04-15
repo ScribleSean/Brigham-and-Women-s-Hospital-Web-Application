@@ -13,34 +13,21 @@ import "../../styles/RoomScheduling.css";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/GiftRequest.module.css";
 import axios from "axios";
-import { Room } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
+import { roomSchedRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
 
-//import { useNumberInput } from '@mui/base';
-
-/*
-interface FormData {
-  employeeName: string; //text box
-  priority: string; //radio buttons
-  location: string; //text box
-  startTime: string; //datetime local
-  duration: number; //numbers only
-  status: string; //radio buttons
-}
-*/
 
 function RoomScheduling() {
-  const [formData, setFormData] = useState<Room>({
-    employeeName: "", //text box
-    priority: "", //radio buttons
-    location: "", //text box
-    startTime: "", //datetime local
-    duration: 0, //numbers only
-    status: "", //radio buttons
-    serviceType: "Room",
+  const [formData, setFormData] = useState<roomSchedRequest>({
+      SRID:0,
+      employeeName: "", //text box
+      priority: "", //radio buttons
+      location: "", //text box
+      startTime: "", //datetime local
+      endTime: "", //numbers only
+      status: "", //radio buttons
+      serviceType: "",
+      description: "",
   });
-
-  //const [submittedRequests, setSubmittedRequests] = useState<Room[]>([]);
-
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
   useEffect(() => {
@@ -56,24 +43,13 @@ function RoomScheduling() {
 
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
-    field: keyof FormData,
+    field: keyof roomSchedRequest,
   ) => {
     setFormData({
       ...formData,
       [field]: e.target.value as string,
     });
   };
-
-  //const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //    setFormData({});
-  //};
-
-  /*
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
-
-     */
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,13 +65,15 @@ function RoomScheduling() {
       console.error("Error submitting form data:", error);
     }
     setFormData({
-      employeeName: "", //text box
-      priority: "", //radio buttons
-      location: "", //text box
-      startTime: "", //datetime local
-      duration: 0, //numbers only
-      status: "", //radio buttons
-      serviceType: "",
+        SRID:0,
+        employeeName: "", //text box
+        priority: "", //radio buttons
+        location: "", //text box
+        startTime: "", //datetime local
+        endTime: "", //numbers only
+        status: "", //radio buttons
+        serviceType: "",
+        description: "",
     });
   };
 
@@ -196,8 +174,7 @@ function RoomScheduling() {
                   ),
                 }}
                 onChange={handleTextFieldChange}
-                value={formData.duration}
-                required
+                value={formData.endTime}
               />
             </FormControl>
           </div>
@@ -248,13 +225,15 @@ function RoomScheduling() {
               }}
               onClick={() => {
                 setFormData({
-                  employeeName: "", //text box
-                  priority: "", //radio buttons
-                  location: "", //text box
-                  startTime: "", //datetime local
-                  duration: 0, //numbers only
-                  status: "", //radio buttons
-                  serviceType: "",
+                    SRID:0,
+                    employeeName: "", //text box
+                    priority: "", //radio buttons
+                    location: "", //text box
+                    startTime: "", //datetime local
+                    endTime: "", //numbers only
+                    status: "", //radio buttons
+                    serviceType: "",
+                    description: "",
                 });
               }}
             >

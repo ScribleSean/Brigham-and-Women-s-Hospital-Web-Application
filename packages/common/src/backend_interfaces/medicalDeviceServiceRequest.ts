@@ -1,6 +1,6 @@
 import { ServiceRequest } from "./ServiceRequest.ts";
 
-export interface MedicalDeviceRequest extends ServiceRequest {
+export interface medDeviceRequest extends ServiceRequest {
   deviceName: string;
   deviceQuantity: string;
 }
