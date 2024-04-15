@@ -14,6 +14,7 @@ import AccessibilitySelector from "./SelectAccessibility.tsx";
 import EditorSelector from "./SelectEditor.tsx";
 import FloorSelector from "./SelectFloor.tsx";
 import FloorDisplay from "./DisplayFloor.tsx";
+import ClearPathButton from "./ClearPathButton.tsx";
 
 const mapDiv: CSSProperties = {
   height: "100%",
@@ -54,11 +55,13 @@ function MapContents() {
         onTransformed={(e) => handleScaleChange(e)}
       >
         <div style={mapDiv}>
+          <ClearPathButton></ClearPathButton>
           <DirectionsSelector></DirectionsSelector>
           <EditorSelector></EditorSelector>
           <AlgorithmSelector></AlgorithmSelector>
           <AccessibilitySelector></AccessibilitySelector>
           <LocationSelector></LocationSelector>
+
           <FloorSelector></FloorSelector>
           <TransformComponent>
             <FloorDisplay></FloorDisplay>;
