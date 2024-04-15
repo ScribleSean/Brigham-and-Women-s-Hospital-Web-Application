@@ -2,9 +2,16 @@ import {
   EditorMode,
   NodeDisplayProps,
   NodesByFloor,
+  OldNewNode,
 } from "common/src/types/map_page_types.ts";
-import React, { ChangeEvent, CSSProperties, useEffect, useState } from "react";
-import { Node, NodeType, Path } from "common/src/DataStructures.ts";
+import React, { CSSProperties, useEffect, useState } from "react";
+import {
+  BuildingType,
+  FloorType,
+  Node,
+  NodeType,
+  Path,
+} from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
 import "../styles/DisplayNode.css";
@@ -83,12 +90,39 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setNodesByFloor,
     nodesToBeDeleted,
     setNodesToBeDeleted,
+    nodesToBeEdited,
+    setNodesToBeEdited,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
 
+  const [editedNode, setEditedNode] = useState<Node>(
+    new Node(
+      node.ID,
+      node.x,
+      node.y,
+      node.floor,
+      node.building,
+      node.type,
+      node.longName,
+      node.shortName,
+    ),
+  );
+  const [tempNode, setTempNode] = useState<Node>(
+    new Node(
+      node.ID,
+      node.x,
+      node.y,
+      node.floor,
+      node.building,
+      node.type,
+      node.longName,
+      node.shortName,
+    ),
+  );
+
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [editedNode, setEditedNode] = useState({ ...node });
+  const [isSaved, setIsSaved] = useState<boolean>(false);
 
   useEffect(() => {
     if (startNode) {
@@ -136,6 +170,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const handleNodeSelection = (node: Node): void => {
     if (editorMode !== EditorMode.disabled) {
       setShowModal(true);
+      setTempNode(makeNode(editedNode));
       return;
     }
     if (!startNode) {
@@ -241,22 +276,64 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     }
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setEditedNode((prev) => ({ ...prev, [name]: value }));
+    setEditedNode((prev) => {
+      if (!prev) {
+        return node;
+      }
+
+      return new Node(
+        prev.ID,
+        name === "x" ? Number(value) : prev.x,
+        name === "y" ? Number(value) : prev.y,
+        name === "floor" ? (value as FloorType) : prev.floor,
+        name === "building" ? (value as BuildingType) : prev.building,
+        name === "type" ? (value as NodeType) : prev.type,
+        name === "longName" ? value : prev.longName,
+        name === "shortName" ? value : prev.shortName,
+      );
+    });
   };
 
+  function makeNode(node: Node) {
+    return new Node(
+      node.ID,
+      node.x,
+      node.y,
+      node.floor,
+      node.building,
+      node.type,
+      node.longName,
+      node.shortName,
+    );
+  }
+
+  // oldNdoe is simply the node rop that we passed to DisplayNode
+  // newNode is the edited node that we created
+  useEffect(() => {
+    const oldNode: Node = node;
+    if (isSaved) {
+      const newNode: Node = makeNode(editedNode);
+      const newOldNewNode: OldNewNode = {
+        oldNode: oldNode,
+        newNode: newNode,
+      };
+      setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
+      //console.log(newOldNewNode);
+      setIsSaved(false);
+    }
+  }, [node, nodesToBeEdited, setNodesToBeEdited, editedNode, isSaved]);
+
   const handleSave = () => {
+    setIsSaved(true);
     setShowModal(false);
   };
 
-  console.log(editedNode);
-
-  /*const editedNodes : Array<Node> = new(Array<Node>);
-        if(editedNode) {
-            editedNodes.push(editedNode);
-        }
-    };*/
+  const handleClose = () => {
+    setShowModal(false);
+    setEditedNode(tempNode);
+  };
 
   if (editorMode === EditorMode.deleteNodes) {
     return (
@@ -445,7 +522,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       node.type !== NodeType.STAI &&
       node.type !== NodeType.HALL ? (
         <div>
-          <Dialog open={showModal} onClose={() => setShowModal(false)}>
+          <Dialog open={showModal} onClose={handleClose}>
             <DialogTitle>Node Information</DialogTitle>
             <DialogContent>
               <DialogContentText>
@@ -455,7 +532,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                   type="text"
                   fullWidth
                   name="ID"
-                  value={editedNode.ID}
+                  value={node.ID}
                 />
                 <TextField
                   margin="dense"

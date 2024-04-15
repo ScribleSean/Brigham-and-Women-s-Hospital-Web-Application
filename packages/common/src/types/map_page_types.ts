@@ -77,12 +77,12 @@ export interface RefactorEdgesOptionsRequest {
   oldNewEdges: Array<OldNewEdge>;
 }
 
-interface OldNewNode {
+export interface OldNewNode {
   oldNode: Node;
   newNode: Node;
 }
 
-interface OldNewEdge {
+export interface OldNewEdge {
   oldEdge: Edge;
   newEdge: Edge;
 }

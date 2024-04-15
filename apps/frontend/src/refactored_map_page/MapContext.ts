@@ -10,6 +10,7 @@ import {
   EditorMode,
   NodesByFloor,
 } from "common/src/types/map_page_types.ts";
+import { OldNewNode } from "common/src/types/map_page_types.ts";
 
 interface MapContextType {
   startNode: Node | null;
@@ -34,6 +35,7 @@ interface MapContextType {
   scale: number;
 
   nodesToBeDeleted: Array<Node>;
+  nodesToBeEdited: Array<OldNewNode>;
 
   //---------------------------------------
   setStartNode: (node: Node | null) => void;
@@ -58,6 +60,7 @@ interface MapContextType {
   setScale: (scale: number) => void;
 
   setNodesToBeDeleted: (nodes: Array<Node>) => void;
+  setNodesToBeEdited: (nodes: Array<OldNewNode>) => void;
 }
 
 const MapContext = createContext<MapContextType | undefined>(undefined);

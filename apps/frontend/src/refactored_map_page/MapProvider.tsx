@@ -16,6 +16,8 @@ interface MapProviderProps {
   children: ReactNode;
 }
 
+import { OldNewNode } from "common/src/types/map_page_types.ts";
+
 const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [startNode, setStartNode] = useState<Node | null>(null);
   const [endNode, setEndNode] = useState<Node | null>(null);
@@ -43,6 +45,10 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
   const [nodesToBeDeleted, setNodesToBeDeleted] = useState<Array<Node>>(
     new Array<Node>(),
+  );
+
+  const [nodesToBeEdited, setNodesToBeEdited] = useState<Array<OldNewNode>>(
+    new Array<OldNewNode>(),
   );
 
   const value = {
@@ -83,6 +89,8 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     nodesToBeDeleted,
     setNodesToBeDeleted,
+    nodesToBeEdited,
+    setNodesToBeEdited,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;
