@@ -12,7 +12,7 @@ import {
 import styles from "../../styles/FlowerDelivery.module.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Flower } from "common/src/flowerServiceRequest.ts";
+import { Flower } from "common/src/backend_interfaces/FlowerServiceRequest.ts";
 
 function FlowerDelivery() {
   const flowerTypes = [
