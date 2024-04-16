@@ -31,8 +31,8 @@ function TextDirections() {
               direction = dy > 0 ? "Go down" : "Go up";
             }
 
-            const detail = edge.startNode.longName
-              ? ` on ${edge.startNode.longName}`
+            const detail = edge.startNode.shortName
+              ? ` on ${edge.startNode.shortName}`
               : "";
             directions.push(`${direction}${detail}`);
           }
@@ -59,7 +59,7 @@ function TextDirections() {
     return <></>;
   }
 
-  const directionsPerPage = 4;
+  const directionsPerPage = 3;
   const numPages = Math.ceil(directionsText.length / directionsPerPage);
   const pagedDirections = directionsText.slice(
     currentPage * directionsPerPage,
@@ -94,14 +94,14 @@ function TextDirections() {
             }
             sx={{
               position: "absolute",
-              height: "26vh",
+              height: "28vh",
               width: "24.5vw",
               backgroundColor: "background.paper",
               borderRadius: "1rem",
               bottom: 0,
               right: 0,
-              marginBottom: "5vh",
-              marginRight: "10vw",
+              marginBottom: "3vh",
+              marginRight: "9vw",
               zIndex: 1,
               boxShadow: 5,
               overflow: "hidden",
@@ -147,8 +147,8 @@ function TextDirections() {
               fontSize: "3rem",
               bottom: 0,
               right: 0,
-              marginBottom: "26vh",
-              marginRight: "10vw",
+              marginBottom: "24.5vh",
+              marginRight: "9vw",
               zIndex: 3,
               ":hover": {
                 cursor: "pointer",
@@ -165,8 +165,8 @@ function TextDirections() {
               fontSize: "3rem",
               bottom: 0,
               right: 0,
-              marginBottom: "26vh",
-              marginRight: "12vw",
+              marginBottom: "24.5vh",
+              marginRight: "11.5vw",
               zIndex: 3,
               transform: "rotate(180deg)",
               ":hover": {
