@@ -17,6 +17,7 @@ import edgeRouter from "./routes/edge-route";
 import downloadNodeDataRouter from "./routes/data-to-csv-node";
 import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 import deleteDataRouter from "./routes/deleteDataRoute";
+import roomNameFetchRouter from "./routes/room-name-fetch.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -38,6 +39,7 @@ app.use("/api/room-scheduling-request", roomSchedulingRequestRouter);
 app.use("/api/medical-device-service-request", medicalDeviceRouter);
 app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
 app.use("/api/gift-service-request", giftServiceRequestRouter);
+app.use("/api/room-name-fetch", roomNameFetchRouter);
 app.use("/api/csv-to-json", csvRouter);
 app.use("/api/node-populate", nodeRouter);
 app.use("/api/edge-populate", edgeRouter);
