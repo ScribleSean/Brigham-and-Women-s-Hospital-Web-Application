@@ -1,5 +1,10 @@
 import React from "react";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
 import Login from "./routes/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,79 +22,69 @@ import RoomScheduling from "./routes/service_request_routes/RoomScheduling.tsx";
 import NewSideNavBar from "./components/NewSideNavBar.tsx";
 import Banner from "./components/Banner.tsx";
 import Dashboard from "./routes/Dashboard.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
+// import {useAuth0} from "@auth0/auth0-react";
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      errorElement: <div />,
-      element: <Root />,
-      children: [
-        {
-          path: "/",
-          element: <Map />,
-        },
-        {
-          path: "/csv-page",
-          element: <CSVPage />,
-        },
-        {
-          path: "/flower-delivery",
-          element: <FlowerDelivery />,
-        },
-        {
-          path: "/room-scheduling",
-          element: <RoomScheduling />,
-        },
-        {
-          path: "/requests",
-          element: <Requests />,
-        },
-        {
-          path: "/medicine-request",
-          element: <MedicineRequest />,
-        },
-        {
-          path: "/gift-request",
-          element: <GiftRequest />,
-        },
-        {
-          path: "/medical-device-request",
-          element: <MedicalDeviceRequest />,
-        },
-      ],
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/dashboard", // this is all placeholder until we have a real login system
-      element: (
-        <>
-          <Banner
-            bannerState={"loggedIn"}
-            name={"Gus"}
-            role={"Admin"}
-            email={"gmmontana@wpi.edu"}
-          />
-          <Dashboard />
-        </>
-      ),
-    },
-  ]);
+  return (
+    <Router>
+      <ConditionalSideNavBar />
+      <Banner />
+      <Routes>
+        <Route path="/" element={<Map />} />
+        <Route path="/csv-page" element={<CSVPage />} />
+        <Route path="/flower-delivery" element={<FlowerDelivery />} />
+        <Route path="/room-scheduling" element={<RoomScheduling />} />
+        <Route path="/requests" element={<Requests />} />
+        <Route path="/medicine-request" element={<MedicineRequest />} />
+        <Route
+          path="/gift-request"
+          element={
+            <ProtectedRoute roles={["admin"]}>
+              <GiftRequest />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/medical-device-request"
+          element={<MedicalDeviceRequest />}
+        />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute roles={["admin", "staff"]}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
+  );
+}
 
-  return <RouterProvider router={router} />;
+function ConditionalSideNavBar() {
+  const location = useLocation();
+  // const { isAuthenticated, user } = useAuth0();
 
-  function Root() {
-    return (
-      <div>
-        <NewSideNavBar />
-        <Banner bannerState={"loggedOut"} />
-        <Outlet />
-      </div>
-    );
+  // Don't render the side navbar on the login route
+  if (location.pathname === "/login") {
+    return null;
   }
+
+  // Don't render the side navbar if the user is not authenticated
+  // if (!isAuthenticated) {
+  //     return null;
+  // }
+
+  // Don't render the side navbar if the user is not an employee
+  // const userRoles = user ? user['http://localhost:3000/roles'] : [];
+  // const isEmployee = userRoles.some((role: string) => ['admin', 'staff'].includes(role));
+  // if (!isEmployee) {
+  //     return null;
+  // }
+
+  return <NewSideNavBar />;
 }
 
 export default App;

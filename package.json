@@ -52,6 +52,7 @@
     "vitest": "^0.33.0"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@material-ui/icons": "^4.11.3",

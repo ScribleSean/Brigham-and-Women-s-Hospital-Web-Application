@@ -1,17 +1,21 @@
 import styles from "../styles/Banner.module.css";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { Popover } from "@mui/material";
 import React from "react";
+import LoginButton from "./LoginButton.tsx";
+import LogoutButton from "./LogoutButton.tsx";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface UserInfo {
-  bannerState: string;
   name?: string;
   role?: string;
   email?: string;
 }
 
 function RightSide(props: UserInfo) {
+  const { isAuthenticated, user } = useAuth0();
+  const userRoles = user ? user["http://localhost:3000/roles"] : [];
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
   );
@@ -26,12 +30,12 @@ function RightSide(props: UserInfo) {
 
   const open = Boolean(anchorEl);
 
-  if (props.bannerState === "loggedIn") {
+  if (isAuthenticated && user) {
     return (
       <div className={`${styles.userInfo}`}>
         <div>
-          <p className={`${styles.greeting}`}>Hello, {props.name}</p>
-          <p className={`${styles.role}`}>Logged in as {props.role}</p>
+          <p className={`${styles.greeting}`}>Hello, {user.name}</p>
+          <p className={`${styles.role}`}>Logged in as {userRoles[0]} </p>
         </div>
         <IconButton onClick={handleClick}>
           <PersonIcon
@@ -56,43 +60,24 @@ function RightSide(props: UserInfo) {
         >
           <div className={`${styles.popover}`}>
             <p className={`${styles.email}`}>{props.email}</p>
-            <Button
-              variant={"contained"}
-              sx={{
-                m: "0.5vw",
-                width: "60%",
-                backgroundColor: "#012d5a",
-                color: "white",
-              }}
-            >
-              Logout
-            </Button>
+            <LogoutButton />
           </div>
         </Popover>
       </div>
     );
-  } else if (props.bannerState === "loggedOut") {
-    return (
-      <Button
-        variant={"outlined"}
-        sx={{
-          mx: "0.5vw",
-        }}
-      >
-        Staff Login
-      </Button>
-    );
-  } else if (props.bannerState === "loginPage") {
-    return (
-      <Button
-        variant={"outlined"}
-        sx={{
-          mx: "0.5vw",
-        }}
-      >
-        Back to Home
-      </Button>
-    );
+  } else {
+    return <LoginButton />;
+    // } else if (props.bannerState === "loginPage") {
+    //   return (
+    //     <Button
+    //       variant={"outlined"}
+    //       sx={{
+    //         mx: "0.5vw",
+    //       }}
+    //     >
+    //       Back to Home
+    //     </Button>
+    //   );
   }
 }
 
@@ -104,12 +89,7 @@ function Banner(props: UserInfo) {
           <img src="/logo.png" alt="logo" className={`${styles.logo}`} />
           <h5 className={`${styles.title}`}>Brigham & Women's Hospital</h5>
         </div>
-        <RightSide
-          bannerState={props.bannerState}
-          name={props.name}
-          role={props.role}
-          email={props.email}
-        />
+        <RightSide name={props.name} role={props.role} email={props.email} />
       </div>
     </>
   );
