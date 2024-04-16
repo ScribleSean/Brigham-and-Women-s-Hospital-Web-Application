@@ -11,7 +11,7 @@ import DirectionsSelector from "./SelectDirection.tsx";
 import LocationSelector from "./SelectLocation.tsx";
 import AlgorithmSelector from "./SelectAlgorithm.tsx";
 import AccessibilitySelector from "./SelectAccessibility.tsx";
-import DisplayEditingOptions from "./DisplayEditingOptions.tsx";
+import DisplayEditingOptions from "./SelectEditor.tsx";
 import FloorSelector from "./SelectFloor.tsx";
 import FloorDisplay from "./DisplayFloor.tsx";
 import ClearPathButton from "./ClearPathButton.tsx";
