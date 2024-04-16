@@ -15,27 +15,18 @@ const ProtectedRoute = ({ roles, children }) => {
   const isAllowed =
     isAuthenticated &&
     userRoles &&
-    userRoles.some((role: string) => roles.includes(role));
+    userRoles.every((role: string) => roles.includes(role));
 
   useEffect(() => {
     // If the user is not allowed, redirect them to the home page
-    if (
-      !isAllowed ||
-      (roles.size == 1 && userRoles.some(() => !roles.includes("admin")))
-    ) {
+    if (!isAllowed) {
       alert("You don't have access to this page");
+      navigate("/");
     }
-  }, [isAllowed, roles, userRoles]);
-
-  if (
-    !isAllowed ||
-    (roles.size == 1 && userRoles.some(() => !roles.includes("admin")))
-  ) {
-    navigate("/");
-  }
+  }, [isAllowed, roles, userRoles, navigate]);
 
   // If the user is allowed, render the children
-  return children;
+  return isAllowed ? children : null;
 };
 
 export default ProtectedRoute;
