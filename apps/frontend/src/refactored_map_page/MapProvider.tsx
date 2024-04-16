@@ -69,6 +69,8 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     new Array<Edge>(),
   );
 
+  const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
+
   const value = {
     startNode,
     setStartNode,
@@ -124,6 +126,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     setNodesToBeAdded,
     edgesToBeAdded,
     setEdgesToBeAdded,
+
+    unsavedChanges,
+    setUnsavedChanges,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

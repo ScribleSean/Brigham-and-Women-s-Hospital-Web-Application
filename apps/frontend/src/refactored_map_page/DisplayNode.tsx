@@ -199,6 +199,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     edgesByFloor,
     setEdgesByFloor,
     showNodes,
+      setUnsavedChanges,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -375,6 +376,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       setNodesByFloor(newNodesByFloor);
       setEdgesByFloor(newEdgesByFloor);
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
+      setUnsavedChanges(true);
     }
   };
 
@@ -431,6 +433,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         setNodesByFloor(updatedNodesByFloor);
         setEdgesByFloor(updatedEdgesByFloor);
         setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
+        setUnsavedChanges(true);
       }
       setIsSaved(false);
     }
@@ -445,6 +448,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     edgesByFloor,
     setEdgesByFloor,
     tempNode,
+      setUnsavedChanges,
   ]);
 
   const handleSave = () => {

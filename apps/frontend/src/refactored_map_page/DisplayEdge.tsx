@@ -117,6 +117,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setEdgesByFloor,
     setEdgesToBeDeleted,
     edgesToBeDeleted,
+      setUnsavedChanges,
   } = useMapContext();
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -163,6 +164,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
       );
       setEdgesByFloor(newEdgesByFloor);
       setEdgesToBeDeleted([...edgesToBeDeleted, deletedEdge]);
+      setUnsavedChanges(true);
     }
   };
 
@@ -185,6 +187,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
         );
         setEdgesByFloor(updatedEdgesByFloor);
         setEdgesToBeEdited([...edgesToBeEdited, newOldNewEdge]);
+        setUnsavedChanges(true);
       }
       setIsSaved(false);
     }
@@ -198,6 +201,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     isSaved,
     edgesByFloor,
     setEdgesByFloor,
+      setUnsavedChanges,
   ]);
 
   const handleChange = (

@@ -49,6 +49,8 @@ interface MapContextType {
   nodesToBeAdded: Array<NodeWithAssociatedEdges>;
   edgesToBeAdded: Array<Edge>;
 
+  unsavedChanges: boolean;
+
   //---------------------------------------
   setStartNode: (node: Node | null) => void;
   setEndNode: (node: Node | null) => void;
@@ -81,6 +83,8 @@ interface MapContextType {
   setEdgesToBeEdited: (edges: Array<OldNewEdge>) => void;
   setNodesToBeAdded: (nodes: Array<NodeWithAssociatedEdges>) => void;
   setEdgesToBeAdded: (edges: Array<Edge>) => void;
+
+  setUnsavedChanges: (hasChanged: boolean) => void;
 }
 
 const MapContext = createContext<MapContextType | undefined>(undefined);

@@ -1,19 +1,16 @@
-import { Edge, Node } from "common/src/DataStructures.ts";
-import React, { CSSProperties } from "react";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 import { useMapContext } from "./MapContext.ts";
 import {
   AddEdgesOptionsRequest,
-  AddNodesOptionsRequest,
-  DeleteEdgesOptionsRequest,
+  AddNodesOptionsRequest, DeleteEdgesOptionsRequest,
   DeleteNodesOptionsRequest,
-  EditorMode,
-  NodeWithAssociatedEdges,
-  OldNewEdge,
-  OldNewNode,
-  RefactorEdgesOptionsRequest,
-  RefactorNodesOptionsRequest,
+  EditorMode, NodeWithAssociatedEdges, OldNewEdge, OldNewNode, RefactorEdgesOptionsRequest, RefactorNodesOptionsRequest,
 } from "common/src/types/map_page_types.ts";
-import axios from "axios";
+import {Node} from "common/src/data_structures/Node.ts";
+import {Edge} from "common/src/data_structures/Edge.ts";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default ConfirmChanges;
 
@@ -32,21 +29,12 @@ function ConfirmChanges() {
     setNodesToBeAdded,
     edgesToBeAdded,
     setEdgesToBeAdded,
+      unsavedChanges,
+      setUnsavedChanges,
   } = useMapContext();
 
-  const divStyle: CSSProperties = {
-    width: "10%",
-    height: "10%",
-    position: "absolute",
-    zIndex: 5,
-    bottom: 0,
-    right: 0,
-    marginRight: "30vw",
-  };
-
-  if (editorMode === EditorMode.disabled) {
-    return <></>;
-  }
+  const [dialogueOpen, setDialogueOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const deleteNodes = async () => {
     try {
@@ -83,8 +71,8 @@ function ConfirmChanges() {
           nodesWithAssociatedEdges: nodesToBeAdded,
         };
         await axios.post(
-          "/api/add-nodes-and-associated-edges",
-          addNodesOptionsRequest,
+            "/api/add-nodes-and-associated-edges",
+            addNodesOptionsRequest,
         );
         setNodesToBeAdded(new Array<NodeWithAssociatedEdges>());
       } catch (error) {
@@ -92,8 +80,6 @@ function ConfirmChanges() {
       }
     }
   };
-
-  console.log(addNodes);
 
   const deleteEdges = async () => {
     try {
@@ -138,35 +124,95 @@ function ConfirmChanges() {
     }
   };
 
-  console.log(addEdges);
+  const handleConfirm = async () => {
+    if (nodesToBeAdded.length > 0) {
+      addNodes();
+    }
+    if (nodesToBeEdited.length > 0) {
+      editNodes();
+    }
+    if (nodesToBeDeleted.length > 0) {
+      deleteNodes();
+    }
+    if (edgesToBeAdded.length > 0) {
+      addEdges();
+    }
+    if (edgesToBeEdited.length > 0) {
+      editEdges();
+    }
+    if (edgesToBeDeleted.length > 0) {
+      deleteEdges();
+    }
+    setUnsavedChanges(false);
+    setDialogueOpen(false);
+    setSnackbarOpen(true);
+  };
 
-  let handleOnConfirm;
-  switch (editorMode) {
-    case EditorMode.deleteNodes:
-      handleOnConfirm = () => {
-        deleteNodes();
-      };
-      break;
-    case EditorMode.addNodes:
-      handleOnConfirm = () => {
-        editNodes();
-      };
-      break;
-    case EditorMode.deleteEdges:
-      handleOnConfirm = () => {
-        deleteEdges();
-      };
-      break;
-    case EditorMode.addEdges:
-      handleOnConfirm = () => {
-        editEdges();
-      };
-      break;
-  }
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!unsavedChanges) return;
+      event.preventDefault();
+      event.returnValue = "You have unsaved changes. Are you sure you want to leave?";
+    };
+
+    if (unsavedChanges) {
+      window.addEventListener('beforeunload', handleBeforeUnload);
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [unsavedChanges]);
+
+
+  if (editorMode === EditorMode.disabled) {return <></>;}
+
 
   return (
-    <button style={divStyle} onClick={handleOnConfirm}>
-      Confirm Changes
-    </button>
+      <>
+        <Button
+            variant={"contained"}
+            color={"error"}
+            startIcon={<DeleteIcon />}
+            sx={{
+              height: "40px",
+              zIndex: 40,
+            }}
+            onClick={() => setDialogueOpen(true)}
+        >
+          Delete Data
+        </Button>
+        <Dialog open={dialogueOpen} onClose={() => setDialogueOpen(false)}>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              This will delete all map node and edge data from the database. This
+              action cannot be undone.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+                onClick={() => setDialogueOpen(false)}
+                sx={{
+                  color: "black",
+                }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleConfirm} color="error" variant={"contained"}>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={5000}
+            onClose={() => {
+              setSnackbarOpen(false);
+            }}
+            message={"Data deleted successfully."}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        />
+      </>
   );
 }
