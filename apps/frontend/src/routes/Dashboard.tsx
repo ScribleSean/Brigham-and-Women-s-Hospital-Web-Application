@@ -11,7 +11,7 @@ function Dashboard() {
   };
 
   return (
-    <>
+    <div className={"overflow-hidden"}>
       <div className={`${styles.pageContainer}`}>
         {expanded ? (
           <>
@@ -31,7 +31,7 @@ function Dashboard() {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
