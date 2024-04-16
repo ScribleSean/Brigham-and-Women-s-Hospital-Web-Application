@@ -17,14 +17,18 @@ import refactorNodesRouter from "./routes/refactorNodes.ts";
 import refactorEdgesRouter from "./routes/refactorEdges.ts";
 
 import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
+import roomSchedulingRequestRouter from "./routes/roomSchedulingRequestRouter.ts";
+import giftServiceRequestRouter from "./routes/giftServiceRequestRouter.ts";
 import serviceRequestRouter from "./routes/serviceRequestRouter.ts";
-
+import medicalDeviceRouter from "./routes/medicalDeviceServiceRequestRouter.ts";
+import medicineDeliveryRouter from "./routes/medicineDeliveryServiceRequestRouter.ts";
 import csvRouter from "./routes/csv-handler";
 import nodeRouter from "./routes/node-route";
 import edgeRouter from "./routes/edge-route";
 import downloadNodeDataRouter from "./routes/data-to-csv-node";
 import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 import deleteDataRouter from "./routes/deleteDataRoute";
+import roomNameFetchRouter from "./routes/room-name-fetch.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -42,6 +46,11 @@ app.use(express.urlencoded({ extended: false })); // URL parser
 app.use(cookieParser()); // Cookie parser
 app.use("/api/service-request", serviceRequestRouter);
 app.use("/api/flower-service-request", flowerRouter);
+app.use("/api/room-scheduling-request", roomSchedulingRequestRouter);
+app.use("/api/medical-device-service-request", medicalDeviceRouter);
+app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
+app.use("/api/gift-service-request", giftServiceRequestRouter);
+app.use("/api/room-name-fetch", roomNameFetchRouter);
 app.use("/api/csv-to-json", csvRouter);
 app.use("/api/node-populate", nodeRouter);
 app.use("/api/edge-populate", edgeRouter);

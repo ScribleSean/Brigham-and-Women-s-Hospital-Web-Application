@@ -32,12 +32,20 @@ function Login() {
   return (
     <div className={"flex-container"}>
       <div className={"hero"}>
-        <div className={"overlay"}>
-          <h1 className={"hero-text"}>
-            Welcome to Brigham and Women's Hospital
-          </h1>
-        </div>
+        <div className={"overlay"}>Welcome to Brigham and Women’s Hospital</div>
+
+        {/*<div className={"overlay"}>*/}
+        {/*    <h1 className={"hero-text"}>*/}
+        {/*        Welcome to Brigham and Women's Hospital*/}
+        {/*    </h1>*/}
+        {/*</div>*/}
+        {/*<div>*/}
+        {/*    <h1 >*/}
+        {/*        Helping our patients and their families get back to what matters most.*/}
+        {/*    </h1>*/}
+        {/*</div>*/}
       </div>
+
       <div className={"login-container"}>
         <div className={"login-title-container"}>
           <img src="/logo.png" alt="logo" className={"logo-img"} />

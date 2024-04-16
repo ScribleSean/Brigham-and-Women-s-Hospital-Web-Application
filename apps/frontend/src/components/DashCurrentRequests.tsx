@@ -17,8 +17,9 @@ import {
   TableHead,
   TableBody,
   TablePagination,
+  SelectChangeEvent,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import styles from "../styles/Dashboard.module.css";
@@ -26,21 +27,26 @@ import SearchIcon from "@mui/icons-material/Search";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
+import axios from "axios";
+
 function createData(
   SRID: number,
-  requestType: string,
+  serviceType: string,
   employeeName: string,
   location: string,
   priority: string,
   status: string,
+  description: string,
 ) {
   return {
     SRID,
-    requestType,
+    serviceType,
     employeeName,
     location,
     priority,
     status,
+    description,
   };
 }
 
@@ -83,6 +89,22 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     }
   };
 
+  const handleStatusChange = async (
+    row: ServiceRequest,
+    event: SelectChangeEvent<unknown>,
+  ) => {
+    // Update the priority of the ServiceRequest object
+    row.status = event.target.value as string;
+
+    try {
+      // Send a POST request to the server with the updated ServiceRequest object
+      const response = await axios.post("/api/service-request", row);
+      console.log("Form data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
+  };
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -94,7 +116,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell component="th" scope="row">
           {row.SRID}
         </TableCell>
-        <TableCell align="right">{row.requestType}</TableCell>
+        <TableCell align="right">{row.serviceType}</TableCell>
         <TableCell align="right">{row.employeeName}</TableCell>
         <TableCell align="right">{row.location}</TableCell>
         <TableCell align="right">
@@ -111,7 +133,11 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         </TableCell>
         <TableCell align="right">
           <FormControl fullWidth size={"small"}>
-            <Select id="filterStatus" defaultValue={row.status}>
+            <Select
+              id="filterStatus"
+              defaultValue={row.status}
+              onChange={(event) => handleStatusChange(row, event)}
+            >
               <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"Assigned"}>Assigned</MenuItem>
               <MenuItem value={"In Progress"}>In Progress</MenuItem>
@@ -133,43 +159,6 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   );
 }
 
-const rows = [
-  createData(1, "Medicine", "John Doe", "Room 101", "Emergency", "Unassigned"),
-  createData(2, "Gift", "Jane Doe", "Room 102", "High", "Assigned"),
-  createData(
-    3,
-    "Med. Device",
-    "John Smith",
-    "Room 103",
-    "Medium",
-    "In Progress",
-  ),
-  createData(4, "Room", "Jane Smith", "Room 104", "Low", "Closed"),
-  createData(5, "Flower", "John Doe", "Room 105", "Emergency", "Unassigned"),
-  createData(6, "Medicine", "Jane Doe", "Room 106", "High", "Assigned"),
-  createData(7, "Gift", "John Smith", "Room 107", "Medium", "In Progress"),
-  createData(8, "Med. Device", "Jane Smith", "Room 108", "Low", "Closed"),
-  createData(9, "Room", "John Doe", "Room 109", "Emergency", "Unassigned"),
-  createData(10, "Flower", "Jane Doe", "Room 110", "High", "Assigned"),
-  createData(11, "Medicine", "John Smith", "Room 111", "Medium", "In Progress"),
-  createData(12, "Gift", "Jane Smith", "Room 112", "Low", "Closed"),
-  createData(
-    13,
-    "Med. Device",
-    "John Doe",
-    "Room 113",
-    "Emergency",
-    "Unassigned",
-  ),
-  createData(14, "Room", "Jane Doe", "Room 114", "High", "Assigned"),
-  createData(15, "Flower", "John Smith", "Room 115", "Medium", "In Progress"),
-  createData(16, "Medicine", "Jane Smith", "Room 116", "Low", "Closed"),
-  createData(17, "Gift", "John Doe", "Room 117", "Emergency", "Unassigned"),
-  createData(18, "Med. Device", "Jane Doe", "Room 118", "High", "Assigned"),
-  createData(19, "Room", "John Smith", "Room 119", "Medium", "In Progress"),
-  createData(20, "Flower", "Jane Smith", "Room 120", "Low", "Closed"),
-];
-
 export default function DashCurrentRequests({
   expanded,
   onExpandClick,
@@ -179,6 +168,49 @@ export default function DashCurrentRequests({
 }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [requestData, setRequestData] = useState<ServiceRequest[]>();
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("Any");
+  const [filterPriority, setFilterPriority] = useState("Any");
+  const [filterStatus, setFilterStatus] = useState("Any");
+
+  const filterRows = (rows: ServiceRequest[]) => {
+    return rows.filter((row) => {
+      const matchesSearchTerm =
+        searchTerm === "" ||
+        Object.values(row).some((val) =>
+          val.toString().toLowerCase().includes(searchTerm.toLowerCase()),
+        );
+      const matchesFilterType =
+        filterType === "Any" || row.serviceType === filterType;
+      const matchesFilterPriority =
+        filterPriority === "Any" || row.priority === filterPriority;
+      const matchesFilterStatus =
+        filterStatus === "Any" || row.status === filterStatus;
+      return (
+        matchesSearchTerm &&
+        matchesFilterType &&
+        matchesFilterPriority &&
+        matchesFilterStatus
+      );
+    });
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await axios.get("/api/service-request");
+      setRequestData(res.data);
+      console.log("successfully got data from get request");
+    }
+    fetchData().then();
+  }, []);
+
+  let rows: ServiceRequest[] = [];
+  if (requestData) {
+    rows = requestData;
+  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -228,6 +260,7 @@ export default function DashCurrentRequests({
                   </InputAdornment>
                 ),
               }}
+              onChange={(event) => setSearchTerm(event.target.value)}
             />
           </div>
           <div className={`${styles.filterMenu}`}>
@@ -245,6 +278,9 @@ export default function DashCurrentRequests({
                   id="filterType"
                   label="Type"
                   defaultValue={"Any"}
+                  onChange={(event) =>
+                    setFilterType(event.target.value as string)
+                  }
                 >
                   <MenuItem value={"Any"}>
                     <em>Any</em>
@@ -263,6 +299,9 @@ export default function DashCurrentRequests({
                   id="filterPriority"
                   label="Priority"
                   defaultValue={"Any"}
+                  onChange={(event) =>
+                    setFilterPriority(event.target.value as string)
+                  }
                 >
                   <MenuItem value={"Any"}>
                     <em>Any</em>
@@ -280,6 +319,9 @@ export default function DashCurrentRequests({
                   id="filterStatus"
                   label="Status"
                   defaultValue={"Any"}
+                  onChange={(event) =>
+                    setFilterStatus(event.target.value as string)
+                  }
                 >
                   <MenuItem value={"Any"}>
                     <em>Any</em>
@@ -328,7 +370,7 @@ export default function DashCurrentRequests({
               </StyledTableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {filterRows(rows)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <Row key={row.SRID} row={row} />
