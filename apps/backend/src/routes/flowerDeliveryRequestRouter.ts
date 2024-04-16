@@ -29,13 +29,13 @@ router.post("/", async function (req, res) {
         flowerType: flower.flowerType,
         senderName: flower.senderName,
         receiverName: flower.receiverName,
-        date: flower.deliveryDate,
+        deliveryDate: flower.deliveryDate,
       },
       update: {
         flowerType: flower.flowerType,
         senderName: flower.senderName,
         receiverName: flower.receiverName,
-        date: flower.deliveryDate,
+        deliveryDate: flower.deliveryDate,
       },
     });
 

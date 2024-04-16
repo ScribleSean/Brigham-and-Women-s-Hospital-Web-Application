@@ -11,6 +11,8 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
+import axios from "axios";
+import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceRequest.ts";
 
 function MedicalDeviceFields() {
   const locationOptions = [
@@ -75,7 +77,8 @@ function MedicalDeviceFields() {
     "Prosthesis",
   ];
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<MedicalDevice>({
+    SRID: 0,
     employeeName: "",
     location: "",
     priority: "",
@@ -83,6 +86,7 @@ function MedicalDeviceFields() {
     deviceName: "",
     deviceQuantity: "",
     description: "",
+    serviceType: "Medical Device"
   });
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -112,6 +116,7 @@ function MedicalDeviceFields() {
 
   const resetForm = () => {
     setFormData({
+      SRID: 0,
       employeeName: "",
       location: "",
       priority: "",
@@ -119,12 +124,22 @@ function MedicalDeviceFields() {
       deviceName: "",
       deviceQuantity: "",
       description: "",
+      serviceType: "Medical Device"
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add API call here
+    try {
+      const response = await axios.post(
+        "/api/medical-device-service-request",
+        formData,
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Unable to create form");
+      console.log(error);
+    }
     setSnackbarIsOpen(true);
     resetForm();
   };

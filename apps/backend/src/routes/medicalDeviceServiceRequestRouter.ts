@@ -7,6 +7,8 @@ const router: Router = express.Router();
 router.post("/", async function (req, res) {
   const medicalDevice: MedicalDevice = req.body;
 
+  console.log("testing");
+
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({
       data: {

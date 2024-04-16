@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import styles from "../../styles/RequestFields.module.css";
 import React, { useEffect, useState } from "react";
+import { medicineDeliveryRequest } from "common/src/backend_interfaces/medicineDeliveryRequest.ts";
+import axios from "axios";
 
 function MedicineFields() {
   const locationOptions = [
@@ -75,15 +77,17 @@ function MedicineFields() {
     "Dextromethorphan",
   ];
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<medicineDeliveryRequest>({
+    SRID: 0,
     employeeName: "",
     location: "",
     priority: "",
     status: "",
     medicineType: "",
-    dosageForm: "",
+    dosageType: "",
     dosageAmount: "",
     description: "",
+    serviceType: "Medicine"
   });
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -117,20 +121,31 @@ function MedicineFields() {
 
   const resetForm = () => {
     setFormData({
+      SRID: 0,
       employeeName: "",
       location: "",
       priority: "",
       status: "",
       medicineType: "",
-      dosageForm: "",
+      dosageType: "",
       dosageAmount: "",
       description: "",
+      serviceType: "Medicine"
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add API call here
+    try {
+      const response = await axios.post(
+        "/api/medical-device-service-request",
+        formData,
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Unable to create form");
+      console.log(error);
+    }
     setSnackbarIsOpen(true);
     resetForm();
   };
@@ -246,10 +261,10 @@ function MedicineFields() {
             <InputLabel id="dosageFormLabel">Dosage Form</InputLabel>
             <Select
               labelId="dosageFormLabel"
-              id="dosageForm"
+              id="dosageType"
               label="Dosage Form"
-              value={formData.dosageForm}
-              onChange={(e) => handleSelectChange(e, "dosageForm")}
+              value={formData.dosageType}
+              onChange={(e) => handleSelectChange(e, "dosageType")}
             >
               <MenuItem value={"Capsule"}>Capsule</MenuItem>
               <MenuItem value={"Liquid"}>Liquid</MenuItem>

@@ -11,6 +11,8 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
+import { flowerDeliveryRequest } from "common/src/backend_interfaces/flowerServiceRequest.ts";
+import axios from "axios";
 
 function FlowerDeliveryFields() {
   const locationOptions = [
@@ -21,13 +23,14 @@ function FlowerDeliveryFields() {
     "Placeholder 5",
   ];
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<flowerDeliveryRequest>({
+    SRID: 0,
     employeeName: "",
     location: "",
     priority: "",
     status: "",
     senderName: "",
-    recipientName: "",
+    receiverName: "",
     flowerType: "",
     deliveryDate: "",
     description: "",
@@ -61,12 +64,13 @@ function FlowerDeliveryFields() {
 
   const resetForm = () => {
     setFormData({
+      SRID: 0,
       employeeName: "",
       location: "",
       priority: "",
       status: "",
       senderName: "",
-      recipientName: "",
+      receiverName: "",
       flowerType: "",
       deliveryDate: "",
       description: "",
@@ -74,9 +78,18 @@ function FlowerDeliveryFields() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add API call here
+    try {
+      const response = await axios.post(
+        "/api/flower-service-request",
+        formData,
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Unable to create form");
+      console.log(error);
+    }
     setSnackbarIsOpen(true);
     resetForm();
   };
@@ -182,7 +195,7 @@ function FlowerDeliveryFields() {
             onChange={handleTextFieldChange}
           />
           <TextField
-            id={"recipientName"}
+            id={"receiverName"}
             fullWidth
             variant={"outlined"}
             label={"Recipient Name"}
@@ -190,7 +203,7 @@ function FlowerDeliveryFields() {
               marginLeft: "2%",
             }}
             required
-            value={formData.recipientName}
+            value={formData.receiverName}
             onChange={handleTextFieldChange}
           />
         </div>

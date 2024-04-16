@@ -11,6 +11,8 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
+import { roomSchedulingRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
+import axios from "axios";
 
 function RoomSchedulingFields() {
   const locationOptions = [
@@ -21,7 +23,8 @@ function RoomSchedulingFields() {
     "Placeholder 5",
   ];
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<roomSchedulingRequest>({
+    SRID: 0,
     employeeName: "",
     location: "",
     priority: "",
@@ -29,6 +32,7 @@ function RoomSchedulingFields() {
     startTime: "",
     endTime: "",
     description: "",
+    serviceType: "Room Scheduling"
   });
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -58,6 +62,7 @@ function RoomSchedulingFields() {
 
   const resetForm = () => {
     setFormData({
+      SRID: 0,
       employeeName: "",
       location: "",
       priority: "",
@@ -65,12 +70,22 @@ function RoomSchedulingFields() {
       startTime: "",
       endTime: "",
       description: "",
+      serviceType: "Room Scheduling"
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add API call here
+    try {
+      const response = await axios.post(
+        "/api/room-scheduling-request",
+        formData,
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Unable to create form");
+      console.log(error);
+    }
     setSnackbarIsOpen(true);
     resetForm();
   };
