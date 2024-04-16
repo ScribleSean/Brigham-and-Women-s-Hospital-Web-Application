@@ -18,7 +18,7 @@ import {
   TableBody,
   TablePagination,
 } from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import styles from "../styles/Dashboard.module.css";
@@ -26,27 +26,27 @@ import SearchIcon from "@mui/icons-material/Search";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
-import {ServiceRequest} from "common/src/backend_interfaces/ServiceRequest.ts";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 import axios from "axios";
 
 function createData(
-    SRID: number,
-    serviceType: string,
-    employeeName: string,
-    location: string,
-    priority: string,
-    status: string,
-    description: string,
+  SRID: number,
+  serviceType: string,
+  employeeName: string,
+  location: string,
+  priority: string,
+  status: string,
+  description: string,
 ) {
-    return {
-        SRID,
-        serviceType,
-        employeeName,
-        location,
-        priority,
-        status,
-        description,
-    };
+  return {
+    SRID,
+    serviceType,
+    employeeName,
+    location,
+    priority,
+    status,
+    description,
+  };
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -138,7 +138,6 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   );
 }
 
-
 export default function DashCurrentRequests({
   expanded,
   onExpandClick,
@@ -149,36 +148,48 @@ export default function DashCurrentRequests({
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    const [requestData, setRequestData] = useState<ServiceRequest[]>();
+  const [requestData, setRequestData] = useState<ServiceRequest[]>();
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filterType, setFilterType] = useState("Any");
-    const [filterPriority, setFilterPriority] = useState("Any");
-    const [filterStatus, setFilterStatus] = useState("Any");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("Any");
+  const [filterPriority, setFilterPriority] = useState("Any");
+  const [filterStatus, setFilterStatus] = useState("Any");
 
-    const filterRows = (rows: ServiceRequest[]) => {
-        return rows.filter((row) => {
-            const matchesSearchTerm = searchTerm === "" || Object.values(row).some(val => val.toString().toLowerCase().includes(searchTerm.toLowerCase()));
-            const matchesFilterType = filterType === "Any" || row.serviceType === filterType;
-            const matchesFilterPriority = filterPriority === "Any" || row.priority === filterPriority;
-            const matchesFilterStatus = filterStatus === "Any" || row.status === filterStatus;
-            return matchesSearchTerm && matchesFilterType && matchesFilterPriority && matchesFilterStatus;
-        });
-    };
+  const filterRows = (rows: ServiceRequest[]) => {
+    return rows.filter((row) => {
+      const matchesSearchTerm =
+        searchTerm === "" ||
+        Object.values(row).some((val) =>
+          val.toString().toLowerCase().includes(searchTerm.toLowerCase()),
+        );
+      const matchesFilterType =
+        filterType === "Any" || row.serviceType === filterType;
+      const matchesFilterPriority =
+        filterPriority === "Any" || row.priority === filterPriority;
+      const matchesFilterStatus =
+        filterStatus === "Any" || row.status === filterStatus;
+      return (
+        matchesSearchTerm &&
+        matchesFilterType &&
+        matchesFilterPriority &&
+        matchesFilterStatus
+      );
+    });
+  };
 
-    useEffect(() => {
-        async function fetchData() {
-            const res = await axios.get("/api/service-request");
-            setRequestData(res.data);
-            console.log("successfully got data from get request");
-        }
-        fetchData().then();
-    }, []);
-
-    let rows: ServiceRequest[] = [];
-    if (requestData) {
-        rows = requestData;
+  useEffect(() => {
+    async function fetchData() {
+      const res = await axios.get("/api/service-request");
+      setRequestData(res.data);
+      console.log("successfully got data from get request");
     }
+    fetchData().then();
+  }, []);
+
+  let rows: ServiceRequest[] = [];
+  if (requestData) {
+    rows = requestData;
+  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -246,7 +257,9 @@ export default function DashCurrentRequests({
                   id="filterType"
                   label="Type"
                   defaultValue={"Any"}
-                  onChange={(event) => setFilterType(event.target.value as string)}
+                  onChange={(event) =>
+                    setFilterType(event.target.value as string)
+                  }
                 >
                   <MenuItem value={"Any"}>
                     <em>Any</em>
@@ -265,7 +278,9 @@ export default function DashCurrentRequests({
                   id="filterPriority"
                   label="Priority"
                   defaultValue={"Any"}
-                  onChange={(event) => setFilterPriority(event.target.value as string)}
+                  onChange={(event) =>
+                    setFilterPriority(event.target.value as string)
+                  }
                 >
                   <MenuItem value={"Any"}>
                     <em>Any</em>
@@ -283,7 +298,9 @@ export default function DashCurrentRequests({
                   id="filterStatus"
                   label="Status"
                   defaultValue={"Any"}
-                  onChange={(event) => setFilterStatus(event.target.value as string)}
+                  onChange={(event) =>
+                    setFilterStatus(event.target.value as string)
+                  }
                 >
                   <MenuItem value={"Any"}>
                     <em>Any</em>
@@ -332,11 +349,11 @@ export default function DashCurrentRequests({
               </StyledTableRow>
             </TableHead>
             <TableBody>
-                {filterRows(rows)
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => (
-                        <Row key={row.SRID} row={row} />
-                    ))}
+              {filterRows(rows)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => (
+                  <Row key={row.SRID} row={row} />
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
