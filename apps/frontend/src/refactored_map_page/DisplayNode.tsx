@@ -99,6 +99,31 @@ function deleteNode(
   };
 }
 
+function deleteAssociatedEdges(
+  edgesByFloor: EdgesByFloor,
+  nodeDeleted: Node,
+): EdgesByFloor {
+  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
+  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
+
+  const updatedFloors = floors.map((floor) =>
+    floor.filter((edge) => {
+      return (
+        edge.startNode.ID !== nodeDeleted.ID &&
+        edge.endNode.ID !== nodeDeleted.ID
+      );
+    }),
+  );
+
+  return {
+    L2: updatedFloors[0],
+    L1: updatedFloors[1],
+    firstFloor: updatedFloors[2],
+    secondFloor: updatedFloors[3],
+    thirdFloor: updatedFloors[4],
+  };
+}
+
 function editEdges(
   edgesByFloor: EdgesByFloor,
   nodeToBeEdited: Node,
@@ -337,12 +362,17 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   };
 
   const handleDeleteNode = (deletedNode: Node): void => {
-    if (nodesByFloor) {
+    if (nodesByFloor && edgesByFloor) {
+      const newEdgesByFloor: EdgesByFloor = deleteAssociatedEdges(
+        edgesByFloor,
+        deletedNode,
+      );
       const newNodesByFloor: NodesByFloor = deleteNode(
         nodesByFloor,
         deletedNode,
       );
       setNodesByFloor(newNodesByFloor);
+      setEdgesByFloor(newEdgesByFloor);
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
     }
   };
