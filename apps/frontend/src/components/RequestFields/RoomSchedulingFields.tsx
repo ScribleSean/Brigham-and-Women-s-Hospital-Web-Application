@@ -83,8 +83,7 @@ function RoomSchedulingFields() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       const response = await axios.post(
         "/api/room-scheduling-request",

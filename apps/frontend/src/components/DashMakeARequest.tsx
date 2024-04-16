@@ -14,7 +14,9 @@ import FlowerDeliveryFields from "./RequestFields/FlowerDeliveryFields.tsx";
 import React, { useState } from "react";
 
 export default function DashMakeARequest() {
-  const [currentReqType, setCurrentReqType] = useState(<div></div>);
+  const [currentReqType, setCurrentReqType] = useState(
+    <FlowerDeliveryFields />,
+  );
 
   const handleRequestTypeChange = (e: SelectChangeEvent<unknown>) => {
     switch (e.target.value) {
@@ -53,6 +55,7 @@ export default function DashMakeARequest() {
               onChange={(e) => {
                 handleRequestTypeChange(e);
               }}
+              defaultValue={"Flower"}
             >
               <MenuItem value={"Flower"}>Flower Delivery</MenuItem>
               <MenuItem value={"Gift"}>Gift</MenuItem>
@@ -63,13 +66,7 @@ export default function DashMakeARequest() {
           </FormControl>
         </div>
         <hr className={`${styles.divider}`} />
-        <div className={`${styles.formContent}`}>
-          {currentReqType.type != "div" ? (
-            currentReqType
-          ) : (
-            <p className={`${styles.tooltip}`}>Select a request type.</p>
-          )}
-        </div>
+        <div className={`${styles.formContent}`}>{currentReqType}</div>
       </div>
     </>
   );

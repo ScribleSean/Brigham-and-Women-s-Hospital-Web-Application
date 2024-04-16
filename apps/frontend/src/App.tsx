@@ -9,7 +9,6 @@ import Map from "./refactored_map_page/Map.tsx";
 import NewSideNavBar from "./components/NewSideNavBar.tsx";
 import Banner from "./components/Banner.tsx";
 import Dashboard from "./routes/Dashboard.tsx";
-import styles from "./styles/App.module.css";
 
 function App() {
   const router = createBrowserRouter([
@@ -50,10 +49,8 @@ function App() {
           role={"Admin"}
           email={"example@wpi.edu"}
         />
-        <div className={`${styles.pageContainer}`}>
-          <NewSideNavBar />
-          <Outlet />
-        </div>
+        <NewSideNavBar />
+        <Outlet />
       </>
     );
   }

@@ -14,10 +14,13 @@ function Dashboard() {
     <>
       <div className={`${styles.pageContainer}`}>
         {expanded ? (
-          <DashCurrentRequests
-            expanded={expanded}
-            onExpandClick={onExpandClick}
-          />
+          <>
+            <DashCurrentRequests
+              expanded={expanded}
+              onExpandClick={onExpandClick}
+            />
+            <DashMakeARequest />
+          </>
         ) : (
           <>
             <DashCurrentRequests

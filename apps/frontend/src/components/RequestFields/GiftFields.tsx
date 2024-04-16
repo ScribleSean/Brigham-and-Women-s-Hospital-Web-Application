@@ -87,8 +87,7 @@ function GiftFields() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       const response = await axios.post("/api/gift-service-request", formData);
       console.log(response.data);
