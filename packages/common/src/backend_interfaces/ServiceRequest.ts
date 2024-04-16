@@ -5,4 +5,5 @@ export interface ServiceRequest {
   location: string;
   status: string;
   serviceType: string;
+  description: string;
 }

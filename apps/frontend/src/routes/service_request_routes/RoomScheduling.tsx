@@ -7,46 +7,27 @@ import {
   Select,
   SelectChangeEvent,
   Snackbar,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
 } from "@mui/material";
 import "../../styles/RoomScheduling.css";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/GiftRequest.module.css";
-
-//import { useNumberInput } from '@mui/base';
-
-interface FormData {
-  employeeName: string; //text box
-  priority: string; //radio buttons
-  location: string; //text box
-  startTime: string; //datetime local
-  duration: number; //numbers only
-  status: string; //radio buttons
-}
+import axios from "axios";
+import { roomSchedRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
 
 function RoomScheduling() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<roomSchedRequest>({
+    SRID: 0,
     employeeName: "", //text box
     priority: "", //radio buttons
     location: "", //text box
     startTime: "", //datetime local
-    duration: 0, //numbers only
+    endTime: "", //numbers only
     status: "", //radio buttons
+    serviceType: "Room Scheduling",
+    description: "",
   });
-
-  const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
-
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
-
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
 
   useEffect(() => {
     console.log(formData);
@@ -61,7 +42,7 @@ function RoomScheduling() {
 
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
-    field: keyof FormData,
+    field: keyof roomSchedRequest,
   ) => {
     setFormData({
       ...formData,
@@ -69,37 +50,31 @@ function RoomScheduling() {
     });
   };
 
-  //const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //    setFormData({});
-  //};
-
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addSubmittedRequest(formData);
+    //addSubmittedRequest(formData);
+    console.log(formData);
+    try {
+      const response = await axios.post(
+        "/api/room-scheduling-request",
+        formData,
+      );
+      console.log("Form data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
     setFormData({
+      SRID: 0,
       employeeName: "", //text box
       priority: "", //radio buttons
       location: "", //text box
       startTime: "", //datetime local
-      duration: 0, //numbers only
+      endTime: "", //numbers only
       status: "", //radio buttons
+      serviceType: "Room Scheduling",
+      description: "",
     });
   };
-
-  //const RoomScheduling: React.FC = () => {
-
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setFormState({
-  //         ...formState,
-  //         [event.target.name]: event.target.value,
-  //     });
-  // };
 
   return (
     <>
@@ -187,8 +162,7 @@ function RoomScheduling() {
                   ),
                 }}
                 onChange={handleTextFieldChange}
-                value={formData.duration}
-                required
+                value={formData.endTime}
               />
             </FormControl>
           </div>
@@ -239,12 +213,15 @@ function RoomScheduling() {
               }}
               onClick={() => {
                 setFormData({
+                  SRID: 0,
                   employeeName: "", //text box
                   priority: "", //radio buttons
                   location: "", //text box
                   startTime: "", //datetime local
-                  duration: 0, //numbers only
+                  endTime: "", //numbers only
                   status: "", //radio buttons
+                  serviceType: "Room Scheduling",
+                  description: "",
                 });
               }}
             >
@@ -262,48 +239,6 @@ function RoomScheduling() {
             </Button>
           </div>
         </form>
-        <br />
-        <div>
-          <h2>Active Requests</h2>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <b>Employee Name</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Location</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Start Time</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Duration</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Priority</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Status</b>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {submittedRequests.map((request) => (
-                  <TableRow>
-                    <TableCell>{request.employeeName}</TableCell>
-                    <TableCell>{request.location}</TableCell>
-                    <TableCell>{request.startTime}</TableCell>
-                    <TableCell>{request.duration}</TableCell>
-                    <TableCell>{request.priority}</TableCell>
-                    <TableCell>{request.status}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
       </div>
     </>
   );

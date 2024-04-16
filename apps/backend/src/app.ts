@@ -6,8 +6,11 @@ import nodesRouter from "./routes/nodes.ts";
 import pathRouter from "./routes/path.ts";
 import edgesRouter from "./routes/edges.ts";
 import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
+import roomSchedulingRequestRouter from "./routes/roomSchedulingRequestRouter.ts";
+import giftServiceRequestRouter from "./routes/giftServiceRequestRouter.ts";
 import serviceRequestRouter from "./routes/serviceRequestRouter.ts";
-
+import medicalDeviceRouter from "./routes/medicalDeviceServiceRequestRouter.ts";
+import medicineDeliveryRouter from "./routes/medicineDeliveryServiceRequestRouter.ts";
 import csvRouter from "./routes/csv-handler";
 import nodeRouter from "./routes/node-route";
 import edgeRouter from "./routes/edge-route";
@@ -31,6 +34,10 @@ app.use(express.urlencoded({ extended: false })); // URL parser
 app.use(cookieParser()); // Cookie parser
 app.use("/api/service-request", serviceRequestRouter);
 app.use("/api/flower-service-request", flowerRouter);
+app.use("/api/room-scheduling-request", roomSchedulingRequestRouter);
+app.use("/api/medical-device-service-request", medicalDeviceRouter);
+app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
+app.use("/api/gift-service-request", giftServiceRequestRouter);
 app.use("/api/csv-to-json", csvRouter);
 app.use("/api/node-populate", nodeRouter);
 app.use("/api/edge-populate", edgeRouter);
