@@ -26,9 +26,9 @@ const mapDiv: CSSProperties = {
   overflowY: "hidden",
 };
 
-export default Map;
+export default AdminMap;
 
-function Map() {
+function AdminMap() {
   return (
     <MapProvider>
       <MapContents />

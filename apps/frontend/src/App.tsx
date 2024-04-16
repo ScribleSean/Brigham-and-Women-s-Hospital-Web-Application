@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.module.css";
 import { CSVPage } from "./routes/CSVPage.tsx";
 import "./index.css";
-import Map from "./refactored_map_page/Map.tsx";
+import AdminMap from "./refactored_map_page/AdminMap.tsx";
 import NewSideNavBar from "./components/NewSideNavBar.tsx";
 import Banner from "./components/Banner.tsx";
 import Dashboard from "./routes/Dashboard.tsx";
@@ -20,7 +20,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Map />,
+          element: <AdminMap />,
         },
         {
           path: "/dashboard",
