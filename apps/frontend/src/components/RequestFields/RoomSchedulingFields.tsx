@@ -10,18 +10,27 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { roomSchedulingRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
 import axios from "axios";
 
 function RoomSchedulingFields() {
-  const locationOptions = [
-    "Placeholder 1",
-    "Placeholder 2",
-    "Placeholder 3",
-    "Placeholder 4",
-    "Placeholder 5",
-  ];
+  const [locationOptions, setLocationOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await axios.get("/api/room-name-fetch");
+        const locationNames = response.data.map(
+          (location: { longName: string }) => location.longName,
+        );
+        setLocationOptions(locationNames);
+      } catch (error) {
+        console.error("Failed to fetch locations", error);
+      }
+    };
+    fetchLocations();
+  }, []);
 
   const [formData, setFormData] = useState<roomSchedulingRequest>({
     SRID: 0,
@@ -32,7 +41,7 @@ function RoomSchedulingFields() {
     startTime: "",
     endTime: "",
     description: "",
-    serviceType: "Room Scheduling"
+    serviceType: "Room Scheduling",
   });
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -70,7 +79,7 @@ function RoomSchedulingFields() {
       startTime: "",
       endTime: "",
       description: "",
-      serviceType: "Room Scheduling"
+      serviceType: "Room Scheduling",
     });
   };
 

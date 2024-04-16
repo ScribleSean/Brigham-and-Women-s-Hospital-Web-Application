@@ -10,18 +10,27 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { flowerDeliveryRequest } from "common/src/backend_interfaces/flowerServiceRequest.ts";
 import axios from "axios";
 
 function FlowerDeliveryFields() {
-  const locationOptions = [
-    "Placeholder 1",
-    "Placeholder 2",
-    "Placeholder 3",
-    "Placeholder 4",
-    "Placeholder 5",
-  ];
+  const [locationOptions, setLocationOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await axios.get("/api/room-name-fetch");
+        const locationNames = response.data.map(
+          (location: { longName: string }) => location.longName,
+        );
+        setLocationOptions(locationNames);
+      } catch (error) {
+        console.error("Failed to fetch locations", error);
+      }
+    };
+    fetchLocations();
+  }, []);
 
   const [formData, setFormData] = useState<flowerDeliveryRequest>({
     SRID: 0,
@@ -78,8 +87,8 @@ function FlowerDeliveryFields() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // e.preventDefault();
     try {
       const response = await axios.post(
         "/api/flower-service-request",

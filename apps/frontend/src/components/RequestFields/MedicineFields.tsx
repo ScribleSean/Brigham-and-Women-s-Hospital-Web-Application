@@ -16,13 +16,22 @@ import { medicineDeliveryRequest } from "common/src/backend_interfaces/medicineD
 import axios from "axios";
 
 function MedicineFields() {
-  const locationOptions = [
-    "Placeholder 1",
-    "Placeholder 2",
-    "Placeholder 3",
-    "Placeholder 4",
-    "Placeholder 5",
-  ];
+  const [locationOptions, setLocationOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await axios.get("/api/room-name-fetch");
+        const locationNames = response.data.map(
+          (location: { longName: string }) => location.longName,
+        );
+        setLocationOptions(locationNames);
+      } catch (error) {
+        console.error("Failed to fetch locations", error);
+      }
+    };
+    fetchLocations();
+  }, []);
 
   const medicineOptions = [
     "Aspirin",
@@ -87,14 +96,10 @@ function MedicineFields() {
     dosageType: "",
     dosageAmount: "",
     description: "",
-    serviceType: "Medicine"
+    serviceType: "Medicine",
   });
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -130,7 +135,7 @@ function MedicineFields() {
       dosageType: "",
       dosageAmount: "",
       description: "",
-      serviceType: "Medicine"
+      serviceType: "Medicine",
     });
   };
 
