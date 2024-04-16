@@ -198,6 +198,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setNodesToBeEdited,
     edgesByFloor,
     setEdgesByFloor,
+    showNodes,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -640,9 +641,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     </>
   ) : (
     <div>
-      {node.type !== NodeType.ELEV &&
-      node.type !== NodeType.STAI &&
-      node.type !== NodeType.HALL ? (
+      {showNodes ? (
         <div>
           <Dialog open={showModal} onClose={handleClose}>
             <DialogTitle>Node Information</DialogTitle>
@@ -729,11 +728,9 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                   position: "absolute",
                   left: 0,
                   fontSize: "2rem",
-                  ":hover": {
-                    cursor: "pointer",
-                  },
+                  ":hover": { cursor: "pointer" },
                 }}
-              ></DeleteForeverIcon>
+              />
             </DialogActions>
           </Dialog>
           <Draggable
@@ -742,13 +739,125 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
             onStop={handleStopDrag}
           >
             <button
-              className="none"
+              className="node-selector"
               style={normalNodeStyle}
               onClick={() => handleNodeSelection(node)}
             />
           </Draggable>
         </div>
-      ) : null}
+      ) : (
+        <div>
+          {node.type !== NodeType.ELEV &&
+          node.type !== NodeType.STAI &&
+          node.type !== NodeType.HALL ? (
+            <div>
+              <Dialog open={showModal} onClose={handleClose}>
+                <DialogTitle>Node Information</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    {/* Each TextField represents a property of the node that can be edited */}
+                    <TextField
+                      margin="dense"
+                      label="ID"
+                      type="text"
+                      fullWidth
+                      name="ID"
+                      value={node.ID}
+                      InputProps={{ readOnly: true }} // Make ID field read-only if it should not be changed
+                    />
+                    <TextField
+                      margin="dense"
+                      label="X-Coordinate"
+                      type="text"
+                      fullWidth
+                      name="x"
+                      value={editedNode.x}
+                      onChange={handleChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      label="Y-Coordinate"
+                      type="text"
+                      fullWidth
+                      name="y"
+                      value={editedNode.y}
+                      onChange={handleChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      label="Floor"
+                      type="text"
+                      fullWidth
+                      name="floor"
+                      value={editedNode.floor}
+                      onChange={handleChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      label="Building"
+                      type="text"
+                      fullWidth
+                      name="building"
+                      value={editedNode.building}
+                      onChange={handleChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      label="Type"
+                      type="text"
+                      fullWidth
+                      name="type"
+                      value={editedNode.type}
+                      onChange={handleChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      label="Long Name"
+                      type="text"
+                      fullWidth
+                      name="longName"
+                      value={editedNode.longName}
+                      onChange={handleChange}
+                    />
+                    <TextField
+                      margin="dense"
+                      label="Short Name"
+                      type="text"
+                      fullWidth
+                      name="shortName"
+                      value={editedNode.shortName}
+                      onChange={handleChange}
+                    />
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleSave}>Save</Button>
+                  <DeleteForeverIcon
+                    onClick={() => handleDeleteNode(node)}
+                    sx={{
+                      position: "absolute",
+                      left: 0,
+                      fontSize: "2rem",
+                      ":hover": { cursor: "pointer" },
+                    }}
+                  />
+                </DialogActions>
+              </Dialog>
+              <Draggable
+                scale={scale}
+                onStart={handleStartDrag}
+                onStop={handleStopDrag}
+              >
+                <button
+                  className="node-selector"
+                  style={normalNodeStyle}
+                  onClick={() => handleNodeSelection(node)}
+                />
+              </Draggable>
+            </div>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 }

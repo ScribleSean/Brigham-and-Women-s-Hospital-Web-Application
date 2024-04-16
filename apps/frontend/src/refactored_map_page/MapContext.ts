@@ -36,6 +36,9 @@ interface MapContextType {
   editorMode: EditorMode;
   showPaths: boolean;
 
+  showNodes: boolean;
+  showEdges: boolean;
+
   disableZoomPanning: boolean;
   scale: number;
 
@@ -65,6 +68,9 @@ interface MapContextType {
 
   setEditorMode: (editorMode: EditorMode) => void;
   setShowPaths: (showPaths: boolean) => void;
+
+  setShowNodes: (showNodes: boolean) => void;
+  setShowEdges: (showEdges: boolean) => void;
 
   setDisableZoomPanning: (disableZoomPanning: boolean) => void;
   setScale: (scale: number) => void;

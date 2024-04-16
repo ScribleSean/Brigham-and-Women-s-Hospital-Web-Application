@@ -2,14 +2,19 @@ import React from "react";
 
 import { Button } from "@mui/material";
 import { useMapContext } from "./MapContext";
+import { EditorMode } from "common/src/types/map_page_types.ts";
 
 const ClearPathButton: React.FC = () => {
-  const { setStartNode, setEndNode } = useMapContext();
+  const { setStartNode, setEndNode, editorMode } = useMapContext();
 
   const handleClick = () => {
     setStartNode(null);
     setEndNode(null);
   };
+
+  if (editorMode !== EditorMode.disabled) {
+    return null;
+  }
 
   return (
     <Button

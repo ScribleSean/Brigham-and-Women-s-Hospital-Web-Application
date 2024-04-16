@@ -9,22 +9,29 @@ import {
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
-  const { includeHallways, byFloors } = req.body as NodesOptionsRequest;
+  const { includeHallways, byFloors, showAllNodes } =
+    req.body as NodesOptionsRequest;
   const graph: Graph = await createGraph(res, false);
+
+  let getIncludeHallways = includeHallways;
+
+  if (showAllNodes) {
+    getIncludeHallways = true;
+  }
 
   if (byFloors) {
     const nodesByFloor: NodesByFloor = {
-      L2: graph.getNodesByFloor(FloorType.L2, includeHallways),
-      L1: graph.getNodesByFloor(FloorType.L1, includeHallways),
-      firstFloor: graph.getNodesByFloor(FloorType.first, includeHallways),
-      secondFloor: graph.getNodesByFloor(FloorType.second, includeHallways),
-      thirdFloor: graph.getNodesByFloor(FloorType.third, includeHallways),
+      L2: graph.getNodesByFloor(FloorType.L2, getIncludeHallways),
+      L1: graph.getNodesByFloor(FloorType.L1, getIncludeHallways),
+      firstFloor: graph.getNodesByFloor(FloorType.first, getIncludeHallways),
+      secondFloor: graph.getNodesByFloor(FloorType.second, getIncludeHallways),
+      thirdFloor: graph.getNodesByFloor(FloorType.third, getIncludeHallways),
     };
     res.send(JSON.stringify(nodesByFloor));
   }
 
   if (!byFloors) {
-    const nodes: Array<Node> = graph.getNodes(includeHallways);
+    const nodes: Array<Node> = graph.getNodes(getIncludeHallways);
     res.send(JSON.stringify(nodes));
   }
 });

@@ -12,7 +12,7 @@ export default EdgeDisplay;
 function EdgeDisplay(props: EdgeDisplayProps) {
   const { edge, scaling } = props;
   const { widthScaling, heightScaling } = scaling;
-  const { editorMode } = useMapContext();
+  const { editorMode, showEdges } = useMapContext();
 
   function getEdgeCoordinates(edge: Edge): string {
     const nodes: [Node, Node] = [edge.startNode, edge.endNode];
@@ -37,6 +37,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
   }
 
   return (
+    showEdges &&
     editorMode !== EditorMode.disabled && (
       <polyline {...getPolylineProps(getEdgeCoordinates(edge), red)} />
     )
