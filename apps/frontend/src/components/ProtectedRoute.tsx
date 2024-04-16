@@ -19,7 +19,7 @@ const ProtectedRoute = ({ roles, children }) => {
 
   useEffect(() => {
     // If the user is not allowed, redirect them to the home page
-    if (!isAllowed) {
+    if (!isAllowed ||  (roles.size == 1 && !userRoles.includes("admin"))) {
       alert("You don't have access to this page");
       navigate("/");
     }
