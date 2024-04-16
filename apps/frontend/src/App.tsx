@@ -32,7 +32,14 @@ function App() {
       <Banner />
       <Routes>
         <Route path="/" element={<Map />} />
-        <Route path="/csv-page" element={<CSVPage />} />
+        <Route
+          path="/csv-page"
+          element={
+            <ProtectedRoute roles={["admin"]}>
+              <CSVPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/flower-delivery" element={<FlowerDelivery />} />
         <Route path="/room-scheduling" element={<RoomScheduling />} />
         <Route path="/requests" element={<Requests />} />
@@ -40,7 +47,7 @@ function App() {
         <Route
           path="/gift-request"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "staff"]}>
               <GiftRequest />
             </ProtectedRoute>
           }

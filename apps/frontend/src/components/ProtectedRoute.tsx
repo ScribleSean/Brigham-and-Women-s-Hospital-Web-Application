@@ -1,22 +1,37 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, useMemo } from "react";
 
 // @ts-expect-error roles and children are fine
 const ProtectedRoute = ({ roles, children }) => {
   const { user, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
 
-  // Check if the user is authenticated and if their role is allowed
-  const userRoles = user ? user["http://localhost:3000/roles"] : [];
+  // Memoize the calculation of userRoles
+  const userRoles = useMemo(() => {
+    return user ? user["http://localhost:3000/roles"] : [];
+  }, [user]);
+
   const isAllowed =
     isAuthenticated &&
     userRoles &&
     userRoles.some((role: string) => roles.includes(role));
 
-  // If the user is not allowed, redirect them to the home page
-  if (!isAllowed) {
+  useEffect(() => {
+    // If the user is not allowed, redirect them to the home page
+    if (
+      !isAllowed ||
+      (roles.size == 1 && userRoles.some(() => !roles.includes("admin")))
+    ) {
+      alert("You don't have access to this page");
+    }
+  }, [isAllowed, roles, userRoles]);
+
+  if (
+    !isAllowed ||
+    (roles.size == 1 && userRoles.some(() => !roles.includes("admin")))
+  ) {
     navigate("/");
-    return null;
   }
 
   // If the user is allowed, render the children
