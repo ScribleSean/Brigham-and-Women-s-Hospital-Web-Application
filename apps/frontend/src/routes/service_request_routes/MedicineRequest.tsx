@@ -115,26 +115,26 @@ function MedicineRequest() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-      try {
-          const response = await axios.post(
-              "/api/medicine-delivery-service-request",
-              formData,
-          );
-          console.log("Form data sent successfully:", response.data);
-      } catch (error) {
-          console.error("Error submitting form data:", error);
-      }
+    try {
+      const response = await axios.post(
+        "/api/medicine-delivery-service-request",
+        formData,
+      );
+      console.log("Form data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
     setFormData({
-        SRID: 0,
-        employeeName: "",
-        location: "",
-        medicineType: "",
-        dosageAmount: 0,
-        dosageType: "",
-        priority: "",
-        status: "",
-        serviceType: "Medicine Delivery",
-        description: "",
+      SRID: 0,
+      employeeName: "",
+      location: "",
+      medicineType: "",
+      dosageAmount: 0,
+      dosageType: "",
+      priority: "",
+      status: "",
+      serviceType: "Medicine Delivery",
+      description: "",
     });
   };
 
@@ -278,16 +278,16 @@ function MedicineRequest() {
               }}
               onClick={() => {
                 setFormData({
-                    SRID: 0,
-                    employeeName: "",
-                    location: "",
-                    medicineType: "",
-                    dosageAmount: 0,
-                    dosageType: "",
-                    priority: "",
-                    status: "",
-                    serviceType: "Medicine Delivery",
-                    description: "",
+                  SRID: 0,
+                  employeeName: "",
+                  location: "",
+                  medicineType: "",
+                  dosageAmount: 0,
+                  dosageType: "",
+                  priority: "",
+                  status: "",
+                  serviceType: "Medicine Delivery",
+                  description: "",
                 });
               }}
             >

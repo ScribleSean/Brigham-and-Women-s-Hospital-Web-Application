@@ -15,18 +15,17 @@ import styles from "../../styles/GiftRequest.module.css";
 import axios from "axios";
 import { roomSchedRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
 
-
 function RoomScheduling() {
   const [formData, setFormData] = useState<roomSchedRequest>({
-      SRID:0,
-      employeeName: "", //text box
-      priority: "", //radio buttons
-      location: "", //text box
-      startTime: "", //datetime local
-      endTime: "", //numbers only
-      status: "", //radio buttons
-      serviceType: "Room Scheduling",
-      description: "",
+    SRID: 0,
+    employeeName: "", //text box
+    priority: "", //radio buttons
+    location: "", //text box
+    startTime: "", //datetime local
+    endTime: "", //numbers only
+    status: "", //radio buttons
+    serviceType: "Room Scheduling",
+    description: "",
   });
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
@@ -65,15 +64,15 @@ function RoomScheduling() {
       console.error("Error submitting form data:", error);
     }
     setFormData({
-        SRID:0,
-        employeeName: "", //text box
-        priority: "", //radio buttons
-        location: "", //text box
-        startTime: "", //datetime local
-        endTime: "", //numbers only
-        status: "", //radio buttons
-        serviceType: "Room Scheduling",
-        description: "",
+      SRID: 0,
+      employeeName: "", //text box
+      priority: "", //radio buttons
+      location: "", //text box
+      startTime: "", //datetime local
+      endTime: "", //numbers only
+      status: "", //radio buttons
+      serviceType: "Room Scheduling",
+      description: "",
     });
   };
 
@@ -214,15 +213,15 @@ function RoomScheduling() {
               }}
               onClick={() => {
                 setFormData({
-                    SRID:0,
-                    employeeName: "", //text box
-                    priority: "", //radio buttons
-                    location: "", //text box
-                    startTime: "", //datetime local
-                    endTime: "", //numbers only
-                    status: "", //radio buttons
-                    serviceType: "Room Scheduling",
-                    description: "",
+                  SRID: 0,
+                  employeeName: "", //text box
+                  priority: "", //radio buttons
+                  location: "", //text box
+                  startTime: "", //datetime local
+                  endTime: "", //numbers only
+                  status: "", //radio buttons
+                  serviceType: "Room Scheduling",
+                  description: "",
                 });
               }}
             >

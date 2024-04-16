@@ -12,7 +12,7 @@ import {
 import styles from "../../styles/MedicalDeviceRequest.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {medDeviceRequest} from "common/src/backend_interfaces/medicalDeviceServiceRequest.ts";
+import { medDeviceRequest } from "common/src/backend_interfaces/medicalDeviceServiceRequest.ts";
 
 function MedicalDeviceRequest() {
   const deviceOptions: string[] = [
@@ -128,15 +128,15 @@ function MedicalDeviceRequest() {
     }
 
     setFormData({
-        SRID: 0,
-        employeeName: "",
-        location: "",
-        deviceName: "",
-        deviceQuantity: "",
-        priority: "",
-        status: "",
-        serviceType: "MedicalDevice",
-        description: "",
+      SRID: 0,
+      employeeName: "",
+      location: "",
+      deviceName: "",
+      deviceQuantity: "",
+      priority: "",
+      status: "",
+      serviceType: "MedicalDevice",
+      description: "",
     });
   };
 
@@ -285,15 +285,15 @@ function MedicalDeviceRequest() {
               }}
               onClick={() => {
                 setFormData({
-                    SRID: 0,
-                    employeeName: "",
-                    location: "",
-                    deviceName: "",
-                    deviceQuantity: "",
-                    priority: "",
-                    status: "",
-                    serviceType: "MedicalDevice",
-                    description: "",
+                  SRID: 0,
+                  employeeName: "",
+                  location: "",
+                  deviceName: "",
+                  deviceQuantity: "",
+                  priority: "",
+                  status: "",
+                  serviceType: "MedicalDevice",
+                  description: "",
                 });
               }}
             >

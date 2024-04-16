@@ -12,7 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/GiftRequest.module.css";
 import React, { useState } from "react";
 import axios from "axios";
-import {giftRequest} from "common/src/backend_interfaces/GiftServiceRequest.ts";
+import { giftRequest } from "common/src/backend_interfaces/GiftServiceRequest.ts";
 
 function GiftRequest() {
   const [formData, setFormData] = useState<giftRequest>({
@@ -50,20 +50,23 @@ function GiftRequest() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const giftRequestPost = await axios.post("/api/gift-service-request", formData);
+    const giftRequestPost = await axios.post(
+      "/api/gift-service-request",
+      formData,
+    );
     console.log(giftRequestPost);
     setFormData({
-        SRID: 0,
-        senderName: "",
-        receiverName: "",
-        employeeName: "",
-        location: "",
-        giftType: "",
-        deliveryDate: "",
-        priority: "",
-        status: "",
-        serviceType: "Gift",
-        description: "",
+      SRID: 0,
+      senderName: "",
+      receiverName: "",
+      employeeName: "",
+      location: "",
+      giftType: "",
+      deliveryDate: "",
+      priority: "",
+      status: "",
+      serviceType: "Gift",
+      description: "",
     });
     setSnackbarIsOpen(true);
   };
@@ -187,17 +190,17 @@ function GiftRequest() {
               sx={{ width: "25%" }}
               onClick={() => {
                 setFormData({
-                    SRID: 0,
-                    senderName: "",
-                    receiverName: "",
-                    employeeName: "",
-                    location: "",
-                    giftType: "",
-                    deliveryDate: "",
-                    priority: "",
-                    status: "",
-                    serviceType: "Gift",
-                    description: "",
+                  SRID: 0,
+                  senderName: "",
+                  receiverName: "",
+                  employeeName: "",
+                  location: "",
+                  giftType: "",
+                  deliveryDate: "",
+                  priority: "",
+                  status: "",
+                  serviceType: "Gift",
+                  description: "",
                 });
               }}
             >
