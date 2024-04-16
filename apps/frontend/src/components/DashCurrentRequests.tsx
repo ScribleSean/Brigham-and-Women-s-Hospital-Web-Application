@@ -1,22 +1,22 @@
 import {
-  TableCell,
-  styled,
-  tableCellClasses,
-  TableRow,
-  IconButton,
-  FormControl,
-  Select,
-  MenuItem,
-  Collapse,
-  Box,
-  TextField,
-  InputAdornment,
-  InputLabel,
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TablePagination,
+    TableCell,
+    styled,
+    tableCellClasses,
+    TableRow,
+    IconButton,
+    FormControl,
+    Select,
+    MenuItem,
+    Collapse,
+    Box,
+    TextField,
+    InputAdornment,
+    InputLabel,
+    TableContainer,
+    Table,
+    TableHead,
+    TableBody,
+    TablePagination, SelectChangeEvent,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -88,6 +88,22 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     }
   };
 
+    const handleStatusChange = async (
+        row: ServiceRequest,
+        event: SelectChangeEvent<unknown>,
+    ) => {
+        // Update the priority of the ServiceRequest object
+        row.status = event.target.value as string;
+
+        try {
+            // Send a POST request to the server with the updated ServiceRequest object
+            const response = await axios.post("/api/service-request", row);
+            console.log("Form data sent successfully:", response.data);
+        } catch (error) {
+            console.error("Error submitting form data:", error);
+        }
+    };
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -116,7 +132,11 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         </TableCell>
         <TableCell align="right">
           <FormControl fullWidth size={"small"}>
-            <Select id="filterStatus" defaultValue={row.status}>
+            <Select
+                id="filterStatus"
+                defaultValue={row.status}
+                onChange={(event) => handleStatusChange(row, event)}
+            >
               <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"Assigned"}>Assigned</MenuItem>
               <MenuItem value={"In Progress"}>In Progress</MenuItem>
