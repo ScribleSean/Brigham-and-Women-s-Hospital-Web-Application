@@ -14,16 +14,25 @@ import MedicalDeviceFields from "./RequestFields/MedicalDeviceFields.tsx";
 import RoomSchedulingFields from "./RequestFields/RoomSchedulingFields.tsx";
 import GiftFields from "./RequestFields/GiftFields.tsx";
 import FlowerDeliveryFields from "./RequestFields/FlowerDeliveryFields.tsx";
-import { useState } from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 export default function DashMakeARequest() {
-  const locationOptions = [
-    "Placeholder 1",
-    "Placeholder 2",
-    "Placeholder 3",
-    "Placeholder 4",
-    "Placeholder 5",
-  ];
+    const [locationOptions, setLocationOptions] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetchLocations = async () => {
+            try {
+                const response = await axios.get('/api/room-name-fetch');
+                const locationNames = response.data.map((location: { longName: string }) => location.longName);
+                setLocationOptions(locationNames);
+            } catch (error) {
+                console.error('Failed to fetch locations', error);
+            }
+        };
+        fetchLocations();
+    }, []);
+
 
   const [currentReqType, setCurrentReqType] = useState(<div></div>);
 
