@@ -35,7 +35,7 @@ function ShowNodesEdgesDropDown() {
         setShowNodes(false);
         setShowEdges(false);
         break;
-      case "showALlNodes":
+      case "showAllNodes":
         setShowNodes(true);
         setShowEdges(false);
         break;
@@ -62,9 +62,8 @@ function ShowNodesEdgesDropDown() {
         display: "flex",
         width: "12vw",
         height: "5vh",
-        right: 0,
-        marginTop: "12vh",
-        marginRight: "2vw",
+        marginTop: "14vh",
+        marginLeft: "2vw",
         alignItems: "center",
         zIndex: 3,
       }}
@@ -96,7 +95,7 @@ function ShowNodesEdgesDropDown() {
         >
           <MenuItem value="showBasicNodes">Show Basic Nodes</MenuItem>
           <MenuItem value="showAllNodes">Show All Nodes</MenuItem>
-          <MenuItem value="showALlEdges">Show All Edges</MenuItem>
+          <MenuItem value="showAllEdges">Show All Edges</MenuItem>
           <MenuItem value="showBoth">Show Both</MenuItem>
         </Select>
       </Box>

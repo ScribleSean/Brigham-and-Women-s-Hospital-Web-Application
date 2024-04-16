@@ -29,7 +29,7 @@ const ClearPathButton: React.FC = () => {
         textTransform: "capitalize",
         boxShadow: 8,
         marginLeft: "2vw",
-        marginTop: "32vh",
+        marginTop: "34vh",
         width: "6vw",
         zIndex: 3,
         fontSize: "0.8rem",

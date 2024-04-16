@@ -24,7 +24,7 @@ import {
   DialogTitle,
   Snackbar,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 
 export default ConfirmChanges;
 
@@ -187,22 +187,30 @@ function ConfirmChanges() {
     <>
       <Button
         variant={"contained"}
-        color={"error"}
-        startIcon={<DeleteIcon />}
         sx={{
-          height: "40px",
-          zIndex: 40,
+          position: "absolute",
+          height: "8vh",
+          width: "12vw",
+          fontSize: "1rem",
+          right: 0,
+          marginRight: "1vw",
+          marginTop: "14vh",
+          fontWeight: "bold",
+          fontFamily: "inter",
+          textTransform: "capitalize",
+          backgroundColor: "#2196F3",
+          zIndex: 4,
         }}
         onClick={() => setDialogueOpen(true)}
       >
-        Delete Data
+        Confirm Changes
       </Button>
       <Dialog open={dialogueOpen} onClose={() => setDialogueOpen(false)}>
         <DialogTitle>Are you sure?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            This will delete all map node and edge data from the database. This
-            action cannot be undone.
+            This will send all edited node data to the database and remove nodes
+            you deleted. This action cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -210,12 +218,25 @@ function ConfirmChanges() {
             onClick={() => setDialogueOpen(false)}
             sx={{
               color: "black",
+              fontWeight: "bold",
+              fontFamily: "inter",
+              textTransform: "capitalize",
             }}
           >
             Cancel
           </Button>
-          <Button onClick={handleConfirm} color="error" variant={"contained"}>
-            Delete
+          <Button
+            endIcon={<CheckRoundedIcon />}
+            onClick={handleConfirm}
+            variant={"contained"}
+            sx={{
+              backgroundColor: "#2196F3",
+              fontWeight: "bold",
+              fontFamily: "inter",
+              textTransform: "capitalize",
+            }}
+          >
+            Confirm Changes
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,4 +1,4 @@
-import { NodeType, Path, Edge } from "common/src/DataStructures.ts";
+import { Path, Edge } from "common/src/DataStructures.ts";
 import React, { useCallback, useEffect, useState } from "react";
 import { useMapContext } from "./MapContext.ts";
 import { List, ListItem, ListSubheader, Typography } from "@mui/material";
@@ -20,7 +20,7 @@ function TextDirections() {
 
       if (paths[directionsCounter] && paths[directionsCounter].edges) {
         paths[directionsCounter].edges.forEach((edge: Edge): void => {
-          if (edge.startNode.type !== NodeType.HALL) {
+          if (edge.startNode.type) {
             const dx: number = edge.endNode.x - edge.startNode.x;
             const dy: number = edge.endNode.y - edge.startNode.y;
             let direction: string;

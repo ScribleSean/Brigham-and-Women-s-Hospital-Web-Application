@@ -61,7 +61,7 @@ function LocationSelector(): React.JSX.Element {
           gap: 2,
           position: "absolute",
           width: "16%",
-          marginTop: "12vh",
+          marginTop: "14vh",
           marginLeft: "2vw",
         }}
       >
