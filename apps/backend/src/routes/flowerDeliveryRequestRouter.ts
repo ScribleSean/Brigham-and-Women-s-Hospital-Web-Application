@@ -1,12 +1,12 @@
 // flower service request router
 import express, { Router } from "express";
 import PrismaClient from "../bin/database-connection.ts";
-import { Flower } from "common/src/backend_interfaces/flowerServiceRequest.ts";
+import { flowerDeliveryRequest } from "common/src/backend_interfaces/flowerServiceRequest.ts";
 
 const router: Router = express.Router();
 
 router.post("/", async function (req, res) {
-  const flower: Flower = req.body;
+  const flower: flowerDeliveryRequest = req.body;
 
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({
@@ -27,13 +27,15 @@ router.post("/", async function (req, res) {
       create: {
         SRID: serviceRequest.SRID,
         flowerType: flower.flowerType,
+        senderName: flower.senderName,
         receiverName: flower.receiverName,
-        date: flower.date,
+        deliveryDate: flower.deliveryDate,
       },
       update: {
         flowerType: flower.flowerType,
+        senderName: flower.senderName,
         receiverName: flower.receiverName,
-        date: flower.date,
+        deliveryDate: flower.deliveryDate,
       },
     });
 

@@ -5,7 +5,7 @@ import logger from "morgan";
 import nodesRouter from "./routes/nodes.ts";
 import pathRouter from "./routes/path.ts";
 import edgesRouter from "./routes/edges.ts";
-import flowerRouter from "./routes/flowerServiceRequestRouter.ts";
+import flowerRouter from "./routes/flowerDeliveryRequestRouter.ts";
 import roomSchedulingRequestRouter from "./routes/roomSchedulingRequestRouter.ts";
 import giftServiceRequestRouter from "./routes/giftServiceRequestRouter.ts";
 import serviceRequestRouter from "./routes/serviceRequestRouter.ts";

@@ -1,22 +1,23 @@
 import {
-    TableCell,
-    styled,
-    tableCellClasses,
-    TableRow,
-    IconButton,
-    FormControl,
-    Select,
-    MenuItem,
-    Collapse,
-    Box,
-    TextField,
-    InputAdornment,
-    InputLabel,
-    TableContainer,
-    Table,
-    TableHead,
-    TableBody,
-    TablePagination, SelectChangeEvent,
+  TableCell,
+  styled,
+  tableCellClasses,
+  TableRow,
+  IconButton,
+  FormControl,
+  Select,
+  MenuItem,
+  Collapse,
+  Box,
+  TextField,
+  InputAdornment,
+  InputLabel,
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TablePagination,
+  SelectChangeEvent,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -88,21 +89,21 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     }
   };
 
-    const handleStatusChange = async (
-        row: ServiceRequest,
-        event: SelectChangeEvent<unknown>,
-    ) => {
-        // Update the priority of the ServiceRequest object
-        row.status = event.target.value as string;
+  const handleStatusChange = async (
+    row: ServiceRequest,
+    event: SelectChangeEvent<unknown>,
+  ) => {
+    // Update the priority of the ServiceRequest object
+    row.status = event.target.value as string;
 
-        try {
-            // Send a POST request to the server with the updated ServiceRequest object
-            const response = await axios.post("/api/service-request", row);
-            console.log("Form data sent successfully:", response.data);
-        } catch (error) {
-            console.error("Error submitting form data:", error);
-        }
-    };
+    try {
+      // Send a POST request to the server with the updated ServiceRequest object
+      const response = await axios.post("/api/service-request", row);
+      console.log("Form data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -133,9 +134,9 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell align="right">
           <FormControl fullWidth size={"small"}>
             <Select
-                id="filterStatus"
-                defaultValue={row.status}
-                onChange={(event) => handleStatusChange(row, event)}
+              id="filterStatus"
+              defaultValue={row.status}
+              onChange={(event) => handleStatusChange(row, event)}
             >
               <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"Assigned"}>Assigned</MenuItem>
@@ -284,11 +285,11 @@ export default function DashCurrentRequests({
                   <MenuItem value={"Any"}>
                     <em>Any</em>
                   </MenuItem>
-                  <MenuItem value={"Flower"}>Flower Delivery</MenuItem>
-                  <MenuItem value={"Gift"}>Gift</MenuItem>
+                  <MenuItem value={"Flower Delivery"}>Flower Delivery</MenuItem>
+                  <MenuItem value={"Gift Delivery"}>Gift Delivery</MenuItem>
                   <MenuItem value={"Medicine"}>Medicine</MenuItem>
-                  <MenuItem value={"Med. Device"}>Medical Device</MenuItem>
-                  <MenuItem value={"Room"}>Room Scheduling</MenuItem>
+                  <MenuItem value={"Medical Device"}>Medical Device</MenuItem>
+                  <MenuItem value={"Room Scheduling"}>Room Scheduling</MenuItem>
                 </Select>
               </FormControl>
               <FormControl fullWidth size={"small"} sx={{ px: "2%" }}>
@@ -336,7 +337,6 @@ export default function DashCurrentRequests({
         </div>
         <TableContainer
           style={{
-            maxHeight: 440,
             overflow: "auto",
             padding: "0 4% 0 4%",
           }}

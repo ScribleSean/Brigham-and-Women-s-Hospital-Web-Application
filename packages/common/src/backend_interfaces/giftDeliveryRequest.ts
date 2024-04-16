@@ -1,8 +1,8 @@
 import { ServiceRequest } from "./ServiceRequest.ts";
 
-export interface flowerDeliveryRequest extends ServiceRequest {
-  flowerType: string;
+export interface giftDeliveryRequest extends ServiceRequest {
   senderName: string;
   receiverName: string;
+  giftType: string;
   deliveryDate: string;
 }
