@@ -14,19 +14,25 @@ export default function heroPage() {
             {" "}
             Welcome to Brigham and Women's Hospital{" "}
           </div>
-          <div className={"hero-text-p"}>
-            <p>
-              {" "}
-              Helping our patients and their families get back to what matters
-              most.
-            </p>
+          <div className="carousel hero-text-p">
+            <div>
+              <p>
+                Helping our patients and their families get back to what matters
+                most.
+              </p>
+              <p>Text 2</p>
+              <p>Text 3</p>
+              <p>Text 4</p>
+              <p>Text 5</p>
+              <p>Text 6</p>
+            </div>
           </div>
         </div>
 
         {/*map function*/}
         <div className={"col-4 d-flex justify-content-end"}>
           <div className={"toMap"}>
-            <button className={"button-class"}> Go To Map </button>
+            <button className={"button-class"}> Go To Map</button>
             <ArrowCircleRightIcon
               sx={{ color: "#ffffff", fontSize: 48 }}
             ></ArrowCircleRightIcon>
