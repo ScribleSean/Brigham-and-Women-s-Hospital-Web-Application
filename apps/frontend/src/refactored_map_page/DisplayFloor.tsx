@@ -79,6 +79,7 @@ function FloorDisplay() {
     setNodesByFloor,
     edgesByFloor,
     setEdgesByFloor,
+    showNodes,
   } = useMapContext();
 
   useEffect(() => {
@@ -87,6 +88,7 @@ function FloorDisplay() {
         const nodesOptionsRequest: NodesOptionsRequest = {
           includeHallways: false,
           byFloors: true,
+          showAllNodes: showNodes,
         };
         const currentNodes: NodesByFloor = (
           await axios.post("/api/nodes", nodesOptionsRequest)
@@ -98,7 +100,7 @@ function FloorDisplay() {
     }
 
     getNodes();
-  }, [setNodesByFloor]);
+  }, [setNodesByFloor, showNodes]);
 
   useEffect(() => {
     async function getEdges(): Promise<void> {

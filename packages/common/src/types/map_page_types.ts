@@ -64,6 +64,7 @@ export interface PathOptionsRequest {
 export interface NodesOptionsRequest {
   includeHallways: boolean;
   byFloors: boolean;
+  showAllNodes: boolean;
 }
 
 export interface DeleteNodesOptionsRequest {

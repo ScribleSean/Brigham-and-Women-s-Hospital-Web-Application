@@ -88,7 +88,6 @@ function AccessibilitySelector() {
               },
             }}
           >
-            {/* You might need to adjust these values to match your `AccessibilityType` */}
             <MenuItem value="all">All Accessible</MenuItem>
             <MenuItem value="wheelchair">Wheelchair Accessible</MenuItem>
           </Select>

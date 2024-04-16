@@ -18,6 +18,7 @@ import ClearPathButton from "./ClearPathButton.tsx";
 import TextDirections from "./TextDirections.tsx";
 import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
+import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
 
 const mapDiv: CSSProperties = {
   height: "100%",
@@ -64,6 +65,7 @@ function MapContents() {
           <TextDirections></TextDirections>
           <DirectionsSelector></DirectionsSelector>
           <ShowPathsButton></ShowPathsButton>
+          <ShowNodesEdgesDropDown></ShowNodesEdgesDropDown>
           <DisplayEditingOptions></DisplayEditingOptions>
           <AlgorithmSelector></AlgorithmSelector>
           <AccessibilitySelector></AccessibilitySelector>
