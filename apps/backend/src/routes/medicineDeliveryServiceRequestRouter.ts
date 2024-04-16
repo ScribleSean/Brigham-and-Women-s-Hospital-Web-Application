@@ -1,11 +1,11 @@
-import { Medicine } from "common/src/backend_interfaces/MedicineServiceRequest.ts";
+import { medicineDeliveryRequest } from "common/src/backend_interfaces/medicineDeliveryRequest.ts";
 import express, { Router } from "express";
-import PrismaClient from "../../bin/database-connection.ts";
+import PrismaClient from "../bin/database-connection.ts";
 
 const router: Router = express.Router();
 
 router.post("/", async function (req, res) {
-  const medicine: Medicine = req.body;
+  const medicine: medicineDeliveryRequest = req.body;
 
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({

@@ -1,12 +1,12 @@
 // room scheduling request router
 import express, { Router } from "express";
-import PrismaClient from "../../bin/database-connection.ts";
-import { RoomScheduling } from "common/src/backend_interfaces/RoomSchedulingServiceRequest.ts";
+import PrismaClient from "../bin/database-connection.ts";
+import { roomSchedRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
 
 const router: Router = express.Router();
 
 router.post("/", async function (req, res) {
-  const room: RoomScheduling = req.body;
+  const room: roomSchedRequest = req.body;
 
   try {
     //room.duration = parseInt(String(room.duration));

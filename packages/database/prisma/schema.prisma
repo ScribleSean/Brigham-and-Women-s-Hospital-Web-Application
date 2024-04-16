@@ -36,14 +36,13 @@ model Node {
 }
 
 model ServiceRequest {
-  SRID         Int    @id @default(autoincrement())
-  employeeName String
-  priority     String
-  location     String
-  status       String
-  serviceType  String
-  description  String
-
+  SRID                           Int                             @id @default(autoincrement())
+  employeeName                   String
+  priority                       String
+  location                       String
+  status                         String
+  serviceType                    String
+  description                    String
   FlowerServiceRequest           FlowerServiceRequest?           @relation("FlowerServiceRequest")
   RoomSchedulingRequest          RoomSchedulingRequest?          @relation("RoomSchedulingRequest")
   MedicalDeviceServiceRequest    MedicalDeviceServiceRequest?    @relation("MedicalDeviceServiceRequest")

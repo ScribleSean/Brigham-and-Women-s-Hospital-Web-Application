@@ -12,7 +12,7 @@ import {
 import styles from "../../styles/FlowerDelivery.module.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Flower } from "common/src/backend_interfaces/FlowerServiceRequest.ts";
+import { Flower } from "common/src/backend_interfaces/flowerServiceRequest.ts";
 
 function FlowerDelivery() {
   const flowerTypes = [
@@ -29,6 +29,7 @@ function FlowerDelivery() {
   ];
 
   const [formData, setFormData] = useState<Flower>({
+    SRID: 0,
     employeeName: "",
     receiverName: "",
     location: "",
@@ -37,6 +38,7 @@ function FlowerDelivery() {
     priority: "",
     status: "",
     serviceType: "Flower",
+    description: "",
   });
 
   // const [submittedRequests, setSubmittedRequests] = useState<Flower[]>([]);
@@ -86,6 +88,7 @@ function FlowerDelivery() {
       console.error("Error submitting form data:", error);
     }
     setFormData({
+      SRID: 0,
       employeeName: "",
       receiverName: "",
       location: "",
@@ -94,6 +97,7 @@ function FlowerDelivery() {
       priority: "",
       status: "",
       serviceType: "",
+      description: "",
     });
   };
 
@@ -246,6 +250,7 @@ function FlowerDelivery() {
               }}
               onClick={() => {
                 setFormData({
+                  SRID: 0,
                   employeeName: "",
                   receiverName: "",
                   location: "",
@@ -254,6 +259,7 @@ function FlowerDelivery() {
                   priority: "",
                   status: "",
                   serviceType: "Flower",
+                  description: "",
                 });
               }}
             >

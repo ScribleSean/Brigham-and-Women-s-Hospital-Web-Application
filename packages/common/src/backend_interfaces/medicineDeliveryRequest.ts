@@ -1,6 +1,6 @@
 import { ServiceRequest } from "./ServiceRequest.ts";
 
-export interface Medicine extends ServiceRequest {
+export interface medicineDeliveryRequest extends ServiceRequest {
   medicineType: string;
   dosageType: string;
   dosageAmount: number;

@@ -35,6 +35,7 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+      //   element: <HeroPage/>>,
     },
   ]);
 

@@ -7,10 +7,13 @@
   background-image: url("../../public/bwh-hero-bg.jpeg");
   width: 65vw;
   height: 100vh;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
 
 .hero-text {
-  font-size: 7em;
+  font-size: 90%;
   padding: 5%;
   font-weight: 1200;
   line-height: 0.85;

@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { ServiceRequest } from "common/src/serviceRequestTemp.ts";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 import axios from "axios";
 import "../styles/Requests.css";
 
