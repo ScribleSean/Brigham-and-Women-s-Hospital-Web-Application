@@ -33,22 +33,23 @@ function ShowPathsButton() {
       sx={{
         position: "absolute",
         width: "6vw",
-        backgroundColor: showPaths ? "#F6BD39" : "#012D5A",
+        backgroundColor: showPaths ? "#2196F3" : "#012D5A",
         color: "white",
         fontWeight: "bold",
         fontFamily: "inter",
         textTransform: "capitalize",
         boxShadow: 8,
         zIndex: 4,
-        marginLeft: "14vw",
+        marginLeft: "9vw",
         marginTop: "32vh",
+        fontSize: "0.8rem",
         ":hover": {
           backgroundColor: hoverActive
             ? showPaths
               ? "#012D5A!important"
-              : "#F6BD39!important"
+              : "#2196F3!important"
             : showPaths
-              ? "#F6BD39!important"
+              ? "#2196F3!important"
               : "#012D5A!important",
         },
       }}

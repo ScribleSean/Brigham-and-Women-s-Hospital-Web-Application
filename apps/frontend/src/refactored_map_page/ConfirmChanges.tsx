@@ -1,15 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useMapContext } from "./MapContext.ts";
 import {
   AddEdgesOptionsRequest,
-  AddNodesOptionsRequest, DeleteEdgesOptionsRequest,
+  AddNodesOptionsRequest,
+  DeleteEdgesOptionsRequest,
   DeleteNodesOptionsRequest,
-  EditorMode, NodeWithAssociatedEdges, OldNewEdge, OldNewNode, RefactorEdgesOptionsRequest, RefactorNodesOptionsRequest,
+  EditorMode,
+  NodeWithAssociatedEdges,
+  OldNewEdge,
+  OldNewNode,
+  RefactorEdgesOptionsRequest,
+  RefactorNodesOptionsRequest,
 } from "common/src/types/map_page_types.ts";
-import {Node} from "common/src/data_structures/Node.ts";
-import {Edge} from "common/src/data_structures/Edge.ts";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar} from "@mui/material";
+import { Node } from "common/src/data_structures/Node.ts";
+import { Edge } from "common/src/data_structures/Edge.ts";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Snackbar,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default ConfirmChanges;
@@ -29,8 +43,8 @@ function ConfirmChanges() {
     setNodesToBeAdded,
     edgesToBeAdded,
     setEdgesToBeAdded,
-      unsavedChanges,
-      setUnsavedChanges,
+    unsavedChanges,
+    setUnsavedChanges,
   } = useMapContext();
 
   const [dialogueOpen, setDialogueOpen] = useState(false);
@@ -71,8 +85,8 @@ function ConfirmChanges() {
           nodesWithAssociatedEdges: nodesToBeAdded,
         };
         await axios.post(
-            "/api/add-nodes-and-associated-edges",
-            addNodesOptionsRequest,
+          "/api/add-nodes-and-associated-edges",
+          addNodesOptionsRequest,
         );
         setNodesToBeAdded(new Array<NodeWithAssociatedEdges>());
       } catch (error) {
@@ -152,67 +166,68 @@ function ConfirmChanges() {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (!unsavedChanges) return;
       event.preventDefault();
-      event.returnValue = "You have unsaved changes. Are you sure you want to leave?";
+      event.returnValue =
+        "You have unsaved changes. Are you sure you want to leave?";
     };
 
     if (unsavedChanges) {
-      window.addEventListener('beforeunload', handleBeforeUnload);
+      window.addEventListener("beforeunload", handleBeforeUnload);
     }
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [unsavedChanges]);
 
-
-  if (editorMode === EditorMode.disabled) {return <></>;}
-
+  if (editorMode === EditorMode.disabled) {
+    return <></>;
+  }
 
   return (
-      <>
-        <Button
-            variant={"contained"}
-            color={"error"}
-            startIcon={<DeleteIcon />}
+    <>
+      <Button
+        variant={"contained"}
+        color={"error"}
+        startIcon={<DeleteIcon />}
+        sx={{
+          height: "40px",
+          zIndex: 40,
+        }}
+        onClick={() => setDialogueOpen(true)}
+      >
+        Delete Data
+      </Button>
+      <Dialog open={dialogueOpen} onClose={() => setDialogueOpen(false)}>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            This will delete all map node and edge data from the database. This
+            action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setDialogueOpen(false)}
             sx={{
-              height: "40px",
-              zIndex: 40,
+              color: "black",
             }}
-            onClick={() => setDialogueOpen(true)}
-        >
-          Delete Data
-        </Button>
-        <Dialog open={dialogueOpen} onClose={() => setDialogueOpen(false)}>
-          <DialogTitle>Are you sure?</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              This will delete all map node and edge data from the database. This
-              action cannot be undone.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-                onClick={() => setDialogueOpen(false)}
-                sx={{
-                  color: "black",
-                }}
-            >
-              Cancel
-            </Button>
-            <Button onClick={handleConfirm} color="error" variant={"contained"}>
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={5000}
-            onClose={() => {
-              setSnackbarOpen(false);
-            }}
-            message={"Data deleted successfully."}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        />
-      </>
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleConfirm} color="error" variant={"contained"}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={5000}
+        onClose={() => {
+          setSnackbarOpen(false);
+        }}
+        message={"Data deleted successfully."}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      />
+    </>
   );
 }

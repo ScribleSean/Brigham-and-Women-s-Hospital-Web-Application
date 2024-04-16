@@ -199,7 +199,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     edgesByFloor,
     setEdgesByFloor,
     showNodes,
-      setUnsavedChanges,
+    setUnsavedChanges,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -448,7 +448,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     edgesByFloor,
     setEdgesByFloor,
     tempNode,
-      setUnsavedChanges,
+    setUnsavedChanges,
   ]);
 
   const handleSave = () => {

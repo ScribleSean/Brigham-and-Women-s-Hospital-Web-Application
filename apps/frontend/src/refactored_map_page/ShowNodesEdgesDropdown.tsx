@@ -21,7 +21,7 @@ function CustomArrowIcon(props: SvgIconProps) {
 
 function ShowNodesEdgesDropDown() {
   const { setShowNodes, setShowEdges, editorMode } = useMapContext();
-  const [selectedOption, setSelectedOption] = useState("showNone");
+  const [selectedOption, setSelectedOption] = useState("showBasicNodes");
 
   if (editorMode == EditorMode.disabled) {
     return null;
@@ -31,15 +31,15 @@ function ShowNodesEdgesDropDown() {
     setSelectedOption(value);
 
     switch (value) {
-      case "showNone":
+      case "showBasicNodes":
         setShowNodes(false);
         setShowEdges(false);
         break;
-      case "showNodes":
+      case "showALlNodes":
         setShowNodes(true);
         setShowEdges(false);
         break;
-      case "showEdges":
+      case "showAllEdges":
         setShowNodes(false);
         setShowEdges(true);
         break;
@@ -60,7 +60,7 @@ function ShowNodesEdgesDropDown() {
         borderRadius: "0.5rem",
         position: "absolute",
         display: "flex",
-        width: "8vw",
+        width: "12vw",
         height: "5vh",
         right: 0,
         marginTop: "12vh",
@@ -71,7 +71,7 @@ function ShowNodesEdgesDropDown() {
     >
       <Box
         sx={{
-          marginTop: "0.5rem",
+          marginTop: "0.25rem",
         }}
       >
         <Select
@@ -94,9 +94,9 @@ function ShowNodesEdgesDropDown() {
             },
           }}
         >
-          <MenuItem value="showNone">Show None</MenuItem>
-          <MenuItem value="showNodes">Show Nodes</MenuItem>
-          <MenuItem value="showEdges">Show Edges</MenuItem>
+          <MenuItem value="showBasicNodes">Show Basic Nodes</MenuItem>
+          <MenuItem value="showAllNodes">Show All Nodes</MenuItem>
+          <MenuItem value="showALlEdges">Show All Edges</MenuItem>
           <MenuItem value="showBoth">Show Both</MenuItem>
         </Select>
       </Box>

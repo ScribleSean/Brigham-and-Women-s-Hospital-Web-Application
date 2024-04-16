@@ -117,7 +117,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setEdgesByFloor,
     setEdgesToBeDeleted,
     edgesToBeDeleted,
-      setUnsavedChanges,
+    setUnsavedChanges,
   } = useMapContext();
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -201,7 +201,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     isSaved,
     edgesByFloor,
     setEdgesByFloor,
-      setUnsavedChanges,
+    setUnsavedChanges,
   ]);
 
   const handleChange = (

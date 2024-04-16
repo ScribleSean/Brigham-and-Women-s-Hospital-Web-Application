@@ -62,7 +62,7 @@ function LocationSelector(): React.JSX.Element {
           position: "absolute",
           width: "16%",
           marginTop: "12vh",
-          marginLeft: "7vw",
+          marginLeft: "2vw",
         }}
       >
         <Autocomplete

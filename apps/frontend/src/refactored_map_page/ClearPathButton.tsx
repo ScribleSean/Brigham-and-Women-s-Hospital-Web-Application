@@ -28,10 +28,11 @@ const ClearPathButton: React.FC = () => {
         fontFamily: "inter",
         textTransform: "capitalize",
         boxShadow: 8,
-        marginLeft: "7vw",
+        marginLeft: "2vw",
         marginTop: "32vh",
         width: "6vw",
         zIndex: 3,
+        fontSize: "0.8rem",
         ":hover": {
           backgroundColor: "#9B2626",
         },
