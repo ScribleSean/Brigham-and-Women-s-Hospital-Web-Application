@@ -31,6 +31,7 @@ function FlowerDeliveryFields() {
     flowerType: "",
     deliveryDate: "",
     description: "",
+    serviceType: "Flower Delivery",
   });
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -69,6 +70,7 @@ function FlowerDeliveryFields() {
       flowerType: "",
       deliveryDate: "",
       description: "",
+      serviceType: "Flower Delivery",
     });
   };
 

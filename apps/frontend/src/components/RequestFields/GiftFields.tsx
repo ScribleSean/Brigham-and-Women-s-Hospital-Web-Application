@@ -11,6 +11,8 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
+import axios from "axios";
+import { giftDeliveryRequest } from "common/src/backend_interfaces/giftDeliveryRequest.ts";
 
 function GiftFields() {
   const locationOptions = [
@@ -21,16 +23,18 @@ function GiftFields() {
     "Placeholder 5",
   ];
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<giftDeliveryRequest>({
+    SRID: 0,
     employeeName: "",
     location: "",
     priority: "",
     status: "",
     senderName: "",
-    recipientName: "",
+    receiverName: "",
     giftType: "",
     deliveryDate: "",
     description: "",
+    serviceType: "Gift Delivery",
   });
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -60,21 +64,32 @@ function GiftFields() {
 
   const resetForm = () => {
     setFormData({
+      SRID: 0,
       employeeName: "",
       location: "",
       priority: "",
       status: "",
       senderName: "",
-      recipientName: "",
+      receiverName: "",
       giftType: "",
       deliveryDate: "",
       description: "",
+      serviceType: "Gift Delivery",
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add API call here
+    try {
+      const response = await axios.post(
+        "/api/gift-service-request",
+        formData,
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Unable to create form");
+      console.log(error);
+    }
     setSnackbarIsOpen(true);
     resetForm();
   };
@@ -180,7 +195,7 @@ function GiftFields() {
             onChange={handleTextFieldChange}
           />
           <TextField
-            id={"recipientName"}
+            id={"receiverName"}
             fullWidth
             variant={"outlined"}
             label={"Recipient Name"}
@@ -188,7 +203,7 @@ function GiftFields() {
               marginLeft: "2%",
             }}
             required
-            value={formData.recipientName}
+            value={formData.receiverName}
             onChange={handleTextFieldChange}
           />
         </div>

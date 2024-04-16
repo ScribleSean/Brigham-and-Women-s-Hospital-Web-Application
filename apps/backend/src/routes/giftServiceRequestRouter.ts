@@ -1,11 +1,11 @@
 import express, { Router } from "express";
 import PrismaClient from "../bin/database-connection.ts";
-import { giftRequest } from "common/src/backend_interfaces/GiftServiceRequest.ts";
+import { giftDeliveryRequest } from "common/src/backend_interfaces/giftDeliveryRequest.ts";
 
 const router: Router = express.Router();
 
 router.post("/", async function (req, res) {
-  const gift: giftRequest = req.body;
+  const gift: giftDeliveryRequest = req.body;
 
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({
