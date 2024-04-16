@@ -755,7 +755,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                 <DialogTitle>Node Information</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    {/* Each TextField represents a property of the node that can be edited */}
                     <TextField
                       margin="dense"
                       label="ID"
@@ -763,7 +762,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                       fullWidth
                       name="ID"
                       value={node.ID}
-                      InputProps={{ readOnly: true }} // Make ID field read-only if it should not be changed
                     />
                     <TextField
                       margin="dense"

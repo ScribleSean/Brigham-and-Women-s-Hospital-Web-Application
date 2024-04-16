@@ -135,7 +135,11 @@ export class Graph {
     for (const node of keys) {
       if (node.getFloor() === floorType) {
         const edgesFromNode: Array<Edge> = this.getEdgesFromNode(node);
-        edgesFromNode.forEach((edge) => edges.push(edge));
+        edgesFromNode.forEach((edge) => {
+          if (!edges.map((edge) => edge.ID).includes(edge.ID)) {
+            edges.push(edge);
+          }
+        });
       }
     }
     return edges;

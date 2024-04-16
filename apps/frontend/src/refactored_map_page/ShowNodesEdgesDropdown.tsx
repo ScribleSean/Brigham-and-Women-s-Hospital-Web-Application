@@ -62,8 +62,9 @@ function ShowNodesEdgesDropDown() {
         display: "flex",
         width: "8vw",
         height: "5vh",
-        marginTop: "10vh",
-        marginLeft: "5vw",
+        right: 0,
+        marginTop: "12vh",
+        marginRight: "2vw",
         alignItems: "center",
         zIndex: 3,
       }}

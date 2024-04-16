@@ -39,8 +39,9 @@ function ConfirmChanges() {
     height: "10%",
     position: "absolute",
     zIndex: 5,
-    left: "20%",
-    top: "20%",
+    bottom: 0,
+    right: 0,
+    marginRight: "30vw",
   };
 
   if (editorMode === EditorMode.disabled) {

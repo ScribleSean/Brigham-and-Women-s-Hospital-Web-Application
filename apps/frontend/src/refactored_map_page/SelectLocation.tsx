@@ -5,10 +5,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import "../map_page/LocationSelector.css";
 import { Node } from "common/src/DataStructures.ts";
 import { useMapContext } from "./MapContext.ts";
-import {
-  EditorMode,
-  NodesByFloor,
-} from "../../../../packages/common/src/types/map_page_types.ts";
+import { EditorMode, NodesByFloor } from "common/src/types/map_page_types.ts";
 
 function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
   const nodes: Array<Node> = new Array<Node>();
