@@ -75,7 +75,7 @@ function HeroPage() {
 
         {/*map function*/}
         <div className={"col-4 d-flex justify-content-end"}>
-          <a  href={`${isAuthenticated ? "/admin-map" : "/public-map"}`}
+          <a  href={`${isAuthenticated ? "/dashboard" : "/public-map"}`}
             id={"toMapClump"}
             className={
               "toMap animate__animated animate__slower animate__headShake animate__infinite"

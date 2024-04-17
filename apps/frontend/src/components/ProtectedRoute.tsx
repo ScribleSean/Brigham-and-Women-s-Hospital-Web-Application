@@ -22,8 +22,8 @@ const ProtectedRoute = ({ roles, children }) => {
             return;
         }
         if (!isAllowed) {
-            navigate("/");
-            alert("AHHHHH");
+            navigate(-1);
+            alert("You are not permitted to access this page");
         }
     }, [isLoading, isAuthenticated, navigate, isAllowed]);
 

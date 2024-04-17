@@ -62,7 +62,7 @@ function ConditionalSideNavBar() {
   // const { isAuthenticated, user } = useAuth0();
 
   // Don't render the side navbar on the login route
-  if (location.pathname === "/" || location.pathname === "/public-map" ) {
+  if (location.pathname === "/" || (location.pathname === "/public-map" && !isAuthenticated)) {
     return null;
   }
   else if(!isAuthenticated){

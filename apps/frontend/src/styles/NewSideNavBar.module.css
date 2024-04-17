@@ -58,6 +58,7 @@
     z-index: 998; /* one less than .navbarContainer */
     opacity: 0; /* start fully transparent */
     transition: opacity 0.1s ease-in-out; /* transition the opacity */
+    pointer-events: none;
 }
 .grayOut.show {
     opacity: 1; /* end fully opaque */

@@ -2,10 +2,18 @@ import MapIcon from "@mui/icons-material/Map";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import styles from "../styles/NewSideNavBar.module.css";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 function NewSideNavBar() {
+    const { user} = useAuth0();
+    function isAdmin() {
+        const userRoles = user ? user["http://localhost:3000/roles"] : [];
+        return userRoles.includes("admin");
+    }
+
   const [collapsed, setCollapsed] = useState(true);
 
   const location = useLocation();
@@ -27,7 +35,7 @@ function NewSideNavBar() {
           setCollapsed(true);
         }}
       >
-        <Link to="/admin-map" className={`${styles.navButtons}`}>
+        <Link to={`${isAdmin() ? "/admin-map" : "/public-map"}`} className={`${styles.navButtons}`}>
           <div
             className={`${styles.row} ${currentLocation === "/" ? styles.selected : null}`}
           >

@@ -18,13 +18,7 @@ import TextDirections from "./TextDirections.tsx";
 import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
 import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
-
-const mapDiv: CSSProperties = {
-    height: "100%",
-    maxWidth: "100%",
-    overflow: "hidden",
-    position: "absolute"
-};
+import {useAuth0} from "@auth0/auth0-react";
 
 export default PublicMap;
 
@@ -37,6 +31,16 @@ function PublicMap() {
 }
 
 function MapContents() {
+    const { isAuthenticated} = useAuth0();
+
+    const mapDiv: CSSProperties = {
+        height: "100%",
+        maxWidth: `${isAuthenticated ? "calc(100% - 55px)" : "100%"}`,
+        float: `${isAuthenticated ? "right" : "none"}`,
+        position: `${isAuthenticated ? "relative" : "absolute"}`,
+        overflow: "hidden",
+    };
+
     const { setScale, disableZoomPanning } = useMapContext();
 
     const options = {

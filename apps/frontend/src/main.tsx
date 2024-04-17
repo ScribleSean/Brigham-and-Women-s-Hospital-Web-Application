@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     cacheLocation="localstorage"
     useRefreshTokens={true}
       // @ts-expect-error blah
-    redirectUri={`${window.location.origin}/admin-map`}
+    redirectUri={`${window.location.origin}/dashboard`}
   >
     <React.StrictMode>
       <App />
