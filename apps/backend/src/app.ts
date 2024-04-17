@@ -19,6 +19,13 @@ import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 import deleteDataRouter from "./routes/deleteDataRoute";
 import roomNameFetchRouter from "./routes/room-name-fetch.ts";
 
+import addNodesAndAssociatedEdgesRouter from "./routes/addNodesEdges.ts";
+import deleteNodesAndAssociatedEdgesRouter from "./routes/deleteNodesEdges.ts";
+import refactorNodesRouter from "./routes/refactorNodes.ts";
+import addEdgesRouter from "./routes/addEdges.ts";
+import deleteEdgesRouter from "./routes/deleteEdges.ts";
+import refactorEdgesRouter from "./routes/refactorEdges.ts";
+
 const app: Express = express(); // Set up the backend
 
 // Setup generic middleware
@@ -54,6 +61,20 @@ app.use("/healthcheck", (req, res) => {
 app.use("/api/nodes", nodesRouter);
 app.use("/api/path", pathRouter);
 app.use("/api/edges", edgesRouter);
+
+app.use(
+  "/api/delete-nodes-and-associated-edges",
+  deleteNodesAndAssociatedEdgesRouter,
+);
+app.use("/api/refactor-nodes", refactorNodesRouter);
+app.use(
+  "/api/add-nodes-and-associated-edges",
+  addNodesAndAssociatedEdgesRouter,
+);
+
+app.use("/api/delete-edges", deleteEdgesRouter);
+app.use("/api/refactor-edges", refactorEdgesRouter);
+app.use("/api/add-edges", addEdgesRouter);
 
 /**
  * Catch all 404 errors, and forward them to the error handler

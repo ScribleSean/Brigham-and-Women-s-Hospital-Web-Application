@@ -1,4 +1,4 @@
-import {Path, Edge, NodeType} from "common/src/DataStructures.ts";
+import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
 import React, { useCallback, useEffect, useState } from "react";
 import { useMapContext } from "./MapContext.ts";
 import { List, ListItem, ListSubheader, Typography } from "@mui/material";

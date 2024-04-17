@@ -6,38 +6,37 @@ import "../styles/HeroPage.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 function addAnimationClass(e: Event) {
-    e.preventDefault(); // Prevent the default action (navigation)
+  e.preventDefault(); // Prevent the default action (navigation)
 
-    // Get the link element and its href
-    const linkElement = document.getElementById("toMapClump");
-    // @ts-expect-error works
-    const href = linkElement.getAttribute('href');
-    let timer = 0;
+  // Get the link element and its href
+  const linkElement = document.getElementById("toMapClump");
+  // @ts-expect-error works
+  const href = linkElement.getAttribute("href");
+  let timer = 0;
 
-    if(linkElement){
-        if(Math.floor(Math.random() * 5) == 1){
-            linkElement.classList.add("animate__hinge");
-            timer = 2500;
-        }
-        else{
-            linkElement.classList.add("animate__bounceOutRight");
-            timer = 1000;
-        }
+  if (linkElement) {
+    if (Math.floor(Math.random() * 5) == 1) {
+      linkElement.classList.add("animate__hinge");
+      timer = 2500;
+    } else {
+      linkElement.classList.add("animate__bounceOutRight");
+      timer = 1000;
     }
-    // Remove and add classes as before
-    // @ts-expect-error works
-    linkElement.classList.remove("animate__slower", "animate__infinite");
+  }
+  // Remove and add classes as before
+  // @ts-expect-error works
+  linkElement.classList.remove("animate__slower", "animate__infinite");
 
-    // Wait for the animation to complete (adjust the duration as needed)
-    setTimeout(() => {
-        // Navigate to the link's href
-        // @ts-expect-error works
-        window.location.href = href;
-    }, timer); // 1000ms = 1s
+  // Wait for the animation to complete (adjust the duration as needed)
+  setTimeout(() => {
+    // Navigate to the link's href
+    // @ts-expect-error works
+    window.location.href = href;
+  }, timer); // 1000ms = 1s
 }
 
 function HeroPage() {
-    const {  isAuthenticated  } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   return (
     <div className={"image-area"}>
@@ -75,12 +74,13 @@ function HeroPage() {
 
         {/*map function*/}
         <div className={"col-4 d-flex justify-content-end"}>
-          <a  href={`${isAuthenticated ? "/dashboard" : "/public-map"}`}
+          <a
+            href={`${isAuthenticated ? "/dashboard" : "/public-map"}`}
             id={"toMapClump"}
             className={
               "toMap animate__animated animate__slower animate__headShake animate__infinite"
             }
-              // @ts-expect-error works
+            // @ts-expect-error works
             onClick={addAnimationClass}
           >
             <button className={"button-class"}> Go To Map</button>

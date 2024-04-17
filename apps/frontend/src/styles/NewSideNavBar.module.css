@@ -49,17 +49,17 @@
 }
 
 .grayOut {
-    background-color: rgba(0, 0, 0, 0.4);
-    height: 100vh;
-    width: 100vw;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 998; /* one less than .navbarContainer */
-    opacity: 0; /* start fully transparent */
-    transition: opacity 0.1s ease-in-out; /* transition the opacity */
-    pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998; /* one less than .navbarContainer */
+  opacity: 0; /* start fully transparent */
+  transition: opacity 0.1s ease-in-out; /* transition the opacity */
+  pointer-events: none;
 }
 .grayOut.show {
-    opacity: 1; /* end fully opaque */
+  opacity: 1; /* end fully opaque */
 }

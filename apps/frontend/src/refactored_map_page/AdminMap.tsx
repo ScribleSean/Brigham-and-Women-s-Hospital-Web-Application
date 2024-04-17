@@ -22,8 +22,8 @@ import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
 
 const mapDiv: CSSProperties = {
   height: "100%",
-    maxWidth: "calc(100% - 55px)",
-    float: "right",
+  maxWidth: "calc(100% - 55px)",
+  float: "right",
   overflow: "hidden",
 };
 
@@ -62,26 +62,26 @@ function MapContents() {
 
   return (
     <div style={mapDiv}>
-      <ClearPathButton></ClearPathButton>
-      <TextDirections></TextDirections>
-      <DirectionsSelector></DirectionsSelector>
-      <ShowPathsButton></ShowPathsButton>
-      <ShowNodesEdgesDropDown></ShowNodesEdgesDropDown>
-      <DisplayEditingOptions></DisplayEditingOptions>
-      <AlgorithmSelector></AlgorithmSelector>
-      <AccessibilitySelector></AccessibilitySelector>
-      <LocationSelector></LocationSelector>
-      <FloorSelector></FloorSelector>
-      <ConfirmChanges></ConfirmChanges>
+      <ClearPathButton />
+      <TextDirections />
+      <DirectionsSelector />
+      <ShowPathsButton />
+      <ShowNodesEdgesDropDown />
+      <DisplayEditingOptions />
+      <AlgorithmSelector />
+      <AccessibilitySelector />
+      <LocationSelector />
+      <FloorSelector />
+      <ConfirmChanges />
       <TransformWrapper
         {...zoomWrapperProps}
         onTransformed={(e) => handleScaleChange(e)}
         disablePadding={true}
       >
         <TransformComponent
-          wrapperStyle={{ height: "100vh", width: screen.width }}
+          wrapperStyle={{ height: screen.height, width: screen.width }}
         >
-          <FloorDisplay></FloorDisplay>;
+          <FloorDisplay></FloorDisplay>
         </TransformComponent>
       </TransformWrapper>
     </div>

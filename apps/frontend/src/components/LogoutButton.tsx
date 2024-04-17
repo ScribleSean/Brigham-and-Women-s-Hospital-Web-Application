@@ -14,7 +14,7 @@ const LogoutButton = () => {
       sx={{
         // m: "0.5vw",
         // width: "60%",
-          height: "100%",
+        height: "100%",
         backgroundColor: "#012d5a",
         // color: "white",
       }}

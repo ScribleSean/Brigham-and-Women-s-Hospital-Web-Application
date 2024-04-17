@@ -26,7 +26,7 @@ function App() {
       <ConditionalBanner />
       <Routes>
         <Route path="/" element={<HeroPage />} />
-          <Route path="/public-map" element={<PublicMap />} />
+        <Route path="/public-map" element={<PublicMap />} />
         <Route
           path="/csv-page"
           element={
@@ -36,12 +36,12 @@ function App() {
           }
         />
         <Route
-            path="/admin-map"
-            element={
-                <ProtectedRoute roles={["admin"]}>
-                    <AdminMap />
-                </ProtectedRoute>
-            }
+          path="/admin-map"
+          element={
+            <ProtectedRoute roles={["admin"]}>
+              <AdminMap />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/dashboard"
@@ -58,15 +58,17 @@ function App() {
 
 function ConditionalSideNavBar() {
   const location = useLocation();
-  const { isAuthenticated  } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   // const { isAuthenticated, user } = useAuth0();
 
   // Don't render the side navbar on the login route
-  if (location.pathname === "/" || (location.pathname === "/public-map" && !isAuthenticated)) {
+  if (
+    location.pathname === "/" ||
+    (location.pathname === "/public-map" && !isAuthenticated)
+  ) {
     return null;
-  }
-  else if(!isAuthenticated){
-      return null;
+  } else if (!isAuthenticated) {
+    return null;
   }
 
   // Don't render the side navbar if the user is not authenticated
@@ -85,27 +87,27 @@ function ConditionalSideNavBar() {
 }
 
 function ConditionalBanner() {
-    const location = useLocation();
-    // const { isAuthenticated, user } = useAuth0();
+  const location = useLocation();
+  // const { isAuthenticated, user } = useAuth0();
 
-    // Don't render the side navbar on the login route
-    if (location.pathname === "/") {
-        return null;
-    }
+  // Don't render the side navbar on the login route
+  if (location.pathname === "/") {
+    return null;
+  }
 
-    // Don't render the side navbar if the user is not authenticated
-    // if (!isAuthenticated) {
-    //     return null;
-    // }
+  // Don't render the side navbar if the user is not authenticated
+  // if (!isAuthenticated) {
+  //     return null;
+  // }
 
-    // Don't render the side navbar if the user is not an employee
-    // const userRoles = user ? user['http://localhost:3000/roles'] : [];
-    // const isEmployee = userRoles.some((role: string) => ['admin', 'staff'].includes(role));
-    // if (!isEmployee) {
-    //     return null;
-    // }
+  // Don't render the side navbar if the user is not an employee
+  // const userRoles = user ? user['http://localhost:3000/roles'] : [];
+  // const isEmployee = userRoles.some((role: string) => ['admin', 'staff'].includes(role));
+  // if (!isEmployee) {
+  //     return null;
+  // }
 
-    return <Banner />;
+  return <Banner />;
 }
 
 export default App;

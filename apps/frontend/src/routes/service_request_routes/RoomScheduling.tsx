@@ -13,10 +13,10 @@ import "../../styles/RoomScheduling.css";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/GiftRequest.module.css";
 import axios from "axios";
-import { roomSchedRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
+import { roomSchedulingRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
 
 function RoomScheduling() {
-  const [formData, setFormData] = useState<roomSchedRequest>({
+  const [formData, setFormData] = useState<roomSchedulingRequest>({
     SRID: 0,
     employeeName: "", //text box
     priority: "", //radio buttons
@@ -42,7 +42,7 @@ function RoomScheduling() {
 
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
-    field: keyof roomSchedRequest,
+    field: keyof roomSchedulingRequest,
   ) => {
     setFormData({
       ...formData,

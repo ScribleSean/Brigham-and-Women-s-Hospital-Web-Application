@@ -27,12 +27,12 @@ router.post("/", async function (req, res) {
         SRID: serviceRequest.SRID,
         medicineType: medicine.medicineType,
         dosageType: medicine.dosageType,
-        dosageAmount: medicine.dosageAmount,
+        dosageAmount: medicine.dosageAmount as number,
       },
       update: {
         medicineType: medicine.medicineType,
         dosageType: medicine.dosageType,
-        dosageAmount: medicine.dosageAmount,
+        dosageAmount: medicine.dosageAmount as number,
       },
     });
 
