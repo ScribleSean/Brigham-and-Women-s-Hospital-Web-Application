@@ -4,15 +4,25 @@ import "../styles/HeroPage.css";
 // @import "~animate.css/animate.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
+function addAnimationClass() {
+  // @ts-expect-error I hate this
+  document
+    .getElementById("toMapClump")
+    .classList.remove("animate__slower", "animate__infinite");
+  // @ts-expect-error I hate this
+  document
+    .getElementById("toMapClump")
+    .classList.add("animate__bounceOutRight");
+}
+
 export default function heroPage() {
   return (
     <div className={"image-area"}>
       <div className={"gradient row"}>
         {/*Text*/}
-        <div className={"col-9"}>
+        <div className={"col-8"}>
           <div className={"hero-text"}>
-            {" "}
-            Welcome to Brigham and Women's Hospital{" "}
+            Welcome to Brigham and Women's Hospital
           </div>
           <div className="carousel hero-text-p">
             <div>
@@ -36,17 +46,26 @@ export default function heroPage() {
                 Together in health, every step of the way—because family
                 matters.
               </p>
-              <p>Text 6</p>
             </div>
           </div>
         </div>
 
         {/*map function*/}
-        <div className={"col-3 d-flex justify-content-end"}>
-          <div className={"toMap"}>
+        <div className={"col-4 d-flex justify-content-end"}>
+          <div
+            id={"toMapClump"}
+            className={
+              "toMap animate__animated animate__slower animate__headShake animate__infinite"
+            }
+            onClick={addAnimationClass}
+          >
             <button className={"button-class"}> Go To Map</button>
             <ArrowCircleRightIcon
-              sx={{ color: "#ffffff", fontSize: 55 }}
+              sx={{
+                color: "#ffffff",
+                fontSize: 55,
+                marginBottom: 1,
+              }}
             ></ArrowCircleRightIcon>
             {/*<div className={"arrow"} ></div>*/}
           </div>
