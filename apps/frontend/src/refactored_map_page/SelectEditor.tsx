@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
-import { useMapContext } from "./MapContext.ts"; // Adjust the import path as needed
+import { IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { useMapContext } from "./MapContext.ts";
+import { EditorMode } from "common/src/types/map_page_types.ts"; // Adjust the import path as needed
 
-function EditorSelector() {
+export default function EditorSelector() {
   const { editorMode, setEditorMode } = useMapContext();
   const [hoverActive, setHoverActive] = useState(false);
 
@@ -15,41 +17,45 @@ function EditorSelector() {
   };
 
   const handleOnClick = () => {
-    setEditorMode(!editorMode);
+    if (editorMode === EditorMode.disabled) {
+      setEditorMode(EditorMode.addEdges);
+    } else {
+      setEditorMode(EditorMode.disabled);
+    }
     setHoverActive(false);
   };
 
   return (
-    <Button
+    <IconButton
       onClick={handleOnClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      disableRipple
       sx={{
         position: "absolute",
-        width: "7vw",
-        backgroundColor: editorMode ? "#F6BD39" : "#012D5A",
+        borderRadius: "50%", // Ensuring the button is circular
+        width: "50px", // Adjust size as necessary
+        height: "50px", // Adjust size as necessary
+        backgroundColor:
+          editorMode === EditorMode.disabled ? "#012D5A" : "#2196F3",
         color: "white",
-        fontWeight: "bold",
-        fontFamily: "inter",
-        textTransform: "capitalize",
         boxShadow: 8,
         zIndex: 4,
-        marginLeft: "10vw",
-        marginTop: "22vh",
+        marginLeft: "2vw",
+        marginTop: "90vh",
         ":hover": {
           backgroundColor: hoverActive
-            ? editorMode
+            ? editorMode !== EditorMode.disabled
               ? "#012D5A!important"
-              : "#F6BD39!important"
-            : editorMode
-              ? "#F6BD39!important"
+              : "#2196F3!important"
+            : editorMode !== EditorMode.disabled
+              ? "#2196F3!important"
               : "#012D5A!important",
         },
       }}
+      aria-label="Edit Map"
     >
-      Edit Map
-    </Button>
+      <EditIcon />
+    </IconButton>
   );
 }
-
-export default EditorSelector;

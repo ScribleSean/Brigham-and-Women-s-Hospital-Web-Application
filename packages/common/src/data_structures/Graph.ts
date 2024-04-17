@@ -16,8 +16,8 @@ export class Graph {
     return this.lookupTable;
   }
 
-  public addEdge(startNode: Node, endNode: Node): void {
-    const edge: Edge = new Edge(startNode, endNode);
+  public addEdge(ID: string, startNode: Node, endNode: Node): void {
+    const edge: Edge = new Edge(ID, startNode, endNode);
 
     this.lookupTable.set(startNode.getID(), startNode);
 
@@ -28,8 +28,8 @@ export class Graph {
     this.adjList.get(startNode)!.push(edge);
   }
 
-  public addEdgeNoStairs(startNode: Node, endNode: Node): void {
-    const edge: Edge = new Edge(startNode, endNode);
+  public addEdgeNoStairs(ID: string, startNode: Node, endNode: Node): void {
+    const edge: Edge = new Edge(ID, startNode, endNode);
     if (edge.usesStairs()) {
       return;
     }
@@ -135,7 +135,11 @@ export class Graph {
     for (const node of keys) {
       if (node.getFloor() === floorType) {
         const edgesFromNode: Array<Edge> = this.getEdgesFromNode(node);
-        edgesFromNode.forEach((edge) => edges.push(edge));
+        edgesFromNode.forEach((edge) => {
+          if (!edges.map((edge) => edge.ID).includes(edge.ID)) {
+            edges.push(edge);
+          }
+        });
       }
     }
     return edges;

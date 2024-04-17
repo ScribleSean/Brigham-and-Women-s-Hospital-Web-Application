@@ -5,10 +5,10 @@ export class Node {
   public x: number;
   public y: number;
   public floor: FloorType;
-  private readonly building: BuildingType;
-  private readonly type: NodeType;
+  public building: BuildingType;
+  public type: NodeType;
   public longName: string;
-  private readonly shortName: string;
+  public shortName: string;
 
   constructor(
     ID: string,

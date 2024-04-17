@@ -10,6 +10,7 @@ import {
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useMapContext } from "./MapContext.ts";
 import { AlgorithmType } from "common/src/DataStructures.ts";
+import { EditorMode } from "common/src/types/map_page_types.ts";
 function CustomArrowIcon(props: SvgIconProps) {
   return (
     <SvgIcon {...props}>
@@ -19,10 +20,20 @@ function CustomArrowIcon(props: SvgIconProps) {
 }
 
 function AlgorithmSelector() {
-  const { selectedAlgorithm, setSelectedAlgorithm } = useMapContext();
+  const {
+    selectedAlgorithm,
+    setSelectedAlgorithm,
+    setDirectionsCounter,
+    editorMode,
+  } = useMapContext();
+
+  if (editorMode !== EditorMode.disabled) {
+    return null;
+  }
 
   const handleChange = (event: SelectChangeEvent<AlgorithmType>) => {
     setSelectedAlgorithm(event.target.value as AlgorithmType);
+    setDirectionsCounter(0);
   };
 
   return (
@@ -31,13 +42,13 @@ function AlgorithmSelector() {
         sx={{
           backgroundColor: "white",
           boxShadow: 7,
-          borderRadius: "4rem",
+          borderRadius: "0.5rem",
           position: "absolute",
           display: "flex",
           width: "12vw",
           height: "5vh",
-          marginTop: "1.5rem",
-          marginRight: "31.5vw",
+          marginTop: "12vh",
+          marginRight: "17vw",
           alignItems: "center",
           zIndex: 3,
           right: 0,

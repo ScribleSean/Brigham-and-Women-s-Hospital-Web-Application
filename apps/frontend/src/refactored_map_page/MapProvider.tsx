@@ -1,9 +1,20 @@
 import React, { ReactNode, useState } from "react";
 import {
   AccessibilityType,
+  EditorMode,
   NodesByFloor,
+  EdgesByFloor,
+  NodeWithAssociatedEdges,
+  OldNewEdge,
+  OldNewNode,
 } from "common/src/types/map_page_types.ts";
-import { FloorType, Node, AlgorithmType } from "common/src/DataStructures.ts";
+import {
+  AlgorithmType,
+  FloorType,
+  Node,
+  Edge,
+  Path,
+} from "common/src/DataStructures.ts";
 import MapContext from "./MapContext.ts";
 
 interface MapProviderProps {
@@ -15,6 +26,8 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [endNode, setEndNode] = useState<Node | null>(null);
 
   const [nodesByFloor, setNodesByFloor] = useState<NodesByFloor | null>(null);
+  const [edgesByFloor, setEdgesByFloor] = useState<EdgesByFloor | null>(null);
+  const [paths, setPaths] = useState<Array<Path>>(new Array<Path>());
 
   const [currentFloor, setCurrentFloor] = useState<FloorType>(FloorType.first);
   const [directionsCounter, setDirectionsCounter] = useState<number>(0);
@@ -28,9 +41,35 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [selectedAccessibility, setSelectedAccessibility] =
     useState<AccessibilityType>(AccessibilityType.all);
 
-  const [editorMode, setEditorMode] = useState<boolean>(false);
+  const [editorMode, setEditorMode] = useState<EditorMode>(EditorMode.disabled);
+  const [showPaths, setShowPaths] = useState<boolean>(false);
+
+  const [showNodes, setShowNodes] = useState<boolean>(false);
+  const [showEdges, setShowEdges] = useState<boolean>(false);
+
   const [disableZoomPanning, setDisableZoomPanning] = useState<boolean>(false);
   const [scale, setScale] = useState<number>(1);
+
+  const [nodesToBeDeleted, setNodesToBeDeleted] = useState<Array<Node>>(
+    new Array<Node>(),
+  );
+  const [edgesToBeDeleted, setEdgesToBeDeleted] = useState<Array<Edge>>(
+    new Array<Edge>(),
+  );
+  const [nodesToBeEdited, setNodesToBeEdited] = useState<Array<OldNewNode>>(
+    new Array<OldNewNode>(),
+  );
+  const [edgesToBeEdited, setEdgesToBeEdited] = useState<Array<OldNewEdge>>(
+    new Array<OldNewEdge>(),
+  );
+  const [nodesToBeAdded, setNodesToBeAdded] = useState<
+    Array<NodeWithAssociatedEdges>
+  >(new Array<NodeWithAssociatedEdges>());
+  const [edgesToBeAdded, setEdgesToBeAdded] = useState<Array<Edge>>(
+    new Array<Edge>(),
+  );
+
+  const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
 
   const value = {
     startNode,
@@ -40,6 +79,10 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     nodesByFloor,
     setNodesByFloor,
+    edgesByFloor,
+    setEdgesByFloor,
+    paths,
+    setPaths,
 
     startFloor,
     setStartFloor,
@@ -58,10 +101,34 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     editorMode,
     setEditorMode,
+    showPaths,
+    setShowPaths,
+
+    showNodes,
+    setShowNodes,
+    showEdges,
+    setShowEdges,
+
     disableZoomPanning,
     setDisableZoomPanning,
     scale,
     setScale,
+
+    nodesToBeDeleted,
+    setNodesToBeDeleted,
+    edgesToBeDeleted,
+    setEdgesToBeDeleted,
+    nodesToBeEdited,
+    setNodesToBeEdited,
+    edgesToBeEdited,
+    setEdgesToBeEdited,
+    nodesToBeAdded,
+    setNodesToBeAdded,
+    edgesToBeAdded,
+    setEdgesToBeAdded,
+
+    unsavedChanges,
+    setUnsavedChanges,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

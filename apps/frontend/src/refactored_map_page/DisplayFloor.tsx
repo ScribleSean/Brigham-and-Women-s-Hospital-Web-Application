@@ -1,5 +1,5 @@
 import { BuildingMap, FloorMap } from "common/src/BuildingClasses.ts";
-import { FloorType, Node } from "common/src/DataStructures.ts";
+import { FloorType, Node, Edge } from "common/src/DataStructures.ts";
 import React, {
   CSSProperties,
   useCallback,
@@ -8,17 +8,19 @@ import React, {
   useState,
 } from "react";
 import {
-  EdgesDisplayProps,
+  EdgeDisplayProps,
+  EdgesByFloor,
   NodeDisplayProps,
   NodesByFloor,
   NodesOptionsRequest,
   PathDisplayProps,
+  Scaling,
 } from "common/src/types/map_page_types.ts";
 import axios from "axios";
 import { useMapContext } from "./MapContext.ts";
-import EdgesDisplay from "./DisplayEdges.tsx";
 import PathDisplay from "./DisplayPath.tsx";
 import NodeDisplay from "./DisplayNode.tsx";
+import EdgeDisplay from "./DisplayEdge.tsx";
 
 export default FloorDisplay;
 
@@ -42,6 +44,26 @@ function getNodesByFloor(
   }
 }
 
+function getEdgesByFloor(
+  allEdges: EdgesByFloor | null,
+  floor: FloorType,
+): Array<Edge> {
+  if (!allEdges) return [];
+  const { L2, L1, firstFloor, secondFloor, thirdFloor } = allEdges;
+  switch (floor) {
+    case FloorType.first:
+      return firstFloor;
+    case FloorType.second:
+      return secondFloor;
+    case FloorType.third:
+      return thirdFloor;
+    case FloorType.L1:
+      return L1;
+    default:
+      return L2;
+  }
+}
+
 const buildingMap: BuildingMap = new BuildingMap([
   new FloorMap("00_thelowerlevel1.png", FloorType.L1),
   new FloorMap("00_thelowerlevel2.png", FloorType.L2),
@@ -51,7 +73,14 @@ const buildingMap: BuildingMap = new BuildingMap([
 ]);
 
 function FloorDisplay() {
-  const { currentFloor, nodesByFloor, setNodesByFloor } = useMapContext();
+  const {
+    currentFloor,
+    nodesByFloor,
+    setNodesByFloor,
+    edgesByFloor,
+    setEdgesByFloor,
+    showNodes,
+  } = useMapContext();
 
   useEffect(() => {
     async function getNodes(): Promise<void> {
@@ -59,6 +88,7 @@ function FloorDisplay() {
         const nodesOptionsRequest: NodesOptionsRequest = {
           includeHallways: false,
           byFloors: true,
+          showAllNodes: showNodes,
         };
         const currentNodes: NodesByFloor = (
           await axios.post("/api/nodes", nodesOptionsRequest)
@@ -70,7 +100,21 @@ function FloorDisplay() {
     }
 
     getNodes();
-  }, [setNodesByFloor]);
+  }, [setNodesByFloor, showNodes]);
+
+  useEffect(() => {
+    async function getEdges(): Promise<void> {
+      try {
+        const edgesByfloor: EdgesByFloor = (await axios.get("/api/edges"))
+          .data as EdgesByFloor;
+        setEdgesByFloor(edgesByfloor);
+      } catch (error) {
+        console.error("Failed to fetch edges data:", error);
+      }
+    }
+
+    getEdges();
+  }, [setEdgesByFloor]);
 
   const IMAGE_WIDTH: number = 5000;
   const IMAGE_HEIGHT: number = 3400;
@@ -87,6 +131,7 @@ function FloorDisplay() {
   function getHeightScaling(): number {
     return divHeight / IMAGE_HEIGHT;
   }
+
   const updateDimensions = useCallback(() => {
     if (ref.current && !isImageLoaded.current) {
       const { width, height } = ref.current.getBoundingClientRect();
@@ -125,54 +170,60 @@ function FloorDisplay() {
     }
   };
 
+  function getScaling(): Scaling {
+    return {
+      widthScaling: getWidthScaling(),
+      heightScaling: getHeightScaling(),
+    };
+  }
+
   function nodeDisplayProps(node: Node): NodeDisplayProps {
     return {
       node: node,
       key: node.ID,
-      scaling: {
-        widthScaling: getWidthScaling(),
-        heightScaling: getHeightScaling(),
-      },
+      scaling: getScaling(),
+    };
+  }
+
+  function edgeDisplayProps(edge: Edge): EdgeDisplayProps {
+    return {
+      edge: edge,
+      key: edge.ID,
+      scaling: getScaling(),
     };
   }
 
   function pathDisplayProps(): PathDisplayProps {
     return {
-      scaling: {
-        widthScaling: getWidthScaling(),
-        heightScaling: getHeightScaling(),
-      },
+      scaling: getScaling(),
     };
   }
 
-  const edgesDisplayProps: EdgesDisplayProps = {
-    scaling: {
-      widthScaling: getWidthScaling(),
-      heightScaling: getHeightScaling(),
-    },
-  };
-
   const divStyleBig: CSSProperties = {
-    position: "relative",
-    width: "100%",
-    minHeight: "100%",
+    width: "100vw",
   };
 
-  const divStyle: CSSProperties = {
+  const imgStyle: CSSProperties = {
     width: "100%",
     maxWidth: "100%",
     height: "auto",
     zIndex: "1",
   };
 
+  const svgStyle: CSSProperties = {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    top: 0,
+    left: 0,
+    zIndex: 2,
+  };
+
   return (
     <div style={divStyleBig}>
-      <EdgesDisplay {...edgesDisplayProps}></EdgesDisplay>
-      <PathDisplay {...pathDisplayProps()} />
       <img
         ref={ref}
-        className="image div"
-        style={divStyle}
+        style={imgStyle}
         src={buildingMap.getFloorMap(currentFloor).getPngPath()}
         alt={"Error"}
         onLoad={handleImageLoad}
@@ -180,6 +231,12 @@ function FloorDisplay() {
       {getNodesByFloor(nodesByFloor, currentFloor).map((node) => (
         <NodeDisplay {...nodeDisplayProps(node)} />
       ))}
+      <svg style={svgStyle}>
+        {getEdgesByFloor(edgesByFloor, currentFloor).map((edge) => (
+          <EdgeDisplay {...edgeDisplayProps(edge)} />
+        ))}
+      </svg>
+      <PathDisplay {...pathDisplayProps()} />
     </div>
   );
 }

@@ -6,42 +6,28 @@ import {
   Select,
   SelectChangeEvent,
   Snackbar,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
 } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/GiftRequest.module.css";
 import React, { useState } from "react";
-
-interface FormData {
-  employeeName: string;
-  location: string;
-  giftType: string;
-  deliveryDate: string;
-  priority: string;
-  status: string;
-}
+import axios from "axios";
+import { giftDeliveryRequest } from "common/src/backend_interfaces/giftDeliveryRequest.ts";
 
 function GiftRequest() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<giftDeliveryRequest>({
+    SRID: 0,
+    senderName: "",
+    receiverName: "",
     employeeName: "",
     location: "",
     giftType: "",
     deliveryDate: "",
     priority: "",
     status: "",
+    serviceType: "Gift",
+    description: "",
   });
-
-  const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
-
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
@@ -54,7 +40,7 @@ function GiftRequest() {
 
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
-    field: keyof FormData,
+    field: keyof giftDeliveryRequest,
   ) => {
     setFormData({
       ...formData,
@@ -62,16 +48,25 @@ function GiftRequest() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addSubmittedRequest(formData);
+    const giftRequestPost = await axios.post(
+      "/api/gift-service-request",
+      formData,
+    );
+    console.log(giftRequestPost);
     setFormData({
+      SRID: 0,
+      senderName: "",
+      receiverName: "",
       employeeName: "",
       location: "",
       giftType: "",
       deliveryDate: "",
       priority: "",
       status: "",
+      serviceType: "Gift",
+      description: "",
     });
     setSnackbarIsOpen(true);
   };
@@ -195,12 +190,17 @@ function GiftRequest() {
               sx={{ width: "25%" }}
               onClick={() => {
                 setFormData({
+                  SRID: 0,
+                  senderName: "",
+                  receiverName: "",
                   employeeName: "",
                   location: "",
                   giftType: "",
                   deliveryDate: "",
                   priority: "",
                   status: "",
+                  serviceType: "Gift",
+                  description: "",
                 });
               }}
             >
@@ -215,48 +215,6 @@ function GiftRequest() {
             </Button>
           </div>
         </form>
-        <br />
-        <div>
-          <h2>Active Requests</h2>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <b>Employee Name</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Location</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Gift Type</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Delivery Date</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Priority</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Status</b>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {submittedRequests.map((request) => (
-                  <TableRow>
-                    <TableCell>{request.employeeName}</TableCell>
-                    <TableCell>{request.location}</TableCell>
-                    <TableCell>{request.giftType}</TableCell>
-                    <TableCell>{request.deliveryDate}</TableCell>
-                    <TableCell>{request.priority}</TableCell>
-                    <TableCell>{request.status}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
       </div>
     </div>
   );

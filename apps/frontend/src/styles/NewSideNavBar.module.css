@@ -1,0 +1,60 @@
+.navbarContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #012d5a;
+  padding-top: 70px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  transition: 0.5s;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  position: fixed;
+  z-index: 999;
+}
+
+.collapsed {
+  width: 55px;
+}
+
+.expanded {
+  width: 185px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 10px;
+  color: white;
+  margin: 5px 5px 5px 5px;
+  padding: 5px;
+}
+
+.navbarLabels {
+  margin: 0 0 0 10px;
+}
+
+.navButtons {
+  text-decoration: none;
+}
+
+.row:hover {
+  background-color: #cde1f560;
+}
+
+.selected {
+  background-color: #cde1f5;
+  color: #012d5a;
+}
+
+/* doesn't really work lol (fuck z-index!!!!) */
+/*.grayOut {*/
+/*  background-color: rgba(0, 0, 0, 0.4);*/
+/*  height: calc(100vh);*/
+/*  width: calc(100vw);*/
+/*  position: absolute;*/
+/*  bottom: 0;*/
+/*  right: 0;*/
+/*  z-index: -1;*/
+/*}*/

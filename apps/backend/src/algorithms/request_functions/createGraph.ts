@@ -21,6 +21,7 @@ async function createGraph(
   }
 
   for (const edge of edges) {
+    const edgeID: string = edge.edgeID;
     const startNodeID: string = edge.startNodeID;
     const endNodeID: string = edge.endNodeID;
 
@@ -76,11 +77,11 @@ async function createGraph(
 
     if (startNode && endNode) {
       if (includeStairs) {
-        graph.addEdge(startNode, endNode);
-        graph.addEdge(endNode, startNode);
+        graph.addEdge(edgeID, startNode, endNode);
+        graph.addEdge(edgeID, endNode, startNode);
       } else {
-        graph.addEdgeNoStairs(startNode, endNode);
-        graph.addEdgeNoStairs(endNode, startNode);
+        graph.addEdgeNoStairs(edgeID, startNode, endNode);
+        graph.addEdgeNoStairs(edgeID, endNode, startNode);
       }
     }
   }
