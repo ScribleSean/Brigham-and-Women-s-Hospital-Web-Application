@@ -2634,6 +2634,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"animate.css@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "animate.css@npm:4.1.1"
+  checksum: 3b8ce49f12c006579049499fca5be99e8813add3e0d355b6209c4d6a5d56cd42e9b9e2f88df2f3da78ace474d5164530f556b6c04c851a439933a5cad321707f
+  languageName: node
+  linkType: hard
+
 "ansi-align@npm:^3.0.1":
   version: 3.0.1
   resolution: "ansi-align@npm:3.0.1"
@@ -7606,6 +7613,7 @@ __metadata:
     "@types/react-dom": "npm:^18.0.11"
     "@vitest/ui": "npm:^0.33.0"
     "@yarnpkg/pnpify": "npm:^4.0.0-rc.45"
+    animate.css: "npm:^4.1.1"
     bootstrap: "npm:^5.3.3"
     dayjs: "npm:^1.11.10"
     dotenv: "npm:^16.4.5"
