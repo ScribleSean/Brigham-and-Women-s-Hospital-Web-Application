@@ -2,14 +2,32 @@ import { Node } from "./Node.ts";
 import { NodeType } from "./NodeType.ts";
 
 export class Edge {
+  public ID: string;
   public startNode: Node;
   public endNode: Node;
   private readonly weight: number;
 
-  public constructor(startNode: Node, endNode: Node) {
+  public constructor(ID: string, startNode: Node, endNode: Node) {
+    const x1: number = startNode.x;
+    const y1: number = startNode.y;
+    const x2: number = endNode.x;
+    const y2: number = endNode.y;
+    let result: number = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    const nodeType1: NodeType = startNode.type;
+    const nodeType2: NodeType = endNode.type;
+    const usesStairs: boolean =
+      nodeType1 === NodeType.STAI && nodeType2 == NodeType.STAI;
+    const usesElevator: boolean =
+      nodeType1 === NodeType.ELEV && nodeType2 == NodeType.ELEV;
+
+    if (usesStairs || usesElevator) {
+      result += 10;
+    }
+
+    this.ID = ID;
     this.startNode = startNode;
     this.endNode = endNode;
-    this.weight = this.setWeight();
+    this.weight = result;
   }
 
   private setWeight() {
@@ -41,9 +59,11 @@ export class Edge {
   public getStartNode() {
     return this.startNode;
   }
+
   public getEndNode() {
     return this.endNode;
   }
+
   public getWeight(): number {
     return this.weight;
   }

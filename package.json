@@ -36,7 +36,7 @@
   "devDependencies": {
     "@types/bootstrap": "^5",
     "@types/prop-types": "^15",
-    "@types/react": "^18.2.73",
+    "@types/react": "^18.2.78",
     "@types/react-dom": "^18.0.11",
     "@vitest/ui": "^0.33.0",
     "eslint": "^8.56.0",
@@ -55,6 +55,7 @@
     "@auth0/auth0-react": "^2.2.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/pickers": "^3.3.11",
     "@mui/icons-material": "^5.15.15",

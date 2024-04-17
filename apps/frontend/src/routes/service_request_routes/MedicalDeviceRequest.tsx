@@ -7,25 +7,12 @@ import {
   Select,
   SelectChangeEvent,
   Snackbar,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
 } from "@mui/material";
 import styles from "../../styles/MedicalDeviceRequest.module.css";
 import { useEffect, useState } from "react";
-
-interface FormData {
-  employeeName: string;
-  location: string;
-  deviceName: string | null;
-  deviceQuantity: string;
-  priority: string;
-  status: string;
-}
+import axios from "axios";
+import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceRequest.ts";
 
 function MedicalDeviceRequest() {
   const deviceOptions: string[] = [
@@ -82,22 +69,25 @@ function MedicalDeviceRequest() {
     "Prosthesis",
   ];
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<MedicalDevice>({
+    SRID: 0,
     employeeName: "",
     location: "",
-    deviceName: null,
+    deviceName: "",
     deviceQuantity: "",
     priority: "",
     status: "",
+    serviceType: "Medical Device",
+    description: "",
   });
 
-  const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
+  // const [submittedRequests, setSubmittedRequests] = useState<FormData[]>([]);
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
-  const addSubmittedRequest = (newRequest: FormData) => {
-    setSubmittedRequests([...submittedRequests, newRequest]);
-  };
+  // const addSubmittedRequest = (newRequest: FormData) => {
+  //   setSubmittedRequests([...submittedRequests, newRequest]);
+  // };
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -109,13 +99,13 @@ function MedicalDeviceRequest() {
   const handleAutocompleteChange = (value: string | null) => {
     setFormData({
       ...formData,
-      deviceName: value || null,
+      deviceName: value as string,
     });
   };
 
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
-    field: keyof FormData,
+    field: keyof MedicalDevice,
   ) => {
     setFormData({
       ...formData,
@@ -123,22 +113,36 @@ function MedicalDeviceRequest() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addSubmittedRequest(formData);
+    //addSubmittedRequest(formData);
+    console.log(formData);
+    try {
+      const response = await axios.post(
+        "/api/medical-device-service-request",
+        formData,
+      );
+      console.log("Form data sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
+
     setFormData({
+      SRID: 0,
       employeeName: "",
       location: "",
-      deviceName: null,
+      deviceName: "",
       deviceQuantity: "",
       priority: "",
       status: "",
+      serviceType: "MedicalDevice",
+      description: "",
     });
   };
 
-  useEffect(() => {
-    console.log(submittedRequests);
-  }, [submittedRequests]);
+  // useEffect(() => {
+  //   console.log(submittedRequests);
+  // }, [submittedRequests]);
 
   useEffect(() => {
     console.log(formData);
@@ -281,12 +285,15 @@ function MedicalDeviceRequest() {
               }}
               onClick={() => {
                 setFormData({
+                  SRID: 0,
                   employeeName: "",
                   location: "",
-                  deviceName: null,
+                  deviceName: "",
                   deviceQuantity: "",
                   priority: "",
                   status: "",
+                  serviceType: "MedicalDevice",
+                  description: "",
                 });
               }}
             >
@@ -304,39 +311,8 @@ function MedicalDeviceRequest() {
             </Button>
           </div>
         </form>
-        <br />
-        <div>
-          <h2>Active Requests</h2>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Employee Name</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Device</TableCell>
-                  <TableCell>Quantity</TableCell>
-                  <TableCell>Priority</TableCell>
-                  <TableCell>Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {submittedRequests.map((request, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{request.employeeName}</TableCell>
-                    <TableCell>{request.location}</TableCell>
-                    <TableCell>{request.deviceName}</TableCell>
-                    <TableCell>{request.deviceQuantity}</TableCell>
-                    <TableCell>{request.priority}</TableCell>
-                    <TableCell>{request.status}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
       </div>
     </>
   );
 }
-
 export default MedicalDeviceRequest;

@@ -5,7 +5,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import "../map_page/LocationSelector.css";
 import { Node } from "common/src/DataStructures.ts";
 import { useMapContext } from "./MapContext.ts";
-import { NodesByFloor } from "../../../../packages/common/src/types/map_page_types.ts";
+import { EditorMode, NodesByFloor } from "common/src/types/map_page_types.ts";
 
 function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
   const nodes: Array<Node> = new Array<Node>();
@@ -26,7 +26,12 @@ function LocationSelector(): React.JSX.Element {
     endNode,
     setEndNode,
     setCurrentFloor,
+    editorMode,
   } = useMapContext();
+
+  if (editorMode !== EditorMode.disabled) {
+    return <></>;
+  }
 
   const handleLocationChange = (newValue: Node | null) => {
     if (newValue) {
@@ -56,16 +61,16 @@ function LocationSelector(): React.JSX.Element {
           gap: 2,
           position: "absolute",
           width: "16%",
-          marginTop: "3vh",
+          marginTop: "12vh",
           marginLeft: "2vw",
         }}
       >
         <Autocomplete
           value={startNode}
           onChange={(event, newValue) => handleLocationChange(newValue)}
-          options={nodesByFloorsToNodes(nodesByFloor).sort((a, b) =>
-            a.longName.localeCompare(b.longName),
-          )}
+          options={nodesByFloorsToNodes(nodesByFloor)
+            .sort((a, b) => a.longName.localeCompare(b.longName))
+            .filter((node) => node.type !== "ELEV" && node.type !== "STAI")}
           getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField
@@ -73,7 +78,7 @@ function LocationSelector(): React.JSX.Element {
               label="Enter Location"
               sx={{
                 backgroundColor: "white",
-                width: "15vw",
+                width: "20vw",
                 color: "black",
                 borderRadius: "0.5rem",
                 boxShadow: 8,
@@ -113,7 +118,9 @@ function LocationSelector(): React.JSX.Element {
         <Autocomplete
           value={endNode}
           onChange={(event, newValue) => handleDestinationChange(newValue)}
-          options={nodesByFloorsToNodes(nodesByFloor)}
+          options={nodesByFloorsToNodes(nodesByFloor)
+            .sort((a, b) => a.longName.localeCompare(b.longName))
+            .filter((node) => node.type !== "ELEV" && node.type !== "STAI")}
           getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField
@@ -121,7 +128,7 @@ function LocationSelector(): React.JSX.Element {
               label="Enter Destination"
               sx={{
                 backgroundColor: "white",
-                width: "15vw",
+                width: "20vw",
                 color: "black",
                 borderRadius: "0.5rem",
                 boxShadow: 8,

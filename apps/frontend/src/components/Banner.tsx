@@ -35,7 +35,7 @@ function RightSide(props: UserInfo) {
       <div className={`${styles.userInfo}`}>
         <div>
           <p className={`${styles.greeting}`}>Hello, {user.name}</p>
-          <p className={`${styles.role}`}>Logged in as {userRoles[0]} </p>
+          <p className={`${styles.role}`}>Logged in as {userRoles[0]} at {user.email}</p>
         </div>
         <IconButton onClick={handleClick}>
           <PersonIcon

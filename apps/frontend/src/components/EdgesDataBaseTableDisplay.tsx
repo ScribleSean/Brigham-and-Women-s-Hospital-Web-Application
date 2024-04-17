@@ -48,7 +48,7 @@ function GenerateTableRowsEdges(tableData: edge[]): JSX.Element[] {
 const TableEdges: React.FC<{ tableData: edge[] }> = ({ tableData }) => {
   return (
     <StyledTableContainer>
-      <Table>
+      <Table size={"small"}>
         <TableHead>
           <StyledTableRow>
             <StyledTableCell>Edge ID</StyledTableCell>

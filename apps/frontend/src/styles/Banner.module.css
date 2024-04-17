@@ -9,7 +9,9 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  z-index: 6;
   /*padding: 1vh 0;*/
+  z-index: 1000;
 }
 
 .logo {

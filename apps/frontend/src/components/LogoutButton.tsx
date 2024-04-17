@@ -12,10 +12,11 @@ const LogoutButton = () => {
       }
       variant={"contained"}
       sx={{
-        m: "0.5vw",
-        width: "60%",
+        // m: "0.5vw",
+        // width: "60%",
+          height: "100%",
         backgroundColor: "#012d5a",
-        color: "white",
+        // color: "white",
       }}
     >
       Log Out

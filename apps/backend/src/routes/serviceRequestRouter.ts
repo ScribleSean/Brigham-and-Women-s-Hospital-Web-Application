@@ -1,7 +1,7 @@
 // generic service request router
 import express, { Router } from "express";
 import PrismaClient from "../bin/database-connection.ts";
-import { ServiceRequest } from "common/src/serviceRequestTemp.ts";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
 const router: Router = express.Router();
 
@@ -22,12 +22,10 @@ router.post("/", async function (req, res) {
         status: serviceReq.status,
       },
     });
-    res
-      .status(200)
-      .json({ message: "Flower Request has been put into the database" });
-    console.log("Successfully posted to flower");
+    res.status(200).json({ message: "Service Status Updated" });
+    console.log("Service Status Updated Successfully");
   } catch (error) {
-    console.error("Unable to create form");
+    console.error("Service Status Update Failed");
     console.log(error);
     res.sendStatus(204);
     return;

@@ -4,15 +4,15 @@ import "./index.css";
 import App from "./App.tsx";
 import { Auth0Provider } from "@auth0/auth0-react";
 
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Auth0Provider
     domain="dev-250rscdnwyfpist1.us.auth0.com"
     clientId="4EmTwZ3radXKnlFlwWQLTsgu76RlpAiK"
     cacheLocation="localstorage"
     useRefreshTokens={true}
-    authorizationParams={{
-      redirect_uri: window.location.origin,
-    }}
+      // @ts-expect-error blah
+    redirectUri={`${window.location.origin}/admin-map`}
   >
     <React.StrictMode>
       <App />

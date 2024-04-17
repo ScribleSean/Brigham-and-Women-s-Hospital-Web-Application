@@ -1,32 +1,40 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useMemo } from "react";
+import {useEffect, useMemo } from "react";
 
 // @ts-expect-error roles and children are fine
 const ProtectedRoute = ({ roles, children }) => {
-  const { user, isAuthenticated } = useAuth0();
-  const navigate = useNavigate();
+    const { user, isAuthenticated, isLoading  } = useAuth0();
+    const navigate = useNavigate();
 
-  // Memoize the calculation of userRoles
-  const userRoles = useMemo(() => {
-    return user ? user["http://localhost:3000/roles"] : [];
-  }, [user]);
+    // Memoize the calculation of userRoles
+    const userRoles = useMemo(() => {
+        return user ? user["http://localhost:3000/roles"] : [];
+    }, [user]);
 
-  const isAllowed =
-    isAuthenticated &&
-    userRoles &&
-    userRoles.every((role: string) => roles.includes(role));
+    const isAllowed =
+        isAuthenticated &&
+        userRoles &&
+        userRoles.some((role: string) => roles.includes(role));
 
-  useEffect(() => {
-    // If the user is not allowed, redirect them to the home page
-    if (!isAllowed ||  (roles.size == 1 && !userRoles.includes("admin"))) {
-      alert("You don't have access to this page");
-      navigate("/");
+    useEffect(() => {
+        if (isLoading) {
+            return;
+        }
+        if (!isAllowed) {
+            navigate("/");
+            alert("AHHHHH");
+        }
+    }, [isLoading, isAuthenticated, navigate, isAllowed]);
+
+    // If the user object is still loading, render a loading message
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
-  }, [isAllowed, roles, userRoles, navigate]);
 
-  // If the user is allowed, render the children
-  return isAllowed ? children : null;
+    // If the user object is loaded, render the children if the user is allowed
+    return isAllowed ? children : null;
 };
+
 
 export default ProtectedRoute;

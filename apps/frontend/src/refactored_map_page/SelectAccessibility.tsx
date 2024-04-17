@@ -3,7 +3,10 @@ import { FormControl, Select, Box, MenuItem, SvgIcon } from "@mui/material";
 import { SvgIconProps } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useMapContext } from "./MapContext.ts";
-import { AccessibilityType } from "../../../../packages/common/src/types/map_page_types.ts";
+import {
+  AccessibilityType,
+  EditorMode,
+} from "../../../../packages/common/src/types/map_page_types.ts";
 
 function CustomArrowIcon(props: SvgIconProps) {
   return (
@@ -14,11 +17,21 @@ function CustomArrowIcon(props: SvgIconProps) {
 }
 
 function AccessibilitySelector() {
-  const { selectedAccessibility, setSelectedAccessibility } = useMapContext();
+  const {
+    selectedAccessibility,
+    setSelectedAccessibility,
+    setDirectionsCounter,
+    editorMode,
+  } = useMapContext();
 
   const handleChange = (event: SelectChangeEvent<AccessibilityType>) => {
     setSelectedAccessibility(event.target.value as AccessibilityType);
+    setDirectionsCounter(0);
   };
+
+  if (editorMode !== EditorMode.disabled) {
+    return <></>;
+  }
 
   return (
     <Box>
@@ -26,13 +39,13 @@ function AccessibilitySelector() {
         sx={{
           backgroundColor: "white",
           boxShadow: 7,
-          borderRadius: "4rem",
+          borderRadius: "0.5rem",
           position: "absolute",
           display: "flex",
           width: "15vw",
           height: "5vh",
-          marginTop: "1.5rem",
-          marginRight: "15vw",
+          marginTop: "12vh",
+          marginRight: "1vw",
           alignItems: "center",
           zIndex: 3,
           right: 0,
@@ -75,7 +88,6 @@ function AccessibilitySelector() {
               },
             }}
           >
-            {/* You might need to adjust these values to match your `AccessibilityType` */}
             <MenuItem value="all">All Accessible</MenuItem>
             <MenuItem value="wheelchair">Wheelchair Accessible</MenuItem>
           </Select>

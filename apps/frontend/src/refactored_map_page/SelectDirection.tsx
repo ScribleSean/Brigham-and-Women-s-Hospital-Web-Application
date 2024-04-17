@@ -1,20 +1,30 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { useMapContext } from "./MapContext.ts"; // Adjust the import path as needed
+import { useMapContext } from "./MapContext"; // Adjust the import path as needed
+import { EditorMode } from "common/src/types/map_page_types"; // Adjust the import path as needed
 
 function DirectionsSelector() {
-  const { directionsCounter, setDirectionsCounter } = useMapContext();
+  const { directionsCounter, setDirectionsCounter, paths, editorMode } =
+    useMapContext();
 
   const handleOnClick = () => {
-    setDirectionsCounter(directionsCounter + 1);
+    if (paths.length - 1 < directionsCounter + 1) {
+      setDirectionsCounter(0);
+    } else {
+      setDirectionsCounter(directionsCounter + 1);
+    }
   };
+
+  if (editorMode !== EditorMode.disabled) {
+    return null;
+  }
 
   return (
     <Button
       onClick={handleOnClick}
       sx={{
         position: "absolute",
-        width: "7vw",
+        width: "6vw",
         backgroundColor: "#012D5A",
         color: "white",
         fontWeight: "bold",
@@ -22,9 +32,12 @@ function DirectionsSelector() {
         textTransform: "capitalize",
         boxShadow: 8,
         zIndex: 4,
-        marginLeft: "2vw",
-        marginTop: "22vh",
-        ":hover": { backgroundColor: "#F6BD39!important" },
+        marginLeft: "16vw",
+        marginTop: "32vh",
+        fontSize: "0.8rem",
+        ":hover": {
+          backgroundColor: "#2196F3!important",
+        },
       }}
     >
       Next Floor
