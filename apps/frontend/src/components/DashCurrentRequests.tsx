@@ -226,7 +226,9 @@ export default function DashCurrentRequests({
   return (
     <>
       <div
-        className={`${styles.currentRequestsContainer} ${expanded ? styles.expanded : styles.collapsed}`}
+        className={`${styles.currentRequestsContainer} ${
+          expanded ? styles.expanded : styles.collapsed
+        }`}
       >
         <div className={`${styles.currentRequestsHeader}`}>
           <h1 className={`${styles.sectionHeader}`}>Current Requests</h1>

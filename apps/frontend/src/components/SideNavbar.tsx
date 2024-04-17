@@ -9,7 +9,9 @@ const SideNavbar = () => {
   return (
     <Nav
       id={"navbar"}
-      className={`justify-content-center ${isCollapsed ? "collapsed" : "expanded col-2"}`}
+      className={`justify-content-center ${
+        isCollapsed ? "collapsed" : "expanded col-2"
+      }`}
     >
       <div id={"inner-navbar-wrapper"}>
         <div id={"navbar-header"} className={"row"}>

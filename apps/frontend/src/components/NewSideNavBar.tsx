@@ -26,7 +26,9 @@ function NewSideNavBar() {
   return (
     <>
       <div
-        className={`${styles.navbarContainer} ${collapsed ? styles.collapsed : styles.expanded}`}
+        className={`${styles.navbarContainer} ${
+          collapsed ? styles.collapsed : styles.expanded
+        }`}
         onMouseOver={() => {
           setCollapsed(false);
         }}
@@ -39,7 +41,9 @@ function NewSideNavBar() {
           className={`${styles.navButtons}`}
         >
           <div
-            className={`${styles.row} ${currentLocation === "/" ? styles.selected : null}`}
+            className={`${styles.row} ${
+              currentLocation === "/" ? styles.selected : null
+            }`}
           >
             <MapIcon sx={{ fontSize: "35px" }} />
             <p className={`${styles.navbarLabels}`}>Map</p>
@@ -47,7 +51,9 @@ function NewSideNavBar() {
         </Link>
         <Link to="/dashboard" className={`${styles.navButtons}`}>
           <div
-            className={`${styles.row} ${currentLocation === "/dashboard" ? styles.selected : ""}`}
+            className={`${styles.row} ${
+              currentLocation === "/dashboard" ? styles.selected : ""
+            }`}
           >
             <DashboardIcon sx={{ fontSize: "35px" }} />
             <p className={`${styles.navbarLabels}`}>Dashboard</p>
@@ -55,7 +61,9 @@ function NewSideNavBar() {
         </Link>
         <Link to="/csv-page" className={`${styles.navButtons}`}>
           <div
-            className={`${styles.row} ${currentLocation === "/csv-page" ? styles.selected : ""}`}
+            className={`${styles.row} ${
+              currentLocation === "/csv-page" ? styles.selected : ""
+            }`}
           >
             <ListAltIcon sx={{ fontSize: "35px" }} />
             <p className={`${styles.navbarLabels}`}>File Viewer</p>
