@@ -200,12 +200,10 @@ function FloorDisplay() {
   }
 
   const divStyleBig: CSSProperties = {
-    position: "relative",
-    width: "100%",
-    minHeight: "100%",
+    width: "100vw",
   };
 
-  const divStyle: CSSProperties = {
+  const imgStyle: CSSProperties = {
     width: "100%",
     maxWidth: "100%",
     height: "auto",
@@ -225,8 +223,7 @@ function FloorDisplay() {
     <div style={divStyleBig}>
       <img
         ref={ref}
-        className="image div"
-        style={divStyle}
+        style={imgStyle}
         src={buildingMap.getFloorMap(currentFloor).getPngPath()}
         alt={"Error"}
         onLoad={handleImageLoad}

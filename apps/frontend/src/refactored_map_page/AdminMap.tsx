@@ -39,15 +39,20 @@ function AdminMap() {
 function MapContents() {
   const { setScale, disableZoomPanning } = useMapContext();
 
+  const options = {
+    initialScale: 0.5,
+    minScale: 0.5,
+    maxScale: 10,
+    minPositionY: -200,
+  };
+
   const zoomWrapperProps = {
     disablePadding: true,
-    minScale: 1,
-    initialScale: 1,
     centerOnInit: false,
     limitToBounds: true,
     doubleClick: { disabled: false },
     disabled: disableZoomPanning,
-    overflowY: "hidden",
+    options: options,
   };
 
   function handleScaleChange(event: ReactZoomPanPinchRef) {
@@ -55,27 +60,28 @@ function MapContents() {
   }
 
   return (
-    <div className={"overflow-hidden"}>
+    <div style={mapDiv}>
+      <ClearPathButton></ClearPathButton>
+      <TextDirections></TextDirections>
+      <DirectionsSelector></DirectionsSelector>
+      <ShowPathsButton></ShowPathsButton>
+      <ShowNodesEdgesDropDown></ShowNodesEdgesDropDown>
+      <DisplayEditingOptions></DisplayEditingOptions>
+      <AlgorithmSelector></AlgorithmSelector>
+      <AccessibilitySelector></AccessibilitySelector>
+      <LocationSelector></LocationSelector>
+      <FloorSelector></FloorSelector>
+      <ConfirmChanges></ConfirmChanges>
       <TransformWrapper
         {...zoomWrapperProps}
         onTransformed={(e) => handleScaleChange(e)}
+        disablePadding={true}
       >
-        <div style={mapDiv}>
-          <ClearPathButton></ClearPathButton>
-          <TextDirections></TextDirections>
-          <DirectionsSelector></DirectionsSelector>
-          <ShowPathsButton></ShowPathsButton>
-          <ShowNodesEdgesDropDown></ShowNodesEdgesDropDown>
-          <DisplayEditingOptions></DisplayEditingOptions>
-          <AlgorithmSelector></AlgorithmSelector>
-          <AccessibilitySelector></AccessibilitySelector>
-          <LocationSelector></LocationSelector>
-          <FloorSelector></FloorSelector>
-          <ConfirmChanges></ConfirmChanges>
-          <TransformComponent>
-            <FloorDisplay></FloorDisplay>;
-          </TransformComponent>
-        </div>
+        <TransformComponent
+          wrapperStyle={{ height: "100vh", width: screen.width }}
+        >
+          <FloorDisplay></FloorDisplay>;
+        </TransformComponent>
       </TransformWrapper>
     </div>
   );
