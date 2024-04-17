@@ -30,6 +30,7 @@ export default function EditorSelector() {
       onClick={handleOnClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      disableRipple
       sx={{
         position: "absolute",
         borderRadius: "50%", // Ensuring the button is circular
@@ -44,7 +45,7 @@ export default function EditorSelector() {
         marginTop: "90vh",
         ":hover": {
           backgroundColor: hoverActive
-            ? editorMode === EditorMode.disabled
+            ? editorMode !== EditorMode.disabled
               ? "#012D5A!important"
               : "#2196F3!important"
             : editorMode !== EditorMode.disabled

@@ -47,7 +47,7 @@ function AlgorithmSelector() {
           display: "flex",
           width: "12vw",
           height: "5vh",
-          marginTop: "14vh",
+          marginTop: "12vh",
           marginRight: "17vw",
           alignItems: "center",
           zIndex: 3,

@@ -33,7 +33,7 @@ function DirectionsSelector() {
         boxShadow: 8,
         zIndex: 4,
         marginLeft: "16vw",
-        marginTop: "34vh",
+        marginTop: "32vh",
         fontSize: "0.8rem",
         ":hover": {
           backgroundColor: "#2196F3!important",
