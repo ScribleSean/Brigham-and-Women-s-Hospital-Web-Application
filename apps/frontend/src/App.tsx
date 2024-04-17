@@ -1,14 +1,9 @@
 import React from "react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import FlowerDelivery from "./routes/service_request_routes/FlowerDelivery.tsx";
 import HeroPage from "./routes/HeroPage.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.module.css";
 import { CSVPage } from "./routes/CSVPage.tsx";
-//import PathGrapher from "./map_page/PathGrapher.tsx";
-import GiftRequest from "./routes/service_request_routes/GiftRequest.tsx";
-import MedicineRequest from "./routes/service_request_routes/MedicineRequest.tsx";
-import MedicalDeviceRequest from "./routes/service_request_routes/MedicalDeviceRequest.tsx";
 import "./index.css";
 import AdminMap from "./refactored_map_page/AdminMap.tsx";
 import NewSideNavBar from "./components/NewSideNavBar.tsx";
