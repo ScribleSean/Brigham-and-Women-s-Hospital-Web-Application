@@ -12,7 +12,7 @@ import {
 import styles from "../../styles/FlowerDelivery.module.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Flower } from "common/src/backend_interfaces/flowerServiceRequest.ts";
+import { flowerDeliveryRequest } from "common/src/backend_interfaces/flowerServiceRequest.ts";
 
 function FlowerDelivery() {
   const flowerTypes = [
@@ -28,13 +28,14 @@ function FlowerDelivery() {
     "Chrysanthemum",
   ];
 
-  const [formData, setFormData] = useState<Flower>({
+  const [formData, setFormData] = useState<flowerDeliveryRequest>({
     SRID: 0,
     employeeName: "",
     receiverName: "",
+    senderName: "",
     location: "",
     flowerType: "",
-    date: "",
+    deliveryDate: "",
     priority: "",
     status: "",
     serviceType: "Flower",
@@ -91,9 +92,10 @@ function FlowerDelivery() {
       SRID: 0,
       employeeName: "",
       receiverName: "",
+      senderName: "",
       location: "",
       flowerType: "",
-      date: "",
+      deliveryDate: "",
       priority: "",
       status: "",
       serviceType: "",
@@ -198,7 +200,7 @@ function FlowerDelivery() {
                 sx={{ width: "99%", marginLeft: "1%", my: "1%" }}
                 type={"date"}
                 onChange={handleTextFieldChange}
-                value={formData.date}
+                value={formData.deliveryDate}
                 InputLabelProps={{ shrink: true }}
               />
             </FormControl>
@@ -253,9 +255,10 @@ function FlowerDelivery() {
                   SRID: 0,
                   employeeName: "",
                   receiverName: "",
+                  senderName: "",
                   location: "",
                   flowerType: "",
-                  date: "",
+                  deliveryDate: "",
                   priority: "",
                   status: "",
                   serviceType: "Flower",

@@ -11,13 +11,16 @@ function Dashboard() {
   };
 
   return (
-    <>
+    <div className={"overflow-hidden"}>
       <div className={`${styles.pageContainer}`}>
         {expanded ? (
-          <DashCurrentRequests
-            expanded={expanded}
-            onExpandClick={onExpandClick}
-          />
+          <>
+            <DashCurrentRequests
+              expanded={expanded}
+              onExpandClick={onExpandClick}
+            />
+            <DashMakeARequest />
+          </>
         ) : (
           <>
             <DashCurrentRequests
@@ -28,7 +31,7 @@ function Dashboard() {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -38,8 +38,9 @@ CREATE TABLE "ServiceRequest" (
 CREATE TABLE "FlowerServiceRequest" (
     "SRID" INTEGER NOT NULL,
     "flowerType" TEXT NOT NULL,
+    "senderName" TEXT NOT NULL,
     "receiverName" TEXT NOT NULL,
-    "date" TEXT NOT NULL,
+    "deliveryDate" TEXT NOT NULL,
 
     CONSTRAINT "FlowerServiceRequest_pkey" PRIMARY KEY ("SRID")
 );

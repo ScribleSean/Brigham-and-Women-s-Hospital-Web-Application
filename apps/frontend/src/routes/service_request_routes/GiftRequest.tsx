@@ -12,10 +12,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/GiftRequest.module.css";
 import React, { useState } from "react";
 import axios from "axios";
-import { giftRequest } from "common/src/backend_interfaces/GiftServiceRequest.ts";
+import { giftDeliveryRequest } from "common/src/backend_interfaces/giftDeliveryRequest.ts";
 
 function GiftRequest() {
-  const [formData, setFormData] = useState<giftRequest>({
+  const [formData, setFormData] = useState<giftDeliveryRequest>({
     SRID: 0,
     senderName: "",
     receiverName: "",
@@ -40,7 +40,7 @@ function GiftRequest() {
 
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
-    field: keyof giftRequest,
+    field: keyof giftDeliveryRequest,
   ) => {
     setFormData({
       ...formData,

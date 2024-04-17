@@ -12,7 +12,7 @@ import {
 import styles from "../../styles/MedicalDeviceRequest.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { medDeviceRequest } from "common/src/backend_interfaces/medicalDeviceServiceRequest.ts";
+import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceRequest.ts";
 
 function MedicalDeviceRequest() {
   const deviceOptions: string[] = [
@@ -69,7 +69,7 @@ function MedicalDeviceRequest() {
     "Prosthesis",
   ];
 
-  const [formData, setFormData] = useState<medDeviceRequest>({
+  const [formData, setFormData] = useState<MedicalDevice>({
     SRID: 0,
     employeeName: "",
     location: "",
@@ -77,7 +77,7 @@ function MedicalDeviceRequest() {
     deviceQuantity: "",
     priority: "",
     status: "",
-    serviceType: "MedicalDevice",
+    serviceType: "Medical Device",
     description: "",
   });
 
@@ -105,7 +105,7 @@ function MedicalDeviceRequest() {
 
   const handleSelectChange = (
     e: SelectChangeEvent<string>,
-    field: keyof medDeviceRequest,
+    field: keyof MedicalDevice,
   ) => {
     setFormData({
       ...formData,

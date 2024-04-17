@@ -1,11 +1,13 @@
-import { medDeviceRequest } from "common/src/backend_interfaces/medicalDeviceServiceRequest.ts";
+import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceRequest.ts";
 import express, { Router } from "express";
 import PrismaClient from "../bin/database-connection.ts";
 
 const router: Router = express.Router();
 
 router.post("/", async function (req, res) {
-  const medicalDevice: medDeviceRequest = req.body;
+  const medicalDevice: MedicalDevice = req.body;
+
+  console.log("testing");
 
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({

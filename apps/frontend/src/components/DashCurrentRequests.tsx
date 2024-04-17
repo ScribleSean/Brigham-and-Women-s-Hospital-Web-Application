@@ -285,11 +285,11 @@ export default function DashCurrentRequests({
                   <MenuItem value={"Any"}>
                     <em>Any</em>
                   </MenuItem>
-                  <MenuItem value={"Flower"}>Flower Delivery</MenuItem>
-                  <MenuItem value={"Gift"}>Gift</MenuItem>
+                  <MenuItem value={"Flower Delivery"}>Flower Delivery</MenuItem>
+                  <MenuItem value={"Gift Delivery"}>Gift Delivery</MenuItem>
                   <MenuItem value={"Medicine"}>Medicine</MenuItem>
-                  <MenuItem value={"Med. Device"}>Medical Device</MenuItem>
-                  <MenuItem value={"Room"}>Room Scheduling</MenuItem>
+                  <MenuItem value={"Medical Device"}>Medical Device</MenuItem>
+                  <MenuItem value={"Room Scheduling"}>Room Scheduling</MenuItem>
                 </Select>
               </FormControl>
               <FormControl fullWidth size={"small"} sx={{ px: "2%" }}>
@@ -337,7 +337,6 @@ export default function DashCurrentRequests({
         </div>
         <TableContainer
           style={{
-            maxHeight: 440,
             overflow: "auto",
             padding: "0 4% 0 4%",
           }}
