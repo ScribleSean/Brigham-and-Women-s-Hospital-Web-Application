@@ -44,7 +44,7 @@ function AccessibilitySelector() {
           display: "flex",
           width: "15vw",
           height: "5vh",
-          marginTop: "14vh",
+          marginTop: "12vh",
           marginRight: "1vw",
           alignItems: "center",
           zIndex: 3,

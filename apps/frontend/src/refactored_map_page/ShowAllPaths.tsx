@@ -41,7 +41,7 @@ function ShowPathsButton() {
         boxShadow: 8,
         zIndex: 4,
         marginLeft: "9vw",
-        marginTop: "34vh",
+        marginTop: "32vh",
         fontSize: "0.8rem",
         ":hover": {
           backgroundColor: hoverActive

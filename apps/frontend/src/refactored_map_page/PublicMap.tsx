@@ -37,15 +37,20 @@ function PublicMap() {
 function MapContents() {
   const { setScale, disableZoomPanning } = useMapContext();
 
+  const options = {
+    initialScale: 0.5,
+    minScale: 0.5,
+    maxScale: 1,
+  };
+
   const zoomWrapperProps = {
     disablePadding: true,
-    minScale: 1,
-    initialScale: 1,
     centerOnInit: false,
     limitToBounds: true,
-    doubleClick: { disabled: false },
     disabled: disableZoomPanning,
+    doubleClick: { disabled: true },
     overflowY: "hidden",
+    options: options,
   };
 
   function handleScaleChange(event: ReactZoomPanPinchRef) {
@@ -53,26 +58,24 @@ function MapContents() {
   }
 
   return (
-    <div className={"overflow-hidden"}>
-      <TransformWrapper
-        {...zoomWrapperProps}
-        onTransformed={(e) => handleScaleChange(e)}
-      >
-        <div style={mapDiv}>
-          <ClearPathButton></ClearPathButton>
-          <TextDirections></TextDirections>
-          <DirectionsSelector></DirectionsSelector>
-          <ShowPathsButton></ShowPathsButton>
-          <ShowNodesEdgesDropDown></ShowNodesEdgesDropDown>
-          <AlgorithmSelector></AlgorithmSelector>
-          <AccessibilitySelector></AccessibilitySelector>
-          <LocationSelector></LocationSelector>
-          <FloorSelector></FloorSelector>
-          <TransformComponent>
-            <FloorDisplay></FloorDisplay>;
-          </TransformComponent>
-        </div>
-      </TransformWrapper>
-    </div>
+    <TransformWrapper
+      {...zoomWrapperProps}
+      onTransformed={(e) => handleScaleChange(e)}
+    >
+      <div style={mapDiv}>
+        <ClearPathButton></ClearPathButton>
+        <TextDirections></TextDirections>
+        <DirectionsSelector></DirectionsSelector>
+        <ShowPathsButton></ShowPathsButton>
+        <ShowNodesEdgesDropDown></ShowNodesEdgesDropDown>
+        <AlgorithmSelector></AlgorithmSelector>
+        <AccessibilitySelector></AccessibilitySelector>
+        <LocationSelector></LocationSelector>
+        <FloorSelector></FloorSelector>
+        <TransformComponent>
+          <FloorDisplay></FloorDisplay>;
+        </TransformComponent>
+      </div>
+    </TransformWrapper>
   );
 }

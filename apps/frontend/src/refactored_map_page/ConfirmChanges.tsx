@@ -189,16 +189,17 @@ function ConfirmChanges() {
         variant={"contained"}
         sx={{
           position: "absolute",
-          height: "8vh",
+          height: "6vh",
           width: "12vw",
           fontSize: "1rem",
           right: 0,
           marginRight: "1vw",
-          marginTop: "14vh",
+          marginTop: "12vh",
           fontWeight: "bold",
           fontFamily: "inter",
           textTransform: "capitalize",
           backgroundColor: "#2196F3",
+          boxShadow: 7,
           zIndex: 4,
         }}
         onClick={() => setDialogueOpen(true)}
