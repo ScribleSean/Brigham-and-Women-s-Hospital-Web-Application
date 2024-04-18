@@ -31,25 +31,25 @@ function ShowPathsButton() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       sx={{
-        position: "absolute",
-        width: "6vw",
-        backgroundColor: showPaths ? "#2196F3" : "#012D5A",
+        // position: "absolute",
+        width: "9.5vw",
+        backgroundColor: showPaths ? "#1665c0" : "#012D5A",
         color: "white",
-        fontWeight: "bold",
-        fontFamily: "inter",
+        // fontWeight: "bold",
+        // fontFamily: "inter",
         textTransform: "capitalize",
-        boxShadow: 8,
+        // boxShadow: 2,
         zIndex: 4,
-        marginLeft: "9vw",
-        marginTop: "32vh",
-        fontSize: "0.8rem",
+        // marginLeft: "9vw",
+        // marginTop: "32vh",
+        // fontSize: "0.8rem",
         ":hover": {
           backgroundColor: hoverActive
             ? showPaths
               ? "#012D5A!important"
-              : "#2196F3!important"
+              : "#1665c0!important"
             : showPaths
-              ? "#2196F3!important"
+              ? "#1665c0!important"
               : "#012D5A!important",
         },
       }}
