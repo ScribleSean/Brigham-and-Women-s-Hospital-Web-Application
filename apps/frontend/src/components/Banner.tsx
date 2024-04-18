@@ -90,7 +90,9 @@ function Banner(props: UserInfo) {
     <>
       <div className={`${styles.banner}`}>
         <div className={`${styles.logoAndTitle}`}>
-          <img src="/logo.png" alt="logo" className={`${styles.logo}`} />
+          <a href="/">
+            <img src="/logo.png" alt="logo" className={`${styles.logo}`} />
+          </a>
           <h5 className={`${styles.title}`}>Brigham & Women's Hospital</h5>
           <IconButton
             sx={{
