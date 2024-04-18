@@ -1,5 +1,12 @@
 import React from "react";
-import { FormControl, Select, Box, MenuItem, SvgIcon } from "@mui/material";
+import {
+  FormControl,
+  Select,
+  Box,
+  MenuItem,
+  SvgIcon,
+  InputAdornment,
+} from "@mui/material";
 import { SvgIconProps } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useMapContext } from "./MapContext.ts";
@@ -7,6 +14,7 @@ import {
   AccessibilityType,
   EditorMode,
 } from "../../../../packages/common/src/types/map_page_types.ts";
+import AccessibleIcon from "@mui/icons-material/Accessible";
 
 function CustomArrowIcon(props: SvgIconProps) {
   return (
@@ -39,59 +47,47 @@ function AccessibilitySelector() {
         sx={{
           backgroundColor: "white",
           boxShadow: 7,
-          borderRadius: "0.5rem",
-          position: "absolute",
+          borderRadius: "5px",
+          // position: "absolute",
           display: "flex",
-          width: "15vw",
           height: "5vh",
-          marginTop: "12vh",
-          marginRight: "1vw",
+          // marginTop: "12vh",
+          // marginRight: "1vw",
           alignItems: "center",
+          justifyContent: "center",
           zIndex: 3,
-          right: 0,
+          // right: 0,
+          padding: "0.5rem",
         }}
       >
-        <Box
+        <Select
+          variant="standard"
+          value={selectedAccessibility}
+          onChange={handleChange}
+          displayEmpty
+          IconComponent={CustomArrowIcon}
           sx={{
-            display: "flex",
-            alignItems: "center",
-            paddingRight: "0.6rem",
-            paddingTop: "0.3rem",
+            fontWeight: "bold",
+            // fontFamily: "inter",
+            fontSize: "14px",
+            "&:before, &:after": {
+              display: "none", // Remove underline
+            },
+            "& .MuiSelect-select": {
+              "&:focus": {
+                backgroundColor: "transparent", // Remove focus background color
+              },
+            },
           }}
+          startAdornment={
+            <InputAdornment position={"start"} sx={{ color: "black" }}>
+              <AccessibleIcon />
+            </InputAdornment>
+          }
         >
-          <img
-            src="accessibility.png"
-            alt=""
-            style={{
-              height: "1.7rem",
-              width: "2rem",
-              marginRight: "-0.1rem",
-            }}
-          />
-          <Select
-            variant="standard"
-            value={selectedAccessibility}
-            onChange={handleChange}
-            displayEmpty
-            IconComponent={CustomArrowIcon}
-            sx={{
-              fontWeight: "bold",
-              fontFamily: "inter",
-              fontSize: "14px",
-              "&:before, &:after": {
-                display: "none", // Remove underline
-              },
-              "& .MuiSelect-select": {
-                "&:focus": {
-                  backgroundColor: "transparent", // Remove focus background color
-                },
-              },
-            }}
-          >
-            <MenuItem value="all">All Accessible</MenuItem>
-            <MenuItem value="wheelchair">Wheelchair Accessible</MenuItem>
-          </Select>
-        </Box>
+          <MenuItem value="all">All Accessible</MenuItem>
+          <MenuItem value="wheelchair">Wheelchair Accessible</MenuItem>
+        </Select>
       </FormControl>
     </Box>
   );

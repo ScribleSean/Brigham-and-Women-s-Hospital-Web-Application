@@ -1,16 +1,9 @@
 .locationSelector {
-  position: absolute;
+  /*position: absolute;*/
   z-index: 4;
-}
-
-.css-clttge-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
-  background-color: white;
-}
-
-.css-shx1r9-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
-  background-color: white;
-}
-
-.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
-  color: black !important;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
