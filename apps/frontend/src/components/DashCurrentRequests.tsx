@@ -292,6 +292,7 @@ export default function DashCurrentRequests({
                   <MenuItem value={"Medicine"}>Medicine</MenuItem>
                   <MenuItem value={"Medical Device"}>Medical Device</MenuItem>
                   <MenuItem value={"Room Scheduling"}>Room Scheduling</MenuItem>
+                  <MenuItem value={"Religious"}>Religious</MenuItem>
                 </Select>
               </FormControl>
               <FormControl fullWidth size={"small"} sx={{ px: "2%" }}>
