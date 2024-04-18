@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   FormControl,
+  InputAdornment,
   MenuItem,
   Select,
   SvgIcon,
@@ -11,6 +12,8 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { useMapContext } from "./MapContext.ts";
 import { AlgorithmType } from "common/src/DataStructures.ts";
 import { EditorMode } from "common/src/types/map_page_types.ts";
+import PolylineIcon from "@mui/icons-material/Polyline";
+
 function CustomArrowIcon(props: SvgIconProps) {
   return (
     <SvgIcon {...props}>
@@ -42,59 +45,48 @@ function AlgorithmSelector() {
         sx={{
           backgroundColor: "white",
           boxShadow: 7,
-          borderRadius: "0.5rem",
-          position: "absolute",
+          borderRadius: "5px",
+          // position: "absolute",
           display: "flex",
-          width: "12vw",
           height: "5vh",
-          marginTop: "12vh",
-          marginRight: "17vw",
+          // marginTop: "12vh",
+          // marginRight: "17vw",
+          justifyContent: "center",
           alignItems: "center",
           zIndex: 3,
-          right: 0,
+          // right: 0,
+          padding: "0.5rem",
+          marginRight: "1vw",
         }}
       >
-        <Box
+        <Select
+          variant="standard"
+          value={selectedAlgorithm}
+          onChange={handleChange}
+          IconComponent={CustomArrowIcon}
           sx={{
-            display: "flex",
-            alignItems: "center",
-            paddingRight: "0.6rem",
-            paddingTop: "0.3rem",
+            fontWeight: "bold",
+            fontFamily: "inter",
+            "&:before, &:after": {
+              display: "none", // Remove underline
+            },
+            "& .MuiSelect-select": {
+              "&:focus": {
+                backgroundColor: "transparent", // Remove focus background color
+              },
+            },
           }}
+          startAdornment={
+            <InputAdornment position={"start"} sx={{ color: "black" }}>
+              <PolylineIcon />
+            </InputAdornment>
+          }
         >
-          <img
-            src="algorithm.png"
-            alt=""
-            style={{
-              height: "1.7rem",
-              width: "2.92rem",
-              marginRight: "-0.5rem",
-            }}
-          />
-          <Select
-            variant="standard"
-            value={selectedAlgorithm}
-            onChange={handleChange}
-            IconComponent={CustomArrowIcon}
-            sx={{
-              fontWeight: "bold",
-              fontFamily: "inter",
-              "&:before, &:after": {
-                display: "none", // Remove underline
-              },
-              "& .MuiSelect-select": {
-                "&:focus": {
-                  backgroundColor: "transparent", // Remove focus background color
-                },
-              },
-            }}
-          >
-            <MenuItem value={AlgorithmType._BFS}>BFS</MenuItem>
-            <MenuItem value={AlgorithmType._DFS}>DFS</MenuItem>
-            <MenuItem value={AlgorithmType._Dijkstra}>Dijkstra's</MenuItem>
-            <MenuItem value={AlgorithmType._ASTAR}>ASTAR</MenuItem>
-          </Select>
-        </Box>
+          <MenuItem value={AlgorithmType._BFS}>BFS</MenuItem>
+          <MenuItem value={AlgorithmType._DFS}>DFS</MenuItem>
+          <MenuItem value={AlgorithmType._Dijkstra}>Dijkstra's</MenuItem>
+          <MenuItem value={AlgorithmType._ASTAR}>ASTAR</MenuItem>
+        </Select>
       </FormControl>
     </Box>
   );
