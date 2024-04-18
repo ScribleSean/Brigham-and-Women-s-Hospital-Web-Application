@@ -100,6 +100,7 @@ function Banner(props: UserInfo) {
               },
               ml: "8px",
             }}
+            href={"/about"}
           >
             <InfoOutlinedIcon />
           </IconButton>
@@ -110,6 +111,7 @@ function Banner(props: UserInfo) {
                 color: "#1665c0",
               },
             }}
+            href={"/credits"}
           >
             <CopyrightIcon />
           </IconButton>
