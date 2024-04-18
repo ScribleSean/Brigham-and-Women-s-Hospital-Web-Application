@@ -37,7 +37,7 @@ export default function EditorSelector() {
         width: "50px", // Adjust size as necessary
         height: "50px", // Adjust size as necessary
         backgroundColor:
-          editorMode === EditorMode.disabled ? "#012D5A" : "#2196F3",
+          editorMode === EditorMode.disabled ? "#012D5A" : "#1665c0",
         color: "white",
         boxShadow: 8,
         zIndex: 4,
@@ -47,9 +47,9 @@ export default function EditorSelector() {
           backgroundColor: hoverActive
             ? editorMode !== EditorMode.disabled
               ? "#012D5A!important"
-              : "#2196F3!important"
+              : "#1665c0!important"
             : editorMode !== EditorMode.disabled
-              ? "#2196F3!important"
+              ? "#1665c0!important"
               : "#012D5A!important",
         },
       }}

@@ -1,8 +1,9 @@
 import React from "react";
 
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { useMapContext } from "./MapContext";
 import { EditorMode } from "common/src/types/map_page_types.ts";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const ClearPathButton: React.FC = () => {
   const { setStartNode, setEndNode, editorMode } = useMapContext();
@@ -17,29 +18,14 @@ const ClearPathButton: React.FC = () => {
   }
 
   return (
-    <Button
-      color="primary"
+    <IconButton
       onClick={handleClick}
       sx={{
-        position: "absolute",
-        backgroundColor: "#C62828",
-        color: "white",
-        fontWeight: "bold",
-        fontFamily: "inter",
-        textTransform: "capitalize",
-        boxShadow: 8,
-        marginLeft: "2vw",
-        marginTop: "32vh",
-        width: "6vw",
-        zIndex: 3,
-        fontSize: "0.8rem",
-        ":hover": {
-          backgroundColor: "#9B2626",
-        },
+        marginRight: "8px",
       }}
     >
-      Clear Path
-    </Button>
+      <ClearIcon />
+    </IconButton>
   );
 };
 
