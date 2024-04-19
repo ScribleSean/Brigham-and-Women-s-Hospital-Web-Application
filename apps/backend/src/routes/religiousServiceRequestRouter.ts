@@ -47,7 +47,7 @@ router.post("/", async function (req, res) {
 });
 
 router.get("/", async function (req, res) {
-  const religiousForm = await PrismaClient.religiousServiceRequest.findMany({
+  const religiousForm = await PrismaClient.religiousServiceRequest.findUnique({
     where: {
       SRID: Number(req.query.SRID),
     },

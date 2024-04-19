@@ -29,12 +29,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 // import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
-import { flowerDeliveryRequest } from "common/src/backend_interfaces/flowerServiceRequest.ts";
-import { giftDeliveryRequest } from "common/src/backend_interfaces/giftDeliveryRequest.ts";
-import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceRequest.ts";
-import { medicineDeliveryRequest } from "common/src/backend_interfaces/medicineDeliveryRequest.ts";
-import { roomSchedulingRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
-import { religiousServiceRequest } from "common/src/backend_interfaces/religiousServiceRequest.ts";
 
 function createData(
   SRID: number,
@@ -80,76 +74,28 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
-  const [flowerData, setFlowerData] = useState<flowerDeliveryRequest>({
+  const [requestData, setRequestData] = useState({
     SRID: 0,
-    deliveryDate: "",
-    description: "",
-    employeeName: "",
-    flowerType: "",
-    location: "",
-    priority: "",
-    receiverName: "",
-    senderName: "",
     serviceType: "",
-    status: "",
-  });
-  const [giftData, setGiftData] = useState<giftDeliveryRequest>({
-    SRID: 0,
-    deliveryDate: "",
-    description: "",
     employeeName: "",
-    giftType: "",
     location: "",
-    priority: "",
-    receiverName: "",
-    senderName: "",
-    serviceType: "",
-    status: "",
-  });
-  const [medicineData, setMedicineData] = useState<medicineDeliveryRequest>({
-    SRID: 0,
-    dosageType: "",
-    description: "",
-    employeeName: "",
-    dosageAmount: 0,
-    location: "",
-    medicineType: "",
     priority: "",
     status: "",
-    serviceType: "",
-  });
-  const [medicalDeviceData, setMedicalDeviceData] = useState<MedicalDevice>({
-    SRID: 0,
     description: "",
-    deviceName: "",
-    employeeName: "",
-    location: "",
-    priority: "",
-    deviceQuantity: "",
-    status: "",
-    serviceType: "",
-  });
-  const [roomSchedData, setRoomSchedData] = useState<roomSchedulingRequest>({
-    SRID: 0,
-    description: "",
-    employeeName: "",
-    endTime: "",
-    location: "",
-    priority: "",
-    startTime: "",
-    status: "",
-    serviceType: "",
-  });
-  const [religiousData, setReligiousData] = useState<religiousServiceRequest>({
-    SRID: 0,
-    description: "",
-    employeeName: "",
-    location: "",
-    objectName: "",
-    priority: "",
     religionName: "",
-    status: "",
-    serviceType: "",
+    objectName: "",
+    senderName: "",
+    receiverName: "",
+    flowerType: "",
+    deliveryDate: "",
+    giftType: "",
+    medicineType: "",
+    dosageAmount: 0,
+    dosageType: "",
+    deviceName: "",
+    deviceQuantity: "",
+    startTime: "",
+    endTime: "",
   });
 
   const getPriorityColor = (priority: string) => {
@@ -191,7 +137,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         },
       });
       console.log(res.data);
-      setFlowerData(res.data);
+      setRequestData(res.data);
     } catch {
       console.error("Error getting flower delivery data");
     }
@@ -205,7 +151,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         },
       });
       console.log(res.data);
-      setGiftData(res.data);
+      setRequestData(res.data);
     } catch {
       console.error("Error getting gift delivery data");
     }
@@ -219,7 +165,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         },
       });
       console.log(res.data);
-      setMedicineData(res.data);
+      setRequestData(res.data);
     } catch {
       console.error("Error getting medicine data");
     }
@@ -233,7 +179,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         },
       });
       console.log(res.data);
-      setMedicalDeviceData(res.data);
+      setRequestData(res.data);
     } catch {
       console.error("Error getting medical device data");
     }
@@ -247,7 +193,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         },
       });
       console.log(res.data);
-      setRoomSchedData(res.data);
+      setRequestData(res.data);
     } catch {
       console.error("Error getting room scheduling data");
     }
@@ -261,7 +207,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         },
       });
       console.log(res.data);
-      setReligiousData(res.data);
+      setRequestData(res.data);
     } catch {
       console.error("Error getting religious data");
     }
@@ -286,7 +232,6 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                   getMedicineData(row.SRID).then();
                 } else if (row.serviceType === "Room Scheduling") {
                   getRoomSchedulingData(row.SRID).then();
-                  console.log(roomSchedData);
                 } else if (row.serviceType === "Religious") {
                   getReligiousData(row.SRID).then();
                 }
@@ -358,10 +303,10 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{flowerData.senderName}</TableCell>
-                        <TableCell>{flowerData.receiverName}</TableCell>
-                        <TableCell>{flowerData.flowerType}</TableCell>
-                        <TableCell>{flowerData.deliveryDate}</TableCell>
+                        <TableCell>{requestData.senderName}</TableCell>
+                        <TableCell>{requestData.receiverName}</TableCell>
+                        <TableCell>{requestData.flowerType}</TableCell>
+                        <TableCell>{requestData.deliveryDate}</TableCell>
                         <TableCell>{row.description}</TableCell>
                       </TableRow>
                     </TableBody>
@@ -391,10 +336,10 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{giftData.senderName}</TableCell>
-                        <TableCell>{giftData.receiverName}</TableCell>
-                        <TableCell>{giftData.giftType}</TableCell>
-                        <TableCell>{giftData.deliveryDate}</TableCell>
+                        <TableCell>{requestData.senderName}</TableCell>
+                        <TableCell>{requestData.receiverName}</TableCell>
+                        <TableCell>{requestData.giftType}</TableCell>
+                        <TableCell>{requestData.deliveryDate}</TableCell>
                         <TableCell>{row.description}</TableCell>
                       </TableRow>
                     </TableBody>
@@ -421,9 +366,9 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{medicineData.medicineType}</TableCell>
-                        <TableCell>{medicineData.dosageAmount}</TableCell>
-                        <TableCell>{medicineData.dosageType}</TableCell>
+                        <TableCell>{requestData.medicineType}</TableCell>
+                        <TableCell>{requestData.dosageAmount}</TableCell>
+                        <TableCell>{requestData.dosageType}</TableCell>
                         <TableCell>{row.description}</TableCell>
                       </TableRow>
                     </TableBody>
@@ -447,10 +392,8 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{medicalDeviceData.deviceName}</TableCell>
-                        <TableCell>
-                          {medicalDeviceData.deviceQuantity}
-                        </TableCell>
+                        <TableCell>{requestData.deviceName}</TableCell>
+                        <TableCell>{requestData.deviceQuantity}</TableCell>
                         <TableCell>{row.description}</TableCell>
                       </TableRow>
                     </TableBody>
@@ -474,16 +417,8 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>
-                          {roomSchedData && roomSchedData.startTime
-                            ? roomSchedData.startTime
-                            : "Loading..."}
-                        </TableCell>
-                        <TableCell>
-                          {roomSchedData && roomSchedData.endTime
-                            ? roomSchedData.endTime
-                            : "Loading..."}
-                        </TableCell>
+                        <TableCell>{requestData.startTime}</TableCell>
+                        <TableCell>{requestData.endTime}</TableCell>
                         <TableCell>{row.description}</TableCell>
                       </TableRow>
                     </TableBody>
@@ -507,16 +442,8 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>
-                          {religiousData && religiousData.religionName
-                            ? religiousData.religionName
-                            : "Loading..."}
-                        </TableCell>
-                        <TableCell>
-                          {religiousData && religiousData.objectName
-                            ? religiousData.objectName
-                            : "Loading..."}
-                        </TableCell>
+                        <TableCell>{requestData.religionName}</TableCell>
+                        <TableCell>{requestData.objectName}</TableCell>
                         <TableCell>{row.description}</TableCell>
                       </TableRow>
                     </TableBody>
