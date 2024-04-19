@@ -198,7 +198,7 @@ function ConfirmChanges() {
           fontWeight: "bold",
           fontFamily: "inter",
           textTransform: "capitalize",
-          backgroundColor: "#2196F3",
+          backgroundColor: "#1665c0",
           boxShadow: 7,
           zIndex: 4,
         }}
@@ -231,7 +231,7 @@ function ConfirmChanges() {
             onClick={handleConfirm}
             variant={"contained"}
             sx={{
-              backgroundColor: "#2196F3",
+              backgroundColor: "#1665c0",
               fontWeight: "bold",
               fontFamily: "inter",
               textTransform: "capitalize",

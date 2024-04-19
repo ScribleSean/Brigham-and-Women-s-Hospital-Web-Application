@@ -6,7 +6,6 @@ const router: Router = express.Router();
 
 router.post("/", async function (req, res) {
   const medicine: medicineDeliveryRequest = req.body;
-
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({
       data: {
@@ -27,14 +26,15 @@ router.post("/", async function (req, res) {
         SRID: serviceRequest.SRID,
         medicineType: medicine.medicineType,
         dosageType: medicine.dosageType,
-        dosageAmount: medicine.dosageAmount as number,
+        dosageAmount: medicine.dosageAmount,
       },
       update: {
         medicineType: medicine.medicineType,
         dosageType: medicine.dosageType,
-        dosageAmount: medicine.dosageAmount as number,
+        dosageAmount: medicine.dosageAmount,
       },
     });
+    console.log(req.body);
 
     res.status(200).json({
       message: "Medical Device Request has been put into the database",
@@ -50,9 +50,9 @@ router.post("/", async function (req, res) {
 
 router.get("/", async function (req, res) {
   const medicalDeliveryForm =
-    await PrismaClient.medicineDeliveryServiceRequest.findMany({
-      include: {
-        ServiceRequest: true,
+    await PrismaClient.medicineDeliveryServiceRequest.findUnique({
+      where: {
+        SRID: Number(req.query.SRID),
       },
     });
   res.json(medicalDeliveryForm);

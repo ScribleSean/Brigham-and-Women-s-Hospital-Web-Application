@@ -11,6 +11,7 @@ import MedicalDeviceFields from "./RequestFields/MedicalDeviceFields.tsx";
 import RoomSchedulingFields from "./RequestFields/RoomSchedulingFields.tsx";
 import GiftFields from "./RequestFields/GiftFields.tsx";
 import FlowerDeliveryFields from "./RequestFields/FlowerDeliveryFields.tsx";
+import ReligiousFields from "./RequestFields/ReligiousFields.tsx";
 import React, { useState } from "react";
 
 export default function DashMakeARequest() {
@@ -31,6 +32,9 @@ export default function DashMakeARequest() {
         break;
       case "Gift":
         setCurrentReqType(<GiftFields />);
+        break;
+      case "Religious":
+        setCurrentReqType(<ReligiousFields />);
         break;
       case "Flower":
         setCurrentReqType(<FlowerDeliveryFields />);
@@ -59,9 +63,12 @@ export default function DashMakeARequest() {
             >
               <MenuItem value={"Flower"}>Flower Delivery</MenuItem>
               <MenuItem value={"Gift"}>Gift</MenuItem>
-              <MenuItem value={"Medicine"}>Medicine</MenuItem>
+              <MenuItem value={"Medicine"} disabled>
+                Medicine
+              </MenuItem>
               <MenuItem value={"Med. Device"}>Medical Device</MenuItem>
               <MenuItem value={"Room"}>Room Scheduling</MenuItem>
+              <MenuItem value={"Religious"}>Religious</MenuItem>
             </Select>
           </FormControl>
         </div>

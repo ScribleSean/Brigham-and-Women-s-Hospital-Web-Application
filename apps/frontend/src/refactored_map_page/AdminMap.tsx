@@ -19,6 +19,7 @@ import TextDirections from "./TextDirections.tsx";
 import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
 import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
+import { Box } from "@mui/material";
 
 const mapDiv: CSSProperties = {
   height: "100%",
@@ -62,16 +63,63 @@ function MapContents() {
 
   return (
     <div style={mapDiv}>
-      <ClearPathButton />
       <TextDirections />
-      <DirectionsSelector />
-      <ShowPathsButton />
       <ShowNodesEdgesDropDown />
       <DisplayEditingOptions />
-      <AlgorithmSelector />
-      <AccessibilitySelector />
-      <LocationSelector />
-      <FloorSelector />
+      <Box
+        sx={{
+          right: 0,
+          display: "flex",
+          flexDirection: "row",
+          position: "absolute",
+          marginTop: "10vh",
+          marginRight: "1vw",
+          justifyContent: "space-between",
+        }}
+      >
+        <AlgorithmSelector />
+        <AccessibilitySelector />
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          left: 0,
+          display: "flex",
+          flexDirection: "column",
+          marginTop: "11vh",
+          marginLeft: "5vw",
+          backgroundColor: "white",
+          zIndex: 3,
+          padding: "1rem",
+          paddingLeft: "0.5rem",
+          boxShadow: 7,
+          borderRadius: "5px",
+        }}
+      >
+        <LocationSelector /> {/* start & end location text boxes */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "2vh",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <ClearPathButton /> {/* clear path button */}
+            <ShowPathsButton /> {/* show all paths button */}
+          </Box>
+          <DirectionsSelector /> {/* "next floor" button */}
+        </Box>
+        {/*<ClearPathButton /> /!* clear path button *!/*/}
+      </Box>
+      <FloorSelector /> {/* button cluster to change floor */}
       <ConfirmChanges />
       <TransformWrapper
         {...zoomWrapperProps}

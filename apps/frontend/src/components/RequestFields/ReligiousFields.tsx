@@ -1,8 +1,8 @@
+import styles from "../../styles/RequestFields.module.css";
 import {
   Autocomplete,
   Button,
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -10,12 +10,11 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import styles from "../../styles/RequestFields.module.css";
 import React, { useEffect, useState } from "react";
-import { medicineDeliveryRequest } from "common/src/backend_interfaces/medicineDeliveryRequest.ts";
 import axios from "axios";
+import { religiousServiceRequest } from "common/src/backend_interfaces/religiousServiceRequest.ts";
 
-function MedicineFields() {
+function ReligiousFields() {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
 
   useEffect(() => {
@@ -33,77 +32,38 @@ function MedicineFields() {
     fetchLocations();
   }, []);
 
-  const medicineOptions = [
-    "Aspirin",
-    "Ibuprofen",
-    "Paracetamol",
-    "Amoxicillin",
-    "Omeprazole",
-    "Lisinopril",
-    "Metformin",
-    "Simvastatin",
-    "Atorvastatin",
-    "Levothyroxine",
-    "Prednisone",
-    "Gabapentin",
-    "Losartan",
-    "Azithromycin",
-    "Amlodipine",
-    "Metoprolol",
-    "Albuterol",
-    "Sertraline",
-    "Citalopram",
-    "Fluoxetine",
-    "Escitalopram",
-    "Cetirizine",
-    "Furosemide",
-    "Loratadine",
-    "Tramadol",
-    "Warfarin",
-    "Hydrochlorothiazide",
-    "Clonazepam",
-    "Tamsulosin",
-    "Meloxicam",
-    "Pregabalin",
-    "Diazepam",
-    "Zolpidem",
-    "Naproxen",
-    "Bisoprolol",
-    "Cephalexin",
-    "Metronidazole",
-    "Ciprofloxacin",
-    "Doxycycline",
-    "Methylprednisolone",
-    "Amitriptyline",
-    "Venlafaxine",
-    "Duloxetine",
-    "Risperidone",
-    "Quetiapine",
-    "Mirtazapine",
-    "Carvedilol",
-    "Folic Acid",
-    "Pantoprazole",
-    "Dextromethorphan",
-    "Fentanyl",
-    "Ketamine",
+  const religionOptions: string[] = [
+    "Christianity",
+    "Islam",
+    "Hinduism",
+    "Buddhism",
+    "Sikhism",
+    "Judaism",
+    "Taoism",
+    "Confucianism",
+    "Paganism",
   ];
 
-  const [formData, setFormData] = useState<medicineDeliveryRequest>({
+  const objectOptions: string[] = [
+    "Sacred Text",
+    "Altar/Shrine",
+    "Religious Symbol",
+    "Ceremony/Ritual",
+    "Beads",
+    "Incense",
+  ];
+
+  const [formData, setFormData] = useState<religiousServiceRequest>({
     SRID: 0,
     employeeName: "",
     location: "",
     priority: "",
     status: "",
-    medicineType: "",
-    dosageType: "",
-    dosageAmount: "",
+    religionName: "",
+    objectName: "",
     description: "",
-    serviceType: "Medicine",
+    serviceType: "Religious",
   });
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
@@ -137,18 +97,17 @@ function MedicineFields() {
       location: "",
       priority: "",
       status: "",
-      medicineType: "",
-      dosageType: "",
-      dosageAmount: "",
+      religionName: "",
+      objectName: "",
       description: "",
-      serviceType: "Medicine",
+      serviceType: "Religious",
     });
   };
 
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        "/api/medical-device-service-request",
+        "/api/religious-service-request",
         formData,
       );
       console.log(response.data);
@@ -249,56 +208,38 @@ function MedicineFields() {
           </div>
         </div>
         <hr className={`${styles.divider}`} />
-        <div className={`${styles.inputRow}`}>
+        <div className={`${styles.doubleInputRow}`}>
           <Autocomplete
+            id={"religionName"}
             disablePortal
-            id="medicineType"
-            options={medicineOptions}
+            options={religionOptions}
+            renderInput={(params) => (
+              <TextField {...params} label="Religion" required />
+            )}
             sx={{
               width: "100%",
+              marginRight: "2%",
             }}
-            renderInput={(params) => (
-              <TextField {...params} label="Medicine Type" required />
-            )}
-            value={formData.medicineType}
+            value={formData.religionName}
             onChange={(e, value) =>
-              handleAutocompleteChange("medicineType", value)
+              handleAutocompleteChange("religionName", value)
             }
           />
-        </div>
-        <div className={`${styles.doubleInputRow}`}>
-          <FormControl fullWidth sx={{ marginTop: "2%" }}>
-            <InputLabel id="dosageFormLabel">Dosage Form</InputLabel>
-            <Select
-              labelId="dosageFormLabel"
-              id="dosageType"
-              label="Dosage Form"
-              value={formData.dosageType}
-              onChange={(e) => handleSelectChange(e, "dosageType")}
-            >
-              <MenuItem value={"Capsule"}>Capsule</MenuItem>
-              <MenuItem value={"Liquid"}>Liquid</MenuItem>
-              <MenuItem value={"Tablet"}>Tablet</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            id={"dosageAmount"}
-            type={"number"}
-            fullWidth
-            variant={"outlined"}
-            label={"Dosage Amount"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position={"end"}>mg</InputAdornment>
-              ),
-            }}
+          <Autocomplete
+            id={"objectName"}
+            disablePortal
+            options={objectOptions}
+            renderInput={(params) => (
+              <TextField {...params} label="Religious Object" required />
+            )}
             sx={{
+              width: "100%",
               marginLeft: "2%",
-              marginTop: "2%",
             }}
-            required
-            value={formData.dosageAmount}
-            onChange={handleTextFieldChange}
+            value={formData.objectName}
+            onChange={(e, value) =>
+              handleAutocompleteChange("objectName", value)
+            }
           />
         </div>
         <div className={`${styles.descriptionField}`}>
@@ -313,7 +254,7 @@ function MedicineFields() {
             onChange={handleTextFieldChange}
           />
         </div>
-        <p className={`${styles.footer}`}>Created by Gus & Sean</p>
+        <p className={`${styles.footer}`}>Created by Peter & Sofia</p>
         <div className={`${styles.formButtons}`}>
           <Button
             id={"clearButton"}
@@ -344,4 +285,4 @@ function MedicineFields() {
   );
 }
 
-export default MedicineFields;
+export default ReligiousFields;

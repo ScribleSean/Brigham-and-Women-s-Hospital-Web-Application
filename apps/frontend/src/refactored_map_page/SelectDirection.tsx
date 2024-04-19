@@ -23,21 +23,18 @@ function DirectionsSelector() {
     <Button
       onClick={handleOnClick}
       sx={{
-        position: "absolute",
-        width: "6vw",
+        // position: "absolute",
+        width: "9.5vw",
         backgroundColor: "#012D5A",
-        color: "white",
-        fontWeight: "bold",
-        fontFamily: "inter",
-        textTransform: "capitalize",
-        boxShadow: 8,
-        zIndex: 4,
-        marginLeft: "16vw",
-        marginTop: "32vh",
-        fontSize: "0.8rem",
         ":hover": {
-          backgroundColor: "#2196F3!important",
+          backgroundColor: "#1665c0",
         },
+        color: "white",
+        // fontWeight: "bold",
+        // fontFamily: "inter",
+        textTransform: "capitalize",
+        // boxShadow: 2,
+        zIndex: 4,
       }}
     >
       Next Floor

@@ -6,6 +6,8 @@ import React from "react";
 import LoginButton from "./LoginButton.tsx";
 import LogoutButton from "./LogoutButton.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
+import CopyrightIcon from "@mui/icons-material/Copyright";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface UserInfo {
   name?: string;
@@ -88,8 +90,33 @@ function Banner(props: UserInfo) {
     <>
       <div className={`${styles.banner}`}>
         <div className={`${styles.logoAndTitle}`}>
-          <img src="/logo.png" alt="logo" className={`${styles.logo}`} />
+          <a href="/">
+            <img src="/logo.png" alt="logo" className={`${styles.logo}`} />
+          </a>
           <h5 className={`${styles.title}`}>Brigham & Women's Hospital</h5>
+          <IconButton
+            sx={{
+              color: "#012d5a",
+              "&:hover": {
+                color: "#1665c0",
+              },
+              ml: "8px",
+            }}
+            href={"/about"}
+          >
+            <InfoOutlinedIcon />
+          </IconButton>
+          <IconButton
+            sx={{
+              color: "#012d5a",
+              "&:hover": {
+                color: "#1665c0",
+              },
+            }}
+            href={"/credits"}
+          >
+            <CopyrightIcon />
+          </IconButton>
         </div>
         <RightSide name={props.name} role={props.role} email={props.email} />
       </div>

@@ -50,9 +50,9 @@ router.post("/", async function (req, res) {
 
 router.get("/", async function (req, res) {
   const medicalDeviceForm =
-    await PrismaClient.medicalDeviceServiceRequest.findMany({
-      include: {
-        ServiceRequest: true,
+    await PrismaClient.medicalDeviceServiceRequest.findUnique({
+      where: {
+        SRID: Number(req.query.SRID),
       },
     });
   res.json(medicalDeviceForm);

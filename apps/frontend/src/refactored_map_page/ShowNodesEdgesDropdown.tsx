@@ -57,7 +57,7 @@ function ShowNodesEdgesDropDown() {
       sx={{
         backgroundColor: "white",
         boxShadow: 7,
-        borderRadius: "0.5rem",
+        borderRadius: "5px",
         position: "absolute",
         display: "flex",
         width: "13vw",
@@ -82,7 +82,7 @@ function ShowNodesEdgesDropDown() {
           inputProps={{ "aria-label": "Without label" }}
           sx={{
             fontWeight: "bold",
-            fontFamily: "inter",
+            // fontFamily: "inter",
             "&:before, &:after": {
               display: "none", // Remove underline
             },
