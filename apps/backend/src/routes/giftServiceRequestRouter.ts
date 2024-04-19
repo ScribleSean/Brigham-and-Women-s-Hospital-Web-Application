@@ -43,4 +43,17 @@ router.post("/", async function (req, res) {
   }
 });
 
+router.get("/", async function (req, res) {
+  const giftForm = await PrismaClient.giftServiceRequest.findUnique({
+    where: {
+      SRID: Number(req.query.SRID),
+    },
+  });
+  if (giftForm) {
+    res.status(200).json(giftForm);
+  } else {
+    res.sendStatus(204);
+  }
+});
+
 export default router;

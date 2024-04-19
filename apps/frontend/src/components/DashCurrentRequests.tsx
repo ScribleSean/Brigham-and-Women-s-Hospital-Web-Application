@@ -26,9 +26,9 @@ import styles from "../styles/Dashboard.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-
-import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
+// import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
 function createData(
   SRID: number,
@@ -61,7 +61,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
+  "&:nth-of-type(4n), &:nth-of-type(4n-1)": {
     backgroundColor: theme.palette.action.hover,
   },
   // hide last border
@@ -73,6 +73,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function Row(props: { row: ReturnType<typeof createData> }) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+
+  const [requestData, setRequestData] = useState({
+    SRID: 0,
+    serviceType: "",
+    employeeName: "",
+    location: "",
+    priority: "",
+    status: "",
+    description: "",
+    religionName: "",
+    objectName: "",
+    senderName: "",
+    receiverName: "",
+    flowerType: "",
+    deliveryDate: "",
+    giftType: "",
+    medicineType: "",
+    dosageAmount: 0,
+    dosageType: "",
+    deviceName: "",
+    deviceQuantity: "",
+    startTime: "",
+    endTime: "",
+  });
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -105,11 +129,115 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     }
   };
 
+  const getFlowerDeliveryData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/flower-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setRequestData(res.data);
+    } catch {
+      console.error("Error getting flower delivery data");
+    }
+  };
+
+  const getGiftDeliveryData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/gift-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setRequestData(res.data);
+    } catch {
+      console.error("Error getting gift delivery data");
+    }
+  };
+
+  const getMedicineData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/medicine-delivery-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setRequestData(res.data);
+    } catch {
+      console.error("Error getting medicine data");
+    }
+  };
+
+  const getMedicalDeviceData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/medical-device-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setRequestData(res.data);
+    } catch {
+      console.error("Error getting medical device data");
+    }
+  };
+
+  const getRoomSchedulingData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/room-scheduling-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setRequestData(res.data);
+    } catch {
+      console.error("Error getting room scheduling data");
+    }
+  };
+
+  const getReligiousData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/religious-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setRequestData(res.data);
+    } catch {
+      console.error("Error getting religious data");
+    }
+  };
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
-          <IconButton size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            size="small"
+            onClick={() => {
+              setOpen(!open);
+              if (!open) {
+                if (row.serviceType === "Flower Delivery") {
+                  getFlowerDeliveryData(row.SRID).then();
+                } else if (row.serviceType === "Gift Delivery") {
+                  getGiftDeliveryData(row.SRID).then();
+                } else if (row.serviceType === "Medical Device") {
+                  getMedicalDeviceData(row.SRID).then();
+                } else if (row.serviceType === "Medicine") {
+                  getMedicineData(row.SRID).then();
+                } else if (row.serviceType === "Room Scheduling") {
+                  getRoomSchedulingData(row.SRID).then();
+                } else if (row.serviceType === "Religious") {
+                  getReligiousData(row.SRID).then();
+                }
+              }
+            }}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -119,17 +247,18 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell align="right">{row.serviceType}</TableCell>
         <TableCell align="right">{row.employeeName}</TableCell>
         <TableCell align="right">{row.location}</TableCell>
-        <TableCell align="right">
+        <TableCell align="right" sx={{ textWrap: "nowrap" }}>
           <span
             style={{
+              display: "inline-block",
+              width: "10px",
+              height: "10px",
+              borderRadius: "50%",
               backgroundColor: getPriorityColor(row.priority),
-              borderRadius: "10px",
-              padding: "4px 8px",
-              color: "white",
+              marginRight: "8px",
             }}
-          >
-            {row.priority}
-          </span>
+          />
+          {row.priority}
         </TableCell>
         <TableCell align="right">
           <FormControl fullWidth size={"small"}>
@@ -150,7 +279,179 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <p>more info about the request goes here</p>
+              {row.serviceType === "Flower Delivery" ? (
+                <>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Sender Name</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Receiver Name</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Flower Type</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Delivery Date</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{requestData.senderName}</TableCell>
+                        <TableCell>{requestData.receiverName}</TableCell>
+                        <TableCell>{requestData.flowerType}</TableCell>
+                        <TableCell>{requestData.deliveryDate}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </>
+              ) : row.serviceType === "Gift Delivery" ? (
+                <>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Sender Name</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Receiver Name</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Gift Type</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Delivery Date</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{requestData.senderName}</TableCell>
+                        <TableCell>{requestData.receiverName}</TableCell>
+                        <TableCell>{requestData.giftType}</TableCell>
+                        <TableCell>{requestData.deliveryDate}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </>
+              ) : row.serviceType === "Medicine" ? (
+                <>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Medicine Type</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Dosage Amount</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Dosage Form</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{requestData.medicineType}</TableCell>
+                        <TableCell>{requestData.dosageAmount}</TableCell>
+                        <TableCell>{requestData.dosageType}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </>
+              ) : row.serviceType === "Medical Device" ? (
+                <>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Device Type</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Quantity</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{requestData.deviceName}</TableCell>
+                        <TableCell>{requestData.deviceQuantity}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </>
+              ) : row.serviceType === "Room Scheduling" ? (
+                <>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Start Time</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>End Time</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{requestData.startTime}</TableCell>
+                        <TableCell>{requestData.endTime}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </>
+              ) : row.serviceType === "Religious" ? (
+                <>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Religion</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Object</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{requestData.religionName}</TableCell>
+                        <TableCell>{requestData.objectName}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </>
+              ) : (
+                <></>
+              )}
             </Box>
           </Collapse>
         </TableCell>
@@ -242,7 +543,7 @@ export default function DashCurrentRequests({
             </IconButton>
           )}
         </div>
-        <hr className={`${styles.divider}`} />
+        {/*<hr className={`${styles.divider}`} />*/}
         <div className={`${styles.tableMutators}`}>
           <div className={`${styles.filterMenu}`}>
             <label htmlFor="searchBar" className={`${styles.filterMenuText}`}>
@@ -393,6 +694,10 @@ export default function DashCurrentRequests({
             border: "1px solid lightgray",
             borderBottomLeftRadius: "5px",
             borderBottomRightRadius: "5px",
+            height: "64px",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
           }}
         />
       </div>

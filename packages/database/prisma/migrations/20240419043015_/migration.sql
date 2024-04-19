@@ -64,6 +64,15 @@ CREATE TABLE "MedicalDeviceServiceRequest" (
 );
 
 -- CreateTable
+CREATE TABLE "ReligiousServiceRequest" (
+    "SRID" INTEGER NOT NULL,
+    "religionName" TEXT NOT NULL,
+    "objectName" TEXT NOT NULL,
+
+    CONSTRAINT "ReligiousServiceRequest_pkey" PRIMARY KEY ("SRID")
+);
+
+-- CreateTable
 CREATE TABLE "GiftServiceRequest" (
     "SRID" INTEGER NOT NULL,
     "senderName" TEXT NOT NULL,
@@ -79,7 +88,7 @@ CREATE TABLE "MedicineDeliveryServiceRequest" (
     "SRID" INTEGER NOT NULL,
     "medicineType" TEXT NOT NULL,
     "dosageType" TEXT NOT NULL,
-    "dosageAmount" INTEGER NOT NULL,
+    "dosageAmount" TEXT NOT NULL,
 
     CONSTRAINT "MedicineDeliveryServiceRequest_pkey" PRIMARY KEY ("SRID")
 );
@@ -98,6 +107,9 @@ ALTER TABLE "RoomSchedulingRequest" ADD CONSTRAINT "RoomSchedulingRequest_SRID_f
 
 -- AddForeignKey
 ALTER TABLE "MedicalDeviceServiceRequest" ADD CONSTRAINT "MedicalDeviceServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ReligiousServiceRequest" ADD CONSTRAINT "ReligiousServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "GiftServiceRequest" ADD CONSTRAINT "GiftServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;

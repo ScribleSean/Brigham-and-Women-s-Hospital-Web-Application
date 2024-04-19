@@ -101,6 +101,10 @@ function MedicineFields() {
     serviceType: "Medicine",
   });
 
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
