@@ -63,7 +63,9 @@ export default function DashMakeARequest() {
             >
               <MenuItem value={"Flower"}>Flower Delivery</MenuItem>
               <MenuItem value={"Gift"}>Gift</MenuItem>
-              <MenuItem value={"Medicine"}>Medicine</MenuItem>
+              <MenuItem value={"Medicine"} disabled>
+                Medicine
+              </MenuItem>
               <MenuItem value={"Med. Device"}>Medical Device</MenuItem>
               <MenuItem value={"Room"}>Room Scheduling</MenuItem>
               <MenuItem value={"Religious"}>Religious</MenuItem>

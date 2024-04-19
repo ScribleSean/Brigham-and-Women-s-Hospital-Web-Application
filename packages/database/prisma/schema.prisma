@@ -95,5 +95,5 @@ model MedicineDeliveryServiceRequest {
   SRID           Int            @id
   medicineType   String
   dosageType     String
-  dosageAmount   Int
+  dosageAmount   String
 }
