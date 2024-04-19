@@ -27,9 +27,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 // import DeleteIcon from '@mui/icons-material/Delete';
-
-import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 import axios from "axios";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
+import { flowerDeliveryRequest } from "common/src/backend_interfaces/flowerServiceRequest.ts";
+import { giftDeliveryRequest } from "common/src/backend_interfaces/giftDeliveryRequest.ts";
+import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceRequest.ts";
+import { medicineDeliveryRequest } from "common/src/backend_interfaces/medicineDeliveryRequest.ts";
+import { roomSchedulingRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
+import { religiousServiceRequest } from "common/src/backend_interfaces/religiousServiceRequest.ts";
 
 function createData(
   SRID: number,
@@ -75,6 +80,78 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
+  const [flowerData, setFlowerData] = useState<flowerDeliveryRequest>({
+    SRID: 0,
+    deliveryDate: "",
+    description: "",
+    employeeName: "",
+    flowerType: "",
+    location: "",
+    priority: "",
+    receiverName: "",
+    senderName: "",
+    serviceType: "",
+    status: "",
+  });
+  const [giftData, setGiftData] = useState<giftDeliveryRequest>({
+    SRID: 0,
+    deliveryDate: "",
+    description: "",
+    employeeName: "",
+    giftType: "",
+    location: "",
+    priority: "",
+    receiverName: "",
+    senderName: "",
+    serviceType: "",
+    status: "",
+  });
+  const [medicineData, setMedicineData] = useState<medicineDeliveryRequest>({
+    SRID: 0,
+    dosageType: "",
+    description: "",
+    employeeName: "",
+    dosageAmount: 0,
+    location: "",
+    medicineType: "",
+    priority: "",
+    status: "",
+    serviceType: "",
+  });
+  const [medicalDeviceData, setMedicalDeviceData] = useState<MedicalDevice>({
+    SRID: 0,
+    description: "",
+    deviceName: "",
+    employeeName: "",
+    location: "",
+    priority: "",
+    deviceQuantity: "",
+    status: "",
+    serviceType: "",
+  });
+  const [roomSchedData, setRoomSchedData] = useState<roomSchedulingRequest>({
+    SRID: 0,
+    description: "",
+    employeeName: "",
+    endTime: "",
+    location: "",
+    priority: "",
+    startTime: "",
+    status: "",
+    serviceType: "",
+  });
+  const [religiousData, setReligiousData] = useState<religiousServiceRequest>({
+    SRID: 0,
+    description: "",
+    employeeName: "",
+    location: "",
+    objectName: "",
+    priority: "",
+    religionName: "",
+    status: "",
+    serviceType: "",
+  });
+
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "Low":
@@ -106,11 +183,116 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     }
   };
 
+  const getFlowerDeliveryData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/flower-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setFlowerData(res.data);
+    } catch {
+      console.error("Error getting flower delivery data");
+    }
+  };
+
+  const getGiftDeliveryData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/gift-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setGiftData(res.data);
+    } catch {
+      console.error("Error getting gift delivery data");
+    }
+  };
+
+  const getMedicineData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/medicine-delivery-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setMedicineData(res.data);
+    } catch {
+      console.error("Error getting medicine data");
+    }
+  };
+
+  const getMedicalDeviceData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/medical-device-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setMedicalDeviceData(res.data);
+    } catch {
+      console.error("Error getting medical device data");
+    }
+  };
+
+  const getRoomSchedulingData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/room-scheduling-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setRoomSchedData(res.data);
+    } catch {
+      console.error("Error getting room scheduling data");
+    }
+  };
+
+  const getReligiousData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/religious-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setReligiousData(res.data);
+    } catch {
+      console.error("Error getting religious data");
+    }
+  };
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
-          <IconButton size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            size="small"
+            onClick={() => {
+              setOpen(!open);
+              if (!open) {
+                if (row.serviceType === "Flower Delivery") {
+                  getFlowerDeliveryData(row.SRID).then();
+                } else if (row.serviceType === "Gift Delivery") {
+                  getGiftDeliveryData(row.SRID).then();
+                } else if (row.serviceType === "Medical Device") {
+                  getMedicalDeviceData(row.SRID).then();
+                } else if (row.serviceType === "Medicine") {
+                  getMedicineData(row.SRID).then();
+                } else if (row.serviceType === "Room Scheduling") {
+                  getRoomSchedulingData(row.SRID).then();
+                  console.log(roomSchedData);
+                } else if (row.serviceType === "Religious") {
+                  getReligiousData(row.SRID).then();
+                }
+              }
+            }}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -176,88 +358,169 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>Test</TableCell>
-                        <TableCell>Test</TableCell>
-                        <TableCell>Test</TableCell>
-                        <TableCell>Test</TableCell>
+                        <TableCell>{flowerData.senderName}</TableCell>
+                        <TableCell>{flowerData.receiverName}</TableCell>
+                        <TableCell>{flowerData.flowerType}</TableCell>
+                        <TableCell>{flowerData.deliveryDate}</TableCell>
                         <TableCell>{row.description}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
-                  {/*<p className={`${styles.additionalInfo}`}><b>Sender Name: </b></p>*/}
-                  {/*<p className={`${styles.additionalInfo}`}><b>Receiver Name: </b></p>*/}
-                  {/*<p className={`${styles.additionalInfo}`}><b>Flower Type: </b></p>*/}
-                  {/*<p className={`${styles.additionalInfo}`}><b>Delivery Date: </b></p>*/}
-                  {/*<p className={`${styles.additionalInfo}`}><b>Description: </b>{row.description}</p>*/}
                 </>
               ) : row.serviceType === "Gift Delivery" ? (
                 <>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Sender Name: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Receiver Name: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Gift Type: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Delivery Date: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Description</b>
-                  </p>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Sender Name</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Receiver Name</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Gift Type</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Delivery Date</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{giftData.senderName}</TableCell>
+                        <TableCell>{giftData.receiverName}</TableCell>
+                        <TableCell>{giftData.giftType}</TableCell>
+                        <TableCell>{giftData.deliveryDate}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
                 </>
               ) : row.serviceType === "Medicine" ? (
                 <>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Medicine Type: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Dosage Amount: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Dosage Form: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Description: </b>
-                  </p>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Medicine Type</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Dosage Amount</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Dosage Form</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{medicineData.medicineType}</TableCell>
+                        <TableCell>{medicineData.dosageAmount}</TableCell>
+                        <TableCell>{medicineData.dosageType}</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
                 </>
               ) : row.serviceType === "Medical Device" ? (
                 <>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Device Type: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Quantity: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Description: </b>
-                  </p>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Device Type</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Quantity</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{medicalDeviceData.deviceName}</TableCell>
+                        <TableCell>
+                          {medicalDeviceData.deviceQuantity}
+                        </TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
                 </>
               ) : row.serviceType === "Room Scheduling" ? (
                 <>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Start Time: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>End Time: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Description: </b>
-                  </p>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Start Time</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>End Time</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>
+                          {roomSchedData && roomSchedData.startTime
+                            ? roomSchedData.startTime
+                            : "Loading..."}
+                        </TableCell>
+                        <TableCell>
+                          {roomSchedData && roomSchedData.endTime
+                            ? roomSchedData.endTime
+                            : "Loading..."}
+                        </TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
                 </>
               ) : row.serviceType === "Religious" ? (
                 <>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Religion: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Object: </b>
-                  </p>
-                  <p className={`${styles.additionalInfo}`}>
-                    <b>Description: </b>
-                  </p>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Religion</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Object</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>
+                          {religiousData && religiousData.religionName
+                            ? religiousData.religionName
+                            : "Loading..."}
+                        </TableCell>
+                        <TableCell>
+                          {religiousData && religiousData.objectName
+                            ? religiousData.objectName
+                            : "Loading..."}
+                        </TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
                 </>
               ) : (
                 <></>
@@ -504,6 +767,10 @@ export default function DashCurrentRequests({
             border: "1px solid lightgray",
             borderBottomLeftRadius: "5px",
             borderBottomRightRadius: "5px",
+            height: "64px",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
           }}
         />
       </div>

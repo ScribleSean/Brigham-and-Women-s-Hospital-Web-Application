@@ -52,9 +52,12 @@ router.post("/", async function (req, res) {
 });
 
 router.get("/", async function (req, res) {
-  const flowerForm = await PrismaClient.flowerServiceRequest.findMany({
+  const flowerForm = await PrismaClient.flowerServiceRequest.findUnique({
     include: {
       ServiceRequest: true,
+    },
+    where: {
+      SRID: Number(req.query.SRID),
     },
   });
   res.json(flowerForm);

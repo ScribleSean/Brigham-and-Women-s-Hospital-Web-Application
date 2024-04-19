@@ -51,8 +51,8 @@ router.post("/", async function (req, res) {
 
 router.get("/", async function (req, res) {
   const roomForm = await PrismaClient.roomSchedulingRequest.findMany({
-    include: {
-      ServiceRequest: true,
+    where: {
+      SRID: Number(req.query.SRID),
     },
   });
   res.json(roomForm);

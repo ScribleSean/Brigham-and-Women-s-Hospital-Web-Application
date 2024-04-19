@@ -27,12 +27,12 @@ router.post("/", async function (req, res) {
         SRID: serviceRequest.SRID,
         medicineType: medicine.medicineType,
         dosageType: medicine.dosageType,
-        dosageAmount: medicine.dosageAmount as number,
+        dosageAmount: Number(medicine.dosageAmount),
       },
       update: {
         medicineType: medicine.medicineType,
         dosageType: medicine.dosageType,
-        dosageAmount: medicine.dosageAmount as number,
+        dosageAmount: Number(medicine.dosageAmount),
       },
     });
 
@@ -51,8 +51,8 @@ router.post("/", async function (req, res) {
 router.get("/", async function (req, res) {
   const medicalDeliveryForm =
     await PrismaClient.medicineDeliveryServiceRequest.findMany({
-      include: {
-        ServiceRequest: true,
+      where: {
+        SRID: Number(req.query.SRID),
       },
     });
   res.json(medicalDeliveryForm);
