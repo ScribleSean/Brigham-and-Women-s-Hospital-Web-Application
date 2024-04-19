@@ -20,37 +20,35 @@ function FlowerDeliveryFields() {
     [],
   );
 
+  const fetchLocations = async () => {
+    try {
+      const response = await axios.get("/api/room-name-fetch");
+      const nodeIDNames = response.data.map(
+        (location: { nodeID: string }) => location.nodeID,
+      );
+      setLocationOptions(nodeIDNames);
+    } catch (error) {
+      console.error("Failed to fetch locations", error);
+    }
+  };
+
+  const fetchEmployeeEmail = async () => {
+    try {
+      const response = await axios.get("/api/employee-email-fetch");
+      const employeeEmails = response.data.map(
+        (employeeEmail: { employeeEmail: string }) =>
+          employeeEmail.employeeEmail,
+      );
+      setemployeeEmailOptions(employeeEmails);
+    } catch (error) {
+      console.error("Failed to fetch employee emails", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        const response = await axios.get("/api/room-name-fetch");
-        const nodeIDNames = response.data.map(
-          (location: { nodeID: string }) => location.nodeID,
-        );
-        setLocationOptions(nodeIDNames);
-      } catch (error) {
-        console.error("Failed to fetch locations", error);
-      }
-    };
-
-    const fetchEmployeeEmail = async () => {
-      try {
-        const response = await axios.get("/api/employee-email-fetch");
-        const employeeEmails = response.data.map(
-          (employeeEmail: { employeeEmail: string }) =>
-            employeeEmail.employeeEmail,
-        );
-        setemployeeEmailOptions(employeeEmails);
-      } catch (error) {
-        console.error("Failed to fetch employee emails", error);
-      }
-    };
-
-    console.log(employeeEmailOptions);
-
     fetchLocations();
     fetchEmployeeEmail();
-  }, [employeeEmailOptions]);
+  }, []);
 
   const [formData, setFormData] = useState<flowerDeliveryRequest>({
     SRID: 0,
