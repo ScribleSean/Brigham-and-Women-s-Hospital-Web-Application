@@ -58,6 +58,11 @@ function LocationSelector(): React.JSX.Element {
           height: "40px",
           marginRight: "8px",
         }}
+        onClick={() => {
+          const temp = startNode;
+          handleLocationChange(endNode);
+          handleDestinationChange(temp);
+        }}
       >
         <ImportExportIcon />
       </IconButton>
