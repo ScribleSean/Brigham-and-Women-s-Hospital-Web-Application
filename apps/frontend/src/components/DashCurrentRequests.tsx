@@ -26,6 +26,7 @@ import styles from "../styles/Dashboard.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+// import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 import axios from "axios";
@@ -61,7 +62,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
+  "&:nth-of-type(4n), &:nth-of-type(4n-1)": {
     backgroundColor: theme.palette.action.hover,
   },
   // hide last border
@@ -119,17 +120,18 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell align="right">{row.serviceType}</TableCell>
         <TableCell align="right">{row.employeeName}</TableCell>
         <TableCell align="right">{row.location}</TableCell>
-        <TableCell align="right">
+        <TableCell align="right" sx={{ textWrap: "nowrap" }}>
           <span
             style={{
+              display: "inline-block",
+              width: "10px",
+              height: "10px",
+              borderRadius: "50%",
               backgroundColor: getPriorityColor(row.priority),
-              borderRadius: "10px",
-              padding: "4px 8px",
-              color: "white",
+              marginRight: "8px",
             }}
-          >
-            {row.priority}
-          </span>
+          />
+          {row.priority}
         </TableCell>
         <TableCell align="right">
           <FormControl fullWidth size={"small"}>
@@ -150,7 +152,116 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <p>more info about the request goes here</p>
+              {row.serviceType === "Flower Delivery" ? (
+                <>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Sender Name</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Receiver Name</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Flower Type</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Delivery Date</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>Test</TableCell>
+                        <TableCell>Test</TableCell>
+                        <TableCell>Test</TableCell>
+                        <TableCell>Test</TableCell>
+                        <TableCell>{row.description}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                  {/*<p className={`${styles.additionalInfo}`}><b>Sender Name: </b></p>*/}
+                  {/*<p className={`${styles.additionalInfo}`}><b>Receiver Name: </b></p>*/}
+                  {/*<p className={`${styles.additionalInfo}`}><b>Flower Type: </b></p>*/}
+                  {/*<p className={`${styles.additionalInfo}`}><b>Delivery Date: </b></p>*/}
+                  {/*<p className={`${styles.additionalInfo}`}><b>Description: </b>{row.description}</p>*/}
+                </>
+              ) : row.serviceType === "Gift Delivery" ? (
+                <>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Sender Name: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Receiver Name: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Gift Type: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Delivery Date: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Description</b>
+                  </p>
+                </>
+              ) : row.serviceType === "Medicine" ? (
+                <>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Medicine Type: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Dosage Amount: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Dosage Form: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Description: </b>
+                  </p>
+                </>
+              ) : row.serviceType === "Medical Device" ? (
+                <>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Device Type: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Quantity: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Description: </b>
+                  </p>
+                </>
+              ) : row.serviceType === "Room Scheduling" ? (
+                <>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Start Time: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>End Time: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Description: </b>
+                  </p>
+                </>
+              ) : row.serviceType === "Religious" ? (
+                <>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Religion: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Object: </b>
+                  </p>
+                  <p className={`${styles.additionalInfo}`}>
+                    <b>Description: </b>
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
             </Box>
           </Collapse>
         </TableCell>
@@ -242,7 +353,7 @@ export default function DashCurrentRequests({
             </IconButton>
           )}
         </div>
-        <hr className={`${styles.divider}`} />
+        {/*<hr className={`${styles.divider}`} />*/}
         <div className={`${styles.tableMutators}`}>
           <div className={`${styles.filterMenu}`}>
             <label htmlFor="searchBar" className={`${styles.filterMenuText}`}>
