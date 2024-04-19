@@ -16,6 +16,9 @@ import axios from "axios";
 
 function FlowerDeliveryFields() {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
+  const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
+    [],
+  );
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -29,8 +32,25 @@ function FlowerDeliveryFields() {
         console.error("Failed to fetch locations", error);
       }
     };
+
+    const fetchEmployeeEmail = async () => {
+      try {
+        const response = await axios.get("/api/employee-email-fetch");
+        const employeeEmails = response.data.map(
+          (employeeEmail: { employeeEmail: string }) =>
+            employeeEmail.employeeEmail,
+        );
+        setemployeeEmailOptions(employeeEmails);
+      } catch (error) {
+        console.error("Failed to fetch employee emails", error);
+      }
+    };
+
+    console.log(employeeEmailOptions);
+
     fetchLocations();
-  }, []);
+    fetchEmployeeEmail();
+  }, [employeeEmailOptions]);
 
   const [formData, setFormData] = useState<flowerDeliveryRequest>({
     SRID: 0,
@@ -62,11 +82,21 @@ function FlowerDeliveryFields() {
     });
   };
 
+  //this one handles the location
   const handleAutocompleteChange = (value: string | null) => {
     if (value) {
       setFormData({
         ...formData,
         location: value,
+      });
+    }
+  };
+  //this one does email
+  const handleEmployeeEmailAutocompleteChange = (value: string | null) => {
+    if (value) {
+      setFormData({
+        ...formData,
+        employeeEmail: value,
       });
     }
   };
@@ -117,15 +147,17 @@ function FlowerDeliveryFields() {
       <form onSubmit={handleSubmit}>
         <div className={`${styles.commonInputsContainer}`}>
           <div className={`${styles.doubleInputRow}`}>
-            <TextField
-              id={"employeeEmail"}
+            <Autocomplete
+              id="employeeEmail"
+              options={employeeEmailOptions}
               fullWidth
-              variant={"outlined"}
-              label={"Employee Name"}
-              sx={{ marginRight: "2%" }}
-              required
+              renderInput={(params) => (
+                <TextField {...params} label="Employee Email" required />
+              )}
               value={formData.employeeEmail}
-              onChange={handleTextFieldChange}
+              onChange={(e, value) =>
+                handleEmployeeEmailAutocompleteChange(value)
+              }
             />
             <Autocomplete
               disablePortal

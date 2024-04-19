@@ -19,7 +19,7 @@ import downloadNodeDataRouter from "./routes/data-to-csv-node";
 import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 import deleteDataRouter from "./routes/deleteDataRoute";
 import roomNameFetchRouter from "./routes/room-name-fetch.ts";
-
+import employeeEmailFetchRouter from "./routes/employeeEmailRouter.ts";
 import addNodesAndAssociatedEdgesRouter from "./routes/addNodesEdges.ts";
 import deleteNodesAndAssociatedEdgesRouter from "./routes/deleteNodesEdges.ts";
 import refactorNodesRouter from "./routes/refactorNodes.ts";
@@ -49,6 +49,7 @@ app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
 app.use("/api/religious-service-request", religiousServiceRequestRouter);
 app.use("/api/gift-service-request", giftServiceRequestRouter);
 app.use("/api/room-name-fetch", roomNameFetchRouter);
+app.use("/api/employee-email-fetch", employeeEmailFetchRouter);
 app.use("/api/csv-to-json", csvRouter);
 app.use("/api/node-populate", nodeRouter);
 app.use("/api/edge-populate", edgeRouter);
