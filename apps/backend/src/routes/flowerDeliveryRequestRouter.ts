@@ -39,6 +39,17 @@ router.post("/", async function (req, res) {
       },
     });
 
+    await PrismaClient.employee.update({
+      where: {
+        employeeEmail: serviceRequest.employeeEmail,
+      },
+      data: {
+        numberOfServiceRequests: {
+          increment: 1,
+        },
+      },
+    });
+
     res
       .status(200)
       .json({ message: "Flower Request has been put into the database" });

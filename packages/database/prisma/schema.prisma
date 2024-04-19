@@ -58,7 +58,7 @@ model Employee {
   employeeEmail           String           @id
   name                    String
   position                String
-  numberOfServiceRequests String
+  numberOfServiceRequests Int
   ServiceRequests         ServiceRequest[]
 }
 

@@ -39,7 +39,7 @@ CREATE TABLE "Employee" (
     "employeeEmail" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "position" TEXT NOT NULL,
-    "numberOfServiceRequests" TEXT NOT NULL,
+    "numberOfServiceRequests" INTEGER NOT NULL,
 
     CONSTRAINT "Employee_pkey" PRIMARY KEY ("employeeEmail")
 );
