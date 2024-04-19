@@ -1,5 +1,5 @@
-import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
-import React, { useCallback, useEffect, useState } from "react";
+import { Edge, NodeType, Path } from "common/src/DataStructures.ts";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useMapContext } from "./MapContext.ts";
 import { List, ListItem, ListSubheader, Typography } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
@@ -14,34 +14,99 @@ function TextDirections() {
   const [directionsText, setDirectionsText] = useState<Array<string>>([]);
   const [currentPage, setCurrentPage] = useState(0);
 
+  const prevDirectionRef = useRef("");
+
   const generateDirections = useCallback(
     (paths: Array<Path>) => {
       const directions: Array<string> = [];
 
       if (paths[directionsCounter] && paths[directionsCounter].edges) {
-        paths[directionsCounter].edges.forEach((edge: Edge): void => {
-          if (edge.startNode.type !== NodeType.HALL) {
-            const dx: number = edge.endNode.x - edge.startNode.x;
-            const dy: number = edge.endNode.y - edge.startNode.y;
+        const currentPathEdges: Array<Edge> = paths[directionsCounter].edges;
+        for (let i = 0; i < currentPathEdges.length - 1; i++) {
+          const currentEdge = currentPathEdges[i];
+          const nextEdge = currentPathEdges[i + 1];
+
+          if (currentEdge.startNode.type) {
+            const dx1 = currentEdge.endNode.x - currentEdge.startNode.x;
+            const dy1 = currentEdge.endNode.y - currentEdge.startNode.y;
+            const dx2 = nextEdge.endNode.x - nextEdge.startNode.x;
+            const dy2 = nextEdge.endNode.y - nextEdge.startNode.y;
+
+            const angle1 = Math.atan2(dy1, dx1);
+            const angle2 = Math.atan2(dy2, dx2);
+            const angleDifference = angle2 - angle1;
+
+            // Normalize angleDifference to the range of -π to π
+            const normalizedAngleDifference = Math.atan2(
+              Math.sin(angleDifference),
+              Math.cos(angleDifference),
+            );
+
             let direction: string;
 
-            if (Math.abs(dx) > Math.abs(dy)) {
-              direction = dx > 0 ? "Turn right" : "Turn left";
+            if (
+              Math.abs(normalizedAngleDifference) < Math.PI / 20 &&
+              prevDirectionRef.current !== "Continue straight"
+            ) {
+              direction = "Continue straight";
+            } else if (normalizedAngleDifference > 0) {
+              direction = "Turn right";
+            } else if (normalizedAngleDifference < 0) {
+              direction = "Turn left";
             } else {
-              direction = dy > 0 ? "Go down" : "Go up";
+              continue;
             }
 
-            const detail = edge.startNode.shortName
-              ? ` on ${edge.startNode.shortName}`
-              : "";
+            // Update the ref with the new direction
+            prevDirectionRef.current = direction;
+
+            let detail: string;
+
+            if (direction === "Continue straight") {
+              detail = "";
+            } else {
+              if (currentEdge.startNode.type === NodeType.HALL) {
+                if (nextEdge.endNode.type === NodeType.HALL) {
+                  detail = "";
+                } else {
+                  detail = ` towards ${nextEdge.endNode.shortName}`;
+                }
+              } else {
+                if (nextEdge.endNode.type === NodeType.HALL) {
+                  detail = ` at ${currentEdge.startNode.shortName}`;
+                } else {
+                  detail = "";
+                }
+              }
+            }
+
+            /*if (currentPathEdges[i + 2]) {
+                            const nextNextEdge = currentPathEdges[i + 2];
+
+                            const dx3 = nextNextEdge.endNode.x - nextNextEdge.startNode.x;
+                            const dy3 = nextNextEdge.endNode.y - nextNextEdge.startNode.y;
+
+                            const angle3 = Math.atan2(dy3, dx3);
+
+                            const angleDifferenceStraightCheck = angle3 - angle1;
+
+                            const normalizedAngleDifferenceStraightCheck = Math.atan2(Math.sin(angleDifferenceStraightCheck), Math.cos(angleDifferenceStraightCheck));
+
+                            if (nextNextEdge) {
+                                if(Math.abs(normalizedAngleDifferenceStraightCheck) < Math.PI / 20 ) {
+                                    continue;
+                                }
+                            }
+                        }*/
+
             directions.push(`${direction}${detail}`);
           }
-        });
+        }
       }
 
       return directions;
     },
-    [directionsCounter],
+    [directionsCounter, prevDirectionRef],
   );
 
   useEffect(() => {

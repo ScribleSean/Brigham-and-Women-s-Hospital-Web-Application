@@ -627,18 +627,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               onClick={() => handleNodeSelection(node)}
             />
           ) : !startNode || !endNode ? (
-            <Draggable
-              scale={scale}
-              onStart={handleStartDrag}
-              onStop={handleStopDrag}
-              disabled={editorMode === EditorMode.disabled}
-            >
-              <button
-                className="none"
-                style={normalNodeStyle}
-                onClick={() => handleNodeSelection(node)}
-              />
-            </Draggable>
+            <button
+              style={normalNodeStyle}
+              onClick={() => handleNodeSelection(node)}
+            />
           ) : null}
         </>
       )}
