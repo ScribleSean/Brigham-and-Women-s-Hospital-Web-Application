@@ -12,10 +12,10 @@ router.get("/", async function (req, res) {
       },
     },
     select: {
-      longName: true,
+      nodeID: true,
     },
     orderBy: {
-      longName: "asc",
+      nodeID: "asc",
     },
   });
   res.json(roomFetch);

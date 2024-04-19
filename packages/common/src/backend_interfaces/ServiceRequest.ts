@@ -1,6 +1,6 @@
 export interface ServiceRequest {
   SRID: number;
-  employeeName: string;
+  employeeEmail: string;
   priority: string;
   location: string;
   status: string;

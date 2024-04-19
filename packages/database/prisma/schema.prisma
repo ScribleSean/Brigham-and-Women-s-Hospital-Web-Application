@@ -31,13 +31,14 @@ model Node {
   longName  String
   shortName String
 
-  startEdges Edge[] @relation("startNode")
-  endEdges   Edge[] @relation("endNode")
+  startEdges      Edge[]           @relation("startNode")
+  endEdges        Edge[]           @relation("endNode")
+  ServiceRequests ServiceRequest[]
 }
 
 model ServiceRequest {
   SRID                           Int                             @id @default(autoincrement())
-  employeeName                   String
+  employeeEmail                  String
   priority                       String
   location                       String
   status                         String
@@ -49,6 +50,16 @@ model ServiceRequest {
   GiftServiceRequest             GiftServiceRequest?             @relation("GiftServiceRequest")
   MedicineDeliveryServiceRequest MedicineDeliveryServiceRequest? @relation("MedicineDeliveryServiceRequest")
   ReligiousServiceRequest        ReligiousServiceRequest?        @relation("ReligiousServiceRequest")
+  Employee                       Employee                        @relation(fields: [employeeEmail], references: [employeeEmail])
+  Node                           Node                            @relation(fields: [location], references: [nodeID])
+}
+
+model Employee {
+  employeeEmail           String           @id
+  name                    String
+  position                String
+  numberOfServiceRequests String
+  ServiceRequests         ServiceRequest[]
 }
 
 model FlowerServiceRequest {

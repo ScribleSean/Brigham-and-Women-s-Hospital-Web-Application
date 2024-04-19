@@ -10,7 +10,7 @@ router.post("/", async function (req, res) {
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({
       data: {
-        employeeName: religion.employeeName,
+        employeeEmail: religion.employeeEmail,
         priority: religion.priority,
         location: religion.location,
         status: religion.status,

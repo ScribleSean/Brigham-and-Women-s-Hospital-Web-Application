@@ -21,10 +21,10 @@ function RoomSchedulingFields() {
     const fetchLocations = async () => {
       try {
         const response = await axios.get("/api/room-name-fetch");
-        const locationNames = response.data.map(
-          (location: { longName: string }) => location.longName,
+        const nodeIDNames = response.data.map(
+          (location: { nodeID: string }) => location.nodeID,
         );
-        setLocationOptions(locationNames);
+        setLocationOptions(nodeIDNames);
       } catch (error) {
         console.error("Failed to fetch locations", error);
       }
@@ -34,7 +34,7 @@ function RoomSchedulingFields() {
 
   const [formData, setFormData] = useState<roomSchedulingRequest>({
     SRID: 0,
-    employeeName: "",
+    employeeEmail: "",
     location: "",
     priority: "",
     status: "",
@@ -72,7 +72,7 @@ function RoomSchedulingFields() {
   const resetForm = () => {
     setFormData({
       SRID: 0,
-      employeeName: "",
+      employeeEmail: "",
       location: "",
       priority: "",
       status: "",
@@ -113,13 +113,13 @@ function RoomSchedulingFields() {
         <div className={`${styles.commonInputsContainer}`}>
           <div className={`${styles.doubleInputRow}`}>
             <TextField
-              id={"employeeName"}
+              id={"employeeEmail"}
               fullWidth
               variant={"outlined"}
               label={"Employee Name"}
               sx={{ marginRight: "2%" }}
               required
-              value={formData.employeeName}
+              value={formData.employeeEmail}
               onChange={handleTextFieldChange}
             />
             <Autocomplete

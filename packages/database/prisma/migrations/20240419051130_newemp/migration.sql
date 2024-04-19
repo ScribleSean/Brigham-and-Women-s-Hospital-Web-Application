@@ -24,7 +24,7 @@ CREATE TABLE "Node" (
 -- CreateTable
 CREATE TABLE "ServiceRequest" (
     "SRID" SERIAL NOT NULL,
-    "employeeName" TEXT NOT NULL,
+    "employeeEmail" TEXT NOT NULL,
     "priority" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "status" TEXT NOT NULL,
@@ -32,6 +32,16 @@ CREATE TABLE "ServiceRequest" (
     "description" TEXT NOT NULL,
 
     CONSTRAINT "ServiceRequest_pkey" PRIMARY KEY ("SRID")
+);
+
+-- CreateTable
+CREATE TABLE "Employee" (
+    "employeeEmail" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "position" TEXT NOT NULL,
+    "numberOfServiceRequests" TEXT NOT NULL,
+
+    CONSTRAINT "Employee_pkey" PRIMARY KEY ("employeeEmail")
 );
 
 -- CreateTable
@@ -98,6 +108,12 @@ ALTER TABLE "Edge" ADD CONSTRAINT "Edge_startNodeID_fkey" FOREIGN KEY ("startNod
 
 -- AddForeignKey
 ALTER TABLE "Edge" ADD CONSTRAINT "Edge_endNodeID_fkey" FOREIGN KEY ("endNodeID") REFERENCES "Node"("nodeID") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ServiceRequest" ADD CONSTRAINT "ServiceRequest_employeeEmail_fkey" FOREIGN KEY ("employeeEmail") REFERENCES "Employee"("employeeEmail") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ServiceRequest" ADD CONSTRAINT "ServiceRequest_location_fkey" FOREIGN KEY ("location") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "FlowerServiceRequest" ADD CONSTRAINT "FlowerServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
