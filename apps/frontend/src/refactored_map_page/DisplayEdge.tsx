@@ -2,8 +2,6 @@ import React, { useState, useEffect, CSSProperties } from "react";
 import {
   EdgeDisplayProps,
   EditorMode,
-  EdgesByFloor,
-  NodesByFloor,
   OldNewEdge,
 } from "common/src/types/map_page_types.ts";
 import { Edge } from "common/src/data_structures/Edge.ts";
@@ -23,85 +21,6 @@ import {
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
-  const nodes: Array<Node> = new Array<Node>();
-  if (!nodesByFloor) return nodes;
-  nodesByFloor.L2.forEach((node) => nodes.push(node));
-  nodesByFloor.L1.forEach((node) => nodes.push(node));
-  nodesByFloor.firstFloor.forEach((node) => nodes.push(node));
-  nodesByFloor.secondFloor.forEach((node) => nodes.push(node));
-  nodesByFloor.thirdFloor.forEach((node) => nodes.push(node));
-  return nodes;
-}
-
-function deleteEdge(
-  edgesByFloor: EdgesByFloor,
-  edgeToBeDeleted: Edge,
-): EdgesByFloor {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-
-  const updatedFloors = floors.map((floor) =>
-    floor.filter((edge) => {
-      return !(
-        edge.ID === edgeToBeDeleted.ID &&
-        ((edge.startNode.ID === edgeToBeDeleted.startNode.ID &&
-          edge.endNode.ID === edgeToBeDeleted.endNode.ID) ||
-          (edge.startNode.ID === edgeToBeDeleted.endNode.ID &&
-            edge.endNode.ID === edgeToBeDeleted.startNode.ID))
-      );
-    }),
-  );
-
-  return {
-    L2: updatedFloors[0],
-    L1: updatedFloors[1],
-    firstFloor: updatedFloors[2],
-    secondFloor: updatedFloors[3],
-    thirdFloor: updatedFloors[4],
-  };
-}
-
-function editEdges(
-  edgesByFloor: EdgesByFloor,
-  edgeToBeEdited: Edge,
-): EdgesByFloor {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-
-  floors.forEach((edges) => {
-    edges.forEach((edge) => {
-      if (edge.ID === edgeToBeEdited.ID) {
-        edge.startNode = edgeToBeEdited.startNode;
-        edge.endNode = edgeToBeEdited.endNode;
-      }
-    });
-  });
-
-  return {
-    L2: floors[0],
-    L1: floors[1],
-    firstFloor: floors[2],
-    secondFloor: floors[3],
-    thirdFloor: floors[4],
-  };
-}
-
-function getNode(nodesByFloor: NodesByFloor, ID: string): Node | undefined {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = nodesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-
-  for (const floor of floors) {
-    for (const node of floor) {
-      if (node.ID === ID) {
-        return node;
-      }
-    }
-  }
-
-  return undefined;
-}
-
 export default EdgeDisplay;
 
 function EdgeDisplay(props: EdgeDisplayProps) {
@@ -112,9 +31,8 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     showEdges,
     setEdgesToBeEdited,
     edgesToBeEdited,
-    nodesByFloor,
-    edgesByFloor,
-    setEdgesByFloor,
+    graph,
+    setGraph,
     setEdgesToBeDeleted,
     edgesToBeDeleted,
     setUnsavedChanges,
@@ -157,12 +75,8 @@ function EdgeDisplay(props: EdgeDisplayProps) {
   }
 
   const handleDeleteEdge = (deletedEdge: Edge): void => {
-    if (edgesByFloor) {
-      const newEdgesByFloor: EdgesByFloor = deleteEdge(
-        edgesByFloor,
-        deletedEdge,
-      );
-      setEdgesByFloor(newEdgesByFloor);
+    if (graph) {
+      setGraph(graph.deleteEdge(deletedEdge));
       setEdgesToBeDeleted([...edgesToBeDeleted, deletedEdge]);
       setUnsavedChanges(true);
     }
@@ -180,12 +94,8 @@ function EdgeDisplay(props: EdgeDisplayProps) {
         newEdge: newEdge,
       };
 
-      if (edgesByFloor) {
-        const updatedEdgesByFloor: EdgesByFloor = editEdges(
-          edgesByFloor,
-          newEdge,
-        );
-        setEdgesByFloor(updatedEdgesByFloor);
+      if (graph) {
+        setGraph(graph.editEdge(newEdge));
         setEdgesToBeEdited([...edgesToBeEdited, newOldNewEdge]);
         setUnsavedChanges(true);
       }
@@ -197,10 +107,9 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setEdgesToBeEdited,
     editedEdge,
     setEditedEdge,
-    nodesByFloor,
     isSaved,
-    edgesByFloor,
-    setEdgesByFloor,
+    graph,
+    setGraph,
     setUnsavedChanges,
   ]);
 
@@ -210,13 +119,13 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     nodeType: "startNode" | "endNode",
   ) => {
     if (nodeID) {
-      if (nodeType === "startNode" && nodesByFloor) {
-        const newNode = getNode(nodesByFloor, nodeID);
+      if (nodeType === "startNode" && graph) {
+        const newNode = graph.getNodeByID(nodeID);
         if (newNode) {
           edge.startNode = newNode;
         }
-      } else if (nodeType === "endNode" && nodesByFloor) {
-        const newNode = getNode(nodesByFloor, nodeID);
+      } else if (nodeType === "endNode" && graph) {
+        const newNode = graph.getNodeByID(nodeID);
         if (newNode) {
           edge.endNode = newNode;
         }
@@ -270,9 +179,11 @@ function EdgeDisplay(props: EdgeDisplayProps) {
                   onChange={(event, newValue: string | null) =>
                     handleChange(event, newValue, "startNode")
                   }
-                  options={nodesByFloorsToNodes(nodesByFloor).map(
-                    (node: Node) => node.ID,
-                  )}
+                  options={
+                    graph
+                      ? graph.getNodesAll().map((node: Node) => node.ID)
+                      : new Array<string>()
+                  }
                   getOptionLabel={(option) => option}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -283,9 +194,11 @@ function EdgeDisplay(props: EdgeDisplayProps) {
                   onChange={(event, newValue: string | null) =>
                     handleChange(event, newValue, "endNode")
                   }
-                  options={nodesByFloorsToNodes(nodesByFloor).map(
-                    (node: Node) => node.ID,
-                  )}
+                  options={
+                    graph
+                      ? graph.getNodesAll().map((node: Node) => node.ID)
+                      : new Array<string>()
+                  }
                   getOptionLabel={(option) => option}
                   renderInput={(params) => <TextField {...params} />}
                 />

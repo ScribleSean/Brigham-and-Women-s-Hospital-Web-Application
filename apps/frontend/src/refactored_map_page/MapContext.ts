@@ -8,21 +8,19 @@ import {
 } from "common/src/DataStructures.ts";
 import {
   AccessibilityType,
-  EdgesByFloor,
   EditorMode,
-  NodesByFloor,
   NodeWithAssociatedEdges,
   OldNewEdge,
 } from "common/src/types/map_page_types.ts";
 import { OldNewNode } from "common/src/types/map_page_types.ts";
+import GraphFrontend from "./GraphFrontend.ts";
 
 interface MapContextType {
   startNode: Node | null;
   endNode: Node | null;
 
-  nodesByFloor: NodesByFloor | null;
-  edgesByFloor: EdgesByFloor | null;
   paths: Array<Path>;
+  graph: GraphFrontend | null;
 
   startFloor: FloorType;
   endFloor: FloorType;
@@ -55,9 +53,8 @@ interface MapContextType {
   setStartNode: (node: Node | null) => void;
   setEndNode: (node: Node | null) => void;
 
-  setNodesByFloor: (nodesByFloor: NodesByFloor | null) => void;
-  setEdgesByFloor: (edgesByFloor: EdgesByFloor | null) => void;
   setPaths: (paths: Array<Path>) => void;
+  setGraph: (graph: GraphFrontend | null) => void;
 
   setStartFloor: (floor: FloorType) => void;
   setEndFloor: (floor: FloorType) => void;

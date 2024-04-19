@@ -2,8 +2,6 @@ import React, { ReactNode, useState } from "react";
 import {
   AccessibilityType,
   EditorMode,
-  NodesByFloor,
-  EdgesByFloor,
   NodeWithAssociatedEdges,
   OldNewEdge,
   OldNewNode,
@@ -16,6 +14,7 @@ import {
   Path,
 } from "common/src/DataStructures.ts";
 import MapContext from "./MapContext.ts";
+import GraphFrontend from "./GraphFrontend.ts";
 
 interface MapProviderProps {
   children: ReactNode;
@@ -25,8 +24,6 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [startNode, setStartNode] = useState<Node | null>(null);
   const [endNode, setEndNode] = useState<Node | null>(null);
 
-  const [nodesByFloor, setNodesByFloor] = useState<NodesByFloor | null>(null);
-  const [edgesByFloor, setEdgesByFloor] = useState<EdgesByFloor | null>(null);
   const [paths, setPaths] = useState<Array<Path>>(new Array<Path>());
 
   const [currentFloor, setCurrentFloor] = useState<FloorType>(FloorType.first);
@@ -70,6 +67,7 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   );
 
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
+  const [graph, setGraph] = useState<GraphFrontend | null>(null);
 
   const value = {
     startNode,
@@ -77,10 +75,6 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     endNode,
     setEndNode,
 
-    nodesByFloor,
-    setNodesByFloor,
-    edgesByFloor,
-    setEdgesByFloor,
     paths,
     setPaths,
 
@@ -129,6 +123,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     unsavedChanges,
     setUnsavedChanges,
+
+    graph,
+    setGraph,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

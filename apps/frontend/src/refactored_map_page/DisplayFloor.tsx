@@ -1,5 +1,6 @@
 import { BuildingMap, FloorMap } from "common/src/BuildingClasses.ts";
 import { FloorType, Node, Edge } from "common/src/DataStructures.ts";
+import GraphFrontend from "./GraphFrontend.ts";
 import React, {
   CSSProperties,
   useCallback,
@@ -9,10 +10,7 @@ import React, {
 } from "react";
 import {
   EdgeDisplayProps,
-  EdgesByFloor,
   NodeDisplayProps,
-  NodesByFloor,
-  NodesOptionsRequest,
   PathDisplayProps,
   Scaling,
 } from "common/src/types/map_page_types.ts";
@@ -24,46 +22,6 @@ import EdgeDisplay from "./DisplayEdge.tsx";
 
 export default FloorDisplay;
 
-function getNodesByFloor(
-  allNodes: NodesByFloor | null,
-  floor: FloorType,
-): Array<Node> {
-  if (!allNodes) return [];
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = allNodes;
-  switch (floor) {
-    case FloorType.first:
-      return firstFloor;
-    case FloorType.second:
-      return secondFloor;
-    case FloorType.third:
-      return thirdFloor;
-    case FloorType.L1:
-      return L1;
-    default:
-      return L2;
-  }
-}
-
-function getEdgesByFloor(
-  allEdges: EdgesByFloor | null,
-  floor: FloorType,
-): Array<Edge> {
-  if (!allEdges) return [];
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = allEdges;
-  switch (floor) {
-    case FloorType.first:
-      return firstFloor;
-    case FloorType.second:
-      return secondFloor;
-    case FloorType.third:
-      return thirdFloor;
-    case FloorType.L1:
-      return L1;
-    default:
-      return L2;
-  }
-}
-
 const buildingMap: BuildingMap = new BuildingMap([
   new FloorMap("00_thelowerlevel1.png", FloorType.L1),
   new FloorMap("00_thelowerlevel2.png", FloorType.L2),
@@ -73,48 +31,22 @@ const buildingMap: BuildingMap = new BuildingMap([
 ]);
 
 function FloorDisplay() {
-  const {
-    currentFloor,
-    nodesByFloor,
-    setNodesByFloor,
-    edgesByFloor,
-    setEdgesByFloor,
-    showNodes,
-  } = useMapContext();
+  const { currentFloor, showNodes, setGraph, graph } = useMapContext();
 
   useEffect(() => {
-    async function getNodes(): Promise<void> {
+    async function getGraph(): Promise<void> {
       try {
-        const nodesOptionsRequest: NodesOptionsRequest = {
-          includeHallways: false,
-          byFloors: true,
-          showAllNodes: showNodes,
-        };
-        const currentNodes: NodesByFloor = (
-          await axios.post("/api/nodes", nodesOptionsRequest)
-        ).data as NodesByFloor;
-        setNodesByFloor(currentNodes);
+        const edges: Array<Edge> = (await axios.get("/api/edges"))
+          .data as Array<Edge>;
+        const graph: GraphFrontend = new GraphFrontend();
+        graph.populateGraph(edges);
+        setGraph(graph);
       } catch (error) {
         console.error("Failed to fetch nodes data:", error);
       }
     }
-
-    getNodes();
-  }, [setNodesByFloor, showNodes]);
-
-  useEffect(() => {
-    async function getEdges(): Promise<void> {
-      try {
-        const edgesByfloor: EdgesByFloor = (await axios.get("/api/edges"))
-          .data as EdgesByFloor;
-        setEdgesByFloor(edgesByfloor);
-      } catch (error) {
-        console.error("Failed to fetch edges data:", error);
-      }
-    }
-
-    getEdges();
-  }, [setEdgesByFloor]);
+    getGraph();
+  }, [setGraph, showNodes]);
 
   const IMAGE_WIDTH: number = 5000;
   const IMAGE_HEIGHT: number = 3400;
@@ -228,13 +160,17 @@ function FloorDisplay() {
         alt={"Error"}
         onLoad={handleImageLoad}
       ></img>
-      {getNodesByFloor(nodesByFloor, currentFloor).map((node) => (
-        <NodeDisplay {...nodeDisplayProps(node)} />
-      ))}
+      {graph
+        ? graph
+            .getNodesByFloor(currentFloor, false)
+            .map((node) => <NodeDisplay {...nodeDisplayProps(node)} />)
+        : null}
       <svg style={svgStyle}>
-        {getEdgesByFloor(edgesByFloor, currentFloor).map((edge) => (
-          <EdgeDisplay {...edgeDisplayProps(edge)} />
-        ))}
+        {graph
+          ? graph
+              .getEdgesByFloorAll(currentFloor)
+              .map((edge) => <EdgeDisplay {...edgeDisplayProps(edge)} />)
+          : null}
       </svg>
       <PathDisplay {...pathDisplayProps()} />
     </div>

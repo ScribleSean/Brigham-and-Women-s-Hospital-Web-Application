@@ -88,17 +88,23 @@ export class Graph {
     const nodes: Array<Node> = new Array<Node>();
     const keys: Array<Node> = Array.from(this.adjList.keys());
     for (const node of keys) {
-      nodes.push(node);
+      if (!nodes.map((node) => node.ID).includes(node.ID)) {
+        nodes.push(node);
+      }
     }
     return nodes;
   }
 
-  private getEdgesAll(): Array<Edge> {
+  public getEdgesAll(): Array<Edge> {
     const edges: Array<Edge> = new Array<Edge>();
     const keys: Array<Node> = Array.from(this.adjList.keys());
     for (const node of keys) {
       const edgesFromNode: Array<Edge> = this.getEdgesFromNode(node);
-      edgesFromNode.forEach((edge) => edges.push(edge));
+      edgesFromNode.forEach((edge) => {
+        if (!edges.map((edge) => edge.ID).includes(edge.ID)) {
+          edges.push(edge);
+        }
+      });
     }
     return edges;
   }

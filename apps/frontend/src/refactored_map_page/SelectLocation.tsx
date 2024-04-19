@@ -5,28 +5,17 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import "../map_page/LocationSelector.css";
 import { Node } from "common/src/DataStructures.ts";
 import { useMapContext } from "./MapContext.ts";
-import { EditorMode, NodesByFloor } from "common/src/types/map_page_types.ts";
-
-function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
-  const nodes: Array<Node> = new Array<Node>();
-  if (!nodesByFloor) return nodes;
-  nodesByFloor.L2.forEach((node) => nodes.push(node));
-  nodesByFloor.L1.forEach((node) => nodes.push(node));
-  nodesByFloor.firstFloor.forEach((node) => nodes.push(node));
-  nodesByFloor.secondFloor.forEach((node) => nodes.push(node));
-  nodesByFloor.thirdFloor.forEach((node) => nodes.push(node));
-  return nodes;
-}
+import { EditorMode } from "common/src/types/map_page_types.ts";
 
 function LocationSelector(): React.JSX.Element {
   const {
-    nodesByFloor,
     startNode,
     setStartNode,
     endNode,
     setEndNode,
     setCurrentFloor,
     editorMode,
+    graph,
   } = useMapContext();
 
   if (editorMode !== EditorMode.disabled) {
@@ -68,9 +57,16 @@ function LocationSelector(): React.JSX.Element {
         <Autocomplete
           value={startNode}
           onChange={(event, newValue) => handleLocationChange(newValue)}
-          options={nodesByFloorsToNodes(nodesByFloor)
-            .sort((a, b) => a.longName.localeCompare(b.longName))
-            .filter((node) => node.type !== "ELEV" && node.type !== "STAI")}
+          options={
+            graph
+              ? graph
+                  .getNodesAll()
+                  .sort((a, b) => a.longName.localeCompare(b.longName))
+                  .filter(
+                    (node) => node.type !== "ELEV" && node.type !== "STAI",
+                  )
+              : new Array<Node>()
+          }
           getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField
@@ -118,9 +114,16 @@ function LocationSelector(): React.JSX.Element {
         <Autocomplete
           value={endNode}
           onChange={(event, newValue) => handleDestinationChange(newValue)}
-          options={nodesByFloorsToNodes(nodesByFloor)
-            .sort((a, b) => a.longName.localeCompare(b.longName))
-            .filter((node) => node.type !== "ELEV" && node.type !== "STAI")}
+          options={
+            graph
+              ? graph
+                  .getNodesAll()
+                  .sort((a, b) => a.longName.localeCompare(b.longName))
+                  .filter(
+                    (node) => node.type !== "ELEV" && node.type !== "STAI",
+                  )
+              : new Array<Node>()
+          }
           getOptionLabel={(node) => node.longName}
           renderInput={(params) => (
             <TextField

@@ -1,8 +1,6 @@
 import {
   EditorMode,
   NodeDisplayProps,
-  NodesByFloor,
-  EdgesByFloor,
   OldNewNode,
 } from "common/src/types/map_page_types.ts";
 import React, { CSSProperties, useEffect, useState } from "react";
@@ -12,7 +10,6 @@ import {
   Node,
   NodeType,
   Path,
-  Edge,
 } from "common/src/DataStructures.ts";
 import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
@@ -47,116 +44,6 @@ function imageToDisplayCoordinates(
   };
 }
 
-function addNode(nodesByFloor: NodesByFloor, node: Node): NodesByFloor {
-  const L1: Array<Node> = nodesByFloor.L1;
-  const L2: Array<Node> = nodesByFloor.L2;
-  const firstFloor: Array<Node> = nodesByFloor.firstFloor;
-  const secondFloor: Array<Node> = nodesByFloor.secondFloor;
-  const thirdFloor: Array<Node> = nodesByFloor.thirdFloor;
-
-  switch (node.floor) {
-    case FloorType.L2:
-      L2.push(node);
-      break;
-    case FloorType.L1:
-      L1.push(node);
-      break;
-    case FloorType.first:
-      firstFloor.push(node);
-      break;
-    case FloorType.second:
-      secondFloor.push(node);
-      break;
-    case FloorType.third:
-      thirdFloor.push(node);
-      break;
-  }
-  return {
-    L2: L2,
-    L1: L1,
-    firstFloor: firstFloor,
-    secondFloor: secondFloor,
-    thirdFloor: thirdFloor,
-  };
-}
-
-function deleteNode(
-  nodesByFloor: NodesByFloor,
-  nodeToBeDeleted: Node,
-): NodesByFloor {
-  return {
-    L2: nodesByFloor.L2.filter((node: Node) => node.ID !== nodeToBeDeleted.ID),
-    L1: nodesByFloor.L1.filter((node: Node) => node.ID !== nodeToBeDeleted.ID),
-    firstFloor: nodesByFloor.firstFloor.filter(
-      (node: Node) => node.ID !== nodeToBeDeleted.ID,
-    ),
-    secondFloor: nodesByFloor?.secondFloor.filter(
-      (node: Node) => node.ID !== nodeToBeDeleted.ID,
-    ),
-    thirdFloor: nodesByFloor?.thirdFloor.filter(
-      (node: Node) => node.ID !== nodeToBeDeleted.ID,
-    ),
-  };
-}
-
-function deleteAssociatedEdges(
-  edgesByFloor: EdgesByFloor,
-  nodeDeleted: Node,
-): EdgesByFloor {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-
-  const updatedFloors = floors.map((floor) =>
-    floor.filter((edge) => {
-      return (
-        edge.startNode.ID !== nodeDeleted.ID &&
-        edge.endNode.ID !== nodeDeleted.ID
-      );
-    }),
-  );
-
-  return {
-    L2: updatedFloors[0],
-    L1: updatedFloors[1],
-    firstFloor: updatedFloors[2],
-    secondFloor: updatedFloors[3],
-    thirdFloor: updatedFloors[4],
-  };
-}
-
-function editEdges(
-  edgesByFloor: EdgesByFloor,
-  nodeToBeEdited: Node,
-): EdgesByFloor {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-  floors.forEach((edges: Array<Edge>) => {
-    edges.forEach((edge: Edge) => {
-      if (edge.startNode.ID === nodeToBeEdited.ID) {
-        edge.startNode = nodeToBeEdited;
-      } else if (edge.endNode.ID === nodeToBeEdited.ID) {
-        edge.endNode = nodeToBeEdited;
-      }
-    });
-  });
-  return {
-    L2: floors[0],
-    L1: floors[1],
-    firstFloor: floors[2],
-    secondFloor: floors[3],
-    thirdFloor: floors[4],
-  };
-}
-
-/*
-function displayToImageCoordinates(x: number, scalingX: number, y: number, scalingY: number): { imageX: number; imageY: number } {
-  return {
-    imageX: x / scalingX,
-    imageY: y / scalingY
-  };
-}
-*/
-
 function sameNode(node1: Node | null, node2: Node | null) {
   if (node1 && node2) {
     return node1.ID == node2.ID;
@@ -176,9 +63,9 @@ function endBorderNode(node: Node, path: Path) {
 }
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
-  const widthScaling: number = props.scaling.widthScaling;
-  const heightScaling: number = props.scaling.heightScaling;
-  const node: Node = props.node;
+  const widthScaling = props.scaling.widthScaling;
+  const heightScaling = props.scaling.heightScaling;
+  const node = props.node;
   const {
     startNode,
     endNode,
@@ -190,16 +77,14 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     paths,
     directionsCounter,
     setDirectionsCounter,
-    nodesByFloor,
-    setNodesByFloor,
     nodesToBeDeleted,
     setNodesToBeDeleted,
     nodesToBeEdited,
     setNodesToBeEdited,
-    edgesByFloor,
-    setEdgesByFloor,
     showNodes,
     setUnsavedChanges,
+    graph,
+    setGraph,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -364,17 +249,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   };
 
   const handleDeleteNode = (deletedNode: Node): void => {
-    if (nodesByFloor && edgesByFloor) {
-      const newEdgesByFloor: EdgesByFloor = deleteAssociatedEdges(
-        edgesByFloor,
-        deletedNode,
-      );
-      const newNodesByFloor: NodesByFloor = deleteNode(
-        nodesByFloor,
-        deletedNode,
-      );
-      setNodesByFloor(newNodesByFloor);
-      setEdgesByFloor(newEdgesByFloor);
+    if (graph) {
+      setGraph(graph.deleteNode(node));
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
       setUnsavedChanges(true);
     }
@@ -423,30 +299,21 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         newNode: newNode,
       };
 
-      if (nodesByFloor && edgesByFloor) {
-        let updatedNodesByFloor: NodesByFloor = deleteNode(nodesByFloor, node);
-        updatedNodesByFloor = addNode(updatedNodesByFloor, newNode);
-        const updatedEdgesByFloor: EdgesByFloor = editEdges(
-          edgesByFloor,
-          newNode,
-        );
-        setNodesByFloor(updatedNodesByFloor);
-        setEdgesByFloor(updatedEdgesByFloor);
+      if (graph) {
+        setGraph(graph.editNode(node));
         setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
         setUnsavedChanges(true);
       }
       setIsSaved(false);
     }
   }, [
-    nodesByFloor,
-    setNodesByFloor,
+    graph,
+    setGraph,
     node,
     nodesToBeEdited,
     setNodesToBeEdited,
     editedNode,
     isSaved,
-    edgesByFloor,
-    setEdgesByFloor,
     tempNode,
     setUnsavedChanges,
   ]);
