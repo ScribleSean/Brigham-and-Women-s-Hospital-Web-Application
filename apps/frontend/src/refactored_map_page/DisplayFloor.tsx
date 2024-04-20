@@ -153,7 +153,7 @@ function FloorDisplay() {
     top: 0,
     left: 0,
     zIndex: 100,
-    pointerEvents: "visibleStroke",
+    pointerEvents: "none",
   };
 
   return (
