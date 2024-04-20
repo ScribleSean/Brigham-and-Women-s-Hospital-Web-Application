@@ -1,5 +1,5 @@
 import React from "react";
-import HeroPage from "./routes/HeroPage.tsx";
+// import HeroPage from "./routes/HeroPage.tsx";
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,6 +17,7 @@ import Banner from "./components/Banner.tsx";
 import Dashboard from "./routes/Dashboard.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
+import Platformer from "./games/Platformer.jsx";
 // import {useAuth0} from "@auth0/auth0-react";
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
       <ConditionalSideNavBar />
       <ConditionalBanner />
       <Routes>
-        <Route path="/" element={<HeroPage />} />
+        {/*<Route path="/" element={<HeroPage />} />*/}
+        <Route path="/" element={<Platformer />} />
         <Route path="/public-map" element={<PublicMap />} />
         <Route
           path="/csv-page"

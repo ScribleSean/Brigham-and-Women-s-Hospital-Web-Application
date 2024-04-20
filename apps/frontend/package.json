@@ -63,6 +63,8 @@
     "eslint-plugin-react-refresh": "^0.4.1",
     "prettier": "latest",
     "prettier-config-custom": "workspace:*",
+    "prop-types": "^15.5.7",
+    "react-redux": "^7.2.6",
     "sass": "^1.62.1",
     "tsconfig-custom": "workspace:*",
     "typescript": "^5.0.2",

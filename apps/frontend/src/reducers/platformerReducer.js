@@ -1,9 +1,23 @@
-const initialState = {
-  message: `It's easy to integrate React and Redux, isn't it?`,
-};
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import "./index.css";
+import Game from "./containers/Game";
+import reducer from "./reducers";
+import registerServiceWorker from "./registerServiceWorker";
 
-function reducer(state = initialState) {
-  return state;
-}
+ 
+const store = createStore(
+  reducer /* preloadedState, */,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
+ 
 
-export default reducer;
+ReactDOM.render(
+  <Provider store={store}>
+    <Game />
+  </Provider>,
+  document.getElementById("root"),
+);
+registerServiceWorker();
