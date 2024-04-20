@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, { useState, useEffect } from "react";
 import {
   EdgeDisplayProps,
   EditorMode,
@@ -6,17 +6,14 @@ import {
 } from "common/src/types/map_page_types.ts";
 import { Edge } from "common/src/data_structures/Edge.ts";
 import { Node } from "common/src/data_structures/Node.ts";
-import { SVGProps } from "react";
 import { useMapContext } from "./MapContext.ts";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   TextField,
   Button,
-  Box,
   Autocomplete,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -61,22 +58,9 @@ function EdgeDisplay(props: EdgeDisplayProps) {
 
   const red: string = "red";
 
-  function getPolylineProps(
-    coordinates: string,
-    strokeColor: string,
-  ): SVGProps<SVGPolylineElement> {
-    return {
-      points: coordinates,
-      stroke: strokeColor,
-      strokeWidth: "2",
-      fill: "none",
-      strokeLinejoin: "bevel",
-    };
-  }
-
   const handleDeleteEdge = (deletedEdge: Edge): void => {
     if (graph) {
-      setGraph(graph.deleteEdge(deletedEdge));
+      setGraph(graph.removeEdge(deletedEdge));
       setEdgesToBeDeleted([...edgesToBeDeleted, deletedEdge]);
       setUnsavedChanges(true);
     }
@@ -144,66 +128,67 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setEditedEdge(tempEdge);
   };
 
-  const polylineStyle: CSSProperties = {
-    zIndex: 10,
-    pointerEvents: "auto",
-    cursor: "pointer",
-  };
-
   return (
     showEdges &&
     editorMode !== EditorMode.disabled && (
       <>
-        <polyline
-          style={polylineStyle}
-          {...getPolylineProps(getEdgeCoordinates(edge), red)}
-          onClick={() => {
-            editShowModal(true);
-          }}
-        />
+        <svg style={{ pointerEvents: "all" }}>
+          {" "}
+          {/* Ensure SVG allows pointer events */}
+          <polyline
+            style={{
+              stroke: "blue",
+              strokeWidth: 3,
+              cursor: "pointer",
+              pointerEvents: "visibleStroke",
+            }}
+            points={getEdgeCoordinates(edge)}
+            stroke={red}
+            strokeWidth="2"
+            fill="none"
+            strokeLinejoin="bevel"
+            onClick={() => {
+              console.log("Polyline clicked!"); // Debug: Console log to check click
+              editShowModal(true);
+            }}
+          />
+        </svg>
         <Dialog open={showModal} onClose={handleClose}>
-          <DialogTitle>Node Information</DialogTitle>
+          <DialogTitle>Edge Information</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              <TextField
-                margin="dense"
-                label="ID"
-                type="text"
-                fullWidth
-                name="ID"
-                value={edge.ID}
-              />
-              <Box>
-                <Autocomplete
-                  value={editedEdge.startNode.ID}
-                  onChange={(event, newValue: string | null) =>
-                    handleChange(event, newValue, "startNode")
-                  }
-                  options={
-                    graph
-                      ? graph.getNodesAll().map((node: Node) => node.ID)
-                      : new Array<string>()
-                  }
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Box>
-              <Box>
-                <Autocomplete
-                  value={editedEdge.endNode.ID}
-                  onChange={(event, newValue: string | null) =>
-                    handleChange(event, newValue, "endNode")
-                  }
-                  options={
-                    graph
-                      ? graph.getNodesAll().map((node: Node) => node.ID)
-                      : new Array<string>()
-                  }
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Box>
-            </DialogContentText>
+            <TextField
+              margin="dense"
+              label="ID"
+              type="text"
+              fullWidth
+              name="ID"
+              value={edge.ID}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <Autocomplete
+              value={editedEdge.startNode.ID}
+              onChange={(event, newValue) =>
+                handleChange(event, newValue, "startNode")
+              }
+              options={graph ? graph.getNodesAll().map((node) => node.ID) : []}
+              getOptionLabel={(option) => option}
+              renderInput={(params) => (
+                <TextField {...params} label="Start Node ID" />
+              )}
+            />
+            <Autocomplete
+              value={editedEdge.endNode.ID}
+              onChange={(event, newValue) =>
+                handleChange(event, newValue, "endNode")
+              }
+              options={graph ? graph.getNodesAll().map((node) => node.ID) : []}
+              getOptionLabel={(option) => option}
+              renderInput={(params) => (
+                <TextField {...params} label="End Node ID" />
+              )}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleSave}>Save</Button>

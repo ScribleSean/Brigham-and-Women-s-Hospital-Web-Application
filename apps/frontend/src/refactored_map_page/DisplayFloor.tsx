@@ -131,6 +131,10 @@ function FloorDisplay() {
     };
   }
 
+  useEffect(() => {
+    console.log("Updated graph state:", graph);
+  }, [graph]);
+
   const divStyleBig: CSSProperties = {
     width: "100vw",
   };
@@ -148,7 +152,8 @@ function FloorDisplay() {
     width: "100%",
     top: 0,
     left: 0,
-    zIndex: 2,
+    zIndex: 100,
+    pointerEvents: "visibleStroke",
   };
 
   return (
@@ -162,10 +167,15 @@ function FloorDisplay() {
       ></img>
       {graph
         ? graph
-            .getNodesByFloor(currentFloor, false)
+            .getNodesByFloorNoHallways(currentFloor)
             .map((node) => <NodeDisplay {...nodeDisplayProps(node)} />)
         : null}
-      <svg style={svgStyle}>
+      <svg
+        style={svgStyle}
+        onClick={() => {
+          console.log("adios");
+        }}
+      >
         {graph
           ? graph
               .getEdgesByFloorAll(currentFloor)

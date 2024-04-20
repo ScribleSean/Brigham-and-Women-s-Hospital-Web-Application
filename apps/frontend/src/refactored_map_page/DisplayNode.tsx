@@ -25,7 +25,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   TextField,
 } from "@mui/material";
@@ -250,7 +249,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const handleDeleteNode = (deletedNode: Node): void => {
     if (graph) {
-      setGraph(graph.deleteNode(node));
+      setGraph(graph.removeNode(node.ID));
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
       setUnsavedChanges(true);
     }
@@ -517,79 +516,81 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
           <Dialog open={showModal} onClose={handleClose}>
             <DialogTitle>Node Information</DialogTitle>
             <DialogContent>
-              <DialogContentText>
-                <TextField
-                  margin="dense"
-                  label="ID"
-                  type="text"
-                  fullWidth
-                  name="ID"
-                  value={node.ID}
-                />
-                <TextField
-                  margin="dense"
-                  label="X-Coordinate"
-                  type="text"
-                  fullWidth
-                  name="x"
-                  value={editedNode.x}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Y-Coordinate"
-                  type="text"
-                  fullWidth
-                  name="y"
-                  value={editedNode.y}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Floor"
-                  type="text"
-                  fullWidth
-                  name="floor"
-                  value={editedNode.floor}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Building"
-                  type="text"
-                  fullWidth
-                  name="building"
-                  value={editedNode.building}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Type"
-                  type="text"
-                  fullWidth
-                  name="type"
-                  value={editedNode.type}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Long Name"
-                  type="text"
-                  fullWidth
-                  name="longName"
-                  value={editedNode.longName}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Short Name"
-                  type="text"
-                  fullWidth
-                  name="shortName"
-                  value={editedNode.shortName}
-                  onChange={handleChange}
-                />
-              </DialogContentText>
+              {/* Directly place TextField components inside DialogContent */}
+              <TextField
+                margin="dense"
+                label="ID"
+                type="text"
+                fullWidth
+                name="ID"
+                value={node.ID}
+                InputProps={{
+                  readOnly: true, // Make ID field read-only if you don't want it to be editable
+                }}
+              />
+              <TextField
+                margin="dense"
+                label="X-Coordinate"
+                type="text"
+                fullWidth
+                name="x"
+                value={editedNode.x}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Y-Coordinate"
+                type="text"
+                fullWidth
+                name="y"
+                value={editedNode.y}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Floor"
+                type="text"
+                fullWidth
+                name="floor"
+                value={editedNode.floor}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Building"
+                type="text"
+                fullWidth
+                name="building"
+                value={editedNode.building}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Type"
+                type="text"
+                fullWidth
+                name="type"
+                value={editedNode.type}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Long Name"
+                type="text"
+                fullWidth
+                name="longName"
+                value={editedNode.longName}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Short Name"
+                type="text"
+                fullWidth
+                name="shortName"
+                value={editedNode.shortName}
+                onChange={handleChange}
+              />
             </DialogContent>
             <DialogActions>
               <Button onClick={handleSave}>Save</Button>
@@ -625,79 +626,77 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               <Dialog open={showModal} onClose={handleClose}>
                 <DialogTitle>Node Information</DialogTitle>
                 <DialogContent>
-                  <DialogContentText>
-                    <TextField
-                      margin="dense"
-                      label="ID"
-                      type="text"
-                      fullWidth
-                      name="ID"
-                      value={node.ID}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="X-Coordinate"
-                      type="text"
-                      fullWidth
-                      name="x"
-                      value={editedNode.x}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Y-Coordinate"
-                      type="text"
-                      fullWidth
-                      name="y"
-                      value={editedNode.y}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Floor"
-                      type="text"
-                      fullWidth
-                      name="floor"
-                      value={editedNode.floor}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Building"
-                      type="text"
-                      fullWidth
-                      name="building"
-                      value={editedNode.building}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Type"
-                      type="text"
-                      fullWidth
-                      name="type"
-                      value={editedNode.type}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Long Name"
-                      type="text"
-                      fullWidth
-                      name="longName"
-                      value={editedNode.longName}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Short Name"
-                      type="text"
-                      fullWidth
-                      name="shortName"
-                      value={editedNode.shortName}
-                      onChange={handleChange}
-                    />
-                  </DialogContentText>
+                  <TextField
+                    margin="dense"
+                    label="ID"
+                    type="text"
+                    fullWidth
+                    name="ID"
+                    value={node.ID}
+                  />
+                  <TextField
+                    margin="dense"
+                    label="X-Coordinate"
+                    type="text"
+                    fullWidth
+                    name="x"
+                    value={editedNode.x}
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    margin="dense"
+                    label="Y-Coordinate"
+                    type="text"
+                    fullWidth
+                    name="y"
+                    value={editedNode.y}
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    margin="dense"
+                    label="Floor"
+                    type="text"
+                    fullWidth
+                    name="floor"
+                    value={editedNode.floor}
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    margin="dense"
+                    label="Building"
+                    type="text"
+                    fullWidth
+                    name="building"
+                    value={editedNode.building}
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    margin="dense"
+                    label="Type"
+                    type="text"
+                    fullWidth
+                    name="type"
+                    value={editedNode.type}
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    margin="dense"
+                    label="Long Name"
+                    type="text"
+                    fullWidth
+                    name="longName"
+                    value={editedNode.longName}
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    margin="dense"
+                    label="Short Name"
+                    type="text"
+                    fullWidth
+                    name="shortName"
+                    value={editedNode.shortName}
+                    onChange={handleChange}
+                  />
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleSave}>Save</Button>
