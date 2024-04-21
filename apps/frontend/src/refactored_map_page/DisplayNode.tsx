@@ -176,6 +176,9 @@ function endBorderNode(node: Node, path: Path) {
 }
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
+  //This constant is to ensure the menu doesn't open when dragging a node.
+  const [dragged, setDragged] = useState(false);
+
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
   const node: Node = props.node;
@@ -276,21 +279,25 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   }
 
   const handleNodeSelection = (node: Node): void => {
-    if (editorMode !== EditorMode.disabled) {
-      setShowModal(true);
-      setTempNode(makeNode(editedNode));
-      return;
-    }
-    if (!startNode) {
-      setStartNode(node);
-      //console.log("Start node: " + node + ", End node: " + null);
-    } else if (!endNode) {
-      setEndNode(node);
-      //console.log("Start node: " + startNode + ", End node: " + node);
+    if (!dragged) {
+      if (editorMode !== EditorMode.disabled) {
+        setShowModal(true);
+        setTempNode(makeNode(editedNode));
+        return;
+      }
+      if (!startNode) {
+        setStartNode(node);
+        //console.log("Start node: " + node + ", End node: " + null);
+      } else if (!endNode) {
+        setEndNode(node);
+        //console.log("Start node: " + startNode + ", End node: " + node);
+      } else {
+        setStartNode(node);
+        setEndNode(null);
+        //console.log("Start node: " + node + ", End node: " + null);
+      }
     } else {
-      setStartNode(node);
-      setEndNode(null);
-      //console.log("Start node: " + node + ", End node: " + null);
+      handleStopDrag();
     }
   };
 
@@ -348,10 +355,12 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   };
 
   const handleStartDrag = () => {
+    setDragged(true);
     setDisableZoomPanning(true);
   };
 
   const handleStopDrag = () => {
+    setDragged(false);
     setDisableZoomPanning(false);
   };
 
@@ -629,8 +638,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
           ) : !startNode || !endNode ? (
             <Draggable
               scale={scale}
-              onStart={handleStartDrag}
-              onStop={handleStopDrag}
+              onDrag={handleStartDrag}
               disabled={editorMode === EditorMode.disabled}
             >
               <button
@@ -737,11 +745,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               />
             </DialogActions>
           </Dialog>
-          <Draggable
-            scale={scale}
-            onStart={handleStartDrag}
-            onStop={handleStopDrag}
-          >
+          <Draggable scale={scale} onDrag={handleStartDrag}>
             <button
               className="node-selector"
               style={normalNodeStyle}
@@ -845,11 +849,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                   />
                 </DialogActions>
               </Dialog>
-              <Draggable
-                scale={scale}
-                onStart={handleStartDrag}
-                onStop={handleStopDrag}
-              >
+              <Draggable scale={scale} onDrag={handleStartDrag}>
                 <button
                   className="node-selector"
                   style={normalNodeStyle}
