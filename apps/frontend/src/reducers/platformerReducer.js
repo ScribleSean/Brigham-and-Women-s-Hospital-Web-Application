@@ -1,23 +1,18 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
-import "./index.css";
-import Game from "./containers/Game";
-import reducer from "./reducers";
-import registerServiceWorker from "./registerServiceWorker";
-
- 
-const store = createStore(
-  reducer /* preloadedState, */,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-);
- 
-
-ReactDOM.render(
-  <Provider store={store}>
-    <Game />
-  </Provider>,
-  document.getElementById("root"),
-);
-registerServiceWorker();
+// import { MOVE_CHARACTER } from '../game_actions/game_actions.js';
+// import moveCharacter from './moveCharacter';
+//
+// const initialState = {
+//   x:0,
+//   y:0,
+// };
+//
+// function reducer(state = initialState, action) {
+//   switch (action.type) {
+//     case MOVE_CHARACTER:
+//       return moveCharacter(state, action);
+//     default:
+//       return state;
+//   }
+// }
+//
+// export default reducer;

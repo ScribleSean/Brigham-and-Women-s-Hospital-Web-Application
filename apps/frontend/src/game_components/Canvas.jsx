@@ -1,50 +1,84 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { moveCharacter } from "../game_actions/game_actions.js";
+import React, { useEffect, useState, useRef } from "react";
 import PlatformerBG from "./PlatformerBG.jsx";
-import PlatformerGround from "./PlatformerGround.jsx";
+// import PlatformerGround from './PlatformerGround.jsx';
 
-const Canvas = ({ dispatch }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+const Canvas = () => {
+  const [position, setPosition] = useState({
+    x: window.innerWidth / -2 + 100,
+    y: 0,
+  });
+  const [velocity, setVelocity] = useState({ x: 0, y: 0 });
+  const animationRef = useRef();
 
+  //Sets velocity of circle upon key press
   useEffect(() => {
-    // Apply styles when component mounts
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.height = "100%";
+    const handleKeyDown = (event) => {
+      // Check if the keydown event is a repeat event
+      if (!event.repeat) {
+        let newVelocity = { ...velocity };
+        switch (event.key) {
+          case "ArrowUp":
+            newVelocity.y = -400;
+            break;
+          case "ArrowDown":
+            newVelocity.y = 400;
+            break;
+          case "ArrowLeft":
+            newVelocity.x = -400;
+            break;
+          case "ArrowRight":
+            newVelocity.x = 400;
+            break;
+          default:
+            break;
+        }
+        setVelocity(newVelocity);
+      }
+    };
 
-    const handleKeyPress = (event) => {
-      // Define the movement based on key press
-      let newX = position.x;
-      let newY = position.y;
+    //Stop the circle from moving when key is released
+    const handleKeyUp = (event) => {
+      let newVelocity = { ...velocity };
       switch (event.key) {
         case "ArrowUp":
-          newY -= 10;
-          break;
         case "ArrowDown":
-          newY += 10;
+          newVelocity.y = 0;
           break;
         case "ArrowLeft":
-          newX -= 10;
-          break;
         case "ArrowRight":
-          newX += 10;
+          newVelocity.x = 0;
           break;
         default:
           break;
       }
-      setPosition({ x: newX, y: newY });
-      dispatch(moveCharacter({ x: newX, y: newY }));
+      setVelocity(newVelocity);
     };
 
-    window.addEventListener("keydown", handleKeyPress);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
-      // Remove styles and event listener when component unmounts
-      document.body.style.overflow = null;
-      document.documentElement.style.height = null;
-      window.removeEventListener("keydown", handleKeyPress);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [dispatch, position]);
+  }, [velocity]);
+
+  //Smoothly updates circle position during movement
+  useEffect(() => {
+    const updatePosition = () => {
+      setPosition((prevPosition) => ({
+        x: prevPosition.x + velocity.x / 60, // Divide by FPS for smooth movement
+        y: prevPosition.y + velocity.y / 60,
+      }));
+      animationRef.current = requestAnimationFrame(updatePosition);
+    };
+
+    animationRef.current = requestAnimationFrame(updatePosition);
+
+    return () => {
+      cancelAnimationFrame(animationRef.current);
+    };
+  }, [velocity]);
 
   const viewBox = [
     window.innerWidth / -2,
@@ -60,10 +94,10 @@ const Canvas = ({ dispatch }) => {
       viewBox={viewBox}
     >
       <PlatformerBG />
-      <PlatformerGround />
+      {/*<PlatformerGround />*/}
       <circle cx={position.x} cy={position.y} r={50} />
     </svg>
   );
 };
 
-export default connect()(Canvas);
+export default Canvas;
