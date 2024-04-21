@@ -115,8 +115,8 @@ function FlowerDeliveryFields() {
     });
   };
 
-  const handleSubmit = async () => {
-    // e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // comment back out if it is only a gabe issue
     try {
       const response = await axios.post(
         "/api/flower-service-request",

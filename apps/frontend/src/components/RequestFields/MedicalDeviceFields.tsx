@@ -16,21 +16,39 @@ import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceReques
 
 function MedicalDeviceFields() {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
+  const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
+    [],
+  );
+
+  const fetchEmployeeEmail = async () => {
+    try {
+      const response = await axios.get("/api/employee-email-fetch");
+      const employeeEmails = response.data.map(
+        (employeeEmail: { employeeEmail: string }) =>
+          employeeEmail.employeeEmail,
+      );
+      setemployeeEmailOptions(employeeEmails);
+    } catch (error) {
+      console.error("Failed to fetch employee emails", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        const response = await axios.get("/api/room-name-fetch");
-        const nodeIDNames = response.data.map(
-          (location: { nodeID: string }) => location.nodeID,
-        );
-        setLocationOptions(nodeIDNames);
-      } catch (error) {
-        console.error("Failed to fetch locations", error);
-      }
-    };
+    fetchEmployeeEmail();
     fetchLocations();
   }, []);
+
+  const fetchLocations = async () => {
+    try {
+      const response = await axios.get("/api/room-name-fetch");
+      const nodeIDNames = response.data.map(
+        (location: { nodeID: string }) => location.nodeID,
+      );
+      setLocationOptions(nodeIDNames);
+    } catch (error) {
+      console.error("Failed to fetch locations", error);
+    }
+  };
 
   const deviceOptions = [
     "Stethoscope",
@@ -123,6 +141,15 @@ function MedicalDeviceFields() {
     }
   };
 
+  const handleEmployeeEmailAutocompleteChange = (value: string | null) => {
+    if (value) {
+      setFormData({
+        ...formData,
+        employeeEmail: value,
+      });
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       SRID: 0,
@@ -137,7 +164,9 @@ function MedicalDeviceFields() {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // comment back out if it is only a gabe issue
+
     try {
       const response = await axios.post(
         "/api/medical-device-service-request",
@@ -166,15 +195,17 @@ function MedicalDeviceFields() {
       <form onSubmit={handleSubmit}>
         <div className={`${styles.commonInputsContainer}`}>
           <div className={`${styles.doubleInputRow}`}>
-            <TextField
-              id={"employeeEmail"}
+            <Autocomplete
+              id="employeeEmail"
+              options={employeeEmailOptions}
               fullWidth
-              variant={"outlined"}
-              label={"Employee Name"}
-              sx={{ marginRight: "2%" }}
-              required
+              renderInput={(params) => (
+                <TextField {...params} label="Employee Email" required />
+              )}
               value={formData.employeeEmail}
-              onChange={handleTextFieldChange}
+              onChange={(e, value) =>
+                handleEmployeeEmailAutocompleteChange(value)
+              }
             />
             <Autocomplete
               disablePortal
