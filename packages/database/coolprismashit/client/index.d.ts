@@ -413,7 +413,7 @@ export namespace Prisma {
    * From https://github.com/sindresorhus/type-fest/
    * Matches a JSON array.
    */
-  export type JsonArray = Array<JsonValue>
+  export type JsonArray = Array<JsonValue>;
 
   /**
    * From https://github.com/sindresorhus/type-fest/
@@ -439,7 +439,7 @@ export namespace Prisma {
    * Matches a JSON array.
    * Unlike `JsonArray`, readonly arrays are assignable to this type.
    */
-  export type InputJsonArray = ReadonlyArray<InputJsonValue | null>
+  export type InputJsonArray = ReadonlyArray<InputJsonValue | null>;
 
   /**
    * Matches any valid value that can be used as an input for operations like

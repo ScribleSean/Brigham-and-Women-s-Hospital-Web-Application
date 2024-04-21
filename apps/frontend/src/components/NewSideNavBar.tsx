@@ -1,7 +1,7 @@
 import MapIcon from "@mui/icons-material/Map";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import StorageIcon from "@mui/icons-material/Storage";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import styles from "../styles/NewSideNavBar.module.css";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -78,7 +78,9 @@ function NewSideNavBar() {
         <div>
           <div
             className={`${styles.navButtons}`}
-            onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+            onClick={() =>
+              logout({ logoutParams: { returnTo: window.location.origin } })
+            }
           >
             <div className={`${styles.row} ${styles.logoutButton}`}>
               <LogoutIcon sx={{ fontSize: "35px" }} />
