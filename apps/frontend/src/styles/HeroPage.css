@@ -1,3 +1,7 @@
+.borders {
+  border: 3px solid #f700ff;
+}
+
 .image-area {
   background-image: url("../../public/brighamBG.png");
   background-position: center;

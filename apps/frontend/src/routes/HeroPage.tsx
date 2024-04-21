@@ -4,6 +4,8 @@ import "../styles/HeroPage.css";
 // import {Button} from "@mui/material";
 // @import "~animate.css/animate.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
+import HumidityIcon from "../../public/Humidty.png";
 
 function addAnimationClass(e: Event) {
   e.preventDefault(); // Prevent the default action (navigation)
@@ -40,13 +42,15 @@ function HeroPage() {
 
   return (
     <div className={"image-area"}>
-      <div className={"gradient row"}>
-        {/*Text*/}
-        <div className={"col-8"}>
-          <div className={"hero-text"}>
+      <div className={"gradient row "}>
+        {/*Hospital Text*/}
+        <div className={"col-8 border"}>
+          <div className={"hero-text borders"}>
             Welcome to Brigham and Women's Hospital
           </div>
-          <div className="carousel hero-text-p">
+
+          {/*Carousel*/}
+          <div className="carousel hero-text-p borders">
             <div>
               <p>
                 Helping our patients and their families get back to what matters
@@ -72,8 +76,8 @@ function HeroPage() {
           </div>
         </div>
 
-        {/*map function*/}
-        <div className={"col-4 d-flex justify-content-end"}>
+        {/*Go to map*/}
+        <div className={"col-4 d-flex justify-content-end borders"}>
           <a
             href={`${isAuthenticated ? "/dashboard" : "/public-map"}`}
             id={"toMapClump"}
@@ -93,9 +97,24 @@ function HeroPage() {
             ></ArrowCircleRightIcon>
             {/*<div className={"arrow"} ></div>*/}
           </a>
-          {/*<div className={"d-flex justify-content-start"}>*/}
-          {/*    <p> Staff Member? Log In</p>*/}
-          {/*</div>*/}
+        </div>
+
+        {/*admin login*/}
+        <div className={"d-flex justify-content-start borders"}>
+          <p> Staff Member? Log In</p>
+        </div>
+
+        {/*room settings display*/}
+        <div className={"borders"}>
+          <div>
+            <DeviceThermostatIcon sx={{ color: "#ffffff", fontSize: 55 }}>
+              {" "}
+            </DeviceThermostatIcon>
+          </div>
+
+          <div>
+            <img src={HumidityIcon} alt={"Image"} width={"50"} />
+          </div>
         </div>
       </div>
     </div>
