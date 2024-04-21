@@ -16,22 +16,28 @@ const Canvas = () => {
       // Check if the keydown event is a repeat event
       if (!event.repeat) {
         let newVelocity = { ...velocity };
-        switch (event.key) {
-          case "ArrowUp":
-            newVelocity.y = -400;
-            break;
-          case "ArrowDown":
-            newVelocity.y = 400;
-            break;
-          case "ArrowLeft":
-            newVelocity.x = -400;
-            break;
-          case "ArrowRight":
-            newVelocity.x = 400;
-            break;
-          default:
-            break;
+        if (event.key) {
+          switch (event.key) {
+            case "ArrowUp":
+              newVelocity.y = newVelocity.y - 400;
+              break;
+            case "ArrowDown":
+              newVelocity.y = newVelocity.y + 400;
+              break;
+            case "ArrowLeft":
+              newVelocity.x = newVelocity.x - 400;
+              break;
+            case "ArrowRight":
+              newVelocity.x = newVelocity.x + 400;
+              break;
+            default:
+              break;
+          }
+        } else {
+          newVelocity.y = 0;
+          newVelocity.x = 0;
         }
+
         setVelocity(newVelocity);
       }
     };
@@ -41,12 +47,16 @@ const Canvas = () => {
       let newVelocity = { ...velocity };
       switch (event.key) {
         case "ArrowUp":
+          newVelocity.y = newVelocity.y + 400;
+          break;
         case "ArrowDown":
-          newVelocity.y = 0;
+          newVelocity.y = newVelocity.y - 400;
           break;
         case "ArrowLeft":
+          newVelocity.x = newVelocity.x + 400;
+          break;
         case "ArrowRight":
-          newVelocity.x = 0;
+          newVelocity.x = newVelocity.x - 400;
           break;
         default:
           break;
