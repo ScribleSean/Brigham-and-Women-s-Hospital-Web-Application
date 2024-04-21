@@ -9,13 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-interface UserInfo {
-  name?: string;
-  role?: string;
-  email?: string;
-}
-
-function RightSide(props: UserInfo) {
+function RightSide() {
   const { isAuthenticated, user } = useAuth0();
   const userRoles = user ? user["http://localhost:3000/roles"] : [];
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -62,10 +56,7 @@ function RightSide(props: UserInfo) {
             horizontal: "center",
           }}
         >
-          <div className={`${styles.popover}`}>
-            <p className={`${styles.email}`}>{props.email}</p>
-            <LogoutButton />
-          </div>
+          <LogoutButton />
         </Popover>
       </div>
     );
@@ -85,7 +76,7 @@ function RightSide(props: UserInfo) {
   }
 }
 
-function Banner(props: UserInfo) {
+function Banner() {
   return (
     <>
       <div className={`${styles.banner}`}>
@@ -122,7 +113,7 @@ function Banner(props: UserInfo) {
             </IconButton>
           </Tooltip>
         </div>
-        <RightSide name={props.name} role={props.role} email={props.email} />
+        <RightSide />
       </div>
     </>
   );
