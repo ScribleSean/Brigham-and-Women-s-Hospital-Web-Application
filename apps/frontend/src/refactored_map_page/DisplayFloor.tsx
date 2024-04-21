@@ -31,7 +31,7 @@ const buildingMap: BuildingMap = new BuildingMap([
 ]);
 
 function FloorDisplay() {
-  const { currentFloor, showNodes, setGraph, graph } = useMapContext();
+  const { currentFloor, showNodes, setGraph, graph, scale } = useMapContext();
 
   useEffect(() => {
     async function getGraph(): Promise<void> {
@@ -83,7 +83,7 @@ function FloorDisplay() {
       window.addEventListener("resize", updateDimensions);
       return () => window.removeEventListener("resize", updateDimensions);
     }
-  });
+  }, [scale, updateDimensions]);
 
   // I optimized the image loading
   useEffect(() => {

@@ -44,20 +44,12 @@ function MapContents() {
 
   const { setScale, disableZoomPanning } = useMapContext();
 
-  const options = {
-    initialScale: 0.5,
-    minScale: 0.5,
-    maxScale: 10,
-    minPositionY: -200,
-  };
-
   const zoomWrapperProps = {
     disablePadding: true,
-    centerOnInit: false,
+    centerOnInit: true,
     limitToBounds: true,
-    doubleClick: { disabled: false },
+    doubleClick: { disabled: true },
     disabled: disableZoomPanning,
-    options: options,
   };
 
   function handleScaleChange(event: ReactZoomPanPinchRef) {

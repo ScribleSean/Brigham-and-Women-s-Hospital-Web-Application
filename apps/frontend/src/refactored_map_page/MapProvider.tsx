@@ -69,6 +69,10 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
   const [graph, setGraph] = useState<GraphFrontend | null>(null);
 
+  const [resetZoomingFunction, setResetZoomingFunction] = useState(() => () => {
+    // This is a no-op function intentionally left empty as a placeholder.
+  });
+
   const value = {
     startNode,
     setStartNode,
@@ -126,6 +130,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     graph,
     setGraph,
+
+    resetZoomingFunction,
+    setResetZoomingFunction,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

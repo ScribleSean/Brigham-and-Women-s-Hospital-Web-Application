@@ -82,6 +82,8 @@ interface MapContextType {
   setEdgesToBeAdded: (edges: Array<Edge>) => void;
 
   setUnsavedChanges: (hasChanged: boolean) => void;
+  resetZoomingFunction: () => void;
+  setResetZoomingFunction: (func: () => void) => void;
 }
 
 const MapContext = createContext<MapContextType | undefined>(undefined);

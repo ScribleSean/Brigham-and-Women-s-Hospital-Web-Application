@@ -1,4 +1,5 @@
 import "../map_page/MapWrapper.css";
+import { useRef, useEffect } from "react";
 import { useMapContext } from "./MapContext.ts";
 import {
   TransformWrapper,
@@ -22,7 +23,7 @@ import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
 import { Box } from "@mui/material";
 
 const mapDiv: CSSProperties = {
-  height: "100%",
+  height: "100vh",
   maxWidth: "calc(100% - 55px)",
   float: "right",
   overflow: "hidden",
@@ -39,27 +40,37 @@ function AdminMap() {
 }
 
 function MapContents() {
-  const { setScale, disableZoomPanning } = useMapContext();
+  const {
+    setScale,
+    disableZoomPanning,
+    setResetZoomingFunction,
+    currentFloor,
+  } = useMapContext();
 
-  const options = {
-    initialScale: 0.5,
-    minScale: 0.5,
-    maxScale: 10,
-    minPositionY: -200,
-  };
+  const transformComponentRef = useRef<ReactZoomPanPinchRef>(null);
 
   const zoomWrapperProps = {
     disablePadding: true,
-    centerOnInit: false,
+    centerOnInit: true,
     limitToBounds: true,
-    doubleClick: { disabled: false },
+    doubleClick: { disabled: true },
     disabled: disableZoomPanning,
-    options: options,
   };
 
   function handleScaleChange(event: ReactZoomPanPinchRef) {
     setScale(event.instance.transformState.scale);
   }
+
+  useEffect(() => {
+    const resetMapTransform = () => {
+      if (transformComponentRef.current) {
+        console.log("changing");
+        transformComponentRef.current.resetTransform();
+      }
+    };
+    console.log(resetMapTransform);
+    setResetZoomingFunction(resetMapTransform);
+  }, [setResetZoomingFunction, transformComponentRef, currentFloor]);
 
   return (
     <div style={mapDiv}>
@@ -122,6 +133,7 @@ function MapContents() {
       <FloorSelector /> {/* button cluster to change floor */}
       <ConfirmChanges />
       <TransformWrapper
+        ref={transformComponentRef}
         {...zoomWrapperProps}
         onTransformed={(e) => handleScaleChange(e)}
         disablePadding={true}
