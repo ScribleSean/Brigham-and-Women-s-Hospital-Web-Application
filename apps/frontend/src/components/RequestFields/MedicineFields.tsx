@@ -171,6 +171,8 @@ function MedicineFields() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // comment out if this is a gabe issue
 
+    console.log(formData);
+
     try {
       const response = await axios.post(
         "/api/medical-device-service-request",
