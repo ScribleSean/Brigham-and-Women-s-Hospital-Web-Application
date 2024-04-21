@@ -1,5 +1,5 @@
 import styles from "../styles/Banner.module.css";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { Popover } from "@mui/material";
 import React from "react";
@@ -94,29 +94,33 @@ function Banner(props: UserInfo) {
             <img src="/logo.png" alt="logo" className={`${styles.logo}`} />
           </a>
           <h5 className={`${styles.title}`}>Brigham & Women's Hospital</h5>
-          <IconButton
-            sx={{
-              color: "#012d5a",
-              "&:hover": {
-                color: "#1665c0",
-              },
-              ml: "8px",
-            }}
-            href={"/about"}
-          >
-            <InfoOutlinedIcon />
-          </IconButton>
-          <IconButton
-            sx={{
-              color: "#012d5a",
-              "&:hover": {
-                color: "#1665c0",
-              },
-            }}
-            href={"/credits"}
-          >
-            <CopyrightIcon />
-          </IconButton>
+          <Tooltip title={"About"} arrow>
+            <IconButton
+              sx={{
+                color: "#012d5a",
+                "&:hover": {
+                  color: "#1665c0",
+                },
+                ml: "8px",
+              }}
+              href={"/about"}
+            >
+              <InfoOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={"Credits"} arrow>
+            <IconButton
+              sx={{
+                color: "#012d5a",
+                "&:hover": {
+                  color: "#1665c0",
+                },
+              }}
+              href={"/credits"}
+            >
+              <CopyrightIcon />
+            </IconButton>
+          </Tooltip>
         </div>
         <RightSide name={props.name} role={props.role} email={props.email} />
       </div>
