@@ -8767,7 +8767,12 @@ var Do = I((ZK, CB) => {
           : (i[Gn] && ((i[Gn] = !1), jA(n)), g ? mt.ERROR.PAUSED : 0);
       }
       onBody(A) {
-        const { client: t, socket: r, statusCode: n, maxResponseSize: i } = this;
+        const {
+          client: t,
+          socket: r,
+          statusCode: n,
+          maxResponseSize: i,
+        } = this;
         if (r.destroyed) return -1;
         const o = t[be][t[Fe]];
         if (
@@ -11306,7 +11311,11 @@ var tE = I((QO, AE) => {
               const c = A(g);
               if (typeof c != "object")
                 throw new gt("reply options callback must return an object");
-              const { statusCode: l, data: u = "", responseOptions: E = {} } = c;
+              const {
+                statusCode: l,
+                data: u = "",
+                responseOptions: E = {},
+              } = c;
               return (
                 this.validateReplyParameters(l, u, E),
                 { ...this.createMockScopeDispatchData(l, u, E) }
@@ -20472,7 +20481,8 @@ You very likely have the wrong "binaryTarget" defined in the schema.prisma file.
             throw ta(c.errors[0], this.clientVersion);
           })
           .catch(async (c) => {
-            const { error: l, shouldRetry: u } = await this.handleRequestError(c);
+            const { error: l, shouldRetry: u } =
+              await this.handleRequestError(c);
             if (u && !o && i <= E0)
               return this.requestBatch(t, {
                 traceparent: r,
@@ -21665,7 +21675,9 @@ ${(0, en.default)(
     }
     validate(A, t = !1, r, n, i) {
       A || (A = {});
-      const o = this.children.filter((f) => f.hasInvalidChild || f.hasInvalidArg);
+      const o = this.children.filter(
+        (f) => f.hasInvalidChild || f.hasInvalidArg,
+      );
       if (o.length === 0) return;
       const s = [],
         a = [],
@@ -22069,12 +22081,10 @@ ${(0, en.default)(r.toString(), es)}
       ? A.concat(
           this.value.flatMap((t, r) =>
             t instanceof aA
-              ? t
-                  .collectErrors()
-                  .map((n) => ({
-                    ...n,
-                    path: [this.key, String(r), ...n.path],
-                  }))
+              ? t.collectErrors().map((n) => ({
+                  ...n,
+                  path: [this.key, String(r), ...n.path],
+                }))
               : t instanceof gA
                 ? t
                     .collectErrors()
@@ -22717,7 +22727,8 @@ function oh({ field: e, data: A }) {
       r.schemaField &&
       r.schemaField.outputType.location === "outputObjectTypes"
     )
-      if (Array.isArray(A)) for (const i of A) oh({ field: r, data: i[r.name] });
+      if (Array.isArray(A))
+        for (const i of A) oh({ field: r, data: i[r.name] });
       else oh({ field: r, data: A[r.name] });
   }
   return A;
@@ -24673,7 +24684,10 @@ var PA = class {
         : new TypeError(
             `Expected ${A.length} strings to have ${A.length - 1} values`,
           );
-    const r = t.reduce((o, s) => o + (s instanceof PA ? s.values.length : 1), 0);
+    const r = t.reduce(
+      (o, s) => o + (s instanceof PA ? s.values.length : 1),
+      0,
+    );
     (this.values = new Array(r)),
       (this.strings = new Array(r + 1)),
       (this.strings[0] = A[0]);
@@ -25091,7 +25105,11 @@ var UJ = ye("prisma:client:request_handler"),
         (this.client = A),
         (this.dataloader = new nc({
           batchLoader: (r) => {
-            const { transaction: n, protocolEncoder: i, otelParentCtx: o } = r[0],
+            const {
+                transaction: n,
+                protocolEncoder: i,
+                otelParentCtx: o,
+              } = r[0],
               s = i.createBatch(r.map((c) => c.protocolMessage)),
               a = this.client._tracingHelper.getTraceParent(o),
               g = r.some((c) => c.protocolMessage.isWrite());
@@ -25103,7 +25121,8 @@ var UJ = ye("prisma:client:request_handler"),
             });
           },
           singleLoader: (r) => {
-            const n = r.transaction?.kind === "itx" ? Vw(r.transaction) : void 0;
+            const n =
+              r.transaction?.kind === "itx" ? Vw(r.transaction) : void 0;
             return this.client._engine.request(
               r.protocolMessage.toEngineQuery(),
               {
