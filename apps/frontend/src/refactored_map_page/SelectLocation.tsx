@@ -72,7 +72,10 @@ function LocationSelector(): React.JSX.Element {
                   .getNodesAll()
                   .sort((a, b) => a.longName.localeCompare(b.longName))
                   .filter(
-                    (node) => node.type !== "ELEV" && node.type !== "STAI",
+                    (node) =>
+                      node.type !== "ELEV" &&
+                      node.type !== "STAI" &&
+                      node.type !== "HALL",
                   )
               : new Array<Node>()
           }
@@ -108,7 +111,10 @@ function LocationSelector(): React.JSX.Element {
                   .getNodesAll()
                   .sort((a, b) => a.longName.localeCompare(b.longName))
                   .filter(
-                    (node) => node.type !== "ELEV" && node.type !== "STAI",
+                    (node) =>
+                      node.type !== "ELEV" &&
+                      node.type !== "STAI" &&
+                      node.type !== "HALL",
                   )
               : new Array<Node>()
           }

@@ -175,7 +175,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
               options={graph ? graph.getNodesAll().map((node) => node.ID) : []}
               getOptionLabel={(option) => option}
               renderInput={(params) => (
-                <TextField {...params} label="Start Node ID" />
+                <TextField {...params} label="Start Node ID" fullWidth />
               )}
             />
             <Autocomplete
@@ -186,7 +186,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
               options={graph ? graph.getNodesAll().map((node) => node.ID) : []}
               getOptionLabel={(option) => option}
               renderInput={(params) => (
-                <TextField {...params} label="End Node ID" />
+                <TextField {...params} label="End Node ID" fullWidth />
               )}
             />
           </DialogContent>

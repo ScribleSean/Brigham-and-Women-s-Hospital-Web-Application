@@ -331,10 +331,17 @@ export default class GraphFrontend {
   }
 
   public getNodesAll(): Array<Node> {
-    const nodes: Array<Node> = new Array<Node>();
-    for (const floor of this.adjLists.keys()) {
-      nodes.concat(this.getNodesByFloor(floor));
-    }
+    const nodes = new Array<Node>();
+    Array.from(this.adjLists.keys()).forEach((floorType: FloorType) => {
+      const floorMap = this.adjLists.get(floorType);
+      if (!floorMap) return;
+      Array.from(floorMap.keys()).forEach((nodeID) => {
+        const node: Node | undefined = this.lookupTable.get(nodeID);
+        if (node) {
+          nodes.push(node);
+        }
+      });
+    });
     return nodes;
   }
 
