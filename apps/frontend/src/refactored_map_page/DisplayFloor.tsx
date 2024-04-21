@@ -131,10 +131,6 @@ function FloorDisplay() {
     };
   }
 
-  useEffect(() => {
-    console.log("Updated graph state:", graph);
-  }, [graph]);
-
   const divStyleBig: CSSProperties = {
     width: "100vw",
   };
@@ -167,7 +163,7 @@ function FloorDisplay() {
       ></img>
       {graph
         ? graph
-            .getNodesByFloorNoHallways(currentFloor)
+            .getNodesByFloor(currentFloor)
             .map((node) => <NodeDisplay {...nodeDisplayProps(node)} />)
         : null}
       <svg

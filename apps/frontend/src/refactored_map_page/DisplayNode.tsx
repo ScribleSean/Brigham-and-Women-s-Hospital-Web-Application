@@ -339,7 +339,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       };
 
       if (graph) {
-        setGraph(graph.editNode(node));
+        setGraph(graph.editNode(editedNode));
         setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
         setUnsavedChanges(true);
       }
@@ -518,35 +518,37 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
             )}
         </>
       )}
-      {node.type !== NodeType.ELEV && node.type !== NodeType.STAI && (
-        <>
-          {sameNode(startNode, node) ? (
-            <PlaceIcon
-              className="pulseGreen"
-              style={startNodeStyle}
-              onClick={() => handleNodeSelection(node)}
-            />
-          ) : sameNode(endNode, node) ? (
-            <GpsFixedIcon
-              className={triggerRed ? "pulseRed" : "none"}
-              style={endNodeStyle}
-              onClick={() => handleNodeSelection(node)}
-            />
-          ) : !startNode || !endNode ? (
-            <Draggable
-              scale={scale}
-              onDrag={handleStartDrag}
-              disabled={editorMode === EditorMode.disabled}
-            >
-              <button
-                className="none"
-                style={normalNodeStyle}
+      {node.type !== NodeType.ELEV &&
+        node.type !== NodeType.STAI &&
+        node.type !== NodeType.HALL && (
+          <>
+            {sameNode(startNode, node) ? (
+              <PlaceIcon
+                className="pulseGreen"
+                style={startNodeStyle}
                 onClick={() => handleNodeSelection(node)}
               />
-            </Draggable>
-          ) : null}
-        </>
-      )}
+            ) : sameNode(endNode, node) ? (
+              <GpsFixedIcon
+                className={triggerRed ? "pulseRed" : "none"}
+                style={endNodeStyle}
+                onClick={() => handleNodeSelection(node)}
+              />
+            ) : !startNode || !endNode ? (
+              <Draggable
+                scale={scale}
+                onDrag={handleStartDrag}
+                disabled={editorMode === EditorMode.disabled}
+              >
+                <button
+                  className="none"
+                  style={normalNodeStyle}
+                  onClick={() => handleNodeSelection(node)}
+                />
+              </Draggable>
+            ) : null}
+          </>
+        )}
     </>
   ) : (
     <div>
