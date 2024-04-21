@@ -62,10 +62,10 @@ function endBorderNode(node: Node, path: Path) {
 }
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
-    const [dragged, setDragged] = useState(false);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [dragged, setDragged] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-    const widthScaling = props.scaling.widthScaling;
+  const widthScaling = props.scaling.widthScaling;
   const heightScaling = props.scaling.heightScaling;
   const node = props.node;
   const {
@@ -162,31 +162,30 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     return false;
   }
 
-    const handleNodeSelection = (node: Node): void => {
-        if (!dragged) {
-            if (editorMode !== EditorMode.disabled) {
-                setShowModal(true);
-                setTempNode(makeNode(editedNode));
-                return;
-            }
-            if (!startNode) {
-                setStartNode(node);
-                //console.log("Start node: " + node + ", End node: " + null);
-            } else if (!endNode) {
-                setEndNode(node);
-                //console.log("Start node: " + startNode + ", End node: " + node);
-            } else {
-                setStartNode(node);
-                setEndNode(null);
-                //console.log("Start node: " + node + ", End node: " + null);
-            }
-        } else {
-            handleStopDrag();
-        }
-    };
+  const handleNodeSelection = (node: Node): void => {
+    if (!dragged) {
+      if (editorMode !== EditorMode.disabled) {
+        setShowModal(true);
+        setTempNode(makeNode(editedNode));
+        return;
+      }
+      if (!startNode) {
+        setStartNode(node);
+        //console.log("Start node: " + node + ", End node: " + null);
+      } else if (!endNode) {
+        setEndNode(node);
+        //console.log("Start node: " + startNode + ", End node: " + node);
+      } else {
+        setStartNode(node);
+        setEndNode(null);
+        //console.log("Start node: " + node + ", End node: " + null);
+      }
+    } else {
+      handleStopDrag();
+    }
+  };
 
-
-    const { displayX, displayY } = imageToDisplayCoordinates(
+  const { displayX, displayY } = imageToDisplayCoordinates(
     node.x,
     widthScaling,
     node.y,
@@ -239,53 +238,48 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     opacity: 0,
   };
 
-    const handleStartDrag = () => {
-        setDragged(true);
-        setDisableZoomPanning(true);
+  const handleStartDrag = () => {
+    setDragged(true);
+    setDisableZoomPanning(true);
 
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
 
-        document.addEventListener("mousemove", handleMouseMove);
-        document.addEventListener("mouseup", handleMouseUp);
-    };
+  const handleStopDrag = () => {
+    setDragged(false);
+    setDisableZoomPanning(false);
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
 
+  const handleMouseUp = () => {
+    // Update node's x and y coordinates when dragging stops
+    const { x, y } = mousePosition;
+    setEditedNode((prev) => {
+      if (!prev) {
+        return node;
+      }
 
-    const handleStopDrag = () => {
-        setDragged(false);
-        setDisableZoomPanning(false);
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
-    };
+      return new Node(
+        prev.ID,
+        x,
+        y,
+        prev.floor,
+        prev.building,
+        prev.type,
+        prev.longName,
+        prev.shortName,
+      );
+    });
+  };
 
-    const handleMouseUp = () => {
-        // Update node's x and y coordinates when dragging stops
-        const { x, y } = mousePosition;
-        setEditedNode((prev) => {
-            if (!prev) {
-                return node;
-            }
+  const handleMouseMove = (event: MouseEvent) => {
+    // Update mouse position state
+    setMousePosition({ x: event.clientX, y: event.clientY });
+  };
 
-
-            return new Node(
-                prev.ID,
-                x,
-                y,
-                prev.floor,
-                prev.building,
-                prev.type,
-                prev.longName,
-                prev.shortName,
-            );
-        });
-    };
-
-    const handleMouseMove = (event: MouseEvent) => {
-        // Update mouse position state
-        setMousePosition({ x: event.clientX, y: event.clientY });
-    };
-
-
-
-    const handleChangingFloorBackNodeClick = () => {
+  const handleChangingFloorBackNodeClick = () => {
     setDirectionsCounter(directionsCounter - 1);
   };
 
@@ -561,7 +555,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
           <Dialog open={showModal} onClose={handleClose}>
             <DialogTitle>Node Information</DialogTitle>
             <DialogContent>
-              {/* Directly place TextField components inside DialogContent */}
               <TextField
                 margin="dense"
                 label="ID"
@@ -569,9 +562,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                 fullWidth
                 name="ID"
                 value={node.ID}
-                InputProps={{
-                  readOnly: true, // Make ID field read-only if you don't want it to be editable
-                }}
               />
               <TextField
                 margin="dense"
@@ -650,10 +640,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               />
             </DialogActions>
           </Dialog>
-          <Draggable
-            scale={scale}
-            onDrag={handleStartDrag}
-          >
+          <Draggable scale={scale} onDrag={handleStartDrag}>
             <button
               className="node-selector"
               style={normalNodeStyle}
@@ -755,10 +742,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                   />
                 </DialogActions>
               </Dialog>
-              <Draggable
-                scale={scale}
-                onDrag={handleStartDrag}
-              >
+              <Draggable scale={scale} onDrag={handleStartDrag}>
                 <button
                   className="node-selector"
                   style={normalNodeStyle}
