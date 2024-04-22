@@ -90,7 +90,7 @@
 
 /*used on left hand column*/
 .space {
-  height: 5em;
+  height: 6em;
 }
 
 /*used for right hand coulmn*/
@@ -136,8 +136,9 @@
 
 /*Roatating Text*/
 .carousel {
-  /*overflow: hidden;*/
+  overflow: hidden;
   width: 100%;
+  height: 3em;
   /*display: inline-block;*/
   /*animation: 5s carousel infinite linear;*/
 }
@@ -148,15 +149,18 @@
   height: 500%;
   /*display: inline-block;*/
   animation: carousel 20s infinite;
+
+  /*transform: translateY(-115%);*/
 }
 
 .carousel span {
   display: block;
   /*height: 3em;*/
   margin: 5% 0;
+  /*border: 2px solid yellow;*/
+
   /*height: 5%;*/
   /*padding: 0 5%;*/
-  border: 2px solid yellow;
   /*height: 20%;*/
   /*margin: 6% 0;*/
   /*display: flex;*/
@@ -170,22 +174,38 @@
 /*Carousel*/
 @keyframes carousel {
   0% {
-    transform: translateY(-10%);
+    transform: translateY(-5%);
   }
   20% {
-    transform: translateY(-10%);
+    transform: translateY(-27%);
+  }
+  30% {
+    /*pause*/
+    transform: translateY(-27%);
   }
   40% {
-    transform: translateY(-30%);
+    transform: translateY(-50%);
+  }
+  50% {
+    /*    pause*/
+    transform: translateY(-50%);
   }
   60% {
-    transform: translateY(-40%);
+    transform: translateY(-72%);
+  }
+  70% {
+    /*puase*/
+    transform: translateY(-72%);
   }
   80% {
-    transform: translateY(-40%);
+    transform: translateY(-93%);
+  }
+  90% {
+    /*pause*/
+    transform: translateY(-93%);
   }
   100% {
-    transform: translateY(-40%);
+    transform: translateY(-115%);
   }
 }
 

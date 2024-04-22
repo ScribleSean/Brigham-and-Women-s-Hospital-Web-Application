@@ -44,15 +44,15 @@ function HeroPage() {
     <div className={"image-area"}>
       <div className={"gradient row m-0"}>
         {/*Hospital Text*/}
-        <div className={" col-8 p-5 border"}>
-          <div className={"header borders"}>
+        <div className={" col-8 p-5 "}>
+          <div className={"header "}>
             Welcome to Brigham and Women's Hospital
           </div>
 
-          <div className={"space borders"}></div>
+          <div className={"space "}></div>
 
           {/*Carousel*/}
-          <div className="carousel subtitle borders">
+          <div className="carousel subtitle ">
             <div>
               <span>
                 Helping our patients and their families get back to what matters
@@ -78,18 +78,6 @@ function HeroPage() {
                 Helping our patients and their families get back to what matters
                 most.
               </span>
-              {/*<p>*/}
-              {/*    Helping our patients and their families get back to what matters most. <br>*/}
-
-              {/*    Excellence in medical research and patient care, our commitment continues. <br>*/}
-
-              {/*    Dedicated to a century of leadership in healthcare and patient service. <br>*/}
-
-              {/*    Leading the way in comprehensive healthcare, where every patient is family. <br>*/}
-
-              {/*    Together in health, every step of the way—because family matters. <br>*/}
-
-              {/*</p>*/}
             </div>
           </div>
         </div>
@@ -97,12 +85,10 @@ function HeroPage() {
         {/*Right hand Column*/}
 
         <div
-          className={
-            " col-4 p-0 d-flex flex-column justify-content-between borders"
-          }
+          className={" col-4 p-0 d-flex flex-column justify-content-between "}
         >
           {/*room settings display*/}
-          <div className={"boxPad borders"}>
+          <div className={"boxPad "}>
             <div className={"d-flex justify-content-end"}>
               <DeviceThermostatIcon sx={{ color: "#ffffff", fontSize: 55 }}>
                 {" "}
@@ -113,12 +99,9 @@ function HeroPage() {
               <img src={HumidityIcon} alt={"Image"} width={"50"} />
             </div>
           </div>
-          {/*<div className={"space_2"}></div>*/}
 
           {/*Go to map*/}
-          <div
-            className={"boxMarg d-flex justify-content-end paragraph borders"}
-          >
+          <div className={"boxMarg d-flex justify-content-end paragraph "}>
             <a
               href={`${isAuthenticated ? "/dashboard" : "/public-map"}`}
               id={"toMapClump"}
@@ -138,13 +121,11 @@ function HeroPage() {
                   marginBottom: 1,
                 }}
               ></ArrowCircleRightIcon>
-              {/*<div className={"arrow"} ></div>*/}
             </a>
           </div>
-          {/*<div className={"space_2"}></div>s*/}
 
           {/*admin login*/}
-          <div className={"d-flex justify-content-center paragraph borders"}>
+          <div className={"d-flex justify-content-center paragraph "}>
             <p className={"boxPad"}> Staff Member? Log In</p>
             {/*<p>Log In</p>*/}
           </div>
