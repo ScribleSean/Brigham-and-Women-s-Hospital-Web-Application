@@ -476,6 +476,7 @@ export default function DashCurrentRequests({
   const [filterType, setFilterType] = useState("Any");
   const [filterPriority, setFilterPriority] = useState("Any");
   const [filterStatus, setFilterStatus] = useState("Any");
+  const [filterEmployee, setFilterEmployee] = useState("Any");
 
   const filterRows = (rows: ServiceRequest[]) => {
     return rows.filter((row) => {
@@ -490,15 +491,20 @@ export default function DashCurrentRequests({
         filterPriority === "Any" || row.priority === filterPriority;
       const matchesFilterStatus =
         filterStatus === "Any" || row.status === filterStatus;
+      const matchesFilterEmployee =
+        filterEmployee === "Any" || row.employeeEmail === filterEmployee;
       return (
         matchesSearchTerm &&
         matchesFilterType &&
         matchesFilterPriority &&
-        matchesFilterStatus
+        matchesFilterStatus &&
+        matchesFilterEmployee
       );
     });
   };
-
+  const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
+    [],
+  );
   useEffect(() => {
     async function fetchData() {
       const res = await axios.get("/api/service-request");
@@ -506,6 +512,20 @@ export default function DashCurrentRequests({
       console.log("successfully got data from get request");
     }
     fetchData().then();
+
+    const fetchEmployeeEmail = async () => {
+      try {
+        const response = await axios.get("/api/employee-email-fetch");
+        const employeeEmails = response.data.map(
+          (employeeEmail: { employeeEmail: string }) =>
+            employeeEmail.employeeEmail,
+        );
+        setemployeeEmailOptions(employeeEmails);
+      } catch (error) {
+        console.error("Failed to fetch employee emails", error);
+      }
+    };
+    fetchEmployeeEmail();
   }, []);
 
   let rows: ServiceRequest[] = [];
@@ -574,6 +594,27 @@ export default function DashCurrentRequests({
               Filter by:
             </label>
             <div className={`${styles.filterSelectors}`}>
+              <FormControl fullWidth size={"small"}>
+                <InputLabel id="filterEmployeeLabel">Employee</InputLabel>
+                <Select
+                  labelId="filterEmployeeLabel"
+                  id="filterEmployee"
+                  label="Employee"
+                  defaultValue={"Any"}
+                  onChange={(event) =>
+                    setFilterEmployee(event.target.value as string)
+                  }
+                >
+                  <MenuItem value={"Any"}>
+                    <em>Any</em>
+                  </MenuItem>
+                  {employeeEmailOptions.map((email) => (
+                    <MenuItem key={email} value={email}>
+                      {email}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <FormControl fullWidth size={"small"}>
                 <InputLabel id="filterTypeLabel">Type</InputLabel>
                 <Select
