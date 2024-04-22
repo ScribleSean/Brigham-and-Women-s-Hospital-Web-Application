@@ -224,9 +224,6 @@ function EdgeDisplay(props: EdgeDisplayProps) {
               fullWidth
               name="ID"
               value={edge.ID}
-              InputProps={{
-                readOnly: true,
-              }}
             />
             <Autocomplete
               value={editedEdge.startNode.ID}

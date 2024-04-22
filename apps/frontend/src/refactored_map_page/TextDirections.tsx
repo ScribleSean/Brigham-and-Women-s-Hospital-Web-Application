@@ -44,11 +44,22 @@ function TextDirections() {
 
             let direction: string;
 
-            if (
-              Math.abs(normalizedAngleDifference) < Math.PI / 20 &&
-              prevDirectionRef.current !== "Continue straight"
+            if (Math.abs(normalizedAngleDifference) < Math.PI / 10) {
+              if (prevDirectionRef.current !== "Continue straight") {
+                direction = "Continue straight";
+              } else {
+                continue;
+              }
+            } else if (
+              normalizedAngleDifference > 0 &&
+              Math.abs(normalizedAngleDifference) < Math.PI / 5
             ) {
-              direction = "Continue straight";
+              direction = "Bear right";
+            } else if (
+              normalizedAngleDifference < 0 &&
+              Math.abs(normalizedAngleDifference) < Math.PI / 5
+            ) {
+              direction = "Bear left";
             } else if (normalizedAngleDifference > 0) {
               direction = "Turn right";
             } else if (normalizedAngleDifference < 0) {

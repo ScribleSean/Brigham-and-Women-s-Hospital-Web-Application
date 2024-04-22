@@ -61,15 +61,20 @@ function MapContents() {
     setScale(event.instance.transformState.scale);
   }
 
+  const resetMapTransform = () => {
+    if (transformComponentRef.current) {
+      console.log("changing");
+      transformComponentRef.current.resetTransform();
+    }
+  };
+
   useEffect(() => {
-    const resetMapTransform = () => {
-      if (transformComponentRef.current) {
-        console.log("changing");
-        transformComponentRef.current.resetTransform();
-      }
-    };
     console.log(resetMapTransform);
+    const timeoutId = setTimeout(resetMapTransform, 1000); // delay in milliseconds
+
     setResetZoomingFunction(resetMapTransform);
+
+    return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
   }, [setResetZoomingFunction, transformComponentRef, currentFloor]);
 
   return (

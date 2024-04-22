@@ -201,8 +201,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const normalNodeStyle: CSSProperties = {
     position: "absolute",
-    left: `${displayX}px`,
-    top: `${displayY}px`,
+    left: `calc(${displayX}px - 2px)`,
+    top: `calc(${displayY}px - 2px)`,
     zIndex: 3,
     borderRadius: "100%",
     padding: "0",
@@ -212,8 +212,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const startNodeStyle: CSSProperties = {
     position: "absolute",
-    left: `calc(${displayX}px - 10px)`,
-    top: `calc(${displayY}px - 20px)`,
+    left: `calc(${displayX}px - 12px)`,
+    top: `calc(${displayY}px - 22px)`,
     zIndex: 3,
     borderRadius: "100%",
     padding: "0",
@@ -224,7 +224,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const endNodeStyle: CSSProperties = {
     position: "absolute",
-    left: `calc(${displayX}px - 10px)`,
+    left: `calc(${displayX}px - 12px)`,
     top: `calc(${displayY}px - 13px)`,
     zIndex: 3,
     borderRadius: "100%",

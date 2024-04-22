@@ -148,7 +148,7 @@ function FloorDisplay() {
     width: "100%",
     top: 0,
     left: 0,
-    zIndex: 100,
+    zIndex: 2,
     pointerEvents: "none",
   };
 
