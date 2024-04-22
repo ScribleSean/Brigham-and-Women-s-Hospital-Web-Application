@@ -35,7 +35,7 @@ function MapContents() {
   const { isAuthenticated } = useAuth0();
 
   const mapDiv: CSSProperties = {
-    height: "100%",
+    height: "100vh",
     maxWidth: `${isAuthenticated ? "calc(100% - 55px)" : "100%"}`,
     float: `${isAuthenticated ? "right" : "none"}`,
     position: `${isAuthenticated ? "relative" : "absolute"}`,
@@ -63,15 +63,20 @@ function MapContents() {
     setScale(event.instance.transformState.scale);
   }
 
+  const resetMapTransform = () => {
+    if (transformComponentRef.current) {
+      console.log("changing");
+      transformComponentRef.current.resetTransform();
+    }
+  };
+
   useEffect(() => {
-    const resetMapTransform = () => {
-      if (transformComponentRef.current) {
-        console.log("changing");
-        transformComponentRef.current.resetTransform();
-      }
-    };
     console.log(resetMapTransform);
+    const timeoutId = setTimeout(resetMapTransform, 1000); // delay in milliseconds
+
     setResetZoomingFunction(resetMapTransform);
+
+    return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
   }, [setResetZoomingFunction, transformComponentRef, currentFloor]);
 
   return (
