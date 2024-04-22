@@ -143,9 +143,7 @@ function TextDirections() {
   return (
     <div>
       {startNode && endNode ? (
-        <div
-          className={`${styles.directionsContainer} ${expanded ? styles.expanded : styles.collapsed}`}
-        >
+        <div className={`${styles.directionsContainer}`}>
           <div className={`${styles.directionsHeader}`}>
             <h5>Text Directions</h5>
             <IconButton onClick={() => setExpanded(!expanded)}>
