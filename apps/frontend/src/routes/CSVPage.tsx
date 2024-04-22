@@ -49,7 +49,6 @@ export function CSVPage() {
       if (event.target) {
         // Extract the CSV content as a string
         const csvString = event.target.result as string;
-
         console.log(csvString);
 
         try {
@@ -102,10 +101,10 @@ export function CSVPage() {
 
   const handleEmployeeFileDrop = async (file: File) => {
     // Create a FileReader
-    const edgeReader = new FileReader();
+    const employeeReader = new FileReader();
 
     // Set up a callback for when the file is loaded
-    edgeReader.onload = async (event) => {
+    employeeReader.onload = async (event) => {
       if (event.target) {
         // Extract the CSV content as a string
         const csvString = event.target.result as string;
@@ -127,7 +126,7 @@ export function CSVPage() {
         }
       }
     };
-    edgeReader.readAsText(file);
+    employeeReader.readAsText(file);
   };
 
   return (
