@@ -197,6 +197,7 @@ const Canvas = () => {
     return () => clearInterval(interval);
   }, []); // Add diseases as a dependency
 
+
   return (
     <svg
       id="platformer-canvas"
@@ -204,7 +205,7 @@ const Canvas = () => {
       viewBox={viewBox}
     >
       <PlatformerBG />
-      <circle cx={position.x} cy={position.y} r={50} />
+      <circle id={"Player"} cx={position.x} cy={position.y} r={50} />
       {diseases.map((disease, index) => {
         const DiseaseComponent = disease.Component;
         return (
@@ -213,6 +214,7 @@ const Canvas = () => {
             x={disease.x}
             y={disease.y}
             viewBox={viewBox}
+            player={document.getElementById("Player")}
           />
         );
       })}
