@@ -26,6 +26,8 @@ import refactorNodesRouter from "./routes/refactorNodes";
 import addEdgesRouter from "./routes/addEdges";
 import deleteEdgesRouter from "./routes/deleteEdges";
 import refactorEdgesRouter from "./routes/refactorEdges";
+import employeeRouter from "./routes/employee-router.ts";
+import downloadEmployeeDataRouter from "./routes/data-to-csv-employee.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -41,6 +43,8 @@ app.use(
 app.use(express.json()); // This processes requests as JSON
 app.use(express.urlencoded({ extended: false })); // URL parser
 app.use(cookieParser()); // Cookie parser
+
+// service requests
 app.use("/api/service-request", serviceRequestRouter);
 app.use("/api/flower-service-request", flowerRouter);
 app.use("/api/room-scheduling-request", roomSchedulingRequestRouter);
@@ -48,19 +52,29 @@ app.use("/api/medical-device-service-request", medicalDeviceRouter);
 app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
 app.use("/api/religious-service-request", religiousServiceRequestRouter);
 app.use("/api/gift-service-request", giftServiceRequestRouter);
+
+// api fetch (for the dropdowns)
 app.use("/api/room-name-fetch", roomNameFetchRouter);
 app.use("/api/employee-email-fetch", employeeEmailFetchRouter);
+
+// CSV Pages - General
 app.use("/api/csv-to-json", csvRouter);
-app.use("/api/node-populate", nodeRouter);
-app.use("/api/edge-populate", edgeRouter);
-app.use("/api/download-node-csv", downloadNodeDataRouter);
-app.use("/api/download-edge-csv", downloadEdgeDataRouter);
 app.use("/api/delete-data", deleteDataRouter);
+// CSV Page: Nodes
+app.use("/api/node-populate", nodeRouter);
+app.use("/api/download-node-csv", downloadNodeDataRouter);
+// CSV Page: Edges
+app.use("/api/edge-populate", edgeRouter);
+app.use("/api/download-edge-csv", downloadEdgeDataRouter);
+// CSV Page: Employees
+app.use("/api/employee-populate", employeeRouter);
+app.use("/api/download-employee-csv", downloadEmployeeDataRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
 
+// Algos
 app.use("/api/nodes", nodesRouter);
 app.use("/api/path", pathRouter);
 app.use("/api/edges", edgesRouter);
