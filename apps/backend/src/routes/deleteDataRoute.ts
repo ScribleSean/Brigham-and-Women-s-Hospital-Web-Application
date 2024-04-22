@@ -20,6 +20,7 @@ router.delete("/", async (req, res) => {
     // drop the node and edge tables
     await PrismaClient.node.deleteMany({});
     await PrismaClient.edge.deleteMany({});
+    await PrismaClient.employee.deleteMany({});
 
     res.status(200).json({ message: "Tables deleted successfully." });
   } catch (error) {
