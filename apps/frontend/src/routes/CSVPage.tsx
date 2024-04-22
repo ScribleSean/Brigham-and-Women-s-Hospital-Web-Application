@@ -2,7 +2,9 @@ import FileUpload from "../components/FileUpload.tsx";
 import { GetDataNodes } from "../components/NodesDataBaseTableDisplay.tsx";
 import ExportNodeDataButton from "../components/ExportNodeDataButton.tsx";
 import ExportEdgeDataButton from "../components/ExportEdgeDataButton.tsx";
+import ExportEmployeeDataButton from "../components/ExportEmployeeDataButton.tsx";
 import { GetDataEdges } from "../components/EdgesDataBaseTableDisplay.tsx";
+import { GetDataEmployee } from "../components/EmployeeDataBaseTableDisplay.tsx";
 import ExportAllButton from "../components/ExportAllButton.tsx";
 import "../styles/csvPage.css";
 import React, { useState } from "react";
@@ -98,10 +100,40 @@ export function CSVPage() {
     edgeReader.readAsText(file);
   };
 
+  const handleEmployeeFileDrop = async (file: File) => {
+    // Create a FileReader
+    const edgeReader = new FileReader();
+
+    // Set up a callback for when the file is loaded
+    edgeReader.onload = async (event) => {
+      if (event.target) {
+        // Extract the CSV content as a string
+        const csvString = event.target.result as string;
+
+        console.log(csvString);
+
+        try {
+          const res = await fetch("/api/employee-populate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json", // Set the appropriate content type
+            },
+            body: JSON.stringify({ csvString }), // Send the CSV string as JSON
+          });
+
+          console.log(res);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+    edgeReader.readAsText(file);
+  };
+
   return (
     <div className={`${styles.pageContainer}`}>
       <div className={`${styles.header}`}>
-        <h1 className={`${styles.pageTitle}`}>Map Nodes and Edges</h1>
+        <h1 className={`${styles.pageTitle}`}>Database</h1>
         <div className={`${styles.buttonCluster}`}>
           <ExportAllButton />
           <ClearDataButton />
@@ -118,6 +150,7 @@ export function CSVPage() {
           <Tabs value={value} onChange={handleChange} variant={"fullWidth"}>
             <Tab label="Nodes" />
             <Tab label="Edges" />
+            <Tab label="Employees" />
           </Tabs>
         </Box>
       </div>
@@ -143,6 +176,18 @@ export function CSVPage() {
             </div>
           </div>
           <GetDataEdges />
+        </div>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <div className={`${styles.tabPanel}`}>
+          <div className={`${styles.subheader}`}>
+            <h2 className={`${styles.pageSubheading}`}>Employees</h2>
+            <div className={`${styles.buttonCluster}`}>
+              <FileUpload onFileDrop={handleEmployeeFileDrop} />
+              <ExportEmployeeDataButton />
+            </div>
+          </div>
+          <GetDataEmployee />
         </div>
       </CustomTabPanel>
     </div>
