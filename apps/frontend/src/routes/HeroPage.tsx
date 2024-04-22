@@ -45,7 +45,7 @@ function HeroPage() {
       <div className={"gradient row "}>
         {/*Hospital Text*/}
         <div className={"col-8 border"}>
-          <div className={"hero-text borders"}>
+          <div className={"header borders"}>
             Welcome to Brigham and Women's Hospital
           </div>
 
@@ -77,7 +77,7 @@ function HeroPage() {
         </div>
 
         {/*Go to map*/}
-        <div className={"col-4 d-flex justify-content-end borders"}>
+        <div className={"col-4 d-flex justify-content-end paragraph borders"}>
           <a
             href={`${isAuthenticated ? "/dashboard" : "/public-map"}`}
             id={"toMapClump"}
@@ -91,7 +91,9 @@ function HeroPage() {
             <ArrowCircleRightIcon
               sx={{
                 color: "#ffffff",
-                fontSize: 55,
+                width: "1.75em",
+                height: "1.75em",
+
                 marginBottom: 1,
               }}
             ></ArrowCircleRightIcon>
