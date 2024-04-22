@@ -1,6 +1,6 @@
 // flower service request router
 import express, { Router } from "express";
-import PrismaClient from "../bin/database-connection.ts";
+import PrismaClient from "../../bin/database-connection.ts";
 import { flowerDeliveryRequest } from "common/src/backend_interfaces/flowerServiceRequest.ts";
 
 const router: Router = express.Router();
