@@ -319,4 +319,4 @@ export declare const objectEnumValues: {
     };
 };
 
-export { }
+export { };

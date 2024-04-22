@@ -1046,9 +1046,9 @@ declare namespace Extensions {
     export {
         defineExtension,
         getExtensionContext
-    }
+    };
 }
-export { Extensions }
+export { Extensions };
 
 declare namespace Extensions_2 {
     export {
@@ -1061,7 +1061,7 @@ declare namespace Extensions_2 {
         GetClient,
         ReadonlySelector,
         RequiredArgs as UserArgs
-    }
+    };
 }
 
 declare type Fetch = typeof nodeFetch;
@@ -2135,7 +2135,7 @@ declare namespace Public {
         PrismaPromise_2 as PrismaPromise,
         Operation,
         Exact
-    }
+    };
 }
 
 declare type QueryEngineProtocol = 'graphql' | 'json';
@@ -2637,7 +2637,7 @@ declare namespace Transaction {
         Options,
         InteractiveTransactionInfo,
         TransactionHeaders
-    }
+    };
 }
 
 declare type TransactionHeaders = {
@@ -2662,9 +2662,9 @@ declare namespace Types {
         GetResult_2 as GetResult,
         GetFindResult,
         Payload
-    }
+    };
 }
-export { Types }
+export { Types };
 
 declare type UnknownErrorParams = {
     clientVersion: string;
@@ -2707,7 +2707,7 @@ declare namespace Utils {
         Cast,
         LegacyExact,
         WrapPropsInFnDeep
-    }
+    };
 }
 
 /**
@@ -2723,4 +2723,4 @@ declare type WrapPropsInFnDeep<T> = {
     [K in keyof T]: T[K] extends Function ? T[K] : T[K] extends object ? WrapPropsInFnDeep<T[K]> : () => T[K];
 } & {};
 
-export { }
+export { };
