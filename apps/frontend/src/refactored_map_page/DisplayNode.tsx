@@ -11,7 +11,7 @@ import {
   NodeType,
   Path,
 } from "common/src/DataStructures.ts";
-import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
+import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
 import "../styles/DisplayNode.css";
 import Typography from "@mui/material/Typography";
@@ -238,7 +238,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     opacity: 0,
   };
 
-  const handleStartDrag = () =>{
+  const handleStartDrag = () => {
     setDisableZoomPanning(true);
     setDragged(true);
   };
@@ -247,8 +247,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setDisableZoomPanning(false);
     setDragged(false);
   };
-
-
 
   const handleDrag = (event: DraggableEvent, data: DraggableData) => {
     console.log("dragging");
@@ -260,7 +258,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setEditedNode((node) => {
       return new Node(
         node.ID,
-        editedNode.x + deltaX,  //widthScaling,
+        editedNode.x + deltaX, //widthScaling,
         editedNode.y + deltaY, //heightScaling,
         node.floor,
         node.building,
@@ -269,18 +267,17 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         node.shortName,
       );
     });
-      const newOldNewNode: OldNewNode = {
-          newNode : editedNode,
-          oldNode: node,
-      };
-    if(graph){
-        setGraph(graph.editNode(editedNode));
+    const newOldNewNode: OldNewNode = {
+      newNode: editedNode,
+      oldNode: node,
+    };
+    if (graph) {
+      setGraph(graph.editNode(editedNode));
     }
     setUnsavedChanges(true);
     setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
     setIsSaved(false);
   };
-
 
   const handleChangingFloorBackNodeClick = () => {
     setDirectionsCounter(directionsCounter - 1);
@@ -538,7 +535,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                 onClick={() => handleNodeSelection(node)}
               />
             ) : !startNode || !endNode ? (
-              <Draggable onStart={handleStartDrag} onDrag={handleDrag} onStop={handleStopDrag} disabled={editorMode === EditorMode.disabled}
+              <Draggable
+                onStart={handleStartDrag}
+                onDrag={handleDrag}
+                onStop={handleStopDrag}
+                disabled={editorMode === EditorMode.disabled}
               >
                 <button
                   className="none"
@@ -642,7 +643,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               />
             </DialogActions>
           </Dialog>
-          <Draggable onStart={handleStartDrag} onDrag={handleDrag} onStop={handleStopDrag}>
+          <Draggable
+            onStart={handleStartDrag}
+            onDrag={handleDrag}
+            onStop={handleStopDrag}
+          >
             <button
               className="node-selector"
               style={normalNodeStyle}
@@ -744,7 +749,12 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                   />
                 </DialogActions>
               </Dialog>
-              <Draggable scale={scale} onStart={handleStartDrag} onDrag={handleDrag} onStop={handleStopDrag}>
+              <Draggable
+                scale={scale}
+                onStart={handleStartDrag}
+                onDrag={handleDrag}
+                onStop={handleStopDrag}
+              >
                 <button
                   className="node-selector"
                   style={normalNodeStyle}
