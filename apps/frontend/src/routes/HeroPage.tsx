@@ -42,7 +42,7 @@ function HeroPage() {
 
   return (
     <div className={"image-area"}>
-      <div className={"gradient row justify-content-around m-0"}>
+      <div className={"gradient row m-0"}>
         {/*Hospital Text*/}
         <div className={"col-8 p-0 border"}>
           <div className={"header borders"}>
@@ -113,9 +113,12 @@ function HeroPage() {
               <img src={HumidityIcon} alt={"Image"} width={"50"} />
             </div>
           </div>
-          <div className={"space_2"}></div>
+          {/*<div className={"space_2"}></div>*/}
+
           {/*Go to map*/}
-          <div className={"d-flex justify-content-end paragraph borders"}>
+          <div
+            className={"boxMarg d-flex justify-content-end paragraph borders"}
+          >
             <a
               href={`${isAuthenticated ? "/dashboard" : "/public-map"}`}
               id={"toMapClump"}
@@ -138,7 +141,9 @@ function HeroPage() {
               {/*<div className={"arrow"} ></div>*/}
             </a>
           </div>
-          <div className={"space_2"}></div>s{/*admin login*/}
+          {/*<div className={"space_2"}></div>s*/}
+
+          {/*admin login*/}
           <div className={"d-flex justify-content-center paragraph borders"}>
             <p className={"boxPad"}> Staff Member? Log In</p>
             {/*<p>Log In</p>*/}
