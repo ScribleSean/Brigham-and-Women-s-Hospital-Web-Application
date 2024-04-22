@@ -17,6 +17,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 
 export default EdgeDisplay;
 
@@ -33,6 +34,8 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setEdgesToBeDeleted,
     edgesToBeDeleted,
     setUnsavedChanges,
+    scale,
+    setDisableZoomPanning,
   } = useMapContext();
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -97,6 +100,53 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setUnsavedChanges,
   ]);
 
+  const handleStartDrag = () => {
+    setDisableZoomPanning(true);
+  };
+
+  const handleStopDrag = () => {
+    setDisableZoomPanning(false);
+  };
+
+  const handleDrag = (event: DraggableEvent, data: DraggableData) => {
+    const scaleX = data.deltaX / scale;
+    const scaleY = data.deltaY / scale;
+    const newStartNode = new Node(
+      edge.startNode.ID,
+      editedEdge.startNode.x + scaleX,
+      editedEdge.startNode.y + scaleY,
+      edge.startNode.floor,
+      edge.startNode.building,
+      edge.startNode.type,
+      edge.startNode.longName,
+      edge.startNode.shortName,
+    );
+
+    const newEndNode = new Node(
+      edge.endNode.ID,
+      editedEdge.endNode.x + scaleX,
+      editedEdge.endNode.y + scaleY,
+      edge.endNode.floor,
+      edge.endNode.building,
+      edge.endNode.type,
+      edge.endNode.longName,
+      edge.endNode.shortName,
+    );
+
+    const newEdge = new Edge(edge.ID, newStartNode, newEndNode);
+
+    setEditedEdge(newEdge);
+    if (graph) {
+      setGraph(graph.editNode(newStartNode));
+      setGraph(graph.editNode(newEndNode));
+    }
+    setUnsavedChanges(true);
+    setEdgesToBeEdited([
+      ...edgesToBeEdited,
+      { oldEdge: edge, newEdge: newEdge },
+    ]);
+  };
+
   const handleChange = (
     event: React.SyntheticEvent,
     nodeID: string | null,
@@ -128,31 +178,42 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setEditedEdge(tempEdge);
   };
 
+  if (!scale || !handleStartDrag || !handleDrag || !handleStopDrag) {
+    console.error("Required props for Draggable are undefined");
+    return null; // or return a fallback UI
+  }
+
   return (
     showEdges &&
     editorMode !== EditorMode.disabled && (
       <>
-        <svg style={{ pointerEvents: "all" }}>
-          {" "}
-          {/* Ensure SVG allows pointer events */}
-          <polyline
-            style={{
-              stroke: "blue",
-              strokeWidth: 3,
-              cursor: "pointer",
-              pointerEvents: "visibleStroke",
-            }}
-            points={getEdgeCoordinates(edge)}
-            stroke={red}
-            strokeWidth="2"
-            fill="none"
-            strokeLinejoin="bevel"
-            onClick={() => {
-              console.log("Polyline clicked!"); // Debug: Console log to check click
-              editShowModal(true);
-            }}
-          />
-        </svg>
+        <Draggable
+          scale={scale}
+          onStart={handleStartDrag}
+          onDrag={handleDrag}
+          onStop={handleStopDrag}
+        >
+          <svg style={{ pointerEvents: "all" }}>
+            {/* Ensure SVG allows pointer events */}
+            <polyline
+              style={{
+                stroke: "blue",
+                strokeWidth: 3,
+                cursor: "pointer",
+                pointerEvents: "visibleStroke",
+              }}
+              points={getEdgeCoordinates(edge)}
+              stroke={red}
+              strokeWidth="2"
+              fill="none"
+              strokeLinejoin="bevel"
+              onClick={() => {
+                console.log("Polyline clicked!"); // Debug: Console log to check click
+                editShowModal(true);
+              }}
+            />
+          </svg>
+        </Draggable>
         <Dialog open={showModal} onClose={handleClose}>
           <DialogTitle>Edge Information</DialogTitle>
           <DialogContent>
