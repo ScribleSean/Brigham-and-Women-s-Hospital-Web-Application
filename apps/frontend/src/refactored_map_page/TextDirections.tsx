@@ -8,6 +8,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import EastIcon from "@mui/icons-material/East";
 
 export default TextDirections;
 
@@ -151,6 +152,21 @@ function TextDirections() {
     setCurrentPage((prev) => Math.max(prev - 1, 0));
   };
 
+  const getIconRotation = (direction: string) => {
+    if (direction.includes("Turn right") || direction.includes("Bear right")) {
+      return {};
+    } else if (
+      direction.includes("Turn left") ||
+      direction.includes("Bear left")
+    ) {
+      return { transform: "rotate(180deg)" };
+    } else if (direction.includes("Continue straight")) {
+      return { transform: "rotate(270deg)" };
+    } else {
+      return {};
+    }
+  };
+
   return (
     <div>
       {startNode && endNode ? (
@@ -166,6 +182,7 @@ function TextDirections() {
               <div className={`${styles.directionsContent}`}>
                 {pagedDirections.map((direction, i) => (
                   <div key={i} className={`${styles.directionsText}`}>
+                    <EastIcon sx={{ ...getIconRotation(direction) }} />
                     <p className={`${styles.stepNumber}`}>
                       <b>{i + 1 + currentPage * directionsPerPage}.</b>
                     </p>
