@@ -6,7 +6,7 @@ import {
   ReactZoomPanPinchRef,
 } from "react-zoom-pan-pinch";
 import MapProvider from "./MapProvider.tsx";
-import { CSSProperties } from "react";
+import { CSSProperties, useRef, useEffect } from "react";
 import DirectionsSelector from "./SelectDirection.tsx";
 import LocationSelector from "./SelectLocation.tsx";
 import AlgorithmSelector from "./SelectAlgorithm.tsx";
@@ -42,7 +42,14 @@ function MapContents() {
     overflow: "hidden",
   };
 
-  const { setScale, disableZoomPanning } = useMapContext();
+  const {
+    setScale,
+    disableZoomPanning,
+    setResetZoomingFunction,
+    currentFloor,
+  } = useMapContext();
+
+  const transformComponentRef = useRef<ReactZoomPanPinchRef>(null);
 
   const zoomWrapperProps = {
     disablePadding: true,
@@ -55,6 +62,17 @@ function MapContents() {
   function handleScaleChange(event: ReactZoomPanPinchRef) {
     setScale(event.instance.transformState.scale);
   }
+
+  useEffect(() => {
+    const resetMapTransform = () => {
+      if (transformComponentRef.current) {
+        console.log("changing");
+        transformComponentRef.current.resetTransform();
+      }
+    };
+    console.log(resetMapTransform);
+    setResetZoomingFunction(resetMapTransform);
+  }, [setResetZoomingFunction, transformComponentRef, currentFloor]);
 
   return (
     <div style={mapDiv}>
