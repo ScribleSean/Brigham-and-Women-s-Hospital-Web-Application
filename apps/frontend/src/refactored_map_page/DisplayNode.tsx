@@ -254,10 +254,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   };
 
   const handleMouseUp = () => {
+    console.log("Mouse up");
     // Update node's x and y coordinates when dragging stops
     const { x, y } = mousePosition;
-    setEditedNode((node) => {
-      return new Node(
+    setEditedNode(
+      new Node(
         node.ID,
         x / widthScaling,
         y / heightScaling,
@@ -266,14 +267,14 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         node.type,
         node.longName,
         node.shortName,
-      );
-    });
-      const newOldNewNode: OldNewNode = {
-          newNode : editedNode,
-          oldNode: node,
-      };
-    if(graph){
-        setGraph(graph.editNode(editedNode));
+      ),
+    );
+    const newOldNewNode: OldNewNode = {
+      newNode: editedNode,
+      oldNode: node,
+    };
+    if (graph) {
+      setGraph(graph.editNode(editedNode));
     }
     setUnsavedChanges(true);
     setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
