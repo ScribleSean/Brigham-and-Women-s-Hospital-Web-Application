@@ -172,10 +172,11 @@ function MedicineFields() {
     e.preventDefault(); // comment out if this is a gabe issue
 
     console.log(formData);
+    console.log("\n\n\n\nthis is what im looking for");
 
     try {
       const response = await axios.post(
-        "/api/medical-device-service-request",
+        "/api/medicine-delivery-service-request",
         formData,
       );
       console.log(response.data);
