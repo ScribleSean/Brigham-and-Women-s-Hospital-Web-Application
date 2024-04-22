@@ -153,7 +153,8 @@
 .carousel span {
   display: block;
   /*height: 3em;*/
-  margin: 2em 0;
+  margin: 5% 0;
+  /*height: 5%;*/
   /*padding: 0 5%;*/
   border: 2px solid yellow;
   /*height: 20%;*/
@@ -168,29 +169,23 @@
 
 /*Carousel*/
 @keyframes carousel {
-  10% {
-    transform: translateY(-112%);
+  0% {
+    transform: translateY(-10%);
   }
-  25% {
-    transform: translateY(-100%);
+  20% {
+    transform: translateY(-10%);
   }
-  35% {
-    transform: translateY(-212%);
-  }
-  50% {
-    transform: translateY(-200%);
+  40% {
+    transform: translateY(-30%);
   }
   60% {
-    transform: translateY(-312%);
+    transform: translateY(-40%);
   }
-  75% {
-    transform: translateY(-300%);
-  }
-  85% {
-    transform: translateY(-412%);
+  80% {
+    transform: translateY(-40%);
   }
   100% {
-    transform: translateY(-400%);
+    transform: translateY(-40%);
   }
 }
 
