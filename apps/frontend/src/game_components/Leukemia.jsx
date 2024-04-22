@@ -2,17 +2,17 @@
 import React, { useEffect, useRef } from "react";
 
 const Leukemia = ({ x, y, viewBox }) => {
-  const margin = 50; // Margin to keep the leukemia fully visible within the viewBox
-  const position = useRef({ x: 0, y: 0 });
-  const randomX = useRef(
-    Math.random() * (viewBox[2] - margin * 2) + viewBox[0] + margin,
-  );
-  const randomY = useRef(
-    Math.random() * (viewBox[3] - margin * 2) + viewBox[1] + margin,
-  );
+    const position = useRef({ x: x, y: y });
 
   useEffect(() => {
-    position.current = { x: x || randomX.current, y: y || randomY.current };
+    position.current = { x: x, y: y };
+
+      if( position.current.x < viewBox[0] ||
+          position.current.x > viewBox[0] + viewBox[2] ||
+          position.current.y < viewBox[1] ||
+          position.current.y > viewBox[1] + viewBox[3]) {
+          return undefined;
+      }
   }, [x, y, viewBox]);
 
   return (

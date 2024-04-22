@@ -1,51 +1,29 @@
 // Sarcoma.jsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 const Sarcoma = ({ x, y, viewBox }) => {
-  const margin = 50; // Margin to keep the sarcoma fully visible within the viewBox
-  const position = useRef({ x: 0, y: 0 });
-  const randomX = useRef(
-    Math.random() * (viewBox[2] - margin * 2) + viewBox[0] + margin,
-  );
-  const randomY = useRef(
-    Math.random() * (viewBox[3] - margin * 2) + viewBox[1] + margin,
-  );
-  const [scale, setScale] = useState(1); // Add a new state for the scale
+  const position = useRef({ x: x, y: y });
 
   useEffect(() => {
-    position.current = { x: x || randomX.current, y: y || randomY.current };
-  }, [x, y, viewBox]);
+    position.current = { x: x, y: y };
 
-  const [elapsedTime, setElapsedTime] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
-    }, 1000);
-
-    // Shrink the component after 10 seconds
-    if (elapsedTime >= 10) {
-      setScale(0);
+    //Delete shape if offscreen
+    if( position.current.x < viewBox[0] ||
+        position.current.x > viewBox[0] + viewBox[2] ||
+        position.current.y < viewBox[1] ||
+        position.current.y > viewBox[1] + viewBox[3]) {
+        return undefined;
     }
 
-    // Clear the timer when the component unmounts
-    return () => clearInterval(timer);
-  }, [elapsedTime]);
-
-  // Don't render the component if it's shrunk
-  if (scale === 0) {
-    return null;
-  }
+  }, [x, y, viewBox]);
 
   return (
-    <g transform={`scale(${scale})`} style={{ transition: "transform 1s" }}>
       <circle
         cx={position.current.x}
         cy={position.current.y}
         r={40}
         fill="#800080"
       />
-    </g>
   );
 };
 

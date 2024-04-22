@@ -46,7 +46,7 @@ const Canvas = () => {
     const handleKeyDown = (event) => {
       // Check if the keydown event is a repeat event
       if (!event.repeat) {
-        let newVelocity = { ...velocity };
+        const newVelocity = { ...velocity };
         if (event.key) {
           switch (event.key) {
             case "ArrowUp":
