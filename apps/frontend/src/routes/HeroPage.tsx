@@ -44,7 +44,7 @@ function HeroPage() {
     <div className={"image-area"}>
       <div className={"gradient row m-0"}>
         {/*Hospital Text*/}
-        <div className={"col-8 p-0 border"}>
+        <div className={" col-8 p-5 border"}>
           <div className={"header borders"}>
             Welcome to Brigham and Women's Hospital
           </div>
