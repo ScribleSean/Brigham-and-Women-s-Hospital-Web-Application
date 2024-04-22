@@ -4,8 +4,8 @@ import { useMapContext } from "./MapContext.ts";
 import { IconButton } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 import styles from "../styles/TextDirections.module.css";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
@@ -147,7 +147,7 @@ function TextDirections() {
           <div className={`${styles.directionsHeader}`}>
             <h5>Text Directions</h5>
             <IconButton onClick={() => setExpanded(!expanded)}>
-              {expanded ? <RemoveIcon /> : <AddIcon />}
+              {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
             </IconButton>
           </div>
           {expanded ? (
