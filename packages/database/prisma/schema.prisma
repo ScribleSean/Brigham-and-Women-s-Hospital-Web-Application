@@ -50,8 +50,8 @@ model ServiceRequest {
   GiftServiceRequest             GiftServiceRequest?             @relation("GiftServiceRequest")
   MedicineDeliveryServiceRequest MedicineDeliveryServiceRequest? @relation("MedicineDeliveryServiceRequest")
   ReligiousServiceRequest        ReligiousServiceRequest?        @relation("ReligiousServiceRequest")
-  Employee                       Employee                        @relation(fields: [employeeEmail], references: [employeeEmail])
-  Node                           Node                            @relation(fields: [location], references: [nodeID])
+  Employee                       Employee                        @relation(fields: [employeeEmail], references: [employeeEmail], onDelete: Cascade)
+  Node                           Node                            @relation(fields: [location], references: [nodeID], onDelete: Cascade)
 }
 
 model Employee {
