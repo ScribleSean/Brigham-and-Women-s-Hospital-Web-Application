@@ -22,6 +22,7 @@ router.post("/", async function (req, res) {
         status: serviceReq.status,
       },
     });
+
     res.status(200).json({ message: "Service Status Updated" });
     console.log("Service Status Updated Successfully");
   } catch (error) {
