@@ -6,6 +6,15 @@ const router: Router = express.Router();
 
 router.delete("/", async (req, res) => {
   try {
+    await PrismaClient.religiousServiceRequest.deleteMany({});
+    await PrismaClient.giftServiceRequest.deleteMany({});
+    await PrismaClient.medicalDeviceServiceRequest.deleteMany({});
+    await PrismaClient.roomSchedulingRequest.deleteMany({});
+    await PrismaClient.flowerServiceRequest.deleteMany({});
+    await PrismaClient.medicineDeliveryServiceRequest.deleteMany({});
+
+    await PrismaClient.serviceRequest.deleteMany({});
+
     await PrismaClient.node.deleteMany({});
     await PrismaClient.edge.deleteMany({});
     res.status(200).json({ message: "Tables deleted successfully." });
