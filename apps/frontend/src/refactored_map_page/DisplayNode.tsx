@@ -11,7 +11,7 @@ import {
   NodeType,
   Path,
 } from "common/src/DataStructures.ts";
-import Draggable from "react-draggable";
+import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
 import "../styles/DisplayNode.css";
 import Typography from "@mui/material/Typography";
@@ -63,7 +63,7 @@ function endBorderNode(node: Node, path: Path) {
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const [dragged, setDragged] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  //const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const widthScaling = props.scaling.widthScaling;
   const heightScaling = props.scaling.heightScaling;
@@ -238,29 +238,30 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     opacity: 0,
   };
 
-  const handleStartDrag = () => {
-    setDragged(true);
+  const handleStartDrag = () =>{
     setDisableZoomPanning(true);
-
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
+    setDragged(true);
   };
 
   const handleStopDrag = () => {
-    setDragged(false);
     setDisableZoomPanning(false);
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
+    setDragged(false);
   };
 
-  const handleMouseUp = () => {
+
+
+  const handleDrag = (event: DraggableEvent, data: DraggableData) => {
+    console.log("dragging");
+    console.log(event);
     // Update node's x and y coordinates when dragging stops
-    const { x, y } = mousePosition;
+    console.log(data);
+    const deltaX = data.x + data.deltaX;
+    const deltaY = data.y + data.deltaY;
     setEditedNode((node) => {
       return new Node(
         node.ID,
-        x / widthScaling,
-        y / heightScaling,
+        editedNode.x + deltaX,  //widthScaling,
+        editedNode.y + deltaY, //heightScaling,
         node.floor,
         node.building,
         node.type,
@@ -280,10 +281,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setIsSaved(false);
   };
 
-  const handleMouseMove = (event: MouseEvent) => {
-    // Update mouse position state
-    setMousePosition({ x: event.clientX, y: event.clientY });
-  };
 
   const handleChangingFloorBackNodeClick = () => {
     setDirectionsCounter(directionsCounter - 1);
@@ -541,10 +538,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                 onClick={() => handleNodeSelection(node)}
               />
             ) : !startNode || !endNode ? (
-              <Draggable
-                scale={scale}
-                onDrag={handleStartDrag}
-                disabled={editorMode === EditorMode.disabled}
+              <Draggable onStart={handleStartDrag} onDrag={handleDrag} onStop={handleStopDrag} disabled={editorMode === EditorMode.disabled}
               >
                 <button
                   className="none"
@@ -648,7 +642,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               />
             </DialogActions>
           </Dialog>
-          <Draggable scale={scale} onDrag={handleStartDrag}>
+          <Draggable onStart={handleStartDrag} onDrag={handleDrag} onStop={handleStopDrag}>
             <button
               className="node-selector"
               style={normalNodeStyle}
@@ -750,7 +744,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                   />
                 </DialogActions>
               </Dialog>
-              <Draggable scale={scale} onDrag={handleStartDrag}>
+              <Draggable scale={scale} onStart={handleStartDrag} onDrag={handleDrag} onStop={handleStopDrag}>
                 <button
                   className="node-selector"
                   style={normalNodeStyle}
