@@ -25,6 +25,7 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
     paths,
     setPaths,
     showPaths,
+    currentFloor,
   } = useMapContext();
   const widthScaling: number = props.scaling.widthScaling;
   const heightScaling: number = props.scaling.heightScaling;
@@ -98,7 +99,8 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
       .join(" ");
   }
 
-  const lightBlue: string = "lightBlue"; //Light blue color for all paths
+  const transparent: string = "transparent"; // Transparent for paths not on floor
+  const lightBlue: string = "lightBlue"; // Light blue color for other paths on floor
   const darkBlue: string = "darkBlue"; // Dark blue color for the current path
   const strokeDasharray: number = 5;
 
@@ -144,30 +146,23 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
           </style>
         </defs>
         {paths.map((path, index) => {
-          let strokeColor = lightBlue;
-          if (!showPaths) {
-            strokeColor = "transparent";
-            if (paths[directionsCounter] === paths[index]) {
-              strokeColor = darkBlue;
-              if (!alreadyRedirect) {
-                setCurrentFloor(
-                  paths[directionsCounter].edges[0].startNode.floor,
-                );
-                setAlreadyRedirected(true);
-              }
-            }
-          } else {
-            if (paths[directionsCounter] === paths[index]) {
-              strokeColor = darkBlue;
-              if (!alreadyRedirect) {
-                setCurrentFloor(
-                  paths[directionsCounter].edges[0].startNode.floor,
-                );
-                setAlreadyRedirected(true);
-              }
+          let strokeColor = transparent;
+          if (
+            showPaths &&
+            path.edges[0].startNode.floor === currentFloor &&
+            paths[directionsCounter] !== path
+          ) {
+            strokeColor = lightBlue;
+          }
+          if (paths[directionsCounter] === paths[index]) {
+            strokeColor = darkBlue;
+            if (!alreadyRedirect) {
+              setCurrentFloor(
+                paths[directionsCounter].edges[0].startNode.floor,
+              );
+              setAlreadyRedirected(true);
             }
           }
-
           return (
             <polyline
               key={index}
