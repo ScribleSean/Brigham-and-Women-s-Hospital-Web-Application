@@ -38,7 +38,7 @@ function addAnimationClass(e: Event) {
 }
 
 function HeroPage() {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   return (
     <div className={"image-area"}>
@@ -83,19 +83,18 @@ function HeroPage() {
         </div>
 
         {/*Right hand Column*/}
-
-        <div
-          className={" col-4 p-0 d-flex flex-column justify-content-between "}
-        >
+        <div className={"rightBox col-4 p-0 d-flex flex-column "}>
           {/*room settings display*/}
-          <div className={"boxPad "}>
-            <div className={"d-flex justify-content-end"}>
+          <div className={"boxPad"}>
+            <div className={"tempBox paragraph "}>
+              <p className={"wordPad"}>40 C</p>
               <DeviceThermostatIcon sx={{ color: "#ffffff", fontSize: 55 }}>
                 {" "}
               </DeviceThermostatIcon>
             </div>
 
-            <div className={"d-flex justify-content-end"}>
+            <div className={"tempSpace tempBox paragraph "}>
+              <p className={"wordPad"}>50 wet</p>
               <img src={HumidityIcon} alt={"Image"} width={"50"} />
             </div>
           </div>
@@ -125,8 +124,11 @@ function HeroPage() {
           </div>
 
           {/*admin login*/}
-          <div className={"d-flex justify-content-center paragraph "}>
-            <p className={"boxPad"}> Staff Member? Log In</p>
+          <div
+            onClick={() => loginWithRedirect()}
+            className={"boxPad d-flex justify-content-center paragraph "}
+          >
+            <p> Staff Member? Log In</p>
             {/*<p>Log In</p>*/}
           </div>
         </div>

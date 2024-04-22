@@ -9,7 +9,7 @@
 }
 
 /*dynamic text size*/
-@media (min-width: 50em) {
+@media (min-width: 55em) {
   /*once screen size decrease text size decrease*/
   :root {
     --fs-head: 5em;
@@ -97,18 +97,36 @@
 /*.space_2 {*/
 /*  height: 40vh;*/
 /*}*/
-.boxMarg {
-  margin: 30vh 0;
+.bigBox {
+  flex-direction: column;
+  align-items: end;
+  height: 10vh;
+}
+
+.tempBox {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 2% 0;
+}
+.wordPad {
+  padding: 0 5%;
+}
+
+.rightBox {
+  height: 100vh;
+  justify-content: space-between;
 }
 
 .boxPad {
   padding: 5% 5%;
+  align-content: space-evenly;
 }
 
 .button-class {
   background-color: rgba(255, 255, 255, 0);
   border: none;
-  border-radius: 50%;
+  border-radius: 2%;
 
   color: #ffffff;
   font-weight: 700;
@@ -157,6 +175,8 @@
   display: block;
   /*height: 3em;*/
   margin: 5% 0;
+  /*font-size: var(--fs-sub);*/
+
   /*border: 2px solid yellow;*/
 
   /*height: 5%;*/
