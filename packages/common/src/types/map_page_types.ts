@@ -9,8 +9,6 @@ export interface NodeDisplayProps {
   node: Node;
   key: string;
   scaling: Scaling;
-  left: number;
-  top: number;
 }
 
 export interface EdgeDisplayProps {

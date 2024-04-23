@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   EdgeDisplayProps,
   EditorMode,
@@ -17,7 +17,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
+import { displayToImageCoordinates } from "./scalingUtils.ts";
 
 export default EdgeDisplay;
 
@@ -36,10 +36,134 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setUnsavedChanges,
     scale,
     setDisableZoomPanning,
+    translationX,
+    translationY,
   } = useMapContext();
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [dragging, setDragging] = useState(false);
+
+  const [initialMousePos, setInitialMousePos] = useState({ x: 0, y: 0 });
+  const [initialStartPos, setInitialStartPos] = useState({ x: 0, y: 0 });
+  const [initialEndPos, setInitialEndPos] = useState({ x: 0, y: 0 });
+
+  const handleMouseDown = (event: React.MouseEvent<SVGSVGElement>) => {
+    setDisableZoomPanning(true);
+    setDragging(true);
+    const { imageX, imageY } = displayToImageCoordinates(
+      event.clientX,
+      event.clientY,
+      translationX,
+      translationY,
+      scale,
+      widthScaling,
+      heightScaling,
+    );
+    setInitialMousePos({ x: imageX, y: imageY });
+    setInitialStartPos({ x: edge.startNode.x, y: edge.startNode.y });
+    setInitialEndPos({ x: edge.endNode.x, y: edge.endNode.y });
+    event.preventDefault();
+  };
+
+  const handleMouseMove = useCallback(
+    (event: MouseEvent) => {
+      if (!dragging) return;
+      console.log("Mouse Position:", event.clientX, event.clientY);
+      console.log("Translations:", translationX, translationY);
+      console.log("Scale:", scale);
+      console.log("Width & Height Scaling:", widthScaling, heightScaling);
+
+      // Calculate the new position of the node based on mouse movement
+      const { imageX, imageY } = displayToImageCoordinates(
+        event.clientX,
+        event.clientY,
+        translationX,
+        translationY,
+        scale,
+        widthScaling,
+        heightScaling,
+      );
+
+      const dx = imageX - initialMousePos.x;
+      const dy = imageY - initialMousePos.y;
+
+      const newStartNode = new Node(
+        edge.startNode.ID,
+        initialStartPos.x + dx,
+        initialStartPos.y + dy,
+        edge.startNode.floor,
+        edge.startNode.building,
+        edge.startNode.type,
+        edge.startNode.longName,
+        edge.startNode.shortName,
+      );
+
+      const newEndNode = new Node(
+        edge.endNode.ID,
+        initialEndPos.x + dx,
+        initialEndPos.y + dy,
+        edge.endNode.floor,
+        edge.endNode.building,
+        edge.endNode.type,
+        edge.endNode.longName,
+        edge.endNode.shortName,
+      );
+
+      const newEdge = new Edge(edge.ID, newStartNode, newEndNode);
+
+      setEditedEdge(newEdge);
+      if (graph) {
+        setGraph(graph.editNode(newStartNode));
+        setGraph(graph.editNode(newEndNode));
+      }
+      setUnsavedChanges(true);
+      setEdgesToBeEdited([
+        ...edgesToBeEdited,
+        { oldEdge: edge, newEdge: newEdge },
+      ]);
+      setIsSaved(false);
+    },
+    [
+      initialEndPos,
+      initialMousePos,
+      initialStartPos,
+      edge,
+      edgesToBeEdited,
+      setEdgesToBeEdited,
+      dragging,
+      translationX,
+      translationY,
+      scale,
+      widthScaling,
+      heightScaling,
+      graph,
+      setGraph,
+      setUnsavedChanges,
+      setIsSaved,
+    ],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setDragging(false);
+    setDisableZoomPanning(false);
+    // Possibly finalize position here, or send updates to a server
+  }, [setDragging, setDisableZoomPanning]);
+
+  useEffect(() => {
+    if (dragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    } else {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragging, handleMouseMove, handleMouseUp]);
 
   const editShowModal = (value: boolean) => {
     setShowModal(value);
@@ -100,53 +224,6 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setUnsavedChanges,
   ]);
 
-  const handleStartDrag = () => {
-    setDisableZoomPanning(true);
-  };
-
-  const handleStopDrag = () => {
-    setDisableZoomPanning(false);
-  };
-
-  const handleDrag = (event: DraggableEvent, data: DraggableData) => {
-    const scaleX = data.deltaX / scale;
-    const scaleY = data.deltaY / scale;
-    const newStartNode = new Node(
-      edge.startNode.ID,
-      editedEdge.startNode.x + scaleX,
-      editedEdge.startNode.y + scaleY,
-      edge.startNode.floor,
-      edge.startNode.building,
-      edge.startNode.type,
-      edge.startNode.longName,
-      edge.startNode.shortName,
-    );
-
-    const newEndNode = new Node(
-      edge.endNode.ID,
-      editedEdge.endNode.x + scaleX,
-      editedEdge.endNode.y + scaleY,
-      edge.endNode.floor,
-      edge.endNode.building,
-      edge.endNode.type,
-      edge.endNode.longName,
-      edge.endNode.shortName,
-    );
-
-    const newEdge = new Edge(edge.ID, newStartNode, newEndNode);
-
-    setEditedEdge(newEdge);
-    if (graph) {
-      setGraph(graph.editNode(newStartNode));
-      setGraph(graph.editNode(newEndNode));
-    }
-    setUnsavedChanges(true);
-    setEdgesToBeEdited([
-      ...edgesToBeEdited,
-      { oldEdge: edge, newEdge: newEdge },
-    ]);
-  };
-
   const handleChange = (
     event: React.SyntheticEvent,
     nodeID: string | null,
@@ -178,42 +255,35 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setEditedEdge(tempEdge);
   };
 
-  if (!scale || !handleStartDrag || !handleDrag || !handleStopDrag) {
-    console.error("Required props for Draggable are undefined");
-    return null; // or return a fallback UI
-  }
-
   return (
     showEdges &&
     editorMode !== EditorMode.disabled && (
       <>
-        <Draggable
-          scale={scale}
-          onStart={handleStartDrag}
-          onDrag={handleDrag}
-          onStop={handleStopDrag}
+        <svg
+          style={{
+            pointerEvents: "all",
+            cursor: dragging ? "grabbing" : "grab",
+          }}
+          onMouseDown={handleMouseDown}
         >
-          <svg style={{ pointerEvents: "all" }}>
-            {/* Ensure SVG allows pointer events */}
-            <polyline
-              style={{
-                stroke: "darkblue",
-                strokeWidth: 0.5,
-                cursor: "pointer",
-                pointerEvents: "visibleStroke",
-              }}
-              points={getEdgeCoordinates(edge)}
-              stroke={red}
-              strokeWidth="2"
-              fill="none"
-              strokeLinejoin="bevel"
-              onClick={() => {
-                console.log("Polyline clicked!"); // Debug: Console log to check click
-                editShowModal(true);
-              }}
-            />
-          </svg>
-        </Draggable>
+          <polyline
+            style={{
+              stroke: "darkblue",
+              strokeWidth: 0.5,
+              cursor: "pointer",
+              pointerEvents: "visibleStroke",
+            }}
+            points={getEdgeCoordinates(edge)}
+            stroke={red}
+            strokeWidth="2"
+            fill="none"
+            strokeLinejoin="bevel"
+            onClick={() => {
+              console.log("Polyline clicked!");
+              editShowModal(true);
+            }}
+          />
+        </svg>
         <Dialog open={showModal} onClose={handleClose}>
           <DialogTitle>Edge Information</DialogTitle>
           <DialogContent>

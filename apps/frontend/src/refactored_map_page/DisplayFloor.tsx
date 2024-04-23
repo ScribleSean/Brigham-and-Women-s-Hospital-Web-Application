@@ -12,13 +12,13 @@ import {
   EdgeDisplayProps,
   NodeDisplayProps,
   PathDisplayProps,
-  Scaling,
 } from "common/src/types/map_page_types.ts";
 import axios from "axios";
 import { useMapContext } from "./MapContext.ts";
 import PathDisplay from "./DisplayPath.tsx";
 import NodeDisplay from "./DisplayNode.tsx";
 import EdgeDisplay from "./DisplayEdge.tsx";
+import { getScaling } from "./scalingUtils.ts";
 
 export default FloorDisplay;
 
@@ -55,24 +55,12 @@ function FloorDisplay() {
   const [divHeight, setHeight] = useState(0);
   const isImageLoaded = useRef(false);
   const loadImageOnce = useRef(0);
-  const [left, setLeft] = useState(0);
-  const [top, setTop] = useState(0);
-
-  function getWidthScaling(): number {
-    return divWidth / IMAGE_WIDTH;
-  }
-
-  function getHeightScaling(): number {
-    return divHeight / IMAGE_HEIGHT;
-  }
 
   const updateDimensions = useCallback(() => {
     if (ref.current && !isImageLoaded.current) {
-      const { width, height, left, top } = ref.current.getBoundingClientRect();
+      const { width, height } = ref.current.getBoundingClientRect();
       setWidth(width);
       setHeight(height);
-      setLeft(left);
-      setTop(top);
       isImageLoaded.current = true;
     }
   }, []);
@@ -106,20 +94,11 @@ function FloorDisplay() {
     }
   };
 
-  function getScaling(): Scaling {
-    return {
-      widthScaling: getWidthScaling(),
-      heightScaling: getHeightScaling(),
-    };
-  }
-
   function nodeDisplayProps(node: Node): NodeDisplayProps {
     return {
       node: node,
       key: node.ID,
-      scaling: getScaling(),
-      left: left,
-      top: top,
+      scaling: getScaling(divWidth, divHeight, IMAGE_WIDTH, IMAGE_HEIGHT),
     };
   }
 
@@ -127,13 +106,13 @@ function FloorDisplay() {
     return {
       edge: edge,
       key: edge.ID,
-      scaling: getScaling(),
+      scaling: getScaling(divWidth, divHeight, IMAGE_WIDTH, IMAGE_HEIGHT),
     };
   }
 
   function pathDisplayProps(): PathDisplayProps {
     return {
-      scaling: getScaling(),
+      scaling: getScaling(divWidth, divHeight, IMAGE_WIDTH, IMAGE_HEIGHT),
     };
   }
 

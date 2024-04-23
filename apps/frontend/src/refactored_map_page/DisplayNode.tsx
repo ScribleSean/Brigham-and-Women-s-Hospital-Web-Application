@@ -27,53 +27,12 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import {
+  displayToImageCoordinates,
+  imageToDisplayCoordinates,
+} from "./scalingUtils.ts";
 
 export default NodeDisplay;
-
-function imageToDisplayCoordinates(
-  x: number,
-  scalingX: number,
-  y: number,
-  scalingY: number,
-): {
-  displayX: number;
-  displayY: number;
-} {
-  return {
-    displayX: x * scalingX, // scaling X == divWidth / IMAGE_WIDTH;
-    displayY: y * scalingY, // scalingY == divHeight / IMAGE_HEIGHT
-  };
-}
-
-function displayToImageCoordinates(
-  clientX: number,
-  clientY: number,
-  translationX: number,
-  translationY: number,
-  scale: number,
-  widthScaling: number,
-  heightScaling: number,
-  divLeft: number,
-  divTop: number,
-): {
-  imageX: number;
-  imageY: number;
-} {
-  // First, adjust the display coordinates by the current pan and scale
-  console.log(divLeft);
-  console.log(divTop);
-  const adjustedX = (clientX - translationX - 55) / scale;
-  const adjustedY = (clientY - translationY) / scale;
-
-  // Then, convert these adjusted coordinates back to the original image's scale
-  const imageX = adjustedX / widthScaling;
-  const imageY = adjustedY / heightScaling;
-
-  return {
-    imageX: imageX,
-    imageY: imageY,
-  };
-}
 
 function sameNode(node1: Node | null, node2: Node | null) {
   if (node1 && node2) {
@@ -99,8 +58,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const widthScaling = props.scaling.widthScaling;
   const heightScaling = props.scaling.heightScaling;
-  const left = props.left;
-  const top = props.top;
   const node = props.node;
   const {
     startNode,
@@ -301,8 +258,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         scale,
         widthScaling,
         heightScaling,
-        left,
-        top,
       );
       console.log("Converted Coordinates:", imageX, imageY);
 
@@ -346,8 +301,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       setUnsavedChanges,
       setNodesToBeEdited,
       setIsSaved,
-      left,
-      top,
     ],
   );
 
