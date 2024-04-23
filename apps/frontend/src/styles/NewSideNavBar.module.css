@@ -3,13 +3,14 @@
   flex-direction: column;
   height: 100vh;
   background-color: #012d5a;
-  padding-top: 75px;
+  padding-top: 70px;
   white-space: nowrap;
   overflow-x: hidden;
   transition: 0.5s;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   position: fixed;
   z-index: 999;
+  justify-content: space-between;
 }
 
 .collapsed {
@@ -29,6 +30,7 @@
   color: white;
   margin: 5px 5px 5px 5px;
   padding: 5px;
+  transition: 0.1s;
 }
 
 .navbarLabels {
@@ -57,9 +59,17 @@
   left: 0;
   z-index: 998; /* one less than .navbarContainer */
   opacity: 0; /* start fully transparent */
-  transition: opacity 0.1s ease-in-out; /* transition the opacity */
+  transition: opacity 0.3s ease-in-out; /* transition the opacity */
   pointer-events: none;
 }
 .grayOut.show {
   opacity: 1; /* end fully opaque */
+}
+
+.logoutButton {
+  margin-bottom: 10px;
+}
+
+.logoutButton:hover {
+  cursor: pointer;
 }

@@ -23,6 +23,7 @@ function ClearDataButton() {
     } catch (error) {
       console.error("Error Clearing Tables", error);
     }
+    location.reload();
   };
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -44,8 +45,9 @@ function ClearDataButton() {
         <DialogTitle>Are you sure?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            This will delete all map node and edge data from the database. This
-            action cannot be undone.
+            This will delete all map node and edge data as well as employee data
+            and connected service requests from the database. This action cannot
+            be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -33,7 +33,7 @@ import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts"
 function createData(
   SRID: number,
   serviceType: string,
-  employeeName: string,
+  employeeEmail: string,
   location: string,
   priority: string,
   status: string,
@@ -42,7 +42,7 @@ function createData(
   return {
     SRID,
     serviceType,
-    employeeName,
+    employeeEmail,
     location,
     priority,
     status,
@@ -77,7 +77,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   const [requestData, setRequestData] = useState({
     SRID: 0,
     serviceType: "",
-    employeeName: "",
+    employeeEmail: "",
     location: "",
     priority: "",
     status: "",
@@ -90,7 +90,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     deliveryDate: "",
     giftType: "",
     medicineType: "",
-    dosageAmount: 0,
+    dosageAmount: "",
     dosageType: "",
     deviceName: "",
     deviceQuantity: "",
@@ -245,7 +245,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           {row.SRID}
         </TableCell>
         <TableCell align="right">{row.serviceType}</TableCell>
-        <TableCell align="right">{row.employeeName}</TableCell>
+        <TableCell align="right">{row.employeeEmail}</TableCell>
         <TableCell align="right">{row.location}</TableCell>
         <TableCell align="right" sx={{ textWrap: "nowrap" }}>
           <span

@@ -1,6 +1,6 @@
 // room scheduling request router
 import express, { Router } from "express";
-import PrismaClient from "../bin/database-connection.ts";
+import PrismaClient from "../../bin/database-connection.ts";
 import { roomSchedulingRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
 
 const router: Router = express.Router();
@@ -13,7 +13,7 @@ router.post("/", async function (req, res) {
 
     const serviceRequest = await PrismaClient.serviceRequest.create({
       data: {
-        employeeName: room.employeeName,
+        employeeEmail: room.employeeEmail,
         priority: room.priority,
         location: room.location,
         status: room.status,
