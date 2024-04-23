@@ -45,13 +45,13 @@ function HeroPage() {
       {/*  main body */}
       <div className={"gradient row m-0 "}>
         {/*Hospital Text*/}
-        <div className={"mainbox col-8 p-5 border "}>
-          <div className={"header borders"}>
+        <div className={"mainbox col-8 p-5  "}>
+          <div className={"header "}>
             Welcome to Brigham and Women's Hospital
           </div>
 
           {/*Carousel*/}
-          <div className="carousel subtitle borders">
+          <div className="carousel subtitle ">
             <div>
               <span>
                 Helping our patients and their families get back to what matters
@@ -81,7 +81,7 @@ function HeroPage() {
           </div>
 
           {/*disclaimer*/}
-          <div className={" disclaimer border"}>
+          <div className={" disclaimer"}>
             <p>
               This website is a term project exercise for WPI CS 3733 Software
               Engineering (Prof. Wong) and is not to be confused with the actual
@@ -95,14 +95,14 @@ function HeroPage() {
           {/*room settings display*/}
           <div className={"boxPad"}>
             <div className={"tempBox paragraph "}>
-              <p className={"wordPad"}>40 C</p>
+              <p className={"wordPad"}>21 C</p>
               <DeviceThermostatIcon sx={{ color: "#ffffff", fontSize: 55 }}>
                 {" "}
               </DeviceThermostatIcon>
             </div>
 
             <div className={"tempSpace tempBox paragraph "}>
-              <p className={"wordPad"}>50 wet</p>
+              <p className={"wordPad"}>50% wet</p>
               <img src={HumidityIcon} alt={"Image"} width={"50"} />
             </div>
           </div>

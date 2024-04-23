@@ -1,14 +1,14 @@
+/*for seeing divs*/
 .borders {
   border: 3px solid #f700ff;
 }
 
+/*dynamic text sizing*/
 :root {
   --fs-head: 2.5em;
   --fs-parag: 1em;
   --fs-sub: 1em;
 }
-
-/*dynamic text size*/
 @media (min-width: 55em) {
   /*once screen size decrease text size decrease*/
   :root {
@@ -17,6 +17,8 @@
     --fs-sub: 0.5em;
   }
 }
+
+/*default text styles*/
 .header {
   font-size: var(--fs-head);
   /*max-width: 30ch;*/
@@ -26,28 +28,12 @@
   color: white;
   font-family: Inter, serif;
 }
-/*used on the button*/
 .paragraph {
   font-size: var(--fs-parag);
   line-height: 0.95;
 
   color: white;
   font-family: Inter, serif;
-}
-
-/*I think i got ride of the below usages :)  */
-/*Text size + font*/
-.hero-text {
-  font-size: 7.5em;
-
-  font-weight: 900;
-  line-height: 1.1;
-
-  padding: 0 5% 15%;
-  color: white;
-  font-family: Inter, serif;
-  user-select: none;
-  text-align: left;
 }
 .subtitle {
   font-size: 2em;
@@ -58,6 +44,7 @@
   text-align: left;
   line-height: 0.95;
   color: white;
+
   /*font-family: Inter, sans-serif;*/
   /*user-select: none;*/
 }
@@ -88,18 +75,13 @@
   /*  flex-direction: row;*/
 }
 
-/*used on left hand column*/
-.space {
-  height: 6em;
-}
-
+/*random spacing divs*/
 .mainbox {
   justify-content: space-evenly;
   /*justify-items: stretch;*/
   /*align-content: space-between;*/
   /*height: 100vh;*/
 }
-
 .disclaimer {
   margin: 10% 0 0 0;
   font-size: 1em;
@@ -109,22 +91,10 @@
   color: #cecfea;
   /*font-family: Inter, serif;*/
 }
-
-/*used for right hand coulmn*/
-/*.space_2 {*/
-/*  height: 40vh;*/
-/*}*/
-.bigBox {
-  flex-direction: column;
-  align-items: end;
-  height: 10vh;
-}
-
 .rightBox {
   height: 100vh;
   justify-content: space-between;
 }
-
 .tempBox {
   display: flex;
   justify-content: end;
@@ -134,7 +104,6 @@
 .wordPad {
   padding: 0 5%;
 }
-
 .boxPad {
   padding: 5% 5%;
   align-content: space-evenly;
@@ -149,6 +118,7 @@
   font-weight: 700;
 }
 
+/*Map button*/
 .toMap {
   align-items: center;
   margin-right: 12%;
