@@ -5,6 +5,7 @@ import React, {
   CSSProperties,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -48,13 +49,23 @@ function FloorDisplay() {
     getGraph();
   }, [setGraph, showNodes]);
 
-  const IMAGE_WIDTH: number = 5000;
-  const IMAGE_HEIGHT: number = 3400;
   const ref = useRef<HTMLImageElement | null>(null);
   const [divWidth, setWidth] = useState(0);
   const [divHeight, setHeight] = useState(0);
   const isImageLoaded = useRef(false);
   const loadImageOnce = useRef(0);
+
+  const IMAGE_DIMENSIONS = useMemo(() => ({ width: 5000, height: 3400 }), []);
+  const scaling = useMemo(
+    () =>
+      getScaling(
+        divWidth,
+        divHeight,
+        IMAGE_DIMENSIONS.width,
+        IMAGE_DIMENSIONS.height,
+      ),
+    [IMAGE_DIMENSIONS, divWidth, divHeight],
+  );
 
   const updateDimensions = useCallback(() => {
     if (ref.current && !isImageLoaded.current) {
@@ -98,7 +109,7 @@ function FloorDisplay() {
     return {
       node: node,
       key: node.ID,
-      scaling: getScaling(divWidth, divHeight, IMAGE_WIDTH, IMAGE_HEIGHT),
+      scaling: scaling,
     };
   }
 
@@ -106,13 +117,13 @@ function FloorDisplay() {
     return {
       edge: edge,
       key: edge.ID,
-      scaling: getScaling(divWidth, divHeight, IMAGE_WIDTH, IMAGE_HEIGHT),
+      scaling: scaling,
     };
   }
 
   function pathDisplayProps(): PathDisplayProps {
     return {
-      scaling: getScaling(divWidth, divHeight, IMAGE_WIDTH, IMAGE_HEIGHT),
+      scaling: scaling,
     };
   }
 
