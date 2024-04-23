@@ -6,8 +6,24 @@ import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts"
 const router: Router = express.Router();
 
 router.get("/", async function (req, res) {
-  const genericServiceRequest = await PrismaClient.serviceRequest.findMany({});
-  res.json(genericServiceRequest);
+  const serviceRequests = await PrismaClient.serviceRequest.findMany({
+    include: {
+      Employee: {
+        select: {
+          name: true,
+          employeeEmail: true,
+        },
+      },
+    },
+  });
+
+  const formattedServiceRequests = serviceRequests.map((sr) => ({
+    ...sr,
+    employeeEmail: `${sr.Employee.name} (${sr.Employee.employeeEmail})`,
+  }));
+
+  console.log(formattedServiceRequests);
+  res.json(formattedServiceRequests);
 });
 
 router.post("/", async function (req, res) {
