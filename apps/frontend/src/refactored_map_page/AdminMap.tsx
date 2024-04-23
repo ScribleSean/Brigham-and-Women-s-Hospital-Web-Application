@@ -59,11 +59,24 @@ function MapContents() {
     disabled: disableZoomPanning,
   };
 
-  function handleScaleChange(event: ReactZoomPanPinchRef) {
-    setScale(event.instance.transformState.scale);
-    setTranslationX(event.instance.transformState.positionX);
-    setTranslationY(event.instance.transformState.positionY);
-  }
+  useEffect(() => {
+    if (transformComponentRef.current && disableZoomPanning) {
+      const currentState =
+        transformComponentRef.current.instance.transformState;
+      console.log("Current State:", currentState); // Check what currentState contains
+      if (currentState) {
+        setScale(currentState.scale);
+        setTranslationX(currentState.positionX);
+        setTranslationY(currentState.positionY);
+      }
+    }
+  }, [
+    setScale,
+    setTranslationX,
+    setTranslationY,
+    disableZoomPanning,
+    transformComponentRef,
+  ]);
 
   const resetMapTransform = () => {
     if (transformComponentRef.current) {
@@ -144,7 +157,6 @@ function MapContents() {
       <TransformWrapper
         ref={transformComponentRef}
         {...zoomWrapperProps}
-        onTransformed={(e) => handleScaleChange(e)}
         disablePadding={true}
       >
         <TransformComponent
