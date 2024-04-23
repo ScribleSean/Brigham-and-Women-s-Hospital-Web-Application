@@ -197,8 +197,8 @@ function EdgeDisplay(props: EdgeDisplayProps) {
             {/* Ensure SVG allows pointer events */}
             <polyline
               style={{
-                stroke: "blue",
-                strokeWidth: 3,
+                stroke: "darkblue",
+                strokeWidth: 0.5,
                 cursor: "pointer",
                 pointerEvents: "visibleStroke",
               }}

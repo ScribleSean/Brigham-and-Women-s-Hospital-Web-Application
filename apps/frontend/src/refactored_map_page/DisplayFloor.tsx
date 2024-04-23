@@ -55,6 +55,8 @@ function FloorDisplay() {
   const [divHeight, setHeight] = useState(0);
   const isImageLoaded = useRef(false);
   const loadImageOnce = useRef(0);
+  const [left, setLeft] = useState(0);
+  const [top, setTop] = useState(0);
 
   function getWidthScaling(): number {
     return divWidth / IMAGE_WIDTH;
@@ -66,9 +68,11 @@ function FloorDisplay() {
 
   const updateDimensions = useCallback(() => {
     if (ref.current && !isImageLoaded.current) {
-      const { width, height } = ref.current.getBoundingClientRect();
+      const { width, height, left, top } = ref.current.getBoundingClientRect();
       setWidth(width);
       setHeight(height);
+      setLeft(left);
+      setTop(top);
       isImageLoaded.current = true;
     }
   }, []);
@@ -114,6 +118,8 @@ function FloorDisplay() {
       node: node,
       key: node.ID,
       scaling: getScaling(),
+      left: left,
+      top: top,
     };
   }
 

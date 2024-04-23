@@ -53,12 +53,16 @@ function displayToImageCoordinates(
   scale: number,
   widthScaling: number,
   heightScaling: number,
+  divLeft: number,
+  divTop: number,
 ): {
   imageX: number;
   imageY: number;
 } {
   // First, adjust the display coordinates by the current pan and scale
-  const adjustedX = (clientX - translationX) / scale;
+  console.log(divLeft);
+  console.log(divTop);
+  const adjustedX = (clientX - translationX - 55) / scale;
   const adjustedY = (clientY - translationY) / scale;
 
   // Then, convert these adjusted coordinates back to the original image's scale
@@ -95,6 +99,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const widthScaling = props.scaling.widthScaling;
   const heightScaling = props.scaling.heightScaling;
+  const left = props.left;
+  const top = props.top;
   const node = props.node;
   const {
     startNode,
@@ -295,8 +301,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         scale,
         widthScaling,
         heightScaling,
+        left,
+        top,
       );
       console.log("Converted Coordinates:", imageX, imageY);
+
       const newNode: Node = new Node(
         node.ID,
         imageX, //widthScaling,
@@ -337,6 +346,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       setUnsavedChanges,
       setNodesToBeEdited,
       setIsSaved,
+      left,
+      top,
     ],
   );
 
