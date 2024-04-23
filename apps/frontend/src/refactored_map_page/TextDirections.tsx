@@ -13,8 +13,15 @@ import EastIcon from "@mui/icons-material/East";
 export default TextDirections;
 
 function TextDirections() {
-  const { paths, startNode, endNode, directionsCounter, editorMode } =
-    useMapContext();
+  const {
+    paths,
+    startNode,
+    endNode,
+    directionsCounter,
+    setDirectionsCounter,
+    editorMode,
+    currentFloor,
+  } = useMapContext();
 
   const [directionsText, setDirectionsText] = useState<Array<string>>([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -22,6 +29,20 @@ function TextDirections() {
   const [expanded, setExpanded] = useState(true);
 
   const prevDirectionRef = useRef("");
+  const floorPaths = useRef(new Array<Path>());
+  let prevPathIndex: number = directionsCounter;
+  let nextPathIndex: number = directionsCounter;
+
+  useEffect(() => {
+    floorPaths.current = [];
+    if (paths) {
+      paths.forEach((path: Path) => {
+        if (path.edges[0].startNode.floor === currentFloor) {
+          floorPaths.current.push(path);
+        }
+      });
+    }
+  }, [currentFloor, paths]);
 
   const generateDirections = useCallback(
     (paths: Array<Path>) => {
@@ -144,12 +165,31 @@ function TextDirections() {
     (currentPage + 1) * directionsPerPage,
   );
 
-  const handleNext = () => {
+  const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, numPages - 1));
   };
 
-  const handlePrev = () => {
+  const handlePrevPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handleNextPath = () => {
+    for (let i = directionsCounter + 1; i < paths.length; i++) {
+      if (floorPaths.current.includes(paths[i])) {
+        nextPathIndex = i;
+        break;
+      }
+    }
+    setDirectionsCounter(nextPathIndex);
+  };
+
+  const handlePrevPath = () => {
+    for (let i = 0; i < paths.length - 1; i++) {
+      if (i < directionsCounter && floorPaths.current.includes(paths[i])) {
+        prevPathIndex = i;
+      }
+    }
+    setDirectionsCounter(prevPathIndex);
   };
 
   const getIconRotation = (direction: string) => {
@@ -166,6 +206,13 @@ function TextDirections() {
       return {};
     }
   };
+
+  const prevPathDisabled =
+    floorPaths.current.findIndex((path) => path === paths[directionsCounter]) <=
+    0;
+  const nextPathDisabled =
+    floorPaths.current.findIndex((path) => path === paths[directionsCounter]) >=
+    floorPaths.current.length - 1;
 
   return (
     <div>
@@ -195,11 +242,20 @@ function TextDirections() {
                   Page {currentPage + 1} of {numPages}
                 </p>
                 <div>
-                  <IconButton onClick={handlePrev} disabled={currentPage == 0}>
+                  <button onClick={handlePrevPath} disabled={prevPathDisabled}>
+                    Prev Path
+                  </button>
+                  <button onClick={handleNextPath} disabled={nextPathDisabled}>
+                    Next Path
+                  </button>
+                  <IconButton
+                    onClick={handlePrevPage}
+                    disabled={currentPage == 0}
+                  >
                     <ChevronLeftIcon />
                   </IconButton>
                   <IconButton
-                    onClick={handleNext}
+                    onClick={handleNextPage}
                     disabled={currentPage + 1 == numPages}
                   >
                     <ChevronRightIcon />
