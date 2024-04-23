@@ -44,12 +44,22 @@ function FlowerDeliveryFields() {
   const fetchLocations = async () => {
     try {
       const response = await axios.get("/api/room-name-fetch");
+
       const nodeIDNames = response.data.map(
-        (location: { nodeID: string }) => location.nodeID,
+        (node: { shortName: string; nodeID: string }) => ({
+          shortName: node.shortName,
+          nodeID: node.nodeID,
+        }),
       );
-      setLocationOptions(nodeIDNames);
+
+      const formattedNodes = nodeIDNames.map(
+        ({ shortName, nodeID }: { shortName: string; nodeID: string }) =>
+          `${shortName} (${nodeID})`,
+      );
+
+      setLocationOptions(formattedNodes);
     } catch (error) {
-      console.error("Failed to fetch locations", error);
+      console.error("Failed to fetch employee emails", error);
     }
   };
 
@@ -127,6 +137,7 @@ function FlowerDeliveryFields() {
     e.preventDefault(); // comment back out if it is only a gabe issue
 
     formData.employeeEmail = formData.employeeEmail.split("(")[1].split(")")[0];
+    formData.location = formData.location.split("(")[1].split(")")[0];
 
     try {
       const response = await axios.post(
@@ -161,7 +172,7 @@ function FlowerDeliveryFields() {
               options={employeeEmailOptions}
               fullWidth
               renderInput={(params) => (
-                <TextField {...params} label="Employee Email" required />
+                <TextField {...params} label="Employee" required />
               )}
               value={formData.employeeEmail}
               onChange={(e, value) =>
