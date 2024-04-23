@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import PlatformerBG from "./PlatformerBG.jsx";
-import Melanoma from "./Melanoma.jsx";
 import Lymphoma from "./Lymphoma.jsx";
 import Leukemia from "./Leukemia.jsx";
-import Sarcoma from "./Sarcoma.jsx";
 import Carcinoma from "./Carcinoma.jsx";
 import Lyme from "./Lyme.jsx";
 // import PlatformerGround from './PlatformerGround.jsx';
@@ -20,11 +18,13 @@ const Canvas = () => {
   );
 
   const [position, setPosition] = useState({
-    x: 0,
-    y: 600 - window.innerHeight,
+    x: -25,
+    y: 300 - window.innerHeight,
   });
 
-  const [velocity, setVelocity] = useState({ x: 0, y: 0 });
+    const [isAlive, setIsAlive] = useState(true);
+
+    const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const animationRef = useRef();
   const speed = 300;
 
@@ -127,10 +127,8 @@ const Canvas = () => {
   useEffect(() => {
     const spawnDisease = () => {
       const diseaseComponents = [
-        Melanoma,
         Lymphoma,
         Leukemia,
-        Sarcoma,
         Carcinoma,
         Lyme,
       ];
@@ -197,30 +195,39 @@ const Canvas = () => {
     return () => clearInterval(interval);
   }, []); // Add diseases as a dependency
 
+    const imageRef = useRef(null);
 
-  return (
+    return (
     <svg
       id="platformer-canvas"
       preserveAspectRatio="xMaxYMax none"
       viewBox={viewBox}
     >
       <PlatformerBG />
-      <circle id={"Player"} cx={position.x} cy={position.y} r={50} />
-      {diseases.map((disease, index) => {
-        const DiseaseComponent = disease.Component;
-        return (
-          <DiseaseComponent
-            key={index}
-            x={disease.x}
-            y={disease.y}
-            viewBox={viewBox}
-            player={document.getElementById("Player")}
-          />
-        );
-      })}
+        <PlatformerBG />
+        {isAlive && (
+            <>
+                <g ref={imageRef} width={150} height={325} id={"Player"} transform={`translate(${position.x}, ${position.y})`}>
+                    <image width={75} height={175} href={`${"/playerSoftEngF1.png"}`} />
+                </g>
+                {diseases.map((disease, index) => {
+                    const DiseaseComponent = disease.Component;
+                    return (
+                        <DiseaseComponent
+                            key={index}
+                            x={disease.x}
+                            y={disease.y}
+                            viewBox={viewBox}
+                            player={document.getElementById("Player")}
+                            setIsAlive={setIsAlive} // Pass the setIsAlive function as a prop
+                        />
+                    );
+                })}
+            </>
+        )}
       {/*<PlatformerGround />*/}
       {/* Timer display */}
-      <text x={10} y={30} fill="#FFFFFF">
+      <text className={"text-center"} x={0} y={30} fill="#FFFFFF">
         Time: {elapsedTime} seconds
       </text>
     </svg>

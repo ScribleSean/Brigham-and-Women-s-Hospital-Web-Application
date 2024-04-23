@@ -1,32 +1,34 @@
 // Leukemia.jsx
 import React, { useEffect, useRef } from "react";
 
-const Leukemia = ({ x, y, viewBox, player }) => {
+const Leukemia = ({ x, y, viewBox, player, setIsAlive }) => {
     const position = useRef({ x: x, y: y });
     const playerRef = useRef(player);
-    const rectRef = useRef(null);
+    const imageRef = useRef(null);
 
     useEffect(() => {
         position.current = { x: x, y: y };
 
-        const playerBBox = playerRef.current.getBBox();
-        const rectBBox = rectRef.current.getBBox();
+        const playerRect = playerRef.current.getBoundingClientRect();
+        const imageRect = imageRef.current.getBoundingClientRect();
+        imageRect.width *= 0.8;
+        imageRect.height *= 0.8;
 
-        if (isIntersecting(playerBBox, rectBBox)) {
+        if (isIntersecting(playerRect, imageRect)) {
             console.log("Collision detected!");
-            const playerRadius = playerRef.current.getAttribute("r");
-            playerRef.current.setAttribute("r", parseInt(playerRadius) - 50);
+            setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+
         }
-    }, [x, y, viewBox, player]);
+    }, [x, y, viewBox, player, setIsAlive]);
 
     return (
-        <rect
-            ref={rectRef}
+        <image
+            ref={imageRef}
             x={position.current.x}
             y={position.current.y}
-            width={175}
-            height={80}
-            fill="#FFA500"
+            width={65}
+            height={65}
+            href={"/blueDisease.png"}
         />
     );
 };

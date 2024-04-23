@@ -1,26 +1,45 @@
-// Lymphoma.jsx
+// Leukemia.jsx
 import React, { useEffect, useRef } from "react";
 
-const Lymphoma = ({ x, y, viewBox }) => {
+const Leukemia = ({ x, y, viewBox, player, setIsAlive }) => {
     const position = useRef({ x: x, y: y });
+    const playerRef = useRef(player);
+    const imageRef = useRef(null);
 
-  useEffect(() => {
-    position.current = { x: x, y: y };
+    useEffect(() => {
+        position.current = { x: x, y: y };
 
-      if( position.current.x < viewBox[0] ||
-          position.current.x > viewBox[0] + viewBox[2] ||
-          position.current.y < viewBox[1] ||
-          position.current.y > viewBox[1] + viewBox[3]) {
-          return undefined;
-      }
-  }, [x, y, viewBox]);
+        const playerRect = playerRef.current.getBoundingClientRect();
+        const imageRect = imageRef.current.getBoundingClientRect();
+        imageRect.width *= 0.8;
+        imageRect.height *= 0.8;
 
-  return (
-    <path
-      d={`M${position.current.x} ${position.current.y} Q${position.current.x - 50} ${position.current.y + 50}, ${position.current.x} ${position.current.y + 100}, ${position.current.x + 50} ${position.current.y + 150}, ${position.current.x + 100} ${position.current.y + 100}, ${position.current.x + 150} ${position.current.y + 50}, ${position.current.x + 100} ${position.current.y}`}
-      fill="#FF0000"
-    />
-  );
+        if (isIntersecting(playerRect, imageRect)) {
+            console.log("Collision detected!");
+            setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+
+        }
+    }, [x, y, viewBox, player, setIsAlive]);
+
+    return (
+        <image
+            ref={imageRef}
+            x={position.current.x}
+            y={position.current.y}
+            width={70}
+            height={70}
+            href={"/pinkDisease.png"}
+        />
+    );
 };
 
-export default Lymphoma;
+function isIntersecting(a, b) {
+    return (
+        a.x <= b.x + b.width &&
+        a.x + a.width >= b.x &&
+        a.y <= b.y + b.height &&
+        a.y + a.height >= b.y
+    );
+}
+
+export default Leukemia;
