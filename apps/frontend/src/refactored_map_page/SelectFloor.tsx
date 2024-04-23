@@ -47,7 +47,6 @@ export function FloorSelector(): React.JSX.Element {
     if (
       paths.length > 0 &&
       paths[directionsCounter].edges[0].startNode.floor !== floor
-      //When currentFloor takes two clicks, currentFloor does not update on first click in time for floor check
     ) {
       paths.forEach((path: Path) => {
         if (path.edges[0].startNode.floor === floor) {

@@ -424,12 +424,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       setEdgeStartNode(node);
     } else if (!edgeEndNode) {
       setEdgeEndNode(node);
-    } else {
-      if (edgeEndNode) {
-        graph?.addEdge(edgeStartNode, edgeEndNode);
-      }
-      setEdgeStartNode(node);
+      graph?.addEdge(edgeStartNode, node);
+      setEdgeStartNode(null);
       setEdgeEndNode(null);
+    } else {
+      setEdgeStartNode(node);
     }
   };
 
