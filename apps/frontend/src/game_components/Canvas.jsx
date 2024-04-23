@@ -123,58 +123,59 @@ const Canvas = () => {
 
   const [diseases, setDiseases] = useState([]);
 
-  // Spawn disease components at random intervals
-  useEffect(() => {
-    const spawnDisease = () => {
-      const diseaseComponents = [
-        Lymphoma,
-        Leukemia,
-        Carcinoma,
-        Lyme,
-      ];
-      const randomDiseaseIndex = Math.floor(
-        Math.random() * diseaseComponents.length,
-      );
-      const DiseaseComponent = diseaseComponents[randomDiseaseIndex];
-      // const maxSpeedPerSecond = 100; // Maximum speed in pixels per second
-      // const framesPerSecond = 60; // Frame rate
-      // const maxSpeedPerFrame = maxSpeedPerSecond / framesPerSecond;
-      const angle = Math.random() * 2 * Math.PI; // Random angle
-      const speed = 3; // Consistent speed
-      const margin = 50; // Margin to keep the lyme disease fully visible within the viewBox
+// Spawn disease components at random intervals
+    useEffect(() => {
+        const spawnDisease = () => {
+            const diseaseComponents = [Lymphoma, Leukemia, Carcinoma, Lyme];
+            const randomDiseaseIndex = Math.floor(
+                Math.random() * diseaseComponents.length
+            );
+            const DiseaseComponent = diseaseComponents[randomDiseaseIndex];
 
-      const newDisease = {
-        x:
-          Math.random() * Math.random() * (viewBox[2] - margin * 2) +
-          viewBox[0] +
-          margin, // Random X position
-        y:
-          Math.random() * Math.random() * (viewBox[3] - margin * 2) +
-          viewBox[1] +
-          margin, // Random Y position
-        velocityX: Math.cos(angle) * speed, // X velocity based on the angle
-        velocityY: Math.sin(angle) * speed, // Y velocity based on the angle
+            const speed = 3; // Consistent speed
+            const margin = 50; // Margin to keep the lyme disease fully visible within the viewBox
 
-        Component: DiseaseComponent,
-      };
+            // Calculate spawn point outside of viewBox
+            const spawnX = Math.random() > 0.5 ? viewBox[0] - margin : viewBox[0] + viewBox[2] + margin;
+            const spawnY = Math.random() * viewBox[3] + viewBox[1];
 
-      setDiseases((prevDiseases) => [...prevDiseases, newDisease]);
+            // Calculate angle towards viewBox center
+            const dx = viewBox[0] + viewBox[2] / 2 - spawnX;
+            const dy = viewBox[1] + viewBox[3] / 2 - spawnY;
+            const angleTowardsViewBox = Math.atan2(dy, dx);
 
-      // Schedule the next spawn
-      const timeoutId = setTimeout(spawnDisease, Math.random() * 2000 + 1000); // Random spawn interval between 1 and 3 seconds
+            // Adjust angle slightly for randomness
+            const finalAngle = angleTowardsViewBox + (Math.random() - 0.5) * Math.PI / 4;
 
-      // Store the timeout ID for cleanup
-      return () => clearTimeout(timeoutId);
-    };
+            const newDisease = {
+                x: spawnX,
+                y: spawnY,
+                velocityX: Math.cos(finalAngle) * speed, // X velocity based on the angle
+                velocityY: Math.sin(finalAngle) * speed, // Y velocity based on the angle
+                Component: DiseaseComponent,
+            };
 
-    // Start spawning diseases
-    spawnDisease();
+            setDiseases((prevDiseases) => [...prevDiseases, newDisease]);
 
-    // Clean up timer when component unmounts
-    return () => {
-      setDiseases([]);
-    };
-  }, [viewBox]);
+            // Schedule the next spawn
+            const timeoutId = setTimeout(
+                spawnDisease,
+                Math.random() * 2000 + 1000
+            ); // Random spawn interval between 1 and 3 seconds
+
+            // Store the timeout ID for cleanup
+            return () => clearTimeout(timeoutId);
+        };
+
+        // Start spawning diseases
+        spawnDisease();
+
+        // Clean up timer when component unmounts
+        return () => {
+            setDiseases([]);
+        };
+    }, [viewBox]);
+
 
   // Move disease components
   useEffect(() => {
@@ -207,8 +208,8 @@ const Canvas = () => {
         <PlatformerBG />
         {isAlive && (
             <>
-                <g ref={imageRef} width={150} height={325} id={"Player"} transform={`translate(${position.x}, ${position.y})`}>
-                    <image width={75} height={175} href={`${"/playerSoftEngF1.png"}`} />
+                <g ref={imageRef} width={75} height={100} id={"Player"} transform={`translate(${position.x}, ${position.y})`}>
+                    <image width={75} height={100} href={`${"/playerSoftEngF1.png"}`} />
                 </g>
                 {diseases.map((disease, index) => {
                     const DiseaseComponent = disease.Component;

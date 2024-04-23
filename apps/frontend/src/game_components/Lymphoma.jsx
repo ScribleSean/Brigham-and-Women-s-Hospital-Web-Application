@@ -17,7 +17,6 @@ const Leukemia = ({ x, y, viewBox, player, setIsAlive }) => {
         if (isIntersecting(playerRect, imageRect)) {
             console.log("Collision detected!");
             setIsAlive(false); // Call the setIsAlive function to set isAlive to false
-
         }
     }, [x, y, viewBox, player, setIsAlive]);
 
