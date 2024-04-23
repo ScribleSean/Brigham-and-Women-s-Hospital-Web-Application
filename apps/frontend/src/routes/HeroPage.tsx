@@ -42,17 +42,16 @@ function HeroPage() {
 
   return (
     <div className={"image-area"}>
-      <div className={"gradient row m-0"}>
+      {/*  main body */}
+      <div className={"gradient row m-0 "}>
         {/*Hospital Text*/}
-        <div className={" col-8 p-5 "}>
-          <div className={"header "}>
+        <div className={"mainbox col-8 p-5 border "}>
+          <div className={"header borders"}>
             Welcome to Brigham and Women's Hospital
           </div>
 
-          <div className={"space "}></div>
-
           {/*Carousel*/}
-          <div className="carousel subtitle ">
+          <div className="carousel subtitle borders">
             <div>
               <span>
                 Helping our patients and their families get back to what matters
@@ -79,6 +78,15 @@ function HeroPage() {
                 most.
               </span>
             </div>
+          </div>
+
+          {/*disclaimer*/}
+          <div className={" disclaimer border"}>
+            <p>
+              This website is a term project exercise for WPI CS 3733 Software
+              Engineering (Prof. Wong) and is not to be confused with the actual
+              Brigham & Women’s Hospital website{" "}
+            </p>
           </div>
         </div>
 
