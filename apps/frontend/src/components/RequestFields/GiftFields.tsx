@@ -17,24 +17,43 @@ import { giftDeliveryRequest } from "common/src/backend_interfaces/giftDeliveryR
 function GiftFields() {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
 
+  const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
+    [],
+  );
+
+  const fetchEmployeeEmail = async () => {
+    try {
+      const response = await axios.get("/api/employee-email-fetch");
+      const employeeEmails = response.data.map(
+        (employeeEmail: { employeeEmail: string }) =>
+          employeeEmail.employeeEmail,
+      );
+      setemployeeEmailOptions(employeeEmails);
+    } catch (error) {
+      console.error("Failed to fetch employee emails", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        const response = await axios.get("/api/room-name-fetch");
-        const locationNames = response.data.map(
-          (location: { longName: string }) => location.longName,
-        );
-        setLocationOptions(locationNames);
-      } catch (error) {
-        console.error("Failed to fetch locations", error);
-      }
-    };
+    fetchEmployeeEmail();
     fetchLocations();
   }, []);
 
+  const fetchLocations = async () => {
+    try {
+      const response = await axios.get("/api/room-name-fetch");
+      const nodeIDNames = response.data.map(
+        (location: { nodeID: string }) => location.nodeID,
+      );
+      setLocationOptions(nodeIDNames);
+    } catch (error) {
+      console.error("Failed to fetch locations", error);
+    }
+  };
+
   const [formData, setFormData] = useState<giftDeliveryRequest>({
     SRID: 0,
-    employeeName: "",
+    employeeEmail: "",
     location: "",
     priority: "",
     status: "",
@@ -47,6 +66,16 @@ function GiftFields() {
   });
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
+
+  // This is for email fetching
+  const handleEmployeeEmailAutocompleteChange = (value: string | null) => {
+    if (value) {
+      setFormData({
+        ...formData,
+        employeeEmail: value,
+      });
+    }
+  };
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -74,7 +103,7 @@ function GiftFields() {
   const resetForm = () => {
     setFormData({
       SRID: 0,
-      employeeName: "",
+      employeeEmail: "",
       location: "",
       priority: "",
       status: "",
@@ -87,7 +116,9 @@ function GiftFields() {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // comment back out if it is only a gabe issue
+
     try {
       const response = await axios.post("/api/gift-service-request", formData);
       console.log(response.data);
@@ -113,15 +144,17 @@ function GiftFields() {
       <form onSubmit={handleSubmit}>
         <div className={`${styles.commonInputsContainer}`}>
           <div className={`${styles.doubleInputRow}`}>
-            <TextField
-              id={"employeeName"}
+            <Autocomplete
+              id="employeeEmail"
+              options={employeeEmailOptions}
               fullWidth
-              variant={"outlined"}
-              label={"Employee Name"}
-              sx={{ marginRight: "2%" }}
-              required
-              value={formData.employeeName}
-              onChange={handleTextFieldChange}
+              renderInput={(params) => (
+                <TextField {...params} label="Employee Email" required />
+              )}
+              value={formData.employeeEmail}
+              onChange={(e, value) =>
+                handleEmployeeEmailAutocompleteChange(value)
+              }
             />
             <Autocomplete
               disablePortal
