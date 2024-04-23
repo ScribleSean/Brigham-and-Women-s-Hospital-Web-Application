@@ -76,6 +76,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [translationX, setTranslationX] = useState<number>(0);
   const [translationY, setTranslationY] = useState<number>(0);
 
+  const [edgeStartNode, setEdgeStartNode] = useState<Node | null>(null);
+  const [edgeEndNode, setEdgeEndNode] = useState<Node | null>(null);
+
   const value = {
     startNode,
     setStartNode,
@@ -140,6 +143,11 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     resetZoomingFunction,
     setResetZoomingFunction,
+
+    edgeStartNode,
+    setEdgeStartNode,
+    edgeEndNode,
+    setEdgeEndNode,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

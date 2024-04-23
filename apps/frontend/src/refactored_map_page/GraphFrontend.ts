@@ -68,8 +68,6 @@ export default class GraphFrontend {
 
   public populateGraph(edges: Array<Edge>) {
     for (const edge of edges) {
-      const edgeID: string = edge.ID;
-
       const startNode = new Node(
         edge.startNode.ID as string,
         edge.startNode.x as number,
@@ -91,7 +89,7 @@ export default class GraphFrontend {
         edge.endNode.longName as string,
         edge.endNode.shortName as string,
       );
-      this.addEdge(new Edge(edgeID, startNode, endNode));
+      this.addEdge(startNode, endNode);
     }
   }
 
@@ -174,7 +172,9 @@ export default class GraphFrontend {
     return this;
   }
 
-  public addEdge(edge: Edge): GraphFrontend {
+  public addEdge(startNode: Node, endNode: Node): GraphFrontend {
+    const edgeID = startNode.ID + endNode.ID;
+    const edge = new Edge(edgeID, startNode, endNode);
     // Check if both nodes exist in the lookup table before adding an edge
     if (!this.lookupTable.has(edge.startNode.ID)) {
       this.addNode(edge.startNode);

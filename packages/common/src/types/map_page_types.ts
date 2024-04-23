@@ -122,4 +122,5 @@ export enum EditorMode {
   addNodes = "add nodes",
   addEdges = "add edges",
   disabled = "disabled",
+  editMode = "edit mode",
 }
