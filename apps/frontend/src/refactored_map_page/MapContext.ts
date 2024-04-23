@@ -39,6 +39,8 @@ interface MapContextType {
 
   disableZoomPanning: boolean;
   scale: number;
+  translationX: number;
+  translationY: number;
 
   nodesToBeDeleted: Array<Node>;
   edgesToBeDeleted: Array<Edge>;
@@ -73,6 +75,8 @@ interface MapContextType {
 
   setDisableZoomPanning: (disableZoomPanning: boolean) => void;
   setScale: (scale: number) => void;
+  setTranslationX: (translationX: number) => void;
+  setTranslationY: (translationY: number) => void;
 
   setNodesToBeDeleted: (nodes: Array<Node>) => void;
   setEdgesToBeDeleted: (edges: Array<Edge>) => void;
