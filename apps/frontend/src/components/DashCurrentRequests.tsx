@@ -508,6 +508,7 @@ export default function DashCurrentRequests({
   useEffect(() => {
     async function fetchData() {
       const res = await axios.get("/api/service-request");
+      console.log(res);
       setRequestData(res.data);
       console.log("successfully got data from get request");
     }
@@ -516,11 +517,19 @@ export default function DashCurrentRequests({
     const fetchEmployeeEmail = async () => {
       try {
         const response = await axios.get("/api/employee-email-fetch");
-        const employeeEmails = response.data.map(
-          (employeeEmail: { employeeEmail: string }) =>
-            employeeEmail.employeeEmail,
+        const employeeData = response.data.map(
+          (employee: { name: string; employeeEmail: string }) => ({
+            name: employee.name,
+            employeeEmail: employee.employeeEmail,
+          }),
         );
-        setemployeeEmailOptions(employeeEmails);
+
+        const formattedEmails = employeeData.map(
+          ({ name, employeeEmail }: { name: string; employeeEmail: string }) =>
+            `${name} (${employeeEmail})`,
+        );
+
+        setemployeeEmailOptions(formattedEmails);
       } catch (error) {
         console.error("Failed to fetch employee emails", error);
       }

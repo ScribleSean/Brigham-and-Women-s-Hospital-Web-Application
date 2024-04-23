@@ -8,9 +8,10 @@ router.get("/", async function (req, res) {
   const employeeEmailFetch = await PrismaClient.employee.findMany({
     select: {
       employeeEmail: true,
+      name: true,
     },
     orderBy: {
-      employeeEmail: "asc",
+      name: "asc",
     },
   });
   res.json(employeeEmailFetch);
