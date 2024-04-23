@@ -52,7 +52,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-          <Route path="/credits" element={<Credits />} />
+        <Route path="/credits" element={<Credits />} />
       </Routes>
     </Router>
   );
