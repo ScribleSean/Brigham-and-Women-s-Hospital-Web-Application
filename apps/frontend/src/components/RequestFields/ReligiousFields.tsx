@@ -23,11 +23,19 @@ function ReligiousFields() {
   const fetchEmployeeEmail = async () => {
     try {
       const response = await axios.get("/api/employee-email-fetch");
-      const employeeEmails = response.data.map(
-        (employeeEmail: { employeeEmail: string }) =>
-          employeeEmail.employeeEmail,
+      const employeeData = response.data.map(
+        (employee: { name: string; employeeEmail: string }) => ({
+          name: employee.name,
+          employeeEmail: employee.employeeEmail,
+        }),
       );
-      setemployeeEmailOptions(employeeEmails);
+
+      const formattedEmails = employeeData.map(
+        ({ name, employeeEmail }: { name: string; employeeEmail: string }) =>
+          `${name} (${employeeEmail})`,
+      );
+
+      setemployeeEmailOptions(formattedEmails);
     } catch (error) {
       console.error("Failed to fetch employee emails", error);
     }
@@ -133,7 +141,9 @@ function ReligiousFields() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // comment out if this is a gabe issue
-    console.log(formData);
+
+    formData.employeeEmail = formData.employeeEmail.split("(")[1].split(")")[0];
+
     try {
       const response = await axios.post(
         "/api/religious-service-request",
