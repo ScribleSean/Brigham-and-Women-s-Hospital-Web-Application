@@ -6,13 +6,6 @@ const LymeDisease = ({ x, y, viewBox }) => {
 
   useEffect(() => {
     position.current = { x: x, y: y };
-
-      if( position.current.x < viewBox[0] ||
-          position.current.x > viewBox[0] + viewBox[2] ||
-          position.current.y < viewBox[1] ||
-          position.current.y > viewBox[1] + viewBox[3]) {
-          return undefined;
-      }
   }, [x, y, viewBox]);
 
   return (

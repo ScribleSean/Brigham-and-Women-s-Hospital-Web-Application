@@ -3,27 +3,24 @@ import React, { useEffect, useRef } from "react";
 const Carcinoma = ({ x, y, viewBox, player }) => {
     const position = useRef({ x: x, y: y });
     const playerRef = useRef(player);
+    const rectRef = useRef(null);
 
     useEffect(() => {
         position.current = { x: x, y: y };
 
-        const playerPosition = playerRef.current.getAttribute("cx");
-        const playerY = playerRef.current.getAttribute("cy");
-        const playerRadius = playerRef.current.getAttribute("r");
+        const playerBBox = playerRef.current.getBBox();
+        const rectBBox = rectRef.current.getBBox();
 
-        const distance = Math.sqrt(
-            (position.current.x - playerPosition) ** 2 +
-            (position.current.y - playerY) ** 2
-        );
-
-        if (distance < parseInt(playerRadius) + 50) {
+        if (isIntersecting(playerBBox, rectBBox)) {
             console.log("Collision detected!");
-            // Handle the collision here
+            const playerRadius = playerRef.current.getAttribute("r");
+            playerRef.current.setAttribute("r", parseInt(playerRadius) - 50);
         }
     }, [x, y, viewBox, player]);
 
     return (
         <rect
+            ref={rectRef}
             x={position.current.x}
             y={position.current.y}
             width={100}
@@ -32,5 +29,14 @@ const Carcinoma = ({ x, y, viewBox, player }) => {
         />
     );
 };
+
+function isIntersecting(a, b) {
+    return (
+        a.x <= b.x + b.width &&
+        a.x + a.width >= b.x &&
+        a.y <= b.y + b.height &&
+        a.y + a.height >= b.y
+    );
+}
 
 export default Carcinoma;
