@@ -51,6 +51,9 @@ interface MapContextType {
 
   unsavedChanges: boolean;
 
+  edgeStartNode: Node | null;
+  edgeEndNode: Node | null;
+
   //---------------------------------------
   setStartNode: (node: Node | null) => void;
   setEndNode: (node: Node | null) => void;
@@ -88,6 +91,9 @@ interface MapContextType {
   setUnsavedChanges: (hasChanged: boolean) => void;
   resetZoomingFunction: () => void;
   setResetZoomingFunction: (func: () => void) => void;
+
+  setEdgeStartNode: (node: Node | null) => void;
+  setEdgeEndNode: (node: Node | null) => void;
 }
 
 const MapContext = createContext<MapContextType | undefined>(undefined);

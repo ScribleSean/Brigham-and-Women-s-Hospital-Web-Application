@@ -123,6 +123,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setGraph,
     translationY,
     translationX,
+    edgeStartNode,
+    setEdgeStartNode,
+    edgeEndNode,
+    setEdgeEndNode,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -462,13 +466,65 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setEditedNode(tempNode);
   };
 
-  if (editorMode === EditorMode.deleteNodes) {
+  const handleAddEdge = () => {
+    if (!edgeStartNode) {
+      setEdgeStartNode(node);
+    } else if (!edgeEndNode) {
+      setEdgeEndNode(node);
+    } else {
+      if (edgeEndNode) {
+        graph?.addEdge(edgeStartNode, edgeEndNode);
+      }
+      setEdgeStartNode(node);
+      setEdgeEndNode(null);
+    }
+  };
+
+  // if (editorMode === EditorMode.deleteNodes) {
+  //   return (
+  //     <button
+  //       className="none"
+  //       style={normalNodeStyle}
+  //       onClick={() => handleDeleteNode(node)}
+  //     />
+  //   );
+  // }
+
+  if (editorMode === EditorMode.addEdges) {
+    if (showNodes) {
+      return (
+        <div>
+          <button
+            className="node-selector"
+            style={{
+              ...normalNodeStyle,
+              cursor: dragging ? "grabbing" : "grab",
+            }}
+            onMouseDown={handleMouseDown}
+            onClick={() => handleAddEdge()}
+          ></button>
+        </div>
+      );
+    }
+
     return (
-      <button
-        className="none"
-        style={normalNodeStyle}
-        onClick={() => handleDeleteNode(node)}
-      />
+      <div>
+        {node.type !== NodeType.ELEV &&
+        node.type !== NodeType.STAI &&
+        node.type !== NodeType.HALL ? (
+          <div>
+            <button
+              className="node-selector"
+              style={{
+                ...normalNodeStyle,
+                cursor: dragging ? "grabbing" : "grab",
+              }}
+              onMouseDown={handleMouseDown}
+              onClick={() => handleAddEdge()}
+            ></button>
+          </div>
+        ) : null}
+      </div>
     );
   }
 
