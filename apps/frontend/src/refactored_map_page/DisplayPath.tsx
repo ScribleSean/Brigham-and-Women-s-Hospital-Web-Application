@@ -100,7 +100,7 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
   }
 
   const transparent: string = "transparent"; // Transparent for paths not on floor
-  const lightBlue: string = "lightBlue"; // Light blue color for other paths on floor
+  /* const lightBlue: string = "lightBlue"; // Light blue color for other paths on floor*/
   const darkBlue: string = "darkBlue"; // Dark blue color for the current path
   const strokeDasharray: number = 5;
 
@@ -152,7 +152,7 @@ function PathDisplay(props: PathDisplayProps): React.JSX.Element {
             path.edges[0].startNode.floor === currentFloor &&
             paths[directionsCounter] !== path
           ) {
-            strokeColor = lightBlue;
+            strokeColor = darkBlue;
           }
           if (paths[directionsCounter] === paths[index]) {
             strokeColor = darkBlue;

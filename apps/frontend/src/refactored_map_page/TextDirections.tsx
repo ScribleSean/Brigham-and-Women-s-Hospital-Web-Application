@@ -1,9 +1,14 @@
 import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useMapContext } from "./MapContext.ts";
-import { List, ListItem, ListSubheader, Typography } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
-import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
+import styles from "../styles/TextDirections.module.css";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import EastIcon from "@mui/icons-material/East";
 
 export default TextDirections;
 
@@ -13,6 +18,8 @@ function TextDirections() {
 
   const [directionsText, setDirectionsText] = useState<Array<string>>([]);
   const [currentPage, setCurrentPage] = useState(0);
+
+  const [expanded, setExpanded] = useState(true);
 
   const prevDirectionRef = useRef("");
 
@@ -130,7 +137,7 @@ function TextDirections() {
     return <></>;
   }
 
-  const directionsPerPage = 3;
+  const directionsPerPage = 5;
   const numPages = Math.ceil(directionsText.length / directionsPerPage);
   const pagedDirections = directionsText.slice(
     currentPage * directionsPerPage,
@@ -145,107 +152,62 @@ function TextDirections() {
     setCurrentPage((prev) => Math.max(prev - 1, 0));
   };
 
+  const getIconRotation = (direction: string) => {
+    if (direction.includes("Turn right") || direction.includes("Bear right")) {
+      return {};
+    } else if (
+      direction.includes("Turn left") ||
+      direction.includes("Bear left")
+    ) {
+      return { transform: "rotate(180deg)" };
+    } else if (direction.includes("Continue straight")) {
+      return { transform: "rotate(270deg)" };
+    } else {
+      return {};
+    }
+  };
+
   return (
     <div>
       {startNode && endNode ? (
-        <div>
-          <List
-            subheader={
-              <ListSubheader
-                sx={{
-                  color: "#012D5A",
-                  fontWeight: "bold",
-                  fontSize: "1.5rem",
-                  fontFamily: "inter",
-                  textAlign: "center",
-                }}
-              >
-                Directions
-              </ListSubheader>
-            }
-            sx={{
-              position: "absolute",
-              height: "28vh",
-              width: "24.5vw",
-              backgroundColor: "background.paper",
-              borderRadius: "1rem",
-              bottom: 0,
-              right: 0,
-              marginBottom: "3vh",
-              marginRight: "9vw",
-              zIndex: 1,
-              boxShadow: 5,
-              overflow: "hidden",
-            }}
-          >
-            {pagedDirections.map((direction, i) => (
-              <ListItem
-                key={i}
-                sx={{
-                  color: "black",
-                  backgroundColor: "#e0e0e0",
-                  fontFamily: "inter",
-                }}
-              >
-                <Typography
-                  sx={{
-                    marginRight: "1rem",
-                    color: "#012D5A",
-                    fontFamily: "inter",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {i + 1 + currentPage * directionsPerPage}.
-                </Typography>
-                <Typography>{direction}</Typography>
-              </ListItem>
-            ))}
-            <ListItem
-              sx={{
-                color: "black",
-                fontSize: "0.8rem",
-                textAlign: "right!important",
-              }}
-            >
-              Page {currentPage + 1} of {numPages}
-            </ListItem>
-          </List>
-          <ForwardRoundedIcon
-            onClick={handleNext}
-            sx={{
-              position: "absolute",
-              color: "#012D5A!important",
-              fontSize: "3rem",
-              bottom: 0,
-              right: 0,
-              marginBottom: "24.5vh",
-              marginRight: "9vw",
-              zIndex: 3,
-              ":hover": {
-                cursor: "pointer",
-                color: "#2196F3!important",
-              },
-            }}
-          />
-
-          <ForwardRoundedIcon
-            onClick={handlePrev}
-            sx={{
-              position: "absolute",
-              color: "#012D5A!important",
-              fontSize: "3rem",
-              bottom: 0,
-              right: 0,
-              marginBottom: "24.5vh",
-              marginRight: "11.5vw",
-              zIndex: 3,
-              transform: "rotate(180deg)",
-              ":hover": {
-                cursor: "pointer",
-                color: "#2196F3!important",
-              },
-            }}
-          />
+        <div className={`${styles.directionsContainer}`}>
+          <div className={`${styles.directionsHeader}`}>
+            <h5>Text Directions</h5>
+            <IconButton onClick={() => setExpanded(!expanded)}>
+              {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+            </IconButton>
+          </div>
+          {expanded ? (
+            <div>
+              <div className={`${styles.directionsContent}`}>
+                {pagedDirections.map((direction, i) => (
+                  <div key={i} className={`${styles.directionsText}`}>
+                    <EastIcon sx={{ ...getIconRotation(direction) }} />
+                    <p className={`${styles.stepNumber}`}>
+                      <b>{i + 1 + currentPage * directionsPerPage}.</b>
+                    </p>
+                    <p>{direction}</p>
+                  </div>
+                ))}
+              </div>
+              <div className={`${styles.directionsFooter}`}>
+                <p>
+                  Page {currentPage + 1} of {numPages}
+                </p>
+                <div>
+                  <IconButton onClick={handlePrev} disabled={currentPage == 0}>
+                    <ChevronLeftIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={handleNext}
+                    disabled={currentPage + 1 == numPages}
+                  >
+                    <ChevronRightIcon />
+                  </IconButton>
+                </div>
+              </div>
+            </div>
+          ) : null}
         </div>
       ) : null}
     </div>
