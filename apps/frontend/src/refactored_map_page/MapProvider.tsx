@@ -73,6 +73,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     // This is a no-op function intentionally left empty as a placeholder.
   });
 
+  const [translationX, setTranslationX] = useState<number>(0);
+  const [translationY, setTranslationY] = useState<number>(0);
+
   const value = {
     startNode,
     setStartNode,
@@ -111,6 +114,10 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     setDisableZoomPanning,
     scale,
     setScale,
+    translationX,
+    setTranslationX,
+    translationY,
+    setTranslationY,
 
     nodesToBeDeleted,
     setNodesToBeDeleted,

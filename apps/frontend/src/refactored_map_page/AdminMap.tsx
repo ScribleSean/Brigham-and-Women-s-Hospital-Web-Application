@@ -45,6 +45,8 @@ function MapContents() {
     disableZoomPanning,
     setResetZoomingFunction,
     currentFloor,
+    setTranslationX,
+    setTranslationY,
   } = useMapContext();
 
   const transformComponentRef = useRef<ReactZoomPanPinchRef>(null);
@@ -59,6 +61,8 @@ function MapContents() {
 
   function handleScaleChange(event: ReactZoomPanPinchRef) {
     setScale(event.instance.transformState.scale);
+    setTranslationX(event.instance.transformState.positionX);
+    setTranslationY(event.instance.transformState.positionY);
   }
 
   const resetMapTransform = () => {

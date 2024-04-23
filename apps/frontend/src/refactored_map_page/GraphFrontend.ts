@@ -97,7 +97,6 @@ export default class GraphFrontend {
 
   public addNode(node: Node): GraphFrontend {
     if (this.lookupTable.has(node.ID)) {
-      console.log("The graph already contains that node");
       return this;
     }
     this.lookupTable.set(node.ID, node);
@@ -107,7 +106,6 @@ export default class GraphFrontend {
   }
 
   public removeNode(nodeID: string): GraphFrontend {
-    console.log("before removing node", this);
     if (!this.lookupTable.has(nodeID)) {
       console.error("The graph does not contain such node");
       return this;
@@ -132,13 +130,10 @@ export default class GraphFrontend {
       });
     });
 
-    console.log("after removing node", this);
-
     return this;
   }
 
   public editNode(editedNode: Node): GraphFrontend {
-    console.log("before edit function", this);
     // First, check if the node exists in the lookup table
     if (!this.lookupTable.has(editedNode.ID)) {
       console.error("Node to edit does not exist");
@@ -175,8 +170,6 @@ export default class GraphFrontend {
     // Update the current GraphFrontend instance's properties
     this.lookupTable = new Map<string, Node>(this.lookupTable);
     this.adjLists = newAdjLists;
-
-    console.log("after edit function", this);
 
     return this;
   }
