@@ -60,11 +60,13 @@ function ShowNodesEdgesDropDown() {
         borderRadius: "5px",
         position: "absolute",
         display: "flex",
-        width: "13vw",
+        // width: "13vw",
         height: "5vh",
         marginTop: "12vh",
         marginLeft: "2vw",
         alignItems: "center",
+        justifyContent: "center",
+        padding: "0.5rem",
         zIndex: 3,
       }}
     >
