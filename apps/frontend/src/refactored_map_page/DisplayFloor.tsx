@@ -72,8 +72,10 @@ function FloorDisplay() {
       try {
         const edges: Array<Edge> = (await axios.get("/api/edges"))
           .data as Array<Edge>;
+        const nodes: Array<Node> = (await axios.get("/api/nodes"))
+          .data as Array<Node>;
         const graph: GraphFrontend = new GraphFrontend();
-        graph.populateGraph(edges);
+        graph.populateGraph(nodes, edges);
         setGraph(graph);
       } catch (error) {
         console.error("Failed to fetch nodes data:", error);

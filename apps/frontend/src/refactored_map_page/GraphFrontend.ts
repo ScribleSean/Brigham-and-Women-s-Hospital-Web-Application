@@ -36,7 +36,21 @@ export default class GraphFrontend {
     });
   }
 
-  public populateGraph(edges: Array<Edge>) {
+  public populateGraph(nodes: Array<Node>, edges: Array<Edge>) {
+    for (const node of nodes) {
+      this.addNode(
+        new Node(
+          node.ID as string,
+          node.x as number,
+          node.y as number,
+          node.floor as FloorType,
+          node.building as BuildingType,
+          node.type as NodeType,
+          node.longName as string,
+          node.shortName as string,
+        ),
+      );
+    }
     for (const edge of edges) {
       const startNode = new Node(
         edge.startNode.ID as string,

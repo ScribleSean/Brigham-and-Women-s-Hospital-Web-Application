@@ -1,38 +1,38 @@
 import express, { Request, Response, Router } from "express";
-import { FloorType, Graph, Node } from "common/src/DataStructures.ts";
-import { createGraph } from "../algorithms/request_functions/createGraph.ts";
 import {
-  NodesByFloor,
-  NodesOptionsRequest,
-} from "common/src/types/map_page_types.ts";
+  BuildingType,
+  FloorType,
+  Node,
+  NodeType,
+} from "common/src/DataStructures.ts";
+import PrismaClient from "../bin/database-connection";
 
 const router: Router = express.Router();
 
-router.post("/", async function (req: Request, res: Response) {
-  const { includeHallways, byFloors, showAllNodes } =
-    req.body as NodesOptionsRequest;
-  const graph: Graph = await createGraph(res, false);
+router.get("/", async function (req: Request, res: Response) {
+  const nodesFrontEnd: Array<Node> = new Array<Node>();
 
-  let getIncludeHallways = includeHallways;
-
-  if (showAllNodes) {
-    getIncludeHallways = true;
-  }
-
-  if (byFloors) {
-    const nodesByFloor: NodesByFloor = {
-      L2: graph.getNodesByFloor(FloorType.L2, getIncludeHallways),
-      L1: graph.getNodesByFloor(FloorType.L1, getIncludeHallways),
-      firstFloor: graph.getNodesByFloor(FloorType.first, getIncludeHallways),
-      secondFloor: graph.getNodesByFloor(FloorType.second, getIncludeHallways),
-      thirdFloor: graph.getNodesByFloor(FloorType.third, getIncludeHallways),
-    };
-    res.send(JSON.stringify(nodesByFloor));
-  }
-
-  if (!byFloors) {
-    const nodes: Array<Node> = graph.getNodes(getIncludeHallways);
-    res.send(JSON.stringify(nodes));
+  const databaseNodes = await PrismaClient.node.findMany();
+  if (databaseNodes === null) {
+    console.log("error with the database");
+  } else if (databaseNodes.length === 0) {
+    console.log("no dangling nodes in the database");
+    res.send(JSON.stringify(new Array<Node>()));
+  } else {
+    for (const nodeDatabase of databaseNodes) {
+      const nodeFrontEnd: Node = new Node(
+        nodeDatabase.nodeID as string,
+        nodeDatabase.xcoord as number,
+        nodeDatabase.ycoord as number,
+        nodeDatabase.floor as FloorType,
+        nodeDatabase.building as BuildingType,
+        nodeDatabase.nodeType as NodeType,
+        nodeDatabase.longName as string,
+        nodeDatabase.shortName as string,
+      );
+      nodesFrontEnd.push(nodeFrontEnd);
+    }
+    res.send(JSON.stringify(nodesFrontEnd));
   }
 });
 
