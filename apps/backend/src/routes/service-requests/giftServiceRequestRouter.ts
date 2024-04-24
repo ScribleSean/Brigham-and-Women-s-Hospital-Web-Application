@@ -36,6 +36,17 @@ router.post("/", async function (req, res) {
         deliveryDate: gift.deliveryDate,
       },
     });
+
+    await PrismaClient.employee.update({
+      where: {
+        employeeEmail: serviceRequest.employeeEmail,
+      },
+      data: {
+        numberOfServiceRequests: {
+          increment: 1,
+        },
+      },
+    });
     res.sendStatus(200);
   } catch (error) {
     res.sendStatus(500);
