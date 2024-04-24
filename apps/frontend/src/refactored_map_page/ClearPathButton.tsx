@@ -6,7 +6,8 @@ import { EditorMode } from "common/src/types/map_page_types.ts";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const ClearPathButton: React.FC = () => {
-  const { setStartNode, setEndNode, editorMode } = useMapContext();
+  const { setStartNode, setEndNode, editorMode, startNode, endNode } =
+    useMapContext();
 
   const handleClick = () => {
     setStartNode(null);
@@ -23,6 +24,7 @@ const ClearPathButton: React.FC = () => {
       sx={{
         marginRight: "8px",
       }}
+      disabled={!startNode || !endNode}
     >
       <ClearIcon />
     </IconButton>

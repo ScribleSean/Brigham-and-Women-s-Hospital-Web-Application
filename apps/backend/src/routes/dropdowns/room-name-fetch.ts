@@ -12,6 +12,7 @@ router.get("/", async function (req, res) {
       },
     },
     select: {
+      shortName: true,
       nodeID: true,
     },
     orderBy: {
