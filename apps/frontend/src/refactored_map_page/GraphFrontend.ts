@@ -17,53 +17,23 @@ const createNewNode = (node: Node) => {
   );
 };
 
-const createNewEdge = (edge: Edge) => {
-  return new Edge(
-    edge.ID,
-    createNewNode(edge.startNode),
-    createNewNode(edge.endNode),
-  );
-};
-
 export default class GraphFrontend {
   public lookupTable: Map<string, Node>;
   public adjLists: Map<FloorType, Map<string, Array<Edge>>>;
 
-  public constructor(graph?: GraphFrontend) {
-    if (graph) {
-      // Deep clone the lookupTable
-      this.lookupTable = new Map();
-      graph.lookupTable.forEach((node, nodeID) => {
-        // Assuming Node has a clone method or similar mechanism
-        this.lookupTable.set(nodeID, createNewNode(node));
-      });
-
-      // Deep clone the adjLists
-      this.adjLists = new Map();
-      graph.adjLists.forEach((map, floor) => {
-        const newMap = new Map();
-        map.forEach((edges, nodeID) => {
-          newMap.set(
-            nodeID,
-            edges.map((edge) => createNewEdge(edge)),
-          );
-        });
-        this.adjLists.set(floor, newMap);
-      });
-    } else {
-      this.lookupTable = new Map<string, Node>();
-      this.adjLists = new Map<FloorType, Map<string, Array<Edge>>>();
-      const floorTypes: Array<FloorType> = [
-        FloorType.L2,
-        FloorType.L1,
-        FloorType.first,
-        FloorType.second,
-        FloorType.third,
-      ];
-      floorTypes.forEach((floorType: FloorType) => {
-        this.adjLists.set(floorType, new Map<string, Array<Edge>>());
-      });
-    }
+  public constructor() {
+    this.lookupTable = new Map<string, Node>();
+    this.adjLists = new Map<FloorType, Map<string, Array<Edge>>>();
+    const floorTypes: Array<FloorType> = [
+      FloorType.L2,
+      FloorType.L1,
+      FloorType.first,
+      FloorType.second,
+      FloorType.third,
+    ];
+    floorTypes.forEach((floorType: FloorType) => {
+      this.adjLists.set(floorType, new Map<string, Array<Edge>>());
+    });
   }
 
   public populateGraph(edges: Array<Edge>) {
@@ -89,7 +59,7 @@ export default class GraphFrontend {
         edge.endNode.longName as string,
         edge.endNode.shortName as string,
       );
-      this.addEdge(startNode, endNode);
+      this.addEdge(edge.ID, startNode, endNode);
     }
   }
 
@@ -172,7 +142,7 @@ export default class GraphFrontend {
     return this;
   }
 
-  public addEdge(startNode: Node, endNode: Node): GraphFrontend {
+  public addEdge(ID: string, startNode: Node, endNode: Node): GraphFrontend {
     const edgeID = startNode.ID + endNode.ID;
     const edge = new Edge(edgeID, startNode, endNode);
     // Check if both nodes exist in the lookup table before adding an edge

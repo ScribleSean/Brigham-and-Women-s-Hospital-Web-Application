@@ -424,7 +424,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
       setEdgeStartNode(node);
     } else if (!edgeEndNode) {
       setEdgeEndNode(node);
-      graph?.addEdge(edgeStartNode, node);
+      graph?.addEdge(edgeStartNode.ID + node.ID, edgeStartNode, node);
       setEdgeStartNode(null);
       setEdgeEndNode(null);
     } else {
