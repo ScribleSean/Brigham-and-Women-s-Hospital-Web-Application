@@ -53,7 +53,6 @@ interface MapContextType {
 
   edgeStartNode: Node | null;
   edgeEndNode: Node | null;
-
   //---------------------------------------
   setStartNode: (node: Node | null) => void;
   setEndNode: (node: Node | null) => void;

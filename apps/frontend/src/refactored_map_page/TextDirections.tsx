@@ -32,6 +32,7 @@ function TextDirections() {
   const floorPaths = useRef(new Array<Path>());
   let prevPathIndex: number = directionsCounter;
   let nextPathIndex: number = directionsCounter;
+  const directionsPerPage = 5;
 
   useEffect(() => {
     floorPaths.current = [];
@@ -158,12 +159,16 @@ function TextDirections() {
     return <></>;
   }
 
-  const directionsPerPage = 5;
-  const numPages = Math.ceil(directionsText.length / directionsPerPage);
-  const pagedDirections = directionsText.slice(
-    currentPage * directionsPerPage,
-    (currentPage + 1) * directionsPerPage,
-  );
+  let numPages: number = 0;
+  let pagedDirections: Array<string> = [];
+
+  if (paths) {
+    numPages = Math.ceil(directionsText.length / directionsPerPage);
+    pagedDirections = directionsText.slice(
+      currentPage * directionsPerPage,
+      (currentPage + 1) * directionsPerPage,
+    );
+  }
 
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, numPages - 1));
