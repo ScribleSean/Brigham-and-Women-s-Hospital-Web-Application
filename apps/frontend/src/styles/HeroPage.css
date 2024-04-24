@@ -77,7 +77,10 @@
 
 /*random spacing divs*/
 .mainbox {
-  justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   /*justify-items: stretch;*/
   /*align-content: space-between;*/
   /*height: 100vh;*/
@@ -121,7 +124,7 @@
 /*Map button*/
 .toMap {
   align-items: center;
-  margin-right: 12%;
+  margin-right: 8%;
   padding: 2%;
   /*animation: bounce 3.5s ease-in-out infinite;*/
   /*border-radius: 30px;*/
@@ -130,6 +133,7 @@
     box-shadow 0.1s ease-in-out,
     background-color 0.1s ease-in-out;
   /*box-shadow: 7px 7px 0;*/
+  border-radius: 7px;
 }
 
 /*Button Hover State*/
@@ -183,38 +187,38 @@
 /*Carousel*/
 @keyframes carousel {
   0% {
-    transform: translateY(-5%);
+    transform: translateY(0%);
   }
   20% {
-    transform: translateY(-27%);
+    transform: translateY(-20%);
   }
-  30% {
-    /*pause*/
-    transform: translateY(-27%);
-  }
+  /*30% {*/
+  /*  !*pause*!*/
+  /*  transform: translateY(-30%);*/
+  /*}*/
   40% {
-    transform: translateY(-50%);
+    transform: translateY(-40%);
   }
-  50% {
-    /*    pause*/
-    transform: translateY(-50%);
-  }
+  /*50% {*/
+  /*  !*    pause*!*/
+  /*  transform: translateY(-50%);*/
+  /*}*/
   60% {
-    transform: translateY(-72%);
+    transform: translateY(-60%);
   }
-  70% {
-    /*puase*/
-    transform: translateY(-72%);
-  }
+  /*70% {*/
+  /*  !*puase*!*/
+  /*  transform: translateY(-70%);*/
+  /*}*/
   80% {
-    transform: translateY(-93%);
+    transform: translateY(-80%);
   }
-  90% {
-    /*pause*/
-    transform: translateY(-93%);
-  }
+  /*90% {*/
+  /*  !*pause*!*/
+  /*  transform: translateY(-90%);*/
+  /*}*/
   100% {
-    transform: translateY(-115%);
+    transform: translateY(-100%);
   }
 }
 
@@ -257,4 +261,8 @@
   100% {
     transform: translateX(0%);
   }
+}
+
+.hero-staff-login a:hover {
+  cursor: pointer;
 }

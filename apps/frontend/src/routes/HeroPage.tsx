@@ -46,37 +46,39 @@ function HeroPage() {
       <div className={"gradient row m-0 "}>
         {/*Hospital Text*/}
         <div className={"mainbox col-8 p-5  "}>
-          <div className={"header "}>
-            Welcome to Brigham and Women's Hospital
-          </div>
+          <div>
+            <div className={"header "}>
+              Welcome to Brigham and Women's Hospital
+            </div>
 
-          {/*Carousel*/}
-          <div className="carousel subtitle ">
-            <div>
-              <span>
-                Helping our patients and their families get back to what matters
-                most.
-              </span>
-              <span>
-                Excellence in medical research and patient care, our commitment
-                continues.
-              </span>
-              <span>
-                Dedicated to a century of leadership in healthcare and patient
-                service.
-              </span>
-              <span>
-                Leading the way in comprehensive healthcare, where every patient
-                is family.
-              </span>
-              <span>
-                Together in health, every step of the way—because family
-                matters.
-              </span>
-              <span>
-                Helping our patients and their families get back to what matters
-                most.
-              </span>
+            {/*Carousel*/}
+            <div className="carousel subtitle ">
+              <div>
+                <span>
+                  Helping our patients and their families get back to what
+                  matters most.
+                </span>
+                <span>
+                  Excellence in medical research and patient care, our
+                  commitment continues.
+                </span>
+                <span>
+                  Dedicated to a century of leadership in healthcare and patient
+                  service.
+                </span>
+                <span>
+                  Leading the way in comprehensive healthcare, where every
+                  patient is family.
+                </span>
+                <span>
+                  Together in health, every step of the way—because family
+                  matters.
+                </span>
+                <span>
+                  Helping our patients and their families get back to what
+                  matters most.
+                </span>
+              </div>
             </div>
           </div>
 
@@ -96,14 +98,14 @@ function HeroPage() {
           <div className={"boxPad"}>
             <div className={"tempBox paragraph "}>
               <p className={"wordPad"}>21 C</p>
-              <DeviceThermostatIcon sx={{ color: "#ffffff", fontSize: 55 }}>
+              <DeviceThermostatIcon sx={{ color: "#ffffff", fontSize: 45 }}>
                 {" "}
               </DeviceThermostatIcon>
             </div>
 
             <div className={"tempSpace tempBox paragraph "}>
               <p className={"wordPad"}>50% wet</p>
-              <img src={HumidityIcon} alt={"Image"} width={"50"} />
+              <img src={HumidityIcon} alt={"Image"} width={"45"} />
             </div>
           </div>
 
@@ -132,11 +134,14 @@ function HeroPage() {
           </div>
 
           {/*admin login*/}
-          <div
-            onClick={() => loginWithRedirect()}
-            className={"boxPad d-flex justify-content-center paragraph "}
-          >
-            <p> Staff Member? Log In</p>
+          <div className={"boxPad d-flex justify-content-end paragraph "}>
+            <p className={"hero-staff-login"}>
+              {" "}
+              Staff Member?{" "}
+              <a onClick={() => loginWithRedirect()}>
+                <u>Log in</u>
+              </a>
+            </p>
             {/*<p>Log In</p>*/}
           </div>
         </div>
