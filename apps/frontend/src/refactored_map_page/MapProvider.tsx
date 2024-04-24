@@ -2,7 +2,6 @@ import React, { ReactNode, useState } from "react";
 import {
   AccessibilityType,
   EditorMode,
-  NodeWithAssociatedEdges,
   OldNewEdge,
   OldNewNode,
 } from "common/src/types/map_page_types.ts";
@@ -59,9 +58,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [edgesToBeEdited, setEdgesToBeEdited] = useState<Array<OldNewEdge>>(
     new Array<OldNewEdge>(),
   );
-  const [nodesToBeAdded, setNodesToBeAdded] = useState<
-    Array<NodeWithAssociatedEdges>
-  >(new Array<NodeWithAssociatedEdges>());
+  const [nodesToBeAdded, setNodesToBeAdded] = useState<Array<Node>>(
+    new Array<Node>(),
+  );
   const [edgesToBeAdded, setEdgesToBeAdded] = useState<Array<Edge>>(
     new Array<Edge>(),
   );

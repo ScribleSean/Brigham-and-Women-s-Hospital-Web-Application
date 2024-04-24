@@ -9,7 +9,6 @@ import {
 import {
   AccessibilityType,
   EditorMode,
-  NodeWithAssociatedEdges,
   OldNewEdge,
 } from "common/src/types/map_page_types.ts";
 import { OldNewNode } from "common/src/types/map_page_types.ts";
@@ -46,7 +45,7 @@ interface MapContextType {
   edgesToBeDeleted: Array<Edge>;
   nodesToBeEdited: Array<OldNewNode>;
   edgesToBeEdited: Array<OldNewEdge>;
-  nodesToBeAdded: Array<NodeWithAssociatedEdges>;
+  nodesToBeAdded: Array<Node>;
   edgesToBeAdded: Array<Edge>;
 
   unsavedChanges: boolean;
@@ -86,7 +85,7 @@ interface MapContextType {
   setEdgesToBeDeleted: (edges: Array<Edge>) => void;
   setNodesToBeEdited: (nodes: Array<OldNewNode>) => void;
   setEdgesToBeEdited: (edges: Array<OldNewEdge>) => void;
-  setNodesToBeAdded: (nodes: Array<NodeWithAssociatedEdges>) => void;
+  setNodesToBeAdded: (nodes: Array<Node>) => void;
   setEdgesToBeAdded: (edges: Array<Edge>) => void;
 
   setUnsavedChanges: (hasChanged: boolean) => void;

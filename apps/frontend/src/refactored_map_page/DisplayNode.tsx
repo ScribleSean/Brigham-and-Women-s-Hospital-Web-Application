@@ -443,8 +443,13 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   //   );
   // }
 
+  useEffect(() => {
+    if (editorMode === EditorMode.addEdges) {
+      setSelectedOption("showBoth");
+    }
+  }, [editorMode, setSelectedOption]);
+
   if (editorMode === EditorMode.addEdges) {
-    setSelectedOption("show nodes");
     if (showNodes) {
       return (
         <div>

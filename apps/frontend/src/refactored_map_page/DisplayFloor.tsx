@@ -63,6 +63,8 @@ function FloorDisplay() {
     translationY,
     setUnsavedChanges,
     setDisableZoomPanning,
+    nodesToBeAdded,
+    setNodesToBeAdded,
   } = useMapContext();
 
   useEffect(() => {
@@ -216,6 +218,7 @@ function FloorDisplay() {
       console.log(newNode);
       setGraph(graph.addNode(makeNode(newNode)));
     }
+    setNodesToBeAdded([...nodesToBeAdded, makeNode(newNode)]);
     setUnsavedChanges(true);
     resetNewNode();
   };

@@ -76,7 +76,7 @@ export interface DeleteEdgesOptionsRequest {
 }
 
 export interface AddNodesOptionsRequest {
-  nodesWithAssociatedEdges: Array<NodeWithAssociatedEdges>;
+  nodes: Array<Node>;
 }
 
 export interface AddEdgesOptionsRequest {
