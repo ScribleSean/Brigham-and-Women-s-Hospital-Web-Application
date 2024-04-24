@@ -1,6 +1,6 @@
 import { religiousServiceRequest } from "common/src/backend_interfaces/religiousServiceRequest.ts";
 import express, { Router } from "express";
-import PrismaClient from "../bin/database-connection.ts";
+import PrismaClient from "../../bin/database-connection.ts";
 
 const router: Router = express.Router();
 
@@ -10,7 +10,7 @@ router.post("/", async function (req, res) {
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({
       data: {
-        employeeName: religion.employeeName,
+        employeeEmail: religion.employeeEmail,
         priority: religion.priority,
         location: religion.location,
         status: religion.status,
@@ -31,6 +31,17 @@ router.post("/", async function (req, res) {
       update: {
         religionName: religion.religionName,
         objectName: religion.objectName,
+      },
+    });
+
+    await PrismaClient.employee.update({
+      where: {
+        employeeEmail: serviceRequest.employeeEmail,
+      },
+      data: {
+        numberOfServiceRequests: {
+          increment: 1,
+        },
       },
     });
 

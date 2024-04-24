@@ -18,6 +18,8 @@ import {
   TableBody,
   TablePagination,
   SelectChangeEvent,
+  Popover,
+  Button,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -27,13 +29,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 // import DeleteIcon from '@mui/icons-material/Delete';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import axios from "axios";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
 function createData(
   SRID: number,
   serviceType: string,
-  employeeName: string,
+  employeeEmail: string,
   location: string,
   priority: string,
   status: string,
@@ -42,7 +45,7 @@ function createData(
   return {
     SRID,
     serviceType,
-    employeeName,
+    employeeEmail,
     location,
     priority,
     status,
@@ -77,7 +80,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   const [requestData, setRequestData] = useState({
     SRID: 0,
     serviceType: "",
-    employeeName: "",
+    employeeEmail: "",
     location: "",
     priority: "",
     status: "",
@@ -90,7 +93,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     deliveryDate: "",
     giftType: "",
     medicineType: "",
-    dosageAmount: 0,
+    dosageAmount: "",
     dosageType: "",
     deviceName: "",
     deviceQuantity: "",
@@ -245,7 +248,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           {row.SRID}
         </TableCell>
         <TableCell align="right">{row.serviceType}</TableCell>
-        <TableCell align="right">{row.employeeName}</TableCell>
+        <TableCell align="right">{row.employeeEmail}</TableCell>
         <TableCell align="right">{row.location}</TableCell>
         <TableCell align="right" sx={{ textWrap: "nowrap" }}>
           <span
@@ -472,10 +475,14 @@ export default function DashCurrentRequests({
 
   const [requestData, setRequestData] = useState<ServiceRequest[]>();
 
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("Any");
   const [filterPriority, setFilterPriority] = useState("Any");
   const [filterStatus, setFilterStatus] = useState("Any");
+  const [filterEmployee, setFilterEmployee] = useState("Any");
 
   const filterRows = (rows: ServiceRequest[]) => {
     return rows.filter((row) => {
@@ -490,22 +497,50 @@ export default function DashCurrentRequests({
         filterPriority === "Any" || row.priority === filterPriority;
       const matchesFilterStatus =
         filterStatus === "Any" || row.status === filterStatus;
+      const matchesFilterEmployee =
+        filterEmployee === "Any" || row.employeeEmail === filterEmployee;
       return (
         matchesSearchTerm &&
         matchesFilterType &&
         matchesFilterPriority &&
-        matchesFilterStatus
+        matchesFilterStatus &&
+        matchesFilterEmployee
       );
     });
   };
-
+  const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
+    [],
+  );
   useEffect(() => {
     async function fetchData() {
       const res = await axios.get("/api/service-request");
+      console.log(res);
       setRequestData(res.data);
       console.log("successfully got data from get request");
     }
     fetchData().then();
+
+    const fetchEmployeeEmail = async () => {
+      try {
+        const response = await axios.get("/api/employee-email-fetch");
+        const employeeData = response.data.map(
+          (employee: { name: string; employeeEmail: string }) => ({
+            name: employee.name,
+            employeeEmail: employee.employeeEmail,
+          }),
+        );
+
+        const formattedEmails = employeeData.map(
+          ({ name, employeeEmail }: { name: string; employeeEmail: string }) =>
+            `${name} (${employeeEmail})`,
+        );
+
+        setemployeeEmailOptions(formattedEmails);
+      } catch (error) {
+        console.error("Failed to fetch employee emails", error);
+      }
+    };
+    fetchEmployeeEmail();
   }, []);
 
   let rows: ServiceRequest[] = [];
@@ -545,7 +580,7 @@ export default function DashCurrentRequests({
         </div>
         {/*<hr className={`${styles.divider}`} />*/}
         <div className={`${styles.tableMutators}`}>
-          <div className={`${styles.filterMenu}`}>
+          <div className={`${styles.searchMenu}`}>
             <label htmlFor="searchBar" className={`${styles.filterMenuText}`}>
               Search
             </label>
@@ -553,9 +588,6 @@ export default function DashCurrentRequests({
               id={"searchBar"}
               variant={"outlined"}
               size={"small"}
-              sx={{
-                width: "80%",
-              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -567,75 +599,125 @@ export default function DashCurrentRequests({
             />
           </div>
           <div className={`${styles.filterMenu}`}>
-            <label
-              htmlFor={"filterType"}
-              className={`${styles.filterMenuText}`}
+            <Button
+              variant={"outlined"}
+              startIcon={<FilterAltIcon />}
+              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                setPopoverOpen(true);
+                setAnchorEl(event.currentTarget);
+              }}
             >
-              Filter by:
-            </label>
-            <div className={`${styles.filterSelectors}`}>
-              <FormControl fullWidth size={"small"}>
-                <InputLabel id="filterTypeLabel">Type</InputLabel>
-                <Select
-                  labelId="filterTypeLabel"
-                  id="filterType"
-                  label="Type"
-                  defaultValue={"Any"}
-                  onChange={(event) =>
-                    setFilterType(event.target.value as string)
-                  }
-                >
-                  <MenuItem value={"Any"}>
-                    <em>Any</em>
-                  </MenuItem>
-                  <MenuItem value={"Flower Delivery"}>Flower Delivery</MenuItem>
-                  <MenuItem value={"Gift Delivery"}>Gift Delivery</MenuItem>
-                  <MenuItem value={"Medicine"}>Medicine</MenuItem>
-                  <MenuItem value={"Medical Device"}>Medical Device</MenuItem>
-                  <MenuItem value={"Room Scheduling"}>Room Scheduling</MenuItem>
-                  <MenuItem value={"Religious"}>Religious</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl fullWidth size={"small"} sx={{ px: "2%" }}>
-                <InputLabel id="filterPriorityLabel">Priority</InputLabel>
-                <Select
-                  labelId="filterPriorityLabel"
-                  id="filterPriority"
-                  label="Priority"
-                  defaultValue={"Any"}
-                  onChange={(event) =>
-                    setFilterPriority(event.target.value as string)
-                  }
-                >
-                  <MenuItem value={"Any"}>
-                    <em>Any</em>
-                  </MenuItem>
-                  <MenuItem value={"Low"}>Low</MenuItem>
-                  <MenuItem value={"Medium"}>Medium</MenuItem>
-                  <MenuItem value={"High"}>High</MenuItem>
-                  <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl fullWidth size={"small"}>
-                <InputLabel id="filterStatusLabel">Status</InputLabel>
-                <Select
-                  labelId="filterStatusLabel"
-                  id="filterStatus"
-                  label="Status"
-                  defaultValue={"Any"}
-                  onChange={(event) =>
-                    setFilterStatus(event.target.value as string)
-                  }
-                >
-                  <MenuItem value={"Any"}>
-                    <em>Any</em>
-                  </MenuItem>
-                  <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-                  <MenuItem value={"Assigned"}>Assigned</MenuItem>
-                  <MenuItem value={"In Progress"}>In Progress</MenuItem>
-                  <MenuItem value={"Closed"}>Closed</MenuItem>
-                </Select>
-              </FormControl>
+              Filter
+            </Button>
+            <div>
+              <Popover
+                open={popoverOpen}
+                anchorEl={anchorEl}
+                onClose={() => {
+                  setPopoverOpen(false);
+                  setAnchorEl(null);
+                }}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+              >
+                <div className={`${styles.filterSelectors}`}>
+                  <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
+                    <InputLabel id="filterEmployeeLabel">Employee</InputLabel>
+                    <Select
+                      labelId="filterEmployeeLabel"
+                      id="filterEmployee"
+                      label="Employee"
+                      value={filterEmployee} // Add this line
+                      onChange={(event) =>
+                        setFilterEmployee(event.target.value as string)
+                      }
+                    >
+                      <MenuItem value={"Any"}>
+                        <em>Any</em>
+                      </MenuItem>
+                      {employeeEmailOptions.map((email) => (
+                        <MenuItem key={email} value={email}>
+                          {email}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
+                    <InputLabel id="filterTypeLabel">Type</InputLabel>
+                    <Select
+                      labelId="filterTypeLabel"
+                      id="filterType"
+                      label="Type"
+                      value={filterType} // Add this line
+                      onChange={(event) =>
+                        setFilterType(event.target.value as string)
+                      }
+                    >
+                      <MenuItem value={"Any"}>
+                        <em>Any</em>
+                      </MenuItem>
+                      <MenuItem value={"Flower Delivery"}>
+                        Flower Delivery
+                      </MenuItem>
+                      <MenuItem value={"Gift Delivery"}>Gift Delivery</MenuItem>
+                      <MenuItem value={"Medicine"}>Medicine</MenuItem>
+                      <MenuItem value={"Medical Device"}>
+                        Medical Device
+                      </MenuItem>
+                      <MenuItem value={"Room Scheduling"}>
+                        Room Scheduling
+                      </MenuItem>
+                      <MenuItem value={"Religious"}>Religious</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
+                    <InputLabel id="filterPriorityLabel">Priority</InputLabel>
+                    <Select
+                      labelId="filterPriorityLabel"
+                      id="filterPriority"
+                      label="Priority"
+                      value={filterPriority} // Add this line
+                      onChange={(event) =>
+                        setFilterPriority(event.target.value as string)
+                      }
+                    >
+                      <MenuItem value={"Any"}>
+                        <em>Any</em>
+                      </MenuItem>
+                      <MenuItem value={"Low"}>Low</MenuItem>
+                      <MenuItem value={"Medium"}>Medium</MenuItem>
+                      <MenuItem value={"High"}>High</MenuItem>
+                      <MenuItem value={"Emergency"}>Emergency</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
+                    <InputLabel id="filterStatusLabel">Status</InputLabel>
+                    <Select
+                      labelId="filterStatusLabel"
+                      id="filterStatus"
+                      label="Status"
+                      value={filterStatus} // Add this line
+                      onChange={(event) =>
+                        setFilterStatus(event.target.value as string)
+                      }
+                    >
+                      <MenuItem value={"Any"}>
+                        <em>Any</em>
+                      </MenuItem>
+                      <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+                      <MenuItem value={"Assigned"}>Assigned</MenuItem>
+                      <MenuItem value={"In Progress"}>In Progress</MenuItem>
+                      <MenuItem value={"Closed"}>Closed</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              </Popover>
             </div>
           </div>
         </div>

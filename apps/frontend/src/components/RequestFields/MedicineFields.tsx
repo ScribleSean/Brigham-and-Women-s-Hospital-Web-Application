@@ -17,21 +17,52 @@ import axios from "axios";
 
 function MedicineFields() {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
+  const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
+    [],
+  );
 
-  useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        const response = await axios.get("/api/room-name-fetch");
-        const locationNames = response.data.map(
-          (location: { longName: string }) => location.longName,
-        );
-        setLocationOptions(locationNames);
-      } catch (error) {
-        console.error("Failed to fetch locations", error);
-      }
-    };
-    fetchLocations();
-  }, []);
+  const fetchEmployeeEmail = async () => {
+    try {
+      const response = await axios.get("/api/employee-email-fetch");
+      const employeeData = response.data.map(
+        (employee: { name: string; employeeEmail: string }) => ({
+          name: employee.name,
+          employeeEmail: employee.employeeEmail,
+        }),
+      );
+
+      const formattedEmails = employeeData.map(
+        ({ name, employeeEmail }: { name: string; employeeEmail: string }) =>
+          `${name} (${employeeEmail})`,
+      );
+
+      setemployeeEmailOptions(formattedEmails);
+    } catch (error) {
+      console.error("Failed to fetch employee emails", error);
+    }
+  };
+
+  const fetchLocations = async () => {
+    try {
+      const response = await axios.get("/api/room-name-fetch");
+
+      const nodeIDNames = response.data.map(
+        (node: { shortName: string; nodeID: string }) => ({
+          shortName: node.shortName,
+          nodeID: node.nodeID,
+        }),
+      );
+
+      const formattedNodes = nodeIDNames.map(
+        ({ shortName, nodeID }: { shortName: string; nodeID: string }) =>
+          `${shortName} (${nodeID})`,
+      );
+
+      setLocationOptions(formattedNodes);
+    } catch (error) {
+      console.error("Failed to fetch employee emails", error);
+    }
+  };
 
   const medicineOptions = [
     "Aspirin",
@@ -90,7 +121,7 @@ function MedicineFields() {
 
   const [formData, setFormData] = useState<medicineDeliveryRequest>({
     SRID: 0,
-    employeeName: "",
+    employeeEmail: "",
     location: "",
     priority: "",
     status: "",
@@ -101,9 +132,19 @@ function MedicineFields() {
     serviceType: "Medicine",
   });
 
+  const handleEmployeeEmailAutocompleteChange = (value: string | null) => {
+    if (value) {
+      setFormData({
+        ...formData,
+        employeeEmail: value,
+      });
+    }
+  };
+
   useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+    fetchLocations();
+    fetchEmployeeEmail();
+  }, []);
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
@@ -133,7 +174,7 @@ function MedicineFields() {
   const resetForm = () => {
     setFormData({
       SRID: 0,
-      employeeName: "",
+      employeeEmail: "",
       location: "",
       priority: "",
       status: "",
@@ -145,10 +186,15 @@ function MedicineFields() {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // comment out if this is a gabe issue
+
+    formData.employeeEmail = formData.employeeEmail.split("(")[1].split(")")[0];
+    formData.location = formData.location.split("(")[1].split(")")[0];
+
     try {
       const response = await axios.post(
-        "/api/medical-device-service-request",
+        "/api/medicine-delivery-service-request",
         formData,
       );
       console.log(response.data);
@@ -174,15 +220,17 @@ function MedicineFields() {
       <form onSubmit={handleSubmit}>
         <div className={`${styles.commonInputsContainer}`}>
           <div className={`${styles.doubleInputRow}`}>
-            <TextField
-              id={"employeeName"}
+            <Autocomplete
+              id="employeeEmail"
+              options={employeeEmailOptions}
               fullWidth
-              variant={"outlined"}
-              label={"Employee Name"}
-              sx={{ marginRight: "2%" }}
-              required
-              value={formData.employeeName}
-              onChange={handleTextFieldChange}
+              renderInput={(params) => (
+                <TextField {...params} label="Employee" required />
+              )}
+              value={formData.employeeEmail}
+              onChange={(e, value) =>
+                handleEmployeeEmailAutocompleteChange(value)
+              }
             />
             <Autocomplete
               disablePortal

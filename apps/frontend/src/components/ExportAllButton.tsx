@@ -4,6 +4,8 @@ import { Download } from "@mui/icons-material";
 const ExportAllButton = () => {
   const [fileNode, setFileNode] = useState("");
   const [fileEdge, setFileEdge] = useState("");
+  const [fileEmployee, setFileEmployee] = useState("");
+
   // const [loading, setLoading] = useState(true);
 
   const handleExportButton = () => {
@@ -24,6 +26,15 @@ const ExportAllButton = () => {
     document.body.appendChild(link2);
     link2.click();
     document.body.removeChild(link2);
+
+    // Employee Data export
+    const blob3 = new Blob([fileEmployee], { type: "text/csv" });
+    const link3 = document.createElement("a");
+    link3.href = URL.createObjectURL(blob3);
+    link3.download = "exported_employee_data.csv";
+    document.body.appendChild(link3);
+    link3.click();
+    document.body.removeChild(link3);
   };
 
   useEffect(() => {
@@ -46,6 +57,15 @@ const ExportAllButton = () => {
         }
         const result2 = await response2.text();
         setFileEdge(result2);
+
+        // Make a GET request to the Employee endpoint
+        const response3 = await fetch("/api/download-employee-csv");
+
+        if (!response3.ok) {
+          throw new Error(`HTTP error! Status: ${response3.status}`);
+        }
+        const result3 = await response3.text();
+        setFileEmployee(result3);
       } catch (err) {
         console.log("Failed");
       } finally {
@@ -72,7 +92,7 @@ const ExportAllButton = () => {
         marginRight: "16px",
       }}
     >
-      Export Both
+      Export All
     </Button>
   );
 };

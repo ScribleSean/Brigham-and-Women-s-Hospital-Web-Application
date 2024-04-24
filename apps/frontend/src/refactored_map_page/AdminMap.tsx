@@ -21,6 +21,7 @@ import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
 import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
 import { Box } from "@mui/material";
+import { EditorMode } from "common/src/types/map_page_types.ts";
 
 const mapDiv: CSSProperties = {
   height: "100vh",
@@ -94,6 +95,8 @@ function MapContents() {
     return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
   }, [setResetZoomingFunction, transformComponentRef, currentFloor]);
 
+  const { editorMode } = useMapContext();
+
   return (
     <div style={mapDiv}>
       <TextDirections />
@@ -121,11 +124,11 @@ function MapContents() {
           flexDirection: "column",
           marginTop: "11vh",
           marginLeft: "5vw",
-          backgroundColor: "white",
+          backgroundColor: editorMode === EditorMode.disabled ? "white" : null,
           zIndex: 3,
           padding: "1rem",
           paddingLeft: "0.5rem",
-          boxShadow: 7,
+          boxShadow: editorMode === EditorMode.disabled ? 7 : null,
           borderRadius: "5px",
         }}
       >

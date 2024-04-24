@@ -1,5 +1,5 @@
 import styles from "../styles/Banner.module.css";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { Popover } from "@mui/material";
 import React from "react";
@@ -9,13 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-interface UserInfo {
-  name?: string;
-  role?: string;
-  email?: string;
-}
-
-function RightSide(props: UserInfo) {
+function RightSide() {
   const { isAuthenticated, user } = useAuth0();
   const userRoles = user ? user["http://localhost:3000/roles"] : [];
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -62,10 +56,7 @@ function RightSide(props: UserInfo) {
             horizontal: "center",
           }}
         >
-          <div className={`${styles.popover}`}>
-            <p className={`${styles.email}`}>{props.email}</p>
-            <LogoutButton />
-          </div>
+          <LogoutButton />
         </Popover>
       </div>
     );
@@ -85,40 +76,44 @@ function RightSide(props: UserInfo) {
   }
 }
 
-function Banner(props: UserInfo) {
+function Banner() {
   return (
     <>
       <div className={`${styles.banner}`}>
         <div className={`${styles.logoAndTitle}`}>
-          <a href="/">
+          <a href="/" className={`${styles.logoLink}`}>
             <img src="/logo.png" alt="logo" className={`${styles.logo}`} />
           </a>
           <h5 className={`${styles.title}`}>Brigham & Women's Hospital</h5>
-          <IconButton
-            sx={{
-              color: "#012d5a",
-              "&:hover": {
-                color: "#1665c0",
-              },
-              ml: "8px",
-            }}
-            href={"/about"}
-          >
-            <InfoOutlinedIcon />
-          </IconButton>
-          <IconButton
-            sx={{
-              color: "#012d5a",
-              "&:hover": {
-                color: "#1665c0",
-              },
-            }}
-            href={"/credits"}
-          >
-            <CopyrightIcon />
-          </IconButton>
+          <Tooltip title={"About"} arrow>
+            <IconButton
+              sx={{
+                color: "#012d5a",
+                "&:hover": {
+                  color: "#1665c0",
+                },
+                ml: "8px",
+              }}
+              href={"/about"}
+            >
+              <InfoOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={"Credits"} arrow>
+            <IconButton
+              sx={{
+                color: "#012d5a",
+                "&:hover": {
+                  color: "#1665c0",
+                },
+              }}
+              href={"/credits"}
+            >
+              <CopyrightIcon />
+            </IconButton>
+          </Tooltip>
         </div>
-        <RightSide name={props.name} role={props.role} email={props.email} />
+        <RightSide />
       </div>
     </>
   );
