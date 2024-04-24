@@ -53,17 +53,35 @@
   0% {
     left: 0;
   }
-  20% {
+  9.0909% {
     left: -100%;
   }
-  40% {
+  18.1818% {
     left: -200%;
   }
-  60% {
+  27.2727% {
     left: -300%;
   }
-  80% {
+  36.3636% {
     left: -400%;
+  }
+  45.4545% {
+    left: -500%;
+  }
+  54.5454% {
+    left: -600%;
+  }
+  63.6363% {
+    left: -700%;
+  }
+  72.7272% {
+    left: -800%;
+  }
+  81.8181% {
+    left: -900%;
+  }
+  90.9090% {
+    left: -1000%;
   }
   100% {
     left: 0;
@@ -96,7 +114,7 @@
   position: absolute;
   width: 100%;
   height: 500%;
-  animation: carousel 25s infinite;
+  animation: carousel 45s infinite;
 }
 
 .carousel p {
