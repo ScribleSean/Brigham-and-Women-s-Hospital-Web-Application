@@ -1,20 +1,19 @@
 import React from "react";
-import { bgAndGroundWidth } from "../game_utils/constants.js";
 
 const PlatformerBG = () => {
-  const platformerStyle = {
-    fill: "#30abef",
+  const containerStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    zIndex: -1,
+    backgroundImage: "url('/backgroundCancerGame.png')",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
   };
-  const gameHeight = 1200;
-  return (
-    <rect
-      style={platformerStyle}
-      x={bgAndGroundWidth / -2}
-      y={100 - gameHeight}
-      width={bgAndGroundWidth}
-      height={gameHeight}
-    />
-  );
+
+  return <div style={containerStyle}></div>;
 };
 
 export default PlatformerBG;
