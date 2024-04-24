@@ -1,20 +1,17 @@
 import {
   EditorMode,
   NodeDisplayProps,
-  NodesByFloor,
-  EdgesByFloor,
   OldNewNode,
 } from "common/src/types/map_page_types.ts";
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties, useCallback, useEffect, useState } from "react";
 import {
   BuildingType,
+  Edge,
   FloorType,
   Node,
   NodeType,
   Path,
-  Edge,
 } from "common/src/DataStructures.ts";
-import Draggable from "react-draggable";
 import { useMapContext } from "./MapContext.ts";
 import "../styles/DisplayNode.css";
 import Typography from "@mui/material/Typography";
@@ -28,134 +25,15 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   TextField,
 } from "@mui/material";
+import {
+  displayToImageCoordinates,
+  imageToDisplayCoordinates,
+} from "./scalingUtils.ts";
 
 export default NodeDisplay;
-
-function imageToDisplayCoordinates(
-  x: number,
-  scalingX: number,
-  y: number,
-  scalingY: number,
-): { displayX: number; displayY: number } {
-  return {
-    displayX: x * scalingX,
-    displayY: y * scalingY,
-  };
-}
-
-function addNode(nodesByFloor: NodesByFloor, node: Node): NodesByFloor {
-  const L1: Array<Node> = nodesByFloor.L1;
-  const L2: Array<Node> = nodesByFloor.L2;
-  const firstFloor: Array<Node> = nodesByFloor.firstFloor;
-  const secondFloor: Array<Node> = nodesByFloor.secondFloor;
-  const thirdFloor: Array<Node> = nodesByFloor.thirdFloor;
-
-  switch (node.floor) {
-    case FloorType.L2:
-      L2.push(node);
-      break;
-    case FloorType.L1:
-      L1.push(node);
-      break;
-    case FloorType.first:
-      firstFloor.push(node);
-      break;
-    case FloorType.second:
-      secondFloor.push(node);
-      break;
-    case FloorType.third:
-      thirdFloor.push(node);
-      break;
-  }
-  return {
-    L2: L2,
-    L1: L1,
-    firstFloor: firstFloor,
-    secondFloor: secondFloor,
-    thirdFloor: thirdFloor,
-  };
-}
-
-function deleteNode(
-  nodesByFloor: NodesByFloor,
-  nodeToBeDeleted: Node,
-): NodesByFloor {
-  return {
-    L2: nodesByFloor.L2.filter((node: Node) => node.ID !== nodeToBeDeleted.ID),
-    L1: nodesByFloor.L1.filter((node: Node) => node.ID !== nodeToBeDeleted.ID),
-    firstFloor: nodesByFloor.firstFloor.filter(
-      (node: Node) => node.ID !== nodeToBeDeleted.ID,
-    ),
-    secondFloor: nodesByFloor?.secondFloor.filter(
-      (node: Node) => node.ID !== nodeToBeDeleted.ID,
-    ),
-    thirdFloor: nodesByFloor?.thirdFloor.filter(
-      (node: Node) => node.ID !== nodeToBeDeleted.ID,
-    ),
-  };
-}
-
-function deleteAssociatedEdges(
-  edgesByFloor: EdgesByFloor,
-  nodeDeleted: Node,
-): EdgesByFloor {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-
-  const updatedFloors = floors.map((floor) =>
-    floor.filter((edge) => {
-      return (
-        edge.startNode.ID !== nodeDeleted.ID &&
-        edge.endNode.ID !== nodeDeleted.ID
-      );
-    }),
-  );
-
-  return {
-    L2: updatedFloors[0],
-    L1: updatedFloors[1],
-    firstFloor: updatedFloors[2],
-    secondFloor: updatedFloors[3],
-    thirdFloor: updatedFloors[4],
-  };
-}
-
-function editEdges(
-  edgesByFloor: EdgesByFloor,
-  nodeToBeEdited: Node,
-): EdgesByFloor {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-  floors.forEach((edges: Array<Edge>) => {
-    edges.forEach((edge: Edge) => {
-      if (edge.startNode.ID === nodeToBeEdited.ID) {
-        edge.startNode = nodeToBeEdited;
-      } else if (edge.endNode.ID === nodeToBeEdited.ID) {
-        edge.endNode = nodeToBeEdited;
-      }
-    });
-  });
-  return {
-    L2: floors[0],
-    L1: floors[1],
-    firstFloor: floors[2],
-    secondFloor: floors[3],
-    thirdFloor: floors[4],
-  };
-}
-
-/*
-function displayToImageCoordinates(x: number, scalingX: number, y: number, scalingY: number): { imageX: number; imageY: number } {
-  return {
-    imageX: x / scalingX,
-    imageY: y / scalingY
-  };
-}
-*/
 
 function sameNode(node1: Node | null, node2: Node | null) {
   if (node1 && node2) {
@@ -176,12 +54,12 @@ function endBorderNode(node: Node, path: Path) {
 }
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
-  //This constant is to ensure the menu doesn't open when dragging a node.
   const [dragged, setDragged] = useState(false);
+  //const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  const widthScaling: number = props.scaling.widthScaling;
-  const heightScaling: number = props.scaling.heightScaling;
-  const node: Node = props.node;
+  const widthScaling = props.scaling.widthScaling;
+  const heightScaling = props.scaling.heightScaling;
+  const node = props.node;
   const {
     startNode,
     endNode,
@@ -193,16 +71,22 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     paths,
     directionsCounter,
     setDirectionsCounter,
-    nodesByFloor,
-    setNodesByFloor,
     nodesToBeDeleted,
     setNodesToBeDeleted,
     nodesToBeEdited,
     setNodesToBeEdited,
-    edgesByFloor,
-    setEdgesByFloor,
     showNodes,
     setUnsavedChanges,
+    graph,
+    setGraph,
+    translationY,
+    translationX,
+    edgeStartNode,
+    setEdgeStartNode,
+    edgeEndNode,
+    setEdgeEndNode,
+    edgesToBeAdded,
+    setEdgesToBeAdded,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -234,6 +118,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
+
+  const [dragging, setDragging] = useState<boolean>(false);
 
   useEffect(() => {
     if (startNode) {
@@ -297,7 +183,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         //console.log("Start node: " + node + ", End node: " + null);
       }
     } else {
-      handleStopDrag();
+      handleMouseUp();
     }
   };
 
@@ -312,14 +198,14 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     position: "absolute",
     left: `${displayX}px`,
     top: `${displayY}px`,
-    zIndex: 3,
+    zIndex: 11,
   };
 
   const normalNodeStyle: CSSProperties = {
     position: "absolute",
-    left: `${displayX}px`,
-    top: `${displayY}px`,
-    zIndex: 3,
+    left: `calc(${displayX}px - 2px)`,
+    top: `calc(${displayY}px - 2px)`,
+    zIndex: 11,
     borderRadius: "100%",
     padding: "0",
     borderColor: "black",
@@ -328,9 +214,9 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const startNodeStyle: CSSProperties = {
     position: "absolute",
-    left: `${displayX}px`,
-    top: `${displayY}px`,
-    zIndex: 3,
+    left: `calc(${displayX}px - 12px)`,
+    top: `calc(${displayY}px - 22px)`,
+    zIndex: 11,
     borderRadius: "100%",
     padding: "0",
     borderColor: "black",
@@ -340,9 +226,9 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const endNodeStyle: CSSProperties = {
     position: "absolute",
-    left: `${displayX}px`,
-    top: `${displayY}px`,
-    zIndex: 3,
+    left: `calc(${displayX}px - 12px)`,
+    top: `calc(${displayY}px - 13px)`,
+    zIndex: 11,
     borderRadius: "100%",
     padding: "0",
     borderColor: "black",
@@ -354,15 +240,98 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     opacity: 0,
   };
 
-  const handleStartDrag = () => {
-    setDragged(true);
+  const handleMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
     setDisableZoomPanning(true);
+    setDragging(true);
+    setDragged(true);
+    event.preventDefault();
   };
 
-  const handleStopDrag = () => {
+  const handleMouseMove = useCallback(
+    (event: MouseEvent) => {
+      if (!dragging) return;
+
+      console.log("Mouse Position:", event.clientX, event.clientY);
+      console.log("Translations:", translationX, translationY);
+      console.log("Scale:", scale);
+      console.log("Width & Height Scaling:", widthScaling, heightScaling);
+
+      // Calculate the new position of the node based on mouse movement
+      const { imageX, imageY } = displayToImageCoordinates(
+        event.clientX,
+        event.clientY,
+        translationX,
+        translationY,
+        scale,
+        widthScaling,
+        heightScaling,
+      );
+      console.log("Converted Coordinates:", imageX, imageY);
+
+      const newNode: Node = new Node(
+        node.ID,
+        imageX, //widthScaling,
+        imageY, //heightScaling,
+        node.floor,
+        node.building,
+        node.type,
+        node.longName,
+        node.shortName,
+      );
+
+      setEditedNode(newNode);
+
+      const newOldNewNode: OldNewNode = {
+        newNode: editedNode,
+        oldNode: node,
+      };
+      if (graph) {
+        setGraph(graph.editNode(editedNode));
+      }
+      setUnsavedChanges(true);
+      setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
+      setIsSaved(false);
+    },
+    [
+      dragging,
+      translationX,
+      translationY,
+      scale,
+      widthScaling,
+      heightScaling,
+      node,
+      graph,
+      editedNode,
+      nodesToBeEdited,
+      setEditedNode,
+      setGraph,
+      setUnsavedChanges,
+      setNodesToBeEdited,
+      setIsSaved,
+    ],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setDragging(false);
     setDragged(false);
     setDisableZoomPanning(false);
-  };
+    // Possibly finalize position here, or send updates to a server
+  }, [setDragging, setDragged, setDisableZoomPanning]);
+
+  useEffect(() => {
+    if (dragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    } else {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragging, handleMouseMove, handleMouseUp]);
 
   const handleChangingFloorBackNodeClick = () => {
     setDirectionsCounter(directionsCounter - 1);
@@ -373,17 +342,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   };
 
   const handleDeleteNode = (deletedNode: Node): void => {
-    if (nodesByFloor && edgesByFloor) {
-      const newEdgesByFloor: EdgesByFloor = deleteAssociatedEdges(
-        edgesByFloor,
-        deletedNode,
-      );
-      const newNodesByFloor: NodesByFloor = deleteNode(
-        nodesByFloor,
-        deletedNode,
-      );
-      setNodesByFloor(newNodesByFloor);
-      setEdgesByFloor(newEdgesByFloor);
+    if (graph) {
+      setGraph(graph.removeNode(node.ID));
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
       setUnsavedChanges(true);
     }
@@ -432,30 +392,21 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         newNode: newNode,
       };
 
-      if (nodesByFloor && edgesByFloor) {
-        let updatedNodesByFloor: NodesByFloor = deleteNode(nodesByFloor, node);
-        updatedNodesByFloor = addNode(updatedNodesByFloor, newNode);
-        const updatedEdgesByFloor: EdgesByFloor = editEdges(
-          edgesByFloor,
-          newNode,
-        );
-        setNodesByFloor(updatedNodesByFloor);
-        setEdgesByFloor(updatedEdgesByFloor);
+      if (graph) {
+        setGraph(graph.editNode(editedNode));
         setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
         setUnsavedChanges(true);
       }
       setIsSaved(false);
     }
   }, [
-    nodesByFloor,
-    setNodesByFloor,
+    graph,
+    setGraph,
     node,
     nodesToBeEdited,
     setNodesToBeEdited,
     editedNode,
     isSaved,
-    edgesByFloor,
-    setEdgesByFloor,
     tempNode,
     setUnsavedChanges,
   ]);
@@ -471,266 +422,434 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setEditedNode(tempNode);
   };
 
-  if (editorMode === EditorMode.deleteNodes) {
+  const handleAddEdge = () => {
+    if (!edgeStartNode) {
+      setEdgeStartNode(node);
+    } else if (!edgeEndNode) {
+      setEdgeEndNode(node);
+      graph?.addEdge(edgeStartNode.ID + node.ID, edgeStartNode, node);
+      setEdgesToBeAdded([
+        ...edgesToBeAdded,
+        new Edge(edgeStartNode.ID + node.ID, edgeStartNode, node),
+      ]);
+      setEdgeStartNode(null);
+      setEdgeEndNode(null);
+    } else {
+      setEdgeStartNode(node);
+    }
+  };
+
+  // if (editorMode === EditorMode.deleteNodes) {
+  //   return (
+  //     <button
+  //       className="none"
+  //       style={normalNodeStyle}
+  //       onClick={() => handleDeleteNode(node)}
+  //     />
+  //   );
+  // }
+
+  /*useEffect(() => {
+      if (editorMode === EditorMode.addEdges) {
+        setSelectedOption("showBoth");
+      }
+    }, [editorMode, setSelectedOption]);*/
+
+  if (editorMode === EditorMode.addEdges) {
+    if (showNodes) {
+      return (
+        <div>
+          <button
+            className="node-selector"
+            style={{
+              ...normalNodeStyle,
+              cursor: dragging ? "grabbing" : "grab",
+            }}
+            onMouseDown={handleMouseDown}
+            onClick={() => handleAddEdge()}
+          ></button>
+        </div>
+      );
+    }
+
     return (
-      <button
-        className="none"
-        style={normalNodeStyle}
-        onClick={() => handleDeleteNode(node)}
-      />
+      <div>
+        {node.type !== NodeType.ELEV &&
+        node.type !== NodeType.STAI &&
+        node.type !== NodeType.HALL ? (
+          <div>
+            <button
+              className="node-selector"
+              style={{
+                ...normalNodeStyle,
+                cursor: dragging ? "grabbing" : "grab",
+              }}
+              onMouseDown={handleMouseDown}
+              onClick={() => handleAddEdge()}
+            ></button>
+          </div>
+        ) : null}
+      </div>
     );
   }
 
-  return editorMode === EditorMode.disabled ? (
-    <>
-      {(node.type === NodeType.ELEV || node.type === NodeType.STAI) && (
-        <>
-          {nodeInPathChangingFloorStart(node, paths) && (
-            <React.Fragment>
-              {node.type === NodeType.ELEV ? (
-                <div style={changingFloorNodeStyle}>
-                  <ElevatorIcon
-                    onClick={handleChangingFloorBackNodeClick}
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                  />
-                  <Typography
-                    variant="button"
-                    onClick={handleChangingFloorBackNodeClick}
-                    sx={{
-                      color: "#012D5A",
-                      fontWeight: "bold",
-                      fontFamily: "inter",
-                      transition: "font-size 0.3s ease",
-                      ":hover": {
-                        backgroundColor: "white",
-                        fontSize: "1rem",
+  if (editorMode === EditorMode.disabled) {
+    return (
+      <>
+        {(node.type === NodeType.ELEV || node.type === NodeType.STAI) && (
+          <>
+            {nodeInPathChangingFloorStart(node, paths) && (
+              <React.Fragment>
+                {node.type === NodeType.ELEV ? (
+                  <div style={changingFloorNodeStyle}>
+                    <ElevatorIcon
+                      onClick={handleChangingFloorBackNodeClick}
+                      sx={{
                         cursor: "pointer",
-                      },
-                    }}
-                  >
-                    Elevator Back to Floor {""}
-                    {directionsCounter - 1 >= 0
-                      ? paths[directionsCounter - 1].edges[
-                          paths[directionsCounter - 1].edges.length - 1
-                        ].startNode.floor
-                      : ""}
-                  </Typography>
-                </div>
-              ) : (
-                <div style={changingFloorNodeStyle}>
-                  <StairsIcon
-                    onClick={handleChangingFloorBackNodeClick}
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                  />
-                  <Typography
-                    variant="button"
-                    onClick={handleChangingFloorBackNodeClick}
-                    sx={{
-                      color: "#012D5A",
-                      fontWeight: "bold",
-                      fontFamily: "inter",
-                      transition: "font-size 0.3s ease",
-                      ":hover": {
-                        backgroundColor: "white",
-                        fontSize: "1rem",
+                      }}
+                    />
+                    <Typography
+                      variant="button"
+                      onClick={handleChangingFloorBackNodeClick}
+                      sx={{
+                        color: "#012D5A",
+                        fontWeight: "bold",
+                        fontFamily: "inter",
+                        transition: "font-size 0.3s ease",
+                        ":hover": {
+                          backgroundColor: "white",
+                          fontSize: "1rem",
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      Elevator Back to Floor {""}
+                      {directionsCounter - 1 >= 0
+                        ? paths[directionsCounter - 1].edges[
+                            paths[directionsCounter - 1].edges.length - 1
+                          ].startNode.floor
+                        : ""}
+                    </Typography>
+                  </div>
+                ) : (
+                  <div style={changingFloorNodeStyle}>
+                    <StairsIcon
+                      onClick={handleChangingFloorBackNodeClick}
+                      sx={{
                         cursor: "pointer",
-                      },
-                    }}
-                  >
-                    Stairs Back to Floor {""}
-                    {directionsCounter - 1 >= 0
-                      ? paths[directionsCounter - 1].edges[
-                          paths[directionsCounter - 1].edges.length - 1
-                        ].startNode.floor
-                      : ""}
-                  </Typography>
-                </div>
-              )}
-            </React.Fragment>
-          )}
-          {nodeInPathChangingFloorEnd(node, paths) && (
-            <React.Fragment>
-              {node.type === NodeType.ELEV ? (
-                <div style={changingFloorNodeStyle}>
-                  <ElevatorIcon
-                    onClick={handleChangingFloorNextNodeClick}
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                  />
-                  <Typography
-                    variant="button"
-                    onClick={handleChangingFloorNextNodeClick}
-                    sx={{
-                      color: "#012D5A",
-                      fontWeight: "bold",
-                      fontFamily: "inter",
-                      transition: "font-size 0.3s ease",
-                      ":hover": {
-                        backgroundColor: "white",
-                        fontSize: "1rem",
-                        cursor: "pointer",
-                      },
-                    }}
-                  >
-                    Elevator to Floor {""}
-                    {paths.length > directionsCounter + 1
-                      ? paths[directionsCounter + 1].edges[0].startNode.floor
-                      : ""}
-                  </Typography>
-                </div>
-              ) : (
-                <div style={changingFloorNodeStyle}>
-                  <StairsIcon
-                    onClick={handleChangingFloorNextNodeClick}
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                  />
-                  <Typography
-                    variant="button"
-                    onClick={handleChangingFloorNextNodeClick}
-                    sx={{
-                      color: "#012D5A",
-                      fontWeight: "bold",
-                      fontFamily: "inter",
-                      transition: "font-size 0.3s ease",
-                      ":hover": {
-                        backgroundColor: "white",
-                        fontSize: "1rem",
-                        cursor: "pointer",
-                      },
-                    }}
-                  >
-                    Stairs to Floor {""}
-                    {paths.length > directionsCounter + 1
-                      ? paths[directionsCounter + 1].edges[0].startNode.floor
-                      : ""}
-                  </Typography>
-                </div>
-              )}
-            </React.Fragment>
-          )}
-          {!nodeInPathChangingFloorStart(node, paths) &&
-            !nodeInPathChangingFloorEnd(node, paths) && (
-              <button style={hidden} />
+                      }}
+                    />
+                    <Typography
+                      variant="button"
+                      onClick={handleChangingFloorBackNodeClick}
+                      sx={{
+                        color: "#012D5A",
+                        fontWeight: "bold",
+                        fontFamily: "inter",
+                        transition: "font-size 0.3s ease",
+                        ":hover": {
+                          backgroundColor: "white",
+                          fontSize: "1rem",
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      Stairs Back to Floor {""}
+                      {directionsCounter - 1 >= 0
+                        ? paths[directionsCounter - 1].edges[
+                            paths[directionsCounter - 1].edges.length - 1
+                          ].startNode.floor
+                        : ""}
+                    </Typography>
+                  </div>
+                )}
+              </React.Fragment>
             )}
-        </>
-      )}
-      {node.type !== NodeType.ELEV && node.type !== NodeType.STAI && (
-        <>
-          {sameNode(startNode, node) ? (
-            <PlaceIcon
-              className="pulseGreen"
-              style={startNodeStyle}
-              onClick={() => handleNodeSelection(node)}
+            {nodeInPathChangingFloorEnd(node, paths) && (
+              <React.Fragment>
+                {node.type === NodeType.ELEV ? (
+                  <div style={changingFloorNodeStyle}>
+                    <ElevatorIcon
+                      onClick={handleChangingFloorNextNodeClick}
+                      sx={{
+                        cursor: "pointer",
+                      }}
+                    />
+                    <Typography
+                      variant="button"
+                      onClick={handleChangingFloorNextNodeClick}
+                      sx={{
+                        color: "#012D5A",
+                        fontWeight: "bold",
+                        fontFamily: "inter",
+                        transition: "font-size 0.3s ease",
+                        ":hover": {
+                          backgroundColor: "white",
+                          fontSize: "1rem",
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      Elevator to Floor {""}
+                      {paths.length > directionsCounter + 1
+                        ? paths[directionsCounter + 1].edges[0].startNode.floor
+                        : ""}
+                    </Typography>
+                  </div>
+                ) : (
+                  <div style={changingFloorNodeStyle}>
+                    <StairsIcon
+                      onClick={handleChangingFloorNextNodeClick}
+                      sx={{
+                        cursor: "pointer",
+                      }}
+                    />
+                    <Typography
+                      variant="button"
+                      onClick={handleChangingFloorNextNodeClick}
+                      sx={{
+                        color: "#012D5A",
+                        fontWeight: "bold",
+                        fontFamily: "inter",
+                        transition: "font-size 0.3s ease",
+                        ":hover": {
+                          backgroundColor: "white",
+                          fontSize: "1rem",
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      Stairs to Floor {""}
+                      {paths.length > directionsCounter + 1
+                        ? paths[directionsCounter + 1].edges[0].startNode.floor
+                        : ""}
+                    </Typography>
+                  </div>
+                )}
+              </React.Fragment>
+            )}
+            {!nodeInPathChangingFloorStart(node, paths) &&
+              !nodeInPathChangingFloorEnd(node, paths) && (
+                <button style={hidden} />
+              )}
+          </>
+        )}
+        {node.type !== NodeType.ELEV &&
+          node.type !== NodeType.STAI &&
+          node.type !== NodeType.HALL && (
+            <>
+              {sameNode(startNode, node) ? (
+                <PlaceIcon
+                  className="pulseGreen"
+                  style={startNodeStyle}
+                  onClick={() => handleNodeSelection(node)}
+                />
+              ) : sameNode(endNode, node) ? (
+                <GpsFixedIcon
+                  className={triggerRed ? "pulseRed" : "none"}
+                  style={endNodeStyle}
+                  onClick={() => handleNodeSelection(node)}
+                />
+              ) : !startNode || !endNode ? (
+                <button
+                  className="none"
+                  style={{
+                    ...normalNodeStyle,
+                    cursor: dragging ? "grabbing" : "grab",
+                  }}
+                  onMouseDown={handleMouseDown}
+                  onClick={() => handleNodeSelection(node)}
+                />
+              ) : null}
+            </>
+          )}
+      </>
+    );
+  }
+
+  if (showNodes) {
+    return (
+      <div>
+        <Dialog open={showModal} onClose={handleClose}>
+          <DialogTitle>Node Information</DialogTitle>
+          <DialogContent>
+            <TextField
+              margin="dense"
+              label="ID"
+              type="text"
+              fullWidth
+              name="ID"
+              value={node.ID}
             />
-          ) : sameNode(endNode, node) ? (
-            <GpsFixedIcon
-              className={triggerRed ? "pulseRed" : "none"}
-              style={endNodeStyle}
-              onClick={() => handleNodeSelection(node)}
+            <TextField
+              margin="dense"
+              label="X-Coordinate"
+              type="text"
+              fullWidth
+              name="x"
+              value={editedNode.x}
+              onChange={handleChange}
             />
-          ) : !startNode || !endNode ? (
-            <Draggable
-              scale={scale}
-              onDrag={handleStartDrag}
-              disabled={editorMode === EditorMode.disabled}
-            >
-              <button
-                className="none"
-                style={normalNodeStyle}
-                onClick={() => handleNodeSelection(node)}
-              />
-            </Draggable>
-          ) : null}
-        </>
-      )}
-    </>
-  ) : (
+            <TextField
+              margin="dense"
+              label="Y-Coordinate"
+              type="text"
+              fullWidth
+              name="y"
+              value={editedNode.y}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="dense"
+              label="Floor"
+              type="text"
+              fullWidth
+              name="floor"
+              value={editedNode.floor}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="dense"
+              label="Building"
+              type="text"
+              fullWidth
+              name="building"
+              value={editedNode.building}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="dense"
+              label="Type"
+              type="text"
+              fullWidth
+              name="type"
+              value={editedNode.type}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="dense"
+              label="Long Name"
+              type="text"
+              fullWidth
+              name="longName"
+              value={editedNode.longName}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="dense"
+              label="Short Name"
+              type="text"
+              fullWidth
+              name="shortName"
+              value={editedNode.shortName}
+              onChange={handleChange}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleSave}>Save</Button>
+            <DeleteForeverIcon
+              onClick={() => handleDeleteNode(node)}
+              sx={{
+                position: "absolute",
+                left: 0,
+                fontSize: "2rem",
+                ":hover": { cursor: "pointer" },
+              }}
+            />
+          </DialogActions>
+        </Dialog>
+        <button
+          className="node-selector"
+          style={{ ...normalNodeStyle, cursor: dragging ? "grabbing" : "grab" }}
+          onMouseDown={handleMouseDown}
+          onClick={() => handleNodeSelection(node)}
+        >
+          {/* Node content here */}
+        </button>
+      </div>
+    );
+  }
+
+  return (
     <div>
-      {showNodes ? (
+      {node.type !== NodeType.ELEV &&
+      node.type !== NodeType.STAI &&
+      node.type !== NodeType.HALL ? (
         <div>
           <Dialog open={showModal} onClose={handleClose}>
             <DialogTitle>Node Information</DialogTitle>
             <DialogContent>
-              <DialogContentText>
-                <TextField
-                  margin="dense"
-                  label="ID"
-                  type="text"
-                  fullWidth
-                  name="ID"
-                  value={node.ID}
-                />
-                <TextField
-                  margin="dense"
-                  label="X-Coordinate"
-                  type="text"
-                  fullWidth
-                  name="x"
-                  value={editedNode.x}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Y-Coordinate"
-                  type="text"
-                  fullWidth
-                  name="y"
-                  value={editedNode.y}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Floor"
-                  type="text"
-                  fullWidth
-                  name="floor"
-                  value={editedNode.floor}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Building"
-                  type="text"
-                  fullWidth
-                  name="building"
-                  value={editedNode.building}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Type"
-                  type="text"
-                  fullWidth
-                  name="type"
-                  value={editedNode.type}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Long Name"
-                  type="text"
-                  fullWidth
-                  name="longName"
-                  value={editedNode.longName}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="dense"
-                  label="Short Name"
-                  type="text"
-                  fullWidth
-                  name="shortName"
-                  value={editedNode.shortName}
-                  onChange={handleChange}
-                />
-              </DialogContentText>
+              <TextField
+                margin="dense"
+                label="ID"
+                type="text"
+                fullWidth
+                name="ID"
+                value={node.ID}
+              />
+              <TextField
+                margin="dense"
+                label="X-Coordinate"
+                type="text"
+                fullWidth
+                name="x"
+                value={editedNode.x}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Y-Coordinate"
+                type="text"
+                fullWidth
+                name="y"
+                value={editedNode.y}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Floor"
+                type="text"
+                fullWidth
+                name="floor"
+                value={editedNode.floor}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Building"
+                type="text"
+                fullWidth
+                name="building"
+                value={editedNode.building}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Type"
+                type="text"
+                fullWidth
+                name="type"
+                value={editedNode.type}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Long Name"
+                type="text"
+                fullWidth
+                name="longName"
+                value={editedNode.longName}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                label="Short Name"
+                type="text"
+                fullWidth
+                name="shortName"
+                value={editedNode.shortName}
+                onChange={handleChange}
+              />
             </DialogContent>
             <DialogActions>
               <Button onClick={handleSave}>Save</Button>
@@ -745,121 +864,19 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               />
             </DialogActions>
           </Dialog>
-          <Draggable scale={scale} onDrag={handleStartDrag}>
-            <button
-              className="node-selector"
-              style={normalNodeStyle}
-              onClick={() => handleNodeSelection(node)}
-            />
-          </Draggable>
+          <button
+            className="node-selector"
+            style={{
+              ...normalNodeStyle,
+              cursor: dragging ? "grabbing" : "grab",
+            }}
+            onMouseDown={handleMouseDown}
+            onClick={() => handleNodeSelection(node)}
+          >
+            {/* Optionally, you can include node display content here */}
+          </button>
         </div>
-      ) : (
-        <div>
-          {node.type !== NodeType.ELEV &&
-          node.type !== NodeType.STAI &&
-          node.type !== NodeType.HALL ? (
-            <div>
-              <Dialog open={showModal} onClose={handleClose}>
-                <DialogTitle>Node Information</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    <TextField
-                      margin="dense"
-                      label="ID"
-                      type="text"
-                      fullWidth
-                      name="ID"
-                      value={node.ID}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="X-Coordinate"
-                      type="text"
-                      fullWidth
-                      name="x"
-                      value={editedNode.x}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Y-Coordinate"
-                      type="text"
-                      fullWidth
-                      name="y"
-                      value={editedNode.y}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Floor"
-                      type="text"
-                      fullWidth
-                      name="floor"
-                      value={editedNode.floor}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Building"
-                      type="text"
-                      fullWidth
-                      name="building"
-                      value={editedNode.building}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Type"
-                      type="text"
-                      fullWidth
-                      name="type"
-                      value={editedNode.type}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Long Name"
-                      type="text"
-                      fullWidth
-                      name="longName"
-                      value={editedNode.longName}
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      margin="dense"
-                      label="Short Name"
-                      type="text"
-                      fullWidth
-                      name="shortName"
-                      value={editedNode.shortName}
-                      onChange={handleChange}
-                    />
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleSave}>Save</Button>
-                  <DeleteForeverIcon
-                    onClick={() => handleDeleteNode(node)}
-                    sx={{
-                      position: "absolute",
-                      left: 0,
-                      fontSize: "2rem",
-                      ":hover": { cursor: "pointer" },
-                    }}
-                  />
-                </DialogActions>
-              </Dialog>
-              <Draggable scale={scale} onDrag={handleStartDrag}>
-                <button
-                  className="node-selector"
-                  style={normalNodeStyle}
-                  onClick={() => handleNodeSelection(node)}
-                />
-              </Draggable>
-            </div>
-          ) : null}
-        </div>
-      )}
+      ) : null}
     </div>
   );
 }

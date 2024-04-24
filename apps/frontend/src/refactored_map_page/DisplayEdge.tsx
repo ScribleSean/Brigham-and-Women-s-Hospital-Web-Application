@@ -1,106 +1,26 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   EdgeDisplayProps,
   EditorMode,
-  EdgesByFloor,
-  NodesByFloor,
-  OldNewEdge,
 } from "common/src/types/map_page_types.ts";
 import { Edge } from "common/src/data_structures/Edge.ts";
 import { Node } from "common/src/data_structures/Node.ts";
-import { SVGProps } from "react";
 import { useMapContext } from "./MapContext.ts";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   TextField,
   Button,
-  Box,
-  Autocomplete,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-
-function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
-  const nodes: Array<Node> = new Array<Node>();
-  if (!nodesByFloor) return nodes;
-  nodesByFloor.L2.forEach((node) => nodes.push(node));
-  nodesByFloor.L1.forEach((node) => nodes.push(node));
-  nodesByFloor.firstFloor.forEach((node) => nodes.push(node));
-  nodesByFloor.secondFloor.forEach((node) => nodes.push(node));
-  nodesByFloor.thirdFloor.forEach((node) => nodes.push(node));
-  return nodes;
-}
-
-function deleteEdge(
-  edgesByFloor: EdgesByFloor,
-  edgeToBeDeleted: Edge,
-): EdgesByFloor {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-
-  const updatedFloors = floors.map((floor) =>
-    floor.filter((edge) => {
-      return !(
-        edge.ID === edgeToBeDeleted.ID &&
-        ((edge.startNode.ID === edgeToBeDeleted.startNode.ID &&
-          edge.endNode.ID === edgeToBeDeleted.endNode.ID) ||
-          (edge.startNode.ID === edgeToBeDeleted.endNode.ID &&
-            edge.endNode.ID === edgeToBeDeleted.startNode.ID))
-      );
-    }),
-  );
-
-  return {
-    L2: updatedFloors[0],
-    L1: updatedFloors[1],
-    firstFloor: updatedFloors[2],
-    secondFloor: updatedFloors[3],
-    thirdFloor: updatedFloors[4],
-  };
-}
-
-function editEdges(
-  edgesByFloor: EdgesByFloor,
-  edgeToBeEdited: Edge,
-): EdgesByFloor {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = edgesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-
-  floors.forEach((edges) => {
-    edges.forEach((edge) => {
-      if (edge.ID === edgeToBeEdited.ID) {
-        edge.startNode = edgeToBeEdited.startNode;
-        edge.endNode = edgeToBeEdited.endNode;
-      }
-    });
-  });
-
-  return {
-    L2: floors[0],
-    L1: floors[1],
-    firstFloor: floors[2],
-    secondFloor: floors[3],
-    thirdFloor: floors[4],
-  };
-}
-
-function getNode(nodesByFloor: NodesByFloor, ID: string): Node | undefined {
-  const { L2, L1, firstFloor, secondFloor, thirdFloor } = nodesByFloor;
-  const floors = [L2, L1, firstFloor, secondFloor, thirdFloor];
-
-  for (const floor of floors) {
-    for (const node of floor) {
-      if (node.ID === ID) {
-        return node;
-      }
-    }
-  }
-
-  return undefined;
-}
+import { displayToImageCoordinates } from "./scalingUtils.ts";
 
 export default EdgeDisplay;
 
@@ -112,26 +32,150 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     showEdges,
     setEdgesToBeEdited,
     edgesToBeEdited,
-    nodesByFloor,
-    edgesByFloor,
-    setEdgesByFloor,
+    graph,
+    setGraph,
     setEdgesToBeDeleted,
     edgesToBeDeleted,
     setUnsavedChanges,
+    scale,
+    setDisableZoomPanning,
+    translationX,
+    translationY,
+    edgesToBeAdded,
+    setEdgesToBeAdded,
   } = useMapContext();
 
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [dragging, setDragging] = useState(false);
+
+  const [initialMousePos, setInitialMousePos] = useState({ x: 0, y: 0 });
+  const [initialStartPos, setInitialStartPos] = useState({ x: 0, y: 0 });
+  const [initialEndPos, setInitialEndPos] = useState({ x: 0, y: 0 });
+
+  const handleMouseDown = (event: React.MouseEvent<SVGSVGElement>) => {
+    setDisableZoomPanning(true);
+    setDragging(true);
+    const { imageX, imageY } = displayToImageCoordinates(
+      event.clientX,
+      event.clientY,
+      translationX,
+      translationY,
+      scale,
+      widthScaling,
+      heightScaling,
+    );
+    setInitialMousePos({ x: imageX, y: imageY });
+    setInitialStartPos({ x: edge.startNode.x, y: edge.startNode.y });
+    setInitialEndPos({ x: edge.endNode.x, y: edge.endNode.y });
+    event.preventDefault();
+  };
+
+  const handleMouseMove = useCallback(
+    (event: MouseEvent) => {
+      if (!dragging) return;
+      console.log("Mouse Position:", event.clientX, event.clientY);
+      console.log("Translations:", translationX, translationY);
+      console.log("Scale:", scale);
+      console.log("Width & Height Scaling:", widthScaling, heightScaling);
+
+      // Calculate the new position of the node based on mouse movement
+      const { imageX, imageY } = displayToImageCoordinates(
+        event.clientX,
+        event.clientY,
+        translationX,
+        translationY,
+        scale,
+        widthScaling,
+        heightScaling,
+      );
+
+      const dx = imageX - initialMousePos.x;
+      const dy = imageY - initialMousePos.y;
+
+      const newStartNode = new Node(
+        edge.startNode.ID,
+        initialStartPos.x + dx,
+        initialStartPos.y + dy,
+        edge.startNode.floor,
+        edge.startNode.building,
+        edge.startNode.type,
+        edge.startNode.longName,
+        edge.startNode.shortName,
+      );
+
+      const newEndNode = new Node(
+        edge.endNode.ID,
+        initialEndPos.x + dx,
+        initialEndPos.y + dy,
+        edge.endNode.floor,
+        edge.endNode.building,
+        edge.endNode.type,
+        edge.endNode.longName,
+        edge.endNode.shortName,
+      );
+
+      const newEdge = new Edge(edge.ID, newStartNode, newEndNode);
+
+      setEditedEdge(newEdge);
+      if (graph) {
+        setGraph(graph.editNode(newStartNode));
+        setGraph(graph.editNode(newEndNode));
+      }
+      setUnsavedChanges(true);
+      setEdgesToBeEdited([
+        ...edgesToBeEdited,
+        { oldEdge: edge, newEdge: newEdge },
+      ]);
+    },
+    [
+      initialEndPos,
+      initialMousePos,
+      initialStartPos,
+      edge,
+      edgesToBeEdited,
+      setEdgesToBeEdited,
+      dragging,
+      translationX,
+      translationY,
+      scale,
+      widthScaling,
+      heightScaling,
+      graph,
+      setGraph,
+      setUnsavedChanges,
+    ],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setDragging(false);
+    setDisableZoomPanning(false);
+    // Possibly finalize position here, or send updates to a server
+  }, [setDragging, setDisableZoomPanning]);
+
+  useEffect(() => {
+    if (dragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    } else {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragging, handleMouseMove, handleMouseUp]);
 
   const editShowModal = (value: boolean) => {
     setShowModal(value);
   };
 
   const [editedEdge, setEditedEdge] = useState<Edge>(
-    new Edge(edge.ID, edge.startNode, edge.endNode),
+    new Edge(edge.startNode.ID + edge.endNode.ID, edge.startNode, edge.endNode),
   );
   const [tempEdge, setTempEdge] = useState<Edge>(
-    new Edge(edge.ID, edge.startNode, edge.endNode),
+    new Edge(edge.startNode.ID + edge.endNode.ID, edge.startNode, edge.endNode),
   );
 
   function getEdgeCoordinates(edge: Edge): string {
@@ -143,91 +187,82 @@ function EdgeDisplay(props: EdgeDisplayProps) {
 
   const red: string = "red";
 
-  function getPolylineProps(
-    coordinates: string,
-    strokeColor: string,
-  ): SVGProps<SVGPolylineElement> {
-    return {
-      points: coordinates,
-      stroke: strokeColor,
-      strokeWidth: "2",
-      fill: "none",
-      strokeLinejoin: "bevel",
-    };
-  }
-
   const handleDeleteEdge = (deletedEdge: Edge): void => {
-    if (edgesByFloor) {
-      const newEdgesByFloor: EdgesByFloor = deleteEdge(
-        edgesByFloor,
-        deletedEdge,
-      );
-      setEdgesByFloor(newEdgesByFloor);
+    if (graph) {
+      setGraph(graph.removeEdge(deletedEdge));
       setEdgesToBeDeleted([...edgesToBeDeleted, deletedEdge]);
       setUnsavedChanges(true);
     }
   };
 
   function makeEdge(edge: Edge) {
-    return new Edge(edge.ID, edge.startNode, edge.endNode);
+    return new Edge(
+      edge.startNode.ID + edge.endNode.ID,
+      edge.startNode,
+      edge.endNode,
+    );
   }
 
-  useEffect(() => {
-    if (isSaved) {
-      const newEdge: Edge = makeEdge(editedEdge);
-      const newOldNewEdge: OldNewEdge = {
-        oldEdge: edge,
-        newEdge: newEdge,
-      };
-
-      if (edgesByFloor) {
-        const updatedEdgesByFloor: EdgesByFloor = editEdges(
-          edgesByFloor,
-          newEdge,
-        );
-        setEdgesByFloor(updatedEdgesByFloor);
-        setEdgesToBeEdited([...edgesToBeEdited, newOldNewEdge]);
-        setUnsavedChanges(true);
+  /*const handleChange = (
+      event: React.SyntheticEvent,
+      nodeID: string | null,
+      nodeType: "startNode" | "endNode",
+    ) => {
+      if (nodeID) {
+        if (nodeType === "startNode" && graph) {
+          const newNode = graph.getNodeByID(nodeID);
+          if (newNode) {
+            edge.startNode = newNode;
+          }
+        } else if (nodeType === "endNode" && graph) {
+          const newNode = graph.getNodeByID(nodeID);
+          if (newNode) {
+            edge.endNode = newNode;
+          }
+        }
       }
-      setIsSaved(false);
+    };*/
+  const [newStartNodeID, setNewStartNodeID] = useState<string | null>(
+    edge.startNode.ID,
+  );
+  const [newEndNodeID, setNewEndNodeID] = useState<string | null>(
+    edge.endNode.ID,
+  );
+  const handleChangeStartNodeID = (event: SelectChangeEvent<string>) => {
+    const newValue = event.target.value;
+    if (newValue) {
+      setNewStartNodeID(newValue);
     }
-  }, [
-    edge,
-    edgesToBeEdited,
-    setEdgesToBeEdited,
-    editedEdge,
-    setEditedEdge,
-    nodesByFloor,
-    isSaved,
-    edgesByFloor,
-    setEdgesByFloor,
-    setUnsavedChanges,
-  ]);
-
-  const handleChange = (
-    event: React.SyntheticEvent,
-    nodeID: string | null,
-    nodeType: "startNode" | "endNode",
-  ) => {
-    if (nodeID) {
-      if (nodeType === "startNode" && nodesByFloor) {
-        const newNode = getNode(nodesByFloor, nodeID);
-        if (newNode) {
-          edge.startNode = newNode;
-        }
-      } else if (nodeType === "endNode" && nodesByFloor) {
-        const newNode = getNode(nodesByFloor, nodeID);
-        if (newNode) {
-          edge.endNode = newNode;
-        }
-      }
+  };
+  const handleChangeEndNodeID = (event: SelectChangeEvent<string>) => {
+    const newValue = event.target.value;
+    if (newValue) {
+      setNewEndNodeID(newValue);
     }
   };
 
+  useEffect(() => {
+    if (graph && newStartNodeID && newEndNodeID) {
+      const startNode: Node | undefined = graph.getNodeByID(newStartNodeID);
+      const endNode: Node | undefined = graph.getNodeByID(newEndNodeID);
+
+      if (startNode && endNode) {
+        setEditedEdge(new Edge(startNode.ID + endNode.ID, startNode, endNode));
+      }
+    }
+  }, [newStartNodeID, newEndNodeID, graph]);
+
   const handleSave = () => {
-    setIsSaved(true);
     setShowModal(false);
     setTempEdge(editedEdge);
+    const oldEdge: Edge = edge;
+    const newEdge: Edge = makeEdge(editedEdge);
+    if (graph) {
+      setGraph(graph.editEdge(edge, newEdge));
+      setEdgesToBeDeleted([...edgesToBeDeleted, oldEdge]);
+      setEdgesToBeAdded([...edgesToBeAdded, newEdge]);
+      setUnsavedChanges(true);
+    }
   };
 
   const handleClose = () => {
@@ -235,62 +270,83 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setEditedEdge(tempEdge);
   };
 
-  const polylineStyle: CSSProperties = {
-    zIndex: 10,
-    pointerEvents: "auto",
-    cursor: "pointer",
-  };
-
   return (
     showEdges &&
     editorMode !== EditorMode.disabled && (
       <>
-        <polyline
-          style={polylineStyle}
-          {...getPolylineProps(getEdgeCoordinates(edge), red)}
-          onClick={() => {
-            editShowModal(true);
+        <svg
+          style={{
+            pointerEvents: "all",
+            cursor: dragging ? "grabbing" : "grab",
           }}
-        />
+          onMouseDown={handleMouseDown}
+        >
+          <polyline
+            style={{
+              stroke: "darkblue",
+              strokeWidth: 0.5,
+              cursor: "pointer",
+              pointerEvents: "visibleStroke",
+            }}
+            points={getEdgeCoordinates(edge)}
+            stroke={red}
+            strokeWidth="2"
+            fill="none"
+            strokeLinejoin="bevel"
+            onClick={() => {
+              console.log("Polyline clicked!");
+              editShowModal(true);
+            }}
+          />
+        </svg>
         <Dialog open={showModal} onClose={handleClose}>
-          <DialogTitle>Node Information</DialogTitle>
+          <DialogTitle>Edge Information</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              <TextField
-                margin="dense"
-                label="ID"
-                type="text"
+            <TextField
+              margin="dense"
+              label="ID"
+              type="text"
+              fullWidth
+              name="ID"
+              value={editedEdge.ID}
+            />
+            <FormControl fullWidth margin="dense">
+              <InputLabel id="start-node-id-label">Start Node ID</InputLabel>
+              <Select
+                labelId="start-node-id-label"
+                value={editedEdge.startNode.ID}
+                label="Start Node ID"
+                onChange={handleChangeStartNodeID}
                 fullWidth
-                name="ID"
-                value={edge.ID}
-              />
-              <Box>
-                <Autocomplete
-                  value={editedEdge.startNode.ID}
-                  onChange={(event, newValue: string | null) =>
-                    handleChange(event, newValue, "startNode")
-                  }
-                  options={nodesByFloorsToNodes(nodesByFloor).map(
-                    (node: Node) => node.ID,
-                  )}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Box>
-              <Box>
-                <Autocomplete
-                  value={editedEdge.endNode.ID}
-                  onChange={(event, newValue: string | null) =>
-                    handleChange(event, newValue, "endNode")
-                  }
-                  options={nodesByFloorsToNodes(nodesByFloor).map(
-                    (node: Node) => node.ID,
-                  )}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Box>
-            </DialogContentText>
+              >
+                {graph
+                  ? graph.getNodesAll().map((node) => (
+                      <MenuItem key={node.ID} value={node.ID}>
+                        {node.ID}
+                      </MenuItem>
+                    ))
+                  : null}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth margin="dense">
+              <InputLabel id="end-node-id-label">End Node ID</InputLabel>
+              <Select
+                labelId="end-node-id-label"
+                value={editedEdge.endNode.ID}
+                label="End Node ID"
+                onChange={handleChangeEndNodeID}
+                fullWidth
+              >
+                {graph
+                  ? graph.getNodesAll().map((node) => (
+                      <MenuItem key={node.ID} value={node.ID}>
+                        {node.ID}
+                      </MenuItem>
+                    ))
+                  : null}
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleSave}>Save</Button>

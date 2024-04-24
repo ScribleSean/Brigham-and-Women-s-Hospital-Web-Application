@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Select,
   FormControl,
@@ -20,8 +20,13 @@ function CustomArrowIcon(props: SvgIconProps) {
 }
 
 function ShowNodesEdgesDropDown() {
-  const { setShowNodes, setShowEdges, editorMode } = useMapContext();
-  const [selectedOption, setSelectedOption] = useState("showBasicNodes");
+  const {
+    setShowNodes,
+    setShowEdges,
+    editorMode,
+    selectedOption,
+    setSelectedOption,
+  } = useMapContext();
 
   if (editorMode == EditorMode.disabled) {
     return null;

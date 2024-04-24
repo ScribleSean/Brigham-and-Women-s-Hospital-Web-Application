@@ -1,4 +1,5 @@
 import "../map_page/MapWrapper.css";
+import { useRef, useEffect } from "react";
 import { useMapContext } from "./MapContext.ts";
 import {
   TransformWrapper,
@@ -23,7 +24,7 @@ import { Box } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 
 const mapDiv: CSSProperties = {
-  height: "100%",
+  height: "100vh",
   maxWidth: "calc(100% - 55px)",
   float: "right",
   overflow: "hidden",
@@ -40,27 +41,53 @@ function AdminMap() {
 }
 
 function MapContents() {
-  const { setScale, disableZoomPanning } = useMapContext();
+  const {
+    setScale,
+    disableZoomPanning,
+    setResetZoomingFunction,
+    currentFloor,
+    setTranslationX,
+    setTranslationY,
+  } = useMapContext();
 
-  const options = {
-    initialScale: 0.5,
-    minScale: 0.5,
-    maxScale: 10,
-    minPositionY: -200,
-  };
+  const transformComponentRef = useRef<ReactZoomPanPinchRef>(null);
 
   const zoomWrapperProps = {
     disablePadding: true,
     centerOnInit: false,
     limitToBounds: true,
-    doubleClick: { disabled: false },
+    doubleClick: { disabled: true },
     disabled: disableZoomPanning,
-    options: options,
   };
 
-  function handleScaleChange(event: ReactZoomPanPinchRef) {
-    setScale(event.instance.transformState.scale);
-  }
+  useEffect(() => {
+    if (transformComponentRef.current && disableZoomPanning) {
+      const currentState =
+        transformComponentRef.current.instance.transformState;
+      console.log("Current State:", currentState); // Check what currentState contains
+      if (currentState) {
+        setScale(currentState.scale);
+        setTranslationX(currentState.positionX);
+        setTranslationY(currentState.positionY);
+      }
+    }
+  }, [
+    setScale,
+    setTranslationX,
+    setTranslationY,
+    disableZoomPanning,
+    transformComponentRef,
+  ]);
+
+  const resetMapTransform = () => {
+    if (transformComponentRef.current) {
+      transformComponentRef.current.resetTransform();
+    }
+  };
+
+  useEffect(() => {
+    setResetZoomingFunction(resetMapTransform);
+  }, [setResetZoomingFunction, transformComponentRef, currentFloor]);
 
   const { editorMode } = useMapContext();
 
@@ -125,8 +152,8 @@ function MapContents() {
       <FloorSelector /> {/* button cluster to change floor */}
       <ConfirmChanges />
       <TransformWrapper
+        ref={transformComponentRef}
         {...zoomWrapperProps}
-        onTransformed={(e) => handleScaleChange(e)}
         disablePadding={true}
       >
         <TransformComponent

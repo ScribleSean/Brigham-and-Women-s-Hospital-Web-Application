@@ -20,7 +20,7 @@ import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 import deleteDataRouter from "./routes/deleteDataRoute";
 import roomNameFetchRouter from "./routes/dropdowns/room-name-fetch.ts";
 import employeeEmailFetchRouter from "./routes/dropdowns/employeeEmailRouter.ts";
-import addNodesAndAssociatedEdgesRouter from "./routes/addNodesEdges";
+import addNodesRouter from "./routes/addNodes.ts";
 import deleteNodesAndAssociatedEdgesRouter from "./routes/deleteNodesEdges";
 import refactorNodesRouter from "./routes/refactorNodes";
 import addEdgesRouter from "./routes/addEdges";
@@ -84,10 +84,7 @@ app.use(
   deleteNodesAndAssociatedEdgesRouter,
 );
 app.use("/api/refactor-nodes", refactorNodesRouter);
-app.use(
-  "/api/add-nodes-and-associated-edges",
-  addNodesAndAssociatedEdgesRouter,
-);
+app.use("/api/add-nodes", addNodesRouter);
 
 app.use("/api/delete-edges", deleteEdgesRouter);
 app.use("/api/refactor-edges", refactorEdgesRouter);
