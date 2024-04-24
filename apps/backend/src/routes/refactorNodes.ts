@@ -28,24 +28,24 @@ router.post("/", async function (req: Request, res: Response) {
     }
 
     // Check that the ID of the node we want to change exists
-    const nodeIDs = oldNewNodes.map((oldNewNode) => oldNewNode.oldNode.ID); // use oldNode.ID to check existence
-    const existingNodes = await PrismaClient.node.findMany({
-      where: { nodeID: { in: nodeIDs } },
-    });
-    if (existingNodes.length !== oldNewNodes.length) {
-      console.log("One or more node IDs could not be found");
-      return res.status(400).json({
-        message: "One or more node IDs could not be found",
-      });
-    }
+    // const nodeIDs = oldNewNodes.map((oldNewNode) => oldNewNode.oldNode.ID); // use oldNode.ID to check existence
+    // const existingNodes = await PrismaClient.node.findMany({
+    //   where: { nodeID: { in: nodeIDs } },
+    // });
+    // if (existingNodes.length !== oldNewNodes.length) {
+    //   console.log("One or more node IDs could not be found");
+    //   return res.status(400).json({
+    //     message: "One or more node IDs could not be found",
+    //   });
+    // }
 
     // Prepare update operations
     const updateOperations = oldNewNodes.map(({ newNode }) =>
       PrismaClient.node.update({
         where: { nodeID: newNode.ID },
         data: {
-          xcoord: newNode.x,
-          ycoord: newNode.y,
+          xcoord: Math.floor(newNode.x),
+          ycoord: Math.floor(newNode.y),
           floor: newNode.floor,
           building: newNode.building,
           nodeType: newNode.type,

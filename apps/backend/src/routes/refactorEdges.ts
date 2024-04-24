@@ -22,7 +22,7 @@ router.post("/", async function (req: Request, res: Response) {
       ({ oldEdge, newEdge }) => oldEdge.ID !== newEdge.ID,
     );
     if (changesID) {
-      console.error(
+      console.log(
         "Edge ID changes detected:",
         oldNewEdges.filter(({ oldEdge, newEdge }) => oldEdge.ID !== newEdge.ID),
       );
@@ -42,7 +42,7 @@ router.post("/", async function (req: Request, res: Response) {
     console.log("Existing edges found:", existingEdges);
 
     if (existingEdges.length !== edgeIDs.length) {
-      console.error(
+      console.log(
         "Not all edges were found, expected:",
         oldNewEdges.length,
         "found:",
@@ -67,7 +67,7 @@ router.post("/", async function (req: Request, res: Response) {
     console.log("Nodes involved:", nodes);
 
     if (nodes.length !== new Set(nodeIDs).size) {
-      console.error(
+      console.log(
         "Node mismatch, expected nodes:",
         new Set(nodeIDs).size,
         "found:",
@@ -84,7 +84,7 @@ router.post("/", async function (req: Request, res: Response) {
         ({ newEdge }) => newEdge.startNode.ID === newEdge.endNode.ID,
       )
     ) {
-      console.error(
+      console.log(
         "Invalid edge with the same start and end node detected:",
         oldNewEdges.filter(
           ({ newEdge }) => newEdge.startNode.ID === newEdge.endNode.ID,
@@ -114,7 +114,7 @@ router.post("/", async function (req: Request, res: Response) {
       message: "Edges updated successfully",
     });
   } catch (error) {
-    console.error("Failed to update edges:", error);
+    console.log("Failed to update edges:", error);
     res.status(500).json({
       message: "Error updating edges",
       error: error instanceof Error ? error.message : "Unknown error",

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
   EdgeDisplayProps,
   EditorMode,
-  OldNewEdge,
 } from "common/src/types/map_page_types.ts";
 import { Edge } from "common/src/data_structures/Edge.ts";
 import { Node } from "common/src/data_structures/Node.ts";
@@ -14,7 +13,11 @@ import {
   DialogActions,
   TextField,
   Button,
-  Autocomplete,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { displayToImageCoordinates } from "./scalingUtils.ts";
@@ -38,6 +41,8 @@ function EdgeDisplay(props: EdgeDisplayProps) {
     setDisableZoomPanning,
     translationX,
     translationY,
+    edgesToBeAdded,
+    setEdgesToBeAdded,
   } = useMapContext();
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -199,42 +204,38 @@ function EdgeDisplay(props: EdgeDisplayProps) {
   }
 
   /*const handleChange = (
-    event: React.SyntheticEvent,
-    nodeID: string | null,
-    nodeType: "startNode" | "endNode",
-  ) => {
-    if (nodeID) {
-      if (nodeType === "startNode" && graph) {
-        const newNode = graph.getNodeByID(nodeID);
-        if (newNode) {
-          edge.startNode = newNode;
-        }
-      } else if (nodeType === "endNode" && graph) {
-        const newNode = graph.getNodeByID(nodeID);
-        if (newNode) {
-          edge.endNode = newNode;
+      event: React.SyntheticEvent,
+      nodeID: string | null,
+      nodeType: "startNode" | "endNode",
+    ) => {
+      if (nodeID) {
+        if (nodeType === "startNode" && graph) {
+          const newNode = graph.getNodeByID(nodeID);
+          if (newNode) {
+            edge.startNode = newNode;
+          }
+        } else if (nodeType === "endNode" && graph) {
+          const newNode = graph.getNodeByID(nodeID);
+          if (newNode) {
+            edge.endNode = newNode;
+          }
         }
       }
-    }
-  };*/
+    };*/
   const [newStartNodeID, setNewStartNodeID] = useState<string | null>(
     edge.startNode.ID,
   );
   const [newEndNodeID, setNewEndNodeID] = useState<string | null>(
     edge.endNode.ID,
   );
-  const handleChangeStartNodeID = (
-    event: React.SyntheticEvent<Element, Event>,
-    newValue: string | null,
-  ) => {
+  const handleChangeStartNodeID = (event: SelectChangeEvent<string>) => {
+    const newValue = event.target.value;
     if (newValue) {
       setNewStartNodeID(newValue);
     }
   };
-  const handleChangeEndNodeID = (
-    event: React.SyntheticEvent<Element, Event>,
-    newValue: string | null,
-  ) => {
+  const handleChangeEndNodeID = (event: SelectChangeEvent<string>) => {
+    const newValue = event.target.value;
     if (newValue) {
       setNewEndNodeID(newValue);
     }
@@ -254,15 +255,12 @@ function EdgeDisplay(props: EdgeDisplayProps) {
   const handleSave = () => {
     setShowModal(false);
     setTempEdge(editedEdge);
+    const oldEdge: Edge = edge;
     const newEdge: Edge = makeEdge(editedEdge);
-    const newOldNewEdge: OldNewEdge = {
-      oldEdge: edge,
-      newEdge: newEdge,
-    };
-
     if (graph) {
       setGraph(graph.editEdge(edge, newEdge));
-      setEdgesToBeEdited([...edgesToBeEdited, newOldNewEdge]);
+      setEdgesToBeDeleted([...edgesToBeDeleted, oldEdge]);
+      setEdgesToBeAdded([...edgesToBeAdded, newEdge]);
       setUnsavedChanges(true);
     }
   };
@@ -312,24 +310,43 @@ function EdgeDisplay(props: EdgeDisplayProps) {
               name="ID"
               value={editedEdge.ID}
             />
-            <Autocomplete
-              value={editedEdge.startNode.ID}
-              onChange={handleChangeStartNodeID}
-              options={graph ? graph.getNodesAll().map((node) => node.ID) : []}
-              getOptionLabel={(option) => option}
-              renderInput={(params) => (
-                <TextField {...params} label="Start Node ID" fullWidth />
-              )}
-            />
-            <Autocomplete
-              value={editedEdge.endNode.ID}
-              onChange={handleChangeEndNodeID}
-              options={graph ? graph.getNodesAll().map((node) => node.ID) : []}
-              getOptionLabel={(option) => option}
-              renderInput={(params) => (
-                <TextField {...params} label="End Node ID" fullWidth />
-              )}
-            />
+            <FormControl fullWidth margin="dense">
+              <InputLabel id="start-node-id-label">Start Node ID</InputLabel>
+              <Select
+                labelId="start-node-id-label"
+                value={editedEdge.startNode.ID}
+                label="Start Node ID"
+                onChange={handleChangeStartNodeID}
+                fullWidth
+              >
+                {graph
+                  ? graph.getNodesAll().map((node) => (
+                      <MenuItem key={node.ID} value={node.ID}>
+                        {node.ID}
+                      </MenuItem>
+                    ))
+                  : null}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth margin="dense">
+              <InputLabel id="end-node-id-label">End Node ID</InputLabel>
+              <Select
+                labelId="end-node-id-label"
+                value={editedEdge.endNode.ID}
+                label="End Node ID"
+                onChange={handleChangeEndNodeID}
+                fullWidth
+              >
+                {graph
+                  ? graph.getNodesAll().map((node) => (
+                      <MenuItem key={node.ID} value={node.ID}>
+                        {node.ID}
+                      </MenuItem>
+                    ))
+                  : null}
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleSave}>Save</Button>
