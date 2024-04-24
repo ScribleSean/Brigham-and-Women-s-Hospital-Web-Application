@@ -49,6 +49,7 @@ export default function EditorSelector() {
           position: "absolute",
           bottom: 16,
           left: 80,
+          zIndex: 2,
           "& .MuiButtonBase-root": {
             backgroundColor: "#012D5A",
           },
