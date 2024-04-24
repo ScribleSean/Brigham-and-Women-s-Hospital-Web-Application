@@ -67,9 +67,11 @@ export default class GraphFrontend {
     if (this.lookupTable.has(node.ID)) {
       return this;
     }
+
     this.lookupTable.set(node.ID, node);
     this.adjLists.get(node.floor)?.set(node.ID, new Array<Edge>());
 
+    console.log("added");
     return this;
   }
 

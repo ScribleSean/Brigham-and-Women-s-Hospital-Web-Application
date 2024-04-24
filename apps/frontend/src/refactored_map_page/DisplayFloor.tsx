@@ -62,6 +62,7 @@ function FloorDisplay() {
     translationX,
     translationY,
     setUnsavedChanges,
+    setDisableZoomPanning,
   } = useMapContext();
 
   useEffect(() => {
@@ -86,21 +87,12 @@ function FloorDisplay() {
   const isImageLoaded = useRef(false);
   const loadImageOnce = useRef(0);
 
-  const [isSaved, setIsSaved] = useState<boolean>(false);
+  /* const [isSaved, setIsSaved] = useState<boolean>(false);*/
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [newNode, setNewNode] = useState<Node>(
-    new Node(
-      "",
-      0,
-      0,
-      currentFloor,
-      BuildingType.Francis45,
-      NodeType.HALL,
-      "",
-      "",
-    ),
+    new Node("", 0, 0, currentFloor, BuildingType.BTM, NodeType.HALL, "", ""),
   );
 
   const resetNewNode = useCallback(() => {
@@ -172,11 +164,16 @@ function FloorDisplay() {
     }
   };
 
-  const handleAddNodeChange = (event: SelectChangeEvent<string>) => {
-    const name = event.target.name;
-    const value = event.target.value; // This will be the key of the enum
+  const handleAddNodeChange = (
+    event: SelectChangeEvent<BuildingType> | SelectChangeEvent<NodeType>,
+  ) => {
+    const { name, value } = event.target;
 
     setNewNode((prev) => {
+      if (!prev) {
+        return newNode;
+      }
+
       return new Node(
         prev.ID,
         prev.x,
@@ -193,10 +190,13 @@ function FloorDisplay() {
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const name = event.target.name;
-    const value = event.target.value; // This will be the key of the enum
+    const { name, value } = event.target;
 
     setNewNode((prev) => {
+      if (!prev) {
+        return newNode;
+      }
+
       return new Node(
         name === "ID" ? value : prev.ID,
         prev.x,
@@ -211,8 +211,12 @@ function FloorDisplay() {
   };
 
   const handleAddNodeSave = () => {
-    setIsSaved(true);
     setShowModal(false);
+    if (graph) {
+      console.log(newNode);
+      setGraph(graph.addNode(makeNode(newNode)));
+    }
+    setUnsavedChanges(true);
     resetNewNode();
   };
 
@@ -234,14 +238,15 @@ function FloorDisplay() {
     );
   }
 
-  useEffect(() => {
-    if (isSaved) {
-      if (graph) {
-        setGraph(graph.addNode(makeNode(newNode)));
-      }
-      setIsSaved(false);
-    }
-  }, [graph, setGraph, isSaved, newNode]);
+  /*   useEffect(() => {
+        if (isSaved) {
+            if (graph) {
+                setGraph(graph.addNode(makeNode(newNode)));
+            }
+            setIsSaved(false);
+            setUnsavedChanges(true);
+        }
+    }, [graph, setGraph, isSaved, newNode, setUnsavedChanges]);*/
 
   function nodeDisplayProps(node: Node): NodeDisplayProps {
     return {
@@ -287,22 +292,21 @@ function FloorDisplay() {
   };
 
   const buildingOptions = [
-    { label: "", value: "" },
     ...Object.entries(BuildingType).map(([key, value]) => ({
-      label: value,
-      value: key,
+      label: key,
+      value: value,
     })),
   ];
 
   const nodeTypeOptions = [
-    { label: "", value: "" },
     ...Object.entries(NodeType).map(([key, value]) => ({
-      label: value,
-      value: key,
+      label: key,
+      value: value,
     })),
   ];
 
   const handleOnClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    setDisableZoomPanning(true);
     if (!showModal) {
       const { imageX, imageY } = displayToImageCoordinates(
         event.clientX,
@@ -324,21 +328,13 @@ function FloorDisplay() {
         newNode.longName,
         newNode.shortName,
       );
-
       setNewNode(addedNode);
-
-      if (graph) {
-        setGraph(graph.addNode(addedNode));
-      }
-      setUnsavedChanges(true);
-      //setNodesToBeAdded([...nodesToBeAdded, addedNode]);
-      setIsSaved(false);
       setShowModal(true);
     }
+    setDisableZoomPanning(false);
   };
 
   if (editorMode === EditorMode.addNodes) {
-    console.log(showModal);
     return (
       <div>
         <Dialog open={showModal} onClose={handleAddNodeClose}>
@@ -350,7 +346,7 @@ function FloorDisplay() {
               type="text"
               fullWidth
               name="ID"
-              value={newNode.ID}
+              value={newNode.ID as string}
               onChange={handleInputChange}
             />
             <TextField
@@ -359,7 +355,7 @@ function FloorDisplay() {
               type="text"
               fullWidth
               name="x"
-              value={newNode.x}
+              value={newNode.x as number}
             />
             <TextField
               margin="dense"
@@ -367,7 +363,7 @@ function FloorDisplay() {
               type="text"
               fullWidth
               name="y"
-              value={newNode.y}
+              value={newNode.y as number}
             />
             <TextField
               margin="dense"
@@ -375,7 +371,7 @@ function FloorDisplay() {
               type="text"
               fullWidth
               name="floor"
-              value={newNode.floor}
+              value={newNode.floor as FloorType}
               onChange={handleInputChange}
             />
             <FormControl fullWidth margin="dense">
@@ -383,12 +379,15 @@ function FloorDisplay() {
               <Select
                 labelId="building-label"
                 name="building"
-                value={newNode.building || ""}
+                value={newNode.building as BuildingType}
                 label="Building"
                 onChange={handleAddNodeChange}
               >
                 {buildingOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
+                  <MenuItem
+                    key={option.value as BuildingType}
+                    value={option.value as BuildingType}
+                  >
                     {option.label}
                   </MenuItem>
                 ))}
@@ -399,12 +398,15 @@ function FloorDisplay() {
               <Select
                 labelId="type-label"
                 name="type"
-                value={newNode.type || ""}
+                value={newNode.type as NodeType}
                 label="Type"
                 onChange={handleAddNodeChange}
               >
                 {nodeTypeOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
+                  <MenuItem
+                    key={option.value as NodeType}
+                    value={option.value as NodeType}
+                  >
                     {option.label}
                   </MenuItem>
                 ))}
@@ -416,7 +418,7 @@ function FloorDisplay() {
               type="text"
               fullWidth
               name="longName"
-              value={newNode.longName}
+              value={newNode.longName as string}
               onChange={handleInputChange}
             />
             <TextField
@@ -425,7 +427,7 @@ function FloorDisplay() {
               type="text"
               fullWidth
               name="shortName"
-              value={newNode.shortName || ""}
+              value={newNode.shortName as string}
               onChange={handleInputChange}
             />
           </DialogContent>

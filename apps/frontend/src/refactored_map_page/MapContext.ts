@@ -53,6 +53,8 @@ interface MapContextType {
 
   edgeStartNode: Node | null;
   edgeEndNode: Node | null;
+
+  selectedOption: string;
   //---------------------------------------
   setStartNode: (node: Node | null) => void;
   setEndNode: (node: Node | null) => void;
@@ -93,6 +95,8 @@ interface MapContextType {
 
   setEdgeStartNode: (node: Node | null) => void;
   setEdgeEndNode: (node: Node | null) => void;
+
+  setSelectedOption: (selectedOption: string) => void;
 }
 
 const MapContext = createContext<MapContextType | undefined>(undefined);

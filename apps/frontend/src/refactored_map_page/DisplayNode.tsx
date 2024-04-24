@@ -84,6 +84,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setEdgeStartNode,
     edgeEndNode,
     setEdgeEndNode,
+    setSelectedOption,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -443,6 +444,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   // }
 
   if (editorMode === EditorMode.addEdges) {
+    setSelectedOption("show nodes");
     if (showNodes) {
       return (
         <div>
