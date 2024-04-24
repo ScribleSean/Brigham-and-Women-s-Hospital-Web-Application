@@ -36,7 +36,7 @@ const GameOver = () => {
         const highscores = response.data;
         setHighScores(highscores);
       } catch (error) {
-        console.error("Failed to fetch leaderboard", error);
+        console.log("ERROR");
       }
     };
     fetchLocations();
