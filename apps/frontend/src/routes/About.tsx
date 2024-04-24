@@ -1,69 +1,43 @@
 import React from "react";
-import { Container, Box } from "@mui/material";
+import "../styles/About.css";
+//import { Container, Box } from "@mui/material";
 
 function About() {
   return (
-    <Container
-      sx={{
-        backgroundColor: "black",
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Box
-        sx={{
-          backgroundColor: "white",
-          borderRadius: "10px",
-          width: { sm: "80%", md: "60%" },
-          padding: "20px",
-          boxShadow: "0px 0px 10px rgba(0,0,0,0.5)",
-        }}
-      >
-        <Box
-          sx={{
-            textAlign: "center",
-            marginBottom: "30px",
-          }}
-        >
-          <h1>Credits</h1>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-around",
-            textAlign: "center",
-            width: "100%",
-            marginBottom: "20px",
-          }}
-        >
-          <div>
-            <h2>Libraries</h2>
-            <ul>
-              <li>React</li>
-              <li>MaterialUI</li>
-              <li>Axios</li>
-              <li>ESLint</li>
-              <li>Express</li>
-            </ul>
+    <div className={"image-area"}>
+      <div className={"gradient row"}>
+        <div className={"col-12"}>
+          <div className={"hero-text"}>About Us</div>
+          <div className="carousel hero-text-p">
+            <div>
+              <p>Yoooo</p>
+            </div>
+            <div style={{ transform: "translateX(100%)" }}>
+              <p>
+                Helping our patients and their families get back to what matters
+                most.
+              </p>
+              <p>
+                Excellence in medical research and patient care, our commitment
+                continues.
+              </p>
+              <p>
+                Dedicated to a century of leadership in healthcare and patient
+                service.
+              </p>
+              <p>
+                Leading the way in comprehensive healthcare, where every patient
+                is family.
+              </p>
+              <p>
+                Together in health, every step of the way—because family
+                matters.
+              </p>
+            </div>
           </div>
-          <div>
-            <h2>Tools</h2>
-            <ul>
-              <li>GitHub</li>
-              <li>Node.js</li>
-              <li>Yarn</li>
-              <li>ESLint</li>
-              <li>Prettier</li>
-              <li>JTest</li>
-              <li>Auth0</li>
-            </ul>
-          </div>
-        </Box>
-      </Box>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }
 

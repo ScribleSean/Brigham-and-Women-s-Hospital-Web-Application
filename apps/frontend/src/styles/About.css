@@ -1,0 +1,108 @@
+.image-area {
+  background-image: url("../../public/brighamBG.png");
+  background-position: center;
+  align-self: center;
+  /*height: 100vh;*/
+  width: 100vw;
+  position: fixed;
+  /*background-attachment: fixed;*/
+  /*background-size: 100% 100%;*/
+}
+
+/*Background Animation*/
+.gradient {
+  /*width: 100%;*/
+  height: 100vh;
+  background: linear-gradient(
+      45deg,
+      rgba(0, 58, 150, 0.5),
+      rgba(0, 17, 47, 0.5)
+    )
+    0 0 / 1000% no-repeat;
+  align-items: center;
+}
+
+/*Text size + font*/
+.hero-text {
+  font-size: 3em;
+
+  font-weight: 900;
+  line-height: 1.1;
+
+  padding: 0 5% 15%;
+  color: white;
+  font-family: Inter, serif;
+  user-select: none;
+  text-align: center;
+}
+.hero-text-p {
+  font-size: 2em;
+  /*padding: 5%;*/
+  padding-bottom: 5%;
+  margin-right: 0;
+  font-weight: lighter;
+  text-align: center;
+  line-height: 0.95;
+  color: white;
+  /*font-family: Inter, sans-serif;*/
+  user-select: none;
+}
+
+/*Carousel*/
+@keyframes carousel {
+  0% {
+    left: 0;
+  }
+  20% {
+    left: -100%;
+  }
+  40% {
+    left: -200%;
+  }
+  60% {
+    left: -300%;
+  }
+  80% {
+    left: -400%;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateX(0%);
+  }
+  25% {
+    transform: translateX(-5%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  75% {
+    transform: translateX(-10%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.carousel {
+  overflow: visible;
+}
+
+.carousel div {
+  position: absolute;
+  width: 100%;
+  height: 500%;
+  animation: carousel 25s infinite;
+}
+
+.carousel p {
+  width: 100%;
+  margin: 1%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
