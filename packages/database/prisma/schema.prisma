@@ -12,6 +12,12 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
+model BreakOutHighScore {
+  HSID    Int    @id @default(autoincrement())
+  initial String
+  time    String
+}
+
 model Edge {
   edgeID      String @id
   startNodeID String
