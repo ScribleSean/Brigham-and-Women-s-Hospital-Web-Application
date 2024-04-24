@@ -28,6 +28,7 @@ import deleteEdgesRouter from "./routes/deleteEdges";
 import refactorEdgesRouter from "./routes/refactorEdges";
 import employeeRouter from "./routes/employee-router.ts";
 import downloadEmployeeDataRouter from "./routes/data-to-csv-employee.ts";
+import brigRouter from "./routes/breakoutGameRouter.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -52,6 +53,7 @@ app.use("/api/medical-device-service-request", medicalDeviceRouter);
 app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
 app.use("/api/religious-service-request", religiousServiceRequestRouter);
 app.use("/api/gift-service-request", giftServiceRequestRouter);
+app.use("/api/brig-hs-request", brigRouter);
 
 // api fetch (for the dropdowns)
 app.use("/api/room-name-fetch", roomNameFetchRouter);
