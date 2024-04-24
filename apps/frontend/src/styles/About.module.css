@@ -1,4 +1,4 @@
-.image-area {
+.imageArea {
   background-image: url("../../public/brighamBG.png");
   background-position: center;
   align-self: center;
@@ -23,19 +23,19 @@
 }
 
 /*Text size + font*/
-.hero-text {
-  font-size: 4em;
+.heroText {
+  font-size: 5em;
 
   font-weight: 900;
   line-height: 1.1;
 
-  padding: 0 1% 5vh;
+  padding: 15% 1% 1vh;
   color: white;
   font-family: Inter, serif;
   user-select: none;
   text-align: center;
 }
-.hero-text-p {
+.heroTextP {
   font-size: 2em;
   /*padding: 5%;*/
   padding-bottom: 3vh;
@@ -117,7 +117,7 @@
   animation: carousel 45s infinite;
 }
 
-.carousel p {
+.carouselP {
   width: 100%;
   margin: 1%;
   display: flex;
@@ -125,7 +125,7 @@
   justify-content: center;
 }
 
-.wpi-cs-p {
+.wpiCsP {
   font-size: 1em;
   padding-top: 40vh;
   padding-bottom: 3vh;
@@ -138,7 +138,7 @@
   user-select: none;
 }
 
-.thanks-p {
+.thanksP {
   font-size: 1em;
   padding-top: 1vh;
   padding-bottom: 5vh;
@@ -151,7 +151,7 @@
   user-select: none;
 }
 
-.disclosure-p {
+.disclosureP {
   font-size: 0.8em;
   padding-top: 7vh;
   padding-left: 3vw;

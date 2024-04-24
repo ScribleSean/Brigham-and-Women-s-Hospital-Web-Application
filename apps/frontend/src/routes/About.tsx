@@ -16,18 +16,24 @@ import Timothy from "../../public/CS3737Photos/Timothy.png";
 function About() {
   return (
     <div className={`${styles.commonInputsContainer}`}>
-      <div className={"image-area"}>
-        <div className={"gradient row"}>
+      <div className={`${styles.imageArea}`}>
+        <div className={`${styles.gradient} ${styles.row}`}>
+          {/*, "row"*/}
           <div
             className={"col-12"}
-            style={{ height: "70%", paddingLeft: "5%" }}
+            style={{ height: "100%", paddingLeft: "5%" }}
           >
-            <div className={"hero-text"}>About Us</div>
-            <div className={"thanks-p"}>
+            <div className={`${styles.heroText}`}>
+              <p>About Us</p>
+            </div>
+            <div className={`${styles.thanksP}`}>
               <p>Special thanks to Brigham and Women’s Hospital</p>
               <p>and their representative, Andrew Shinn</p>
             </div>
-            <div className="carousel hero-text-p" style={{ display: "flex" }}>
+            <div
+              className={`${styles.carousel} ${styles.heroTextP}`}
+              style={{ display: "flex" }}
+            >
               <div>
                 <img src={Sean} alt="Sean" style={{ height: "30vh" }} />
                 <p>Sean Arackal</p>
@@ -88,13 +94,13 @@ function About() {
                 <p>Document Analyst / Front-End Dev</p>
               </div>
             </div>
-            <div className={"wpi-cs-p"}>
+            <div className={`${styles.wpiCsP}`}>
               <p>WPI Computer Science Department</p>
               <p>CS3733-D24 Software Engineering</p>
               <p>Prof. Wilson Wong</p>
               <p>Team Coach Joseph Cardarelli</p>
             </div>
-            <div className={"disclosure-p"}>
+            <div className={`${styles.disclosureP}`}>
               <p>
                 The Brigham & Women’s Hospital maps and data used in this
                 application are copyrighted and provided for the sole use of
