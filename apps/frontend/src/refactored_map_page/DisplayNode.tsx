@@ -6,6 +6,7 @@ import {
 import React, { CSSProperties, useCallback, useEffect, useState } from "react";
 import {
   BuildingType,
+  Edge,
   FloorType,
   Node,
   NodeType,
@@ -84,7 +85,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setEdgeStartNode,
     edgeEndNode,
     setEdgeEndNode,
-    setSelectedOption,
+    edgesToBeAdded,
+    setEdgesToBeAdded,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -426,6 +428,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     } else if (!edgeEndNode) {
       setEdgeEndNode(node);
       graph?.addEdge(edgeStartNode.ID + node.ID, edgeStartNode, node);
+      setEdgesToBeAdded([
+        ...edgesToBeAdded,
+        new Edge(edgeStartNode.ID + node.ID, edgeStartNode, node),
+      ]);
       setEdgeStartNode(null);
       setEdgeEndNode(null);
     } else {
@@ -443,11 +449,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   //   );
   // }
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (editorMode === EditorMode.addEdges) {
       setSelectedOption("showBoth");
     }
-  }, [editorMode, setSelectedOption]);
+  }, [editorMode, setSelectedOption]);*/
 
   if (editorMode === EditorMode.addEdges) {
     if (showNodes) {

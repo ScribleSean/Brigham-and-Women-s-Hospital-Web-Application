@@ -21,6 +21,9 @@ router.post("/", async function (req: Request, res: Response) {
     });
 
     if (nodes.length !== nodeIds.size) {
+      console.log(
+        "One or more nodes referenced by one ore more edges do not exist",
+      );
       return res.status(404).json({
         message:
           "One or more nodes referenced by one ore more edges do not exist",
@@ -51,6 +54,7 @@ router.post("/", async function (req: Request, res: Response) {
       },
     });
     if (existingEdges.length > 0) {
+      console.log("Duplicated Edge Found");
       return res.status(400).json({
         message: "Duplicated Edge Found",
         wrongEdges: existingEdges,
@@ -59,6 +63,7 @@ router.post("/", async function (req: Request, res: Response) {
 
     // Check that the new edge does not have the same start and end node
     if (newEdges.some((edge: Edge) => (edge.startNode.ID = edge.endNode.ID))) {
+      console.log("Edge with the same start and endNode");
       return res.status(400).json({
         message: "Edge with the same start and endNode",
       });
@@ -78,6 +83,7 @@ router.post("/", async function (req: Request, res: Response) {
       }),
     ]);
 
+    console.log("Nodes and edges added successfully");
     res.status(200).json({
       message: "Nodes and edges added successfully",
       details: transaction,

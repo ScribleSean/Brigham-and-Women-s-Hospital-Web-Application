@@ -27,22 +27,35 @@ router.post("/", async function (req: Request, res: Response) {
 
     await PrismaClient.node.createMany({
       data: nodes.map((newNode: Node) => {
-        console.log(newNode);
-
         const newNodeBackend: node = {
-          nodeID: newNode.ID as string,
-          xcoord: Math.floor(newNode.x) as number,
-          ycoord: Math.floor(newNode.y) as number,
+          nodeID: newNode.ID,
+          xcoord: Math.floor(newNode.x),
+          ycoord: Math.floor(newNode.y),
           floor: newNode.floor as string,
           nodeType: newNode.type as string,
           building: newNode.building as string,
-          longName: newNode.longName as string,
-          shortName: newNode.shortName as string,
+          longName: newNode.longName,
+          shortName: newNode.shortName,
         };
+
+        console.log(newNodeBackend);
 
         return newNodeBackend;
       }),
     });
+
+    /* await PrismaClient.node.create({
+      data: {
+        nodeID: "bbb",
+        xcoord: 322,
+        ycoord: 322,
+        floor: "aaa",
+        nodeType: "aaa",
+        building: "aaa",
+        longName: "aaa",
+        shortName: "aaa",
+      },
+    });*/
 
     res.status(200).json({
       message: "Nodes added successfully",
