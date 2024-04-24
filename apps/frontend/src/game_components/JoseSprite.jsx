@@ -82,8 +82,8 @@ const Disease = ({
           ref={imageRef}
           x={position.current.x}
           y={position.current.y}
-          width={125}
-          height={125}
+          width={150}
+          height={150}
           href={imageSrc}
         />
       )}
