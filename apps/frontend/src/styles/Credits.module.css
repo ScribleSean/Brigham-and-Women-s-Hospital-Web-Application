@@ -1,0 +1,17 @@
+.pageContainer {
+  height: 100vh;
+  width: 150%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: calc(1% + 70px) 0 1% calc(1% + 55px);
+  position: fixed;
+  background: linear-gradient(
+      to bottom,
+      rgba(226, 244, 255, 0.45),
+      rgba(227, 247, 255, 0.49)
+    ),
+    url("../../public/brighamWebsiteGeometricBG.jpg");
+  overflow-y: auto;
+}

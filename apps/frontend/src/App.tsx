@@ -16,6 +16,7 @@ import NewSideNavBar from "./components/NewSideNavBar.tsx";
 import Banner from "./components/Banner.tsx";
 import Dashboard from "./routes/Dashboard.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import Credits from "./routes/Credits.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import About from "./routes/About.tsx";
 // import {useAuth0} from "@auth0/auth0-react";
@@ -53,6 +54,7 @@ function App() {
           }
         />
         <Route path="/about" element={<About />} />
+        <Route path="/credits" element={<Credits />} />
       </Routes>
     </Router>
   );
