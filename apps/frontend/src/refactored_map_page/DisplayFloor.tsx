@@ -221,10 +221,23 @@ function FloorDisplay() {
     resetNewNode();
   };
 
+  function makeNode(node: Node) {
+    return new Node(
+      node.ID,
+      node.x,
+      node.y,
+      node.floor,
+      node.building,
+      node.type,
+      node.longName,
+      node.shortName,
+    );
+  }
+
   useEffect(() => {
     if (isSaved) {
       if (graph) {
-        setGraph(graph.addNode(newNode));
+        setGraph(graph.addNode(makeNode(newNode)));
       }
       setIsSaved(false);
     }
