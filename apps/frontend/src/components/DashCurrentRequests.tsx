@@ -18,6 +18,8 @@ import {
   TableBody,
   TablePagination,
   SelectChangeEvent,
+  Popover,
+  Button,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -27,6 +29,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 // import DeleteIcon from '@mui/icons-material/Delete';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import axios from "axios";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
@@ -472,6 +475,9 @@ export default function DashCurrentRequests({
 
   const [requestData, setRequestData] = useState<ServiceRequest[]>();
 
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("Any");
   const [filterPriority, setFilterPriority] = useState("Any");
@@ -574,7 +580,7 @@ export default function DashCurrentRequests({
         </div>
         {/*<hr className={`${styles.divider}`} />*/}
         <div className={`${styles.tableMutators}`}>
-          <div className={`${styles.filterMenu}`}>
+          <div className={`${styles.searchMenu}`}>
             <label htmlFor="searchBar" className={`${styles.filterMenuText}`}>
               Search
             </label>
@@ -582,9 +588,6 @@ export default function DashCurrentRequests({
               id={"searchBar"}
               variant={"outlined"}
               size={"small"}
-              sx={{
-                width: "80%",
-              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -596,96 +599,125 @@ export default function DashCurrentRequests({
             />
           </div>
           <div className={`${styles.filterMenu}`}>
-            <label
-              htmlFor={"filterType"}
-              className={`${styles.filterMenuText}`}
+            <Button
+              variant={"outlined"}
+              startIcon={<FilterAltIcon />}
+              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                setPopoverOpen(true);
+                setAnchorEl(event.currentTarget);
+              }}
             >
-              Filter by:
-            </label>
-            <div className={`${styles.filterSelectors}`}>
-              <FormControl fullWidth size={"small"}>
-                <InputLabel id="filterEmployeeLabel">Employee</InputLabel>
-                <Select
-                  labelId="filterEmployeeLabel"
-                  id="filterEmployee"
-                  label="Employee"
-                  defaultValue={"Any"}
-                  onChange={(event) =>
-                    setFilterEmployee(event.target.value as string)
-                  }
-                >
-                  <MenuItem value={"Any"}>
-                    <em>Any</em>
-                  </MenuItem>
-                  {employeeEmailOptions.map((email) => (
-                    <MenuItem key={email} value={email}>
-                      {email}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl fullWidth size={"small"}>
-                <InputLabel id="filterTypeLabel">Type</InputLabel>
-                <Select
-                  labelId="filterTypeLabel"
-                  id="filterType"
-                  label="Type"
-                  defaultValue={"Any"}
-                  onChange={(event) =>
-                    setFilterType(event.target.value as string)
-                  }
-                >
-                  <MenuItem value={"Any"}>
-                    <em>Any</em>
-                  </MenuItem>
-                  <MenuItem value={"Flower Delivery"}>Flower Delivery</MenuItem>
-                  <MenuItem value={"Gift Delivery"}>Gift Delivery</MenuItem>
-                  <MenuItem value={"Medicine"}>Medicine</MenuItem>
-                  <MenuItem value={"Medical Device"}>Medical Device</MenuItem>
-                  <MenuItem value={"Room Scheduling"}>Room Scheduling</MenuItem>
-                  <MenuItem value={"Religious"}>Religious</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl fullWidth size={"small"} sx={{ px: "2%" }}>
-                <InputLabel id="filterPriorityLabel">Priority</InputLabel>
-                <Select
-                  labelId="filterPriorityLabel"
-                  id="filterPriority"
-                  label="Priority"
-                  defaultValue={"Any"}
-                  onChange={(event) =>
-                    setFilterPriority(event.target.value as string)
-                  }
-                >
-                  <MenuItem value={"Any"}>
-                    <em>Any</em>
-                  </MenuItem>
-                  <MenuItem value={"Low"}>Low</MenuItem>
-                  <MenuItem value={"Medium"}>Medium</MenuItem>
-                  <MenuItem value={"High"}>High</MenuItem>
-                  <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl fullWidth size={"small"}>
-                <InputLabel id="filterStatusLabel">Status</InputLabel>
-                <Select
-                  labelId="filterStatusLabel"
-                  id="filterStatus"
-                  label="Status"
-                  defaultValue={"Any"}
-                  onChange={(event) =>
-                    setFilterStatus(event.target.value as string)
-                  }
-                >
-                  <MenuItem value={"Any"}>
-                    <em>Any</em>
-                  </MenuItem>
-                  <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-                  <MenuItem value={"Assigned"}>Assigned</MenuItem>
-                  <MenuItem value={"In Progress"}>In Progress</MenuItem>
-                  <MenuItem value={"Closed"}>Closed</MenuItem>
-                </Select>
-              </FormControl>
+              Filter
+            </Button>
+            <div>
+              <Popover
+                open={popoverOpen}
+                anchorEl={anchorEl}
+                onClose={() => {
+                  setPopoverOpen(false);
+                  setAnchorEl(null);
+                }}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+              >
+                <div className={`${styles.filterSelectors}`}>
+                  <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
+                    <InputLabel id="filterEmployeeLabel">Employee</InputLabel>
+                    <Select
+                      labelId="filterEmployeeLabel"
+                      id="filterEmployee"
+                      label="Employee"
+                      defaultValue={"Any"}
+                      onChange={(event) =>
+                        setFilterEmployee(event.target.value as string)
+                      }
+                    >
+                      <MenuItem value={"Any"}>
+                        <em>Any</em>
+                      </MenuItem>
+                      {employeeEmailOptions.map((email) => (
+                        <MenuItem key={email} value={email}>
+                          {email}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
+                    <InputLabel id="filterTypeLabel">Type</InputLabel>
+                    <Select
+                      labelId="filterTypeLabel"
+                      id="filterType"
+                      label="Type"
+                      defaultValue={"Any"}
+                      onChange={(event) =>
+                        setFilterType(event.target.value as string)
+                      }
+                    >
+                      <MenuItem value={"Any"}>
+                        <em>Any</em>
+                      </MenuItem>
+                      <MenuItem value={"Flower Delivery"}>
+                        Flower Delivery
+                      </MenuItem>
+                      <MenuItem value={"Gift Delivery"}>Gift Delivery</MenuItem>
+                      <MenuItem value={"Medicine"}>Medicine</MenuItem>
+                      <MenuItem value={"Medical Device"}>
+                        Medical Device
+                      </MenuItem>
+                      <MenuItem value={"Room Scheduling"}>
+                        Room Scheduling
+                      </MenuItem>
+                      <MenuItem value={"Religious"}>Religious</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
+                    <InputLabel id="filterPriorityLabel">Priority</InputLabel>
+                    <Select
+                      labelId="filterPriorityLabel"
+                      id="filterPriority"
+                      label="Priority"
+                      defaultValue={"Any"}
+                      onChange={(event) =>
+                        setFilterPriority(event.target.value as string)
+                      }
+                    >
+                      <MenuItem value={"Any"}>
+                        <em>Any</em>
+                      </MenuItem>
+                      <MenuItem value={"Low"}>Low</MenuItem>
+                      <MenuItem value={"Medium"}>Medium</MenuItem>
+                      <MenuItem value={"High"}>High</MenuItem>
+                      <MenuItem value={"Emergency"}>Emergency</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
+                    <InputLabel id="filterStatusLabel">Status</InputLabel>
+                    <Select
+                      labelId="filterStatusLabel"
+                      id="filterStatus"
+                      label="Status"
+                      defaultValue={"Any"}
+                      onChange={(event) =>
+                        setFilterStatus(event.target.value as string)
+                      }
+                    >
+                      <MenuItem value={"Any"}>
+                        <em>Any</em>
+                      </MenuItem>
+                      <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+                      <MenuItem value={"Assigned"}>Assigned</MenuItem>
+                      <MenuItem value={"In Progress"}>In Progress</MenuItem>
+                      <MenuItem value={"Closed"}>Closed</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              </Popover>
             </div>
           </div>
         </div>
