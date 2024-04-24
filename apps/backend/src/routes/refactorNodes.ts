@@ -21,6 +21,7 @@ router.post("/", async function (req: Request, res: Response) {
       return oldNewNode.oldNode.ID !== oldNewNode.newNode.ID;
     });
     if (changesID) {
+      console.log("You are not allowed to change the ID of the node");
       return res.status(400).json({
         message: "You are not allowed to change the ID of the node",
       });
@@ -32,6 +33,7 @@ router.post("/", async function (req: Request, res: Response) {
       where: { nodeID: { in: nodeIDs } },
     });
     if (existingNodes.length !== oldNewNodes.length) {
+      console.log("One or more node IDs could not be found");
       return res.status(400).json({
         message: "One or more node IDs could not be found",
       });
@@ -55,6 +57,7 @@ router.post("/", async function (req: Request, res: Response) {
 
     // Execute all updates in a transaction
     await PrismaClient.$transaction(updateOperations);
+    console.log("Nodes updated successfully");
 
     res.status(200).json({
       message: "Nodes updated successfully",

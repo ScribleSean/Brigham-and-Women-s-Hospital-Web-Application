@@ -41,7 +41,6 @@ function EdgeDisplay(props: EdgeDisplayProps) {
   } = useMapContext();
 
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [isSaved, setIsSaved] = useState<boolean>(false);
   const [dragging, setDragging] = useState(false);
 
   const [initialMousePos, setInitialMousePos] = useState({ x: 0, y: 0 });
@@ -122,7 +121,6 @@ function EdgeDisplay(props: EdgeDisplayProps) {
         ...edgesToBeEdited,
         { oldEdge: edge, newEdge: newEdge },
       ]);
-      setIsSaved(false);
     },
     [
       initialEndPos,
@@ -140,7 +138,6 @@ function EdgeDisplay(props: EdgeDisplayProps) {
       graph,
       setGraph,
       setUnsavedChanges,
-      setIsSaved,
     ],
   );
 
@@ -170,10 +167,10 @@ function EdgeDisplay(props: EdgeDisplayProps) {
   };
 
   const [editedEdge, setEditedEdge] = useState<Edge>(
-    new Edge(edge.ID, edge.startNode, edge.endNode),
+    new Edge(edge.startNode.ID + edge.endNode.ID, edge.startNode, edge.endNode),
   );
   const [tempEdge, setTempEdge] = useState<Edge>(
-    new Edge(edge.ID, edge.startNode, edge.endNode),
+    new Edge(edge.startNode.ID + edge.endNode.ID, edge.startNode, edge.endNode),
   );
 
   function getEdgeCoordinates(edge: Edge): string {
@@ -194,37 +191,14 @@ function EdgeDisplay(props: EdgeDisplayProps) {
   };
 
   function makeEdge(edge: Edge) {
-    return new Edge(edge.ID, edge.startNode, edge.endNode);
+    return new Edge(
+      edge.startNode.ID + edge.endNode.ID,
+      edge.startNode,
+      edge.endNode,
+    );
   }
 
-  useEffect(() => {
-    if (isSaved) {
-      const newEdge: Edge = makeEdge(editedEdge);
-      const newOldNewEdge: OldNewEdge = {
-        oldEdge: edge,
-        newEdge: newEdge,
-      };
-
-      if (graph) {
-        setGraph(graph.editEdge(newEdge));
-        setEdgesToBeEdited([...edgesToBeEdited, newOldNewEdge]);
-        setUnsavedChanges(true);
-      }
-      setIsSaved(false);
-    }
-  }, [
-    edge,
-    edgesToBeEdited,
-    setEdgesToBeEdited,
-    editedEdge,
-    setEditedEdge,
-    isSaved,
-    graph,
-    setGraph,
-    setUnsavedChanges,
-  ]);
-
-  const handleChange = (
+  /*const handleChange = (
     event: React.SyntheticEvent,
     nodeID: string | null,
     nodeType: "startNode" | "endNode",
@@ -242,12 +216,55 @@ function EdgeDisplay(props: EdgeDisplayProps) {
         }
       }
     }
+  };*/
+  const [newStartNodeID, setNewStartNodeID] = useState<string | null>(
+    edge.startNode.ID,
+  );
+  const [newEndNodeID, setNewEndNodeID] = useState<string | null>(
+    edge.endNode.ID,
+  );
+  const handleChangeStartNodeID = (
+    event: React.SyntheticEvent<Element, Event>,
+    newValue: string | null,
+  ) => {
+    if (newValue) {
+      setNewStartNodeID(newValue);
+    }
+  };
+  const handleChangeEndNodeID = (
+    event: React.SyntheticEvent<Element, Event>,
+    newValue: string | null,
+  ) => {
+    if (newValue) {
+      setNewEndNodeID(newValue);
+    }
   };
 
+  useEffect(() => {
+    if (graph && newStartNodeID && newEndNodeID) {
+      const startNode: Node | undefined = graph.getNodeByID(newStartNodeID);
+      const endNode: Node | undefined = graph.getNodeByID(newEndNodeID);
+
+      if (startNode && endNode) {
+        setEditedEdge(new Edge(startNode.ID + endNode.ID, startNode, endNode));
+      }
+    }
+  }, [newStartNodeID, newEndNodeID, graph]);
+
   const handleSave = () => {
-    setIsSaved(true);
     setShowModal(false);
     setTempEdge(editedEdge);
+    const newEdge: Edge = makeEdge(editedEdge);
+    const newOldNewEdge: OldNewEdge = {
+      oldEdge: edge,
+      newEdge: newEdge,
+    };
+
+    if (graph) {
+      setGraph(graph.editEdge(edge, newEdge));
+      setEdgesToBeEdited([...edgesToBeEdited, newOldNewEdge]);
+      setUnsavedChanges(true);
+    }
   };
 
   const handleClose = () => {
@@ -293,13 +310,11 @@ function EdgeDisplay(props: EdgeDisplayProps) {
               type="text"
               fullWidth
               name="ID"
-              value={edge.ID}
+              value={editedEdge.ID}
             />
             <Autocomplete
               value={editedEdge.startNode.ID}
-              onChange={(event, newValue) =>
-                handleChange(event, newValue, "startNode")
-              }
+              onChange={handleChangeStartNodeID}
               options={graph ? graph.getNodesAll().map((node) => node.ID) : []}
               getOptionLabel={(option) => option}
               renderInput={(params) => (
@@ -308,9 +323,7 @@ function EdgeDisplay(props: EdgeDisplayProps) {
             />
             <Autocomplete
               value={editedEdge.endNode.ID}
-              onChange={(event, newValue) =>
-                handleChange(event, newValue, "endNode")
-              }
+              onChange={handleChangeEndNodeID}
               options={graph ? graph.getNodesAll().map((node) => node.ID) : []}
               getOptionLabel={(option) => option}
               renderInput={(params) => (

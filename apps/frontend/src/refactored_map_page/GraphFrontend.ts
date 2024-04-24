@@ -258,28 +258,9 @@ export default class GraphFrontend {
     return this;
   }
 
-  public editEdge(newEdge: Edge): GraphFrontend {
-    // Iterate over all floors' adjacency lists to find and replace the old edge
-    this.adjLists.forEach((floorMap) => {
-      floorMap.forEach((edges, nodeID) => {
-        // Map through existing edges and replace the old edge with the new one if it connects the same nodes
-        const updatedEdges = edges.map((e) => {
-          if (
-            (e.startNode.ID === newEdge.startNode.ID &&
-              e.endNode.ID === newEdge.endNode.ID) ||
-            (e.startNode.ID === newEdge.endNode.ID &&
-              e.endNode.ID === newEdge.startNode.ID)
-          ) {
-            return newEdge; // Replace with new edge
-          }
-          return e; // Otherwise, return the edge unchanged
-        });
-
-        // Set the updated edges back into the map
-        floorMap.set(nodeID, updatedEdges);
-      });
-    });
-
+  public editEdge(oldEdge: Edge, newEdge: Edge): GraphFrontend {
+    this.removeEdge(oldEdge);
+    this.addEdge(newEdge.ID, newEdge.startNode, newEdge.endNode);
     return this;
   }
 
