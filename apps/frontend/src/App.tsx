@@ -18,6 +18,7 @@ import Dashboard from "./routes/Dashboard.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import Platformer from "./games/Platformer.jsx";
+import GameOver from "./game_components/GameOver.tsx";
 // import {useAuth0} from "@auth0/auth0-react";
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/game-over" element={<GameOver />} />
       </Routes>
     </Router>
   );
@@ -66,7 +68,8 @@ function ConditionalSideNavBar() {
   // Don't render the side navbar on the login route
   if (
     location.pathname === "/" ||
-    (location.pathname === "/public-map" && !isAuthenticated)
+    (location.pathname === "/public-map" && !isAuthenticated) ||
+    location.pathname === "/game-over"
   ) {
     return null;
   } else if (!isAuthenticated) {
@@ -93,7 +96,7 @@ function ConditionalBanner() {
   // const { isAuthenticated, user } = useAuth0();
 
   // Don't render the side navbar on the login route
-  if (location.pathname === "/") {
+  if (location.pathname === "/" || location.pathname === "/game-over") {
     return null;
   }
 

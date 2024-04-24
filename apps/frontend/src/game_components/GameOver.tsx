@@ -2,8 +2,14 @@ import React, { useEffect, useState } from "react";
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.js";
 import axios from "axios";
 import { Button, TextField } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const GameOver = () => {
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+  const endTime: string | null = params.get("endTime");
+
   const gameOverContainer: React.CSSProperties = {
     height: "100vh",
     background:
@@ -26,7 +32,7 @@ const GameOver = () => {
   const [formData, setFormData] = useState<breakoutHighScore>({
     HSID: 0,
     initial: "",
-    time: "",
+    time: endTime ? endTime : "",
   });
   const [highScores, setHighScores] = useState<breakoutHighScore[]>([]);
   useEffect(() => {
@@ -55,7 +61,7 @@ const GameOver = () => {
     setFormData({
       HSID: 0,
       initial: "",
-      time: "",
+      time: endTime ? endTime : "",
     });
   };
 
@@ -84,20 +90,13 @@ const GameOver = () => {
       >
         HIGHSCORE
         <form onSubmit={handleSubmit}>
+          <div>End Time: {endTime}</div>
           <TextField
             id={"initial"}
             variant={"filled"}
             label={"Your Initials"}
             required
             value={formData.initial}
-            onChange={handleTextFieldChange}
-          />
-          <TextField
-            id={"time"}
-            variant={"filled"}
-            label={"Playtime"}
-            required
-            value={formData.time}
             onChange={handleTextFieldChange}
           />
           <Button type={"submit"}>Click</Button>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import PlatformerBG from "./PlatformerBG.jsx";
 import Disease from "./Disease.jsx"; // Import the generic Disease component
-// import StartScreen from "./StartScreen.jsx";
-import GameOver from "./GameOver.tsx";
+import JoseSprite from "./JoseSprite.jsx"; // Import the generic Disease component
 
 const Canvas = () => {
   const viewBox = useMemo(
@@ -41,6 +40,13 @@ const Canvas = () => {
       return () => clearInterval(timer);
     }
   }, [isAlive]);
+
+  // Redirect to game over page when player dies
+  useEffect(() => {
+    if (!isAlive) {
+      window.location.href = `/game-over?endTime=${elapsedTime}`;
+    }
+  }, [isAlive, elapsedTime]);
 
   //Sets velocity of circle upon key press
   useEffect(() => {
@@ -163,7 +169,10 @@ const Canvas = () => {
 
   useEffect(() => {
     const spawnDisease = () => {
-      const DiseaseComponent = Disease;
+      const maybeJose = Math.random(); // Generate a random number between 0 and 1
+
+      // Determine if it's a JoseSprite component (20% of the time)
+      const DiseaseComponent = maybeJose <= 0.2 ? JoseSprite : Disease;
 
       const speed = 3 + elapsedTime / 10 / 2; // Consistent speed
       const margin = 50; // Margin to keep the disease fully visible within the viewBox
@@ -249,8 +258,6 @@ const Canvas = () => {
     return () => clearInterval(frameTimer);
   }, []);
 
-  let showStartScreen = true;
-
   const GameOverText = {
     fontFamily: "'Halogen by Pixel Surplus', sans-serif",
     fontSize: "5rem",
@@ -291,59 +298,55 @@ const Canvas = () => {
   return (
     <>
       <PlatformerBG />
-      {showStartScreen ? (
-        <GameOver />
-      ) : (
-        <div>
-          {!isAlive && (
-            <div className="game-over text-center" style={GameOverText}>
-              <p>Game Over</p>
-              {/* You can add any other elements for game over here */}
-            </div>
-          )}
-          <div style={HPContainer}>
-            <div style={HPText}>HP: {playerHP}</div>
+      <div>
+        {!isAlive && (
+          <div className="game-over text-center" style={GameOverText}>
+            <p>Game Over</p>
+            {/* You can add any other elements for game over here */}
           </div>
-          <svg
-            id="platformer-canvas"
-            preserveAspectRatio="xMaxYMax none"
-            viewBox={viewBox}
-          >
-            {isAlive && (
-              <g
-                ref={imageRef}
+        )}
+        <div style={HPContainer}>
+          <div style={HPText}>HP: {playerHP}</div>
+        </div>
+        <svg
+          id="platformer-canvas"
+          preserveAspectRatio="xMaxYMax none"
+          viewBox={viewBox}
+        >
+          {isAlive && (
+            <g
+              ref={imageRef}
+              width={75}
+              height={100}
+              id={"Player"}
+              transform={`translate(${position.x}, ${position.y})`}
+            >
+              <image
                 width={75}
                 height={100}
-                id={"Player"}
-                transform={`translate(${position.x}, ${position.y})`}
-              >
-                <image
-                  width={75}
-                  height={100}
-                  href={frames[currentFrame]} // Render the current frame based on the currentFrame state
-                />
-              </g>
-            )}
-            {diseases.map((disease, index) => {
-              const DiseaseComponent = disease.Component;
-              return (
-                <DiseaseComponent
-                  key={index}
-                  x={disease.x}
-                  y={disease.y}
-                  viewBox={viewBox}
-                  setPlayerHP={setPlayerHP}
-                  playerHP={playerHP}
-                  player={document.getElementById("Player")}
-                  setIsAlive={setIsAlive} // Pass the setIsAlive function as a prop
-                  isAlive={isAlive}
-                />
-              );
-            })}
-            <text style={Timer}>Time: {elapsedTime} seconds</text>
-          </svg>
-        </div>
-      )}
+                href={frames[currentFrame]} // Render the current frame based on the currentFrame state
+              />
+            </g>
+          )}
+          {diseases.map((disease, index) => {
+            const DiseaseComponent = disease.Component;
+            return (
+              <DiseaseComponent
+                key={index}
+                x={disease.x}
+                y={disease.y}
+                viewBox={viewBox}
+                setPlayerHP={setPlayerHP}
+                playerHP={playerHP}
+                player={document.getElementById("Player")}
+                setIsAlive={setIsAlive} // Pass the setIsAlive function as a prop
+                isAlive={isAlive}
+              />
+            );
+          })}
+          <text style={Timer}>Time: {elapsedTime} seconds</text>
+        </svg>
+      </div>
     </>
   );
 };
