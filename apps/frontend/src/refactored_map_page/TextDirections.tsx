@@ -1,7 +1,7 @@
 import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useMapContext } from "./MapContext.ts";
-import { IconButton } from "@mui/material";
+import { Button, ButtonGroup, IconButton } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 import styles from "../styles/TextDirections.module.css";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -246,13 +246,21 @@ function TextDirections() {
                 <p>
                   Page {currentPage + 1} of {numPages}
                 </p>
-                <div>
-                  <button onClick={handlePrevPath} disabled={prevPathDisabled}>
-                    Prev Path
-                  </button>
-                  <button onClick={handleNextPath} disabled={nextPathDisabled}>
-                    Next Path
-                  </button>
+                <div className={`${styles.textDirectionBtnGroup}`}>
+                  <ButtonGroup size="small" variant="contained">
+                    <Button
+                      onClick={handlePrevPath}
+                      disabled={prevPathDisabled}
+                    >
+                      Prev Path
+                    </Button>
+                    <Button
+                      onClick={handleNextPath}
+                      disabled={nextPathDisabled}
+                    >
+                      Next Path
+                    </Button>
+                  </ButtonGroup>
                   <IconButton
                     onClick={handlePrevPage}
                     disabled={currentPage == 0}

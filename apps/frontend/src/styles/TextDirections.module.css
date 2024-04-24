@@ -62,3 +62,7 @@
 .stepNumber {
   width: 1rem;
 }
+
+.textDirectionBtnGroup {
+  justify-content: space-between;
+}
