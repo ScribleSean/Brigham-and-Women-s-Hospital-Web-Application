@@ -7001,6 +7001,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-multi-carousel@npm:^2.8.5":
+  version: 2.8.5
+  resolution: "react-multi-carousel@npm:2.8.5"
+  checksum: d0db687a2f9687fb6712ae536458ac36f17e965d93e8e7a8f56619dfc57db7bd8350e74174c10d7e2a82e17c7d40acdab84e20d0d3267c1c775e76eae94cd866
+  languageName: node
+  linkType: hard
+
 "react-router-bootstrap@npm:^0.26.2":
   version: 0.26.2
   resolution: "react-router-bootstrap@npm:0.26.2"
@@ -7643,6 +7650,7 @@ __metadata:
     react-confetti: "npm:^6.1.0"
     react-dom: "npm:^18.2.0"
     react-draggable: "npm:^4.4.6"
+    react-multi-carousel: "npm:^2.8.5"
     styled-components: "npm:^6.1.8"
     tsconfig-custom: "workspace:*"
     turbo: "npm:latest"
