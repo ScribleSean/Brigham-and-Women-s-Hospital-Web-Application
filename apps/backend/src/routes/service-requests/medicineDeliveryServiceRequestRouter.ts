@@ -37,7 +37,16 @@ router.post("/", async function (req, res) {
           dosageAmount: medicine.dosageAmount,
         },
       });
-    console.log(req.body);
+    await PrismaClient.employee.update({
+      where: {
+        employeeEmail: serviceRequest.employeeEmail,
+      },
+      data: {
+        numberOfServiceRequests: {
+          increment: 1,
+        },
+      },
+    });
 
     if (!medicineDelivery) {
       res.status(500).json({

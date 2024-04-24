@@ -121,6 +121,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 4% 2%;
+  width: 35vw;
 }
 
 .tableMutators {
@@ -134,7 +136,13 @@
 .filterMenu {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  /*width: 40%;*/
+}
+
+.searchMenu {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
 }
 
 .filterMenuText {
