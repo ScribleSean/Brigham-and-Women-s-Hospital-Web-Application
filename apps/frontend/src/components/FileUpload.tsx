@@ -22,8 +22,6 @@ const VisuallyHiddenInput = styled("input")({
 const FileUpload: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
-    location.reload();
-
     const files = e.target.files;
     if (files) {
       const file = files[0];

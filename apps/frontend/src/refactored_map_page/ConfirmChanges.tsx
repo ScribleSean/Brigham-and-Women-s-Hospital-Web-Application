@@ -7,7 +7,6 @@ import {
   DeleteEdgesOptionsRequest,
   DeleteNodesOptionsRequest,
   EditorMode,
-  NodeWithAssociatedEdges,
   OldNewEdge,
   OldNewNode,
   RefactorEdgesOptionsRequest,
@@ -82,13 +81,10 @@ function ConfirmChanges() {
     if (nodesToBeAdded.length > 0) {
       try {
         const addNodesOptionsRequest: AddNodesOptionsRequest = {
-          nodesWithAssociatedEdges: nodesToBeAdded,
+          nodes: nodesToBeAdded,
         };
-        await axios.post(
-          "/api/add-nodes-and-associated-edges",
-          addNodesOptionsRequest,
-        );
-        setNodesToBeAdded(new Array<NodeWithAssociatedEdges>());
+        await axios.post("/api/add-nodes", addNodesOptionsRequest);
+        setNodesToBeAdded(new Array<Node>());
       } catch (error) {
         console.error("Failed to add nodes data:", error);
       }
@@ -140,22 +136,22 @@ function ConfirmChanges() {
 
   const handleConfirm = async () => {
     if (nodesToBeAdded.length > 0) {
-      addNodes();
+      await addNodes();
     }
     if (nodesToBeEdited.length > 0) {
-      editNodes();
+      await editNodes();
     }
     if (nodesToBeDeleted.length > 0) {
-      deleteNodes();
+      await deleteNodes();
     }
     if (edgesToBeAdded.length > 0) {
-      addEdges();
+      await addEdges();
     }
     if (edgesToBeEdited.length > 0) {
-      editEdges();
+      await editEdges();
     }
     if (edgesToBeDeleted.length > 0) {
-      deleteEdges();
+      await deleteEdges();
     }
     setUnsavedChanges(false);
     setDialogueOpen(false);
@@ -190,15 +186,14 @@ function ConfirmChanges() {
         sx={{
           position: "absolute",
           height: "6vh",
-          width: "12vw",
+          // width: "12vw",
           fontSize: "1rem",
           right: 0,
           marginRight: "1vw",
           marginTop: "12vh",
           fontWeight: "bold",
-          fontFamily: "inter",
           textTransform: "capitalize",
-          backgroundColor: "#1665c0",
+          backgroundColor: "#012d5a",
           boxShadow: 7,
           zIndex: 4,
         }}
@@ -231,9 +226,8 @@ function ConfirmChanges() {
             onClick={handleConfirm}
             variant={"contained"}
             sx={{
-              backgroundColor: "#1665c0",
+              // backgroundColor: "#1665c0",
               fontWeight: "bold",
-              fontFamily: "inter",
               textTransform: "capitalize",
             }}
           >

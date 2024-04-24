@@ -12,6 +12,12 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
+model BreakOutHighScore {
+  HSID    Int    @id @default(autoincrement())
+  initial String
+  time    String
+}
+
 model Edge {
   edgeID      String @id
   startNodeID String
@@ -31,13 +37,14 @@ model Node {
   longName  String
   shortName String
 
-  startEdges Edge[] @relation("startNode")
-  endEdges   Edge[] @relation("endNode")
+  startEdges      Edge[]           @relation("startNode")
+  endEdges        Edge[]           @relation("endNode")
+  ServiceRequests ServiceRequest[]
 }
 
 model ServiceRequest {
   SRID                           Int                             @id @default(autoincrement())
-  employeeName                   String
+  employeeEmail                  String
   priority                       String
   location                       String
   status                         String
@@ -48,6 +55,17 @@ model ServiceRequest {
   MedicalDeviceServiceRequest    MedicalDeviceServiceRequest?    @relation("MedicalDeviceServiceRequest")
   GiftServiceRequest             GiftServiceRequest?             @relation("GiftServiceRequest")
   MedicineDeliveryServiceRequest MedicineDeliveryServiceRequest? @relation("MedicineDeliveryServiceRequest")
+  ReligiousServiceRequest        ReligiousServiceRequest?        @relation("ReligiousServiceRequest")
+  Employee                       Employee                        @relation(fields: [employeeEmail], references: [employeeEmail], onDelete: Cascade)
+  Node                           Node                            @relation(fields: [location], references: [nodeID], onDelete: Cascade)
+}
+
+model Employee {
+  employeeEmail           String           @id
+  name                    String
+  position                String
+  numberOfServiceRequests Int
+  ServiceRequests         ServiceRequest[]
 }
 
 model FlowerServiceRequest {
@@ -73,6 +91,13 @@ model MedicalDeviceServiceRequest {
   deviceQuantity String
 }
 
+model ReligiousServiceRequest {
+  ServiceRequest ServiceRequest @relation("ReligiousServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
+  religionName   String
+  objectName     String
+}
+
 model GiftServiceRequest {
   ServiceRequest ServiceRequest @relation("GiftServiceRequest", fields: [SRID], references: [SRID])
   SRID           Int            @id
@@ -87,5 +112,5 @@ model MedicineDeliveryServiceRequest {
   SRID           Int            @id
   medicineType   String
   dosageType     String
-  dosageAmount   Int
+  dosageAmount   String
 }

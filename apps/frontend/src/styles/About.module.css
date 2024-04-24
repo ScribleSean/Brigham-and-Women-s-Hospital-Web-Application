@@ -1,0 +1,166 @@
+.imageArea {
+  background-image: url("../../public/brighamBG.png");
+  background-position: center;
+  align-self: center;
+  /*height: 100vh;*/
+  width: 100vw;
+  position: fixed;
+  /*background-attachment: fixed;*/
+  /*background-size: 100% 100%;*/
+}
+
+/*Background Animation*/
+.gradient {
+  /*width: 100%;*/
+  height: 100vh;
+  background: linear-gradient(
+      45deg,
+      rgba(0, 58, 150, 0.5),
+      rgba(0, 17, 47, 0.5)
+    )
+    0 0 / 1000% no-repeat;
+  align-items: center;
+}
+
+/*Text size + font*/
+.heroText {
+  font-size: 5em;
+
+  font-weight: 900;
+  line-height: 1.1;
+
+  padding: 15% 1% 1vh;
+  color: white;
+  font-family: Inter, serif;
+  user-select: none;
+  text-align: center;
+}
+.heroTextP {
+  font-size: 2em;
+  /*padding: 5%;*/
+  padding-bottom: 3vh;
+  margin-right: 0;
+  font-weight: lighter;
+  text-align: center;
+  line-height: 0.95;
+  color: white;
+  /*font-family: Inter, sans-serif;*/
+  user-select: none;
+}
+
+/*Carousel*/
+@keyframes carousel {
+  0% {
+    left: 0;
+  }
+  9.0909% {
+    left: -100%;
+  }
+  18.1818% {
+    left: -200%;
+  }
+  27.2727% {
+    left: -300%;
+  }
+  36.3636% {
+    left: -400%;
+  }
+  45.4545% {
+    left: -500%;
+  }
+  54.5454% {
+    left: -600%;
+  }
+  63.6363% {
+    left: -700%;
+  }
+  72.7272% {
+    left: -800%;
+  }
+  81.8181% {
+    left: -900%;
+  }
+  90.9090% {
+    left: -1000%;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateX(0%);
+  }
+  25% {
+    transform: translateX(-5%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  75% {
+    transform: translateX(-10%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.carousel {
+  overflow: visible;
+}
+
+.carousel div {
+  position: absolute;
+  width: 100%;
+  height: 500%;
+  animation: carousel 45s infinite;
+}
+
+.carouselP {
+  width: 100%;
+  margin: 1%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wpiCsP {
+  font-size: 1em;
+  padding-top: 40vh;
+  padding-bottom: 3vh;
+  margin-right: 0;
+  font-weight: lighter;
+  text-align: center;
+  line-height: 0.95;
+  color: white;
+  /*font-family: Inter, sans-serif;*/
+  user-select: none;
+}
+
+.thanksP {
+  font-size: 1em;
+  padding-top: 1vh;
+  padding-bottom: 5vh;
+  margin-right: 0;
+  font-weight: lighter;
+  text-align: center;
+  line-height: 0.95;
+  color: white;
+  /*font-family: Inter, sans-serif;*/
+  user-select: none;
+}
+
+.disclosureP {
+  font-size: 0.8em;
+  padding-top: 7vh;
+  padding-left: 3vw;
+  padding-bottom: 5vh;
+  margin-right: 0;
+  font-weight: lighter;
+  text-align: center;
+  line-height: 0.95;
+  color: white;
+  /*font-family: Inter, sans-serif;*/
+  user-select: none;
+}
