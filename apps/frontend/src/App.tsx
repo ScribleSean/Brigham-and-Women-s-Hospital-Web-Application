@@ -19,6 +19,8 @@ import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import Platformer from "./games/Platformer.jsx";
 import GameOver from "./game_components/GameOver.tsx";
+import HeroPage from "./routes/HeroPage.tsx";
+import StartScreen from "./game_components/StartScreen";
 // import {useAuth0} from "@auth0/auth0-react";
 
 function App() {
@@ -28,7 +30,9 @@ function App() {
       <ConditionalBanner />
       <Routes>
         {/*<Route path="/" element={<HeroPage />} />*/}
-        <Route path="/" element={<Platformer />} />
+        <Route path="/" element={<HeroPage />} />
+        <Route path="/brigham-breakout" element={<Platformer />} />
+        <Route path="/brigham-breakout-start" element={<StartScreen />} />
         <Route path="/public-map" element={<PublicMap />} />
         <Route
           path="/csv-page"
@@ -69,7 +73,9 @@ function ConditionalSideNavBar() {
   if (
     location.pathname === "/" ||
     (location.pathname === "/public-map" && !isAuthenticated) ||
-    location.pathname === "/game-over"
+    location.pathname === "/game-over" ||
+    location.pathname === "/brigham-breakout-start" ||
+    location.pathname === "/brigham-breakout"
   ) {
     return null;
   } else if (!isAuthenticated) {
@@ -96,7 +102,12 @@ function ConditionalBanner() {
   // const { isAuthenticated, user } = useAuth0();
 
   // Don't render the side navbar on the login route
-  if (location.pathname === "/" || location.pathname === "/game-over") {
+  if (
+    location.pathname === "/" ||
+    location.pathname === "/game-over" ||
+    location.pathname === "/brigham-breakout-start" ||
+    location.pathname === "/brigham-breakout"
+  ) {
     return null;
   }
 

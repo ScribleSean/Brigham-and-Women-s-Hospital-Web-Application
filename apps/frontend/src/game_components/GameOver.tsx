@@ -5,6 +5,7 @@ import { Button, TextField } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 const GameOver = () => {
+  // const [hovering, setHovering] = useState(false);
   const location = useLocation();
 
   const params = new URLSearchParams(location.search);
@@ -28,6 +29,19 @@ const GameOver = () => {
     left: "50%",
     transform: "translate(-50%, -50%)",
   };
+
+  const leaveButton = {
+    fontFamily: "'Halogen by Pixel Surplus', sans-serif",
+    fontSize: "3rem",
+    backgroundColor: "#012D5A",
+    color: "white",
+    borderRadius: 0,
+    transition: "background-color 0.3s", // Add transition for smooth effect
+  };
+  //
+  // const leaveButtonHover = {
+  //     backgroundColor: "#428fdd", // Background color on hover
+  // };
 
   const [formData, setFormData] = useState<breakoutHighScore>({
     HSID: 0,
@@ -117,6 +131,22 @@ const GameOver = () => {
             ))}
           </tbody>
         </table>
+        <a
+          id="leave"
+          style={{ ...leaveButton }} // Merge styles based on hovering state
+          className={"btn py-4 px-5 shadow-lg"}
+          href={"/public-map"}
+        >
+          BACK TO MAP
+        </a>
+        <a
+          id="restart"
+          style={{ ...leaveButton }} // Merge styles based on hovering state
+          className={"btn py-4 px-5 shadow-lg mx-5"}
+          href={"/brigham-breakout"}
+        >
+          TRY AGAIN
+        </a>
       </div>
     </div>
   );

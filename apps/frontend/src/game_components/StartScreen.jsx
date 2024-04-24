@@ -113,15 +113,16 @@ const StartScreen = () => {
         </div>
       </div>
       <div className={"text-center pt-5"}>
-        <button
+        <a
           id="playButton"
           style={{ ...playButton, ...(hovering && playButtonHover) }} // Merge styles based on hovering state
           className={"btn py-4 px-5 shadow-lg"}
           onMouseEnter={() => setHovering(true)} // Set hovering state to true on mouse enter
           onMouseLeave={() => setHovering(false)} // Set hovering state to false on mouse leave
+          href={"/brigham-breakout"}
         >
           PLAY
-        </button>
+        </a>
       </div>
     </div>
   );

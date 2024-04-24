@@ -41,12 +41,22 @@ const Canvas = () => {
     }
   }, [isAlive]);
 
+  const [gameOverDisplayed, setGameOverDisplayed] = useState(false);
   // Redirect to game over page when player dies
   useEffect(() => {
-    if (!isAlive) {
+    let gameOverTimer;
+
+    if (!isAlive && !gameOverDisplayed) {
+      gameOverTimer = setTimeout(() => {
+        setGameOverDisplayed(true);
+      }, 3000); // Wait for 3 seconds before allowing redirection
+    }
+
+    if (!isAlive && gameOverDisplayed) {
       window.location.href = `/game-over?endTime=${elapsedTime}`;
     }
-  }, [isAlive, elapsedTime]);
+    return () => clearTimeout(gameOverTimer);
+  }, [isAlive, gameOverDisplayed, elapsedTime]);
 
   //Sets velocity of circle upon key press
   useEffect(() => {

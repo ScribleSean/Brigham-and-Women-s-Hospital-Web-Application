@@ -5,6 +5,7 @@ import styles from "../styles/NewSideNavBar.module.css";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+// import AccountBalanceIcon from "@mui/icons-material/AccountBalanceIcon";
 
 function NewSideNavBar() {
   const { user } = useAuth0();
@@ -67,6 +68,18 @@ function NewSideNavBar() {
           >
             <ListAltIcon sx={{ fontSize: "35px" }} />
             <p className={`${styles.navbarLabels}`}>File Viewer</p>
+          </div>
+        </Link>
+        <Link to="/brigham-breakout-start" className={`${styles.navButtons}`}>
+          <div
+            className={`${styles.row} ${
+              currentLocation === "/brigham-breakout-start"
+                ? styles.selected
+                : ""
+            }`}
+          >
+            <ListAltIcon sx={{ fontSize: "35px" }} />
+            <p className={`${styles.navbarLabels}`}>Brigham Breakout</p>
           </div>
         </Link>
       </div>
