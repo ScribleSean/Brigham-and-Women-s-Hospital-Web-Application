@@ -54,7 +54,7 @@ function MapContents() {
 
   const zoomWrapperProps = {
     disablePadding: true,
-    centerOnInit: true,
+    centerOnInit: false,
     limitToBounds: true,
     doubleClick: { disabled: true },
     disabled: disableZoomPanning,
@@ -81,18 +81,12 @@ function MapContents() {
 
   const resetMapTransform = () => {
     if (transformComponentRef.current) {
-      console.log("changing");
       transformComponentRef.current.resetTransform();
     }
   };
 
   useEffect(() => {
-    console.log(resetMapTransform);
-    const timeoutId = setTimeout(resetMapTransform, 1000); // delay in milliseconds
-
     setResetZoomingFunction(resetMapTransform);
-
-    return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
   }, [setResetZoomingFunction, transformComponentRef, currentFloor]);
 
   const { editorMode } = useMapContext();

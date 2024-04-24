@@ -1,4 +1,5 @@
 import "../map_page/MapWrapper.css";
+import { useRef, useEffect } from "react";
 import { useMapContext } from "./MapContext.ts";
 import {
   TransformWrapper,
@@ -6,7 +7,7 @@ import {
   ReactZoomPanPinchRef,
 } from "react-zoom-pan-pinch";
 import MapProvider from "./MapProvider.tsx";
-import { CSSProperties, useRef, useEffect } from "react";
+import { CSSProperties } from "react";
 import DirectionsSelector from "./SelectDirection.tsx";
 import LocationSelector from "./SelectLocation.tsx";
 import AlgorithmSelector from "./SelectAlgorithm.tsx";
@@ -15,11 +16,10 @@ import FloorSelector from "./SelectFloor.tsx";
 import FloorDisplay from "./DisplayFloor.tsx";
 import ClearPathButton from "./ClearPathButton.tsx";
 import TextDirections from "./TextDirections.tsx";
-import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
-import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
+import { EditorMode } from "common/src/types/map_page_types.ts";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default PublicMap;
 
@@ -32,6 +32,15 @@ function PublicMap() {
 }
 
 function MapContents() {
+  const {
+    setScale,
+    disableZoomPanning,
+    setResetZoomingFunction,
+    currentFloor,
+    setTranslationX,
+    setTranslationY,
+  } = useMapContext();
+
   const { isAuthenticated } = useAuth0();
 
   const mapDiv: CSSProperties = {
@@ -42,45 +51,50 @@ function MapContents() {
     overflow: "hidden",
   };
 
-  const {
-    setScale,
-    disableZoomPanning,
-    setResetZoomingFunction,
-    currentFloor,
-  } = useMapContext();
-
   const transformComponentRef = useRef<ReactZoomPanPinchRef>(null);
 
   const zoomWrapperProps = {
     disablePadding: true,
-    centerOnInit: true,
+    centerOnInit: false,
     limitToBounds: true,
     doubleClick: { disabled: true },
     disabled: disableZoomPanning,
   };
 
-  function handleScaleChange(event: ReactZoomPanPinchRef) {
-    setScale(event.instance.transformState.scale);
-  }
+  useEffect(() => {
+    if (transformComponentRef.current && disableZoomPanning) {
+      const currentState =
+        transformComponentRef.current.instance.transformState;
+      console.log("Current State:", currentState); // Check what currentState contains
+      if (currentState) {
+        setScale(currentState.scale);
+        setTranslationX(currentState.positionX);
+        setTranslationY(currentState.positionY);
+      }
+    }
+  }, [
+    setScale,
+    setTranslationX,
+    setTranslationY,
+    disableZoomPanning,
+    transformComponentRef,
+  ]);
 
   const resetMapTransform = () => {
     if (transformComponentRef.current) {
-      console.log("changing");
       transformComponentRef.current.resetTransform();
     }
   };
 
   useEffect(() => {
-    console.log(resetMapTransform);
-    const timeoutId = setTimeout(resetMapTransform, 1000); // delay in milliseconds
-
     setResetZoomingFunction(resetMapTransform);
-
-    return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
   }, [setResetZoomingFunction, transformComponentRef, currentFloor]);
+
+  const { editorMode } = useMapContext();
 
   return (
     <div style={mapDiv}>
+      <TextDirections />
       <Box
         sx={{
           right: 0,
@@ -102,12 +116,12 @@ function MapContents() {
           display: "flex",
           flexDirection: "column",
           marginTop: "11vh",
-          marginLeft: "1.5vw",
-          backgroundColor: "white",
+          marginLeft: "2vw",
+          backgroundColor: editorMode === EditorMode.disabled ? "white" : null,
           zIndex: 3,
           padding: "1rem",
           paddingLeft: "0.5rem",
-          boxShadow: 7,
+          boxShadow: editorMode === EditorMode.disabled ? 7 : null,
           borderRadius: "5px",
         }}
       >
@@ -135,18 +149,15 @@ function MapContents() {
         {/*<ClearPathButton /> /!* clear path button *!/*/}
       </Box>
       <FloorSelector /> {/* button cluster to change floor */}
-      <TextDirections />
-      <ShowNodesEdgesDropDown />
-      <ConfirmChanges />
       <TransformWrapper
+        ref={transformComponentRef}
         {...zoomWrapperProps}
-        onTransformed={(e) => handleScaleChange(e)}
         disablePadding={true}
       >
         <TransformComponent
           wrapperStyle={{ height: screen.height, width: screen.width }}
         >
-          <FloorDisplay />
+          <FloorDisplay></FloorDisplay>
         </TransformComponent>
       </TransformWrapper>
     </div>
