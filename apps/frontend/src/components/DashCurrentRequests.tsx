@@ -370,7 +370,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     <TableBody>
                       <TableRow>
                         <TableCell>{requestData.medicineType}</TableCell>
-                        <TableCell>{requestData.dosageAmount}</TableCell>
+                        <TableCell>{requestData.dosageAmount} mg</TableCell>
                         <TableCell>{requestData.dosageType}</TableCell>
                         <TableCell>{row.description}</TableCell>
                       </TableRow>
