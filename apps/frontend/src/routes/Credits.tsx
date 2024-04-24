@@ -132,19 +132,16 @@ function Credits() {
             >
                 <Box
                     sx={{
-                        backgroundColor: "clear",
+                        backgroundColor: "#F0F0F0",
                         borderRadius: "10px",
                         width: "200%",
-                        padding: "20px",
+                        padding: "30px",
                     }}
                 >
                     <Box
                         sx={{
-                            backgroundColor: "white",
                             textAlign: "center",
-                            marginBottom: "9vh",
-                            borderRadius: "10px",
-                            boxShadow: "0px 3px 3px",
+                            marginBottom: "4vh",
                             width: "100%",
                         }}
                     >
@@ -169,7 +166,7 @@ function Credits() {
                                 padding: "1rem",
                                 borderRadius: "10px",
                                 height: "100%",
-                                boxShadow: "0px 3px 3px",
+                                boxShadow: "0px 0px 3px",
                                 minHeight: "65vh",
                                 fontColor: "#012d5a",
                             }}
@@ -201,7 +198,7 @@ function Credits() {
                           padding: "1rem",
                           borderRadius: "10px",
                           height: "100%",
-                          boxShadow: "0px 3px 3px",
+                          boxShadow: "0px 0px 3px",
                           minHeight: "65vh",
                           fontColor: "#012d5a"
                       }}>
@@ -225,7 +222,7 @@ function Credits() {
                           borderRadius: "10px",
                           padding: "1rem",
                           height: "100%",
-                          boxShadow: "0px 3px 3px",
+                          boxShadow: "0px 0px 3px",
                           minHeight: "65vh",
                           fontColor: "#012d5a"
                       }}>
