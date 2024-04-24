@@ -136,22 +136,22 @@ function ConfirmChanges() {
 
   const handleConfirm = async () => {
     if (nodesToBeAdded.length > 0) {
-      addNodes();
+      await addNodes();
     }
     if (nodesToBeEdited.length > 0) {
-      editNodes();
+      await editNodes();
     }
     if (nodesToBeDeleted.length > 0) {
-      deleteNodes();
+      await deleteNodes();
     }
     if (edgesToBeAdded.length > 0) {
-      addEdges();
+      await addEdges();
     }
     if (edgesToBeEdited.length > 0) {
-      editEdges();
+      await editEdges();
     }
     if (edgesToBeDeleted.length > 0) {
-      deleteEdges();
+      await deleteEdges();
     }
     setUnsavedChanges(false);
     setDialogueOpen(false);

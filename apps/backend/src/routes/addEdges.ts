@@ -62,31 +62,26 @@ router.post("/", async function (req: Request, res: Response) {
     }
 
     // Check that the new edge does not have the same start and end node
-    if (newEdges.some((edge: Edge) => (edge.startNode.ID = edge.endNode.ID))) {
+    if (newEdges.some((edge: Edge) => edge.startNode.ID === edge.endNode.ID)) {
       console.log("Edge with the same start and endNode");
       return res.status(400).json({
         message: "Edge with the same start and endNode",
       });
     }
 
-    const transaction = await PrismaClient.$transaction([
-      PrismaClient.edge.createMany({
-        data: newEdges.map((edge: Edge) => {
-          return {
-            edgeID: edge.ID,
-            startNodeID: edge.startNode.ID,
-            endNodeID: edge.endNode.ID,
-            startNode: edge.startNode,
-            endNode: edge.endNode,
-          };
-        }),
+    await PrismaClient.edge.createMany({
+      data: newEdges.map((edge: Edge) => {
+        return {
+          edgeID: edge.ID,
+          startNodeID: edge.startNode.ID,
+          endNodeID: edge.endNode.ID,
+        };
       }),
-    ]);
+    });
 
     console.log("Nodes and edges added successfully");
     res.status(200).json({
       message: "Nodes and edges added successfully",
-      details: transaction,
     });
   } catch (error) {
     console.error("Failed to add nodes and edges:", error);
