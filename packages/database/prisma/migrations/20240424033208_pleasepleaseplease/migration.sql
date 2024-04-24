@@ -110,10 +110,10 @@ ALTER TABLE "Edge" ADD CONSTRAINT "Edge_startNodeID_fkey" FOREIGN KEY ("startNod
 ALTER TABLE "Edge" ADD CONSTRAINT "Edge_endNodeID_fkey" FOREIGN KEY ("endNodeID") REFERENCES "Node"("nodeID") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ServiceRequest" ADD CONSTRAINT "ServiceRequest_employeeEmail_fkey" FOREIGN KEY ("employeeEmail") REFERENCES "Employee"("employeeEmail") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ServiceRequest" ADD CONSTRAINT "ServiceRequest_employeeEmail_fkey" FOREIGN KEY ("employeeEmail") REFERENCES "Employee"("employeeEmail") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ServiceRequest" ADD CONSTRAINT "ServiceRequest_location_fkey" FOREIGN KEY ("location") REFERENCES "Node"("nodeID") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ServiceRequest" ADD CONSTRAINT "ServiceRequest_location_fkey" FOREIGN KEY ("location") REFERENCES "Node"("nodeID") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "FlowerServiceRequest" ADD CONSTRAINT "FlowerServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
