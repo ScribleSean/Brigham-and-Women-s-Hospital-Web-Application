@@ -1,32 +1,28 @@
 import React from "react";
-import { Autocomplete, TextField, Box, InputAdornment } from "@mui/material";
-import LocationIcon from "@mui/icons-material/NearMe";
-import CancelIcon from "@mui/icons-material/Cancel";
+import {
+  Autocomplete,
+  TextField,
+  Box,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import "../map_page/LocationSelector.css";
 import { Node } from "common/src/DataStructures.ts";
 import { useMapContext } from "./MapContext.ts";
-import { EditorMode, NodesByFloor } from "common/src/types/map_page_types.ts";
-
-function nodesByFloorsToNodes(nodesByFloor: NodesByFloor | null): Array<Node> {
-  const nodes: Array<Node> = new Array<Node>();
-  if (!nodesByFloor) return nodes;
-  nodesByFloor.L2.forEach((node) => nodes.push(node));
-  nodesByFloor.L1.forEach((node) => nodes.push(node));
-  nodesByFloor.firstFloor.forEach((node) => nodes.push(node));
-  nodesByFloor.secondFloor.forEach((node) => nodes.push(node));
-  nodesByFloor.thirdFloor.forEach((node) => nodes.push(node));
-  return nodes;
-}
+import { EditorMode } from "common/src/types/map_page_types.ts";
+import ModeStandbyIcon from "@mui/icons-material/ModeStandby";
+import PlaceIcon from "@mui/icons-material/Place";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
 
 function LocationSelector(): React.JSX.Element {
   const {
-    nodesByFloor,
     startNode,
     setStartNode,
     endNode,
     setEndNode,
     setCurrentFloor,
     editorMode,
+    graph,
   } = useMapContext();
 
   if (editorMode !== EditorMode.disabled) {
@@ -40,75 +36,66 @@ function LocationSelector(): React.JSX.Element {
     setStartNode(newValue);
   };
 
-  const handleClearClickLocation = () => {
-    setStartNode(null);
-  };
-
   const handleDestinationChange = (newValue: Node | null) => {
     setEndNode(newValue);
   };
 
-  const handleClearClickDestination = () => {
-    setEndNode(null);
-  };
-
   return (
     <div className="locationSelector">
+      <IconButton
+        sx={{
+          height: "40px",
+          marginRight: "8px",
+        }}
+        onClick={() => {
+          const temp = startNode;
+          handleLocationChange(endNode);
+          handleDestinationChange(temp);
+        }}
+      >
+        <ImportExportIcon />
+      </IconButton>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          position: "absolute",
-          width: "16%",
-          marginTop: "12vh",
-          marginLeft: "2vw",
+          width: "100%",
         }}
       >
         <Autocomplete
           value={startNode}
           onChange={(event, newValue) => handleLocationChange(newValue)}
-          options={nodesByFloorsToNodes(nodesByFloor)
-            .sort((a, b) => a.longName.localeCompare(b.longName))
-            .filter((node) => node.type !== "ELEV" && node.type !== "STAI")}
+          options={
+            graph
+              ? graph
+                  .getNodesAll()
+                  .sort((a, b) => a.longName.localeCompare(b.longName))
+                  .filter(
+                    (node) =>
+                      node.type !== "ELEV" &&
+                      node.type !== "STAI" &&
+                      node.type !== "HALL",
+                  )
+              : new Array<Node>()
+          }
           getOptionLabel={(node) => node.longName}
+          size={"small"}
           renderInput={(params) => (
             <TextField
+              placeholder={"Enter Start Location"}
               {...params}
-              label="Enter Location"
               sx={{
                 backgroundColor: "white",
                 width: "20vw",
                 color: "black",
-                borderRadius: "0.5rem",
-                boxShadow: 8,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "transparent", // Removes the border
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "transparent", // Removes the border on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "transparent", // Removes the border on focus
-                  },
-                },
+                borderRadius: "5px",
               }}
               InputProps={{
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <LocationIcon />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {startNode ? (
-                      <CancelIcon
-                        onClick={() => handleClearClickLocation()}
-                        style={{ cursor: "pointer" }}
-                      />
-                    ) : null}
+                    <ModeStandbyIcon />
                   </InputAdornment>
                 ),
               }}
@@ -118,47 +105,36 @@ function LocationSelector(): React.JSX.Element {
         <Autocomplete
           value={endNode}
           onChange={(event, newValue) => handleDestinationChange(newValue)}
-          options={nodesByFloorsToNodes(nodesByFloor)
-            .sort((a, b) => a.longName.localeCompare(b.longName))
-            .filter((node) => node.type !== "ELEV" && node.type !== "STAI")}
+          options={
+            graph
+              ? graph
+                  .getNodesAll()
+                  .sort((a, b) => a.longName.localeCompare(b.longName))
+                  .filter(
+                    (node) =>
+                      node.type !== "ELEV" &&
+                      node.type !== "STAI" &&
+                      node.type !== "HALL",
+                  )
+              : new Array<Node>()
+          }
           getOptionLabel={(node) => node.longName}
+          size={"small"}
           renderInput={(params) => (
             <TextField
+              placeholder={"Enter Destination"}
               {...params}
-              label="Enter Destination"
               sx={{
                 backgroundColor: "white",
                 width: "20vw",
                 color: "black",
-                borderRadius: "0.5rem",
-                boxShadow: 8,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "transparent", // Removes the border
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "transparent", // Removes the border on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "transparent", // Removes the border on focus
-                  },
-                },
+                borderRadius: "5px",
               }}
               InputProps={{
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <LocationIcon />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {endNode ? (
-                      <CancelIcon
-                        onClick={() => handleClearClickDestination()}
-                        style={{ cursor: "pointer" }}
-                      />
-                    ) : null}
+                    <PlaceIcon />
                   </InputAdornment>
                 ),
               }}

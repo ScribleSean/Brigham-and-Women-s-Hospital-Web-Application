@@ -1,6 +1,6 @@
 // room scheduling request router
 import express, { Router } from "express";
-import PrismaClient from "../bin/database-connection.ts";
+import PrismaClient from "../../bin/database-connection.ts";
 import { roomSchedulingRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
 
 const router: Router = express.Router();
@@ -13,7 +13,7 @@ router.post("/", async function (req, res) {
 
     const serviceRequest = await PrismaClient.serviceRequest.create({
       data: {
-        employeeName: room.employeeName,
+        employeeEmail: room.employeeEmail,
         priority: room.priority,
         location: room.location,
         status: room.status,
@@ -37,6 +37,17 @@ router.post("/", async function (req, res) {
       },
     });
 
+    await PrismaClient.employee.update({
+      where: {
+        employeeEmail: serviceRequest.employeeEmail,
+      },
+      data: {
+        numberOfServiceRequests: {
+          increment: 1,
+        },
+      },
+    });
+
     res.status(200).json({
       message: "Room Scheduling Request has been put into the database",
     });
@@ -50,9 +61,9 @@ router.post("/", async function (req, res) {
 });
 
 router.get("/", async function (req, res) {
-  const roomForm = await PrismaClient.roomSchedulingRequest.findMany({
-    include: {
-      ServiceRequest: true,
+  const roomForm = await PrismaClient.roomSchedulingRequest.findUnique({
+    where: {
+      SRID: Number(req.query.SRID),
     },
   });
   res.json(roomForm);

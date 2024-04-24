@@ -1,4 +1,5 @@
 import "../map_page/MapWrapper.css";
+import { useRef, useEffect } from "react";
 import { useMapContext } from "./MapContext.ts";
 import {
   TransformWrapper,
@@ -19,9 +20,11 @@ import TextDirections from "./TextDirections.tsx";
 import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
 import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
+import { Box } from "@mui/material";
+import { EditorMode } from "common/src/types/map_page_types.ts";
 
 const mapDiv: CSSProperties = {
-  height: "100%",
+  height: "100vh",
   maxWidth: "calc(100% - 55px)",
   float: "right",
   overflow: "hidden",
@@ -38,44 +41,119 @@ function AdminMap() {
 }
 
 function MapContents() {
-  const { setScale, disableZoomPanning } = useMapContext();
+  const {
+    setScale,
+    disableZoomPanning,
+    setResetZoomingFunction,
+    currentFloor,
+    setTranslationX,
+    setTranslationY,
+  } = useMapContext();
 
-  const options = {
-    initialScale: 0.5,
-    minScale: 0.5,
-    maxScale: 10,
-    minPositionY: -200,
-  };
+  const transformComponentRef = useRef<ReactZoomPanPinchRef>(null);
 
   const zoomWrapperProps = {
     disablePadding: true,
     centerOnInit: false,
     limitToBounds: true,
-    doubleClick: { disabled: false },
+    doubleClick: { disabled: true },
     disabled: disableZoomPanning,
-    options: options,
   };
 
-  function handleScaleChange(event: ReactZoomPanPinchRef) {
-    setScale(event.instance.transformState.scale);
-  }
+  useEffect(() => {
+    if (transformComponentRef.current && disableZoomPanning) {
+      const currentState =
+        transformComponentRef.current.instance.transformState;
+      console.log("Current State:", currentState); // Check what currentState contains
+      if (currentState) {
+        setScale(currentState.scale);
+        setTranslationX(currentState.positionX);
+        setTranslationY(currentState.positionY);
+      }
+    }
+  }, [
+    setScale,
+    setTranslationX,
+    setTranslationY,
+    disableZoomPanning,
+    transformComponentRef,
+  ]);
+
+  const resetMapTransform = () => {
+    if (transformComponentRef.current) {
+      transformComponentRef.current.resetTransform();
+    }
+  };
+
+  useEffect(() => {
+    setResetZoomingFunction(resetMapTransform);
+  }, [setResetZoomingFunction, transformComponentRef, currentFloor]);
+
+  const { editorMode } = useMapContext();
 
   return (
     <div style={mapDiv}>
-      <ClearPathButton />
       <TextDirections />
-      <DirectionsSelector />
-      <ShowPathsButton />
       <ShowNodesEdgesDropDown />
       <DisplayEditingOptions />
-      <AlgorithmSelector />
-      <AccessibilitySelector />
-      <LocationSelector />
-      <FloorSelector />
+      <Box
+        sx={{
+          right: 0,
+          display: "flex",
+          flexDirection: "row",
+          position: "absolute",
+          marginTop: "10vh",
+          marginRight: "1vw",
+          justifyContent: "space-between",
+        }}
+      >
+        <AlgorithmSelector />
+        <AccessibilitySelector />
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          left: 0,
+          display: "flex",
+          flexDirection: "column",
+          marginTop: "11vh",
+          marginLeft: "5vw",
+          backgroundColor: editorMode === EditorMode.disabled ? "white" : null,
+          zIndex: 3,
+          padding: "1rem",
+          paddingLeft: "0.5rem",
+          boxShadow: editorMode === EditorMode.disabled ? 7 : null,
+          borderRadius: "5px",
+        }}
+      >
+        <LocationSelector /> {/* start & end location text boxes */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "2vh",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <ClearPathButton /> {/* clear path button */}
+            <ShowPathsButton /> {/* show all paths button */}
+          </Box>
+          <DirectionsSelector /> {/* "next floor" button */}
+        </Box>
+        {/*<ClearPathButton /> /!* clear path button *!/*/}
+      </Box>
+      <FloorSelector /> {/* button cluster to change floor */}
       <ConfirmChanges />
       <TransformWrapper
+        ref={transformComponentRef}
         {...zoomWrapperProps}
-        onTransformed={(e) => handleScaleChange(e)}
         disablePadding={true}
       >
         <TransformComponent

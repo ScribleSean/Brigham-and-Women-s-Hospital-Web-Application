@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FloorType, Path } from "common/src/DataStructures.ts";
 import { Button } from "@mui/material";
 import "../map_page/FloorSelector.css";
@@ -11,7 +11,17 @@ export function FloorSelector(): React.JSX.Element {
     directionsCounter,
     setDirectionsCounter,
     paths,
+    resetZoomingFunction,
   } = useMapContext();
+
+  useEffect(() => {
+    if (typeof resetZoomingFunction === "function") {
+      console.log("hola");
+      resetZoomingFunction();
+    } else {
+      console.error("resetZoomingFunction is not defined as a function");
+    }
+  }, [resetZoomingFunction, currentFloor]);
 
   /*function closestPathNextFloor(floorPaths: Array<number>) : number {
       let closestPath: number = 0;
@@ -37,7 +47,6 @@ export function FloorSelector(): React.JSX.Element {
     if (
       paths.length > 0 &&
       paths[directionsCounter].edges[0].startNode.floor !== floor
-      //When currentFloor takes two clicks, currentFloor does not update on first click in time for floor check
     ) {
       paths.forEach((path: Path) => {
         if (path.edges[0].startNode.floor === floor) {
@@ -58,60 +67,46 @@ export function FloorSelector(): React.JSX.Element {
   return (
     <>
       <div className={"btn-container"}>
-        <div>
-          <Button
-            onClick={() => handleOnClick(FloorType.L2)}
-            variant={"contained"}
-            disableRipple
-            sx={{
+        <Button
+          onClick={() => handleOnClick(FloorType.L2)}
+          variant={"contained"}
+          sx={{
+            backgroundColor:
+              currentFloor === FloorType.L2 ? "#012D5A" : "white",
+            ":hover": {
               backgroundColor:
-                currentFloor === FloorType.L2 ? "#2196F3" : "white",
-              ":hover": {
-                backgroundColor:
-                  currentFloor === FloorType.L2 ? "#2196F3" : "#e0e0e0",
-              },
-              height: currentFloor === FloorType.L2 ? "6.5vh" : "5vh",
-              width: "10%",
-              color: currentFloor === FloorType.L2 ? "white" : "#012D5A",
-              fontFamily: "inter",
-              fontWeight: "bold",
-              fontSize: "1.2rem",
-              textTransform: "capitalize",
-              boxShadow:
-                currentFloor === FloorType.L2
-                  ? "inset 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25)"
-                  : 3,
-              borderRadius: 2,
-              transition: "height 0.15s ease",
-            }}
-          >
-            L2
-          </Button>
-        </div>
+                currentFloor === FloorType.L2 ? "#1665c0" : "#e0e0e0",
+            },
+            height: currentFloor === FloorType.L2 ? "6.5vh" : "5vh",
+            width: "10%",
+            color: currentFloor === FloorType.L2 ? "white" : "#012D5A",
+            // fontFamily: "inter",
+            fontWeight: "bold",
+            fontSize: "1.2rem",
+            textTransform: "capitalize",
+            transition: "height 0.15s ease",
+          }}
+        >
+          L2
+        </Button>
 
         <Button
           onClick={() => handleOnClick(FloorType.L1)}
           variant={"contained"}
-          disableRipple
           sx={{
             backgroundColor:
-              currentFloor === FloorType.L1 ? "#2196F3" : "white",
+              currentFloor === FloorType.L1 ? "#012D5A" : "white",
             ":hover": {
               backgroundColor:
-                currentFloor === FloorType.L1 ? "#2196F3" : "#e0e0e0",
+                currentFloor === FloorType.L1 ? "#1665c0" : "#e0e0e0",
             },
             height: currentFloor === FloorType.L1 ? "6.5vh" : "5vh",
             width: "10%",
             color: currentFloor === FloorType.L1 ? "white" : "#012D5A",
-            fontFamily: "inter",
+            // fontFamily: "inter",
             fontWeight: "bold",
             fontSize: "1.2rem",
             textTransform: "capitalize",
-            boxShadow:
-              currentFloor === FloorType.L1
-                ? "inset 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25)"
-                : 3,
-            borderRadius: 2,
             transition: "height 0.05s ease",
           }}
         >
@@ -120,26 +115,20 @@ export function FloorSelector(): React.JSX.Element {
         <Button
           onClick={() => handleOnClick(FloorType.first)}
           variant={"contained"}
-          disableRipple
           sx={{
             backgroundColor:
-              currentFloor === FloorType.first ? "#2196F3" : "white",
+              currentFloor === FloorType.first ? "#012D5A" : "white",
             ":hover": {
               backgroundColor:
-                currentFloor === FloorType.first ? "#2196F3" : "#e0e0e0",
+                currentFloor === FloorType.first ? "#1665c0" : "#e0e0e0",
             },
             height: currentFloor === FloorType.first ? "6.5vh" : "5vh",
             width: "10%",
             color: currentFloor === FloorType.first ? "white" : "#012D5A",
-            fontFamily: "inter",
+            // fontFamily: "inter",
             fontWeight: "bold",
             fontSize: "1.2rem",
             textTransform: "capitalize",
-            boxShadow:
-              currentFloor === FloorType.first
-                ? "inset 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25)"
-                : 3,
-            borderRadius: 2,
             transition: "height 0.05s ease",
           }}
         >
@@ -148,26 +137,20 @@ export function FloorSelector(): React.JSX.Element {
         <Button
           onClick={() => handleOnClick(FloorType.second)}
           variant={"contained"}
-          disableRipple
           sx={{
             backgroundColor:
-              currentFloor === FloorType.second ? "#2196F3" : "white",
+              currentFloor === FloorType.second ? "#012D5A" : "white",
             ":hover": {
               backgroundColor:
-                currentFloor === FloorType.second ? "#2196F3" : "#e0e0e0",
+                currentFloor === FloorType.second ? "#1665c0" : "#e0e0e0",
             },
             height: currentFloor === FloorType.second ? "6.5vh" : "5vh",
             width: "10%",
             color: currentFloor === FloorType.second ? "white" : "#012D5A",
-            fontFamily: "inter",
+            // fontFamily: "inter",
             fontWeight: "bold",
             fontSize: "1.2rem",
             textTransform: "capitalize",
-            boxShadow:
-              currentFloor === FloorType.second
-                ? "inset 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25)"
-                : 3,
-            borderRadius: 2,
             transition: "height 0.05s ease",
           }}
         >
@@ -176,26 +159,20 @@ export function FloorSelector(): React.JSX.Element {
         <Button
           onClick={() => handleOnClick(FloorType.third)}
           variant={"contained"}
-          disableRipple
           sx={{
             backgroundColor:
-              currentFloor === FloorType.third ? "#2196F3" : "white",
+              currentFloor === FloorType.third ? "#012d5a" : "white",
             ":hover": {
               backgroundColor:
-                currentFloor === FloorType.third ? "#2196F3" : "#e0e0e0",
+                currentFloor === FloorType.third ? "#1665c0" : "#e0e0e0",
             },
             height: currentFloor === FloorType.third ? "6.5vh" : "5vh",
             width: "10%",
             color: currentFloor === FloorType.third ? "white" : "#012D5A",
-            fontFamily: "inter",
+            // fontFamily: "inter",
             fontWeight: "bold",
             fontSize: "1.2rem",
             textTransform: "capitalize",
-            boxShadow:
-              currentFloor === FloorType.third
-                ? "inset 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25)"
-                : 3,
-            borderRadius: 2,
             transition: "height 0.05s ease",
           }}
         >

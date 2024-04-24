@@ -1,5 +1,5 @@
 import React from "react";
-// import HeroPage from "./routes/HeroPage.tsx";
+import HeroPage from "./routes/HeroPage.tsx";
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,10 +16,11 @@ import NewSideNavBar from "./components/NewSideNavBar.tsx";
 import Banner from "./components/Banner.tsx";
 import Dashboard from "./routes/Dashboard.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import Credits from "./routes/Credits.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
+import About from "./routes/About.tsx";
 import Platformer from "./games/Platformer.jsx";
 import GameOver from "./game_components/GameOver.tsx";
-import HeroPage from "./routes/HeroPage.tsx";
 import StartScreen from "./game_components/StartScreen";
 // import {useAuth0} from "@auth0/auth0-react";
 
@@ -29,7 +30,6 @@ function App() {
       <ConditionalSideNavBar />
       <ConditionalBanner />
       <Routes>
-        {/*<Route path="/" element={<HeroPage />} />*/}
         <Route path="/" element={<HeroPage />} />
         <Route path="/brigham-breakout" element={<Platformer />} />
         <Route path="/brigham-breakout-start" element={<StartScreen />} />
@@ -59,6 +59,8 @@ function App() {
           }
         />
         <Route path="/game-over" element={<GameOver />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/credits" element={<Credits />} />
       </Routes>
     </Router>
   );

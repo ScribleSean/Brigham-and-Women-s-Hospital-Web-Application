@@ -1,6 +1,6 @@
 import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceRequest.ts";
 import express, { Router } from "express";
-import PrismaClient from "../bin/database-connection.ts";
+import PrismaClient from "../../bin/database-connection.ts";
 
 const router: Router = express.Router();
 
@@ -12,7 +12,7 @@ router.post("/", async function (req, res) {
   try {
     const serviceRequest = await PrismaClient.serviceRequest.create({
       data: {
-        employeeName: medicalDevice.employeeName,
+        employeeEmail: medicalDevice.employeeEmail,
         priority: medicalDevice.priority,
         location: medicalDevice.location,
         status: medicalDevice.status,
@@ -36,6 +36,17 @@ router.post("/", async function (req, res) {
       },
     });
 
+    await PrismaClient.employee.update({
+      where: {
+        employeeEmail: serviceRequest.employeeEmail,
+      },
+      data: {
+        numberOfServiceRequests: {
+          increment: 1,
+        },
+      },
+    });
+
     res.status(200).json({
       message: "Medical Device Request has been put into the database",
     });
@@ -50,9 +61,9 @@ router.post("/", async function (req, res) {
 
 router.get("/", async function (req, res) {
   const medicalDeviceForm =
-    await PrismaClient.medicalDeviceServiceRequest.findMany({
-      include: {
-        ServiceRequest: true,
+    await PrismaClient.medicalDeviceServiceRequest.findUnique({
+      where: {
+        SRID: Number(req.query.SRID),
       },
     });
   res.json(medicalDeviceForm);

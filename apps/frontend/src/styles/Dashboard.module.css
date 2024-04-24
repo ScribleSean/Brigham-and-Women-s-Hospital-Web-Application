@@ -30,16 +30,16 @@
 }
 
 .collapsed {
-  width: 50vw;
+  width: 55vw;
 }
 
 .expanded {
-  width: 95vw;
+  width: 94vw;
 }
 
 .requestFormContainer {
   max-height: calc(100vh - 100px);
-  width: 43vw;
+  width: 38vw;
   min-width: 0;
   background-color: white;
   border-radius: 5px;
@@ -53,7 +53,7 @@
 
 .sectionHeader {
   margin: 0;
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: 700;
   color: #012d5a;
   /*width: 100%;*/
@@ -62,7 +62,7 @@
 .requestFormHeader {
   display: flex;
   flex-direction: row;
-  margin: 3vh 4% 3vh 4%;
+  margin: 2vh 4% 2vh 4%;
   align-items: center;
   justify-content: space-between;
   min-height: 8.5vh;
@@ -70,7 +70,7 @@
 }
 
 .currentRequestsHeader {
-  margin: 3vh 4% 3vh 4%;
+  margin: 2vh 4% 1vh 4%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -119,6 +119,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 4% 2%;
+  width: 35vw;
 }
 
 .tableMutators {
@@ -132,7 +134,13 @@
 .filterMenu {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  /*width: 40%;*/
+}
+
+.searchMenu {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
 }
 
 .filterMenuText {
@@ -143,4 +151,12 @@
 .table {
   /*height: 50%;*/
   overflow-y: auto;
+}
+
+.additionalInfo {
+  margin: 0;
+}
+
+p {
+  margin-bottom: 0;
 }

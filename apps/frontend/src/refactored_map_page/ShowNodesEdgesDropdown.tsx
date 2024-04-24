@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Select,
   FormControl,
@@ -20,8 +20,13 @@ function CustomArrowIcon(props: SvgIconProps) {
 }
 
 function ShowNodesEdgesDropDown() {
-  const { setShowNodes, setShowEdges, editorMode } = useMapContext();
-  const [selectedOption, setSelectedOption] = useState("showBasicNodes");
+  const {
+    setShowNodes,
+    setShowEdges,
+    editorMode,
+    selectedOption,
+    setSelectedOption,
+  } = useMapContext();
 
   if (editorMode == EditorMode.disabled) {
     return null;
@@ -57,14 +62,16 @@ function ShowNodesEdgesDropDown() {
       sx={{
         backgroundColor: "white",
         boxShadow: 7,
-        borderRadius: "0.5rem",
+        borderRadius: "5px",
         position: "absolute",
         display: "flex",
-        width: "13vw",
+        // width: "13vw",
         height: "5vh",
         marginTop: "12vh",
         marginLeft: "2vw",
         alignItems: "center",
+        justifyContent: "center",
+        padding: "0.5rem",
         zIndex: 3,
       }}
     >
@@ -82,7 +89,7 @@ function ShowNodesEdgesDropDown() {
           inputProps={{ "aria-label": "Without label" }}
           sx={{
             fontWeight: "bold",
-            fontFamily: "inter",
+            // fontFamily: "inter",
             "&:before, &:after": {
               display: "none", // Remove underline
             },
