@@ -633,7 +633,7 @@ export default function DashCurrentRequests({
                       labelId="filterEmployeeLabel"
                       id="filterEmployee"
                       label="Employee"
-                      defaultValue={"Any"}
+                      value={filterEmployee} // Add this line
                       onChange={(event) =>
                         setFilterEmployee(event.target.value as string)
                       }
@@ -654,7 +654,7 @@ export default function DashCurrentRequests({
                       labelId="filterTypeLabel"
                       id="filterType"
                       label="Type"
-                      defaultValue={"Any"}
+                      value={filterType} // Add this line
                       onChange={(event) =>
                         setFilterType(event.target.value as string)
                       }
@@ -682,7 +682,7 @@ export default function DashCurrentRequests({
                       labelId="filterPriorityLabel"
                       id="filterPriority"
                       label="Priority"
-                      defaultValue={"Any"}
+                      value={filterPriority} // Add this line
                       onChange={(event) =>
                         setFilterPriority(event.target.value as string)
                       }
@@ -702,7 +702,7 @@ export default function DashCurrentRequests({
                       labelId="filterStatusLabel"
                       id="filterStatus"
                       label="Status"
-                      defaultValue={"Any"}
+                      value={filterStatus} // Add this line
                       onChange={(event) =>
                         setFilterStatus(event.target.value as string)
                       }
