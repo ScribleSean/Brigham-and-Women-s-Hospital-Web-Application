@@ -28,7 +28,7 @@ const GameOver = () => {
     initial: "",
     time: "",
   });
-  const [highScores, setHighScores] = useState<string[]>([]);
+  const [highScores, setHighScores] = useState<breakoutHighScore[]>([]);
   useEffect(() => {
     const fetchLocations = async () => {
       try {
@@ -102,6 +102,22 @@ const GameOver = () => {
           />
           <Button type={"submit"}>Click</Button>
         </form>
+        <table>
+          <thead>
+            <tr>
+              <th>Initials</th>
+              <th>Playtime</th>
+            </tr>
+          </thead>
+          <tbody>
+            {highScores.map((score, index) => (
+              <tr key={index}>
+                <td>{score.initial}</td>
+                <td>{score.time}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
