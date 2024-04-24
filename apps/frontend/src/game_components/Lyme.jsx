@@ -1,44 +1,43 @@
 import React, { useEffect, useRef } from "react";
 
 const Lyme = ({ x, y, viewBox, player, setIsAlive }) => {
-    const position = useRef({ x: x, y: y });
-    const playerRef = useRef(player);
-    const imageRef = useRef(null);
+  const position = useRef({ x: x, y: y });
+  const playerRef = useRef(player);
+  const imageRef = useRef(null);
 
-    useEffect(() => {
-        position.current = { x: x, y: y };
+  useEffect(() => {
+    position.current = { x: x, y: y };
 
-        const playerRect = playerRef.current.getBoundingClientRect();
-        const imageRect = imageRef.current.getBoundingClientRect();
-        imageRect.width *= 0.8;
-        imageRect.height *= 0.8;
+    const playerRect = playerRef.current.getBoundingClientRect();
+    const imageRect = imageRef.current.getBoundingClientRect();
+    imageRect.width *= 0.8;
+    imageRect.height *= 0.8;
 
-        if (isIntersecting(playerRect, imageRect)) {
-            console.log("Collision detected!");
-            setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+    if (isIntersecting(playerRect, imageRect)) {
+      console.log("Collision detected!");
+      setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+    }
+  }, [x, y, viewBox, player, setIsAlive]);
 
-        }
-    }, [x, y, viewBox, player, setIsAlive]);
-
-    return (
-        <image
-            ref={imageRef}
-            x={position.current.x}
-            y={position.current.y}
-            width={65}
-            height={65}
-            href={"/greenDisease.png"}
-        />
-    );
+  return (
+    <image
+      ref={imageRef}
+      x={position.current.x}
+      y={position.current.y}
+      width={65}
+      height={65}
+      href={"/greenDisease.png"}
+    />
+  );
 };
 
 function isIntersecting(a, b) {
-    return (
-        a.x <= b.x + b.width &&
-        a.x + a.width >= b.x &&
-        a.y <= b.y + b.height &&
-        a.y + a.height >= b.y
-    );
+  return (
+    a.x <= b.x + b.width &&
+    a.x + a.width >= b.x &&
+    a.y <= b.y + b.height &&
+    a.y + a.height >= b.y
+  );
 }
 
 export default Lyme;

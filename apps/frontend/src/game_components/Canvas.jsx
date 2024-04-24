@@ -120,13 +120,31 @@ const Canvas = () => {
     };
   }, [velocity]);
 
-  //Smoothly updates circle position during movement
+  // Smoothly updates circle position during movement
   useEffect(() => {
     const updatePosition = () => {
-      setPosition((prevPosition) => ({
-        x: prevPosition.x + velocity.x / 60, // Divide by FPS for smooth movement
-        y: prevPosition.y + velocity.y / 60,
-      }));
+      setPosition((prevPosition) => {
+        // Calculate the next position
+        const nextX = prevPosition.x + velocity.x / 60; // Divide by FPS for smooth movement
+        const nextY = prevPosition.y + velocity.y / 60;
+
+        // Calculate player dimensions
+        const playerWidth = 75; // Adjust this value based on the actual width of the player sprite
+        const playerHeight = 100; // Adjust this value based on the actual height of the player sprite
+
+        // Calculate the boundaries
+        const minX = viewBox[0];
+        const minY = viewBox[1];
+        const maxX = viewBox[0] + viewBox[2] - playerWidth;
+        const maxY = viewBox[1] + viewBox[3] - playerHeight;
+
+        // Ensure the player stays within the bounds
+        const adjustedX = Math.min(Math.max(nextX, minX), maxX);
+        const adjustedY = Math.min(Math.max(nextY, minY), maxY);
+
+        // Return the adjusted position
+        return { x: adjustedX, y: adjustedY };
+      });
       animationRef.current = requestAnimationFrame(updatePosition);
     };
 
@@ -135,7 +153,7 @@ const Canvas = () => {
     return () => {
       cancelAnimationFrame(animationRef.current);
     };
-  }, [velocity]);
+  }, [velocity, viewBox]);
 
   const [diseases, setDiseases] = useState([]);
 
