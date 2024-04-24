@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import PlatformerBG from "./PlatformerBG.jsx";
 import Disease from "./Disease.jsx"; // Import the generic Disease component
-import StartScreen from "./StartScreen.jsx";
+// import StartScreen from "./StartScreen.jsx";
+import GameOver from "./GameOver.tsx";
 
 const Canvas = () => {
   const viewBox = useMemo(
@@ -248,9 +249,9 @@ const Canvas = () => {
     return () => clearInterval(frameTimer);
   }, []);
 
-  let showStartScreen = false;
+  let showStartScreen = true;
 
-  const GameOver = {
+  const GameOverText = {
     fontFamily: "'Halogen by Pixel Surplus', sans-serif",
     fontSize: "5rem",
     position: "absolute",
@@ -291,11 +292,11 @@ const Canvas = () => {
     <>
       <PlatformerBG />
       {showStartScreen ? (
-        <StartScreen />
+        <GameOver />
       ) : (
         <div>
           {!isAlive && (
-            <div className="game-over text-center" style={GameOver}>
+            <div className="game-over text-center" style={GameOverText}>
               <p>Game Over</p>
               {/* You can add any other elements for game over here */}
             </div>

@@ -18,6 +18,7 @@ import downloadNodeDataRouter from "./routes/data-to-csv-node";
 import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 import deleteDataRouter from "./routes/deleteDataRoute";
 import roomNameFetchRouter from "./routes/room-name-fetch.ts";
+import highScoreFetchRouter from "./routes/breakoutGameRouter.ts";
 
 import addNodesAndAssociatedEdgesRouter from "./routes/addNodesEdges.ts";
 import deleteNodesAndAssociatedEdgesRouter from "./routes/deleteNodesEdges.ts";
@@ -53,6 +54,8 @@ app.use("/api/edge-populate", edgeRouter);
 app.use("/api/download-node-csv", downloadNodeDataRouter);
 app.use("/api/download-edge-csv", downloadEdgeDataRouter);
 app.use("/api/delete-data", deleteDataRouter);
+
+app.use("/api/brig-hs-request", highScoreFetchRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
