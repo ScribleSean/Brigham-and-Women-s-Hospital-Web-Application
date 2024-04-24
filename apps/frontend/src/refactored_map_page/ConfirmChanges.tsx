@@ -190,15 +190,14 @@ function ConfirmChanges() {
         sx={{
           position: "absolute",
           height: "6vh",
-          width: "12vw",
+          // width: "12vw",
           fontSize: "1rem",
           right: 0,
           marginRight: "1vw",
           marginTop: "12vh",
           fontWeight: "bold",
-          fontFamily: "inter",
           textTransform: "capitalize",
-          backgroundColor: "#1665c0",
+          backgroundColor: "#012d5a",
           boxShadow: 7,
           zIndex: 4,
         }}
@@ -231,9 +230,8 @@ function ConfirmChanges() {
             onClick={handleConfirm}
             variant={"contained"}
             sx={{
-              backgroundColor: "#1665c0",
+              // backgroundColor: "#1665c0",
               fontWeight: "bold",
-              fontFamily: "inter",
               textTransform: "capitalize",
             }}
           >
