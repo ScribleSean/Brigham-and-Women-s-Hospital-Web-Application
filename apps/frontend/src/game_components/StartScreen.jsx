@@ -4,7 +4,7 @@ const StartScreen = () => {
   const [hovering, setHovering] = useState(false);
 
   const startScreenContainer = {
-    height: "100vh",
+    height: "100%",
     background:
       "linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/backgroundCancerGame.png')",
     backgroundRepeat: "no-repeat",
@@ -112,7 +112,7 @@ const StartScreen = () => {
           />
         </div>
       </div>
-      <div className={"text-center pt-5"}>
+      <div className={"text-center py-5"}>
         <a
           id="playButton"
           style={{ ...playButton, ...(hovering && playButtonHover) }} // Merge styles based on hovering state

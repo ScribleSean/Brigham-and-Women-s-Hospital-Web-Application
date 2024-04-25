@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const Disease = ({
+const JoseSprite = ({
   x,
   y,
   viewBox,
@@ -100,4 +100,4 @@ function isIntersecting(a, b) {
   );
 }
 
-export default Disease;
+export default JoseSprite;

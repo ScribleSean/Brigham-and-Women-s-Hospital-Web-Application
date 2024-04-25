@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import PlatformerBG from "./PlatformerBG.jsx";
 import Disease from "./Disease.jsx"; // Import the generic Disease component
-// import JoseSprite from "./JoseSprite.jsx"; // Import the generic Disease component
+import JoseSprite from "./JoseSprite.jsx"; // Import the generic Disease component
 
 const Canvas = () => {
   const viewBox = useMemo(
@@ -23,7 +23,7 @@ const Canvas = () => {
 
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const animationRef = useRef();
-  const speed = 250;
+  const speed = 400;
 
   // Timer state
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -187,10 +187,10 @@ const Canvas = () => {
 
   useEffect(() => {
     const spawnDisease = () => {
-      // const maybeJose = Math.random(); // Generate a random number between 0 and 1
+      const maybeJose = Math.random(); // Generate a random number between 0 and 1
 
       // Determine if it's a JoseSprite component (20% of the time)
-      const DiseaseComponent = Disease;
+      const DiseaseComponent = maybeJose <= 0.2 ? JoseSprite : Disease;
 
       const speed = 3 + elapsedTime / 10 / 2; // Consistent speed
       const margin = 50; // Margin to keep the disease fully visible within the viewBox
