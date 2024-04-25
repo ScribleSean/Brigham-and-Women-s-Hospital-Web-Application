@@ -466,14 +466,16 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 export default function DashCurrentRequests({
   expanded,
   onExpandClick,
+  reqData,
 }: {
   expanded: boolean;
   onExpandClick: () => void;
+  reqData: ServiceRequest[];
 }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [requestData, setRequestData] = useState<ServiceRequest[]>();
+  // const [requestData, setRequestData] = useState<ServiceRequest[]>();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -512,13 +514,13 @@ export default function DashCurrentRequests({
     [],
   );
   useEffect(() => {
-    async function fetchData() {
-      const res = await axios.get("/api/service-request");
-      console.log(res);
-      setRequestData(res.data);
-      console.log("successfully got data from get request");
-    }
-    fetchData().then();
+    // async function fetchData() {
+    //   const res = await axios.get("/api/service-request");
+    //   console.log(res);
+    //   setRequestData(res.data);
+    //   console.log("successfully got data from get request");
+    // }
+    // fetchData().then();
 
     const fetchEmployeeEmail = async () => {
       try {
@@ -544,8 +546,8 @@ export default function DashCurrentRequests({
   }, []);
 
   let rows: ServiceRequest[] = [];
-  if (requestData) {
-    rows = requestData;
+  if (reqData) {
+    rows = reqData;
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
