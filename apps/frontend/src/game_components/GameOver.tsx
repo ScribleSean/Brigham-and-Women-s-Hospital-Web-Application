@@ -12,6 +12,8 @@ const GameOver = () => {
   const params = new URLSearchParams(location.search);
   const endTime: string | null = params.get("endTime");
 
+  const [submitted, setSubmitted] = useState(false);
+
   const gameOverContainer: React.CSSProperties = {
     height: "100vh",
     background:
@@ -35,7 +37,8 @@ const GameOver = () => {
   const leaveButton = {
     fontFamily: "'Halogen by Pixel Surplus', sans-serif",
     fontSize: "3rem",
-    backgroundColor: "#012D5A",
+    backgroundColor: "#567829", //"#012D5A",
+    justifyContent: "center",
     color: "white",
     borderRadius: 0,
     transition: "background-color 0.3s", // Add transition for smooth effect
@@ -97,8 +100,8 @@ const GameOver = () => {
     });
   };
 
-  const handleSubmit = async () => {
-    //e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const response = await axios.post("/api/brig-hs-request", formData);
       console.log(response.data);
@@ -107,102 +110,113 @@ const GameOver = () => {
       console.log(error);
     }
     resetForm();
+    setSubmitted(true);
   };
 
   return (
-    <div
-      id={"gameOverContainer"}
-      style={gameOverContainer}
-      className={"container-fluid"}
-    >
+    <>
       <div
-        id={"highScoreContainer"}
-        className={"container"}
-        style={highScoreContainer}
+        id={"gameOverContainer"}
+        style={gameOverContainer}
+        className={"container-fluid"}
       >
-        HIGHSCORE
-        <form onSubmit={handleSubmit}>
-          <div>End Time: {endTime}</div>
-          <TextField
-            id={"initial"}
-            variant={"filled"}
-            label={"Your Initials"}
-            required
-            value={formData.initial}
-            onChange={handleTextFieldChange}
-            InputProps={{
-              style: {
-                backgroundColor: "white",
-              },
-            }}
-          />
+        <div
+          id={"highScoreContainer"}
+          className={"container"}
+          style={highScoreContainer}
+        >
+          {!submitted ? (
+            <>
+              <form onSubmit={handleSubmit}>
+                <div>End Time: {endTime}</div>
+                <TextField
+                  id={"initial"}
+                  variant={"filled"}
+                  label={"Your Initials"}
+                  required
+                  value={formData.initial}
+                  onChange={handleTextFieldChange}
+                  InputProps={{
+                    style: {
+                      backgroundColor: "white",
+                    },
+                  }}
+                />
 
-          <Button type={"submit"}>Click</Button>
-        </form>
-        <div className={`${styles.highScoreTable}`}>
-          <div>
-            <h2>All Time</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th className={`${styles.highScoreTableInitials}`}>
-                    Initials
-                  </th>
-                  <th>Playtime</th>
-                </tr>
-              </thead>
-              <tbody>
-                {highScores.map((score, index) => (
-                  <tr key={index}>
-                    <td className={styles.highScoreTableInitials}>
-                      {score.initial}
-                    </td>
-                    <td>{score.time}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div>
-            <h2>Today</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th className={styles.highScoreTableInitials}>Initials</th>
-                  <th>Playtime</th>
-                </tr>
-              </thead>
-              <tbody>
-                {highScores.map((score, index) => (
-                  <tr key={index}>
-                    <td className={styles.highScoreTableInitials}>
-                      {score.initial}
-                    </td>
-                    <td>{score.time}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                <Button type={"submit"}>Click</Button>
+              </form>
+            </>
+          ) : (
+            <>
+              <div className={`${styles.highScoreTable}`}>
+                <div>
+                  <h2>All Time</h2>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th className={`${styles.highScoreTableInitials}`}>
+                          Initials
+                        </th>
+                        <th>Playtime</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {highScores.map((score, index) => (
+                        <tr key={index}>
+                          <td className={styles.highScoreTableInitials}>
+                            {score.initial}
+                          </td>
+                          <td>{score.time}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <h2>Today</h2>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th className={styles.highScoreTableInitials}>
+                          Initials
+                        </th>
+                        <th>Playtime</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {highScores.map((score, index) => (
+                        <tr key={index}>
+                          <td className={styles.highScoreTableInitials}>
+                            {score.initial}
+                          </td>
+                          <td>{score.time}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <a
+                id="leave"
+                style={{ ...leaveButton }} // Merge styles based on hovering state
+                className={"btn py-4 px-5 shadow-lg"}
+                href={"/public-map"}
+              >
+                BACK TO MAP
+              </a>
+              <a
+                id="restart"
+                style={{ ...leaveButton }} // Merge styles based on hovering state
+                className={"btn py-4 px-5 shadow-lg mx-5"}
+                href={"/brigham-breakout"}
+              >
+                TRY AGAIN
+              </a>
+            </>
+          )}
         </div>
-        <a
-          id="leave"
-          style={{ ...leaveButton }} // Merge styles based on hovering state
-          className={"btn py-4 px-5 shadow-lg"}
-          href={"/public-map"}
-        >
-          BACK TO MAP
-        </a>
-        <a
-          id="restart"
-          style={{ ...leaveButton }} // Merge styles based on hovering state
-          className={"btn py-4 px-5 shadow-lg mx-5"}
-          href={"/brigham-breakout"}
-        >
-          TRY AGAIN
-        </a>
       </div>
-    </div>
+    </>
   );
 };
 
