@@ -1,7 +1,7 @@
 import styles from "../styles/Dashboard.module.css";
 import DashCurrentRequests from "../components/DashCurrentRequests.tsx";
 import DashMakeARequest from "../components/DashMakeARequest.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 import axios from "axios";
 
@@ -19,7 +19,10 @@ function Dashboard() {
     setReqData(res.data);
     console.log("successfully got data from get request");
   }
-  fetchData().then();
+
+  useEffect(() => {
+    fetchData().then();
+  }, []);
 
   return (
     <div className={"overflow-hidden"}>
@@ -30,6 +33,7 @@ function Dashboard() {
               expanded={expanded}
               onExpandClick={onExpandClick}
               reqData={reqData}
+              setReqData={setReqData}
             />
             <DashMakeARequest setReqData={setReqData} />
           </>
@@ -39,6 +43,7 @@ function Dashboard() {
               expanded={expanded}
               onExpandClick={onExpandClick}
               reqData={reqData}
+              setReqData={setReqData}
             />
             <DashMakeARequest setReqData={setReqData} />
           </>
