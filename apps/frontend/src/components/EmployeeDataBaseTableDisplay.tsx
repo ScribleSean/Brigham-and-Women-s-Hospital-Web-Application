@@ -65,8 +65,12 @@ const TableEdges: React.FC<{ tableData: EmployeeType[] }> = ({ tableData }) => {
     </StyledTableContainer>
   );
 };
-
-export const GetDataEmployee = () => {
+interface GetDataEmployeeProps {
+  dataUpdated: boolean;
+}
+export const GetDataEmployee: React.FC<GetDataEmployeeProps> = ({
+  dataUpdated,
+}) => {
   const [data, setData] = useState<EmployeeType[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -98,7 +102,7 @@ export const GetDataEmployee = () => {
     };
 
     fetchData().then();
-  }, []); //
+  }, [dataUpdated]); //
 
   if (loading) {
     return <div>Loading...</div>;

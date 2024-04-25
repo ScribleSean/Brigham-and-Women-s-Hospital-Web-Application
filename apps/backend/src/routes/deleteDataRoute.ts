@@ -17,6 +17,9 @@ router.delete("/", async (req, res) => {
     // drop service request, and then reset the autoincrement to 1
     await PrismaClient.serviceRequest.deleteMany({});
 
+    // drop all the highscore tables
+    await PrismaClient.breakOutHighScore.deleteMany({});
+
     // drop the node and edge tables
     await PrismaClient.node.deleteMany({});
     await PrismaClient.edge.deleteMany({});

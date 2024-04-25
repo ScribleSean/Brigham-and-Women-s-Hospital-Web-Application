@@ -71,8 +71,11 @@ const TableNodes: React.FC<{ tableData: node[] }> = ({ tableData }) => {
     </StyledTableContainer>
   );
 };
+interface GetDataNodesProps {
+  dataUpdated: boolean;
+}
 
-export const GetDataNodes = () => {
+export const GetDataNodes: React.FC<GetDataNodesProps> = ({ dataUpdated }) => {
   const [data, setData] = useState<node[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -102,7 +105,7 @@ export const GetDataNodes = () => {
     };
 
     fetchData().then();
-  }, []); //
+  }, [dataUpdated]); //
 
   if (loading) {
     return <div>Loading...</div>;
