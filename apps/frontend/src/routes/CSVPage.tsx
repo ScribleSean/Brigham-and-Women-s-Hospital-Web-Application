@@ -35,24 +35,26 @@ function CustomTabPanel(props: TabPanelProps) {
 
 export function CSVPage() {
   const [value, setValue] = useState(0);
+  const [dataUpdated, setDataUpdated] = useState(false);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const handleNodeFileDrop = async (file: File) => {
+  const handleFileDrop = async (file: File, apiEndpoint: string) => {
     // Create a FileReader
-    const nodeReader = new FileReader();
+    const reader = new FileReader();
 
     // Set up a callback for when the file is loaded
-    nodeReader.onload = async (event) => {
+    reader.onload = async (event) => {
       if (event.target) {
         // Extract the CSV content as a string
         const csvString = event.target.result as string;
+
         console.log(csvString);
 
         try {
-          const res = await fetch("/api/node-populate", {
+          const res = await fetch(apiEndpoint, {
             method: "POST",
             headers: {
               "Content-Type": "application/json", // Set the appropriate content type
@@ -61,72 +63,13 @@ export function CSVPage() {
           });
 
           console.log(res);
+          setDataUpdated(!dataUpdated); // Toggle dataUpdated state to trigger re-render
         } catch (error) {
           console.error("Error:", error);
         }
       }
     };
-    nodeReader.readAsText(file);
-  };
-
-  const handleEdgeFileDrop = async (file: File) => {
-    // Create a FileReader
-    const edgeReader = new FileReader();
-
-    // Set up a callback for when the file is loaded
-    edgeReader.onload = async (event) => {
-      if (event.target) {
-        // Extract the CSV content as a string
-        const csvString = event.target.result as string;
-
-        console.log(csvString);
-
-        try {
-          const res = await fetch("/api/edge-populate", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json", // Set the appropriate content type
-            },
-            body: JSON.stringify({ csvString }), // Send the CSV string as JSON
-          });
-
-          console.log(res);
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
-    };
-    edgeReader.readAsText(file);
-  };
-
-  const handleEmployeeFileDrop = async (file: File) => {
-    // Create a FileReader
-    const employeeReader = new FileReader();
-
-    // Set up a callback for when the file is loaded
-    employeeReader.onload = async (event) => {
-      if (event.target) {
-        // Extract the CSV content as a string
-        const csvString = event.target.result as string;
-
-        console.log(csvString);
-
-        try {
-          const res = await fetch("/api/employee-populate", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json", // Set the appropriate content type
-            },
-            body: JSON.stringify({ csvString }), // Send the CSV string as JSON
-          });
-
-          console.log(res);
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
-    };
-    employeeReader.readAsText(file);
+    reader.readAsText(file);
   };
 
   return (
@@ -158,11 +101,15 @@ export function CSVPage() {
           <div className={`${styles.subheader}`}>
             <h2 className={`${styles.pageSubheading}`}>Nodes</h2>
             <div className={`${styles.buttonCluster}`}>
-              <FileUpload onFileDrop={handleNodeFileDrop} />
+              <FileUpload
+                onFileDrop={(file) =>
+                  handleFileDrop(file, "/api/node-populate")
+                }
+              />
               <ExportNodeDataButton />
             </div>
           </div>
-          <GetDataNodes />
+          <GetDataNodes dataUpdated={dataUpdated} />
         </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
@@ -170,11 +117,15 @@ export function CSVPage() {
           <div className={`${styles.subheader}`}>
             <h2 className={`${styles.pageSubheading}`}>Edges</h2>
             <div className={`${styles.buttonCluster}`}>
-              <FileUpload onFileDrop={handleEdgeFileDrop} />
+              <FileUpload
+                onFileDrop={(file) =>
+                  handleFileDrop(file, "/api/edge-populate")
+                }
+              />
               <ExportEdgeDataButton />
             </div>
           </div>
-          <GetDataEdges />
+          <GetDataEdges dataUpdated={dataUpdated} />
         </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
@@ -182,11 +133,15 @@ export function CSVPage() {
           <div className={`${styles.subheader}`}>
             <h2 className={`${styles.pageSubheading}`}>Employees</h2>
             <div className={`${styles.buttonCluster}`}>
-              <FileUpload onFileDrop={handleEmployeeFileDrop} />
+              <FileUpload
+                onFileDrop={(file) =>
+                  handleFileDrop(file, "/api/employee-populate")
+                }
+              />
               <ExportEmployeeDataButton />
             </div>
           </div>
-          <GetDataEmployee />
+          <GetDataEmployee dataUpdated={dataUpdated} />
         </div>
       </CustomTabPanel>
     </div>
