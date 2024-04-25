@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import PlatformerBG from "./PlatformerBG.jsx";
 import Disease from "./Disease.jsx"; // Import the generic Disease component
-import JoseSprite from "./JoseSprite.jsx"; // Import the generic Disease component
+// import JoseSprite from "./JoseSprite.jsx"; // Import the generic Disease component
 
 const Canvas = () => {
   const viewBox = useMemo(
@@ -59,86 +59,92 @@ const Canvas = () => {
   }, [isAlive, gameOverDisplayed, elapsedTime]);
 
   //Sets velocity of circle upon key press
+  // useEffect(() => {
+  //
+  // }, [velocity]);
+
+  // Smoothly updates player position during movement
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      // Check if the keydown event is a repeat event
-      if (!event.repeat) {
-        const newVelocity = { ...velocity };
-        if (event.key) {
-          switch (event.key) {
-            case "ArrowUp":
-            case "w":
-            case "W":
-              newVelocity.y = newVelocity.y - speed;
-              break;
-            case "ArrowDown":
-            case "s":
-            case "S":
-              newVelocity.y = newVelocity.y + speed;
-              break;
-            case "ArrowLeft":
-            case "a":
-            case "A":
-              newVelocity.x = newVelocity.x - speed;
-              break;
-            case "ArrowRight":
-            case "d":
-            case "D":
-              newVelocity.x = newVelocity.x + speed;
-              break;
-            default:
-              break;
+      const handleKeyDown = (event) => {
+          // Check if the keydown event is a repeat event
+          if (!event.repeat) {
+              const newVelocity = { ...velocity };
+              if (event.key) {
+                  switch (event.key) {
+                      case "ArrowUp":
+                      case "w":
+                      case "W":
+                          if(newVelocity.y > -speed){
+                              newVelocity.y -= speed;
+                          }
+                          break;
+                      case "ArrowDown":
+                      case "s":
+                      case "S":
+                          if(newVelocity.y < speed){
+                              newVelocity.y += speed;
+                          }
+                          break;
+                      case "ArrowLeft":
+                      case "a":
+                      case "A":
+                          if(newVelocity.x > -speed){
+                              newVelocity.x -= speed;
+                          }
+                          break;
+                      case "ArrowRight":
+                      case "d":
+                      case "D":
+                          if(newVelocity.x < speed){
+                              newVelocity.x += speed;
+                          }
+                          break;
+                      default:
+                          break;
+                  }
+              }
+              else {
+                  newVelocity.y = 0;
+                  newVelocity.x = 0;
+              }
+
+              setVelocity(newVelocity);
           }
-        } else {
-          newVelocity.y = 0;
-          newVelocity.x = 0;
-        }
+      };
 
-        setVelocity(newVelocity);
-      }
-    };
+      //Stop the circle from moving when key is released
+      const handleKeyUp = (event) => {
+          const newVelocity = { ...velocity };
+          switch (event.key) {
+              case "ArrowUp":
+              case "w":
+              case "W":
+                  newVelocity.y = newVelocity.y + speed;
+                  break;
+              case "ArrowDown":
+              case "s":
+              case "S":
+                  newVelocity.y = newVelocity.y - speed;
+                  break;
+              case "ArrowLeft":
+              case "a":
+              case "A":
+                  newVelocity.x = newVelocity.x + speed;
+                  break;
+              case "ArrowRight":
+              case "d":
+              case "D":
+                  newVelocity.x = newVelocity.x - speed;
+                  break;
+              default:
+                  break;
+          }
+          setVelocity(newVelocity);
+      };
 
-    //Stop the circle from moving when key is released
-    const handleKeyUp = (event) => {
-      let newVelocity = { ...velocity };
-      switch (event.key) {
-        case "ArrowUp":
-        case "w":
-        case "W":
-          newVelocity.y = newVelocity.y + speed;
-          break;
-        case "ArrowDown":
-        case "s":
-        case "S":
-          newVelocity.y = newVelocity.y - speed;
-          break;
-        case "ArrowLeft":
-        case "a":
-        case "A":
-          newVelocity.x = newVelocity.x + speed;
-          break;
-        case "ArrowRight":
-        case "d":
-        case "D":
-          newVelocity.x = newVelocity.x - speed;
-          break;
-        default:
-          break;
-      }
-      setVelocity(newVelocity);
-    };
+      window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("keyup", handleKeyUp);
 
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
-  }, [velocity]);
-
-  // Smoothly updates circle position during movement
-  useEffect(() => {
     const updatePosition = () => {
       setPosition((prevPosition) => {
         // Calculate the next position
@@ -169,6 +175,8 @@ const Canvas = () => {
 
     return () => {
       cancelAnimationFrame(animationRef.current);
+        window.removeEventListener("keydown", handleKeyDown);
+        window.removeEventListener("keyup", handleKeyUp);
     };
   }, [velocity, viewBox]);
 
@@ -179,10 +187,10 @@ const Canvas = () => {
 
   useEffect(() => {
     const spawnDisease = () => {
-      const maybeJose = Math.random(); // Generate a random number between 0 and 1
+      // const maybeJose = Math.random(); // Generate a random number between 0 and 1
 
       // Determine if it's a JoseSprite component (20% of the time)
-      const DiseaseComponent = maybeJose <= 0.2 ? JoseSprite : Disease;
+      const DiseaseComponent = Disease;
 
       const speed = 3 + elapsedTime / 10 / 2; // Consistent speed
       const margin = 50; // Margin to keep the disease fully visible within the viewBox
