@@ -150,14 +150,18 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     if (paths && paths.length > 0) {
       return paths.some((path) => {
         return path.edges.some((edge) => {
-          return (
-            endBorderNode(node, path) &&
-            (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
-            (node.type === "ELEV" || node.type === "STAI") &&
-            paths[directionsCounter].edges[
-              paths[directionsCounter].edges.length - 2
-            ].endNode.ID === node.ID
-          );
+          if (paths[directionsCounter].edges.length - 2 >= 0) {
+            return (
+              endBorderNode(node, path) &&
+              (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
+              (node.type === "ELEV" || node.type === "STAI") &&
+              paths[directionsCounter].edges[
+                paths[directionsCounter].edges.length - 2
+              ].endNode.ID === node.ID
+            );
+          } else {
+            return false;
+          }
         });
       });
     }
