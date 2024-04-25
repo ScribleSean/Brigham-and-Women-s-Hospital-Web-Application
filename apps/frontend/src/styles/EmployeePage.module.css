@@ -1,0 +1,70 @@
+.pageContainer {
+  height: calc(100vh);
+  width: calc(100vw);
+  padding: calc(1% + 70px) 1% 1% calc(1% + 55px);
+  background: linear-gradient(
+      to bottom,
+      rgba(226, 244, 255, 0.45),
+      rgba(227, 247, 255, 0.49)
+    ),
+    url("../../public/brighamWebsiteGeometricBG.jpg");
+}
+
+.employeeDashboardBox {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  padding: 4vh 2vw;
+}
+
+.employeePageHeader {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5%;
+}
+
+.employeePageTitle {
+  height: 100%;
+  width: 25%;
+  margin-left: 1vw;
+}
+.employeePageTitle h1 {
+  font-size: 2em;
+  font-weight: 700;
+  color: #012d5a;
+}
+
+.employeePageButtonsBox {
+  height: 100%;
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 5%;
+}
+
+.divider {
+  margin: 5vh 1vw 2vh 1vw;
+}
+
+/* container for the filters section. houses space for the search bar, and the two drop downs. */
+.filtersSection {
+  height: 10%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 2vh;
+}
+
+.tableSection {
+  margin-top: 3vh;
+  height: 70%;
+  width: 100%;
+  display: flex;
+}

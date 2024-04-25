@@ -22,6 +22,7 @@ import About from "./routes/About.tsx";
 import Platformer from "./games/Platformer.jsx";
 import GameOver from "./game_components/GameOver.tsx";
 import StartScreen from "./game_components/StartScreen";
+import EmployeePage from "./routes/EmployeePage.tsx";
 // import {useAuth0} from "@auth0/auth0-react";
 
 function App() {
@@ -39,6 +40,14 @@ function App() {
           element={
             <ProtectedRoute roles={["admin"]}>
               <CSVPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee-page"
+          element={
+            <ProtectedRoute roles={["admin"]}>
+              <EmployeePage />
             </ProtectedRoute>
           }
         />
