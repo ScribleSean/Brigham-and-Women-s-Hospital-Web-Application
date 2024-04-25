@@ -7,7 +7,7 @@ import { BFS } from "common/src/path_finding/BFS.ts";
 import { DFS } from "common/src/path_finding/DFS.ts";
 import { Dijkstra } from "common/src/path_finding/Dijkstra.ts";
 import { AlgorithmType } from "common/src/data_structures/AlgorithmType.ts";
-import {Strategy} from "common/src/path_finding/Strategy.ts";
+import { Strategy } from "common/src/path_finding/Strategy.ts";
 
 export { createPath };
 async function createPath(
@@ -23,7 +23,6 @@ async function createPath(
 
   const strategy: Strategy = new Strategy(new ASTAR(graph));
 
-
   switch (algorithm) {
     case AlgorithmType._BFS:
       strategy.setStrategy(new BFS(graph));
@@ -32,10 +31,10 @@ async function createPath(
       strategy.setStrategy(new DFS(graph));
       break;
     case AlgorithmType._Dijkstra:
-        strategy.setStrategy(new Dijkstra(graph));
+      strategy.setStrategy(new Dijkstra(graph));
       break;
     case AlgorithmType._ASTAR:
-        strategy.setStrategy(new ASTAR(graph));
+      strategy.setStrategy(new ASTAR(graph));
       break;
     default:
       strategy.setStrategy(new ASTAR(graph));

@@ -6,6 +6,9 @@ import "../styles/HeroPage.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import HumidityIcon from "../../public/Humidty.png";
+import { IconButton, Snackbar } from "@mui/material";
+import React, { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 function addAnimationClass(e: Event) {
   e.preventDefault(); // Prevent the default action (navigation)
@@ -17,13 +20,8 @@ function addAnimationClass(e: Event) {
   let timer = 0;
 
   if (linkElement) {
-    if (Math.floor(Math.random() * 5) == 1) {
-      linkElement.classList.add("animate__hinge");
-      timer = 2500;
-    } else {
-      linkElement.classList.add("animate__bounceOutRight");
-      timer = 1000;
-    }
+    linkElement.classList.add("animate__bounceOutRight");
+    timer = 1000;
   }
   // Remove and add classes as before
   // @ts-expect-error works
@@ -39,6 +37,25 @@ function addAnimationClass(e: Event) {
 
 function HeroPage() {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const [disclaimerOpen, setDisclaimerOpen] = useState(true);
+
+  const handleDisclaimerClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setDisclaimerOpen(false);
+  };
+
+  const action = (
+    <>
+      <IconButton onClick={handleDisclaimerClose} sx={{ color: "white" }}>
+        <CloseIcon color={"inherit"} />
+      </IconButton>
+    </>
+  );
 
   return (
     <div className={"image-area"}>
@@ -82,14 +99,25 @@ function HeroPage() {
             </div>
           </div>
 
-          {/*disclaimer*/}
-          <div className={" disclaimer"}>
-            <p>
-              This website is a term project exercise for WPI CS 3733 Software
-              Engineering (Prof. Wong) and is not to be confused with the actual
-              Brigham & Women’s Hospital website{" "}
-            </p>
-          </div>
+          {/*<div className={" disclaimer"}>*/}
+          {/*  <p>*/}
+          {/*    This website is a term project exercise for WPI CS 3733 Software*/}
+          {/*    Engineering (Prof. Wong) and is not to be confused with the actual*/}
+          {/*    Brigham & Women’s Hospital website{" "}*/}
+          {/*  </p>*/}
+          {/*</div>*/}
+          <Snackbar
+            open={disclaimerOpen}
+            onClose={handleDisclaimerClose}
+            message={
+              <p>
+                This website is a term project exercise for WPI CS 3733 Software
+                Engineering (Prof. Wong) and is not to be confused with the
+                actual Brigham & Women’s Hospital website
+              </p>
+            }
+            action={action}
+          />
         </div>
 
         {/*Right hand Column*/}
