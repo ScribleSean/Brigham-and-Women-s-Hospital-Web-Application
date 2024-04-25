@@ -8,7 +8,11 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import EastIcon from "@mui/icons-material/East";
+import TurnRightIcon from "@mui/icons-material/TurnRight";
+import TurnLeftIcon from "@mui/icons-material/TurnLeft";
+import TurnSlightRightIcon from "@mui/icons-material/TurnSlightRight";
+import TurnSlightLeftIcon from "@mui/icons-material/TurnSlightLeft";
+import StraightIcon from "@mui/icons-material/Straight";
 
 export default TextDirections;
 
@@ -197,18 +201,19 @@ function TextDirections() {
     setDirectionsCounter(prevPathIndex);
   };
 
-  const getIconRotation = (direction: string) => {
-    if (direction.includes("Turn right") || direction.includes("Bear right")) {
-      return {};
-    } else if (
-      direction.includes("Turn left") ||
-      direction.includes("Bear left")
-    ) {
-      return { transform: "rotate(180deg)" };
+  const getIcon = (direction: string) => {
+    if (direction.includes("Turn right")) {
+      return <TurnRightIcon />;
+    } else if (direction.includes("Turn left")) {
+      return <TurnLeftIcon />;
+    } else if (direction.includes("Bear right")) {
+      return <TurnSlightRightIcon />;
+    } else if (direction.includes("Bear left")) {
+      return <TurnSlightLeftIcon />;
     } else if (direction.includes("Continue straight")) {
-      return { transform: "rotate(270deg)" };
+      return <StraightIcon />;
     } else {
-      return {};
+      return null;
     }
   };
 
@@ -235,10 +240,7 @@ function TextDirections() {
                 <div className={`${styles.directionsContent}`}>
                   {pagedDirections.map((direction, i) => (
                     <div key={i} className={`${styles.directionsText}`}>
-                      <EastIcon sx={{ ...getIconRotation(direction) }} />
-                      {/*<p className={`${styles.stepNumber}`}>*/}
-                      {/*  <b>{i + 1 + currentPage * directionsPerPage}.</b>*/}
-                      {/*</p>*/}
+                      {getIcon(direction)}
                       <p>{direction}</p>
                     </div>
                   ))}
