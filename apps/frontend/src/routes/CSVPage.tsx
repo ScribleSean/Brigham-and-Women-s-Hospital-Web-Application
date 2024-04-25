@@ -78,7 +78,7 @@ export function CSVPage() {
         <h1 className={`${styles.pageTitle}`}>Database</h1>
         <div className={`${styles.buttonCluster}`}>
           <ExportAllButton />
-          <ClearDataButton />
+          <ClearDataButton onClear={() => setDataUpdated(!dataUpdated)} />
         </div>
       </div>
       <div className={`${styles.tabs}`}>
