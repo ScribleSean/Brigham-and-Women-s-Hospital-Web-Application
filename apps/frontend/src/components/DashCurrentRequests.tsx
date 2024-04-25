@@ -328,9 +328,15 @@ function Row(props: {
             </Select>
           </FormControl>
         </TableCell>
-        <TableCell>
+        <TableCell align={"right"}>
           <IconButton
-            sx={{ color: "red" }}
+            sx={{
+              color: "#484848",
+              transition: "color 0.15s ease-in-out",
+              "&:hover": {
+                color: "red",
+              },
+            }}
             onClick={() => setDialogueOpen(true)}
           >
             <DeleteIcon />
@@ -369,7 +375,15 @@ function Row(props: {
                         <TableCell>{requestData.receiverName}</TableCell>
                         <TableCell>{requestData.flowerType}</TableCell>
                         <TableCell>{requestData.deliveryDate}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -402,7 +416,15 @@ function Row(props: {
                         <TableCell>{requestData.receiverName}</TableCell>
                         <TableCell>{requestData.giftType}</TableCell>
                         <TableCell>{requestData.deliveryDate}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -431,7 +453,15 @@ function Row(props: {
                         <TableCell>{requestData.medicineType}</TableCell>
                         <TableCell>{requestData.dosageAmount} mg</TableCell>
                         <TableCell>{requestData.dosageType}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -456,7 +486,15 @@ function Row(props: {
                       <TableRow>
                         <TableCell>{requestData.deviceName}</TableCell>
                         <TableCell>{requestData.deviceQuantity}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -481,7 +519,15 @@ function Row(props: {
                       <TableRow>
                         <TableCell>{requestData.startTime}</TableCell>
                         <TableCell>{requestData.endTime}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -506,7 +552,15 @@ function Row(props: {
                       <TableRow>
                         <TableCell>{requestData.religionName}</TableCell>
                         <TableCell>{requestData.objectName}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -830,7 +884,7 @@ export default function DashCurrentRequests({
                 <StyledTableCell align="right">
                   <b>Priority</b>
                 </StyledTableCell>
-                <StyledTableCell align="right">
+                <StyledTableCell align="center">
                   <b>Status</b>
                 </StyledTableCell>
                 <StyledTableCell
