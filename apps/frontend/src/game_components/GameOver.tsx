@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.js";
 import axios from "axios";
-import { Button, TextField } from "@mui/material";
+import { Button, Tabs, Tab, TextField } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import styles from "../styles/brighamBreakout.module.css";
 
@@ -13,6 +13,11 @@ const GameOver = () => {
   const endTime: string | null = params.get("endTime");
 
   const [submitted, setSubmitted] = useState(false);
+  const [value, setValue] = useState(0);
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   const gameOverContainer: React.CSSProperties = {
     height: "100vh",
@@ -102,6 +107,7 @@ const GameOver = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
       const response = await axios.post("/api/brig-hs-request", formData);
       console.log(response.data);
@@ -148,6 +154,10 @@ const GameOver = () => {
             </>
           ) : (
             <>
+              <Tabs value={value} onChange={handleChange} variant={"fullWidth"}>
+                <Tab label="All Time High Scores" />
+                <Tab label="Today's High Scores" />
+              </Tabs>
               <div className={`${styles.highScoreTable}`}>
                 <div>
                   <h2>All Time</h2>
