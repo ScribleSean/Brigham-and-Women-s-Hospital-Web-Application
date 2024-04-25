@@ -64,6 +64,7 @@ export default function EditorSelector() {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
+            tooltipPlacement={"right"}
             onClick={() => handleClick(action.mode)}
             sx={{
               backgroundColor: "white!important",

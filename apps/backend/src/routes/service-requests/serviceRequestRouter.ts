@@ -49,4 +49,19 @@ router.post("/", async function (req, res) {
   }
 });
 
+router.delete("/", async function (req, res) {
+  try {
+    const deleteRequest = await PrismaClient.serviceRequest.delete({
+      where: {
+        SRID: req.body.SRID,
+      },
+    });
+    console.log("Successfully deleted" + deleteRequest);
+  } catch (error) {
+    console.error("Error Deleting Service Request");
+    console.log(error);
+    res.sendStatus(204);
+  }
+});
+
 export default router;

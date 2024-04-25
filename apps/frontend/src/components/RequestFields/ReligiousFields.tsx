@@ -13,8 +13,13 @@ import {
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { religiousServiceRequest } from "common/src/backend_interfaces/religiousServiceRequest.ts";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
-function ReligiousFields() {
+function ReligiousFields({
+  setReqData,
+}: {
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
+}) {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
   const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
     [],
@@ -165,6 +170,7 @@ function ReligiousFields() {
       console.error("Unable to create form");
       console.log(error);
     }
+    setReqData((prevData) => [...prevData, formData]);
     setSnackbarIsOpen(true);
     resetForm();
   };
