@@ -132,6 +132,13 @@ function RoomSchedulingFields({
     });
   };
 
+  async function fetchData() {
+    const res = await axios.get("/api/service-request");
+    console.log(res);
+    setReqData(res.data);
+    console.log("successfully got data from get request");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // comment out if this is a gabe issue
 
@@ -148,7 +155,7 @@ function RoomSchedulingFields({
       console.error("Unable to create form");
       console.log(error);
     }
-    setReqData((prevData) => [...prevData, formData]);
+    fetchData().then();
     setSnackbarIsOpen(true);
     resetForm();
   };

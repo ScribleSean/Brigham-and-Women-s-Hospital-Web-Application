@@ -2,7 +2,6 @@ import MapIcon from "@mui/icons-material/Map";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import StorageIcon from "@mui/icons-material/Storage";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ListAltIcon from "@mui/icons-material/ListAlt";
 import styles from "../styles/NewSideNavBar.module.css";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -73,18 +72,6 @@ function NewSideNavBar() {
             >
               <StorageIcon sx={{ fontSize: "35px" }} />
               <p className={`${styles.navbarLabels}`}>File Viewer</p>
-            </div>
-          </Link>
-          <Link to="/brigham-breakout-start" className={`${styles.navButtons}`}>
-            <div
-              className={`${styles.row} ${
-                currentLocation === "/brigham-breakout-start"
-                  ? styles.selected
-                  : ""
-              }`}
-            >
-              <ListAltIcon sx={{ fontSize: "35px" }} />
-              <p className={`${styles.navbarLabels}`}>Brigham Breakout</p>
             </div>
           </Link>
         </div>

@@ -38,6 +38,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import axios from "axios";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 
 function createData(
   SRID: number,
@@ -327,9 +328,15 @@ function Row(props: {
             </Select>
           </FormControl>
         </TableCell>
-        <TableCell>
+        <TableCell align={"right"}>
           <IconButton
-            sx={{ color: "red" }}
+            sx={{
+              color: "#484848",
+              transition: "color 0.15s ease-in-out",
+              "&:hover": {
+                color: "red",
+              },
+            }}
             onClick={() => setDialogueOpen(true)}
           >
             <DeleteIcon />
@@ -337,7 +344,7 @@ function Row(props: {
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               {row.serviceType === "Flower Delivery" ? (
@@ -368,7 +375,15 @@ function Row(props: {
                         <TableCell>{requestData.receiverName}</TableCell>
                         <TableCell>{requestData.flowerType}</TableCell>
                         <TableCell>{requestData.deliveryDate}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -401,7 +416,15 @@ function Row(props: {
                         <TableCell>{requestData.receiverName}</TableCell>
                         <TableCell>{requestData.giftType}</TableCell>
                         <TableCell>{requestData.deliveryDate}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -430,7 +453,15 @@ function Row(props: {
                         <TableCell>{requestData.medicineType}</TableCell>
                         <TableCell>{requestData.dosageAmount} mg</TableCell>
                         <TableCell>{requestData.dosageType}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -455,7 +486,15 @@ function Row(props: {
                       <TableRow>
                         <TableCell>{requestData.deviceName}</TableCell>
                         <TableCell>{requestData.deviceQuantity}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -480,7 +519,15 @@ function Row(props: {
                       <TableRow>
                         <TableCell>{requestData.startTime}</TableCell>
                         <TableCell>{requestData.endTime}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -505,7 +552,15 @@ function Row(props: {
                       <TableRow>
                         <TableCell>{requestData.religionName}</TableCell>
                         <TableCell>{requestData.objectName}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -663,13 +718,34 @@ export default function DashCurrentRequests({
           <div className={`${styles.filterMenu}`}>
             <Button
               variant={"outlined"}
-              startIcon={<FilterAltIcon />}
+              color={"error"}
+              onClick={() => {
+                setFilterEmployee("Any");
+                setFilterType("Any");
+                setFilterPriority("Any");
+                setFilterStatus("Any");
+              }}
+              sx={{
+                mr: "8px",
+              }}
+            >
+              <FilterAltOffIcon />
+            </Button>
+            <Button
+              variant={"contained"}
+              // startIcon={<FilterAltIcon />}
               onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                 setPopoverOpen(true);
                 setAnchorEl(event.currentTarget);
               }}
+              sx={{
+                ml: "8px",
+                backgroundColor: "#012d5a",
+                color: "white",
+              }}
             >
-              Filter
+              {/*Filter*/}
+              <FilterAltIcon />
             </Button>
             <div>
               <Popover
@@ -689,23 +765,6 @@ export default function DashCurrentRequests({
                 }}
               >
                 <div className={`${styles.filterSelectors}`}>
-                  <Button
-                    variant={"contained"}
-                    onClick={() => {
-                      setFilterEmployee("Any");
-                      setFilterType("Any");
-                      setFilterPriority("Any");
-                      setFilterStatus("Any");
-                    }}
-                    sx={{
-                      ml: "4px",
-                      mr: "16px",
-                      backgroundColor: "#012d5a",
-                      color: "white",
-                    }}
-                  >
-                    Reset
-                  </Button>
                   <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
                     <InputLabel id="filterEmployeeLabel">Employee</InputLabel>
                     <Select
@@ -825,7 +884,7 @@ export default function DashCurrentRequests({
                 <StyledTableCell align="right">
                   <b>Priority</b>
                 </StyledTableCell>
-                <StyledTableCell align="right">
+                <StyledTableCell align="center">
                   <b>Status</b>
                 </StyledTableCell>
                 <StyledTableCell
