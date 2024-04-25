@@ -689,6 +689,23 @@ export default function DashCurrentRequests({
                 }}
               >
                 <div className={`${styles.filterSelectors}`}>
+                  <Button
+                    variant={"contained"}
+                    onClick={() => {
+                      setFilterEmployee("Any");
+                      setFilterType("Any");
+                      setFilterPriority("Any");
+                      setFilterStatus("Any");
+                    }}
+                    sx={{
+                      ml: "4px",
+                      mr: "16px",
+                      backgroundColor: "#012d5a",
+                      color: "white",
+                    }}
+                  >
+                    Reset
+                  </Button>
                   <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
                     <InputLabel id="filterEmployeeLabel">Employee</InputLabel>
                     <Select
