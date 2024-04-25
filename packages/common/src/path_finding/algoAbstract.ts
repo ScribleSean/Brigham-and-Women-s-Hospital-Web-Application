@@ -3,7 +3,7 @@ import { Edge, Graph, Node, Path } from "../DataStructures.ts";
 export abstract class AlgoAbstract {
   protected graph: Graph;
 
-  protected constructor(graph: Graph) {
+  constructor(graph: Graph) {
     this.graph = graph;
   }
 
