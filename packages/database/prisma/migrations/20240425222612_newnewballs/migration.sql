@@ -2,7 +2,7 @@
 CREATE TABLE "BreakOutHighScore" (
     "HSID" SERIAL NOT NULL,
     "initial" TEXT NOT NULL,
-    "time" TEXT NOT NULL,
+    "time" INTEGER NOT NULL,
 
     CONSTRAINT "BreakOutHighScore_pkey" PRIMARY KEY ("HSID")
 );
@@ -46,9 +46,13 @@ CREATE TABLE "ServiceRequest" (
 -- CreateTable
 CREATE TABLE "Employee" (
     "employeeEmail" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "position" TEXT NOT NULL,
+    "employeeFirstName" TEXT NOT NULL,
+    "employeeLastName" TEXT NOT NULL,
+    "employeeFullName" TEXT NOT NULL,
+    "employeePosition" TEXT NOT NULL,
+    "employeePermission" TEXT NOT NULL,
     "numberOfServiceRequests" INTEGER NOT NULL,
+    "employeeID" INTEGER NOT NULL,
 
     CONSTRAINT "Employee_pkey" PRIMARY KEY ("employeeEmail")
 );
