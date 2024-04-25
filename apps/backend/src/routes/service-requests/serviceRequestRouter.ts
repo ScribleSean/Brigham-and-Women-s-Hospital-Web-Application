@@ -10,7 +10,7 @@ router.get("/", async function (req, res) {
     include: {
       Employee: {
         select: {
-          name: true,
+          employeeFullName: true,
           employeeEmail: true,
         },
       },
@@ -19,7 +19,7 @@ router.get("/", async function (req, res) {
 
   const formattedServiceRequests = serviceRequests.map((sr) => ({
     ...sr,
-    employeeEmail: `${sr.Employee.name} (${sr.Employee.employeeEmail})`,
+    employeeEmail: `${sr.Employee.employeeFullName} (${sr.Employee.employeeEmail})`,
   }));
 
   console.log(formattedServiceRequests);
@@ -51,17 +51,30 @@ router.post("/", async function (req, res) {
 
 router.delete("/", async function (req, res) {
   try {
-    const deleteRequest = await PrismaClient.serviceRequest.delete({
-      where: {
-        SRID: req.body.SRID,
-      },
-    });
-    console.log("Successfully deleted" + deleteRequest);
+    const { SRID } = req.body;
+
+    // Create an array of delete operations
+    const deleteOperations = [
+      PrismaClient.flowerServiceRequest.deleteMany({ where: { SRID } }),
+      PrismaClient.giftServiceRequest.deleteMany({ where: { SRID } }),
+      PrismaClient.roomSchedulingRequest.deleteMany({ where: { SRID } }),
+      PrismaClient.medicalDeviceServiceRequest.deleteMany({ where: { SRID } }),
+      PrismaClient.medicineDeliveryServiceRequest.deleteMany({
+        where: { SRID },
+      }),
+      PrismaClient.religiousServiceRequest.deleteMany({ where: { SRID } }),
+      PrismaClient.serviceRequest.delete({ where: { SRID } }),
+    ];
+
+    // Execute all delete operations in a transaction
+    await PrismaClient.$transaction(deleteOperations);
+
+    console.log("Successfully deleted service request with SRID: " + SRID);
+    res.status(200).json({ message: "Successfully deleted service request" });
   } catch (error) {
     console.error("Error Deleting Service Request");
     console.log(error);
     res.sendStatus(204);
   }
 });
-
 export default router;

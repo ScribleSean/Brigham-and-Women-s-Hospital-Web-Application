@@ -62,9 +62,13 @@ model ServiceRequest {
 
 model Employee {
   employeeEmail           String           @id
-  name                    String
-  position                String
+  employeeFirstName       String
+  employeeLastName        String
+  employeeFullName        String
+  employeePosition        String
+  employeePermission      String
   numberOfServiceRequests Int
+  employeeID              Int
   ServiceRequests         ServiceRequest[]
 }
 

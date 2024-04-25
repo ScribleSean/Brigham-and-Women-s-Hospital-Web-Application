@@ -30,8 +30,8 @@ function GiftFields({
     try {
       const response = await axios.get("/api/employee-email-fetch");
       const employeeData = response.data.map(
-        (employee: { name: string; employeeEmail: string }) => ({
-          name: employee.name,
+        (employee: { employeeFullName: string; employeeEmail: string }) => ({
+          name: employee.employeeFullName,
           employeeEmail: employee.employeeEmail,
         }),
       );
