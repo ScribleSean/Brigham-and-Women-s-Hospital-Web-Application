@@ -65,6 +65,9 @@ const GameOver = () => {
   console.log(highScores);
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.id === "initial" && e.target.value.length > 3) {
+      return;
+    }
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,

@@ -15,7 +15,7 @@ datasource db {
 model BreakOutHighScore {
   HSID    Int    @id @default(autoincrement())
   initial String
-  time    String
+  time    Int
 }
 
 model Edge {

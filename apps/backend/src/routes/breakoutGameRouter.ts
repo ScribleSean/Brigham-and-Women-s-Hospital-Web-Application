@@ -5,7 +5,12 @@ const router: Router = express.Router();
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.ts";
 
 router.get("/", async function (req, res) {
-  const highScoreFetch = await PrismaClient.breakOutHighScore.findMany({});
+  const highScoreFetch = await PrismaClient.breakOutHighScore.findMany({
+    orderBy: {
+      time: "desc",
+    },
+    take: 5,
+  });
   res.json(highScoreFetch);
 });
 
@@ -16,13 +21,13 @@ router.post("/", async function (req, res) {
     await PrismaClient.breakOutHighScore.create({
       data: {
         initial: newhs.initial,
-        time: newhs.time,
+        time: Number(newhs.time),
       },
     });
     res.status(200).json({ message: "HS Posted" });
-    console.log("yurr");
+    console.log("yurp");
   } catch (error) {
-    console.error("HS did not post fuck");
+    console.error("HS did not post :(");
     console.log(error);
     res.sendStatus(204);
     return;
