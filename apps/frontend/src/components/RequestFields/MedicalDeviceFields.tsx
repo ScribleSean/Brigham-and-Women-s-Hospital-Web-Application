@@ -13,8 +13,13 @@ import {
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceRequest.ts";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
-function MedicalDeviceFields() {
+function MedicalDeviceFields({
+  setReqData,
+}: {
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
+}) {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
   const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
     [],
@@ -198,6 +203,7 @@ function MedicalDeviceFields() {
       console.error("Unable to create form");
       console.log(error);
     }
+    setReqData((prevData) => [...prevData, formData]);
     setSnackbarIsOpen(true);
     resetForm();
   };

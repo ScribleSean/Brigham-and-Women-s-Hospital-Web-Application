@@ -13,31 +13,36 @@ import GiftFields from "./RequestFields/GiftFields.tsx";
 import FlowerDeliveryFields from "./RequestFields/FlowerDeliveryFields.tsx";
 import ReligiousFields from "./RequestFields/ReligiousFields.tsx";
 import React, { useState } from "react";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
-export default function DashMakeARequest() {
+export default function DashMakeARequest({
+  setReqData,
+}: {
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
+}) {
   const [currentReqType, setCurrentReqType] = useState(
-    <FlowerDeliveryFields />,
+    <FlowerDeliveryFields setReqData={setReqData} />,
   );
 
   const handleRequestTypeChange = (e: SelectChangeEvent<unknown>) => {
     switch (e.target.value) {
       case "Medicine":
-        setCurrentReqType(<MedicineFields />);
+        setCurrentReqType(<MedicineFields setReqData={setReqData} />);
         break;
       case "Med. Device":
-        setCurrentReqType(<MedicalDeviceFields />);
+        setCurrentReqType(<MedicalDeviceFields setReqData={setReqData} />);
         break;
       case "Room":
-        setCurrentReqType(<RoomSchedulingFields />);
+        setCurrentReqType(<RoomSchedulingFields setReqData={setReqData} />);
         break;
       case "Gift":
-        setCurrentReqType(<GiftFields />);
+        setCurrentReqType(<GiftFields setReqData={setReqData} />);
         break;
       case "Religious":
-        setCurrentReqType(<ReligiousFields />);
+        setCurrentReqType(<ReligiousFields setReqData={setReqData} />);
         break;
       case "Flower":
-        setCurrentReqType(<FlowerDeliveryFields />);
+        setCurrentReqType(<FlowerDeliveryFields setReqData={setReqData} />);
         break;
       default:
         setCurrentReqType(<div></div>);

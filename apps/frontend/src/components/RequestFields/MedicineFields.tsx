@@ -14,8 +14,13 @@ import styles from "../../styles/RequestFields.module.css";
 import React, { useEffect, useState } from "react";
 import { medicineDeliveryRequest } from "common/src/backend_interfaces/medicineDeliveryRequest.ts";
 import axios from "axios";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
-function MedicineFields() {
+function MedicineFields({
+  setReqData,
+}: {
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
+}) {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
   const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
     [],
@@ -202,6 +207,7 @@ function MedicineFields() {
       console.error("Unable to create form");
       console.log(error);
     }
+    setReqData((prevData) => [...prevData, formData]);
     setSnackbarIsOpen(true);
     resetForm();
   };

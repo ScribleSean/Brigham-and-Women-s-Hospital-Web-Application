@@ -20,6 +20,11 @@ import {
   SelectChangeEvent,
   Popover,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -32,6 +37,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import axios from "axios";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function createData(
   SRID: number,
@@ -73,9 +79,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function Row(props: { row: ReturnType<typeof createData> }) {
+function Row(props: {
+  row: ReturnType<typeof createData>;
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
+}) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const [dialogueOpen, setDialogueOpen] = useState(false);
 
   const [requestData, setRequestData] = useState({
     SRID: 0,
@@ -216,8 +226,48 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     }
   };
 
+  const handleDelete = async (SRID: number) => {
+    setDialogueOpen(false);
+    try {
+      const response = await axios.delete("/api/service-request", {
+        data: {
+          SRID: SRID,
+        },
+      });
+      console.log("Service Request Deleted", response.data);
+    } catch (error) {
+      console.error("Error Deleting Service Request", error);
+    }
+    props.setReqData((prevData) => prevData.filter((req) => req.SRID !== SRID));
+  };
+
   return (
     <React.Fragment>
+      <Dialog open={dialogueOpen} onClose={() => setDialogueOpen(false)}>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Delete this service request? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setDialogueOpen(false)}
+            sx={{
+              color: "black",
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => handleDelete(row.SRID)}
+            color="error"
+            variant={"contained"}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton
@@ -276,6 +326,14 @@ function Row(props: { row: ReturnType<typeof createData> }) {
               <MenuItem value={"Closed"}>Closed</MenuItem>
             </Select>
           </FormControl>
+        </TableCell>
+        <TableCell>
+          <IconButton
+            sx={{ color: "red" }}
+            onClick={() => setDialogueOpen(true)}
+          >
+            <DeleteIcon />
+          </IconButton>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -370,7 +428,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     <TableBody>
                       <TableRow>
                         <TableCell>{requestData.medicineType}</TableCell>
-                        <TableCell>{requestData.dosageAmount}</TableCell>
+                        <TableCell>{requestData.dosageAmount} mg</TableCell>
                         <TableCell>{requestData.dosageType}</TableCell>
                         <TableCell>{row.description}</TableCell>
                       </TableRow>
@@ -466,14 +524,18 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 export default function DashCurrentRequests({
   expanded,
   onExpandClick,
+  reqData,
+  setReqData,
 }: {
   expanded: boolean;
   onExpandClick: () => void;
+  reqData: ServiceRequest[];
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
 }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [requestData, setRequestData] = useState<ServiceRequest[]>();
+  // const [requestData, setRequestData] = useState<ServiceRequest[]>();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -512,13 +574,13 @@ export default function DashCurrentRequests({
     [],
   );
   useEffect(() => {
-    async function fetchData() {
-      const res = await axios.get("/api/service-request");
-      console.log(res);
-      setRequestData(res.data);
-      console.log("successfully got data from get request");
-    }
-    fetchData().then();
+    // async function fetchData() {
+    //   const res = await axios.get("/api/service-request");
+    //   console.log(res);
+    //   setRequestData(res.data);
+    //   console.log("successfully got data from get request");
+    // }
+    // fetchData().then();
 
     const fetchEmployeeEmail = async () => {
       try {
@@ -544,8 +606,8 @@ export default function DashCurrentRequests({
   }, []);
 
   let rows: ServiceRequest[] = [];
-  if (requestData) {
-    rows = requestData;
+  if (reqData) {
+    rows = reqData;
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -627,6 +689,23 @@ export default function DashCurrentRequests({
                 }}
               >
                 <div className={`${styles.filterSelectors}`}>
+                  <Button
+                    variant={"contained"}
+                    onClick={() => {
+                      setFilterEmployee("Any");
+                      setFilterType("Any");
+                      setFilterPriority("Any");
+                      setFilterStatus("Any");
+                    }}
+                    sx={{
+                      ml: "4px",
+                      mr: "16px",
+                      backgroundColor: "#012d5a",
+                      color: "white",
+                    }}
+                  >
+                    Reset
+                  </Button>
                   <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
                     <InputLabel id="filterEmployeeLabel">Employee</InputLabel>
                     <Select
@@ -746,11 +825,14 @@ export default function DashCurrentRequests({
                 <StyledTableCell align="right">
                   <b>Priority</b>
                 </StyledTableCell>
+                <StyledTableCell align="right">
+                  <b>Status</b>
+                </StyledTableCell>
                 <StyledTableCell
                   align="right"
                   style={{ borderTopRightRadius: "5px" }}
                 >
-                  <b>Status</b>
+                  <b>Delete</b>
                 </StyledTableCell>
               </StyledTableRow>
             </TableHead>
@@ -758,7 +840,7 @@ export default function DashCurrentRequests({
               {filterRows(rows)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
-                  <Row key={row.SRID} row={row} />
+                  <Row key={row.SRID} row={row} setReqData={setReqData} />
                 ))}
             </TableBody>
           </Table>
