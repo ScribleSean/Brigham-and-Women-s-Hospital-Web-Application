@@ -8,14 +8,6 @@ type GraphData = {
   data: number[];
 };
 
-type DataItem = {
-  employeeEmail: string;
-  serviceType: string;
-  _count: {
-    SRID: number;
-  };
-};
-
 export default function RequestsByUser() {
   const [graphData, setGraphData] = useState<GraphData[]>([]);
   const [serviceTypes, setServiceTypes] = useState<string[]>([]);
@@ -23,22 +15,25 @@ export default function RequestsByUser() {
   useEffect(() => {
     fetch("/api/request-by-user")
       .then((response) => response.json())
-      .then((data: DataItem[]) => {
-        const serviceTypes = [...new Set(data.map((item) => item.serviceType))];
+      .then((data: Record<string, number>) => {
+        const serviceTypes = [
+          ...new Set(Object.keys(data).map((key) => key.split("-")[1])),
+        ];
 
-        const formattedData = data.reduce(
-          (acc: GraphData[], item: DataItem) => {
+        const formattedData = Object.entries(data).reduce(
+          (acc: GraphData[], [key, count]) => {
+            const [fullName, serviceType] = key.split("-");
             const existingItem = acc.find(
-              (i: GraphData) => i.label === item.employeeEmail,
+              (i: GraphData) => i.label === fullName,
             );
             if (existingItem) {
-              const index = serviceTypes.indexOf(item.serviceType);
-              existingItem.data[index] = item._count.SRID;
+              const index = serviceTypes.indexOf(serviceType);
+              existingItem.data[index] = count;
             } else {
               const counts = new Array(serviceTypes.length).fill(0);
-              counts[serviceTypes.indexOf(item.serviceType)] = item._count.SRID;
+              counts[serviceTypes.indexOf(serviceType)] = count;
               acc.push({
-                label: item.employeeEmail,
+                label: fullName,
                 data: counts,
               });
             }
