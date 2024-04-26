@@ -1,9 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.js";
 import axios from "axios";
-import { Button, Tabs, Tab, TextField } from "@mui/material";
+import { Button, Tabs, Tab, TextField, Box } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import styles from "../styles/brighamBreakout.module.css";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  value: number;
+  index: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      {...other}
+    >
+      {value === index && <Box>{children}</Box>}
+    </div>
+  );
+  // return ( <>
+  //       {index === 0 ? <>
+  //       <div>
+  //         <h1>hi</h1>
+  //       </div>
+  //       </> : <>
+  //         <div>
+  //           <h1>guy</h1>
+  //         </div>
+  //       </>}
+  //     </>
+  // );
+}
 
 const GameOver = () => {
   // const [hovering, setHovering] = useState(false);
@@ -158,54 +191,86 @@ const GameOver = () => {
                 <Tab label="All Time High Scores" />
                 <Tab label="Today's High Scores" />
               </Tabs>
-              <div className={`${styles.highScoreTable}`}>
-                <div>
-                  <h2>All Time</h2>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th className={`${styles.highScoreTableInitials}`}>
-                          Initials
-                        </th>
-                        <th>Playtime</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {highScores.map((score, index) => (
-                        <tr key={index}>
-                          <td className={styles.highScoreTableInitials}>
-                            {score.initial}
-                          </td>
-                          <td>{score.time}</td>
+              <CustomTabPanel value={value} index={0}>
+                <div className={`${styles.highScoreTable}`}>
+                  <div>
+                    <h2>All Time</h2>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th className={`${styles.highScoreTableInitials}`}>
+                            Initials
+                          </th>
+                          <th>Playtime</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {highScores.map((score, index) => (
+                          <tr key={index}>
+                            <td className={styles.highScoreTableInitials}>
+                              {score.initial}
+                            </td>
+                            <td>{score.time}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={1}>
                 <div>
-                  <h2>Today</h2>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th className={styles.highScoreTableInitials}>
-                          Initials
-                        </th>
-                        <th>Playtime</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {highScores.map((score, index) => (
-                        <tr key={index}>
-                          <td className={styles.highScoreTableInitials}>
-                            {score.initial}
-                          </td>
-                          <td>{score.time}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  <h1>man oh man</h1>
                 </div>
-              </div>
+              </CustomTabPanel>
+              {/*<div className={`${styles.highScoreTable}`}>*/}
+              {/*  <div>*/}
+              {/*    <h2>All Time</h2>*/}
+              {/*    <table>*/}
+              {/*      <thead>*/}
+              {/*        <tr>*/}
+              {/*          <th className={`${styles.highScoreTableInitials}`}>*/}
+              {/*            Initials*/}
+              {/*          </th>*/}
+              {/*          <th>Playtime</th>*/}
+              {/*        </tr>*/}
+              {/*      </thead>*/}
+              {/*      <tbody>*/}
+              {/*        {highScores.map((score, index) => (*/}
+              {/*          <tr key={index}>*/}
+              {/*            <td className={styles.highScoreTableInitials}>*/}
+              {/*              {score.initial}*/}
+              {/*            </td>*/}
+              {/*            <td>{score.time}</td>*/}
+              {/*          </tr>*/}
+              {/*        ))}*/}
+              {/*      </tbody>*/}
+              {/*    </table>*/}
+              {/*  </div>*/}
+              {/*  <div>*/}
+              {/*    <h2>Today</h2>*/}
+              {/*    <table>*/}
+              {/*      <thead>*/}
+              {/*        <tr>*/}
+              {/*          <th className={styles.highScoreTableInitials}>*/}
+              {/*            Initials*/}
+              {/*          </th>*/}
+              {/*          <th>Playtime</th>*/}
+              {/*        </tr>*/}
+              {/*      </thead>*/}
+              {/*      <tbody>*/}
+              {/*        {highScores.map((score, index) => (*/}
+              {/*          <tr key={index}>*/}
+              {/*            <td className={styles.highScoreTableInitials}>*/}
+              {/*              {score.initial}*/}
+              {/*            </td>*/}
+              {/*            <td>{score.time}</td>*/}
+              {/*          </tr>*/}
+              {/*        ))}*/}
+              {/*      </tbody>*/}
+              {/*    </table>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
               <a
                 id="leave"
                 style={{ ...leaveButton }} // Merge styles based on hovering state
