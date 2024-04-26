@@ -10,6 +10,7 @@ type GraphData = {
 };
 
 type DataItem = {
+  status: string;
   priority: string;
   serviceType: string;
   _count: {
@@ -78,25 +79,44 @@ function RequestsByPriority() {
 }
 
 function RequestsByStatus() {
-  const unassigned: GraphData = {
-    label: "Unassigned",
-    data: [2, 4, 1, 4, 3, 1, 8],
+  const [graphData, setGraphData] = useState<GraphData[]>([]);
+  const [serviceTypes, setServiceTypes] = useState<string[]>([]);
+
+  const statusColors: { [key: string]: string } = {
+    Unassigned: "#ef6a6a",
+    Assigned: "#ffdf22",
+    "In Progress": "#56ff2a",
+    Closed: "#464646",
   };
 
-  const assigned: GraphData = {
-    label: "Assigned",
-    data: [1, 3, 3, 2, 5, 2, 1],
-  };
+  useEffect(() => {
+    fetch("/api/request-by-status")
+      .then((response) => response.json())
+      .then((data: DataItem[]) => {
+        const serviceTypes = [...new Set(data.map((item) => item.serviceType))];
 
-  const inProgress: GraphData = {
-    label: "In Progress",
-    data: [5, 1, 1, 6, 2, 3, 2],
-  };
-
-  const closed: GraphData = {
-    label: "Closed",
-    data: [3, 2, 5, 4, 1, 1, 4],
-  };
+        const formattedData = data.reduce(
+          (acc: GraphData[], item: DataItem) => {
+            const existingItem = acc.find((i) => i.label === item.status);
+            if (existingItem) {
+              const index = serviceTypes.indexOf(item.serviceType);
+              existingItem.data[index] = item._count.SRID;
+            } else {
+              const counts = new Array(serviceTypes.length).fill(0);
+              counts[serviceTypes.indexOf(item.serviceType)] = item._count.SRID;
+              acc.push({
+                label: item.status,
+                data: counts,
+              });
+            }
+            return acc;
+          },
+          [],
+        );
+        setGraphData(formattedData);
+        setServiceTypes(serviceTypes);
+      });
+  }, []);
 
   return (
     <>
@@ -104,33 +124,19 @@ function RequestsByStatus() {
         xAxis={[
           {
             scaleType: "band",
-            data: [
-              "Flower Delivery",
-              "Gift Delivery",
-              "Medicine",
-              "Medical Device",
-              "Room Sched.",
-              "Religious",
-              "Food Delivery",
-            ],
+            data: serviceTypes,
           },
         ]}
-        series={[
-          { ...unassigned, stack: "total" },
-          { ...assigned, stack: "total" },
-          {
-            ...inProgress,
-            stack: "total",
-          },
-          { ...closed, stack: "total" },
-        ]}
-        // width={500}
+        series={graphData.map((item) => ({
+          ...item,
+          stack: "total",
+          color: statusColors[item.label],
+        }))}
         height={250}
       />
     </>
   );
 }
-
 export default function RequestsByPriorityStatus() {
   const [selection, setSelection] = useState("Priority");
   return (
