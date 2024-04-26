@@ -40,6 +40,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
+import SelectionBox, { SelectionBoxProps } from "./selectionBox.tsx";
 
 export default FloorDisplay;
 
@@ -118,6 +119,14 @@ function FloorDisplay() {
     x: number;
     y: number;
   }>({ x: 0, y: 0 });
+  const [boxDimensions, setBoxDimensions] = useState<{
+    width: number;
+    height: number;
+  }>({ width: 0, height: 0 });
+  const [startMousePositionBox, setStartMousePositionBox] = useState<{
+    x: number;
+    y: number;
+  }>({ x: 0, y: 0 });
 
   const handleMouseDown = useCallback(
     (event: MouseEvent) => {
@@ -136,6 +145,7 @@ function FloorDisplay() {
           scaling.heightScaling,
         );
         setStartMousePosition({ x: imageX, y: imageY });
+        setStartMousePositionBox({ x: event.clientX, y: event.clientY });
       }
     },
     [
@@ -149,6 +159,7 @@ function FloorDisplay() {
       scaling.widthScaling,
       scaling.heightScaling,
       setStartMousePosition,
+      setStartMousePositionBox,
     ],
   );
 
@@ -167,6 +178,10 @@ function FloorDisplay() {
           scaling.widthScaling,
           scaling.heightScaling,
         );
+        setBoxDimensions({
+          width: event.clientX - startMousePositionBox.x,
+          height: event.clientY - startMousePositionBox.y,
+        });
         if (graph) {
           const selectedNodes: Array<string> = graph.getNodesInRange(
             startMousePosition.x,
@@ -179,6 +194,7 @@ function FloorDisplay() {
       }
     },
     [
+      startMousePositionBox,
       isMouseDown,
       setIsMouseDown, // Include this setter in the dependencies
       setDisableZoomPanning,
@@ -446,6 +462,12 @@ function FloorDisplay() {
     setDisableZoomPanning(false);
   };
 
+  const selectionBoxProps: SelectionBoxProps = {
+    startMousePosition: startMousePosition,
+    dimensions: boxDimensions,
+    scaling: scaling,
+  };
+
   if (editorMode === EditorMode.addNodes) {
     return (
       <div>
@@ -605,6 +627,7 @@ function FloorDisplay() {
           : null}
       </svg>
       <PathDisplay {...pathDisplayProps()} />
+      <SelectionBox {...selectionBoxProps}></SelectionBox>
     </div>
   );
 }
