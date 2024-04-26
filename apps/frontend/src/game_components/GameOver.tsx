@@ -92,30 +92,31 @@ const GameOver = () => {
     time: endTime ? endTime : "",
   });
   const [highScores, setHighScores] = useState<breakoutHighScore[]>([]);
-  // const [recentScores, setRecentScores] = useState<breakoutHighScore[]>([]);
+  const [recentScores, setRecentScores] = useState<breakoutHighScore[]>([]);
 
   const fetchTop = async () => {
     try {
-      const response = await axios.get("/api/brig-hs-request");
+      const response = await axios.get("/api/hs-all-time");
       const highscores = response.data;
       setHighScores(highscores);
     } catch (error) {
       console.log("ERROR");
     }
   };
-  // const fetchRecent = async () => {
-  //   try {
-  //     const response = await axios.get("/api/brig-hs-request");
-  //     const highscores = response.data;
-  //     setRecentScores(highscores);
-  //   } catch (error) {
-  //     console.log("ERROR");
-  //   }
-  // };
+
+  const fetchRecent = async () => {
+    try {
+      const response = await axios.get("/api/hs-today");
+      const highscores = response.data;
+      setRecentScores(highscores);
+    } catch (error) {
+      console.log("ERROR");
+    }
+  };
 
   useEffect(() => {
     fetchTop();
-    // fetchRecent();
+    fetchRecent();
   }, []);
 
   console.log(highScores);
@@ -187,9 +188,30 @@ const GameOver = () => {
             </>
           ) : (
             <>
-              <Tabs value={value} onChange={handleChange} variant={"fullWidth"}>
-                <Tab label="All Time High Scores" />
-                <Tab label="Today's High Scores" />
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                variant={"fullWidth"}
+                className={""}
+              >
+                <Tab
+                  label="All Time High Scores"
+                  style={{
+                    color: "#fff",
+                    border: "1px solid green",
+                    borderBottom: "none",
+                    borderBottomColor: value === 0 ? "green" : "transparent",
+                  }}
+                />
+                <Tab
+                  label="Today's High Scores"
+                  style={{
+                    color: "#fff",
+                    border: "1px solid green",
+                    borderBottom: "none",
+                    borderBottomColor: value === 1 ? "green" : "transparent",
+                  }}
+                />
               </Tabs>
               <CustomTabPanel value={value} index={0}>
                 <div className={`${styles.highScoreTable}`}>
@@ -219,58 +241,33 @@ const GameOver = () => {
                 </div>
               </CustomTabPanel>
               <CustomTabPanel value={value} index={1}>
-                <div>
-                  <h1>man oh man</h1>
+                <div className={`${styles.highScoreTable}`}>
+                  <div>
+                    <h2>Today</h2>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th className={`${styles.highScoreTableInitials}`}>
+                            Initials
+                          </th>
+                          <th>Playtime</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {recentScores.map((score, index) => (
+                          <tr key={index}>
+                            <td className={styles.highScoreTableInitials}>
+                              {score.initial}
+                            </td>
+                            <td>{score.time}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </CustomTabPanel>
-              {/*<div className={`${styles.highScoreTable}`}>*/}
-              {/*  <div>*/}
-              {/*    <h2>All Time</h2>*/}
-              {/*    <table>*/}
-              {/*      <thead>*/}
-              {/*        <tr>*/}
-              {/*          <th className={`${styles.highScoreTableInitials}`}>*/}
-              {/*            Initials*/}
-              {/*          </th>*/}
-              {/*          <th>Playtime</th>*/}
-              {/*        </tr>*/}
-              {/*      </thead>*/}
-              {/*      <tbody>*/}
-              {/*        {highScores.map((score, index) => (*/}
-              {/*          <tr key={index}>*/}
-              {/*            <td className={styles.highScoreTableInitials}>*/}
-              {/*              {score.initial}*/}
-              {/*            </td>*/}
-              {/*            <td>{score.time}</td>*/}
-              {/*          </tr>*/}
-              {/*        ))}*/}
-              {/*      </tbody>*/}
-              {/*    </table>*/}
-              {/*  </div>*/}
-              {/*  <div>*/}
-              {/*    <h2>Today</h2>*/}
-              {/*    <table>*/}
-              {/*      <thead>*/}
-              {/*        <tr>*/}
-              {/*          <th className={styles.highScoreTableInitials}>*/}
-              {/*            Initials*/}
-              {/*          </th>*/}
-              {/*          <th>Playtime</th>*/}
-              {/*        </tr>*/}
-              {/*      </thead>*/}
-              {/*      <tbody>*/}
-              {/*        {highScores.map((score, index) => (*/}
-              {/*          <tr key={index}>*/}
-              {/*            <td className={styles.highScoreTableInitials}>*/}
-              {/*              {score.initial}*/}
-              {/*            </td>*/}
-              {/*            <td>{score.time}</td>*/}
-              {/*          </tr>*/}
-              {/*        ))}*/}
-              {/*      </tbody>*/}
-              {/*    </table>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
+
               <a
                 id="leave"
                 style={{ ...leaveButton }} // Merge styles based on hovering state
