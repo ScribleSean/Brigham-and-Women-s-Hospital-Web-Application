@@ -12,6 +12,7 @@ import RoomSchedulingFields from "./RequestFields/RoomSchedulingFields.tsx";
 import GiftFields from "./RequestFields/GiftFields.tsx";
 import FlowerDeliveryFields from "./RequestFields/FlowerDeliveryFields.tsx";
 import ReligiousFields from "./RequestFields/ReligiousFields.tsx";
+import FoodDeliveryFields from "./RequestFields/FoodDeliveryFields.tsx";
 import React, { useState } from "react";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
@@ -40,6 +41,9 @@ export default function DashMakeARequest({
         break;
       case "Religious":
         setCurrentReqType(<ReligiousFields setReqData={setReqData} />);
+        break;
+      case "Food":
+        setCurrentReqType(<FoodDeliveryFields setReqData={setReqData} />);
         break;
       case "Flower":
         setCurrentReqType(<FlowerDeliveryFields setReqData={setReqData} />);
@@ -72,6 +76,7 @@ export default function DashMakeARequest({
               <MenuItem value={"Med. Device"}>Medical Device</MenuItem>
               <MenuItem value={"Room"}>Room Scheduling</MenuItem>
               <MenuItem value={"Religious"}>Religious</MenuItem>
+              <MenuItem value={"Food"}>Food Delivery</MenuItem>
             </Select>
           </FormControl>
         </div>
