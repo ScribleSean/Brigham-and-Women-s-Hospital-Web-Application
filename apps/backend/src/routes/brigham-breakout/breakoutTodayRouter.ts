@@ -5,7 +5,7 @@ const router: Router = express.Router();
 
 router.get("/", async function (req, res) {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setHours(0);
 
   try {
     const highScoreFetch = await PrismaClient.breakOutHighScore.findMany({

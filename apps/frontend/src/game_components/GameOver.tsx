@@ -226,15 +226,16 @@ const GameOver = () => {
               </Tabs>
               <div>
                 <CustomTabPanel value={value} index={0}>
-                  <h1>howdy</h1>
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "space-around",
                       paddingTop: "5rem",
+                      paddingRight: "2rem",
+                      paddingLeft: "2rem",
                     }}
                   >
-                    <div style={{ paddingLeft: "2rem" }}>
+                    <div>
                       <table>
                         <tbody>
                           {highScores.slice(0, 10).map((score, index) => (
@@ -280,7 +281,7 @@ const GameOver = () => {
                       </table>
                     </div>
                     {highScores.length > 10 && (
-                      <div style={{ paddingLeft: "2rem" }}>
+                      <div>
                         <table>
                           <tbody>
                             {highScores.slice(10, 20).map((score, index) => (
@@ -335,9 +336,11 @@ const GameOver = () => {
                       display: "flex",
                       justifyContent: "space-around",
                       paddingTop: "5rem",
+                      paddingRight: "2rem",
+                      paddingLeft: "2rem",
                     }}
                   >
-                    <div style={{ paddingLeft: "2rem" }}>
+                    <div>
                       <table>
                         <tbody>
                           {recentScores.slice(0, 10).map((score, index) => (
@@ -383,7 +386,7 @@ const GameOver = () => {
                       </table>
                     </div>
                     {recentScores.length > 10 && (
-                      <div style={{ paddingLeft: "2rem" }}>
+                      <div>
                         <table>
                           <tbody>
                             {recentScores.slice(10, 20).map((score, index) => (
