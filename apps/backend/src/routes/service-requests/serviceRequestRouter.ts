@@ -63,6 +63,7 @@ router.delete("/", async function (req, res) {
         where: { SRID },
       }),
       PrismaClient.religiousServiceRequest.deleteMany({ where: { SRID } }),
+      PrismaClient.foodDeliveryServiceRequest.deleteMany({ where: { SRID } }),
       PrismaClient.serviceRequest.delete({ where: { SRID } }),
     ];
 

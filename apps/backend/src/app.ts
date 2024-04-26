@@ -12,6 +12,7 @@ import serviceRequestRouter from "./routes/service-requests/serviceRequestRouter
 import medicalDeviceRouter from "./routes/service-requests/medicalDeviceServiceRequestRouter.ts";
 import medicineDeliveryRouter from "./routes/service-requests/medicineDeliveryServiceRequestRouter.ts";
 import religiousServiceRequestRouter from "./routes/service-requests/religiousServiceRequestRouter.ts";
+import foodDeliveryRequestRouter from "./routes/service-requests/foodDeliveryRequestRouter.ts";
 import csvRouter from "./routes/csv-handler";
 import nodeRouter from "./routes/node-route";
 import edgeRouter from "./routes/edge-route";
@@ -52,6 +53,7 @@ app.use("/api/room-scheduling-request", roomSchedulingRequestRouter);
 app.use("/api/medical-device-service-request", medicalDeviceRouter);
 app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
 app.use("/api/religious-service-request", religiousServiceRequestRouter);
+app.use("/api/food-delivery-service-request", foodDeliveryRequestRouter);
 app.use("/api/gift-service-request", giftServiceRequestRouter);
 app.use("/api/brig-hs-request", brigRouter);
 

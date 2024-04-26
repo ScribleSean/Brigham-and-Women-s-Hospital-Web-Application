@@ -97,6 +97,10 @@ function Row(props: {
     description: "",
     religionName: "",
     objectName: "",
+    foodItem: "",
+    foodQuantity: "",
+    utensilItem: "",
+    deliveryTime: "",
     senderName: "",
     receiverName: "",
     flowerType: "",
@@ -226,6 +230,20 @@ function Row(props: {
     }
   };
 
+  const getFoodData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/food-delivery-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setRequestData(res.data);
+    } catch {
+      console.error("Error getting food data");
+    }
+  };
+
   const handleDelete = async (SRID: number) => {
     setDialogueOpen(false);
     try {
@@ -287,6 +305,8 @@ function Row(props: {
                   getRoomSchedulingData(row.SRID).then();
                 } else if (row.serviceType === "Religious") {
                   getReligiousData(row.SRID).then();
+                } else if (row.serviceType === "Food Delivery") {
+                  getFoodData(row.SRID).then();
                 }
               }
             }}
@@ -564,6 +584,47 @@ function Row(props: {
                     </TableBody>
                   </Table>
                 </>
+              ) : row.serviceType === "Food Delivery" ? (
+                <>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Food Item</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Food Quantity</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Utensil Item</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Delivery Time</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>{requestData.foodItem}</TableCell>
+                        <TableCell>{requestData.foodQuantity}</TableCell>
+                        <TableCell>{requestData.utensilItem}</TableCell>
+                        <TableCell>{requestData.deliveryTime}</TableCell>
+                        <TableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </>
               ) : (
                 <></>
               )}
@@ -791,7 +852,7 @@ export default function DashCurrentRequests({
                       labelId="filterTypeLabel"
                       id="filterType"
                       label="Type"
-                      value={filterType} // Add this line
+                      value={filterType}
                       onChange={(event) =>
                         setFilterType(event.target.value as string)
                       }
@@ -811,6 +872,7 @@ export default function DashCurrentRequests({
                         Room Scheduling
                       </MenuItem>
                       <MenuItem value={"Religious"}>Religious</MenuItem>
+                      <MenuItem value={"Food Delivery"}>Food Delivery</MenuItem>
                     </Select>
                   </FormControl>
                   <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
