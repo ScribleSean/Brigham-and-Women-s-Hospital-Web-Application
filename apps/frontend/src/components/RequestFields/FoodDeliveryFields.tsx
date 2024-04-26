@@ -11,11 +11,11 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { foodDeliveryServiceRequest } from "common/src/backend_interfaces/foodDeliveryRequest.ts";
 import axios from "axios";
-import { religiousServiceRequest } from "common/src/backend_interfaces/religiousServiceRequest.ts";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
-function ReligiousFields({
+function FoodDeliveryFields({
   setReqData,
 }: {
   setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
@@ -68,37 +68,32 @@ function ReligiousFields({
     }
   };
 
-  const religionOptions: string[] = [
-    "Christianity",
-    "Islam",
-    "Hinduism",
-    "Buddhism",
-    "Sikhism",
-    "Judaism",
-    "Taoism",
+  const foodOptions: string[] = [
+    "Pasta",
+    "Rice",
+    "Mashed Potatoes",
+    "Caesar Salad",
+    "Grilled Chicken",
+    "Tofu",
+    "Granola Bar",
     "Confucianism",
-    "Paganism",
+    "Chicken Soup",
   ];
 
-  const objectOptions: string[] = [
-    "Sacred Text",
-    "Altar/Shrine",
-    "Religious Symbol",
-    "Ceremony/Ritual",
-    "Beads",
-    "Incense",
-  ];
+  const utensilOptions: string[] = ["Fork", "Knife", "Spoon", "All Three"];
 
-  const [formData, setFormData] = useState<religiousServiceRequest>({
+  const [formData, setFormData] = useState<foodDeliveryServiceRequest>({
     SRID: 0,
     employeeEmail: "",
     location: "",
     priority: "",
     status: "",
-    religionName: "",
-    objectName: "",
+    foodItem: "",
+    foodQuantity: "",
+    utensilItem: "",
+    deliveryTime: "",
     description: "",
-    serviceType: "Religious",
+    serviceType: "Food Delivery",
   });
 
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -125,21 +120,6 @@ function ReligiousFields({
       });
     }
   };
-
-  const resetForm = () => {
-    setFormData({
-      SRID: 0,
-      employeeEmail: "",
-      location: "",
-      priority: "",
-      status: "",
-      religionName: "",
-      objectName: "",
-      description: "",
-      serviceType: "Religious",
-    });
-  };
-
   const handleEmployeeEmailAutocompleteChange = (value: string | null) => {
     if (value) {
       setFormData({
@@ -150,9 +130,25 @@ function ReligiousFields({
   };
 
   useEffect(() => {
-    fetchEmployeeEmail();
     fetchLocations();
+    fetchEmployeeEmail();
   }, []);
+
+  const resetForm = () => {
+    setFormData({
+      SRID: 0,
+      employeeEmail: "",
+      location: "",
+      priority: "",
+      status: "",
+      foodItem: "",
+      foodQuantity: "",
+      utensilItem: "",
+      deliveryTime: "",
+      description: "",
+      serviceType: "Food Delivery",
+    });
+  };
 
   async function fetchData() {
     const res = await axios.get("/api/service-request");
@@ -169,7 +165,7 @@ function ReligiousFields({
 
     try {
       const response = await axios.post(
-        "/api/religious-service-request",
+        "/api/food-delivery-service-request",
         formData,
       );
       console.log(response.data);
@@ -275,36 +271,68 @@ function ReligiousFields({
         <hr className={`${styles.divider}`} />
         <div className={`${styles.doubleInputRow}`}>
           <Autocomplete
-            id={"religionName"}
+            id={"foodItem"}
             disablePortal
-            options={religionOptions}
+            options={foodOptions}
             renderInput={(params) => (
-              <TextField {...params} label="Religion" required />
+              <TextField {...params} label="Food Item" required />
             )}
             sx={{
               width: "100%",
               marginRight: "2%",
             }}
-            value={formData.religionName}
-            onChange={(e, value) =>
-              handleAutocompleteChange("religionName", value)
-            }
+            value={formData.foodItem}
+            onChange={(e, value) => handleAutocompleteChange("foodItem", value)}
           />
+          <TextField
+            id={"foodQuantity"}
+            type={"number"}
+            fullWidth
+            variant={"outlined"}
+            label={"Quantity"}
+            InputProps={{
+              endAdornment: <div>units</div>,
+            }}
+            sx={{
+              marginLeft: "2%",
+            }}
+            required
+            value={formData.foodQuantity}
+            onChange={handleTextFieldChange}
+          />
+        </div>
+        <div className={`${styles.doubleInputRow}`}>
           <Autocomplete
-            id={"objectName"}
+            id={"utensilItem"}
             disablePortal
-            options={objectOptions}
+            options={utensilOptions}
             renderInput={(params) => (
-              <TextField {...params} label="Religious Object" required />
+              <TextField {...params} label="Utensil" required />
             )}
             sx={{
               width: "100%",
-              marginLeft: "2%",
+              marginRight: "2%",
+              marginTop: "2%",
             }}
-            value={formData.objectName}
+            value={formData.utensilItem}
             onChange={(e, value) =>
-              handleAutocompleteChange("objectName", value)
+              handleAutocompleteChange("utensilItem", value)
             }
+          />
+          <TextField
+            id={"deliveryTime"}
+            fullWidth
+            variant={"outlined"}
+            label={"Delivery Time"}
+            type={"datetime-local"}
+            InputLabelProps={{ shrink: true }}
+            sx={{
+              marginLeft: "2%",
+              marginTop: "2%",
+            }}
+            required
+            value={formData.deliveryTime}
+            onChange={handleTextFieldChange}
           />
         </div>
         <div className={`${styles.descriptionField}`}>
@@ -350,4 +378,4 @@ function ReligiousFields({
   );
 }
 
-export default ReligiousFields;
+export default FoodDeliveryFields;
