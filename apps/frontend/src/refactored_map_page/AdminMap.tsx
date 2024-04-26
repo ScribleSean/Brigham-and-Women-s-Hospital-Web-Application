@@ -104,8 +104,8 @@ function MapContents() {
           display: "flex",
           flexDirection: "row",
           position: "absolute",
-          marginTop: "10vh",
-          marginRight: "1vw",
+          marginTop: "80px",
+          marginRight: "170px",
           justifyContent: "space-between",
         }}
       >
