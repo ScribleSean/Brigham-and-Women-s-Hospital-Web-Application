@@ -17,7 +17,7 @@ import FloorDisplay from "./DisplayFloor.tsx";
 import ClearPathButton from "./ClearPathButton.tsx";
 import TextDirections from "./TextDirections.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
-import MapLegend from "./MapLegend.tsx";
+import PublicMapLegend from "./PublicMapLegend.tsx";
 import { Box } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -96,15 +96,15 @@ function MapContents() {
   return (
     <div style={mapDiv}>
       <TextDirections />
-      <MapLegend />
+      <PublicMapLegend />
       <Box
         sx={{
           right: 0,
           display: "flex",
           flexDirection: "row",
           position: "absolute",
-          marginTop: "10vh",
-          marginRight: "1vw",
+          marginTop: "80px",
+          marginRight: "10px",
           justifyContent: "space-between",
         }}
       >

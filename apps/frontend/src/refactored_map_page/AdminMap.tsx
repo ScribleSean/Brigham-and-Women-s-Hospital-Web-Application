@@ -105,7 +105,7 @@ function MapContents() {
           flexDirection: "row",
           position: "absolute",
           marginTop: "80px",
-          marginRight: "170px",
+          marginRight: "10px",
           justifyContent: "space-between",
         }}
       >

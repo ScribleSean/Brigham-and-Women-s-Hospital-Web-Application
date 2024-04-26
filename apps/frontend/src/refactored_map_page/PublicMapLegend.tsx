@@ -69,7 +69,7 @@ function MapLegend() {
         color: "black",
         bottom: 0,
         left: 0,
-        marginLeft: "77px",
+        marginLeft: "30px",
         marginBottom: "5px",
         borderRadius: "10px",
         boxShadow: "0px 0px 1px",
