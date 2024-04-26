@@ -397,7 +397,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const handleDeleteNode = (deletedNode: Node): void => {
     if (graph) {
-      setGraph(graph.removeNode(node.ID));
+      setGraph(graph.removeNodeFixing(node.ID));
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
       setUnsavedChanges(true);
     }

@@ -137,6 +137,80 @@ export default class GraphFrontend {
     return this;
   }
 
+  public removeNodeFixing(nodeID: string): GraphFrontend {
+    console.log("Removing node, fixing edges");
+    if (!this.lookupTable.has(nodeID)) {
+      console.error("The graph does not contain such node");
+      return this;
+    }
+
+    // Remove the node from the lookup table
+    this.lookupTable.delete(nodeID);
+
+    // Store the nodes that are stranded
+    const strandedNodes: Set<string> = new Set();
+
+    // Iterate through each floor's adjacency list
+    this.adjLists.forEach((floorAdjList) => {
+      // Remove the node directly from the floor's adjacency list if it exists
+      // Iterate through all nodes in the current floor's adjacency list to remove any edges that connect to the deleted node
+      floorAdjList.forEach((edges, currentNodeID) => {
+        const filteredEdges = edges.filter((edge) => {
+          if (edge.startNode.ID === nodeID || edge.endNode.ID === nodeID) {
+            console.log("found an edge to delete");
+            console.log(edge.startNode.ID, edge.endNode.ID);
+            const strandedNode =
+              edge.startNode.ID === nodeID ? edge.endNode : edge.startNode;
+            strandedNodes.add(strandedNode.ID);
+            return false; // Edge is removed because it connects to the deleted node
+          }
+          return true;
+        });
+        floorAdjList.set(currentNodeID, filteredEdges);
+      });
+      floorAdjList.delete(nodeID);
+
+      // Check and add edges between stranded nodes if they do not already exist
+    });
+    console.log("Stranded nodes:", Array.from(strandedNodes));
+
+    strandedNodes.forEach((nodeID) => {
+      const node = this.lookupTable.get(nodeID);
+      if (node) {
+        strandedNodes.forEach((otherNodeID) => {
+          const otherNode = this.lookupTable.get(otherNodeID);
+          if (otherNode) {
+            if (
+              node !== otherNode &&
+              !this.edgeExists(node.ID, otherNode.ID, node.floor)
+            ) {
+              console.log("Adding edge between:", node.ID, "and", otherNode.ID);
+              this.addEdge(node.ID + otherNode.ID, node, otherNode);
+            }
+          }
+        });
+      }
+    });
+
+    return this;
+  }
+
+  private edgeExists(
+    startNodeID: string,
+    endNodeID: string,
+    floor: FloorType,
+  ): boolean {
+    return (
+      this.adjLists
+        .get(floor)
+        ?.get(startNodeID)
+        ?.some(
+          (edge) =>
+            edge.startNode.ID === endNodeID || edge.endNode.ID === startNodeID,
+        ) ?? false
+    );
+  }
+
   public editNode(editedNode: Node): GraphFrontend {
     // First, check if the node exists in the lookup table
     if (!this.lookupTable.has(editedNode.ID)) {
