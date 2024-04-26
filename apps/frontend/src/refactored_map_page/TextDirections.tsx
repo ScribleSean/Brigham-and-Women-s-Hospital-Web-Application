@@ -294,7 +294,7 @@ function TextDirections() {
               </div>
             ) : null}
           </div>
-          <div className={`${styles.textDirectionBtnGroup}`}>
+          <Box className={`${styles.textDirectionFloorGroup}`}>
             {paths.map((path, i) => (
               <Box
                 key={i}
@@ -308,10 +308,19 @@ function TextDirections() {
                 }}
               >
                 {path.edges[0].startNode.floor}
-                <EastIcon></EastIcon>
+                {paths.length - 1 === i ? null : (
+                  <EastIcon
+                    onClick={undefined}
+                    sx={{
+                      color: "black",
+                      fontSize: "1rem",
+                      margin: "4px",
+                    }}
+                  ></EastIcon>
+                )}
               </Box>
             ))}
-          </div>
+          </Box>
         </div>
       ) : null}
     </div>
