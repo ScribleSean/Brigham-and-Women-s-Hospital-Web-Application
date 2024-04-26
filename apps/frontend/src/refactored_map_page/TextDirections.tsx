@@ -8,7 +8,11 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import EastIcon from "@mui/icons-material/East";
+import TurnRightIcon from "@mui/icons-material/TurnRight";
+import TurnLeftIcon from "@mui/icons-material/TurnLeft";
+import TurnSlightRightIcon from "@mui/icons-material/TurnSlightRight";
+import TurnSlightLeftIcon from "@mui/icons-material/TurnSlightLeft";
+import StraightIcon from "@mui/icons-material/Straight";
 
 export default TextDirections;
 
@@ -197,18 +201,19 @@ function TextDirections() {
     setDirectionsCounter(prevPathIndex);
   };
 
-  const getIconRotation = (direction: string) => {
-    if (direction.includes("Turn right") || direction.includes("Bear right")) {
-      return {};
-    } else if (
-      direction.includes("Turn left") ||
-      direction.includes("Bear left")
-    ) {
-      return { transform: "rotate(180deg)" };
+  const getIcon = (direction: string) => {
+    if (direction.includes("Turn right")) {
+      return <TurnRightIcon />;
+    } else if (direction.includes("Turn left")) {
+      return <TurnLeftIcon />;
+    } else if (direction.includes("Bear right")) {
+      return <TurnSlightRightIcon />;
+    } else if (direction.includes("Bear left")) {
+      return <TurnSlightLeftIcon />;
     } else if (direction.includes("Continue straight")) {
-      return { transform: "rotate(270deg)" };
+      return <StraightIcon />;
     } else {
-      return {};
+      return null;
     }
   };
 
@@ -223,60 +228,57 @@ function TextDirections() {
     <div>
       {startNode && endNode ? (
         <div className={`${styles.directionsContainer}`}>
-          <div className={`${styles.directionsHeader}`}>
-            <h5>Text Directions</h5>
-            <IconButton onClick={() => setExpanded(!expanded)}>
-              {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-            </IconButton>
-          </div>
-          {expanded ? (
-            <div>
-              <div className={`${styles.directionsContent}`}>
-                {pagedDirections.map((direction, i) => (
-                  <div key={i} className={`${styles.directionsText}`}>
-                    <EastIcon sx={{ ...getIconRotation(direction) }} />
-                    <p className={`${styles.stepNumber}`}>
-                      <b>{i + 1 + currentPage * directionsPerPage}.</b>
+          <div className={`${styles.textDirectionsContainer}`}>
+            <div className={`${styles.directionsHeader}`}>
+              <h5>Text Directions</h5>
+              <IconButton onClick={() => setExpanded(!expanded)}>
+                {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+              </IconButton>
+            </div>
+            {expanded ? (
+              <div>
+                <div className={`${styles.directionsContent}`}>
+                  {pagedDirections.map((direction, i) => (
+                    <div key={i} className={`${styles.directionsText}`}>
+                      {getIcon(direction)}
+                      <p>{direction}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className={`${styles.directionsFooter}`}>
+                  <div className={`${styles.pagination}`}>
+                    <p>
+                      Page {currentPage + 1} of {numPages}
                     </p>
-                    <p>{direction}</p>
+                    <div>
+                      <IconButton
+                        onClick={handlePrevPage}
+                        disabled={currentPage == 0}
+                      >
+                        <ChevronLeftIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={handleNextPage}
+                        disabled={currentPage + 1 == numPages}
+                      >
+                        <ChevronRightIcon />
+                      </IconButton>
+                    </div>
                   </div>
-                ))}
-              </div>
-              <div className={`${styles.directionsFooter}`}>
-                <p>
-                  Page {currentPage + 1} of {numPages}
-                </p>
-                <div className={`${styles.textDirectionBtnGroup}`}>
-                  <ButtonGroup size="small" variant="contained">
-                    <Button
-                      onClick={handlePrevPath}
-                      disabled={prevPathDisabled}
-                    >
-                      Prev Path
-                    </Button>
-                    <Button
-                      onClick={handleNextPath}
-                      disabled={nextPathDisabled}
-                    >
-                      Next Path
-                    </Button>
-                  </ButtonGroup>
-                  <IconButton
-                    onClick={handlePrevPage}
-                    disabled={currentPage == 0}
-                  >
-                    <ChevronLeftIcon />
-                  </IconButton>
-                  <IconButton
-                    onClick={handleNextPage}
-                    disabled={currentPage + 1 == numPages}
-                  >
-                    <ChevronRightIcon />
-                  </IconButton>
                 </div>
               </div>
-            </div>
-          ) : null}
+            ) : null}
+          </div>
+          <div className={`${styles.textDirectionBtnGroup}`}>
+            <ButtonGroup size="small" variant="contained">
+              <Button onClick={handlePrevPath} disabled={prevPathDisabled}>
+                Prev Path
+              </Button>
+              <Button onClick={handleNextPath} disabled={nextPathDisabled}>
+                Next Path
+              </Button>
+            </ButtonGroup>
+          </div>
         </div>
       ) : null}
     </div>

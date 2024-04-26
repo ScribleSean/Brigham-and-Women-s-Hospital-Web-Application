@@ -49,7 +49,7 @@ function startBorderNode(node: Node, path: Path) {
 
 function endBorderNode(node: Node, path: Path) {
   const len: number = path.edges.length;
-  if (len === 1) return false;
+  console.log(path.edges[len - 2].endNode.ID);
   return path.edges[len - 2].endNode.ID === node.ID;
 }
 
@@ -151,14 +151,22 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     if (paths && paths.length > 0) {
       return paths.some((path) => {
         return path.edges.some((edge) => {
-          return (
-            endBorderNode(node, path) &&
-            (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
-            (node.type === "ELEV" || node.type === "STAI") &&
-            paths[directionsCounter].edges[
-              paths[directionsCounter].edges.length - 2
-            ].endNode.ID === node.ID
-          );
+          console.log(paths[directionsCounter].edges.length);
+          if (paths[directionsCounter].edges.length === 1) {
+            return true;
+          }
+          if (paths[directionsCounter].edges.length - 2 >= 0) {
+            return (
+              endBorderNode(node, path) &&
+              (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
+              (node.type === "ELEV" || node.type === "STAI") &&
+              paths[directionsCounter].edges[
+                paths[directionsCounter].edges.length - 2
+              ].endNode.ID === node.ID
+            );
+          } else {
+            return false;
+          }
         });
       });
     }
@@ -651,18 +659,31 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      Elevator to Floor {""}
-                      {paths.length > directionsCounter + 1
-                        ? paths[directionsCounter + 1].edges[0].startNode.floor
-                        : ""}
+                      {paths.length > directionsCounter + 1 && (
+                        <div>
+                          Elevator to Floor{" "}
+                          {
+                            paths[directionsCounter + 1].edges[0].startNode
+                              .floor
+                          }
+                        </div>
+                      )}
                     </Typography>
                   </div>
                 ) : (
                   <div style={changingFloorNodeStyle}>
                     <StairsIcon
-                      onClick={handleChangingFloorNextNodeClick}
+                      onClick={
+                        paths.length > directionsCounter + 1
+                          ? handleChangingFloorNextNodeClick
+                          : undefined
+                      }
                       sx={{
-                        cursor: "pointer",
+                        cursor:
+                          paths.length > directionsCounter + 1
+                            ? "pointer"
+                            : "cursor",
+                        opacity: paths.length > directionsCounter + 1 ? 1 : 0,
                       }}
                     />
                     <Typography
@@ -680,10 +701,15 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      Stairs to Floor {""}
-                      {paths.length > directionsCounter + 1
-                        ? paths[directionsCounter + 1].edges[0].startNode.floor
-                        : ""}
+                      {paths.length > directionsCounter + 1 && (
+                        <div>
+                          Stairs to Floor{" "}
+                          {
+                            paths[directionsCounter + 1].edges[0].startNode
+                              .floor
+                          }
+                        </div>
+                      )}
                     </Typography>
                   </div>
                 )}

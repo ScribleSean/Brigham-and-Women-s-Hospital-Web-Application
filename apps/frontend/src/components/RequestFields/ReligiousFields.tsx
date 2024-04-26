@@ -13,8 +13,13 @@ import {
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { religiousServiceRequest } from "common/src/backend_interfaces/religiousServiceRequest.ts";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
-function ReligiousFields() {
+function ReligiousFields({
+  setReqData,
+}: {
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
+}) {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
   const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
     [],
@@ -149,6 +154,13 @@ function ReligiousFields() {
     fetchLocations();
   }, []);
 
+  async function fetchData() {
+    const res = await axios.get("/api/service-request");
+    console.log(res);
+    setReqData(res.data);
+    console.log("successfully got data from get request");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // comment out if this is a gabe issue
 
@@ -165,6 +177,7 @@ function ReligiousFields() {
       console.error("Unable to create form");
       console.log(error);
     }
+    fetchData().then();
     setSnackbarIsOpen(true);
     resetForm();
   };

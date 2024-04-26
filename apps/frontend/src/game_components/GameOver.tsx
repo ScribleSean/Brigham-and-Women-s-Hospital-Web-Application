@@ -3,6 +3,7 @@ import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighSco
 import axios from "axios";
 import { Button, TextField } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import styles from "../styles/brighamBreakout.module.css";
 
 const GameOver = () => {
   // const [hovering, setHovering] = useState(false);
@@ -21,7 +22,8 @@ const GameOver = () => {
   };
 
   const highScoreContainer: React.CSSProperties = {
-    background: "",
+    backgroundColor: "black",
+    opacity: ".8",
     color: "white",
     height: "90vh",
     position: "absolute",
@@ -49,22 +51,38 @@ const GameOver = () => {
     time: endTime ? endTime : "",
   });
   const [highScores, setHighScores] = useState<breakoutHighScore[]>([]);
+  // const [recentScores, setRecentScores] = useState<breakoutHighScore[]>([]);
+
+  const fetchTop = async () => {
+    try {
+      const response = await axios.get("/api/brig-hs-request");
+      const highscores = response.data;
+      setHighScores(highscores);
+    } catch (error) {
+      console.log("ERROR");
+    }
+  };
+  // const fetchRecent = async () => {
+  //   try {
+  //     const response = await axios.get("/api/brig-hs-request");
+  //     const highscores = response.data;
+  //     setRecentScores(highscores);
+  //   } catch (error) {
+  //     console.log("ERROR");
+  //   }
+  // };
+
   useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        const response = await axios.get("/api/brig-hs-request");
-        const highscores = response.data;
-        setHighScores(highscores);
-      } catch (error) {
-        console.log("ERROR");
-      }
-    };
-    fetchLocations();
+    fetchTop();
+    // fetchRecent();
   }, []);
 
   console.log(highScores);
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.id === "initial" && e.target.value.length > 3) {
+      return;
+    }
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
@@ -112,25 +130,61 @@ const GameOver = () => {
             required
             value={formData.initial}
             onChange={handleTextFieldChange}
+            InputProps={{
+              style: {
+                backgroundColor: "white",
+              },
+            }}
           />
+
           <Button type={"submit"}>Click</Button>
         </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Initials</th>
-              <th>Playtime</th>
-            </tr>
-          </thead>
-          <tbody>
-            {highScores.map((score, index) => (
-              <tr key={index}>
-                <td>{score.initial}</td>
-                <td>{score.time}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className={`${styles.highScoreTable}`}>
+          <div>
+            <h2>All Time</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th className={`${styles.highScoreTableInitials}`}>
+                    Initials
+                  </th>
+                  <th>Playtime</th>
+                </tr>
+              </thead>
+              <tbody>
+                {highScores.map((score, index) => (
+                  <tr key={index}>
+                    <td className={styles.highScoreTableInitials}>
+                      {score.initial}
+                    </td>
+                    <td>{score.time}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h2>Today</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th className={styles.highScoreTableInitials}>Initials</th>
+                  <th>Playtime</th>
+                </tr>
+              </thead>
+              <tbody>
+                {highScores.map((score, index) => (
+                  <tr key={index}>
+                    <td className={styles.highScoreTableInitials}>
+                      {score.initial}
+                    </td>
+                    <td>{score.time}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
         <a
           id="leave"
           style={{ ...leaveButton }} // Merge styles based on hovering state

@@ -13,8 +13,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { roomSchedulingRequest } from "common/src/backend_interfaces/roomSchedulingRequest.ts";
 import axios from "axios";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
-function RoomSchedulingFields() {
+function RoomSchedulingFields({
+  setReqData,
+}: {
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
+}) {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
   const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
     [],
@@ -127,6 +132,13 @@ function RoomSchedulingFields() {
     });
   };
 
+  async function fetchData() {
+    const res = await axios.get("/api/service-request");
+    console.log(res);
+    setReqData(res.data);
+    console.log("successfully got data from get request");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // comment out if this is a gabe issue
 
@@ -143,6 +155,7 @@ function RoomSchedulingFields() {
       console.error("Unable to create form");
       console.log(error);
     }
+    fetchData().then();
     setSnackbarIsOpen(true);
     resetForm();
   };

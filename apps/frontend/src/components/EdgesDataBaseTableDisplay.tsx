@@ -61,8 +61,10 @@ const TableEdges: React.FC<{ tableData: edge[] }> = ({ tableData }) => {
     </StyledTableContainer>
   );
 };
-
-export const GetDataEdges = () => {
+interface GetDataEdgesProps {
+  dataUpdated: boolean;
+}
+export const GetDataEdges: React.FC<GetDataEdgesProps> = ({ dataUpdated }) => {
   const [data, setData] = useState<edge[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -94,7 +96,7 @@ export const GetDataEdges = () => {
     };
 
     fetchData().then();
-  }, []); //
+  }, [dataUpdated]); //
 
   if (loading) {
     return <div>Loading...</div>;
