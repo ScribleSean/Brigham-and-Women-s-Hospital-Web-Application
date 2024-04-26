@@ -67,6 +67,33 @@ router.delete("/", async function (req, res) {
       PrismaClient.serviceRequest.delete({ where: { SRID } }),
     ];
 
+    const serviceRequest = await PrismaClient.serviceRequest.findUnique({
+      where: { SRID },
+    });
+
+    if (!serviceRequest) {
+      console.error("Service Request not found");
+      res.sendStatus(204);
+      return;
+    }
+    const employeeEmail = serviceRequest.employeeEmail;
+    if (!serviceRequest) {
+      console.error("Service Request not found");
+      res.sendStatus(204);
+      return;
+    }
+
+    await PrismaClient.employee.update({
+      where: {
+        employeeEmail: employeeEmail,
+      },
+      data: {
+        numberOfServiceRequests: {
+          decrement: 1,
+        },
+      },
+    });
+
     // Execute all delete operations in a transaction
     await PrismaClient.$transaction(deleteOperations);
 
