@@ -194,7 +194,20 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     heightScaling,
   );
 
-  const changingFloorNodeStyle: CSSProperties = {
+  const changingFloorNodeStyleBack: CSSProperties = {
+    position: "absolute",
+    left: `${displayX}px`,
+    top: `${displayY}px`,
+    zIndex: 11,
+    marginTop:
+      nodeInPathChangingFloorStart(node, paths) &&
+      nodeInPathChangingFloorEnd(node, paths) &&
+      paths[directionsCounter].edges.length === 1
+        ? "25px"
+        : 0,
+  };
+
+  const changingFloorNodeStyleNext: CSSProperties = {
     position: "absolute",
     left: `${displayX}px`,
     top: `${displayY}px`,
@@ -501,7 +514,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
             {nodeInPathChangingFloorStart(node, paths) && (
               <React.Fragment>
                 {node.type === NodeType.ELEV ? (
-                  <div style={changingFloorNodeStyle}>
+                  <div style={changingFloorNodeStyleBack}>
                     <ElevatorIcon
                       onClick={handleChangingFloorBackNodeClick}
                       sx={{
@@ -532,7 +545,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                     </Typography>
                   </div>
                 ) : (
-                  <div style={changingFloorNodeStyle}>
+                  <div style={changingFloorNodeStyleBack}>
                     <StairsIcon
                       onClick={handleChangingFloorBackNodeClick}
                       sx={{
@@ -547,6 +560,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         fontWeight: "bold",
                         fontFamily: "inter",
                         transition: "font-size 0.3s ease",
+                        marginTop:
+                          nodeInPathChangingFloorStart(node, paths) &&
+                          nodeInPathChangingFloorEnd(node, paths)
+                            ? "50px"
+                            : 0,
                         ":hover": {
                           backgroundColor: "white",
                           fontSize: "1rem",
@@ -568,7 +586,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
             {nodeInPathChangingFloorEnd(node, paths) && (
               <React.Fragment>
                 {node.type === NodeType.ELEV ? (
-                  <div style={changingFloorNodeStyle}>
+                  <div style={changingFloorNodeStyleNext}>
                     <ElevatorIcon
                       onClick={handleChangingFloorNextNodeClick}
                       sx={{
@@ -597,7 +615,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                     </Typography>
                   </div>
                 ) : (
-                  <div style={changingFloorNodeStyle}>
+                  <div style={changingFloorNodeStyleNext}>
                     <StairsIcon
                       onClick={
                         paths.length > directionsCounter + 1

@@ -144,6 +144,16 @@ function TextDirections() {
         }
       }
 
+      if (
+        paths[directionsCounter] &&
+        paths[directionsCounter].edges &&
+        directions.length === 0
+      ) {
+        directions.push(
+          `Continue straight towards ${paths[directionsCounter].edges[0].endNode.shortName}`,
+        );
+      }
+
       return directions;
     },
     [directionsCounter],
