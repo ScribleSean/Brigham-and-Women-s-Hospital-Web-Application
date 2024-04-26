@@ -51,31 +51,29 @@ const Disease = ({
   }, []);
 
   useEffect(() => {
-    if (!showDisease || !isAlive) {
-      return () => {};
-    } else {
-      position.current = { x: x, y: y };
+      if (showDisease && isAlive) {
+          position.current = { x: x, y: y };
 
-      const playerRect = playerRef.current.getBoundingClientRect();
-      const imageRect = imageRef.current.getBoundingClientRect();
-      playerRect.width *= 0.7;
-      playerRect.height *= 0.7;
-      imageRect.width *= 0.8;
-      imageRect.height *= 0.8;
+          const playerRect = playerRef.current.getBoundingClientRect();
+          const imageRect = imageRef.current.getBoundingClientRect();
+          playerRect.width *= 0.7;
+          playerRect.height *= 0.7;
+          imageRect.width *= 0.8;
+          imageRect.height *= 0.8;
 
-      if (isIntersecting(playerRect, imageRect)) {
-        console.log("Collision detected!");
-        setPlayerHP(playerHP - 1);
-        if (playerHP <= 1) {
-          setIsAlive(false); // Call the setIsAlive function to set isAlive to false
-        }
-        setShowDisease(false);
-      }
+          if (isIntersecting(playerRect, imageRect)) {
+            console.log("Collision detected!");
+            //setPlayerHP(playerHP - 1);
+            if (playerHP <= 1) {
+              setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+            }
+            setShowDisease(false);
+          }
 
-      // Hide the disease after 3 seconds
-      if (elapsedTime >= 20) {
-        setShowDisease(false);
-      }
+          // Hide the disease after 3 seconds
+          if (elapsedTime >= 20) {
+            setShowDisease(false);
+          }
     }
   }, [
     x,

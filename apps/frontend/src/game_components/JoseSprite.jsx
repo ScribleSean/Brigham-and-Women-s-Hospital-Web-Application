@@ -43,12 +43,12 @@ const JoseSprite = ({
       const imageRect = imageRef.current.getBoundingClientRect();
       playerRect.width *= 0.7;
       playerRect.height *= 0.7;
-      imageRect.width *= 0.8;
-      imageRect.height *= 0.8;
+      imageRect.width *= 0.6;
+      imageRect.height *= 0.6;
 
       if (isIntersecting(playerRect, imageRect)) {
         console.log("Collision detected!");
-        setPlayerHP(playerHP - 1);
+        // setPlayerHP(playerHP - 1);
         if (playerHP <= 1) {
           setIsAlive(false); // Call the setIsAlive function to set isAlive to false
         }
