@@ -67,12 +67,11 @@ const Disease = ({
         if (!isShielded) {
           setPlayerHP(playerHP - 1);
         }
-
         setShowDisease(false);
       }
 
       // Hide the disease after 15 seconds
-      if (elapsedTime >= 15) {
+      if (elapsedTime >= 10) {
         setShowDisease(false);
       }
     }

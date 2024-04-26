@@ -31,15 +31,15 @@ const Canvas = () => {
   };
 
   const [position, setPosition] = useState({
-    x: -25,
-    y: 300 - window.innerHeight,
+    x: -75 / 2, // Centering horizontally
+    y: -100 / 2, // Centering vertically
   });
 
   const [isAlive, setIsAlive] = useState(true);
 
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const animationRef = useRef();
-  const speed = 400;
+  const speed = 200;
 
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -210,77 +210,81 @@ const Canvas = () => {
     setPlayerHP,
   ]);
 
-  const [healthSpawnPoints] = React.useState([]);
-  const [shieldSpawnPoints] = React.useState([]);
-
+  const [healthSpawnPoints, setHealthSpawnPoints] = useState([]);
   const [heartSpawning, setHeartSpawning] = useState(false);
-  const [shieldSpawning, setShieldSpawning] = useState(false);
+  const [spawnIntervalHeart, setSpawnIntervalHeart] = useState(null);
 
   useEffect(() => {
     const spawnHeart = () => {
-      if (!heartSpawning) {
-        setHeartSpawning(true);
+      setHeartSpawning(true);
 
-        const heartWidth = 50;
-        const heartHeight = 50;
+      const heartWidth = 50;
+      const heartHeight = 50;
 
-        const spawnX = Math.random() * (viewBox[2] - heartWidth) + viewBox[0];
-        const spawnY = Math.random() * (viewBox[3] - heartHeight) + viewBox[1];
+      const spawnX = Math.random() * (viewBox[2] - heartWidth) + viewBox[0];
+      const spawnY = Math.random() * (viewBox[3] - heartHeight) + viewBox[1];
 
-        healthSpawnPoints.push({ x: spawnX, y: spawnY });
+      setHealthSpawnPoints((prevPoints) => [
+        ...prevPoints,
+        { x: spawnX, y: spawnY },
+      ]);
 
-        const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
-        spawnIntervalRef.current = setTimeout(() => {
+      const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
+      setSpawnIntervalHeart(
+        setTimeout(() => {
           setHeartSpawning(false);
-        }, nextSpawnInterval);
-      }
+        }, nextSpawnInterval),
+      );
     };
 
-    const spawnNextHeart = () => {
-      const nextSpawnInterval = Math.random() * 10000 + 5000; // Random interval between 5 and 15 seconds
-      spawnIntervalRef.current = setTimeout(() => {
-        spawnHeart();
-        spawnNextHeart(); // Schedule the next heart spawn after this one
-      }, nextSpawnInterval);
+    let spawnInterval;
+
+    if (!heartSpawning) {
+      spawnInterval = setTimeout(spawnHeart, Math.random() * 10000 + 5000); // Random interval between 5 and 15 seconds
+    }
+
+    return () => {
+      clearTimeout(spawnInterval); // Clear the heart spawn interval
     };
+  }, [viewBox, heartSpawning, spawnIntervalHeart]);
 
-    spawnNextHeart(); // Start the chain of spawning hearts
-
-    return () => clearTimeout(spawnIntervalRef.current);
-  }, [viewBox, healthSpawnPoints, heartSpawning]);
+  const [shieldSpawnPoints, setShieldSpawnPoints] = useState([]);
+  const [shieldSpawning, setShieldSpawning] = useState(false);
+  const [spawnIntervalShield, setSpawnIntervalShield] = useState(null);
 
   useEffect(() => {
     const spawnShield = () => {
-      if (!shieldSpawning) {
-        setShieldSpawning(true);
+      setShieldSpawning(true);
 
-        const shieldWidth = 75;
-        const shieldHeight = 40;
+      const shieldWidth = 75;
+      const shieldHeight = 40;
 
-        const spawnX = Math.random() * (viewBox[2] - shieldWidth) + viewBox[0];
-        const spawnY = Math.random() * (viewBox[3] - shieldHeight) + viewBox[1];
+      const spawnX = Math.random() * (viewBox[2] - shieldWidth) + viewBox[0];
+      const spawnY = Math.random() * (viewBox[3] - shieldHeight) + viewBox[1];
 
-        shieldSpawnPoints.push({ x: spawnX, y: spawnY });
+      setShieldSpawnPoints((prevPoints) => [
+        ...prevPoints,
+        { x: spawnX, y: spawnY },
+      ]);
 
-        const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
-        spawnIntervalRef.current = setTimeout(() => {
+      const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
+      setSpawnIntervalShield(
+        setTimeout(() => {
           setShieldSpawning(false);
-        }, nextSpawnInterval);
-      }
+        }, nextSpawnInterval),
+      );
     };
 
-    const spawnNextShield = () => {
-      const nextSpawnInterval = Math.random() * 10000 + 5000; // Random interval between 5 and 15 seconds
-      spawnIntervalRef.current = setTimeout(() => {
-        spawnShield();
-        spawnNextShield(); // Schedule the next shield spawn after this one
-      }, nextSpawnInterval);
+    let spawnInterval;
+
+    if (!shieldSpawning) {
+      spawnInterval = setTimeout(spawnShield, Math.random() * 10000 + 5000); // Random interval between 5 and 15 seconds
+    }
+
+    return () => {
+      clearTimeout(spawnInterval); // Clear the shield spawn interval
     };
-
-    spawnNextShield(); // Start the chain of spawning shields
-
-    return () => clearTimeout(spawnIntervalRef.current);
-  }, [viewBox, shieldSpawnPoints, shieldSpawning]);
+  }, [viewBox, shieldSpawning, spawnIntervalShield]);
 
   const [diseases, setDiseases] = useState([]);
   const spawnIntervalRef = useRef(null);
@@ -288,10 +292,14 @@ const Canvas = () => {
   useEffect(() => {
     const spawnDisease = () => {
       const maybeJose = Math.random();
-
       const DiseaseComponent = maybeJose <= 0.2 ? JoseSprite : Disease;
 
-      const speed = 3 + elapsedTime / 10 / 2;
+      // Base speed for diseases
+      let baseSpeed = 5;
+
+      // Adjust speed every ten seconds
+      const adjustedSpeed = baseSpeed + Math.floor(elapsedTime / 10) * 0.5;
+
       const margin = 50;
 
       const spawnX =
@@ -310,15 +318,24 @@ const Canvas = () => {
       const newDisease = {
         x: spawnX,
         y: spawnY,
-        velocityX: Math.cos(finalAngle) * speed,
-        velocityY: Math.sin(finalAngle) * speed,
+        velocityX: Math.cos(finalAngle) * adjustedSpeed,
+        velocityY: Math.sin(finalAngle) * adjustedSpeed,
         Component: DiseaseComponent,
       };
 
       setDiseases((prevDiseases) => [...prevDiseases, newDisease]);
 
-      const nextSpawnInterval = Math.random() * 3000 + 1500;
+      // Set next spawn interval with adjusted speed
+      let spawnRateModifier = 0;
 
+      if (elapsedTime < 150) {
+        spawnRateModifier = (elapsedTime / 10) * 100;
+      } else {
+        spawnRateModifier = 1500;
+      }
+
+      const nextSpawnInterval =
+        Math.random() * (3000 - spawnRateModifier) + (1000 - spawnRateModifier);
       spawnIntervalRef.current = setTimeout(spawnDisease, nextSpawnInterval);
     };
 
