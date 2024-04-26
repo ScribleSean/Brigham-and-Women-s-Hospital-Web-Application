@@ -1,6 +1,6 @@
 //router to handle breakout brighman game highscores
 import express, { Router } from "express";
-import PrismaClient from "../bin/database-connection.ts";
+import PrismaClient from "../../bin/database-connection.ts";
 const router: Router = express.Router();
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.ts";
 
@@ -22,6 +22,7 @@ router.post("/", async function (req, res) {
       data: {
         initial: newhs.initial,
         time: Number(newhs.time),
+        date: new Date(),
       },
     });
     res.status(200).json({ message: "HS Posted" });

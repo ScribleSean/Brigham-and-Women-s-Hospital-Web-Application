@@ -75,9 +75,7 @@ const GameOver = () => {
   const leaveButton = {
     fontFamily: "'Halogen by Pixel Surplus', sans-serif",
     fontSize: "3rem",
-    backgroundColor: "#567829", //"#012D5A",
     justifyContent: "center",
-    color: "white",
     borderRadius: 0,
     transition: "background-color 0.3s", // Add transition for smooth effect
   };
@@ -98,7 +96,14 @@ const GameOver = () => {
     try {
       const response = await axios.get("/api/hs-all-time");
       const highscores = response.data;
-      setHighScores(highscores);
+
+      while (highscores.length < 20) {
+        highscores.push({ HSID: -1, initial: ". . . .", time: "" });
+      }
+
+      const send = response.data;
+
+      setHighScores(send);
     } catch (error) {
       console.log("ERROR");
     }
@@ -162,7 +167,7 @@ const GameOver = () => {
       >
         <div
           id={"highScoreContainer"}
-          className={"container"}
+          className={`container ${styles.highScoreTable}`}
           style={highScoreContainer}
         >
           {!submitted ? (
@@ -213,77 +218,123 @@ const GameOver = () => {
                   }}
                 />
               </Tabs>
-              <CustomTabPanel value={value} index={0}>
-                <div className={`${styles.highScoreTable}`}>
-                  <div>
-                    <h2>All Time</h2>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th className={`${styles.highScoreTableInitials}`}>
-                            Initials
-                          </th>
-                          <th>Playtime</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {highScores.map((score, index) => (
-                          <tr key={index}>
-                            <td className={styles.highScoreTableInitials}>
-                              {score.initial}
-                            </td>
-                            <td>{score.time}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+              <div>
+                <CustomTabPanel value={value} index={0}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      paddingTop: "5rem",
+                    }}
+                  >
+                    <div style={{ paddingRight: "3rem" }}>
+                      <table>
+                        <tbody>
+                          {highScores.slice(0, 10).map((score, index) => (
+                            <tr key={index}>
+                              <td className={styles.highScoreTableInitials}>
+                                {index + 1}.{" "}
+                              </td>
+                              <td className={styles.highScoreTableInitials}>
+                                {score.initial}{" "}
+                                {Array(15 - String(score.time).length)
+                                  .fill(". ")
+                                  .join("")}{" "}
+                                {score.time}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    {highScores.length > 10 && (
+                      <div style={{ paddingLeft: "3rem" }}>
+                        <table>
+                          <tbody>
+                            {highScores.slice(10).map((score, index) => (
+                              <tr key={index}>
+                                <td className={styles.highScoreTableInitials}>
+                                  {index + 11}. {score.initial}{" "}
+                                  {Array(15 - String(score.time).length)
+                                    .fill(". ")
+                                    .join("")}{" "}
+                                  {score.time}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
-                </div>
-              </CustomTabPanel>
-              <CustomTabPanel value={value} index={1}>
-                <div className={`${styles.highScoreTable}`}>
-                  <div>
-                    <h2>Today</h2>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th className={`${styles.highScoreTableInitials}`}>
-                            Initials
-                          </th>
-                          <th>Playtime</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {recentScores.map((score, index) => (
-                          <tr key={index}>
-                            <td className={styles.highScoreTableInitials}>
-                              {score.initial}
-                            </td>
-                            <td>{score.time}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </CustomTabPanel>
 
-              <a
-                id="leave"
-                style={{ ...leaveButton }} // Merge styles based on hovering state
-                className={"btn py-4 px-5 shadow-lg"}
-                href={"/public-map"}
-              >
-                BACK TO MAP
-              </a>
-              <a
-                id="restart"
-                style={{ ...leaveButton }} // Merge styles based on hovering state
-                className={"btn py-4 px-5 shadow-lg mx-5"}
-                href={"/brigham-breakout"}
-              >
-                TRY AGAIN
-              </a>
+                  {/*    <div>*/}
+                  {/*      <table>*/}
+                  {/*        <tbody>*/}
+                  {/*        {highScores.map((score, index) => (*/}
+                  {/*            <tr key={index}>*/}
+                  {/*              <td className={styles.highScoreTableInitials}>*/}
+                  {/*                {index + 8}.*/}
+                  {/*              </td>*/}
+                  {/*              <td className={styles.highScoreTableInitials}>*/}
+                  {/*                {score.initial}*/}
+                  {/*              </td>*/}
+                  {/*              <td className={styles.highScoreTableInitials}>*/}
+                  {/*                {Array(10 - String(score.time).length).fill('. ').join('')} {score.time}*/}
+                  {/*              </td>*/}
+                  {/*            </tr>*/}
+                  {/*        ))}*/}
+                  {/*        </tbody>*/}
+                  {/*      </table>*/}
+                  {/*</div>*/}
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                  <div className={`${styles.highScoreTable}`}>
+                    <div>
+                      <h2>Today</h2>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th className={`${styles.highScoreTableInitials}`}>
+                              Initials
+                            </th>
+                            <th>Playtime</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {recentScores.map((score, index) => (
+                            <tr key={index}>
+                              <td className={styles.highScoreTableInitials}>
+                                {score.initial}
+                              </td>
+                              <td>{score.time}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </CustomTabPanel>
+              </div>
+
+              <div className={styles.buttons}>
+                <a
+                  id="leave"
+                  style={{ ...leaveButton }} // Merge styles based on hovering state
+                  className={`btn py-4 px-5 shadow-lg ${styles.backToMap}`}
+                  href={"/public-map"}
+                >
+                  BACK TO MAP
+                </a>
+                <a
+                  id="restart"
+                  style={{ ...leaveButton }} // Merge styles based on hovering state
+                  className={`btn py-4 px-5 shadow-lg ${styles.tryAgain}`}
+                  href={"/brigham-breakout"}
+                >
+                  TRY AGAIN
+                </a>
+              </div>
             </>
           )}
         </div>
