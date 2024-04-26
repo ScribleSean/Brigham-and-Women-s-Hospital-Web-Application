@@ -51,10 +51,6 @@ const JoseSprite = ({
         console.log("Collision detected!");
         if (!isShielded) {
           setPlayerHP(playerHP - 1);
-          if (playerHP <= 0) {
-            setPlayerHP(0);
-            setIsAlive(false); // Call the setIsAlive function to set isAlive to false
-          }
         }
         setShowDisease(false);
       }

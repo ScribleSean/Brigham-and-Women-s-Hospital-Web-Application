@@ -8,6 +8,7 @@ const HealthPickup = ({
   isAlive,
   playerHP,
   setPlayerHP,
+  playerMaxHP,
 }) => {
   const position = useRef({ x: x, y: y });
   const playerRef = useRef(player);
@@ -52,7 +53,9 @@ const HealthPickup = ({
 
       if (isIntersecting(playerRect, imageRect)) {
         console.log("Collision detected!");
-        setPlayerHP(playerHP + 1);
+        if (playerHP < playerMaxHP) {
+          setPlayerHP(playerHP + 1);
+        }
         setShowPickup(false);
       }
 
@@ -71,6 +74,7 @@ const HealthPickup = ({
     playerHP,
     setPlayerHP,
     updateTime,
+    playerMaxHP,
   ]);
 
   const imageSrc = `/heart${currentFrame + 1}.png`;

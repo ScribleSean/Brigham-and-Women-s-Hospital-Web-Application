@@ -21,10 +21,10 @@ const Disease = ({
 
   const diseaseData = useMemo(
     () => [
-      { width: 160, height: 160, color: "red" },
-      { width: 65, height: 65, color: "blue" },
-      { width: 70, height: 70, color: "pink" },
-      { width: 65, height: 65, color: "green" },
+      { width: 130, height: 130, color: "red" },
+      { width: 52, height: 52, color: "blue" },
+      { width: 62, height: 62, color: "pink" },
+      { width: 56, height: 56, color: "green" },
     ],
     [],
   );
@@ -66,11 +66,8 @@ const Disease = ({
         console.log("Collision detected!");
         if (!isShielded) {
           setPlayerHP(playerHP - 1);
-          if (playerHP <= 0) {
-            setPlayerHP(0);
-            setIsAlive(false); // Call the setIsAlive function to set isAlive to false
-          }
         }
+
         setShowDisease(false);
       }
 

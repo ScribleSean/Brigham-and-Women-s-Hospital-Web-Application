@@ -54,6 +54,7 @@ const Canvas = () => {
   }, [isAlive]);
 
   const [playerHP, setPlayerHP] = useState(3);
+  const [playerMaxHP] = useState(3);
   const [playerShields, setPlayerShields] = useState(0);
 
   const [gameOverDisplayed, setGameOverDisplayed] = useState(false);
@@ -109,7 +110,7 @@ const Canvas = () => {
               }
               break;
             case " ": // Spacebar key
-              if (playerShields >= 1) {
+              if (playerShields >= 1 && !isShielded) {
                 setIsShielded(true); // Set isShielded to true when spacebar is pressed
                 setPlayerShields(playerShields - 1);
                 setTimeout(() => setIsShielded(false), 1000); // Set isShielded back to false after 1 second
@@ -177,6 +178,18 @@ const Canvas = () => {
 
         return { x: adjustedX, y: adjustedY };
       });
+      if (isShielded) {
+        // Brighten (whiten) the player image when shielded
+        imageRef.current.style.filter = "brightness(300%)";
+      } else {
+        // Reset player image style when not shielded
+        imageRef.current.style.filter = "none";
+      }
+      if (playerHP <= 0) {
+        setPlayerHP(0);
+        setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+      }
+
       animationRef.current = requestAnimationFrame(updatePosition);
     };
 
@@ -187,22 +200,40 @@ const Canvas = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [velocity, viewBox, isShielded, setPlayerShields, playerShields]);
+  }, [
+    velocity,
+    viewBox,
+    isShielded,
+    setPlayerShields,
+    playerShields,
+    playerHP,
+    setPlayerHP,
+  ]);
 
   const [healthSpawnPoints] = React.useState([]);
+  const [shieldSpawnPoints] = React.useState([]);
+
+  const [heartSpawning, setHeartSpawning] = useState(false);
+  const [shieldSpawning, setShieldSpawning] = useState(false);
 
   useEffect(() => {
     const spawnHeart = () => {
-      const heartWidth = 50;
-      const heartHeight = 50;
+      if (!heartSpawning) {
+        setHeartSpawning(true);
 
-      const spawnX = Math.random() * (viewBox[2] - heartWidth) + viewBox[0];
-      const spawnY = Math.random() * (viewBox[3] - heartHeight) + viewBox[1];
+        const heartWidth = 50;
+        const heartHeight = 50;
 
-      healthSpawnPoints.push({ x: spawnX, y: spawnY });
+        const spawnX = Math.random() * (viewBox[2] - heartWidth) + viewBox[0];
+        const spawnY = Math.random() * (viewBox[3] - heartHeight) + viewBox[1];
 
-      const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
-      spawnIntervalRef.current = setTimeout(spawnHeart, nextSpawnInterval);
+        healthSpawnPoints.push({ x: spawnX, y: spawnY });
+
+        const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
+        spawnIntervalRef.current = setTimeout(() => {
+          setHeartSpawning(false);
+        }, nextSpawnInterval);
+      }
     };
 
     const spawnNextHeart = () => {
@@ -216,22 +247,26 @@ const Canvas = () => {
     spawnNextHeart(); // Start the chain of spawning hearts
 
     return () => clearTimeout(spawnIntervalRef.current);
-  }, [viewBox, healthSpawnPoints]);
-
-  const [shieldSpawnPoints] = React.useState([]);
+  }, [viewBox, healthSpawnPoints, heartSpawning]);
 
   useEffect(() => {
     const spawnShield = () => {
-      const shieldWidth = 75;
-      const shieldHeight = 40;
+      if (!shieldSpawning) {
+        setShieldSpawning(true);
 
-      const spawnX = Math.random() * (viewBox[2] - shieldWidth) + viewBox[0];
-      const spawnY = Math.random() * (viewBox[3] - shieldHeight) + viewBox[1];
+        const shieldWidth = 75;
+        const shieldHeight = 40;
 
-      shieldSpawnPoints.push({ x: spawnX, y: spawnY });
+        const spawnX = Math.random() * (viewBox[2] - shieldWidth) + viewBox[0];
+        const spawnY = Math.random() * (viewBox[3] - shieldHeight) + viewBox[1];
 
-      const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
-      spawnIntervalRef.current = setTimeout(spawnShield, nextSpawnInterval);
+        shieldSpawnPoints.push({ x: spawnX, y: spawnY });
+
+        const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
+        spawnIntervalRef.current = setTimeout(() => {
+          setShieldSpawning(false);
+        }, nextSpawnInterval);
+      }
     };
 
     const spawnNextShield = () => {
@@ -245,7 +280,7 @@ const Canvas = () => {
     spawnNextShield(); // Start the chain of spawning shields
 
     return () => clearTimeout(spawnIntervalRef.current);
-  }, [viewBox, shieldSpawnPoints]);
+  }, [viewBox, shieldSpawnPoints, shieldSpawning]);
 
   const [diseases, setDiseases] = useState([]);
   const spawnIntervalRef = useRef(null);
@@ -282,9 +317,7 @@ const Canvas = () => {
 
       setDiseases((prevDiseases) => [...prevDiseases, newDisease]);
 
-      const nextSpawnInterval =
-        Math.random() * (3000 - (elapsedTime / 10) * 100) +
-        (1500 - (elapsedTime / 10) * 100);
+      const nextSpawnInterval = Math.random() * 3000 + 1500;
 
       spawnIntervalRef.current = setTimeout(spawnDisease, nextSpawnInterval);
     };
@@ -406,7 +439,7 @@ const Canvas = () => {
               src={"/heart1.png"}
               style={{ marginRight: "25px" }}
             />
-            {playerHP}
+            {playerHP}/{playerMaxHP}
           </div>
         </div>
         <div style={ShieldContainer}>
@@ -449,6 +482,7 @@ const Canvas = () => {
               viewBox={viewBox}
               setPlayerHP={setPlayerHP}
               playerHP={playerHP}
+              playerMaxHP={playerMaxHP}
               player={document.getElementById("Player")}
               isAlive={isAlive}
             />
