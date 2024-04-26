@@ -1,7 +1,7 @@
 import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useMapContext } from "./MapContext.ts";
-import { Button, ButtonGroup, IconButton } from "@mui/material";
+import { Box, Button, ButtonGroup, IconButton } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 import styles from "../styles/TextDirections.module.css";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -296,16 +296,20 @@ function TextDirections() {
           </div>
           <div className={`${styles.textDirectionBtnGroup}`}>
             {paths.map((path, i) => (
-              <div
+              <Box
                 key={i}
-                style={{
+                onClick={() => setDirectionsCounter(i)}
+                sx={{
                   color:
                     paths[directionsCounter] === path ? "#2196F3" : "#012D5A",
+                  ":hover": {
+                    cursor: "pointer",
+                  },
                 }}
               >
                 {path.edges[0].startNode.floor}
                 <EastIcon></EastIcon>
-              </div>
+              </Box>
             ))}
           </div>
         </div>
