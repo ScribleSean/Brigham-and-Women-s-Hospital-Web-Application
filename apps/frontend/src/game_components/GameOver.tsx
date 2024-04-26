@@ -24,18 +24,6 @@ function CustomTabPanel(props: TabPanelProps) {
       {value === index && <Box>{children}</Box>}
     </div>
   );
-  // return ( <>
-  //       {index === 0 ? <>
-  //       <div>
-  //         <h1>hi</h1>
-  //       </div>
-  //       </> : <>
-  //         <div>
-  //           <h1>guy</h1>
-  //         </div>
-  //       </>}
-  //     </>
-  // );
 }
 
 const GameOver = () => {
@@ -75,7 +63,7 @@ const GameOver = () => {
   const leaveButton = {
     fontFamily: "'Halogen by Pixel Surplus', sans-serif",
     fontSize: "3rem",
-    justifyContent: "center",
+    justifyContent: "space-around",
     borderRadius: 0,
     transition: "background-color 0.3s", // Add transition for smooth effect
   };
@@ -88,6 +76,7 @@ const GameOver = () => {
     HSID: 0,
     initial: "",
     time: endTime ? endTime : "",
+    character: "",
   });
   const [highScores, setHighScores] = useState<breakoutHighScore[]>([]);
   const [recentScores, setRecentScores] = useState<breakoutHighScore[]>([]);
@@ -113,7 +102,14 @@ const GameOver = () => {
     try {
       const response = await axios.get("/api/hs-today");
       const highscores = response.data;
-      setRecentScores(highscores);
+
+      while (highscores.length < 20) {
+        highscores.push({ HSID: -1, initial: ". . . .", time: "" });
+      }
+
+      const send = response.data;
+
+      setRecentScores(send);
     } catch (error) {
       console.log("ERROR");
     }
@@ -141,6 +137,7 @@ const GameOver = () => {
       HSID: 0,
       initial: "",
       time: endTime ? endTime : "",
+      character: "",
     });
   };
 
@@ -167,7 +164,7 @@ const GameOver = () => {
       >
         <div
           id={"highScoreContainer"}
-          className={`container ${styles.highScoreTable}`}
+          className={`container px-0 ${styles.highScoreTable}`}
           style={highScoreContainer}
         >
           {!submitted ? (
@@ -198,48 +195,83 @@ const GameOver = () => {
                 onChange={handleChange}
                 variant={"fullWidth"}
                 className={""}
+                TabIndicatorProps={{ style: { display: "none" } }}
               >
                 <Tab
                   label="All Time High Scores"
                   style={{
-                    color: "#fff",
-                    border: "1px solid green",
-                    borderBottom: "none",
-                    borderBottomColor: value === 0 ? "green" : "transparent",
+                    color: `rgba(255, 255, 255, ${value === 0 ? 1 : 0.6})`,
+                    borderRight: value === 0 ? "" : "5px solid #39ff14",
+                    borderBottom: value === 0 ? "" : "5px solid #39ff14",
+                    borderBottomRightRadius: value === 0 ? "0px" : "10px",
+                    borderTopLeftRadius: "10px",
+                    fontFamily: '"Halogen by Pixel Surplus", sans-serif',
+                    fontSize: "24px",
+                    width: "100%",
                   }}
                 />
                 <Tab
                   label="Today's High Scores"
                   style={{
-                    color: "#fff",
-                    border: "1px solid green",
-                    borderBottom: "none",
+                    color: `rgba(255, 255, 255, ${value === 1 ? 1 : 0.6})`,
                     borderBottomColor: value === 1 ? "green" : "transparent",
+                    borderBottomLeftRadius: value === 1 ? "0px" : "10px",
+                    borderTopRightRadius: "10px",
+                    borderLeft: value === 1 ? "" : "5px solid #39ff14",
+                    borderBottom: value === 1 ? "" : "5px solid #39ff14",
+                    fontFamily: '"Halogen by Pixel Surplus", sans-serif',
+                    fontSize: "24px",
                   }}
                 />
               </Tabs>
               <div>
                 <CustomTabPanel value={value} index={0}>
+                  <h1>howdy</h1>
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "center",
+                      justifyContent: "space-around",
                       paddingTop: "5rem",
                     }}
                   >
-                    <div style={{ paddingRight: "3rem" }}>
+                    <div style={{ paddingLeft: "2rem" }}>
                       <table>
                         <tbody>
                           {highScores.slice(0, 10).map((score, index) => (
                             <tr key={index}>
                               <td className={styles.highScoreTableInitials}>
-                                {index + 1}.{" "}
+                                {index + 1} .{" "}
                               </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                               <td className={styles.highScoreTableInitials}>
                                 {score.initial}{" "}
-                                {Array(15 - String(score.time).length)
-                                  .fill(". ")
-                                  .join("")}{" "}
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td className={styles.highScoreTableInitials}>
+                                . . .
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td className={styles.highScoreTableChar}>
+                                {score.character
+                                  ? score.character
+                                  : ". . . . ."}
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td className={styles.highScoreTableInitials}>
+                                . . . .
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td className={styles.highScoreTableInitials}>
                                 {score.time}
                               </td>
                             </tr>
@@ -248,16 +280,44 @@ const GameOver = () => {
                       </table>
                     </div>
                     {highScores.length > 10 && (
-                      <div style={{ paddingLeft: "3rem" }}>
+                      <div style={{ paddingLeft: "2rem" }}>
                         <table>
                           <tbody>
-                            {highScores.slice(10).map((score, index) => (
+                            {highScores.slice(10, 20).map((score, index) => (
                               <tr key={index}>
                                 <td className={styles.highScoreTableInitials}>
-                                  {index + 11}. {score.initial}{" "}
-                                  {Array(15 - String(score.time).length)
-                                    .fill(". ")
-                                    .join("")}{" "}
+                                  {index + 11} .{" "}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableInitials}>
+                                  {score.initial}{" "}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableInitials}>
+                                  . . .
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableChar}>
+                                  {score.character
+                                    ? score.character
+                                    : ". . . . ."}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableInitials}>
+                                  . . . .
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableInitials}>
                                   {score.time}
                                 </td>
                               </tr>
@@ -267,52 +327,108 @@ const GameOver = () => {
                       </div>
                     )}
                   </div>
-
-                  {/*    <div>*/}
-                  {/*      <table>*/}
-                  {/*        <tbody>*/}
-                  {/*        {highScores.map((score, index) => (*/}
-                  {/*            <tr key={index}>*/}
-                  {/*              <td className={styles.highScoreTableInitials}>*/}
-                  {/*                {index + 8}.*/}
-                  {/*              </td>*/}
-                  {/*              <td className={styles.highScoreTableInitials}>*/}
-                  {/*                {score.initial}*/}
-                  {/*              </td>*/}
-                  {/*              <td className={styles.highScoreTableInitials}>*/}
-                  {/*                {Array(10 - String(score.time).length).fill('. ').join('')} {score.time}*/}
-                  {/*              </td>*/}
-                  {/*            </tr>*/}
-                  {/*        ))}*/}
-                  {/*        </tbody>*/}
-                  {/*      </table>*/}
-                  {/*</div>*/}
                 </CustomTabPanel>
+
                 <CustomTabPanel value={value} index={1}>
-                  <div className={`${styles.highScoreTable}`}>
-                    <div>
-                      <h2>Today</h2>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      paddingTop: "5rem",
+                    }}
+                  >
+                    <div style={{ paddingLeft: "2rem" }}>
                       <table>
-                        <thead>
-                          <tr>
-                            <th className={`${styles.highScoreTableInitials}`}>
-                              Initials
-                            </th>
-                            <th>Playtime</th>
-                          </tr>
-                        </thead>
                         <tbody>
-                          {recentScores.map((score, index) => (
+                          {recentScores.slice(0, 10).map((score, index) => (
                             <tr key={index}>
                               <td className={styles.highScoreTableInitials}>
-                                {score.initial}
+                                {index + 1} .{" "}
                               </td>
-                              <td>{score.time}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td className={styles.highScoreTableInitials}>
+                                {score.initial}{" "}
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td className={styles.highScoreTableInitials}>
+                                . . .
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td className={styles.highScoreTableChar}>
+                                {score.character
+                                  ? score.character
+                                  : ". . . . ."}
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td className={styles.highScoreTableInitials}>
+                                . . . .
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td className={styles.highScoreTableInitials}>
+                                {score.time}
+                              </td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
+                    {recentScores.length > 10 && (
+                      <div style={{ paddingLeft: "2rem" }}>
+                        <table>
+                          <tbody>
+                            {recentScores.slice(10, 20).map((score, index) => (
+                              <tr key={index}>
+                                <td className={styles.highScoreTableInitials}>
+                                  {index + 11} .{" "}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableInitials}>
+                                  {score.initial}{" "}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableInitials}>
+                                  . . .
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableChar}>
+                                  {score.character
+                                    ? score.character
+                                    : ". . . . ."}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableInitials}>
+                                  . . . .
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className={styles.highScoreTableInitials}>
+                                  {score.time}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 </CustomTabPanel>
               </div>

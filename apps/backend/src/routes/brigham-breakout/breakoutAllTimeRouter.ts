@@ -8,10 +8,11 @@ router.get("/", async function (req, res) {
     orderBy: {
       time: "desc",
     },
-    take: 5,
+    take: 20,
     select: {
       time: true,
       initial: true,
+      character: true,
     },
   });
 
