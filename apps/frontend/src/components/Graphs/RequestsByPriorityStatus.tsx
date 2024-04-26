@@ -1,39 +1,61 @@
 import styles from "../../styles/Statistics.module.css";
 import * as React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 type GraphData = {
   label: string;
   data: number[];
-  color?: string;
+};
+
+type DataItem = {
+  priority: string;
+  serviceType: string;
+  _count: {
+    SRID: number;
+  };
 };
 
 function RequestsByPriority() {
-  const low: GraphData = {
-    label: "Low",
-    data: [2, 4, 1, 4, 3, 1, 8],
-    color: "#00b300",
+  const [graphData, setGraphData] = useState<GraphData[]>([]);
+  const [serviceTypes, setServiceTypes] = useState<string[]>([]);
+
+  const priorityColors: { [key: string]: string } = {
+    Low: "#00b300",
+    Medium: "#ffcc00",
+    High: "#ff6600",
+    Emergency: "#ff0000",
   };
 
-  const medium: GraphData = {
-    label: "Medium",
-    data: [1, 3, 3, 2, 5, 2, 1],
-    color: "#ffcc00",
-  };
+  useEffect(() => {
+    fetch("/api/request-by-priority")
+      .then((response) => response.json())
+      .then((data: DataItem[]) => {
+        const serviceTypes = [...new Set(data.map((item) => item.serviceType))];
 
-  const high: GraphData = {
-    label: "High",
-    data: [5, 1, 1, 6, 2, 3, 2],
-    color: "#ff6600",
-  };
-
-  const emergency: GraphData = {
-    label: "Emergency",
-    data: [3, 2, 5, 4, 1, 1, 4],
-    color: "#ff0000",
-  };
+        const formattedData = data.reduce(
+          (acc: GraphData[], item: DataItem) => {
+            const existingItem = acc.find((i) => i.label === item.priority);
+            if (existingItem) {
+              const index = serviceTypes.indexOf(item.serviceType);
+              existingItem.data[index] = item._count.SRID;
+            } else {
+              const counts = new Array(serviceTypes.length).fill(0);
+              counts[serviceTypes.indexOf(item.serviceType)] = item._count.SRID;
+              acc.push({
+                label: item.priority,
+                data: counts,
+              });
+            }
+            return acc;
+          },
+          [],
+        );
+        setGraphData(formattedData);
+        setServiceTypes(serviceTypes);
+      });
+  }, []);
 
   return (
     <>
@@ -41,27 +63,14 @@ function RequestsByPriority() {
         xAxis={[
           {
             scaleType: "band",
-            data: [
-              "Flower Delivery",
-              "Gift Delivery",
-              "Medicine",
-              "Medical Device",
-              "Room Sched.",
-              "Religious",
-              "Food Delivery",
-            ],
+            data: serviceTypes,
           },
         ]}
-        series={[
-          { ...low, stack: "total" },
-          { ...medium, stack: "total" },
-          { ...high, stack: "total" },
-          {
-            ...emergency,
-            stack: "total",
-          },
-        ]}
-        // width={500}
+        series={graphData.map((item) => ({
+          ...item,
+          stack: "total",
+          color: priorityColors[item.label],
+        }))}
         height={250}
       />
     </>
