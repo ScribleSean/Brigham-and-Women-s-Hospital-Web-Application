@@ -9,6 +9,7 @@ const JoseSprite = ({
   isAlive,
   playerHP,
   setPlayerHP,
+  isShielded,
 }) => {
   const position = useRef({ x: x, y: y });
   const playerRef = useRef(player);
@@ -48,15 +49,18 @@ const JoseSprite = ({
 
       if (isIntersecting(playerRect, imageRect)) {
         console.log("Collision detected!");
-        // setPlayerHP(playerHP - 1);
-        if (playerHP <= 1) {
-          setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+        if (!isShielded) {
+          setPlayerHP(playerHP - 1);
+          if (playerHP <= 0) {
+            setPlayerHP(0);
+            setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+          }
         }
         setShowDisease(false);
       }
 
       // Hide the disease after 3 seconds
-      if (elapsedTime >= 20) {
+      if (elapsedTime >= 15) {
         setShowDisease(false);
       }
     }
@@ -71,6 +75,7 @@ const JoseSprite = ({
     isAlive,
     playerHP,
     setPlayerHP,
+    isShielded,
   ]);
 
   const imageSrc = `/jose${currentFrame + 1}.png`;

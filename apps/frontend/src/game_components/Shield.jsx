@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const HealthPickup = ({
+const Shield = ({
   x,
   y,
   viewBox,
   player,
   isAlive,
-  playerHP,
-  setPlayerHP,
+  playerShields,
+  setPlayerShields,
 }) => {
   const position = useRef({ x: x, y: y });
   const playerRef = useRef(player);
@@ -23,8 +23,8 @@ const HealthPickup = ({
 
   useEffect(() => {
     const frameTimer = setInterval(() => {
-      setCurrentFrame((prevFrame) => (prevFrame + 1) % 9); // Cycle between frames 0 to 4
-    }, 100); // Switch frames every 200 milliseconds
+      setCurrentFrame((prevFrame) => (prevFrame + 1) % 2); // Cycle between frames 0 to 4
+    }, 750); // Switch frames every 200 milliseconds
 
     return () => clearInterval(frameTimer);
   }, []);
@@ -47,12 +47,12 @@ const HealthPickup = ({
       const imageRect = imageRef.current.getBoundingClientRect();
       playerRect.width *= 0.7;
       playerRect.height *= 0.7;
-      imageRect.width *= 0.8;
-      imageRect.height *= 0.8;
+      imageRect.width *= 0.95;
+      imageRect.height *= 0.95;
 
       if (isIntersecting(playerRect, imageRect)) {
         console.log("Collision detected!");
-        setPlayerHP(playerHP + 1);
+        setPlayerShields(playerShields + 1);
         setShowPickup(false);
       }
 
@@ -68,12 +68,12 @@ const HealthPickup = ({
     elapsedTime,
     showPickup,
     isAlive,
-    playerHP,
-    setPlayerHP,
+    playerShields,
+    setPlayerShields,
     updateTime,
   ]);
 
-  const imageSrc = `/heart${currentFrame + 1}.png`;
+  const imageSrc = `/maskSpriteF${currentFrame + 1}.png`;
 
   return (
     <>
@@ -82,8 +82,8 @@ const HealthPickup = ({
           ref={imageRef}
           x={position.current.x}
           y={position.current.y}
-          width={50}
-          height={50}
+          width={75}
+          height={40}
           href={imageSrc}
         />
       )}
@@ -100,4 +100,4 @@ function isIntersecting(a, b) {
   );
 }
 
-export default HealthPickup;
+export default Shield;

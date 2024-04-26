@@ -3,6 +3,7 @@ import PlatformerBG from "./PlatformerBG.jsx";
 import Disease from "./Disease.jsx";
 import JoseSprite from "./JoseSprite.jsx";
 import HealthPickup from "./HealthPickup.jsx";
+import Shield from "./Shield.jsx";
 
 const Canvas = () => {
   // Define fixed width and height for the canvas
@@ -26,6 +27,7 @@ const Canvas = () => {
     transform: "translate(-50%, -50%)",
     position: "absolute", // Ensure position context for absolute-positioned elements
     border: "10px solid",
+    borderColor: "black",
   };
 
   const [position, setPosition] = useState({
@@ -51,6 +53,9 @@ const Canvas = () => {
     }
   }, [isAlive]);
 
+  const [playerHP, setPlayerHP] = useState(3);
+  const [playerShields, setPlayerShields] = useState(0);
+
   const [gameOverDisplayed, setGameOverDisplayed] = useState(false);
   useEffect(() => {
     let gameOverTimer;
@@ -66,6 +71,8 @@ const Canvas = () => {
     }
     return () => clearTimeout(gameOverTimer);
   }, [isAlive, gameOverDisplayed, elapsedTime]);
+
+  const [isShielded, setIsShielded] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -99,6 +106,13 @@ const Canvas = () => {
             case "D":
               if (newVelocity.x < speed) {
                 newVelocity.x += speed;
+              }
+              break;
+            case " ": // Spacebar key
+              if (playerShields >= 1) {
+                setIsShielded(true); // Set isShielded to true when spacebar is pressed
+                setPlayerShields(playerShields - 1);
+                setTimeout(() => setIsShielded(false), 1000); // Set isShielded back to false after 1 second
               }
               break;
             default:
@@ -173,19 +187,19 @@ const Canvas = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [velocity, viewBox]);
+  }, [velocity, viewBox, isShielded, setPlayerShields, playerShields]);
 
-  const [spawnPoints] = React.useState([]);
+  const [healthSpawnPoints] = React.useState([]);
 
   useEffect(() => {
     const spawnHeart = () => {
-      const heartWidth = 75;
-      const heartHeight = 75;
+      const heartWidth = 50;
+      const heartHeight = 50;
 
       const spawnX = Math.random() * (viewBox[2] - heartWidth) + viewBox[0];
       const spawnY = Math.random() * (viewBox[3] - heartHeight) + viewBox[1];
 
-      spawnPoints.push({ x: spawnX, y: spawnY });
+      healthSpawnPoints.push({ x: spawnX, y: spawnY });
 
       const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
       spawnIntervalRef.current = setTimeout(spawnHeart, nextSpawnInterval);
@@ -202,7 +216,36 @@ const Canvas = () => {
     spawnNextHeart(); // Start the chain of spawning hearts
 
     return () => clearTimeout(spawnIntervalRef.current);
-  }, [viewBox, spawnPoints]);
+  }, [viewBox, healthSpawnPoints]);
+
+  const [shieldSpawnPoints] = React.useState([]);
+
+  useEffect(() => {
+    const spawnShield = () => {
+      const shieldWidth = 75;
+      const shieldHeight = 40;
+
+      const spawnX = Math.random() * (viewBox[2] - shieldWidth) + viewBox[0];
+      const spawnY = Math.random() * (viewBox[3] - shieldHeight) + viewBox[1];
+
+      shieldSpawnPoints.push({ x: spawnX, y: spawnY });
+
+      const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
+      spawnIntervalRef.current = setTimeout(spawnShield, nextSpawnInterval);
+    };
+
+    const spawnNextShield = () => {
+      const nextSpawnInterval = Math.random() * 10000 + 5000; // Random interval between 5 and 15 seconds
+      spawnIntervalRef.current = setTimeout(() => {
+        spawnShield();
+        spawnNextShield(); // Schedule the next shield spawn after this one
+      }, nextSpawnInterval);
+    };
+
+    spawnNextShield(); // Start the chain of spawning shields
+
+    return () => clearTimeout(spawnIntervalRef.current);
+  }, [viewBox, shieldSpawnPoints]);
 
   const [diseases, setDiseases] = useState([]);
   const spawnIntervalRef = useRef(null);
@@ -240,8 +283,8 @@ const Canvas = () => {
       setDiseases((prevDiseases) => [...prevDiseases, newDisease]);
 
       const nextSpawnInterval =
-        Math.random() * (2000 - (elapsedTime / 10) * 100) +
-        (1000 - (elapsedTime / 10) * 100);
+        Math.random() * (3000 - (elapsedTime / 10) * 100) +
+        (1500 - (elapsedTime / 10) * 100);
 
       spawnIntervalRef.current = setTimeout(spawnDisease, nextSpawnInterval);
     };
@@ -295,14 +338,24 @@ const Canvas = () => {
     color: "red",
   };
 
-  const Timer = {
-    fontFamily: "'Halogen by Pixel Surplus', sans-serif",
-    fontSize: "2rem",
+  const TimerContainer = {
     position: "absolute",
-    bottom: "10px",
+    top: "10px",
     left: "50%",
-    transform: "translateX(-6rem)",
-    fill: "#000000",
+    zIndex: "999",
+  };
+
+  const TimerText = {
+    fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+    fontSize: "1.5rem",
+    color: "black",
+    padding: "0.5rem",
+    display: "inline-block",
+    position: "absolute",
+    top: "10px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    whiteSpace: "nowrap", // Ensure text stays on a single line
   };
 
   const HPContainer = {
@@ -320,7 +373,20 @@ const Canvas = () => {
     padding: "0.5rem",
   };
 
-  const [playerHP, setPlayerHP] = useState(3);
+  const ShieldContainer = {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    zIndex: "999",
+  };
+
+  const ShieldText = {
+    fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+    fontSize: "1.5rem",
+    color: "white",
+    background: "rgba(0, 0, 0, 0.5)",
+    padding: "0.5rem",
+  };
 
   return (
     <div style={containerStyle}>
@@ -332,7 +398,31 @@ const Canvas = () => {
           </div>
         )}
         <div style={HPContainer}>
-          <div style={HPText}>HP: {playerHP}</div>
+          <div className={"px-3"} style={HPText}>
+            <img
+              width={40}
+              height={40}
+              alt="Heart"
+              src={"/heart1.png"}
+              style={{ marginRight: "25px" }}
+            />
+            {playerHP}
+          </div>
+        </div>
+        <div style={ShieldContainer}>
+          <div className={"px-3"} style={ShieldText}>
+            <img
+              width={65}
+              height={35}
+              alt="Mask"
+              src={"/maskSpriteF1.png"}
+              style={{ marginRight: "25px" }}
+            />{" "}
+            {playerShields}
+          </div>
+        </div>
+        <div style={TimerContainer}>
+          <div style={TimerText}>Time: {elapsedTime}</div>
         </div>
         <svg
           id="platformer-canvas"
@@ -351,7 +441,7 @@ const Canvas = () => {
             </g>
           )}
           {/* Loop through an array of spawn points to create multiple hearts */}
-          {spawnPoints.map((spawnPoint, index) => (
+          {healthSpawnPoints.map((spawnPoint, index) => (
             <HealthPickup
               key={index}
               x={spawnPoint.x}
@@ -359,6 +449,18 @@ const Canvas = () => {
               viewBox={viewBox}
               setPlayerHP={setPlayerHP}
               playerHP={playerHP}
+              player={document.getElementById("Player")}
+              isAlive={isAlive}
+            />
+          ))}
+          {shieldSpawnPoints.map((spawnPoint, index) => (
+            <Shield
+              key={index}
+              x={spawnPoint.x}
+              y={spawnPoint.y}
+              viewBox={viewBox}
+              setPlayerShields={setPlayerShields}
+              playerShields={playerShields}
               player={document.getElementById("Player")}
               isAlive={isAlive}
             />
@@ -376,10 +478,10 @@ const Canvas = () => {
                 player={document.getElementById("Player")}
                 setIsAlive={setIsAlive}
                 isAlive={isAlive}
+                isShielded={isShielded}
               />
             );
           })}
-          <text style={Timer}>Time: {elapsedTime} seconds</text>
         </svg>
       </div>
     </div>
