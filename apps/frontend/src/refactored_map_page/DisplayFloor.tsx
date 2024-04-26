@@ -65,6 +65,7 @@ function FloorDisplay() {
     setDisableZoomPanning,
     nodesToBeAdded,
     setNodesToBeAdded,
+    setSelectedNodes,
   } = useMapContext();
 
   useEffect(() => {
@@ -99,6 +100,124 @@ function FloorDisplay() {
     new Node("", 0, 0, currentFloor, BuildingType.BTM, NodeType.HALL, "", ""),
   );
 
+  const IMAGE_DIMENSIONS = useMemo(() => ({ width: 5000, height: 3400 }), []);
+  const scaling = useMemo(
+    () =>
+      getScaling(
+        divWidth,
+        divHeight,
+        IMAGE_DIMENSIONS.width,
+        IMAGE_DIMENSIONS.height,
+      ),
+    [IMAGE_DIMENSIONS, divWidth, divHeight],
+  );
+
+  const [isHoldingShift, setIsHoldingShift] = useState<boolean>(false);
+  const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
+  const [startMousePosition, setStartMousePosition] = useState<{
+    x: number;
+    y: number;
+  }>({ x: 0, y: 0 });
+
+  const handleMouseDown = useCallback(
+    (event: MouseEvent) => {
+      if (isHoldingShift) {
+        console.log("mouse down");
+        setSelectedNodes(new Array<string>());
+        setIsMouseDown(true); // Set mouse down state to true
+        setDisableZoomPanning(true);
+        const { imageX, imageY } = displayToImageCoordinates(
+          event.clientX,
+          event.clientY,
+          translationX,
+          translationY,
+          scale,
+          scaling.widthScaling,
+          scaling.heightScaling,
+        );
+        setStartMousePosition({ x: imageX, y: imageY });
+      }
+    },
+    [
+      setSelectedNodes,
+      isHoldingShift,
+      setIsMouseDown, // Make sure to include this setter in the dependencies
+      setDisableZoomPanning,
+      translationX,
+      translationY,
+      scale,
+      scaling.widthScaling,
+      scaling.heightScaling,
+      setStartMousePosition,
+    ],
+  );
+
+  const handleMouseUp = useCallback(
+    (event: MouseEvent) => {
+      if (isMouseDown) {
+        console.log("mouse up");
+        setIsMouseDown(false); // Reset mouse down state to false
+        setDisableZoomPanning(false);
+        const { imageX, imageY } = displayToImageCoordinates(
+          event.clientX,
+          event.clientY,
+          translationX,
+          translationY,
+          scale,
+          scaling.widthScaling,
+          scaling.heightScaling,
+        );
+        if (graph) {
+          const selectedNodes: Array<string> = graph.getNodesInRange(
+            startMousePosition.x,
+            startMousePosition.y,
+            imageX,
+            imageY,
+          );
+          setSelectedNodes(selectedNodes);
+        }
+      }
+    },
+    [
+      isMouseDown,
+      setIsMouseDown, // Include this setter in the dependencies
+      setDisableZoomPanning,
+      translationX,
+      translationY,
+      scale,
+      scaling.widthScaling,
+      scaling.heightScaling,
+      startMousePosition,
+      graph,
+      setSelectedNodes,
+    ],
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Shift") setIsHoldingShift(true);
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "Shift") setIsHoldingShift(false);
+    });
+
+    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("mousedown", handleMouseDown);
+
+    return () => {
+      document.removeEventListener("keydown", (e) => {
+        if (e.key === "Shift") setIsHoldingShift(true);
+      });
+      document.removeEventListener("keyup", (e) => {
+        if (e.key === "Shift") setIsHoldingShift(false);
+      });
+
+      // Remove mouse event listeners
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, [handleMouseDown, handleMouseUp]);
+
   const resetNewNode = useCallback(() => {
     setNewNode(
       new Node(
@@ -117,18 +236,6 @@ function FloorDisplay() {
   useEffect(() => {
     resetNewNode();
   }, [resetNewNode]);
-
-  const IMAGE_DIMENSIONS = useMemo(() => ({ width: 5000, height: 3400 }), []);
-  const scaling = useMemo(
-    () =>
-      getScaling(
-        divWidth,
-        divHeight,
-        IMAGE_DIMENSIONS.width,
-        IMAGE_DIMENSIONS.height,
-      ),
-    [IMAGE_DIMENSIONS, divWidth, divHeight],
-  );
 
   const updateDimensions = useCallback(() => {
     if (ref.current && !isImageLoaded.current) {

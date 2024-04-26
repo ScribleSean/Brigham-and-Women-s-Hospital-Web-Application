@@ -87,6 +87,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setEdgeEndNode,
     edgesToBeAdded,
     setEdgesToBeAdded,
+    selectedNodes,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -212,6 +213,17 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     backgroundColor: "white",
   };
 
+  const selectedNodeStyle: CSSProperties = {
+    position: "absolute",
+    left: `calc(${displayX}px - 2px)`,
+    top: `calc(${displayY}px - 2px)`,
+    zIndex: 11,
+    borderRadius: "100%",
+    padding: "0",
+    borderColor: "red",
+    backgroundColor: "red",
+  };
+
   const startNodeStyle: CSSProperties = {
     position: "absolute",
     left: `calc(${displayX}px - 12px)`,
@@ -240,11 +252,26 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     opacity: 0,
   };
 
+  const [startMousePosition, setStartMousePosition] = useState<{
+    x: number;
+    y: number;
+  }>({ x: 0, y: 0 });
+
   const handleMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
     setDisableZoomPanning(true);
     setDragging(true);
     setDragged(true);
     event.preventDefault();
+    const { imageX, imageY } = displayToImageCoordinates(
+      event.clientX,
+      event.clientY,
+      translationX,
+      translationY,
+      scale,
+      widthScaling,
+      heightScaling,
+    );
+    setStartMousePosition({ x: imageX, y: imageY });
   };
 
   const handleMouseMove = useCallback(
@@ -267,6 +294,9 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         heightScaling,
       );
       console.log("Converted Coordinates:", imageX, imageY);
+      const deltaX: number = imageX - startMousePosition.x;
+      const deltaY: number = imageY - startMousePosition.y;
+      console.error(deltaX);
 
       const newNode: Node = new Node(
         node.ID,
@@ -279,20 +309,36 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         node.shortName,
       );
 
-      setEditedNode(newNode);
+      if (
+        graph &&
+        selectedNodes.length > 0 &&
+        selectedNodes.some((nodeID: string) => nodeID === node.ID)
+      ) {
+        setStartMousePosition({
+          x: startMousePosition.x + deltaX,
+          y: startMousePosition.y + deltaY,
+        });
+        setGraph(graph.editNodes(selectedNodes, deltaX, deltaY));
+        setUnsavedChanges(true);
+        setIsSaved(false);
+      } else {
+        setEditedNode(newNode);
 
-      const newOldNewNode: OldNewNode = {
-        newNode: editedNode,
-        oldNode: node,
-      };
-      if (graph) {
-        setGraph(graph.editNode(editedNode));
+        const newOldNewNode: OldNewNode = {
+          newNode: editedNode,
+          oldNode: node,
+        };
+        if (graph) {
+          setGraph(graph.editNode(editedNode));
+        }
+        setUnsavedChanges(true);
+        setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
+        setIsSaved(false);
       }
-      setUnsavedChanges(true);
-      setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
-      setIsSaved(false);
     },
     [
+      startMousePosition,
+      selectedNodes,
       dragging,
       translationX,
       translationY,
@@ -454,6 +500,21 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         setSelectedOption("showBoth");
       }
     }, [editorMode, setSelectedOption]);*/
+  if (selectedNodes.some((nodeID: string) => nodeID === node.ID)) {
+    return (
+      <div>
+        <button
+          className="node-selector"
+          style={{
+            ...selectedNodeStyle,
+            cursor: dragging ? "grabbing" : "grab",
+          }}
+          onMouseDown={handleMouseDown}
+          onClick={() => handleAddEdge()}
+        ></button>
+      </div>
+    );
+  }
 
   if (editorMode === EditorMode.addEdges) {
     if (showNodes) {

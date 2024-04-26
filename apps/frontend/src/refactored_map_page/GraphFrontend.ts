@@ -36,6 +36,26 @@ export default class GraphFrontend {
     });
   }
 
+  public getNodesInRange(
+    startX: number,
+    startY: number,
+    endX: number,
+    endY: number,
+  ): Array<string> {
+    const filteredIDs: Array<string> = new Array<string>();
+    Array.from(this.lookupTable.keys()).forEach((ID: string) => {
+      const node: Node | undefined = this.lookupTable.get(ID);
+      if (node) {
+        const inRangeX: boolean = node.x >= startX && node.x <= endX;
+        const inRangeY: boolean = node.y >= startY && node.y <= endY;
+        if (inRangeX && inRangeY) {
+          filteredIDs.push(node.ID);
+        }
+      }
+    });
+    return filteredIDs;
+  }
+
   public populateGraph(nodes: Array<Node>, edges: Array<Edge>) {
     for (const node of nodes) {
       this.addNode(
@@ -155,6 +175,26 @@ export default class GraphFrontend {
     this.lookupTable = new Map<string, Node>(this.lookupTable);
     this.adjLists = newAdjLists;
 
+    return this;
+  }
+
+  public editNodes(nodeIDs: Array<string>, deltaX: number, deltaY: number) {
+    nodeIDs.forEach((nodeID: string) => {
+      const node: Node | undefined = this.lookupTable.get(nodeID);
+      if (node) {
+        const newNode: Node = new Node(
+          node.ID,
+          node.x + deltaX,
+          node.y + deltaY, //heightScaling,
+          node.floor,
+          node.building,
+          node.type,
+          node.longName,
+          node.shortName,
+        );
+        this.editNode(newNode);
+      }
+    });
     return this;
   }
 
