@@ -13,6 +13,7 @@ import TurnLeftIcon from "@mui/icons-material/TurnLeft";
 import TurnSlightRightIcon from "@mui/icons-material/TurnSlightRight";
 import TurnSlightLeftIcon from "@mui/icons-material/TurnSlightLeft";
 import StraightIcon from "@mui/icons-material/Straight";
+import EastIcon from "@mui/icons-material/East";
 
 export default TextDirections;
 
@@ -250,6 +251,20 @@ function TextDirections() {
                     <p>
                       Page {currentPage + 1} of {numPages}
                     </p>
+                    <ButtonGroup size="small" variant="contained">
+                      <Button
+                        onClick={handlePrevPath}
+                        disabled={prevPathDisabled}
+                      >
+                        Prev Path
+                      </Button>
+                      <Button
+                        onClick={handleNextPath}
+                        disabled={nextPathDisabled}
+                      >
+                        Next Path
+                      </Button>
+                    </ButtonGroup>
                     <div>
                       <IconButton
                         onClick={handlePrevPage}
@@ -270,14 +285,18 @@ function TextDirections() {
             ) : null}
           </div>
           <div className={`${styles.textDirectionBtnGroup}`}>
-            <ButtonGroup size="small" variant="contained">
-              <Button onClick={handlePrevPath} disabled={prevPathDisabled}>
-                Prev Path
-              </Button>
-              <Button onClick={handleNextPath} disabled={nextPathDisabled}>
-                Next Path
-              </Button>
-            </ButtonGroup>
+            {paths.map((path, i) => (
+              <div
+                key={i}
+                style={{
+                  color:
+                    paths[directionsCounter] === path ? "#2196F3" : "#012D5A",
+                }}
+              >
+                {path.edges[0].startNode.floor}
+                <EastIcon></EastIcon>
+              </div>
+            ))}
           </div>
         </div>
       ) : null}
