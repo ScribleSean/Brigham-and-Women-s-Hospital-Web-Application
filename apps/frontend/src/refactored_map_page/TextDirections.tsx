@@ -1,7 +1,7 @@
 import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useMapContext } from "./MapContext.ts";
-import { Button, ButtonGroup, IconButton } from "@mui/material";
+import { Box, Button, ButtonGroup, IconButton } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 import styles from "../styles/TextDirections.module.css";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -258,19 +258,66 @@ function TextDirections() {
                 </div>
                 <div className={`${styles.directionsFooter}`}>
                   <div className={`${styles.pagination}`}>
-                    <p>
+                    <p
+                      style={{
+                        marginRight: "16px",
+                      }}
+                    >
                       Page {currentPage + 1} of {numPages}
                     </p>
-                    <ButtonGroup size="small" variant="contained">
+                    <ButtonGroup size="small">
                       <Button
                         onClick={handlePrevPath}
                         disabled={prevPathDisabled}
+                        sx={{
+                          height: "2rem",
+                          minWidth: "5rem",
+                          backgroundColor: "white",
+                          color: "#012D5A",
+                          fontFamily: "inter",
+                          fontWeight: "bold",
+                          fontSize: "0.875rem",
+                          textTransform: "capitalize",
+                          borderRadius: "4px",
+                          border: "1px solid #c4c4c4",
+                          boxShadow: "none",
+                          "&:hover": {
+                            backgroundColor: "#f5f5f5",
+                            borderColor: "#a8a8a8",
+                          },
+                          "&:disabled": {
+                            backgroundColor: "#f5f5f5",
+                            color: "#c4c4c4",
+                          },
+                        }}
                       >
                         Prev Path
                       </Button>
+
                       <Button
                         onClick={handleNextPath}
                         disabled={nextPathDisabled}
+                        sx={{
+                          height: "2rem",
+                          minWidth: "5rem",
+                          backgroundColor: "white",
+                          color: "#012D5A",
+                          fontFamily: "inter",
+                          fontWeight: "bold",
+                          fontSize: "0.875rem",
+                          textTransform: "capitalize",
+                          borderRadius: "4px",
+                          border: "1px solid #c4c4c4",
+                          boxShadow: "none",
+                          "&:hover": {
+                            backgroundColor: "#f5f5f5",
+                            borderColor: "#a8a8a8",
+                          },
+                          "&:disabled": {
+                            backgroundColor: "#f5f5f5",
+                            color: "#c4c4c4",
+                          },
+                        }}
                       >
                         Next Path
                       </Button>
@@ -294,20 +341,33 @@ function TextDirections() {
               </div>
             ) : null}
           </div>
-          <div className={`${styles.textDirectionBtnGroup}`}>
+          <Box className={`${styles.textDirectionFloorGroup}`}>
             {paths.map((path, i) => (
-              <div
+              <Box
                 key={i}
-                style={{
+                onClick={() => setDirectionsCounter(i)}
+                sx={{
                   color:
                     paths[directionsCounter] === path ? "#2196F3" : "#012D5A",
+                  ":hover": {
+                    cursor: "pointer",
+                  },
                 }}
               >
                 {path.edges[0].startNode.floor}
-                <EastIcon></EastIcon>
-              </div>
+                {paths.length - 1 === i ? null : (
+                  <EastIcon
+                    onClick={undefined}
+                    sx={{
+                      color: "black",
+                      fontSize: "1rem",
+                      margin: "4px",
+                    }}
+                  ></EastIcon>
+                )}
+              </Box>
             ))}
-          </div>
+          </Box>
         </div>
       ) : null}
     </div>
