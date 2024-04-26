@@ -49,8 +49,8 @@ function startBorderNode(node: Node, path: Path) {
 
 function endBorderNode(node: Node, path: Path) {
   const len: number = path.edges.length;
-  console.log(path.edges[len - 2].endNode.ID);
-  return path.edges[len - 2].endNode.ID === node.ID;
+  if (len === 1) return true;
+  return path.edges[len - 1].startNode.ID === node.ID;
 }
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
@@ -87,7 +87,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setEdgeEndNode,
     edgesToBeAdded,
     setEdgesToBeAdded,
-    selectedNodes,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -151,22 +150,14 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     if (paths && paths.length > 0) {
       return paths.some((path) => {
         return path.edges.some((edge) => {
-          console.log(paths[directionsCounter].edges.length);
-          if (paths[directionsCounter].edges.length === 1) {
-            return true;
-          }
-          if (paths[directionsCounter].edges.length - 2 >= 0) {
-            return (
-              endBorderNode(node, path) &&
-              (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
-              (node.type === "ELEV" || node.type === "STAI") &&
-              paths[directionsCounter].edges[
-                paths[directionsCounter].edges.length - 2
-              ].endNode.ID === node.ID
-            );
-          } else {
-            return false;
-          }
+          return (
+            endBorderNode(node, path) &&
+            (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
+            (node.type === "ELEV" || node.type === "STAI") &&
+            paths[directionsCounter].edges[
+              paths[directionsCounter].edges.length - 1
+            ].startNode.ID === node.ID
+          );
         });
       });
     }
@@ -221,17 +212,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     backgroundColor: "white",
   };
 
-  const selectedNodeStyle: CSSProperties = {
-    position: "absolute",
-    left: `calc(${displayX}px - 2px)`,
-    top: `calc(${displayY}px - 2px)`,
-    zIndex: 11,
-    borderRadius: "100%",
-    padding: "0",
-    borderColor: "red",
-    backgroundColor: "red",
-  };
-
   const startNodeStyle: CSSProperties = {
     position: "absolute",
     left: `calc(${displayX}px - 12px)`,
@@ -260,26 +240,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     opacity: 0,
   };
 
-  const [startMousePosition, setStartMousePosition] = useState<{
-    x: number;
-    y: number;
-  }>({ x: 0, y: 0 });
-
   const handleMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
     setDisableZoomPanning(true);
     setDragging(true);
     setDragged(true);
     event.preventDefault();
-    const { imageX, imageY } = displayToImageCoordinates(
-      event.clientX,
-      event.clientY,
-      translationX,
-      translationY,
-      scale,
-      widthScaling,
-      heightScaling,
-    );
-    setStartMousePosition({ x: imageX, y: imageY });
   };
 
   const handleMouseMove = useCallback(
@@ -302,9 +267,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         heightScaling,
       );
       console.log("Converted Coordinates:", imageX, imageY);
-      const deltaX: number = imageX - startMousePosition.x;
-      const deltaY: number = imageY - startMousePosition.y;
-      console.error(deltaX);
 
       const newNode: Node = new Node(
         node.ID,
@@ -317,36 +279,20 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         node.shortName,
       );
 
-      if (
-        graph &&
-        selectedNodes.length > 0 &&
-        selectedNodes.some((nodeID: string) => nodeID === node.ID)
-      ) {
-        setStartMousePosition({
-          x: startMousePosition.x + deltaX,
-          y: startMousePosition.y + deltaY,
-        });
-        setGraph(graph.editNodes(selectedNodes, deltaX, deltaY));
-        setUnsavedChanges(true);
-        setIsSaved(false);
-      } else {
-        setEditedNode(newNode);
+      setEditedNode(newNode);
 
-        const newOldNewNode: OldNewNode = {
-          newNode: editedNode,
-          oldNode: node,
-        };
-        if (graph) {
-          setGraph(graph.editNode(editedNode));
-        }
-        setUnsavedChanges(true);
-        setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
-        setIsSaved(false);
+      const newOldNewNode: OldNewNode = {
+        newNode: editedNode,
+        oldNode: node,
+      };
+      if (graph) {
+        setGraph(graph.editNode(editedNode));
       }
+      setUnsavedChanges(true);
+      setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
+      setIsSaved(false);
     },
     [
-      startMousePosition,
-      selectedNodes,
       dragging,
       translationX,
       translationY,
@@ -504,25 +450,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   // }
 
   /*useEffect(() => {
-      if (editorMode === EditorMode.addEdges) {
-        setSelectedOption("showBoth");
-      }
-    }, [editorMode, setSelectedOption]);*/
-  if (selectedNodes.some((nodeID: string) => nodeID === node.ID)) {
-    return (
-      <div>
-        <button
-          className="node-selector"
-          style={{
-            ...selectedNodeStyle,
-            cursor: dragging ? "grabbing" : "grab",
-          }}
-          onMouseDown={handleMouseDown}
-          onClick={() => handleAddEdge()}
-        ></button>
-      </div>
-    );
-  }
+        if (editorMode === EditorMode.addEdges) {
+          setSelectedOption("showBoth");
+        }
+      }, [editorMode, setSelectedOption]);*/
 
   if (editorMode === EditorMode.addEdges) {
     if (showNodes) {
@@ -659,15 +590,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      {paths.length > directionsCounter + 1 && (
-                        <div>
-                          Elevator to Floor{" "}
-                          {
-                            paths[directionsCounter + 1].edges[0].startNode
-                              .floor
-                          }
-                        </div>
-                      )}
+                      Elevator to Floor {""}
+                      {paths.length > directionsCounter + 1
+                        ? paths[directionsCounter + 1].edges[0].startNode.floor
+                        : ""}
                     </Typography>
                   </div>
                 ) : (
