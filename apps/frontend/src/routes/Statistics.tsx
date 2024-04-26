@@ -4,8 +4,22 @@ import DownloadIcon from "@mui/icons-material/Download";
 import RequestsByUser from "../components/Graphs/RequestsByUser.tsx";
 import RequestByPriorityStatus from "../components/Graphs/RequestsByPriorityStatus.tsx";
 import PieCharts from "../components/Graphs/PieCharts.tsx";
+import html2canvas from "html2canvas";
+import { saveAs } from "file-saver";
 
 export default function Statistics() {
+  const exportCharts = async () => {
+    const charts = document.querySelectorAll(".chart-container");
+    for (let i = 0; i < charts.length; i++) {
+      const canvas = await html2canvas(charts[i] as HTMLElement);
+      canvas.toBlob(function (blob) {
+        if (blob) {
+          saveAs(blob, `chart${i + 1}.png`);
+        }
+      });
+    }
+  };
+
   return (
     <>
       <div className={`${styles.pageContainer}`}>
@@ -19,17 +33,24 @@ export default function Statistics() {
                 color: "white",
               }}
               startIcon={<DownloadIcon />}
+              onClick={exportCharts}
             >
               Export
             </Button>
           </div>
           <div className={`${styles.graphsContainer}`}>
             <div className={`${styles.barCharts}`}>
-              <RequestsByUser />
-              <RequestByPriorityStatus />
+              <div className="chart-container">
+                <RequestsByUser />
+              </div>
+              <div className="chart-container">
+                <RequestByPriorityStatus />
+              </div>
             </div>
             <div className={`${styles.pieCharts}`}>
-              <PieCharts />
+              <div className="chart-container">
+                <PieCharts />
+              </div>
             </div>
           </div>
         </div>
