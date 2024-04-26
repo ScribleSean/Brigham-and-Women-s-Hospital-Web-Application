@@ -20,6 +20,7 @@ import TextDirections from "./TextDirections.tsx";
 import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
 import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
+import MapLegend from "./MapLegend.tsx";
 import { Box } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 
@@ -96,14 +97,15 @@ function MapContents() {
       <TextDirections />
       <ShowNodesEdgesDropDown />
       <DisplayEditingOptions />
+      <MapLegend />
       <Box
         sx={{
           right: 0,
           display: "flex",
           flexDirection: "row",
           position: "absolute",
-          marginTop: "10vh",
-          marginRight: "1vw",
+          marginTop: "80px",
+          marginRight: "10px",
           justifyContent: "space-between",
         }}
       >
