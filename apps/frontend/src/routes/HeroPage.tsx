@@ -5,7 +5,7 @@ import "../styles/HeroPage.css";
 // @import "~animate.css/animate.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
-import HumidityIcon from "../../public/Humidty.png";
+// import HumidityIcon from "../../public/Humidty.png";
 import { IconButton, Snackbar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -51,15 +51,17 @@ function HeroPage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [temp, setTemp] = useState("0.0");
+  const [time, setTime] = useState("Date");
 
   useEffect(() => {
     const handleWeatherUpdate = async () => {
       try {
         const response = await axios.get("/api/weather");
-        const tempTemp: Weather = response.data;
+        const timeTemp: Weather = response.data;
 
-        console.log(tempTemp.temp);
-        setTemp(String(tempTemp.temp));
+        console.log(timeTemp);
+        setTemp(String(timeTemp.temp));
+        setTime(String(timeTemp.time));
       } catch (error) {
         console.log("that failed bro");
       }
@@ -67,6 +69,7 @@ function HeroPage() {
 
     handleWeatherUpdate().then();
     console.log(temp);
+    console.log(time);
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % phrases.length);
@@ -79,7 +82,7 @@ function HeroPage() {
       clearInterval(interval);
       clearInterval(weatherInterval);
     };
-  }, [phrases.length, temp]);
+  }, [phrases.length, temp, time]);
 
   const handleDisclaimerClose = (
     event: React.SyntheticEvent | Event,
@@ -123,7 +126,8 @@ function HeroPage() {
             open={disclaimerOpen}
             onClose={handleDisclaimerClose}
             message={
-              <p>
+              // disclaimer should be red
+              <p style={{ color: "#ff0000" }}>
                 This website is a term project exercise for WPI CS 3733 Software
                 Engineering (Prof. Wong) and is not to be confused with the
                 actual Brigham & Women’s Hospital website
@@ -145,8 +149,8 @@ function HeroPage() {
             </div>
 
             <div className={"tempSpace tempBox paragraph "}>
-              <p className={"wordPad"}>50% humidity</p>
-              <img src={HumidityIcon} alt={"Image"} width={"45"} />
+              <p className={"wordPad"}>{time}</p>
+              {/*<img src={HumidityIcon} alt={"Image"} width={"45"} />*/}
             </div>
           </div>
 

@@ -12,6 +12,7 @@ router.get("/", async function (req, res) {
     },
     select: {
       temp: true,
+      time: true, //date and hour
     },
   });
 
@@ -29,6 +30,7 @@ router.post("/", async function (req, res) {
       },
       data: {
         temp: weather.temp,
+        time: weather.time,
       },
     });
 

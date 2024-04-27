@@ -21,8 +21,9 @@ model BreakOutHighScore {
 }
 
 model weather {
-  WID  Int   @id
+  WID  Int    @id
   temp Float
+  time String
 }
 
 model Edge {
