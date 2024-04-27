@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { allCharacters } from "../Characters.js";
 
 export function useCarouselIndex(initialIndex) {
@@ -45,6 +45,35 @@ export function useCarouselIndex(initialIndex) {
       },
       [setIndexSafely]
   );
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      switch (event.key) {
+        case 'ArrowLeft':
+          movePrev();
+          break;
+        case 'ArrowRight':
+          moveNext();
+          break;
+        case 'ArrowUp':
+          moveUp();
+          break;
+        case 'ArrowDown':
+          moveDown();
+          break;
+        default:
+          break;
+      }
+    };
+
+    // Add event listener
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [movePrev, moveNext, moveUp, moveDown]);
 
   const getCharacter = useCallback(() => {
     return allCharacters[index];

@@ -5,8 +5,7 @@ import CharChunk from "./CharChunk.jsx";
 import { Characters } from "./Characters"; // Assuming the correct path
 
 const CharacterSelect = () => {
-  const { setCurrentIndex, movePrev, moveNext, moveUp, moveDown, getCharacter } =
-    useCarouselIndex(Characters.Gabe); // you can currentCurruselIndex too
+  const { setCurrentIndex, movePrev, moveNext, getCharacter } = useCarouselIndex(Characters.Gabe);
 
   const waterMarkBG = {
     position: "fixed",
@@ -30,10 +29,6 @@ const CharacterSelect = () => {
         getCharacter={getCharacter}
       />
       <CharChunk
-          movePrev={movePrev}
-          moveNext={moveNext}
-          moveUp={moveUp}
-          moveDown={moveDown}
           setCurrentIndex={setCurrentIndex}
           getCharacter={getCharacter}
       />
