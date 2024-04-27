@@ -22,23 +22,27 @@ const CharChunk = ({ getCharacter, setCurrentIndex }) => {
       <div style={rowStyle}>
         {/* Map over the first 7 indexes */}
         {allCharacters.slice(0, 7).map((character, index) => (
-          <CharSquare
-            key={index}
-            character={character}
-            onClick={() => setCurrentIndex(index)}
-            getCharacter={getCharacter}
-          />
+          <div>
+            <CharSquare
+              key={index}
+              character={character}
+              onClick={() => setCurrentIndex(index)}
+              getCharacter={getCharacter}
+            />
+          </div>
         ))}
       </div>
       <div style={rowStyle}>
         {/* Map over the next 6 indexes */}
         {allCharacters.slice(7, 13).map((character, index) => (
-          <CharSquare
-            key={index + 7} // Adding 7 to index to ensure uniqueness
-            character={character}
-            onClick={() => setCurrentIndex(index + 7)} // Adding 7 to index to maintain correct index in the original array
-            getCharacter={getCharacter}
-          />
+          <div>
+            <CharSquare
+              key={index + 7} // Adding 7 to index to ensure uniqueness
+              character={character}
+              onClick={() => setCurrentIndex(index + 7)} // Adding 7 to index to maintain correct index in the original array
+              getCharacter={getCharacter}
+            />
+          </div>
         ))}
       </div>
     </div>
