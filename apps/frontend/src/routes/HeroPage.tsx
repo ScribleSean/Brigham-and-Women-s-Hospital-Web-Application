@@ -5,7 +5,6 @@ import "../styles/HeroPage.css";
 // @import "~animate.css/animate.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
-// import HumidityIcon from "../../public/Humidty.png";
 import { IconButton, Snackbar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -150,7 +149,6 @@ function HeroPage() {
 
             <div className={"tempSpace tempBox paragraph "}>
               <p className={"wordPad"}>{time}</p>
-              {/*<img src={HumidityIcon} alt={"Image"} width={"45"} />*/}
             </div>
           </div>
 
