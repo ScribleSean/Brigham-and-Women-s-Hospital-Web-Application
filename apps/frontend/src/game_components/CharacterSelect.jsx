@@ -1,11 +1,11 @@
 import React from "react";
-import { useCarouselIndex } from "./hooks/useCarouselIndex"; // Ensure the path is correct
+import { useCharacterSelector } from "./hooks/useCharacterSelector.jsx"; // Ensure the path is correct
 import CharCarrusel from "./CharCarrusel.jsx";
 import CharChunk from "./CharChunk.jsx";
 import { Characters } from "./Characters"; // Assuming the correct path
 
 const CharacterSelect = () => {
-  const { setCurrentIndex, movePrev, moveNext, getCharacter } = useCarouselIndex(Characters.Gabe);
+  const { setCurrentIndex, movePrev, moveNext, getCharacter } = useCharacterSelector(Characters.Gabe);
 
   const waterMarkBG = {
     position: "fixed",

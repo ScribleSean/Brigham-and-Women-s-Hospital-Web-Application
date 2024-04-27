@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { allCharacters } from "../Characters.js";
 
-export function useCarouselIndex(initialIndex) {
+export function useCharacterSelector(initialIndex) {
   const [index, setIndex] = useState(initialIndex);
   const itemCount = allCharacters.length;
 
