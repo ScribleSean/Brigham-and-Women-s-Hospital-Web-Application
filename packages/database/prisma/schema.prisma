@@ -20,6 +20,11 @@ model BreakOutHighScore {
   date      DateTime
 }
 
+model weather {
+  WID  Int   @id
+  temp Float
+}
+
 model Edge {
   edgeID      String @id
   startNodeID String

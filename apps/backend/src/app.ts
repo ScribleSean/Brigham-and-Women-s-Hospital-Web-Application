@@ -32,6 +32,7 @@ import downloadEmployeeDataRouter from "./routes/data-to-csv-employee.ts";
 import brigRouter from "./routes/brigham-breakout/brigGameRouter.ts";
 import brigAllTime from "./routes/brigham-breakout/breakoutAllTimeRouter.ts";
 import brigToday from "./routes/brigham-breakout/breakoutTodayRouter.ts";
+import weatherRouter from "./routes/weather/weatherRouter.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -79,6 +80,9 @@ app.use("/api/download-edge-csv", downloadEdgeDataRouter);
 // CSV Page: Employees
 app.use("/api/employee-populate", employeeRouter);
 app.use("/api/download-employee-csv", downloadEmployeeDataRouter);
+
+// weather
+app.use("/api/weather", weatherRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();

@@ -9,6 +9,8 @@ import HumidityIcon from "../../public/Humidty.png";
 import { IconButton, Snackbar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
+import { Weather } from "common/src/backend_interfaces/weather.ts";
 
 function addAnimationClass(e: Event) {
   e.preventDefault(); // Prevent the default action (navigation)
@@ -48,16 +50,36 @@ function HeroPage() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [temp, setTemp] = useState("0.0");
 
   useEffect(() => {
+    const handleWeatherUpdate = async () => {
+      try {
+        const response = await axios.get("/api/weather");
+        const tempTemp: Weather = response.data;
+
+        console.log(tempTemp.temp);
+        setTemp(String(tempTemp.temp));
+      } catch (error) {
+        console.log("that failed bro");
+      }
+    };
+
+    handleWeatherUpdate().then();
+    console.log(temp);
+
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % phrases.length);
     }, 3000); // Change phrases every 3 seconds
 
+    // Set up interval to fetch weather data every 5 seconds
+    const weatherInterval = setInterval(handleWeatherUpdate, 5000);
+
     return () => {
       clearInterval(interval);
+      clearInterval(weatherInterval);
     };
-  }, [phrases.length]);
+  }, [phrases.length, temp]);
 
   const handleDisclaimerClose = (
     event: React.SyntheticEvent | Event,
@@ -116,7 +138,7 @@ function HeroPage() {
           {/*room settings display*/}
           <div className={"boxPad"}>
             <div className={"tempBox paragraph "}>
-              <p className={"wordPad"}>10° C</p>
+              <p className={"wordPad"}>{temp}° C</p>
               <DeviceThermostatIcon sx={{ color: "#ffffff", fontSize: 45 }}>
                 {" "}
               </DeviceThermostatIcon>
