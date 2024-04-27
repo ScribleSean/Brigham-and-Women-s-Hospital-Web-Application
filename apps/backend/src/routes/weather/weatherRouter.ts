@@ -25,13 +25,20 @@ router.post("/", async function (req, res) {
   const weather: Weather = req.body;
 
   try {
-    await PrismaClient.weather.update({
+    await PrismaClient.weather.upsert({
       where: {
         WID: 1,
       },
-      data: {
+      create: {
+        WID: 1,
         temp: weather.temp,
         time: weather.time,
+        date: weather.date,
+      },
+      update: {
+        temp: weather.temp,
+        time: weather.time,
+        date: weather.date,
       },
     });
 
