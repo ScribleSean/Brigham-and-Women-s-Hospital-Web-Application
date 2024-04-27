@@ -5,10 +5,10 @@ import CharChunk from "./CharChunk.jsx";
 import { Characters } from "./Characters"; // Assuming the correct path
 
 const CharacterSelect = () => {
-    const {movePrev, moveNext, setCurrentIndex, getCharacter} = useCarouselIndex(Characters.Gabe); // you can currentCurruselIndex too
+  const { setCurrentIndex, movePrev, moveNext, moveUp, moveDown, getCharacter } =
+    useCarouselIndex(Characters.Gabe); // you can currentCurruselIndex too
 
-
-    const waterMarkBG = {
+  const waterMarkBG = {
     position: "fixed",
     top: 0,
     left: 0,
@@ -23,17 +23,21 @@ const CharacterSelect = () => {
   };
 
   return (
-      <div style={waterMarkBG}>
-        <CharCarrusel
-            movePrev={movePrev}
-            moveNext={moveNext}
-            getCharacter={getCharacter}
-        />
-        <CharChunk
-            setCurrentIndex={setCurrentIndex}
-            getCharacter={getCharacter}
-        />
-      </div>
+    <div style={waterMarkBG}>
+      <CharCarrusel
+        movePrev={movePrev}
+        moveNext={moveNext}
+        getCharacter={getCharacter}
+      />
+      <CharChunk
+          movePrev={movePrev}
+          moveNext={moveNext}
+          moveUp={moveUp}
+          moveDown={moveDown}
+          setCurrentIndex={setCurrentIndex}
+          getCharacter={getCharacter}
+      />
+    </div>
   );
 };
 

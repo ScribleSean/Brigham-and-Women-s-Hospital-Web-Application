@@ -4,9 +4,9 @@ const CharArrow = ({ direction, onClick }) => {
   const arrowImg = "direction";
 
   return (
-      <div onClick={onClick} style={{ cursor: 'pointer' }}>
-        <img src={arrowImg} alt={`${direction} arrow`} />
-      </div>
+    <div onClick={onClick} style={{ cursor: "pointer" }}>
+      <img src={arrowImg} alt={`${direction} arrow`} />
+    </div>
   );
 };
 
