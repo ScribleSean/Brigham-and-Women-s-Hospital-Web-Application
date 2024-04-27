@@ -7,14 +7,11 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-// import {useState} from "react";
-// import { FormControl } from 'react-bootstrap';
-// import {InputLabel, MenuItem, Select} from '@mui/material';
 
 type GraphData = {
   label: string;
   value: number;
-  color?: string;
+  color: string; // Add color property
 };
 
 export default function PieCharts() {
@@ -29,13 +26,30 @@ export default function PieCharts() {
     fetch(`/api/pie-request-by-${selection.toLowerCase()}`)
       .then((response) => response.json())
       .then((data: Record<string, number>) => {
-        const formattedData = Object.entries(data).map(([label, value]) => ({
-          label,
-          value,
-        }));
+        const formattedData = Object.entries(data).map(
+          ([label, value], index) => ({
+            label,
+            value,
+            color: getColor(index), // Assign a color based on index or any other logic
+          }),
+        );
         setGraphData(formattedData);
       });
   }, [selection]);
+
+  // Copilot's function to get color based on index, can remove if u want
+  //weird because colors will stay the same across all pie charts but u can figure it out
+  const getColor = (index: number): string => {
+    const colors = [
+      "#ff0000",
+      "#00ff00",
+      "#0000ff",
+      "#ffff00",
+      "#ff00ff",
+      "#00ffff",
+    ]; // Add more colors as needed
+    return colors[index % colors.length];
+  };
 
   return (
     <>
