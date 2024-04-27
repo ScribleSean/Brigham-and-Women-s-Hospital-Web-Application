@@ -1,37 +1,37 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import CharCarruselChunk from "./CharCarruselChunk.jsx";
+import { allCharacters } from "./Characters";
 
-const CharCarrusel = ({ getCharacter }) => {
+const CharCarrusel = ({ currentIndex, getCharacter }) => {
+  const sliderRef = useRef(null);
   const character = getCharacter();
-  console.log(character);
+
+  useEffect(() => {
+    if (sliderRef.current) {
+      sliderRef.current.slickGoTo(currentIndex);
+    }
+  }, [currentIndex, sliderRef, character]);
 
   const settings = {
-    className: "center",
-    centerMode: true,
+    dots: false,
+    arrows: false,
+    draggable: false,
     infinite: true,
-    centerPadding: "60px",
-    slidesToShow: 3,
     speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    centerMode: true,
   };
 
   return (
-    <div className="slider-container">
-      <Slider {...settings}>
-        <div className="">
-          <img src={character.frames[0]} alt={character.name} />
-        </div>
-        <div className="">
-          {/* Display the character frame or other details */}
-          <p className={""}>{character.name}</p>
-          <img src={character.frames[0]} alt={character.name} />
-        </div>
-        <div className="">
-          {/* Display the character stats */}
-          <p className={""}>{character.speed}</p>
-        </div>
-        <div className="">
-          <img src={character.frames[0]} alt={character.name} />
-        </div>
+    <div style={{ width: "100%" }}>
+      <Slider {...settings} ref={sliderRef}>
+        {allCharacters.map((character, index) => (
+          <CharCarruselChunk character={character} key={index} />
+        ))}
       </Slider>
     </div>
   );

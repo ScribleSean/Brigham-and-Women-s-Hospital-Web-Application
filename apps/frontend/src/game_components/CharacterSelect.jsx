@@ -5,7 +5,7 @@ import CharChunk from "./CharChunk.jsx";
 import { Characters } from "./Characters"; // Assuming the correct path
 
 const CharacterSelect = () => {
-  const { setCurrentIndex, movePrev, moveNext, getCharacter } =
+  const { currentIndex, setCurrentIndex, movePrev, moveNext, getCharacter } =
     useCharacterSelector(Characters.Gabe);
 
   const waterMarkBG = {
@@ -30,6 +30,7 @@ const CharacterSelect = () => {
             movePrev={movePrev}
             moveNext={moveNext}
             getCharacter={getCharacter}
+            currentIndex={currentIndex}
           />
         </div>
         <div className={"row"}>
