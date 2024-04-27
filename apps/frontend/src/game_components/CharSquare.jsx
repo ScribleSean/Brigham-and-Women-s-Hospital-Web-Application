@@ -5,15 +5,15 @@ const CharSquare = ({ getCharacter, character, onClick }) => {
 
   const style = {
     cursor: "pointer",
-    border: selected ? "1px solid blue" : "1px solid grey", // Highlight if active
-    padding: "10px",
-    margin: "5px",
+    border: selected ? "6px solid #FFD700" : "6px solid white", // Highlight if active
+    margin: "1px",
     display: "inline-block",
-    backgroundColor: selected ? "blue" : "grey",
+    backgroundColor: "grey",
     backgroundImage: `url(${character.frames[0]})`,
     backgroundSize: "cover",
-    width: "100px",
-    height: "100px",
+    width: "140px",
+    height: "140px",
+    boxSizing: "border-box", // Ensures padding and border are included in the width/height
   };
 
   return (
