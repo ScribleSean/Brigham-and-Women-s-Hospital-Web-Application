@@ -16,11 +16,7 @@ const CharSquare = ({ getCharacter, character, onClick }) => {
     boxSizing: "border-box", // Ensures padding and border are included in the width/height
   };
 
-  return (
-    <div style={style} onClick={onClick}>
-      <img src={character.frames[0]} alt={character.name} />
-    </div>
-  );
+  return <div style={style} onClick={onClick}></div>;
 };
 
 export default CharSquare;

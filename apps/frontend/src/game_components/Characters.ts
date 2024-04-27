@@ -11,7 +11,7 @@ const Gabe = new Character(
   gabeFrames,
 );
 
-const joseFrames = ["/jose1", "/jose2", "/jose3"];
+const joseFrames = ["/jose1.png", "/jose2", "/jose3"];
 const josePassive = "passive";
 const Jose = new Character(
   "Jose",
@@ -22,7 +22,7 @@ const Jose = new Character(
   joseFrames,
 );
 
-const christianFrames = ["/christian1", "/christian2", "/christian3"];
+const christianFrames = ["/heart4.png", "/christian2", "/christian3"];
 const christianPassive = "passive";
 const Christian = new Character(
   "Christian",
@@ -33,7 +33,7 @@ const Christian = new Character(
   christianFrames,
 );
 
-const sophiaFrames = ["/sophia1", "/sophia2", "/sophia3"];
+const sophiaFrames = ["/greenDisease1.png", "/sophia2", "/sophia3"];
 const sophiaPassive = "passive";
 const Sophia = new Character(
   "Sophia",
@@ -55,7 +55,7 @@ const Timothy = new Character(
   timothyFrames,
 );
 
-const peterFrames = ["/peter1", "/peter2", "/peter3"];
+const peterFrames = ["/pinkDisease1.png", "/peter2", "/peter3"];
 const peterPassive = "passive";
 const Peter = new Character(
   "Peter",
@@ -66,7 +66,7 @@ const Peter = new Character(
   peterFrames,
 );
 
-const madduxFrames = ["/maddux1", "/maddux2", "/maddux3"];
+const madduxFrames = ["/redDisease1.png", "/maddux2", "/maddux3"];
 const madduxPassive = "passive";
 const Maddux = new Character(
   "Maddux",
