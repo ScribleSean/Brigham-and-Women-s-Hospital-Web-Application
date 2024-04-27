@@ -5,7 +5,8 @@ import CharChunk from "./CharChunk.jsx";
 import { Characters } from "./Characters"; // Assuming the correct path
 
 const CharacterSelect = () => {
-  const { setCurrentIndex, movePrev, moveNext, getCharacter } = useCharacterSelector(Characters.Gabe);
+  const { setCurrentIndex, movePrev, moveNext, getCharacter } =
+    useCharacterSelector(Characters.Gabe);
 
   const waterMarkBG = {
     position: "fixed",
@@ -23,15 +24,21 @@ const CharacterSelect = () => {
 
   return (
     <div style={waterMarkBG}>
-      <CharCarrusel
-        movePrev={movePrev}
-        moveNext={moveNext}
-        getCharacter={getCharacter}
-      />
-      <CharChunk
-          setCurrentIndex={setCurrentIndex}
-          getCharacter={getCharacter}
-      />
+      <div className={"container"}>
+        <div className={"row"}>
+          <CharCarrusel
+            movePrev={movePrev}
+            moveNext={moveNext}
+            getCharacter={getCharacter}
+          />
+        </div>
+        <div className={"row"}>
+          <CharChunk
+            setCurrentIndex={setCurrentIndex}
+            getCharacter={getCharacter}
+          />
+        </div>
+      </div>
     </div>
   );
 };

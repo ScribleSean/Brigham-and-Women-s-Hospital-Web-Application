@@ -22,6 +22,7 @@ import About from "./routes/About.tsx";
 import Platformer from "./games/Platformer.jsx";
 import GameOver from "./game_components/GameOver.tsx";
 import StartScreen from "./game_components/StartScreen";
+import CharacterSelect from "./game_components/CharacterSelect";
 // import {useAuth0} from "@auth0/auth0-react";
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/character-select" element={<CharacterSelect />} />
         <Route path="/game-over" element={<GameOver />} />
         <Route path="/about" element={<About />} />
         <Route path="/credits" element={<Credits />} />
@@ -77,7 +79,8 @@ function ConditionalSideNavBar() {
     (location.pathname === "/public-map" && !isAuthenticated) ||
     location.pathname === "/game-over" ||
     location.pathname === "/brigham-breakout-start" ||
-    location.pathname === "/brigham-breakout"
+    location.pathname === "/brigham-breakout" ||
+    location.pathname === "/character-select"
   ) {
     return null;
   } else if (!isAuthenticated) {
@@ -108,7 +111,8 @@ function ConditionalBanner() {
     location.pathname === "/" ||
     location.pathname === "/game-over" ||
     location.pathname === "/brigham-breakout-start" ||
-    location.pathname === "/brigham-breakout"
+    location.pathname === "/brigham-breakout" ||
+    location.pathname === "/character-select"
   ) {
     return null;
   }
