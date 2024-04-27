@@ -5,7 +5,7 @@ import "../styles/HeroPage.css";
 // @import "~animate.css/animate.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
-import { IconButton, Snackbar } from "@mui/material";
+import { IconButton, Snackbar, Switch, FormControlLabel } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
@@ -49,9 +49,10 @@ function HeroPage() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [temp, setTemp] = useState("cold");
+  const [temp, setTemp] = useState(0);
   const [time, setTime] = useState("time");
   const [date, setDate] = useState("date");
+  const [toCelsius, setFahrenheit] = useState(false);
 
   useEffect(() => {
     const handleWeatherUpdate = async () => {
@@ -60,7 +61,12 @@ function HeroPage() {
         const weather: Weather = response.data;
 
         console.log(weather);
-        setTemp(String(weather.temp));
+        if (toCelsius) {
+          setTemp(Number(((weather.temp - 32) * (5 / 9)).toFixed(2)));
+        } else {
+          setTemp(weather.temp);
+        }
+
         setTime(String(weather.time));
         setDate(String(weather.date));
       } catch (error) {
@@ -83,7 +89,18 @@ function HeroPage() {
       clearInterval(interval);
       clearInterval(weatherInterval);
     };
-  }, [phrases.length, temp, time, date]);
+  }, [phrases.length, temp, time, date, toCelsius]);
+
+  const handleTempChange = () => {
+    setFahrenheit(!toCelsius);
+    if (toCelsius) {
+      // F to C
+      setTemp(Number(((temp - 32) * (5 / 9)).toFixed(2)));
+    } else {
+      // C to F
+      setTemp(Number((temp * (9 / 5) + 32).toFixed(2)));
+    }
+  };
 
   const handleDisclaimerClose = (
     event: React.SyntheticEvent | Event,
@@ -143,10 +160,27 @@ function HeroPage() {
           {/*room settings display*/}
           <div className={"boxPad"}>
             <div className={"tempBox paragraph "}>
-              <p className={"wordPad"}>{temp}° C</p>
+              <p className={"wordPad"}>
+                {temp}° {toCelsius ? "C" : "F"}
+              </p>
               <DeviceThermostatIcon sx={{ color: "#ffffff", fontSize: 45 }}>
                 {" "}
               </DeviceThermostatIcon>
+            </div>
+            <div className={"tempBox"}>
+              <FormControlLabel
+                sx={{ color: "#ffffff" }}
+                value="Fstart"
+                control={
+                  <Switch
+                    onChange={handleTempChange}
+                    color="default"
+                    size={"medium"}
+                  ></Switch>
+                }
+                label={toCelsius ? "C" : "F"}
+                labelPlacement={"start"}
+              />
             </div>
 
             <div className={"tempSpace tempBox paragraph"}>
