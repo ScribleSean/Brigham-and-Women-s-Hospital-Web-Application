@@ -12,7 +12,8 @@ router.get("/", async function (req, res) {
     },
     select: {
       temp: true,
-      time: true, //date and hour
+      time: true, // {hour}:{min}
+      date: true,
     },
   });
 

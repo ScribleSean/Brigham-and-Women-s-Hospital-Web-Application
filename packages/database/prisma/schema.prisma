@@ -23,6 +23,7 @@ model BreakOutHighScore {
 model weather {
   WID  Int    @id
   temp Float
+  date String
   time String
 }
 

@@ -49,18 +49,20 @@ function HeroPage() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [temp, setTemp] = useState("0.0");
-  const [time, setTime] = useState("Date");
+  const [temp, setTemp] = useState("cold");
+  const [time, setTime] = useState("time");
+  const [date, setDate] = useState("date");
 
   useEffect(() => {
     const handleWeatherUpdate = async () => {
       try {
         const response = await axios.get("/api/weather");
-        const timeTemp: Weather = response.data;
+        const weather: Weather = response.data;
 
-        console.log(timeTemp);
-        setTemp(String(timeTemp.temp));
-        setTime(String(timeTemp.time));
+        console.log(weather);
+        setTemp(String(weather.temp));
+        setTime(String(weather.time));
+        setDate(String(weather.date));
       } catch (error) {
         console.log("that failed bro");
       }
@@ -81,7 +83,7 @@ function HeroPage() {
       clearInterval(interval);
       clearInterval(weatherInterval);
     };
-  }, [phrases.length, temp, time]);
+  }, [phrases.length, temp, time, date]);
 
   const handleDisclaimerClose = (
     event: React.SyntheticEvent | Event,
@@ -147,7 +149,10 @@ function HeroPage() {
               </DeviceThermostatIcon>
             </div>
 
-            <div className={"tempSpace tempBox paragraph "}>
+            <div className={"tempSpace tempBox paragraph"}>
+              <p className={"wordPad"}>{date}</p>
+            </div>
+            <div className={"tempSpace tempBox paragraph"}>
               <p className={"wordPad"}>{time}</p>
             </div>
           </div>
