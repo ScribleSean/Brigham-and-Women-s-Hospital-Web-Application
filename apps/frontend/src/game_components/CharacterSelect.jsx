@@ -1,30 +1,40 @@
-import React, {useState} from "react";
-import Characters from "./Characters.ts";
+import React from "react";
+import { useCarouselIndex } from "./hooks/useCarouselIndex"; // Ensure the path is correct
 import CharCarrusel from "./CharCarrusel.jsx";
 import CharChunk from "./CharChunk.jsx";
+import { Characters } from "./Characters"; // Assuming the correct path
 
 const CharacterSelect = () => {
-    const [currentCharacterIndex, setCurrentCharacterIndex] = useState(Characters.Gabe);
+    const {movePrev, moveNext, setCurrentIndex, getCharacter} = useCarouselIndex(Characters.Gabe); // you can currentCurruselIndex too
 
 
     const waterMarkBG = {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        zIndex: -1,
-        backgroundColor: "#141414",
-        backgroundImage: "url('/BrighamWatermarkFinal.png')",
-        backgroundSize: "25%",
-        backgroundPosition: "50% 0", // Add spacing between columns
-        width: "100vw", // Adjust to fill the viewport horizontally
-        height: "100vh", // Adjust to fill the viewport vertically
-        backgroundRepeat: "repeat",
-    };
+    position: "fixed",
+    top: 0,
+    left: 0,
+    zIndex: -1,
+    backgroundColor: "#141414",
+    backgroundImage: "url('/BrighamWatermarkFinal.png')",
+    backgroundSize: "25%",
+    backgroundPosition: "50% 0",
+    width: "100vw",
+    height: "100vh",
+    backgroundRepeat: "repeat",
+  };
 
-    return <div style={waterMarkBG}>
-        <CharCarrusel currentCharacterIndex={currentCharacterIndex} selectCurrentCharacter Index={setCurrentCharacterIndex}/>
-        <CharChunk currentCharacterIndex={currentCharacterIndex} selectCurrentCharacter Index={setCurrentCharacterIndex}/>
-    </div>;
+  return (
+      <div style={waterMarkBG}>
+        <CharCarrusel
+            movePrev={movePrev}
+            moveNext={moveNext}
+            getCharacter={getCharacter}
+        />
+        <CharChunk
+            setCurrentIndex={setCurrentIndex}
+            getCharacter={getCharacter}
+        />
+      </div>
+  );
 };
 
 export default CharacterSelect;
