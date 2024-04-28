@@ -4,6 +4,9 @@ const gabeFrames = [
   "/characterSprites/gabe1.png",
   "/characterSprites/gabe2.png",
   "/characterSprites/gabe3.png",
+  "/characterSprites/gabe4.png",
+  "/characterSprites/gabe5.png",
+  "/characterSprites/gabe6.png",
 ];
 const gabeHead = "/heads/gabeHead.png";
 const gabePassive = "passive";
@@ -97,6 +100,7 @@ const timothyFrames = [
   "/characterSprites/timothy1.png",
   "/characterSprites/timothy2.png",
   "/characterSprites/timothy3.png",
+  "/characterSprites/timothy4.png",
 ];
 const timothyHead = "/heads/timothyHead.png";
 const timothyPassive = "passive";
@@ -214,6 +218,7 @@ const ethanFrames = [
   "/characterSprites/ethan1.png",
   "/characterSprites/ethan2.png",
   "/characterSprites/ethan3.png",
+  "/characterSprites/ethan4.png",
 ];
 const ethanHead = "/heads/ethanHead.png";
 const ethanPassive = "passive";
@@ -238,6 +243,8 @@ const wongFrames = [
   "/characterSprites/wong1.png",
   "/characterSprites/wong2.png",
   "/characterSprites/wong3.png",
+  "/characterSprites/wong4.png",
+  "/characterSprites/wong5.png",
 ];
 const wongHead = "/heads/wongHead.png";
 const wongPassive = "passive";
@@ -280,11 +287,7 @@ const Joseph = new Character(
   josephBackstory,
 );
 
-const gusFrames = [
-  "/characterSprites/gus1.png",
-  "/characterSprites/gus2.png",
-  "/characterSprites/gus3.png",
-];
+const gusFrames = ["/characterSprites/gus1.png", "/characterSprites/gus2.png"];
 const gusHead = "/heads/gusHead.png";
 const gusPassive = "passive";
 const gusRole = "frontend";
