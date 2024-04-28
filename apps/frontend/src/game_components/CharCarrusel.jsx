@@ -10,19 +10,25 @@ const CharCarrusel = ({ currentIndex, getCharacter }) => {
   const character = getCharacter();
 
   useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.slickGoTo(currentIndex);
-    }
+    const intervalId = setInterval(() => {
+      if (sliderRef.current) {
+        sliderRef.current.slickGoTo(currentIndex);
+      }
+    }, 0);
+
+    return () => clearInterval(intervalId);
   }, [currentIndex, sliderRef, character]);
 
   const settings = {
     className: "slider variable-width",
-    dots: true,
+    dots: false,
     infinite: true,
     centerMode: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     focusOnSelect: true,
+    speed: 100,
+    onSwipeEnd: sliderRef,
   };
 
   return (

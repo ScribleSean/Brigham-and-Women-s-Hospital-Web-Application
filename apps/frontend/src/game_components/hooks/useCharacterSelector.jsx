@@ -3,6 +3,7 @@ import { allCharacters } from "../Characters";
 
 export function useCharacterSelector(initialIndex) {
   const [index, setIndex] = useState(initialIndex);
+  const [activeArrowKey, setActiveArrowKey] = useState(null); // State to track active arrow key
   const itemCount = allCharacters.length;
 
   const firstRowSize = 7;
@@ -16,29 +17,40 @@ export function useCharacterSelector(initialIndex) {
   );
 
   const movePrev = useCallback(() => {
-    setIndexSafely(index - 1);
-  }, [index, setIndexSafely]);
+    if (!activeArrowKey || activeArrowKey === "ArrowLeft") {
+      setActiveArrowKey("ArrowLeft");
+      setIndexSafely(index - 1);
+    }
+  }, [index, activeArrowKey, setIndexSafely]);
 
   const moveNext = useCallback(() => {
-    setIndexSafely(index + 1);
-  }, [index, setIndexSafely]);
+    if (!activeArrowKey || activeArrowKey === "ArrowRight") {
+      setActiveArrowKey("ArrowRight");
+      setIndexSafely(index + 1);
+    }
+  }, [index, activeArrowKey, setIndexSafely]);
 
   const moveUp = useCallback(() => {
-    if (index >= firstRowSize) {
-      // Ensures it is at least in the second row
-      const newIndex = index - secondRowSize;
-      setIndexSafely(newIndex);
+    if (!activeArrowKey || activeArrowKey === "ArrowUp") {
+      setActiveArrowKey("ArrowUp");
+      if (index >= firstRowSize) {
+        const newIndex = index - secondRowSize;
+        setIndexSafely(newIndex);
+      }
     }
-  }, [index, setIndexSafely, secondRowSize]);
+  }, [index, activeArrowKey, firstRowSize, secondRowSize, setIndexSafely]);
 
   const moveDown = useCallback(() => {
-    if (index === 0) {
-      setIndexSafely(7);
-    } else if (index < firstRowSize) {
-      const newIndex = index + secondRowSize;
-      setIndexSafely(newIndex);
+    if (!activeArrowKey || activeArrowKey === "ArrowDown") {
+      setActiveArrowKey("ArrowDown");
+      if (index === 0) {
+        setIndexSafely(7);
+      } else if (index < firstRowSize) {
+        const newIndex = index + secondRowSize;
+        setIndexSafely(newIndex);
+      }
     }
-  }, [index, setIndexSafely, secondRowSize, firstRowSize]);
+  }, [index, activeArrowKey, firstRowSize, secondRowSize, setIndexSafely]);
 
   const setCurrentIndex = useCallback(
     (newIndex) => {
@@ -47,8 +59,8 @@ export function useCharacterSelector(initialIndex) {
     [setIndexSafely],
   );
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
+  const handleKeyDown = useCallback(
+    (event) => {
       switch (event.key) {
         case "ArrowLeft":
           movePrev();
@@ -65,16 +77,30 @@ export function useCharacterSelector(initialIndex) {
         default:
           break;
       }
-    };
+    },
+    [movePrev, moveNext, moveUp, moveDown],
+  );
 
-    // Add event listener
+  const handleKeyUp = useCallback(
+    (event) => {
+      if (event.key === activeArrowKey) {
+        setActiveArrowKey(null); // Reset active arrow key when key is released
+      }
+    },
+    [activeArrowKey],
+  );
+
+  useEffect(() => {
+    // Add event listeners for key down and key up events
     document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
 
-    // Cleanup function to remove the event listener
+    // Cleanup function to remove event listeners
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
     };
-  }, [movePrev, moveNext, moveUp, moveDown]);
+  }, [handleKeyDown, handleKeyUp]);
 
   const getCharacter = useCallback(() => {
     return allCharacters[index];
