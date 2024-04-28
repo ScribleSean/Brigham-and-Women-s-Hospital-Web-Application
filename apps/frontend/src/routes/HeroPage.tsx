@@ -104,7 +104,7 @@ function HeroPage() {
 
             <div className={"tempSpace tempBox paragraph "}>
               <p className={"wordPad"}>50% wet</p>
-              <img src={HumidityIcon} alt={"Image"} width={"45"} />
+              <img alt={"Image"} width={"45"} />
             </div>
           </div>
 
