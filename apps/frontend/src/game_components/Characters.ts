@@ -1,6 +1,7 @@
 import { Character } from "./Character.ts";
 
 const gabeFrames = ["/gabe1", "/gabe2", "/gabe3"];
+const gabeHead = "/gabeHead";
 const gabePassive = "passive";
 const gabeRole = "frontend";
 const gabeQuote = "quote";
@@ -12,12 +13,14 @@ const Gabe = new Character(
   4,
   gabePassive,
   gabeFrames,
+  gabeHead,
   gabeRole,
   gabeQuote,
   gabeBackstory,
 );
 
 const joseFrames = ["/jose1.png", "/jose2", "/jose3"];
+const joseHead = "/joseHead";
 const josePassive = "passive";
 const joseRole = "frontend";
 const joseQuote = "quote";
@@ -29,15 +32,18 @@ const Jose = new Character(
   3,
   josePassive,
   joseFrames,
+  joseHead,
   joseRole,
   joseQuote,
   joseBackstory,
 );
 
 const christianFrames = ["/heart4.png", "/christian2", "/christian3"];
+const christianHead = "/christianHead";
 const christianPassive = "passive";
 const christianRole = "frontend";
-const christianQuote = "quote";
+const christianQuote =
+  "There's smoke in my iris. But I painted a sunny day on the insides of my eyelids - Aesop Rock";
 const christianBackstory = "backStory";
 const Christian = new Character(
   "Christian",
@@ -46,12 +52,14 @@ const Christian = new Character(
   2,
   christianPassive,
   christianFrames,
+  christianHead,
   christianRole,
   christianQuote,
   christianBackstory,
 );
 
 const sophiaFrames = ["/greenDisease1.png", "/sophia2", "/sophia3"];
+const sohpiaHead = "/sophiaHead";
 const sophiaPassive = "passive";
 const sophiaRole = "frontend";
 const sophiaQuote = "quote";
@@ -63,12 +71,14 @@ const Sophia = new Character(
   2,
   sophiaPassive,
   sophiaFrames,
+  sohpiaHead,
   sophiaRole,
   sophiaQuote,
   sophiaBackstory,
 );
 
 const timothyFrames = ["/timothy1", "/timothy2", "/timothy3"];
+const timothyHead = "/timothyHead";
 const timothyPassive = "passive";
 const timothyRole = "frontend";
 const timothyQuote = "quote";
@@ -80,15 +90,18 @@ const Timothy = new Character(
   3,
   timothyPassive,
   timothyFrames,
+  timothyHead,
   timothyRole,
   timothyQuote,
   timothyBackstory,
 );
 
 const peterFrames = ["/pinkDisease1.png", "/peter2", "/peter3"];
+const peterHead = "/peterHead";
 const peterPassive = "passive";
 const peterRole = "frontend";
-const peterQuote = "quote";
+const peterQuote =
+  "Real G's move in silence like lasagna -Lil Wayne 6 Foot 7 Foot";
 const peterBackstory = "backStory";
 const Peter = new Character(
   "Peter",
@@ -97,15 +110,18 @@ const Peter = new Character(
   1,
   peterPassive,
   peterFrames,
+  peterHead,
   peterRole,
   peterQuote,
   peterBackstory,
 );
 
 const madduxFrames = ["/redDisease1.png", "/maddux2", "/maddux3"];
+const madduxHead = "/madduxHead";
 const madduxPassive = "passive";
 const madduxRole = "frontend";
-const madduxQuote = "quote";
+const madduxQuote =
+  "If possible, as far as it depends on you, live at peace with everyone. - Romans";
 const madduxBackstory = "backStory";
 const Maddux = new Character(
   "Maddux",
@@ -114,15 +130,17 @@ const Maddux = new Character(
   4,
   madduxPassive,
   madduxFrames,
+  madduxHead,
   madduxRole,
   madduxQuote,
   madduxBackstory,
 );
 
 const seanFrames = ["/sean1", "/sean2", "/sean3"];
+const seanHead = "/seanHead";
 const seanPassive = "passive";
 const seanRole = "frontend";
-const seanQuote = "quote";
+const seanQuote = "I smoked away my brain -A$AP Rocky";
 const seanBackstory = "backStory";
 const Sean = new Character(
   "Sean",
@@ -131,12 +149,14 @@ const Sean = new Character(
   5,
   seanPassive,
   seanFrames,
+  seanHead,
   seanRole,
   seanQuote,
   seanBackstory,
 );
 
 const lorenzoFrames = ["/lorenzo1", "/lorenzo2", "/lorenzo3"];
+const lorenzoHead = "/lorenzoHead";
 const lorenzoPassive = "passive";
 const lorenzoRole = "frontend";
 const lorenzoQuote = "quote";
@@ -148,15 +168,18 @@ const Lorenzo = new Character(
   3,
   lorenzoPassive,
   lorenzoFrames,
+  lorenzoHead,
   lorenzoRole,
   lorenzoQuote,
   lorenzoBackstory,
 );
 
 const ethanFrames = ["/ethan1", "/ethan2", "/ethan3"];
+const ethanHead = "/ethanHead";
 const ethanPassive = "passive";
 const ethanRole = "frontend";
-const ethanQuote = "quote";
+const ethanQuote =
+  "And such were some of you: but ye are washed, but ye are sanctified, but ye are justified in the name of the Lord Jesus, and by the Spirit of our God. - 1 Corinthians 6:11";
 const ethanBackstory = "backStory";
 const Ethan = new Character(
   "Ethan",
@@ -165,12 +188,14 @@ const Ethan = new Character(
   4,
   ethanPassive,
   ethanFrames,
+  ethanHead,
   ethanRole,
   ethanQuote,
   ethanBackstory,
 );
 
 const wongFrames = ["/wong1", "/wong2", "/wong3"];
+const wongHead = "/wongHead";
 const wongPassive = "passive";
 const wongRole = "frontend";
 const wongQuote = "quote";
@@ -182,12 +207,14 @@ const Wong = new Character(
   3,
   wongPassive,
   wongFrames,
+  wongHead,
   wongRole,
   wongQuote,
   wongBackstory,
 );
 
 const josephFrames = ["/joseph1", "/joseph2", "/joseph3"];
+const josephHead = "/josephHead";
 const josephPassive = "passive";
 const josephRole = "frontend";
 const josephQuote = "quote";
@@ -199,12 +226,14 @@ const Joseph = new Character(
   3,
   josephPassive,
   josephFrames,
+  josephHead,
   josephRole,
   josephQuote,
   josephBackstory,
 );
 
 const gusFrames = ["/gus1", "/gus2", "/gus3"];
+const gusHead = "/gusHead";
 const gusPassive = "passive";
 const gusRole = "frontend";
 const gusQuote = "quote";
@@ -216,6 +245,7 @@ const Gus = new Character(
   2,
   gusPassive,
   gusFrames,
+  gusHead,
   gusRole,
   gusQuote,
   gusBackstory,
