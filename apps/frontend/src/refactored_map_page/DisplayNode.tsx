@@ -27,6 +27,7 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Box,
 } from "@mui/material";
 import {
   displayToImageCoordinates,
@@ -564,12 +565,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               <React.Fragment>
                 {node.type === NodeType.ELEV ? (
                   <div style={changingFloorNodeStyleBack}>
-                    <ElevatorIcon
-                      onClick={handleChangingFloorBackNodeClick}
-                      sx={{
-                        cursor: "pointer",
-                      }}
-                    />
                     <Typography
                       variant="button"
                       onClick={handleChangingFloorBackNodeClick}
@@ -585,22 +580,32 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      Elevator Back to Floor {""}
-                      {directionsCounter - 1 >= 0
-                        ? paths[directionsCounter - 1].edges[
+                      <Box
+                        sx={{
+                          ":hover": {
+                            backgroundColor: "white",
+                          },
+                          padding: "2px",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <ElevatorIcon
+                          onClick={handleChangingFloorBackNodeClick}
+                          sx={{
+                            cursor: "pointer",
+                          }}
+                        />
+                        Elevator Back to Floor {""}
+                        {
+                          paths[directionsCounter - 1].edges[
                             paths[directionsCounter - 1].edges.length - 1
                           ].startNode.floor
-                        : ""}
+                        }
+                      </Box>
                     </Typography>
                   </div>
                 ) : (
                   <div style={changingFloorNodeStyleBack}>
-                    <StairsIcon
-                      onClick={handleChangingFloorBackNodeClick}
-                      sx={{
-                        cursor: "pointer",
-                      }}
-                    />
                     <Typography
                       variant="button"
                       onClick={handleChangingFloorBackNodeClick}
@@ -621,12 +626,28 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      Stairs Back to Floor {""}
-                      {directionsCounter - 1 >= 0
-                        ? paths[directionsCounter - 1].edges[
+                      <Box
+                        sx={{
+                          ":hover": {
+                            backgroundColor: "white",
+                          },
+                          padding: "2px",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <StairsIcon
+                          onClick={handleChangingFloorBackNodeClick}
+                          sx={{
+                            cursor: "pointer",
+                          }}
+                        />
+                        Stairs Back to Floor {""}
+                        {
+                          paths[directionsCounter - 1].edges[
                             paths[directionsCounter - 1].edges.length - 1
                           ].startNode.floor
-                        : ""}
+                        }
+                      </Box>
                     </Typography>
                   </div>
                 )}
@@ -636,12 +657,6 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
               <React.Fragment>
                 {node.type === NodeType.ELEV ? (
                   <div style={changingFloorNodeStyleNext}>
-                    <ElevatorIcon
-                      onClick={handleChangingFloorNextNodeClick}
-                      sx={{
-                        cursor: "pointer",
-                      }}
-                    />
                     <Typography
                       variant="button"
                       onClick={handleChangingFloorNextNodeClick}
@@ -657,28 +672,28 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      Elevator to Floor {""}
-                      {paths.length > directionsCounter + 1
-                        ? paths[directionsCounter + 1].edges[0].startNode.floor
-                        : ""}
+                      <Box
+                        sx={{
+                          ":hover": {
+                            backgroundColor: "white",
+                          },
+                          padding: "2px",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <ElevatorIcon
+                          onClick={handleChangingFloorNextNodeClick}
+                          sx={{
+                            cursor: "pointer",
+                          }}
+                        />
+                        Elevator to Floor {""}
+                        {paths[directionsCounter + 1].edges[0].startNode.floor}
+                      </Box>
                     </Typography>
                   </div>
                 ) : (
                   <div style={changingFloorNodeStyleNext}>
-                    <StairsIcon
-                      onClick={
-                        paths.length > directionsCounter + 1
-                          ? handleChangingFloorNextNodeClick
-                          : undefined
-                      }
-                      sx={{
-                        cursor:
-                          paths.length > directionsCounter + 1
-                            ? "pointer"
-                            : "cursor",
-                        opacity: paths.length > directionsCounter + 1 ? 1 : 0,
-                      }}
-                    />
                     <Typography
                       variant="button"
                       onClick={handleChangingFloorNextNodeClick}
@@ -695,13 +710,36 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                       }}
                     >
                       {paths.length > directionsCounter + 1 && (
-                        <div>
+                        <Box
+                          sx={{
+                            ":hover": {
+                              backgroundColor: "white",
+                            },
+                            padding: "2px",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          <StairsIcon
+                            onClick={
+                              paths.length > directionsCounter + 1
+                                ? handleChangingFloorNextNodeClick
+                                : undefined
+                            }
+                            sx={{
+                              cursor:
+                                paths.length > directionsCounter + 1
+                                  ? "pointer"
+                                  : "cursor",
+                              opacity:
+                                paths.length > directionsCounter + 1 ? 1 : 0,
+                            }}
+                          />
                           Stairs to Floor{" "}
                           {
                             paths[directionsCounter + 1].edges[0].startNode
                               .floor
                           }
-                        </div>
+                        </Box>
                       )}
                     </Typography>
                   </div>

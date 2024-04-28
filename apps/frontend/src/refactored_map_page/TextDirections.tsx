@@ -31,7 +31,32 @@ function TextDirections() {
   const [directionsText, setDirectionsText] = useState<Array<string>>([]);
   const [currentPage, setCurrentPage] = useState(0);
 
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [maxHeight, setMaxHeight] = useState("0px");
+
+  const toggleExpanded = () => {
+    setExpanded((prev) => !prev);
+    // Adjust height immediately on toggle
+    if (expanded) {
+      setMaxHeight("0px"); // Collapse
+    } else {
+      if (contentRef.current) {
+        setMaxHeight(`${contentRef.current.scrollHeight}px`);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (expanded && contentRef.current) {
+        setMaxHeight(`${contentRef.current.scrollHeight}px`);
+      }
+    };
+    updateSize(); // Call when component mounts or updates
+    window.addEventListener("resize", updateSize); // Adjust if window size changes
+    return () => window.removeEventListener("resize", updateSize);
+  }, [expanded]);
 
   const prevDirectionRef = useRef("");
   const floorPaths = useRef(new Array<Path>());
@@ -240,124 +265,136 @@ function TextDirections() {
       {startNode && endNode ? (
         <div className={`${styles.directionsContainer}`}>
           <div className={`${styles.textDirectionsContainer}`}>
-            <div className={`${styles.directionsHeader}`}>
+            <div className={styles.directionsHeader}>
               <h5>Text Directions</h5>
-              <IconButton onClick={() => setExpanded(!expanded)}>
-                {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+              <IconButton onClick={toggleExpanded}>
+                {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </IconButton>
             </div>
-            {expanded ? (
-              <div>
-                <div className={`${styles.directionsContent}`}>
-                  {pagedDirections.map((direction, i) => (
-                    <div key={i} className={`${styles.directionsText}`}>
-                      {getIcon(direction)}
-                      <p>{direction}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className={`${styles.directionsFooter}`}>
-                  <div className={`${styles.pagination}`}>
-                    <p
-                      style={{
-                        marginRight: "16px",
+            <div
+              ref={contentRef}
+              style={{
+                maxHeight: maxHeight,
+                overflow: "hidden",
+                transition: "max-height 0.5s ease-in-out",
+              }}
+            >
+              <div className={`${styles.directionsContent}`}>
+                {pagedDirections.map((direction, i) => (
+                  <div key={i} className={`${styles.directionsText}`}>
+                    {getIcon(direction)}
+                    <p>{direction}</p>
+                  </div>
+                ))}
+              </div>
+              <div className={`${styles.directionsFooter}`}>
+                <div className={`${styles.pagination}`}>
+                  <p
+                    style={{
+                      marginRight: "16px",
+                    }}
+                  >
+                    Page {currentPage + 1} of {numPages}
+                  </p>
+                  <ButtonGroup size="small">
+                    <Button
+                      onClick={handlePrevPath}
+                      disabled={prevPathDisabled}
+                      sx={{
+                        height: "2rem",
+                        minWidth: "5rem",
+                        backgroundColor: "white",
+                        color: "#012D5A",
+                        fontFamily: "inter",
+                        fontWeight: "bold",
+                        fontSize: "0.875rem",
+                        textTransform: "capitalize",
+                        borderRadius: "4px",
+                        border: "1px solid #c4c4c4",
+                        boxShadow: "none",
+                        "&:hover": {
+                          backgroundColor: "#f5f5f5",
+                          borderColor: "#a8a8a8",
+                        },
+                        "&:disabled": {
+                          backgroundColor: "#f5f5f5",
+                          color: "#c4c4c4",
+                        },
                       }}
                     >
-                      Page {currentPage + 1} of {numPages}
-                    </p>
-                    <ButtonGroup size="small">
-                      <Button
-                        onClick={handlePrevPath}
-                        disabled={prevPathDisabled}
-                        sx={{
-                          height: "2rem",
-                          minWidth: "5rem",
-                          backgroundColor: "white",
-                          color: "#012D5A",
-                          fontFamily: "inter",
-                          fontWeight: "bold",
-                          fontSize: "0.875rem",
-                          textTransform: "capitalize",
-                          borderRadius: "4px",
-                          border: "1px solid #c4c4c4",
-                          boxShadow: "none",
-                          "&:hover": {
-                            backgroundColor: "#f5f5f5",
-                            borderColor: "#a8a8a8",
-                          },
-                          "&:disabled": {
-                            backgroundColor: "#f5f5f5",
-                            color: "#c4c4c4",
-                          },
-                        }}
-                      >
-                        Prev Path
-                      </Button>
+                      Prev Path
+                    </Button>
 
-                      <Button
-                        onClick={handleNextPath}
-                        disabled={nextPathDisabled}
-                        sx={{
-                          height: "2rem",
-                          minWidth: "5rem",
-                          backgroundColor: "white",
-                          color: "#012D5A",
-                          fontFamily: "inter",
-                          fontWeight: "bold",
-                          fontSize: "0.875rem",
-                          textTransform: "capitalize",
-                          borderRadius: "4px",
-                          border: "1px solid #c4c4c4",
-                          boxShadow: "none",
-                          "&:hover": {
-                            backgroundColor: "#f5f5f5",
-                            borderColor: "#a8a8a8",
-                          },
-                          "&:disabled": {
-                            backgroundColor: "#f5f5f5",
-                            color: "#c4c4c4",
-                          },
-                        }}
-                      >
-                        Next Path
-                      </Button>
-                    </ButtonGroup>
-                    <div>
-                      <IconButton
-                        onClick={handlePrevPage}
-                        disabled={currentPage == 0}
-                      >
-                        <ChevronLeftIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={handleNextPage}
-                        disabled={currentPage + 1 == numPages}
-                      >
-                        <ChevronRightIcon />
-                      </IconButton>
-                    </div>
+                    <Button
+                      onClick={handleNextPath}
+                      disabled={nextPathDisabled}
+                      sx={{
+                        height: "2rem",
+                        minWidth: "5rem",
+                        backgroundColor: "white",
+                        color: "#012D5A",
+                        fontFamily: "inter",
+                        fontWeight: "bold",
+                        fontSize: "0.875rem",
+                        textTransform: "capitalize",
+                        borderRadius: "4px",
+                        border: "1px solid #c4c4c4",
+                        boxShadow: "none",
+                        "&:hover": {
+                          backgroundColor: "#f5f5f5",
+                          borderColor: "#a8a8a8",
+                        },
+                        "&:disabled": {
+                          backgroundColor: "#f5f5f5",
+                          color: "#c4c4c4",
+                        },
+                      }}
+                    >
+                      Next Path
+                    </Button>
+                  </ButtonGroup>
+                  <div>
+                    <IconButton
+                      onClick={handlePrevPage}
+                      disabled={currentPage == 0}
+                    >
+                      <ChevronLeftIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={handleNextPage}
+                      disabled={currentPage + 1 == numPages}
+                    >
+                      <ChevronRightIcon />
+                    </IconButton>
                   </div>
                 </div>
               </div>
-            ) : null}
+            </div>
           </div>
           <Box className={`${styles.textDirectionFloorGroup}`}>
             {paths.map((path, i) => (
               <Box
                 key={i}
-                onClick={() => setDirectionsCounter(i)}
                 sx={{
                   color:
                     paths[directionsCounter] === path ? "#2196F3" : "#012D5A",
-                  ":hover": {
-                    cursor: "pointer",
-                  },
+                  flexDirection: "row",
+                  justifyContent: "space between",
+                  display: "flex",
                 }}
               >
-                {path.edges[0].startNode.floor}
+                <Box
+                  sx={{
+                    ":hover": {
+                      cursor: "pointer",
+                    },
+                  }}
+                  onClick={() => setDirectionsCounter(i)}
+                >
+                  {path.edges[0].startNode.floor}
+                </Box>
                 {paths.length - 1 === i ? null : (
                   <EastIcon
-                    onClick={undefined}
                     sx={{
                       color: "black",
                       fontSize: "1rem",
