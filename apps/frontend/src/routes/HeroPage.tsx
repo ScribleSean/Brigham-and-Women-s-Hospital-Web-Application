@@ -5,7 +5,6 @@ import "../styles/HeroPage.css";
 // @import "~animate.css/animate.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
-import HumidityIcon from "../../public/Humidty.png";
 
 function addAnimationClass(e: Event) {
   e.preventDefault(); // Prevent the default action (navigation)

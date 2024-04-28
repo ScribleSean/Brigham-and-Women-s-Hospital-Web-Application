@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 const CharCarruselChunk = ({ character, selectedStatus }) => {
   const generalStyle = {
@@ -109,6 +109,16 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
     return squares;
   };
 
+    const [currentFrame, setCurrentFrame] = useState(0);
+
+    useEffect(() => {
+        const frameInterval = setInterval(() => {
+            setCurrentFrame((prevFrame) => (prevFrame + 1) % character.frames.length);
+        }, 200); // Change the interval time as needed
+
+        return () => clearInterval(frameInterval);
+    }, [character.frames.length]);
+
   return (
     <div
       className={"row justify-content-center mt-4 mb-4"}
@@ -120,21 +130,20 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
         <p>{character.role}</p>
         <h3 className={"pt-2"}>Quote:</h3>
         <p>
-          {character.quote} "simply dummy text of the printing and typesetting
-          industry." - Person
+          {character.quote}
         </p>
         <h3 className={"pt-2"}>Back Story:</h3>
         <p>
-          {character.backstory} simply dummy text of the printing and
-          typesetting industry. Lorem Ipsum has been the industry's standard
-          dummy text ever since
+          {character.backstory}
         </p>
       </div>
       {/* Portrait */}
       <div className={"col-lg p-2 mx-3"} style={portraitStyle}>
         <h1 className={"mt-5"}>{character.name}</h1>
         <img
-          src={character.frames[0]}
+            width={"200px"}
+            height={"400px"}
+            src={character.frames[currentFrame]} // Use currentFrame
           alt={character.name}
           style={imageStyle}
         />
@@ -155,9 +164,7 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
         </div>
         <h3 className={"pt-2"}>Passive:</h3>
         <p className={"mx-1"}>
-          {character.passive}simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since
+          {character.passive}
         </p>
       </div>
     </div>
