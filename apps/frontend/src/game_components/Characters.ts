@@ -195,6 +195,13 @@ const lorenzoFrames = [
   "/characterSprites/lorenzo1.png",
   "/characterSprites/lorenzo2.png",
   "/characterSprites/lorenzo3.png",
+  "/characterSprites/lorenzo4.png",
+  "/characterSprites/lorenzo5.png",
+  "/characterSprites/lorenzo6.png",
+  "/characterSprites/lorenzo7.png",
+  "/characterSprites/lorenzo8.png",
+  "/characterSprites/lorenzo9.png",
+  "/characterSprites/lorenzo10.png",
 ];
 const lorenzoHead = "/heads/lorenzoHead.png";
 const lorenzoPassive = "passive";
