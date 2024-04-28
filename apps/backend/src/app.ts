@@ -29,6 +29,7 @@ import deleteEdgesRouter from "./routes/deleteEdges";
 import refactorEdgesRouter from "./routes/refactorEdges";
 import employeeRouter from "./routes/employee-router.ts";
 import downloadEmployeeDataRouter from "./routes/data-to-csv-employee.ts";
+import updateTemperatureRouter from "./routes/updateTemperature.ts";
 import brigRouter from "./routes/brigham-breakout/brigGameRouter.ts";
 import brigAllTime from "./routes/brigham-breakout/breakoutAllTimeRouter.ts";
 import brigToday from "./routes/brigham-breakout/breakoutTodayRouter.ts";
@@ -99,6 +100,8 @@ app.use("/api/add-nodes", addNodesRouter);
 app.use("/api/delete-edges", deleteEdgesRouter);
 app.use("/api/refactor-edges", refactorEdgesRouter);
 app.use("/api/add-edges", addEdgesRouter);
+
+app.use("/api/update-temperature", updateTemperatureRouter);
 
 /**
  * Catch all 404 errors, and forward them to the error handler

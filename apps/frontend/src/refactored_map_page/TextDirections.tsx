@@ -1,13 +1,18 @@
 import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useMapContext } from "./MapContext.ts";
-import { Button, ButtonGroup, IconButton } from "@mui/material";
+import { Box, Button, ButtonGroup, IconButton } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 import styles from "../styles/TextDirections.module.css";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TurnRightIcon from "@mui/icons-material/TurnRight";
+import TurnLeftIcon from "@mui/icons-material/TurnLeft";
+import TurnSlightRightIcon from "@mui/icons-material/TurnSlightRight";
+import TurnSlightLeftIcon from "@mui/icons-material/TurnSlightLeft";
+import StraightIcon from "@mui/icons-material/Straight";
 import EastIcon from "@mui/icons-material/East";
 
 export default TextDirections;
@@ -26,7 +31,32 @@ function TextDirections() {
   const [directionsText, setDirectionsText] = useState<Array<string>>([]);
   const [currentPage, setCurrentPage] = useState(0);
 
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [maxHeight, setMaxHeight] = useState("0px");
+
+  const toggleExpanded = () => {
+    setExpanded((prev) => !prev);
+    // Adjust height immediately on toggle
+    if (expanded) {
+      setMaxHeight("0px"); // Collapse
+    } else {
+      if (contentRef.current) {
+        setMaxHeight(`${contentRef.current.scrollHeight}px`);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (expanded && contentRef.current) {
+        setMaxHeight(`${contentRef.current.scrollHeight}px`);
+      }
+    };
+    updateSize(); // Call when component mounts or updates
+    window.addEventListener("resize", updateSize); // Adjust if window size changes
+    return () => window.removeEventListener("resize", updateSize);
+  }, [expanded]);
 
   const prevDirectionRef = useRef("");
   const floorPaths = useRef(new Array<Path>());
@@ -139,6 +169,16 @@ function TextDirections() {
         }
       }
 
+      if (
+        paths[directionsCounter] &&
+        paths[directionsCounter].edges &&
+        directions.length === 0
+      ) {
+        directions.push(
+          `Continue straight towards ${paths[directionsCounter].edges[0].endNode.shortName}`,
+        );
+      }
+
       return directions;
     },
     [directionsCounter],
@@ -197,18 +237,19 @@ function TextDirections() {
     setDirectionsCounter(prevPathIndex);
   };
 
-  const getIconRotation = (direction: string) => {
-    if (direction.includes("Turn right") || direction.includes("Bear right")) {
-      return {};
-    } else if (
-      direction.includes("Turn left") ||
-      direction.includes("Bear left")
-    ) {
-      return { transform: "rotate(180deg)" };
+  const getIcon = (direction: string) => {
+    if (direction.includes("Turn right")) {
+      return <TurnRightIcon />;
+    } else if (direction.includes("Turn left")) {
+      return <TurnLeftIcon />;
+    } else if (direction.includes("Bear right")) {
+      return <TurnSlightRightIcon />;
+    } else if (direction.includes("Bear left")) {
+      return <TurnSlightLeftIcon />;
     } else if (direction.includes("Continue straight")) {
-      return { transform: "rotate(270deg)" };
+      return <StraightIcon />;
     } else {
-      return {};
+      return null;
     }
   };
 
@@ -224,59 +265,146 @@ function TextDirections() {
       {startNode && endNode ? (
         <div className={`${styles.directionsContainer}`}>
           <div className={`${styles.textDirectionsContainer}`}>
-            <div className={`${styles.directionsHeader}`}>
+            <div className={styles.directionsHeader}>
               <h5>Text Directions</h5>
-              <IconButton onClick={() => setExpanded(!expanded)}>
-                {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+              <IconButton onClick={toggleExpanded}>
+                {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </IconButton>
             </div>
-            {expanded ? (
-              <div>
-                <div className={`${styles.directionsContent}`}>
-                  {pagedDirections.map((direction, i) => (
-                    <div key={i} className={`${styles.directionsText}`}>
-                      <EastIcon sx={{ ...getIconRotation(direction) }} />
-                      {/*<p className={`${styles.stepNumber}`}>*/}
-                      {/*  <b>{i + 1 + currentPage * directionsPerPage}.</b>*/}
-                      {/*</p>*/}
-                      <p>{direction}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className={`${styles.directionsFooter}`}>
-                  <div className={`${styles.pagination}`}>
-                    <p>
-                      Page {currentPage + 1} of {numPages}
-                    </p>
-                    <div>
-                      <IconButton
-                        onClick={handlePrevPage}
-                        disabled={currentPage == 0}
-                      >
-                        <ChevronLeftIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={handleNextPage}
-                        disabled={currentPage + 1 == numPages}
-                      >
-                        <ChevronRightIcon />
-                      </IconButton>
-                    </div>
+            <div
+              ref={contentRef}
+              style={{
+                maxHeight: maxHeight,
+                overflow: "hidden",
+                transition: "max-height 0.5s ease-in-out",
+              }}
+            >
+              <div className={`${styles.directionsContent}`}>
+                {pagedDirections.map((direction, i) => (
+                  <div key={i} className={`${styles.directionsText}`}>
+                    {getIcon(direction)}
+                    <p>{direction}</p>
+                  </div>
+                ))}
+              </div>
+              <div className={`${styles.directionsFooter}`}>
+                <div className={`${styles.pagination}`}>
+                  <p
+                    style={{
+                      marginRight: "16px",
+                    }}
+                  >
+                    Page {currentPage + 1} of {numPages}
+                  </p>
+                  <ButtonGroup size="small">
+                    <Button
+                      onClick={handlePrevPath}
+                      disabled={prevPathDisabled}
+                      sx={{
+                        height: "2rem",
+                        minWidth: "5rem",
+                        backgroundColor: "white",
+                        color: "#012D5A",
+                        fontFamily: "inter",
+                        fontWeight: "bold",
+                        fontSize: "0.875rem",
+                        textTransform: "capitalize",
+                        borderRadius: "4px",
+                        border: "1px solid #c4c4c4",
+                        boxShadow: "none",
+                        "&:hover": {
+                          backgroundColor: "#f5f5f5",
+                          borderColor: "#a8a8a8",
+                        },
+                        "&:disabled": {
+                          backgroundColor: "#f5f5f5",
+                          color: "#c4c4c4",
+                        },
+                      }}
+                    >
+                      Prev Path
+                    </Button>
+
+                    <Button
+                      onClick={handleNextPath}
+                      disabled={nextPathDisabled}
+                      sx={{
+                        height: "2rem",
+                        minWidth: "5rem",
+                        backgroundColor: "white",
+                        color: "#012D5A",
+                        fontFamily: "inter",
+                        fontWeight: "bold",
+                        fontSize: "0.875rem",
+                        textTransform: "capitalize",
+                        borderRadius: "4px",
+                        border: "1px solid #c4c4c4",
+                        boxShadow: "none",
+                        "&:hover": {
+                          backgroundColor: "#f5f5f5",
+                          borderColor: "#a8a8a8",
+                        },
+                        "&:disabled": {
+                          backgroundColor: "#f5f5f5",
+                          color: "#c4c4c4",
+                        },
+                      }}
+                    >
+                      Next Path
+                    </Button>
+                  </ButtonGroup>
+                  <div>
+                    <IconButton
+                      onClick={handlePrevPage}
+                      disabled={currentPage == 0}
+                    >
+                      <ChevronLeftIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={handleNextPage}
+                      disabled={currentPage + 1 == numPages}
+                    >
+                      <ChevronRightIcon />
+                    </IconButton>
                   </div>
                 </div>
               </div>
-            ) : null}
+            </div>
           </div>
-          <div className={`${styles.textDirectionBtnGroup}`}>
-            <ButtonGroup size="small" variant="contained">
-              <Button onClick={handlePrevPath} disabled={prevPathDisabled}>
-                Prev Path
-              </Button>
-              <Button onClick={handleNextPath} disabled={nextPathDisabled}>
-                Next Path
-              </Button>
-            </ButtonGroup>
-          </div>
+          <Box className={`${styles.textDirectionFloorGroup}`}>
+            {paths.map((path, i) => (
+              <Box
+                key={i}
+                sx={{
+                  color:
+                    paths[directionsCounter] === path ? "#2196F3" : "#012D5A",
+                  flexDirection: "row",
+                  justifyContent: "space between",
+                  display: "flex",
+                }}
+              >
+                <Box
+                  sx={{
+                    ":hover": {
+                      cursor: "pointer",
+                    },
+                  }}
+                  onClick={() => setDirectionsCounter(i)}
+                >
+                  {path.edges[0].startNode.floor}
+                </Box>
+                {paths.length - 1 === i ? null : (
+                  <EastIcon
+                    sx={{
+                      color: "black",
+                      fontSize: "1rem",
+                      margin: "4px",
+                    }}
+                  ></EastIcon>
+                )}
+              </Box>
+            ))}
+          </Box>
         </div>
       ) : null}
     </div>
