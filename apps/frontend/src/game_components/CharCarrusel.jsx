@@ -26,21 +26,14 @@ const CharCarrusel = ({ currentIndex, getCharacter }) => {
     centerMode: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    focusOnSelect: true,
-    speed: 100,
+    arrows: false,
+    draggable: false,
+    speed: 250,
     onSwipeEnd: sliderRef,
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        marginLeft: "0",
-        marginRight: "0",
-        paddingLeft: "0",
-        paddingRight: "0",
-      }}
-    >
+    <div>
       <Slider {...settings} ref={sliderRef}>
         {allCharacters.map((character, index) => (
           <CharCarruselChunk character={character} key={index} />

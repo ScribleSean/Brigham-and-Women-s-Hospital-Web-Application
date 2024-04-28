@@ -2,6 +2,9 @@ import { Character } from "./Character.ts";
 
 const gabeFrames = ["/gabe1", "/gabe2", "/gabe3"];
 const gabePassive = "passive";
+const gabeRole = "frontend";
+const gabeQuote = "quote";
+const gabeBackstory = "backStory";
 const Gabe = new Character(
   "Gabe",
   3,
@@ -9,10 +12,16 @@ const Gabe = new Character(
   { width: 80, height: 40 },
   gabePassive,
   gabeFrames,
+  gabeRole,
+  gabeQuote,
+  gabeBackstory,
 );
 
 const joseFrames = ["/jose1.png", "/jose2", "/jose3"];
 const josePassive = "passive";
+const joseRole = "frontend";
+const joseQuote = "quote";
+const joseBackstory = "backStory";
 const Jose = new Character(
   "Jose",
   3,
@@ -20,10 +29,16 @@ const Jose = new Character(
   { width: 80, height: 40 },
   josePassive,
   joseFrames,
+  joseRole,
+  joseQuote,
+  joseBackstory,
 );
 
 const christianFrames = ["/heart4.png", "/christian2", "/christian3"];
 const christianPassive = "passive";
+const christianRole = "frontend";
+const christianQuote = "quote";
+const christianBackstory = "backStory";
 const Christian = new Character(
   "Christian",
   1,
@@ -31,10 +46,16 @@ const Christian = new Character(
   { width: 25, height: 40 },
   christianPassive,
   christianFrames,
+  christianRole,
+  christianQuote,
+  christianBackstory,
 );
 
 const sophiaFrames = ["/greenDisease1.png", "/sophia2", "/sophia3"];
 const sophiaPassive = "passive";
+const sophiaRole = "frontend";
+const sophiaQuote = "quote";
+const sophiaBackstory = "backStory";
 const Sophia = new Character(
   "Sophia",
   3,
@@ -42,10 +63,16 @@ const Sophia = new Character(
   { width: 80, height: 40 },
   sophiaPassive,
   sophiaFrames,
+  sophiaRole,
+  sophiaQuote,
+  sophiaBackstory,
 );
 
 const timothyFrames = ["/timothy1", "/timothy2", "/timothy3"];
 const timothyPassive = "passive";
+const timothyRole = "frontend";
+const timothyQuote = "quote";
+const timothyBackstory = "backStory";
 const Timothy = new Character(
   "Timothy",
   3,
@@ -53,10 +80,16 @@ const Timothy = new Character(
   { width: 80, height: 40 },
   timothyPassive,
   timothyFrames,
+  timothyRole,
+  timothyQuote,
+  timothyBackstory,
 );
 
 const peterFrames = ["/pinkDisease1.png", "/peter2", "/peter3"];
 const peterPassive = "passive";
+const peterRole = "frontend";
+const peterQuote = "quote";
+const peterBackstory = "backStory";
 const Peter = new Character(
   "Peter",
   3,
@@ -64,10 +97,16 @@ const Peter = new Character(
   { width: 80, height: 40 },
   peterPassive,
   peterFrames,
+  peterRole,
+  peterQuote,
+  peterBackstory,
 );
 
 const madduxFrames = ["/redDisease1.png", "/maddux2", "/maddux3"];
 const madduxPassive = "passive";
+const madduxRole = "frontend";
+const madduxQuote = "quote";
+const madduxBackstory = "backStory";
 const Maddux = new Character(
   "Maddux",
   3,
@@ -75,10 +114,16 @@ const Maddux = new Character(
   { width: 80, height: 40 },
   madduxPassive,
   madduxFrames,
+  madduxRole,
+  madduxQuote,
+  madduxBackstory,
 );
 
 const seanFrames = ["/sean1", "/sean2", "/sean3"];
 const seanPassive = "passive";
+const seanRole = "frontend";
+const seanQuote = "quote";
+const seanBackstory = "backStory";
 const Sean = new Character(
   "Sean",
   3,
@@ -86,10 +131,16 @@ const Sean = new Character(
   { width: 80, height: 40 },
   seanPassive,
   seanFrames,
+  seanRole,
+  seanQuote,
+  seanBackstory,
 );
 
 const lorenzoFrames = ["/lorenzo1", "/lorenzo2", "/lorenzo3"];
 const lorenzoPassive = "passive";
+const lorenzoRole = "frontend";
+const lorenzoQuote = "quote";
+const lorenzoBackstory = "backStory";
 const Lorenzo = new Character(
   "Lorenzo",
   3,
@@ -97,10 +148,16 @@ const Lorenzo = new Character(
   { width: 80, height: 40 },
   lorenzoPassive,
   lorenzoFrames,
+  lorenzoRole,
+  lorenzoQuote,
+  lorenzoBackstory,
 );
 
 const ethanFrames = ["/ethan1", "/ethan2", "/ethan3"];
 const ethanPassive = "passive";
+const ethanRole = "frontend";
+const ethanQuote = "quote";
+const ethanBackstory = "backStory";
 const Ethan = new Character(
   "Ethan",
   3,
@@ -108,10 +165,16 @@ const Ethan = new Character(
   { width: 80, height: 40 },
   ethanPassive,
   ethanFrames,
+  ethanRole,
+  ethanQuote,
+  ethanBackstory,
 );
 
 const wongFrames = ["/wong1", "/wong2", "/wong3"];
 const wongPassive = "passive";
+const wongRole = "frontend";
+const wongQuote = "quote";
+const wongBackstory = "backStory";
 const Wong = new Character(
   "Wong",
   3,
@@ -119,10 +182,16 @@ const Wong = new Character(
   { width: 80, height: 40 },
   wongPassive,
   wongFrames,
+  wongRole,
+  wongQuote,
+  wongBackstory,
 );
 
 const josephFrames = ["/joseph1", "/joseph2", "/joseph3"];
 const josephPassive = "passive";
+const josephRole = "frontend";
+const josephQuote = "quote";
+const josephBackstory = "backStory";
 const Joseph = new Character(
   "Joseph",
   3,
@@ -130,10 +199,16 @@ const Joseph = new Character(
   { width: 80, height: 40 },
   josephPassive,
   josephFrames,
+  josephRole,
+  josephQuote,
+  josephBackstory,
 );
 
 const gusFrames = ["/gus1", "/gus2", "/gus3"];
 const gusPassive = "passive";
+const gusRole = "frontend";
+const gusQuote = "quote";
+const gusBackstory = "backStory";
 const Gus = new Character(
   "Gus",
   3,
@@ -141,6 +216,9 @@ const Gus = new Character(
   { width: 80, height: 40 },
   gusPassive,
   gusFrames,
+  gusRole,
+  gusQuote,
+  gusBackstory,
 );
 
 export const allCharacters = [

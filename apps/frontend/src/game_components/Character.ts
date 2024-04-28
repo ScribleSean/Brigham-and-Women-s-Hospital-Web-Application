@@ -5,6 +5,9 @@ export class Character {
   public dimensions: { width: number; height: number };
   public passive: string;
   public frames: Array<string>;
+  public role: string;
+  public quote: string;
+  public backstory: string;
 
   constructor(
     name: string,
@@ -13,6 +16,9 @@ export class Character {
     dimensions: { width: number; height: number },
     passive: string,
     frames: Array<string>,
+    role: string,
+    quote: string,
+    backstory: string,
   ) {
     this.name = name;
     this.health = health;
@@ -20,5 +26,8 @@ export class Character {
     this.dimensions = dimensions;
     this.frames = frames;
     this.passive = passive;
+    this.role = role;
+    this.backstory = backstory;
+    this.quote = quote;
   }
 }
