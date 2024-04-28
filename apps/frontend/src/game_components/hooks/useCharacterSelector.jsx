@@ -1,13 +1,18 @@
 import { useState, useCallback, useEffect } from "react";
 import { allCharacters } from "../Characters";
 
+const SelectionStatus = {
+  unselected: 0,
+  selected: 1,
+};
+
 export function useCharacterSelector(initialIndex) {
   const [index, setIndex] = useState(initialIndex);
-  const [activeArrowKey, setActiveArrowKey] = useState(null); // State to track active arrow key
+  const [activeArrowKey, setActiveArrowKey] = useState(null);
   const itemCount = allCharacters.length;
-  const [selectedStatus, setSelectedStatus] = useState(0);
-  console.log(selectedStatus);
-  consol;
+  const [selectedStatus, setSelectedStatus] = useState(
+    SelectionStatus.unselected,
+  );
 
   const firstRowSize = 7;
   const secondRowSize = 6;
@@ -77,21 +82,39 @@ export function useCharacterSelector(initialIndex) {
         case "ArrowDown":
           moveDown();
           break;
+        case "Enter":
+          keyboardEnter();
+          break;
+        case "Exit":
+          keyboardExit();
+          break;
         default:
           break;
       }
     },
-    [movePrev, moveNext, moveUp, moveDown],
+    [movePrev, moveNext, moveUp, moveDown, keyboardEnter, keyboardExit],
   );
 
   const handleKeyUp = useCallback(
     (event) => {
       if (event.key === activeArrowKey) {
-        setActiveArrowKey(null); // Reset active arrow key when key is released
+        setActiveArrowKey(null);
       }
     },
     [activeArrowKey],
   );
+
+  const keyboardEnter = useCallback(() => {
+    if (selectedStatus.unselected) {
+      setSelectedStatus(SelectionStatus.selected);
+    } else {
+      window.location.href = `/game-over?endTime=${index}`;
+    }
+  }, [selectedStatus, index]);
+
+  const keyboardExit = useCallback(() => {
+    setSelectedStatus(SelectionStatus.unselected);
+  }, []);
 
   useEffect(() => {
     // Add event listeners for key down and key up events
@@ -117,5 +140,6 @@ export function useCharacterSelector(initialIndex) {
     moveUp,
     moveDown,
     getCharacter,
+    selectedStatus,
   };
 }
