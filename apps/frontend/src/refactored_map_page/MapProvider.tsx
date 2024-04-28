@@ -79,6 +79,11 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [edgeEndNode, setEdgeEndNode] = useState<Node | null>(null);
 
   const [selectedOption, setSelectedOption] = useState("showBasicNodes");
+
+  const [selectedNodes, setSelectedNodes] = useState<Array<string>>(
+    new Array<string>(),
+  );
+
   const value = {
     startNode,
     setStartNode,
@@ -151,6 +156,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     selectedOption,
     setSelectedOption,
+
+    selectedNodes,
+    setSelectedNodes,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;
