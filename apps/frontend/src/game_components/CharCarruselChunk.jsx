@@ -1,28 +1,34 @@
 import React from "react";
 
-const CharCarruselChunk = ({ character }) => {
+const CharCarruselChunk = ({ character, selectedStatus }) => {
   const generalStyle = {
     marginLeft: "20%",
     marginRight: "20%",
   };
 
+  console.log(selectedStatus);
+
   const imageStyle = {
     display: "block",
     margin: "0 auto", // Center the image horizontally
-    maxHeight: "80%", // Adjusted height for the image
+    maxHeight: "100%", // Adjusted height for the image
+    maxWidth: "100%", // Adjusted width for the image
   };
 
   const bioStyle = {
     height: "600px",
-    width: "200px",
+    width: "300px",
     backgroundColor: "black",
     border: "5px solid white",
     color: "white",
     fontFamily: "'HISKYFLIPPERHIBOLD', sans-serif",
+    opacity: selectedStatus ? 0 : 1, // Add this line
+    transition: "opacity 0.2s ease-in-out",
   };
 
   const portraitStyle = {
     height: "600px",
+    width: "500px",
     backgroundColor: "black",
     border: "5px solid white",
     color: "white",
@@ -30,26 +36,69 @@ const CharCarruselChunk = ({ character }) => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    zIndex: 2000,
   };
 
   const statsStyle = {
     height: "600px",
+    width: "250px",
     backgroundColor: "black",
     border: "5px solid white",
     color: "white",
+    opacity: selectedStatus ? 0 : 1, // Add this line
+    transition: "opacity 0.2s ease-in-out",
     fontFamily: "'HISKYFLIPPERHIBOLD', sans-serif",
   };
 
   const renderSpeedSquares = () => {
     const squares = [];
-    for (let i = 0; i < character.speed; i++) {
+    for (let i = 0; i < 5; i++) {
+      const backgroundColor = character.speed <= i ? "white" : "#4FC0FF";
       squares.push(
         <div
           key={i}
           style={{
-            width: "20px",
+            width: "40px",
             height: "20px",
-            backgroundColor: "yellow",
+            backgroundColor: backgroundColor,
+            margin: "2px",
+          }}
+        ></div>,
+      );
+    }
+    return squares;
+  };
+
+  const renderHealthSquares = () => {
+    const squares = [];
+    for (let i = 0; i < 5; i++) {
+      const backgroundColor = character.health <= i ? "white" : "#4FC0FF";
+      squares.push(
+        <div
+          key={i}
+          style={{
+            width: "40px",
+            height: "20px",
+            backgroundColor: backgroundColor,
+            margin: "2px",
+          }}
+        ></div>,
+      );
+    }
+    return squares;
+  };
+
+  const renderDimensionsSquares = () => {
+    const squares = [];
+    for (let i = 0; i < 5; i++) {
+      const backgroundColor = character.size <= i ? "white" : "#4FC0FF";
+      squares.push(
+        <div
+          key={i}
+          style={{
+            width: "40px",
+            height: "20px",
+            backgroundColor: backgroundColor,
             margin: "2px",
           }}
         ></div>,
@@ -66,11 +115,18 @@ const CharCarruselChunk = ({ character }) => {
       {/* Bio */}
       <div className={"col-lg-3 mx-3"} style={bioStyle}>
         <h3>Role:</h3>
-        <p>Front End Developer</p>
+        <p>{character.role}</p>
         <h3 className={"pt-2"}>Quote:</h3>
-        <p>Burger Explosion Jose Quote</p>
+        <p>
+          {character.quote} "simply dummy text of the printing and typesetting
+          industry." - Person
+        </p>
         <h3 className={"pt-2"}>Back Story:</h3>
-        <p>Burger Explosion Jose Quote</p>
+        <p>
+          {character.backstory} simply dummy text of the printing and
+          typesetting industry. Lorem Ipsum has been the industry's standard
+          dummy text ever since
+        </p>
       </div>
       {/* Portrait */}
       <div className={"col-lg p-2 mx-3"} style={portraitStyle}>
@@ -87,12 +143,20 @@ const CharCarruselChunk = ({ character }) => {
         <div style={{ display: "flex", flexDirection: "row" }}>
           {renderSpeedSquares()}
         </div>
-        <p>Health: {character.health}</p>
-        <p>
-          Dimensions: {character.dimensions.width} x{" "}
-          {character.dimensions.height}
+        <h3 className={"pt-2"}>Health</h3>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          {renderHealthSquares()}
+        </div>
+        <h3 className={"pt-2"}>Size</h3>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          {renderDimensionsSquares()}
+        </div>
+        <h3 className={"pt-2"}>Passive:</h3>
+        <p className={"mx-1"}>
+          {character.passive}simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since
         </p>
-        <p>Passive: {character.passive}</p>
       </div>
     </div>
   );

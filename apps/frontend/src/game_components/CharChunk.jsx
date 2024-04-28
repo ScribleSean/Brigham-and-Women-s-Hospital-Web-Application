@@ -2,13 +2,16 @@ import React from "react";
 import { allCharacters } from "./Characters";
 import CharSquare from "./CharSquare.jsx";
 
-const CharChunk = ({ getCharacter, setCurrentIndex }) => {
+const CharChunk = ({ getCharacter, setCurrentIndex, selectedStatus }) => {
   // Define the styles
   const containerStyle = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     color: "white",
+    opacity: selectedStatus ? 0 : 1, // Add this line
+    transition: "opacity 0.2s ease-in-out",
+    zIndex: 2000,
   };
 
   const rowStyle = {

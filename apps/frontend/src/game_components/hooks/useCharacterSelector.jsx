@@ -60,6 +60,18 @@ export function useCharacterSelector(initialIndex) {
     }
   }, [index, activeArrowKey, firstRowSize, secondRowSize, setIndexSafely]);
 
+  const keyboardEnter = useCallback(() => {
+    if (selectedStatus === SelectionStatus.unselected) {
+      setSelectedStatus(SelectionStatus.selected);
+    } else {
+      window.location.href = `/game-over?endTime=${index}`;
+    }
+  }, [selectedStatus, index]);
+
+  const keyboardEscape = useCallback(() => {
+    setSelectedStatus(SelectionStatus.unselected);
+  }, []);
+
   const setCurrentIndex = useCallback(
     (newIndex) => {
       setIndexSafely(newIndex);
@@ -85,14 +97,14 @@ export function useCharacterSelector(initialIndex) {
         case "Enter":
           keyboardEnter();
           break;
-        case "Exit":
-          keyboardExit();
+        case "Escape":
+          keyboardEscape();
           break;
         default:
           break;
       }
     },
-    [movePrev, moveNext, moveUp, moveDown, keyboardEnter, keyboardExit],
+    [movePrev, moveNext, moveUp, moveDown, keyboardEnter, keyboardEscape],
   );
 
   const handleKeyUp = useCallback(
@@ -103,18 +115,6 @@ export function useCharacterSelector(initialIndex) {
     },
     [activeArrowKey],
   );
-
-  const keyboardEnter = useCallback(() => {
-    if (selectedStatus.unselected) {
-      setSelectedStatus(SelectionStatus.selected);
-    } else {
-      window.location.href = `/game-over?endTime=${index}`;
-    }
-  }, [selectedStatus, index]);
-
-  const keyboardExit = useCallback(() => {
-    setSelectedStatus(SelectionStatus.unselected);
-  }, []);
 
   useEffect(() => {
     // Add event listeners for key down and key up events

@@ -5,11 +5,11 @@ const CharSquare = ({ getCharacter, character, onClick }) => {
 
   const style = {
     cursor: "pointer",
-    border: selected ? "6px solid #FFD700" : "6px solid white", // Highlight if active
+    border: selected ? "6px solid #FFD700" : "4px solid white", // Highlight if active
     marginLeft: "1px",
     marginRight: "1px",
     marginBottom: "2px",
-    backgroundColor: "grey",
+    backgroundColor: "black",
     backgroundImage: `url(${character.frames[0]})`,
     backgroundSize: "cover",
     width: "135px",

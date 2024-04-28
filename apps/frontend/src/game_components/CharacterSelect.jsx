@@ -3,16 +3,23 @@ import { useCharacterSelector } from "./hooks/useCharacterSelector.jsx"; // Ensu
 import CharCarrusel from "./CharCarrusel.jsx";
 import CharChunk from "./CharChunk.jsx";
 import { Characters } from "./Characters"; // Assuming the correct path
+import "../game_styles/CharacterSelect.css";
 
 const CharacterSelect = () => {
-  const { currentIndex, setCurrentIndex, movePrev, moveNext, getCharacter } =
-    useCharacterSelector(Characters.Gabe);
+  const {
+    currentIndex,
+    setCurrentIndex,
+    movePrev,
+    moveNext,
+    getCharacter,
+    selectedStatus,
+  } = useCharacterSelector(Characters.Gabe);
 
   const waterMarkBG = {
     position: "fixed",
     top: 0,
     left: 0,
-    zIndex: -1,
+    zIndex: 0,
     backgroundColor: "#141414",
     backgroundImage: "url('/BrighamWatermarkFinal.png')",
     backgroundSize: "25%",
@@ -20,27 +27,50 @@ const CharacterSelect = () => {
     width: "100vw",
     height: "100vh",
     backgroundRepeat: "repeat",
+    animation: "scrollBackground 60s linear infinite", // Animation property added
+  };
+
+  const overlayStyle = {
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    height: "100vh",
+    width: "100vw",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    zIndex: 500,
+    opacity: selectedStatus ? 0.8 : 0,
+    transition: "opacity 0.2s ease-in-out",
+    pointerEvents: "none",
   };
 
   return (
-    <div style={waterMarkBG}>
-      <div className={"container-fluid p-0 m-0"}>
+    <>
+      <div style={overlayStyle}></div>
+      <div style={waterMarkBG}></div>
+      {/* Overlay first for natural document flow */}
+
+      <div
+        className={"container-fluid p-0 m-0"}
+        style={{ position: "relative", zIndex: 1000 }}
+      >
         <div className={"row row-8 p-0 m-0"}>
           <CharCarrusel
             movePrev={movePrev}
             moveNext={moveNext}
             getCharacter={getCharacter}
             currentIndex={currentIndex}
+            selectedStatus={selectedStatus}
           />
         </div>
         <div className={"row row-4 p-0 m-0"}>
           <CharChunk
+            selectedStatus={selectedStatus}
             setCurrentIndex={setCurrentIndex}
             getCharacter={getCharacter}
           />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

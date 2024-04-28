@@ -2,7 +2,7 @@ export class Character {
   public name: string;
   public health: number;
   public speed: number;
-  public dimensions: { width: number; height: number };
+  public size: number;
   public passive: string;
   public frames: Array<string>;
   public role: string;
@@ -13,7 +13,7 @@ export class Character {
     name: string,
     health: number,
     speed: number,
-    dimensions: { width: number; height: number },
+    size: number,
     passive: string,
     frames: Array<string>,
     role: string,
@@ -23,7 +23,7 @@ export class Character {
     this.name = name;
     this.health = health;
     this.speed = speed;
-    this.dimensions = dimensions;
+    this.size = size;
     this.frames = frames;
     this.passive = passive;
     this.role = role;
