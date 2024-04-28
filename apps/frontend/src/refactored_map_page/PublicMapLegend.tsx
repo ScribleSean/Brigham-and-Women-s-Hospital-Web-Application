@@ -75,7 +75,7 @@ function MapLegend() {
         boxShadow: "0px 0px 1px",
       }}
     >
-      <Accordion>
+      <Accordion TransitionProps={{ timeout: 650 }}>
         <AccordionSummary
           expandIcon={<CustomArrowIcon />}
           aria-controls="panel1a-content"
