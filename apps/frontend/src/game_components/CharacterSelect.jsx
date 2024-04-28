@@ -1,8 +1,8 @@
-import React from "react";
-import { useCharacterSelector } from "./hooks/useCharacterSelector.jsx"; // Ensure the path is correct
+import React, { useState, useEffect } from "react";
+import { useCharacterSelector } from "./hooks/useCharacterSelector.jsx";
 import CharCarrusel from "./CharCarrusel.jsx";
 import CharChunk from "./CharChunk.jsx";
-import { Characters } from "./Characters"; // Assuming the correct path
+import { Characters } from "./Characters";
 import "../game_styles/CharacterSelect.css";
 
 const CharacterSelect = () => {
@@ -14,6 +14,16 @@ const CharacterSelect = () => {
     getCharacter,
     selectedStatus,
   } = useCharacterSelector(Characters.Gabe);
+
+  const [showContinueImage, setShowContinueImage] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowContinueImage((prev) => !prev);
+    }, 750); // Toggle every second (adjust the interval as needed)
+
+    return () => clearInterval(interval);
+  }, []);
 
   const waterMarkBG = {
     position: "fixed",
@@ -27,7 +37,7 @@ const CharacterSelect = () => {
     width: "100vw",
     height: "100vh",
     backgroundRepeat: "repeat",
-    animation: "scrollBackground 60s linear infinite", // Animation property added
+    animation: "scrollBackground 60s linear infinite",
   };
 
   const overlayStyle = {
@@ -43,11 +53,18 @@ const CharacterSelect = () => {
     pointerEvents: "none",
   };
 
+  const continueImage = {
+    position: "fixed",
+    bottom: "20%",
+    left: "50%",
+    transform: "translateX(-40%)",
+    display: showContinueImage ? "block" : "none",
+  };
+
   return (
     <>
       <div style={overlayStyle}></div>
       <div style={waterMarkBG}></div>
-      {/* Overlay first for natural document flow */}
 
       <div
         className={"container-fluid p-0 m-0"}
@@ -67,6 +84,14 @@ const CharacterSelect = () => {
             selectedStatus={selectedStatus}
             setCurrentIndex={setCurrentIndex}
             getCharacter={getCharacter}
+          />
+        </div>
+        <div style={continueImage}>
+          <img
+            src={"/continue.png"}
+            width={"250px"}
+            height={"100px"}
+            alt={"Continue?"}
           />
         </div>
       </div>

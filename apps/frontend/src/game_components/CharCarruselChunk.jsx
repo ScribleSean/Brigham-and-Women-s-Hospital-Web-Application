@@ -27,12 +27,14 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
   };
 
   const portraitStyle = {
-    height: "600px",
+    height: "auto", // Dynamic height
     width: "500px",
     backgroundColor: "black",
-    border: "5px solid white",
     color: "white",
     fontFamily: "'HISKYFLIPPERHIBOLD', sans-serif",
+    backgroundImage: "url('/brighamPortraitBorderFinal.png')",
+    backgroundRepeat: "no-repeat", // Prevent background image from repeating
+    backgroundSize: "100% 100%", // Stretch background image to cover the container
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -130,7 +132,7 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
       </div>
       {/* Portrait */}
       <div className={"col-lg p-2 mx-3"} style={portraitStyle}>
-        <h1>{character.name}</h1>
+        <h1 className={"mt-5"}>{character.name}</h1>
         <img
           src={character.frames[0]}
           alt={character.name}
