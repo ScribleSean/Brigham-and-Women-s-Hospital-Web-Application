@@ -5,9 +5,6 @@ export function useCharacterSelector(initialIndex) {
   const [index, setIndex] = useState(initialIndex);
   const [activeArrowKey, setActiveArrowKey] = useState(null); // State to track active arrow key
   const itemCount = allCharacters.length;
-  const [selectedStatus, setSelectedStatus] = useState(0);
-  console.log(selectedStatus);
-  consol;
 
   const firstRowSize = 7;
   const secondRowSize = 6;
