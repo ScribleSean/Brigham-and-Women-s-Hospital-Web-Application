@@ -1,7 +1,11 @@
 import { Character } from "./Character.ts";
 
-const gabeFrames = ["/gabe1", "/gabe2", "/gabe3"];
-const gabeHead = "/heads/gabeHead";
+const gabeFrames = [
+  "/characterSprites/gabe1.png",
+  "/characterSprites/gabe2.png",
+  "/characterSprites/gabe3.png",
+];
+const gabeHead = "/heads/gabeHead.png";
 const gabePassive = "passive";
 const gabeRole = "frontend";
 const gabeQuote = "quote";
@@ -19,8 +23,12 @@ const Gabe = new Character(
   gabeBackstory,
 );
 
-const joseFrames = ["/jose1.png", "/jose2", "/jose3"];
-const joseHead = "/heads/joseHead";
+const joseFrames = [
+  "/characterSprites/jose1.png",
+  "/characterSprites/jose2.png",
+  "/characterSprites/jose3.png",
+];
+const joseHead = "/heads/joseHead.png";
 const josePassive = "passive";
 const joseRole = "frontend";
 const joseQuote = "quote";
@@ -38,8 +46,12 @@ const Jose = new Character(
   joseBackstory,
 );
 
-const christianFrames = ["/heart4.png", "/christian2", "/christian3"];
-const christianHead = "/heads/christianHead";
+const christianFrames = [
+  "/characterSprites/christian1.png",
+  "/characterSprites/christian2.png",
+  "/characterSprites/christian3.png",
+];
+const christianHead = "/heads/christianHead.png";
 const christianPassive = "passive";
 const christianRole = "frontend";
 const christianQuote =
@@ -58,8 +70,12 @@ const Christian = new Character(
   christianBackstory,
 );
 
-const sophiaFrames = ["/greenDisease1.png", "/sophia2", "/sophia3"];
-const sohpiaHead = "/heads/sophiaHead";
+const sophiaFrames = [
+  "/characterSprites/sophia1.png",
+  "/characterSprites/sophia2.png",
+  "/characterSprites/sophia3.png",
+];
+const sohpiaHead = "/heads/sophiaHead.png";
 const sophiaPassive = "passive";
 const sophiaRole = "frontend";
 const sophiaQuote = "quote";
@@ -77,8 +93,12 @@ const Sophia = new Character(
   sophiaBackstory,
 );
 
-const timothyFrames = ["/timothy1", "/timothy2", "/timothy3"];
-const timothyHead = "/heads/timothyHead";
+const timothyFrames = [
+  "/characterSprites/timothy1.png",
+  "/characterSprites/timothy2.png",
+  "/characterSprites/timothy3.png",
+];
+const timothyHead = "/heads/timothyHead.png";
 const timothyPassive = "passive";
 const timothyRole = "frontend";
 const timothyQuote = "quote";
@@ -96,8 +116,12 @@ const Timothy = new Character(
   timothyBackstory,
 );
 
-const peterFrames = ["/pinkDisease1.png", "/peter2", "/peter3"];
-const peterHead = "/heads/peterHead";
+const peterFrames = [
+  "/characterFrames/peter1.png",
+  "/characterFrames/peter2.png",
+  "/characterFrames/peter3.png",
+];
+const peterHead = "/heads/peterHead.png";
 const peterPassive = "passive";
 const peterRole = "frontend";
 const peterQuote =
@@ -116,8 +140,12 @@ const Peter = new Character(
   peterBackstory,
 );
 
-const madduxFrames = ["/redDisease1.png", "/maddux2", "/maddux3"];
-const madduxHead = "/heads/madduxHead";
+const madduxFrames = [
+  "/characterSprites/maddux1.png",
+  "/characterSprites/maddux2.png",
+  "/characterSprites/maddux3.png",
+];
+const madduxHead = "/heads/madduxHead.png";
 const madduxPassive = "passive";
 const madduxRole = "frontend";
 const madduxQuote =
@@ -136,8 +164,12 @@ const Maddux = new Character(
   madduxBackstory,
 );
 
-const seanFrames = ["/sean1", "/sean2", "/sean3"];
-const seanHead = "/heads/seanHead";
+const seanFrames = [
+  "/characterSprites/sean1.png",
+  "/characterSprites/sean2.png",
+  "/characterSprites/sean3.png",
+];
+const seanHead = "/heads/seanHead.png";
 const seanPassive = "passive";
 const seanRole = "frontend";
 const seanQuote = "I smoked away my brain -A$AP Rocky";
@@ -155,8 +187,12 @@ const Sean = new Character(
   seanBackstory,
 );
 
-const lorenzoFrames = ["/lorenzo1", "/lorenzo2", "/lorenzo3"];
-const lorenzoHead = "/heads/lorenzoHead";
+const lorenzoFrames = [
+  "/characterSprites/lorenzo1.png",
+  "/characterSprites/lorenzo2.png",
+  "/characterSprites/lorenzo3.png",
+];
+const lorenzoHead = "/heads/lorenzoHead.png";
 const lorenzoPassive = "passive";
 const lorenzoRole = "frontend";
 const lorenzoQuote = "quote";
@@ -174,8 +210,12 @@ const Lorenzo = new Character(
   lorenzoBackstory,
 );
 
-const ethanFrames = ["/ethan1", "/ethan2", "/ethan3"];
-const ethanHead = "/heads/ethanHead";
+const ethanFrames = [
+  "/characterSprites/ethan1.png",
+  "/characterSprites/ethan2.png",
+  "/characterSprites/ethan3.png",
+];
+const ethanHead = "/heads/ethanHead.png";
 const ethanPassive = "passive";
 const ethanRole = "frontend";
 const ethanQuote =
@@ -194,8 +234,12 @@ const Ethan = new Character(
   ethanBackstory,
 );
 
-const wongFrames = ["/wong1", "/wong2", "/wong3"];
-const wongHead = "/heads/wongHead";
+const wongFrames = [
+  "/characterSprites/wong1.png",
+  "/characterSprites/wong2.png",
+  "/characterSprites/wong3.png",
+];
+const wongHead = "/heads/wongHead.png";
 const wongPassive = "passive";
 const wongRole = "frontend";
 const wongQuote = "quote";
@@ -213,8 +257,12 @@ const Wong = new Character(
   wongBackstory,
 );
 
-const josephFrames = ["/joseph1", "/joseph2", "/joseph3"];
-const josephHead = "/heads/josephHead";
+const josephFrames = [
+  "/characterSprites/joseph1.png",
+  "/characterSprites/joseph2.png",
+  "/characterSprites/joseph3.png",
+];
+const josephHead = "/heads/josephHead.png";
 const josephPassive = "passive";
 const josephRole = "frontend";
 const josephQuote = "quote";
@@ -232,8 +280,12 @@ const Joseph = new Character(
   josephBackstory,
 );
 
-const gusFrames = ["/gus1", "/gus2", "/gus3"];
-const gusHead = "/heads/gusHead";
+const gusFrames = [
+  "/characterSprites/gus1.png",
+  "/characterSprites/gus2.png",
+  "/characterSprites/gus3.png",
+];
+const gusHead = "/heads/gusHead.png";
 const gusPassive = "passive";
 const gusRole = "frontend";
 const gusQuote = "quote";
