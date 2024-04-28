@@ -53,11 +53,18 @@ const GameOver = () => {
     backgroundColor: "black",
     opacity: ".8",
     color: "white",
-    height: "90vh",
+    height: "80vh",
     position: "absolute",
-    top: "50%",
+    top: "55%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+  };
+
+  const logoAboveHighScore: React.CSSProperties = {
+    position: "absolute",
+    textAlign: "center",
+    paddingTop: "5vh",
+    paddingBottom: "3vh",
   };
 
   const leaveButton = {
@@ -67,10 +74,6 @@ const GameOver = () => {
     borderRadius: 0,
     transition: "background-color 0.3s", // Add transition for smooth effect
   };
-  //
-  // const leaveButtonHover = {
-  //     backgroundColor: "#428fdd", // Background color on hover
-  // };
 
   const [formData, setFormData] = useState<breakoutHighScore>({
     HSID: 0,
@@ -78,6 +81,7 @@ const GameOver = () => {
     time: endTime ? endTime : "",
     character: "",
   });
+
   const [highScores, setHighScores] = useState<breakoutHighScore[]>([]);
   const [recentScores, setRecentScores] = useState<breakoutHighScore[]>([]);
 
@@ -120,8 +124,6 @@ const GameOver = () => {
     fetchRecent();
   }, []);
 
-  console.log(highScores);
-
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.id === "initial" && e.target.value.length > 3) {
       return;
@@ -141,6 +143,22 @@ const GameOver = () => {
     });
   };
 
+  // const [input, setInput] = useState('');
+  //
+  // const rows = [
+  //   ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
+  //   ['J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'],
+  //   ['S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Delete'],
+  // ];
+  //
+  // const handleClick = (letter: string) => {
+  //   if (letter === 'Delete') {
+  //     setInput(input.slice(0, -1));
+  //   } else if (input.length < 3) {
+  //     setInput(input + letter);
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -153,6 +171,9 @@ const GameOver = () => {
     }
     resetForm();
     setSubmitted(true);
+
+    fetchTop();
+    fetchRecent();
   };
 
   return (
@@ -162,6 +183,17 @@ const GameOver = () => {
         style={gameOverContainer}
         className={"container-fluid"}
       >
+        <div
+          id={"logoAboveHighScore"}
+          style={logoAboveHighScore}
+          className={"container-fluid"}
+        >
+          <img
+            src="../../public/BrighamBreakoutTextLogo.png"
+            alt={""}
+            style={{ transform: "scale(1.3)" }}
+          ></img>
+        </div>
         <div
           id={"highScoreContainer"}
           className={`container px-0 ${styles.highScoreTable}`}
