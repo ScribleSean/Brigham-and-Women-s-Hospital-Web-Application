@@ -89,6 +89,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     edgesToBeAdded,
     setEdgesToBeAdded,
     selectedNodes,
+    fixingEdges,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -389,7 +390,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const handleDeleteNode = (deletedNode: Node): void => {
     if (graph) {
-      setGraph(graph.removeNodeFixing(node.ID));
+      if (fixingEdges) {
+        setGraph(graph.removeNodeFixing(node.ID));
+      } else {
+        setGraph(graph.removeNode(node.ID));
+      }
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
       setUnsavedChanges(true);
     }
