@@ -1,5 +1,5 @@
 import styles from "../styles/EmployeePage.module.css";
-import { SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -12,6 +12,7 @@ import {
   InputLabel,
   FormControl,
   Box,
+  Snackbar,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import {
@@ -24,6 +25,8 @@ import {
 } from "@mui/x-data-grid";
 import { EmployeeType } from "common/src/backend_interfaces/Employee.ts";
 import FileUpload from "../components/FileUpload.tsx";
+import { SelectChangeEvent } from "@mui/material/Select";
+import axios from "axios";
 
 function CustomToolbar() {
   const handleFileDrop = async (file: File, apiEndpoint: string) => {
@@ -71,23 +74,49 @@ function CustomToolbar() {
 }
 
 function EmployeePage() {
-  const [permission, setPermissionTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [employeeData, setEmployeeData] = useState<EmployeeType[]>([]);
+  const [formData, setFormData] = useState({
+    employeeEmail: "",
+    employeeFirstName: "",
+    employeeLastName: "",
+    employeePosition: "",
+    employeePermission: "",
+    numberOfServiceRequests: 0,
+    employeeID: 0,
+  });
+  const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
+
+  const handlePermissionChange = (event: SelectChangeEvent) => {
+    setFormData({
+      ...formData,
+      employeePermission: event.target.value as string,
+    });
+  };
+
+  const handleTextFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setFormData({
+      ...formData,
+      [event.target.id]: event.target.value,
+    });
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/employee-populate");
+      if (!response.ok) {
+        throw new Error(`Please load node data ${response.status}`);
+      }
+      const result = await response.json();
+      setEmployeeData(result);
+    } catch (err) {
+      console.error("Error fetching employee data");
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/employee-populate");
-        if (!response.ok) {
-          throw new Error(`Please load node data ${response.status}`);
-        }
-        const result = await response.json();
-        setEmployeeData(result);
-      } catch (err) {
-        console.error("Error fetching employee data");
-      }
-    };
     fetchData().then();
   }, []);
 
@@ -100,10 +129,17 @@ function EmployeePage() {
     setOpen(false);
   };
 
-  const handlePermissionChange = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setPermissionTerm(event.target.value);
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post("/api/add-employee", formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Unable to create form");
+      console.log(error);
+    }
+    handleClose();
+    fetchData().then();
+    setSnackbarIsOpen(true);
   };
 
   const columns = [
@@ -141,6 +177,15 @@ function EmployeePage() {
 
   return (
     <>
+      <Snackbar
+        open={snackbarIsOpen}
+        autoHideDuration={5000}
+        onClose={() => {
+          setSnackbarIsOpen(false);
+        }}
+        message={"Request was submitted successfully!"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      />
       <div className={`${styles.pageContainer}`}>
         <div className={`${styles.employeeDashboardBox}`}>
           <div className={`${styles.employeePageHeader}`}>
@@ -168,63 +213,71 @@ function EmployeePage() {
                     borderRadius: 2,
                     borderColor: "#012D5A",
                     minWidth: "400px",
+                    maxWidth: "400px",
                     boxShadow: "0px 3px 15px rgba(0,0,0,0.2)",
                     padding: "3px",
                   },
                 },
               }}
             >
-              <DialogTitle> Add New Employee </DialogTitle>
+              <DialogTitle sx={{ color: "#012d5a" }}>
+                Add a New Employee
+              </DialogTitle>
               <DialogContent>
-                <TextField
-                  autoFocus
-                  margin={"dense"}
-                  id={"employeeLastName"}
-                  label={"Last Name"}
-                  type={"text"}
-                  fullWidth
-                  required
-                  variant={"standard"}
-                />
-                <TextField
-                  autoFocus
-                  margin={"dense"}
-                  id={"employeeFirstName"}
-                  label={"First Name"}
-                  type={"text"}
-                  fullWidth
-                  required
-                  variant={"standard"}
-                />
-                <TextField
-                  autoFocus
-                  margin={"dense"}
-                  id={"position"}
-                  label={"Position"}
-                  type={"text"}
-                  fullWidth
-                  required
-                  variant={"standard"}
-                />
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <TextField
+                    autoFocus
+                    margin={"dense"}
+                    id={"employeeFirstName"}
+                    label={"First Name"}
+                    fullWidth
+                    required
+                    variant={"outlined"}
+                    sx={{ marginRight: "1%" }}
+                    onChange={handleTextFieldChange}
+                  />
+                  <TextField
+                    autoFocus
+                    margin={"dense"}
+                    id={"employeeLastName"}
+                    label={"Last Name"}
+                    fullWidth
+                    required
+                    variant={"outlined"}
+                    sx={{ marginLeft: "1%" }}
+                    onChange={handleTextFieldChange}
+                  />
+                </div>
                 <TextField
                   autoFocus
                   margin={"dense"}
                   id={"employeeEmail"}
                   label={"Email Address"}
-                  type={"text"}
                   fullWidth
                   required
-                  variant={"standard"}
+                  variant={"outlined"}
+                  onChange={handleTextFieldChange}
+                />
+                <TextField
+                  autoFocus
+                  margin={"dense"}
+                  id={"employeePosition"}
+                  label={"Position"}
+                  fullWidth
+                  required
+                  variant={"outlined"}
+                  onChange={handleTextFieldChange}
                 />
                 <FormControl fullWidth margin={"dense"} required>
-                  <InputLabel id={"permissions"}>Permission Level</InputLabel>
+                  <InputLabel id={"permission-label"}>
+                    Permission Level
+                  </InputLabel>
                   <Select
                     labelId="permission-label"
-                    id={"permission"}
-                    value={permission}
+                    id={"employeePermission"}
                     label={"Permission"}
                     onChange={handlePermissionChange}
-                    variant={"standard"}
+                    variant={"outlined"}
                   >
                     <MenuItem value={""}>
                       <em>None</em>
@@ -235,8 +288,16 @@ function EmployeePage() {
                 </FormControl>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleClose}>Submit</Button>
+                <Button onClick={handleClose} color={"error"}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSubmit}
+                  variant={"contained"}
+                  sx={{ backgroundColor: "#012d5a" }}
+                >
+                  Submit
+                </Button>
               </DialogActions>
             </Dialog>
           </div>
