@@ -73,6 +73,7 @@
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "prop-types": "^15.8.1",
+    "qrcode-generator-ts": "^0.0.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
     "react-confetti": "^6.1.0",

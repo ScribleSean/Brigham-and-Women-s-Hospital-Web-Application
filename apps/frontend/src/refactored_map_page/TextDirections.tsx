@@ -16,6 +16,8 @@ import StraightIcon from "@mui/icons-material/Straight";
 import EastIcon from "@mui/icons-material/East";
 import ElevatorIcon from "@mui/icons-material/Elevator";
 import StairsIcon from "@mui/icons-material/Stairs";
+import PlaceIcon from "@mui/icons-material/Place";
+import ModeStandbyIcon from "@mui/icons-material/ModeStandby";
 
 export default TextDirections;
 
@@ -87,9 +89,17 @@ function TextDirections() {
     (paths: Array<Path>) => {
       const directions: Array<string> = [];
       let floorChangeDirection = null;
+      let arrive = null;
 
       if (paths[directionsCounter] && paths[directionsCounter].edges) {
         const currentPathEdges: Array<Edge> = paths[directionsCounter].edges;
+        if (directionsCounter === 0) {
+          directions.push(
+            `Start at ${currentPathEdges[0].startNode.shortName}`,
+          );
+        } else if (directionsCounter === paths.length - 1) {
+          arrive = `Arrive at ${currentPathEdges[currentPathEdges.length - 1].endNode.shortName}`;
+        }
         for (let i = 0; i < currentPathEdges.length - 1; i++) {
           const currentEdge = currentPathEdges[i];
           const nextEdge = currentPathEdges[i + 1];
@@ -198,6 +208,10 @@ function TextDirections() {
         directions.push(floorChangeDirection);
       }
 
+      if (arrive) {
+        directions.push(arrive);
+      }
+
       return directions;
     },
     [directionsCounter],
@@ -271,6 +285,10 @@ function TextDirections() {
       return <ElevatorIcon />;
     } else if (direction.includes("Stairs")) {
       return <StairsIcon />;
+    } else if (direction.includes("Start")) {
+      return <PlaceIcon />;
+    } else if (direction.includes("Arrive")) {
+      return <ModeStandbyIcon />;
     } else {
       return null;
     }
