@@ -39,8 +39,8 @@ function GenerateTableRowsEdges(tableData: EmployeeType[]): JSX.Element[] {
   return tableData.map((item, index) => (
     <StyledTableRow key={index}>
       <StyledTableCell>{tableData[index].employeeEmail}</StyledTableCell>
-      <StyledTableCell>{tableData[index].name}</StyledTableCell>
-      <StyledTableCell>{tableData[index].position}</StyledTableCell>
+      <StyledTableCell>{tableData[index].employeeFullName}</StyledTableCell>
+      <StyledTableCell>{tableData[index].employeePosition}</StyledTableCell>
       <StyledTableCell>
         {tableData[index].numberOfServiceRequests}
       </StyledTableCell>

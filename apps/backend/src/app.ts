@@ -30,6 +30,13 @@ import refactorEdgesRouter from "./routes/refactorEdges";
 import employeeRouter from "./routes/employee-router.ts";
 import downloadEmployeeDataRouter from "./routes/data-to-csv-employee.ts";
 import brigRouter from "./routes/breakoutGameRouter.ts";
+import requestByUserRouter from "./routes/requestByUserRouter.ts";
+import requestByPriorityRouter from "./routes/requestByPriorityRouter.ts";
+import requestByStatusRouter from "./routes/requestByStatusRouter";
+import pieRequestByUserRouter from "./routes/pieRequestByUserRouter.ts";
+import pieRequestByPriorityRouter from "./routes/pieRequestByPriorityRouter.ts";
+import pieRequestByStatusRouter from "./routes/pieRequestByStatusRouter.ts";
+import pieRequestByTypeRouter from "./routes/pieRequestByTypeRouter.ts";
 import updateTemperatureRouter from "./routes/updateTemperature.ts";
 
 const app: Express = express(); // Set up the backend
@@ -74,6 +81,16 @@ app.use("/api/download-edge-csv", downloadEdgeDataRouter);
 // CSV Page: Employees
 app.use("/api/employee-populate", employeeRouter);
 app.use("/api/download-employee-csv", downloadEmployeeDataRouter);
+
+// Graphs
+app.use("/api/request-by-user", requestByUserRouter);
+app.use("/api/request-by-priority", requestByPriorityRouter);
+app.use("/api/request-by-status", requestByStatusRouter);
+
+app.use("/api/pie-request-by-type", pieRequestByTypeRouter);
+app.use("/api/pie-request-by-user", pieRequestByUserRouter);
+app.use("/api/pie-request-by-priority", pieRequestByPriorityRouter);
+app.use("/api/pie-request-by-status", pieRequestByStatusRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
