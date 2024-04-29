@@ -1,5 +1,5 @@
 import styles from "../styles/EmployeePage.module.css";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -22,8 +22,40 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
+import { EmployeeType } from "common/src/backend_interfaces/Employee.ts";
+import FileUpload from "../components/FileUpload.tsx";
 
 function CustomToolbar() {
+  const handleFileDrop = async (file: File, apiEndpoint: string) => {
+    // Create a FileReader
+    const reader = new FileReader();
+
+    // Set up a callback for when the file is loaded
+    reader.onload = async (event) => {
+      if (event.target) {
+        // Extract the CSV content as a string
+        const csvString = event.target.result as string;
+
+        console.log(csvString);
+
+        try {
+          const res = await fetch(apiEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json", // Set the appropriate content type
+            },
+            body: JSON.stringify({ csvString }), // Send the CSV string as JSON
+          });
+
+          console.log(res);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
@@ -31,14 +63,35 @@ function CustomToolbar() {
       <GridToolbarDensitySelector />
       <Box sx={{ flexGrow: 1 }} />
       <GridToolbarExport />
+      <FileUpload
+        onFileDrop={(file) => handleFileDrop(file, "/api/employee-populate")}
+      />
     </GridToolbarContainer>
   );
 }
 
 function EmployeePage() {
   const [permission, setPermissionTerm] = useState("");
-
   const [open, setOpen] = useState(false);
+  const [employeeData, setEmployeeData] = useState<EmployeeType[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/employee-populate");
+        if (!response.ok) {
+          throw new Error(`Please load node data ${response.status}`);
+        }
+        const result = await response.json();
+        setEmployeeData(result);
+      } catch (err) {
+        console.error("Error fetching employee data");
+      }
+    };
+    fetchData().then();
+  }, []);
+
+  console.log(employeeData);
 
   const handleEmployeeButtonClick = () => {
     setOpen(true);
@@ -70,7 +123,7 @@ function EmployeePage() {
       flex: 1,
     },
     {
-      field: "position",
+      field: "employeePosition",
       headerName: "Position",
       flex: 1,
     },
@@ -80,7 +133,7 @@ function EmployeePage() {
       flex: 1,
     },
     {
-      field: "permission",
+      field: "employeePermission",
       headerName: "Permission Level",
       flex: 1,
     },
@@ -188,12 +241,11 @@ function EmployeePage() {
             </Dialog>
           </div>
 
-          <hr />
-
           <div className={`${styles.tableSection}`}>
             <DataGrid
               columns={columns}
-              rows={[]}
+              rows={employeeData}
+              getRowId={(row) => row.employeeID}
               slots={{
                 toolbar: CustomToolbar,
               }}

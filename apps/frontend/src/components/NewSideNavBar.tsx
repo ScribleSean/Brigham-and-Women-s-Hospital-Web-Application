@@ -73,7 +73,7 @@ function NewSideNavBar() {
               }`}
             >
               <StorageIcon sx={{ fontSize: "35px" }} />
-              <p className={`${styles.navbarLabels}`}>File Viewer</p>
+              <p className={`${styles.navbarLabels}`}>Map Data</p>
             </div>
           </Link>
           <Link to="/employee-page" className={`${styles.navButtons}`}>
