@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.js";
 import axios from "axios";
-import { Button, Tabs, Tab, TextField, Box } from "@mui/material";
+import { Button, Tabs, Tab, TextField, Box, Grid } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import styles from "../styles/brighamBreakout.module.css";
+import Typography from "@mui/material/Typography";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,18 +54,11 @@ const GameOver = () => {
     backgroundColor: "black",
     opacity: ".8",
     color: "white",
-    height: "80vh",
+    height: "90vh",
     position: "absolute",
-    top: "55%",
+    top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-  };
-
-  const logoAboveHighScore: React.CSSProperties = {
-    position: "absolute",
-    textAlign: "center",
-    paddingTop: "5vh",
-    paddingBottom: "3vh",
   };
 
   const leaveButton = {
@@ -143,21 +137,118 @@ const GameOver = () => {
     });
   };
 
-  // const [input, setInput] = useState('');
-  //
-  // const rows = [
-  //   ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
-  //   ['J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'],
-  //   ['S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Delete'],
-  // ];
-  //
-  // const handleClick = (letter: string) => {
-  //   if (letter === 'Delete') {
-  //     setInput(input.slice(0, -1));
-  //   } else if (input.length < 3) {
-  //     setInput(input + letter);
-  //   }
-  // };
+  const keyboardRows = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "Delete",
+  ];
+
+  const [initials, setInitials] = useState("");
+  const [initial, setInitial] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    const keyboardRows = [
+      [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        "Delete",
+      ],
+    ];
+
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        setSelectedIndex((prevIndex) => (prevIndex + 1) % 27);
+      } else if (e.key === "ArrowLeft") {
+        setSelectedIndex((prevIndex) => (prevIndex - 1 + 27) % 27);
+      } else if (e.key === "ArrowUp") {
+        setSelectedIndex((prevIndex) => (prevIndex - 9 + 27) % 27);
+      } else if (e.key === "ArrowDown") {
+        setSelectedIndex((prevIndex) => (prevIndex + 9) % 27);
+      } else if (e.key === " ") {
+        if (!(selectedIndex === 26)) {
+          if (initials.length === 3) {
+            setInitials(initials.slice(0, -1) + keyboardRows[0][selectedIndex]);
+          } else {
+            setInitials(initials + keyboardRows[0][selectedIndex]);
+          }
+        } else {
+          setInitials(initials.slice(0, -1));
+        }
+        console.log(initials);
+      } else if (e.key === "Enter") {
+        handleSubmit2();
+      }
+    };
+
+    const handleSubmit2 = () => {
+      // Handle submission logic (e.g., send the initial to the server)
+      console.log("Submitted:", initial);
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [selectedIndex, initial, initials]);
+
+  const handleKeyPress = (key: string) => {
+    if (initial.length < 3) {
+      setInitial((prevInitial) => prevInitial + key);
+    }
+  };
+
+  const handleDelete = () => {
+    setInitial((prevInitial) => prevInitial.slice(0, -1));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -183,17 +274,7 @@ const GameOver = () => {
         style={gameOverContainer}
         className={"container-fluid"}
       >
-        <div
-          id={"logoAboveHighScore"}
-          style={logoAboveHighScore}
-          className={"container-fluid"}
-        >
-          <img
-            src="../../public/BrighamBreakoutTextLogo.png"
-            alt={""}
-            style={{ transform: "scale(1.3)" }}
-          ></img>
-        </div>
+        <h1>current name: {initials}</h1>
         <div
           id={"highScoreContainer"}
           className={`container px-0 ${styles.highScoreTable}`}
@@ -219,6 +300,78 @@ const GameOver = () => {
 
                 <Button type={"submit"}>Click</Button>
               </form>
+
+              <div>
+                <Typography variant="h5" gutterBottom>
+                  Enter a 3-letter initial:
+                </Typography>
+                <Grid item>
+                  <Grid container spacing={1}>
+                    {keyboardRows.slice(0, 9).map((key, colIndex) => (
+                      <Grid item key={key}>
+                        <Button
+                          variant="outlined"
+                          onClick={() => handleKeyPress(key)}
+                          style={{
+                            backgroundColor:
+                              selectedIndex === colIndex
+                                ? "#f0f0f0"
+                                : "transparent",
+                          }}
+                        >
+                          {key}
+                        </Button>
+                      </Grid>
+                    ))}
+                  </Grid>
+                  <Grid container spacing={1}>
+                    {keyboardRows.slice(9, 18).map((key, colIndex) => (
+                      <Grid item key={key}>
+                        <Button
+                          variant="outlined"
+                          onClick={() => handleKeyPress(key)}
+                          style={{
+                            backgroundColor:
+                              selectedIndex === colIndex + 9
+                                ? "#f0f0f0"
+                                : "transparent",
+                          }}
+                        >
+                          {key}
+                        </Button>
+                      </Grid>
+                    ))}
+                  </Grid>
+                  <Grid container spacing={1}>
+                    {keyboardRows.slice(18, 27).map((key, colIndex) => (
+                      <Grid item key={key}>
+                        <Button
+                          variant="outlined"
+                          onClick={() => handleKeyPress(key)}
+                          style={{
+                            backgroundColor:
+                              selectedIndex === colIndex + 9 * 2
+                                ? "#f0f0f0"
+                                : "transparent",
+                          }}
+                        >
+                          {key}
+                        </Button>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                <Button variant="outlined" onClick={handleDelete}>
+                  Delete
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </div>
             </>
           ) : (
             <>
