@@ -1,7 +1,7 @@
 import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useMapContext } from "./MapContext.ts";
-import { Box, Button, ButtonGroup, IconButton } from "@mui/material";
+import { Box, Button, ButtonGroup, Dialog, IconButton } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 import styles from "../styles/TextDirections.module.css";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -18,6 +18,8 @@ import ElevatorIcon from "@mui/icons-material/Elevator";
 import StairsIcon from "@mui/icons-material/Stairs";
 import PlaceIcon from "@mui/icons-material/Place";
 import ModeStandbyIcon from "@mui/icons-material/ModeStandby";
+import QrCodeIcon from "@mui/icons-material/QrCode";
+import QRPopup from "./QRPopup.tsx";
 
 export default TextDirections;
 
@@ -38,6 +40,7 @@ function TextDirections() {
   const [expanded, setExpanded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [maxHeight, setMaxHeight] = useState("0px");
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const toggleExpanded = () => {
     setExpanded((prev) => !prev);
@@ -89,15 +92,16 @@ function TextDirections() {
     (paths: Array<Path>) => {
       const directions: Array<string> = [];
       let floorChangeDirection = null;
-      let arrive = null;
+      // let arrive = null;
 
       if (paths[directionsCounter] && paths[directionsCounter].edges) {
         const currentPathEdges: Array<Edge> = paths[directionsCounter].edges;
         if (directionsCounter === 0) {
           directions.push(`Start at ${currentPathEdges[0].startNode.longName}`);
-        } else if (directionsCounter === paths.length - 1) {
-          arrive = `Arrive at ${currentPathEdges[currentPathEdges.length - 1].endNode.longName}`;
         }
+        // } else if (directionsCounter === paths.length - 1) {
+        //   arrive = `Arrive at ${currentPathEdges[currentPathEdges.length - 1].endNode.longName}`;
+        // }
         for (let i = 0; i < currentPathEdges.length - 1; i++) {
           const currentEdge = currentPathEdges[i];
           const nextEdge = currentPathEdges[i + 1];
@@ -190,6 +194,9 @@ function TextDirections() {
             directions.push(`${direction}${detail}`);
           }
         }
+        const lastEdge = currentPathEdges[currentPathEdges.length - 1];
+        const arrive = `Arrive at ${lastEdge.endNode.longName}`;
+        directions.push(arrive);
       }
 
       if (
@@ -206,14 +213,25 @@ function TextDirections() {
         directions.push(floorChangeDirection);
       }
 
-      if (arrive) {
-        directions.push(arrive);
-      }
+      // if (arrive) {
+      //   directions.push(arrive);
+      // }
 
       return directions;
     },
     [directionsCounter],
   );
+
+  // const [allFloorsDirections, setAllFloorsDirections] = useState<Array<string>>([]);
+  //
+  // const generateAllFloorsDirections = useCallback(() => {
+  //   const allDirections: Array<string[]> = paths.map(path => generateDirections([path]));
+  //   setAllFloorsDirections(allDirections.flat());
+  // }, [paths, generateDirections]);
+  //
+  // useEffect(() => {
+  //   generateAllFloorsDirections();
+  // }, [paths, generateDirections, generateAllFloorsDirections, currentFloor]);
 
   useEffect(() => {
     const newDirections: Array<string> = generateDirections(paths);
@@ -303,11 +321,27 @@ function TextDirections() {
 
   return (
     <div>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <Box sx={{ padding: "1rem" }}>
+          <QRPopup textDirections={directionsText} />
+        </Box>
+      </Dialog>
       {startNode && endNode ? (
         <div className={`${styles.directionsContainer}`}>
           <div className={`${styles.textDirectionsContainer}`}>
             <div className={styles.directionsHeader}>
-              <h5>Text Directions</h5>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <h5 style={{ marginRight: "8px" }}>Text Directions</h5>
+                <IconButton onClick={() => setDialogOpen(true)}>
+                  <QrCodeIcon />
+                </IconButton>
+              </div>
               <IconButton onClick={toggleExpanded}>
                 {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
               </IconButton>
