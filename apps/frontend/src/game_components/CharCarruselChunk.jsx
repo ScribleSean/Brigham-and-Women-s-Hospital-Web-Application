@@ -29,7 +29,7 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
   const portraitStyle = {
     height: "auto", // Dynamic height
     width: "500px",
-    backgroundColor: "black",
+    backgroundColor: "#161717",
     color: "white",
     fontFamily: "'HISKYFLIPPERHIBOLD', sans-serif",
     backgroundImage: "url('/brighamPortraitBorderFinal.png')",

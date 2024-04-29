@@ -11,13 +11,15 @@ const gabeFrames = [
 const gabeHead = "/heads/gabeHead.png";
 const gabePassive = "Shields spawn at an increased rate";
 const gabeRole = "Backend Lead";
-const gabeQuote = "quote";
-const gabeBackstory = "backStory";
+const gabeQuote =
+  '"I be goofy, kinda funny. Acting stupid but they love me." - Mac Miller';
+const gabeBackstory =
+  "Dwelling in the most remote corners of campus, away from all civilization, his immune system has become very weak in his pursuit of networking and backend knowledge. It will take a lot to get him sick, but once he is, he'll fall hard.";
 const Gabe = new Character(
   "Gabe",
-  3,
-  4,
-  4,
+  5,
+  1,
+  2,
   gabePassive,
   gabeFrames,
   gabeHead,
@@ -34,8 +36,9 @@ const joseFrames = [
 const joseHead = "/heads/joseHead.png";
 const josePassive = "passive";
 const joseRole = "frontend";
-const joseQuote = "quote";
-const joseBackstory = "backStory";
+const joseQuote = '"Un vaso es un vaso y un plato es un plato" - Mariano Rajoy';
+const joseBackstory =
+  "Physically detached from everyday interactions, nestled among ancient oak trees and class diagrams, this sage devoted his entire being to the intricate art of map-making. This enlightenment drove him to the brink of madness but also flung wide open the doors of his heart";
 const Jose = new Character(
   "Jose",
   3,
@@ -207,7 +210,8 @@ const lorenzoHead = "/heads/lorenzoHead.png";
 const lorenzoPassive = "passive";
 const lorenzoRole = "frontend";
 const lorenzoQuote = "quote";
-const lorenzoBackstory = "backStory";
+const lorenzoBackstory =
+  "Obsessed with immortality, he transferred his brain into an android body, granting him the eternity he sought but at the cost of his humanity. Now only the virus can pass through his mechanical shell and destroy his mind";
 const Lorenzo = new Character(
   "Lorenzo",
   3,
