@@ -117,14 +117,17 @@ const timothyFrames = [
   "/characterSprites/timothy4.png",
 ];
 const timothyHead = "/heads/timothyHead.png";
-const timothyPassive = "passive";
+const timothyPassive =
+  "Professor Zoom: All controls are inverted but you are extremely fast";
 const timothyRole = "frontend";
-const timothyQuote = "quote";
-const timothyBackstory = "backStory";
+const timothyQuote =
+  "I don't really care about fame or recognition. I just totally dig on advancing knowledge! -Jimmy Lightning Peggle";
+const timothyBackstory =
+  "After many years as a successful scientist he tried to teleport himself with his pet llama. The experiment went horribly wrong, fusing the two together and causing him to lose his sight.";
 const Timothy = new Character(
   "Timothy",
   3,
-  4,
+  6,
   3,
   timothyPassive,
   timothyFrames,
@@ -140,16 +143,18 @@ const peterFrames = [
   "/characterSprites/peter3.png",
 ];
 const peterHead = "/heads/peterHead.png";
-const peterPassive = "passive";
+const peterPassive =
+  "Atomic Sneeze: after taking damage send out a sneeze that repels all diseases on screen, but heart pickups are unavailable";
 const peterRole = "frontend";
 const peterQuote =
   "Real G's move in silence like lasagna -Lil Wayne 6 Foot 7 Foot";
-const peterBackstory = "backStory";
+const peterBackstory =
+  "Emerging from the shadows with seemingly no origins, he roams campus in his trusty black hat. No one has ever seen him wihtout his hat. Everyone wonders what is under it.";
 const Peter = new Character(
   "Peter",
   3,
-  4,
-  1,
+  3,
+  2,
   peterPassive,
   peterFrames,
   peterHead,
@@ -219,7 +224,7 @@ const lorenzoFrames = [
 ];
 const lorenzoHead = "/heads/lorenzoHead.png";
 const lorenzoPassive = "passive";
-const lorenzoRole = "frontend";
+const lorenzoRole = "backend";
 const lorenzoQuote = "quote";
 const lorenzoBackstory =
   "Obsessed with immortality, he transferred his brain into an android body, granting him the eternity he sought but at the cost of his humanity. Now only the virus can pass through his mechanical shell and destroy his mind";
@@ -269,15 +274,18 @@ const wongFrames = [
   "/characterSprites/wong5.png",
 ];
 const wongHead = "/heads/wongHead.png";
-const wongPassive = "passive";
-const wongRole = "frontend";
-const wongQuote = "quote";
-const wongBackstory = "backStory";
+const wongPassive =
+  "Knowledgeable: Through his wealth of Knowledge in CS, he hacked into the code and found a way to give himself another stat point";
+const wongRole = "Professor";
+const wongQuote =
+  "The application of a systematic, disciplined quantifiable approach to the development operation, and maintenance of software -IEEE";
+const wongBackstory =
+  "Purchasing an ancient pottery work off a sketchy website caused him to be cursed. He must keep his glasses on to avoid shooting lasers wherever he is looking.";
 const Wong = new Character(
   "Wong",
-  3,
   4,
-  3,
+  4,
+  4,
   wongPassive,
   wongFrames,
   wongHead,
@@ -292,9 +300,10 @@ const josephFrames = [
 ];
 const josephHead = "/heads/josephHead.png";
 const josephPassive = "passive";
-const josephRole = "frontend";
+const josephRole = "Team Coach";
 const josephQuote = "quote";
-const josephBackstory = "backStory";
+const josephBackstory =
+  "Years of wandering through the library, led him to Team N. With his wisdom and guidance, they thrived completing all tasks and becoming the best team";
 const Joseph = new Character(
   "Joseph",
   3,
