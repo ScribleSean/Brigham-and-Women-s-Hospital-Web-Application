@@ -299,16 +299,18 @@ const josephFrames = [
   "/characterSprites/joseph2.png",
 ];
 const josephHead = "/heads/josephHead.png";
-const josephPassive = "passive";
+const josephPassive =
+  "Boring: No specific passive, but more stat points because of it.";
 const josephRole = "Team Coach";
-const josephQuote = "quote";
+const josephQuote =
+  "That's life bro. Everybody is not going to like you -Eric Bledsoe";
 const josephBackstory =
   "Years of wandering through the library, led him to Team N. With his wisdom and guidance, they thrived completing all tasks and becoming the best team";
 const Joseph = new Character(
   "Joseph",
   3,
   4,
-  3,
+  4,
   josephPassive,
   josephFrames,
   josephHead,
