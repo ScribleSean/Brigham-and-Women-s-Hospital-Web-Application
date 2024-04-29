@@ -80,7 +80,7 @@ function HeroPage() {
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % phrases.length);
-    }, 3000); // Change phrases every 3 seconds
+    }, 4000); // Change phrases every 3 seconds
 
     // Set up interval to fetch weather data every 5 seconds
     const weatherInterval = setInterval(handleWeatherUpdate, 5000);
@@ -157,8 +157,19 @@ function HeroPage() {
 
         {/*Right hand Column*/}
         <div className={"rightBox col-4 p-0 d-flex flex-column "}>
-          {/*room settings display*/}
+          {/*Info Display*/}
           <div className={"boxPad"}>
+            {/*Time and Date Display*/}
+            <div className={"align-content-center"}>
+              <div className={" tempBox timeDate "}>
+                <p className={"wordPad"}>{date}</p>
+              </div>
+              <div className={" tempBox timeDate"}>
+                <p className={"wordPad"}>{time}</p>
+              </div>
+            </div>
+
+            {/*Temperature Display*/}
             <div className={"tempBox paragraph "}>
               <p className={"wordPad"}>
                 {temp}° {toCelsius ? "C" : "F"}
@@ -181,13 +192,6 @@ function HeroPage() {
                 label={toCelsius ? "C" : "F"}
                 labelPlacement={"start"}
               />
-            </div>
-
-            <div className={"tempSpace tempBox paragraph"}>
-              <p className={"wordPad"}>{date}</p>
-            </div>
-            <div className={"tempSpace tempBox paragraph"}>
-              <p className={"wordPad"}>{time}</p>
             </div>
           </div>
 

@@ -49,6 +49,20 @@
   /*font-family: Inter, sans-serif;*/
   /*user-select: none;*/
 }
+.timeDate {
+  font-size: 1.3em;
+  /*padding: 5%;*/
+  padding-bottom: 5%;
+  /*margin-right: 10%;*/
+  font-weight: lighter;
+  text-align: left;
+  line-height: 0.85;
+  color: white;
+  /*margin-top: 40px;*/
+
+  /*font-family: Inter, sans-serif;*/
+  /*user-select: none;*/
+}
 
 .image-area {
   background-image: url("../../public/brighamBG.png");
@@ -103,7 +117,7 @@
   display: flex;
   justify-content: end;
   align-items: center;
-  margin: 2% 0;
+  /*margin: 2% 0;*/
 }
 .wordPad {
   padding: 0 5%;
