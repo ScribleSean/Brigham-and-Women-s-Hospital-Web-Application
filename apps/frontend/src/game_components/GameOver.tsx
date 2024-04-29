@@ -240,10 +240,16 @@ const GameOver = () => {
     };
   }, [selectedIndex, initial, initials]);
 
-  const handleKeyPress = (key: string) => {
-    if (initial.length < 3) {
+  const handleKeyPress = (key: string, index: number) => {
+    if (key === keyboardRows[keyboardRows.length - 1]) {
+      setInitials((prevInitials) => prevInitials.slice(0, -1));
+    } else if (initials.length < 3) {
+      setInitials((prevInitials) => prevInitials + key);
       setInitial((prevInitial) => prevInitial + key);
+    } else {
+      setInitials((prevInitials) => prevInitials.slice(0, -1) + key);
     }
+    setSelectedIndex(index);
   };
 
   const handleDelete = () => {
@@ -311,7 +317,7 @@ const GameOver = () => {
                       <Grid item key={key}>
                         <Button
                           variant="outlined"
-                          onClick={() => handleKeyPress(key)}
+                          onClick={() => handleKeyPress(key, colIndex)}
                           style={{
                             backgroundColor:
                               selectedIndex === colIndex
@@ -329,7 +335,7 @@ const GameOver = () => {
                       <Grid item key={key}>
                         <Button
                           variant="outlined"
-                          onClick={() => handleKeyPress(key)}
+                          onClick={() => handleKeyPress(key, colIndex + 9)}
                           style={{
                             backgroundColor:
                               selectedIndex === colIndex + 9
@@ -347,7 +353,7 @@ const GameOver = () => {
                       <Grid item key={key}>
                         <Button
                           variant="outlined"
-                          onClick={() => handleKeyPress(key)}
+                          onClick={() => handleKeyPress(key, colIndex + 18)}
                           style={{
                             backgroundColor:
                               selectedIndex === colIndex + 9 * 2
