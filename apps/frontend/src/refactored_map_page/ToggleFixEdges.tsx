@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import { Switch } from "@mui/material";
+import React from "react";
+import { Switch, FormControlLabel } from "@mui/material";
 import { useMapContext } from "./MapContext.ts";
 import { EditorMode } from "common/src/types/map_page_types.ts";
+import "../styles/ToggleFixEdges.css";
 export default ToggleFixEdges;
 
 function ToggleFixEdges() {
-  const { editorMode } = useMapContext();
-
-  const [fixEdges, setFixEdges] = useState(false);
+  const { editorMode, fixingEdges, setFixingEdges } = useMapContext();
 
   const handleToggle = () => {
-    setFixEdges(!fixEdges);
+    setFixingEdges(!fixingEdges);
   };
 
   if (editorMode === EditorMode.disabled) {
@@ -18,16 +17,28 @@ function ToggleFixEdges() {
   }
 
   return (
-    <Switch
+    <FormControlLabel
+      label="Auto Repair Edges"
+      labelPlacement="start"
+      control={
+        <Switch
+          sx={{
+            "& .MuiSwitch-thumb": {
+              backgroundColor: fixingEdges ? "#1976d2" : "#012D5A",
+            },
+          }}
+          checked={fixingEdges}
+          onChange={handleToggle}
+        />
+      }
       sx={{
-        position: "absolute",
-        zIndex: 20,
-        right: 30,
-        top: 150,
+        backgroundColor: "white",
+        color: "black",
+        borderRadius: "5px",
+        boxShadow: 7,
+        justifyContent: "center",
+        padding: "0.5rem",
       }}
-      checked={fixEdges}
-      onChange={handleToggle}
-      color="primary"
     />
   );
 }

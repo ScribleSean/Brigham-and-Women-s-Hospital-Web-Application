@@ -96,10 +96,22 @@ function MapContents() {
   return (
     <div style={mapDiv}>
       <TextDirections />
-      <ShowNodesEdgesDropDown />
       <DisplayEditingOptions />
       <MapLegend />
-      <ToggleFixEdges />
+      <Box
+        sx={{
+          position: "absolute",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          gap: "1rem",
+          marginTop: "1vh",
+          zIndex: 3,
+        }}
+      >
+        <ShowNodesEdgesDropDown />
+        <ToggleFixEdges />
+      </Box>
       <Box
         sx={{
           right: 0,
