@@ -60,18 +60,25 @@ const christianFrames = [
   "/characterSprites/christian1.png",
   "/characterSprites/christian2.png",
   "/characterSprites/christian3.png",
+  "/characterSprites/christian4.png",
+  "/characterSprites/christian5.png",
+  "/characterSprites/christian6.png",
+  "/characterSprites/christian7.png",
+  "/characterSprites/christian8.png",
+  "/characterSprites/christian9.png",
 ];
 const christianHead = "/heads/christianHead.png";
-const christianPassive = "passive";
-const christianRole = "frontend";
+const christianPassive = "Saved shields grant stacking speed";
+const christianRole = "Lead Software Developer";
 const christianQuote =
   "There's smoke in my iris. But I painted a sunny day on the insides of my eyelids - Aesop Rock";
-const christianBackstory = "backStory";
+const christianBackstory =
+  "After too many all-nighters, his spirit became intertwined with the project. His thoughts and will completely consumed. He now bears the Brigham colors; a nomad in search of new delighters for team N's website.";
 const Christian = new Character(
   "Christian",
   1,
-  5,
-  2,
+  4,
+  3,
   christianPassive,
   christianFrames,
   christianHead,

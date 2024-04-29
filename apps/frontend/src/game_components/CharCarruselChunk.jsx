@@ -137,8 +137,8 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
       <div className={"col-lg p-2 mx-3"} style={portraitStyle}>
         <h1 className={"mt-5"}>{character.name}</h1>
         <img
-          width={"200px"}
-          height={"400px"}
+          width={"210px"}
+          height={"380px"}
           src={character.frames[currentFrame]} // Use currentFrame
           alt={character.name}
           style={imageStyle}
