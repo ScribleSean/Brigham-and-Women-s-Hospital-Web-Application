@@ -9,8 +9,8 @@ const gabeFrames = [
   "/characterSprites/gabe6.png",
 ];
 const gabeHead = "/heads/gabeHead.png";
-const gabePassive = "passive";
-const gabeRole = "frontend";
+const gabePassive = "Shields spawn at an increased rate";
+const gabeRole = "Backend Lead";
 const gabeQuote = "quote";
 const gabeBackstory = "backStory";
 const Gabe = new Character(
@@ -121,9 +121,9 @@ const Timothy = new Character(
 );
 
 const peterFrames = [
-  "/characterFrames/peter1.png",
-  "/characterFrames/peter2.png",
-  "/characterFrames/peter3.png",
+  "/characterSprites/peter1.png",
+  "/characterSprites/peter2.png",
+  "/characterSprites/peter3.png",
 ];
 const peterHead = "/heads/peterHead.png";
 const peterPassive = "passive";

@@ -10,7 +10,7 @@ const CharSquare = ({ getCharacter, character, onClick }) => {
     marginRight: "1px",
     marginBottom: "2px",
     backgroundColor: "black",
-    backgroundImage: `url(${character.frames[0]})`,
+    backgroundImage: `url(${character.head})`,
     backgroundSize: "cover",
     width: "135px",
     height: "135px",

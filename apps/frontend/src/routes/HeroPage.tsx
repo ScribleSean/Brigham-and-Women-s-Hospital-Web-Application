@@ -5,7 +5,6 @@ import "../styles/HeroPage.css";
 // @import "~animate.css/animate.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
-import HumidityIcon from "../../public/Humidty.png";
 
 function addAnimationClass(e: Event) {
   e.preventDefault(); // Prevent the default action (navigation)
@@ -105,7 +104,7 @@ function HeroPage() {
 
             <div className={"tempSpace tempBox paragraph "}>
               <p className={"wordPad"}>50% wet</p>
-              <img src={HumidityIcon} alt={"Image"} width={"45"} />
+              <img alt={"Image"} width={"45"} />
             </div>
           </div>
 
