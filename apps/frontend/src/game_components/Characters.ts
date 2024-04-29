@@ -167,6 +167,8 @@ const madduxFrames = [
   "/characterSprites/maddux1.png",
   "/characterSprites/maddux2.png",
   "/characterSprites/maddux3.png",
+  "/characterSprites/maddux4.png",
+  "/characterSprites/maddux5.png",
 ];
 const madduxHead = "/heads/madduxHead.png";
 const madduxPassive = "passive";
@@ -297,6 +299,8 @@ const Wong = new Character(
 const josephFrames = [
   "/characterSprites/joseph1.png",
   "/characterSprites/joseph2.png",
+  "/characterSprites/joseph3.png",
+  "/characterSprites/joseph4.png",
 ];
 const josephHead = "/heads/josephHead.png";
 const josephPassive =
