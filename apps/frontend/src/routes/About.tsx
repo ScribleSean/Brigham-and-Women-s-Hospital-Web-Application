@@ -32,6 +32,22 @@ function About() {
       description: "Full-Stack Developer",
       image: "/gitHubLogo.png",
     },
+    {
+      gamertag: "Christian Consiglio",
+      description: "Full-Stack Developer",
+      image: "/gitHubLogo.png",
+    },
+
+    {
+      gamertag: "Peter Czepiel",
+      description: "Full-Stack Developer",
+      image: "/gitHubLogo.png",
+    },
+    {
+      gamertag: "Ethan Glasby",
+      description: "Product Owner / Full-Stack Developer",
+      image: "/gitHubLogo.png",
+    },
   ];
   return (
     <div className={styles.pageContainer}>
@@ -99,7 +115,7 @@ function About() {
               sx={{
                 flexBasis: "33%",
                 marginRight: "10px",
-                backgroundColor: "white",
+                backgroundColor: "#59B7CF",
                 padding: "1rem",
                 borderRadius: "10px",
                 height: "100%",
@@ -125,7 +141,7 @@ function About() {
               sx={{
                 flexBasis: "33%",
                 marginRight: "10px",
-                backgroundColor: "white",
+                backgroundColor: "#40BBE0",
                 padding: "1rem",
                 borderRadius: "10px",
                 height: "100%",
@@ -151,7 +167,7 @@ function About() {
               sx={{
                 flexBasis: "33%",
                 marginRight: "10px",
-                backgroundColor: "white",
+                backgroundColor: "#6EB5FF",
                 padding: "1rem",
                 borderRadius: "10px",
                 height: "100%",
@@ -171,6 +187,95 @@ function About() {
               />
               <div>{everyone[2].gamertag}</div>
               <div>{everyone[2].description}</div>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              textAlign: "center",
+              width: "100%",
+              marginBottom: "20px",
+              fontSize: 20,
+              fontColor: "#012d5a",
+            }}
+          >
+            <Box
+              sx={{
+                flexBasis: "33%",
+                marginRight: "10px",
+                backgroundColor: "#60A3E0",
+                padding: "1rem",
+                borderRadius: "10px",
+                height: "100%",
+                boxShadow: "0px 0px 3px",
+                minHeight: "65vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <img
+                src={everyone[3].image}
+                alt="Tool Image"
+                style={{
+                  width: "100%",
+                  maxHeight: "200px",
+                  objectFit: "contain",
+                }}
+              />
+              <div>{everyone[3].gamertag}</div>
+              <div>{everyone[3].description}</div>
+            </Box>
+
+            <Box
+              sx={{
+                flexBasis: "33%",
+                marginRight: "10px",
+                backgroundColor: "#4194E0",
+                padding: "1rem",
+                borderRadius: "10px",
+                height: "100%",
+                boxShadow: "0px 0px 3px",
+                minHeight: "65vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <img
+                src={everyone[4].image}
+                alt="Tool Image"
+                style={{
+                  width: "100%",
+                  maxHeight: "200px",
+                  objectFit: "contain",
+                }}
+              />
+              <div>{everyone[4].gamertag}</div>
+              <div>{everyone[4].description}</div>
+            </Box>
+
+            <Box
+              sx={{
+                flexBasis: "33%",
+                marginRight: "10px",
+                backgroundColor: "#59B7CF",
+                padding: "1rem",
+                borderRadius: "10px",
+                height: "100%",
+                boxShadow: "0px 0px 3px",
+                minHeight: "65vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <img
+                src={everyone[5].image}
+                alt="Tool Image"
+                style={{
+                  width: "100%",
+                  maxHeight: "200px",
+                  objectFit: "contain",
+                }}
+              />
+              <div>{everyone[5].gamertag}</div>
+              <div>{everyone[5].description}</div>
             </Box>
           </Box>
         </Box>
