@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.js";
 import axios from "axios";
-import { Button, Tabs, Tab, TextField, Box, Grid } from "@mui/material";
+import { Button, Tabs, Tab, Box, Grid } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import styles from "../styles/brighamBreakout.module.css";
-import Typography from "@mui/material/Typography";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -118,16 +117,6 @@ const GameOver = () => {
     fetchRecent();
   }, []);
 
-  const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.id === "initial" && e.target.value.length > 3) {
-      return;
-    }
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
-
   const resetForm = () => {
     setFormData({
       HSID: 0,
@@ -164,7 +153,8 @@ const GameOver = () => {
     "X",
     "Y",
     "Z",
-    "Delete",
+    "Del",
+    "Go",
   ];
 
   const [initials, setInitials] = useState("");
@@ -200,19 +190,24 @@ const GameOver = () => {
         "X",
         "Y",
         "Z",
-        "Delete",
+        "Del",
+        "Go",
       ],
     ];
 
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") {
-        setSelectedIndex((prevIndex) => (prevIndex + 1) % 27);
+        setSelectedIndex((prevIndex) =>
+          (prevIndex + 1) % 7 ? (prevIndex + 1) % 28 : prevIndex - 6,
+        );
       } else if (e.key === "ArrowLeft") {
-        setSelectedIndex((prevIndex) => (prevIndex - 1 + 27) % 27);
+        setSelectedIndex((prevIndex) =>
+          prevIndex % 7 ? (prevIndex - 1) % 28 : prevIndex + 6,
+        );
       } else if (e.key === "ArrowUp") {
-        setSelectedIndex((prevIndex) => (prevIndex - 9 + 27) % 27);
+        setSelectedIndex((prevIndex) => (prevIndex - 7 + 28) % 28);
       } else if (e.key === "ArrowDown") {
-        setSelectedIndex((prevIndex) => (prevIndex + 9) % 27);
+        setSelectedIndex((prevIndex) => (prevIndex + 7) % 28);
       } else if (e.key === " ") {
         if (!(selectedIndex === 26)) {
           if (initials.length === 3) {
@@ -242,6 +237,8 @@ const GameOver = () => {
 
   const handleKeyPress = (key: string, index: number) => {
     if (key === keyboardRows[keyboardRows.length - 1]) {
+      handleSubmit().then();
+    } else if (key === keyboardRows[keyboardRows.length - 2]) {
       setInitials((prevInitials) => prevInitials.slice(0, -1));
     } else if (initials.length < 3) {
       setInitials((prevInitials) => prevInitials + key);
@@ -252,14 +249,10 @@ const GameOver = () => {
     setSelectedIndex(index);
   };
 
-  const handleDelete = () => {
-    setInitial((prevInitial) => prevInitial.slice(0, -1));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     try {
+      formData.initial = initials;
+
       const response = await axios.post("/api/brig-hs-request", formData);
       console.log(response.data);
     } catch (error) {
@@ -280,7 +273,6 @@ const GameOver = () => {
         style={gameOverContainer}
         className={"container-fluid"}
       >
-        <h1>current name: {initials}</h1>
         <div
           id={"highScoreContainer"}
           className={`container px-0 ${styles.highScoreTable}`}
@@ -288,41 +280,50 @@ const GameOver = () => {
         >
           {!submitted ? (
             <>
-              <form onSubmit={handleSubmit}>
-                <div>End Time: {endTime}</div>
-                <TextField
-                  id={"initial"}
-                  variant={"filled"}
-                  label={"Your Initials"}
-                  required
-                  value={formData.initial}
-                  onChange={handleTextFieldChange}
-                  InputProps={{
-                    style: {
-                      backgroundColor: "white",
-                    },
-                  }}
-                />
-
-                <Button type={"submit"}>Click</Button>
-              </form>
-
               <div>
-                <Typography variant="h5" gutterBottom>
-                  Enter a 3-letter initial:
-                </Typography>
+                <h1
+                  className={"justify-content-center d-flex display-1 pt-5"}
+                  style={{
+                    fontFamily: '"Halogen by Pixel Surplus", monospace',
+                  }}
+                >
+                  {initials.length > 0 ? initials[0] : "_ "}
+                  {initials.length > 1 ? initials[1] : "_ "}
+                  {initials.length > 2 ? initials[2] : "_ "}
+                </h1>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <Grid item>
-                  <Grid container spacing={1}>
-                    {keyboardRows.slice(0, 9).map((key, colIndex) => (
-                      <Grid item key={key}>
+                  <Grid
+                    container
+                    spacing={1}
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "space-evenly",
+                    }}
+                  >
+                    {keyboardRows.slice(0, 7).map((key, colIndex) => (
+                      <Grid item key={key} style={{ flex: "1" }}>
                         <Button
                           variant="outlined"
                           onClick={() => handleKeyPress(key, colIndex)}
                           style={{
                             backgroundColor:
                               selectedIndex === colIndex
-                                ? "#f0f0f0"
+                                ? "#39ff14"
                                 : "transparent",
+                            borderColor: "#39ff14",
+                            color:
+                              selectedIndex === colIndex ? "black" : "#39ff14",
+                            fontFamily: '"Halogen by Pixel Surplus", monospace',
+                            fontWeight: "700",
                           }}
                         >
                           {key}
@@ -330,17 +331,29 @@ const GameOver = () => {
                       </Grid>
                     ))}
                   </Grid>
-                  <Grid container spacing={1}>
-                    {keyboardRows.slice(9, 18).map((key, colIndex) => (
+                  <Grid
+                    container
+                    spacing={1}
+                    style={{ justifyContent: "space-evenly" }}
+                  >
+                    {keyboardRows.slice(7, 14).map((key, colIndex) => (
                       <Grid item key={key}>
                         <Button
                           variant="outlined"
-                          onClick={() => handleKeyPress(key, colIndex + 9)}
+                          onClick={() => handleKeyPress(key, colIndex + 7)}
                           style={{
                             backgroundColor:
-                              selectedIndex === colIndex + 9
-                                ? "#f0f0f0"
+                              selectedIndex === colIndex + 7
+                                ? "#39ff14"
                                 : "transparent",
+                            borderColor: "#39ff14",
+                            color:
+                              selectedIndex === colIndex + 7
+                                ? "black"
+                                : "#39ff14",
+                            fontFamily: '"Halogen by Pixel Surplus", monospace',
+                            fontWeight:
+                              selectedIndex === colIndex + 7 ? "700" : "600",
                           }}
                         >
                           {key}
@@ -348,17 +361,63 @@ const GameOver = () => {
                       </Grid>
                     ))}
                   </Grid>
-                  <Grid container spacing={1}>
-                    {keyboardRows.slice(18, 27).map((key, colIndex) => (
+                  <Grid
+                    container
+                    spacing={1}
+                    style={{ justifyContent: "space-evenly" }}
+                  >
+                    {keyboardRows.slice(14, 21).map((key, colIndex) => (
                       <Grid item key={key}>
                         <Button
                           variant="outlined"
-                          onClick={() => handleKeyPress(key, colIndex + 18)}
+                          onClick={() => handleKeyPress(key, colIndex + 7 * 2)}
                           style={{
                             backgroundColor:
-                              selectedIndex === colIndex + 9 * 2
-                                ? "#f0f0f0"
+                              selectedIndex === colIndex + 7 * 2
+                                ? "#39ff14"
                                 : "transparent",
+                            borderColor: "#39ff14",
+                            color:
+                              selectedIndex === colIndex + 7 * 2
+                                ? "black"
+                                : "#39ff14",
+                            fontFamily: '"Halogen by Pixel Surplus", monospace',
+                            fontWeight:
+                              selectedIndex === colIndex + 7 * 2
+                                ? "700"
+                                : "600",
+                          }}
+                        >
+                          {key}
+                        </Button>
+                      </Grid>
+                    ))}
+                  </Grid>
+                  <Grid
+                    container
+                    spacing={1}
+                    style={{ justifyContent: "space-evenly" }}
+                  >
+                    {keyboardRows.slice(21, 28).map((key, colIndex) => (
+                      <Grid item key={key}>
+                        <Button
+                          variant="outlined"
+                          onClick={() => handleKeyPress(key, colIndex + 7 * 3)}
+                          style={{
+                            backgroundColor:
+                              selectedIndex === colIndex + 7 * 3
+                                ? "#39ff14"
+                                : "transparent",
+                            borderColor: "#39ff14",
+                            color:
+                              selectedIndex === colIndex + 7 * 3
+                                ? "black"
+                                : "#39ff14",
+                            fontFamily: '"Halogen by Pixel Surplus", monospace',
+                            fontWeight:
+                              selectedIndex === colIndex + 7 * 3
+                                ? "700"
+                                : "600",
                           }}
                         >
                           {key}
@@ -367,16 +426,6 @@ const GameOver = () => {
                     ))}
                   </Grid>
                 </Grid>
-                <Button variant="outlined" onClick={handleDelete}>
-                  Delete
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
               </div>
             </>
           ) : (
