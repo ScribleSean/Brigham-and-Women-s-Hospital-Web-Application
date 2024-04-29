@@ -1,76 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { node } from "common/src/interfaces.ts";
-import {
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  tableCellClasses,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#012D5A",
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+const columns = [
+  { field: "nodeID", headerName: "Node ID", width: 130 },
+  { field: "xcoord", headerName: "X-Coordinate", width: 130 },
+  { field: "ycoord", headerName: "Y-Coordinate", width: 130 },
+  { field: "floor", headerName: "Floor", width: 130 },
+  { field: "building", headerName: "Building", width: 130 },
+  { field: "nodeType", headerName: "Node Type", width: 130 },
+  { field: "longName", headerName: "Long Name", width: 300 },
+  { field: "shortName", headerName: "Short Name", width: 250 },
+];
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-const StyledTableContainer = styled(TableContainer)(() => ({
-  borderRadius: 10, // Adjust the value as per your preference
-}));
-
-function GenerateTableRowsNodes(tableData: node[]): JSX.Element[] {
-  return tableData.map((item, index) => (
-    <StyledTableRow key={index}>
-      <StyledTableCell>{tableData[index].nodeID}</StyledTableCell>
-      <StyledTableCell>{tableData[index].xcoord}</StyledTableCell>
-      <StyledTableCell>{tableData[index].ycoord}</StyledTableCell>
-      <StyledTableCell>{tableData[index].floor}</StyledTableCell>
-      <StyledTableCell>{tableData[index].building}</StyledTableCell>
-      <StyledTableCell>{tableData[index].nodeType}</StyledTableCell>
-      <StyledTableCell>{tableData[index].longName}</StyledTableCell>
-      <StyledTableCell>{tableData[index].shortName}</StyledTableCell>
-    </StyledTableRow>
-  ));
-}
-
-const TableNodes: React.FC<{ tableData: node[] }> = ({ tableData }) => {
+const DataGridNodes: React.FC<{ tableData: node[] }> = ({ tableData }) => {
   return (
-    <StyledTableContainer>
-      <Table size={"small"}>
-        <TableHead>
-          <StyledTableRow>
-            <StyledTableCell>Node ID</StyledTableCell>
-            <StyledTableCell>X-Coordinate</StyledTableCell>
-            <StyledTableCell>Y-Coordinate</StyledTableCell>
-            <StyledTableCell>Floor</StyledTableCell>
-            <StyledTableCell>Building</StyledTableCell>
-            <StyledTableCell>Node Type</StyledTableCell>
-            <StyledTableCell>Long Name</StyledTableCell>
-            <StyledTableCell>Short Name</StyledTableCell>
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>{GenerateTableRowsNodes(tableData)}</TableBody>
-      </Table>
-    </StyledTableContainer>
+    <div style={{ width: "100%" }}>
+      <DataGrid rows={tableData} columns={columns} />
+    </div>
   );
 };
+
 interface GetDataNodesProps {
   dataUpdated: boolean;
 }
@@ -93,8 +43,13 @@ export const GetDataNodes: React.FC<GetDataNodesProps> = ({ dataUpdated }) => {
         // Parse the JSON response
         const result = await response.json();
 
+        const dataWithIDs = result.map((item: node) => ({
+          ...item,
+          id: item.nodeID,
+        }));
+
         // Set the data in the state
-        setData(result);
+        setData(dataWithIDs);
       } catch (err) {
         // Handle errors
         console.log(err);
@@ -113,7 +68,8 @@ export const GetDataNodes: React.FC<GetDataNodesProps> = ({ dataUpdated }) => {
 
   return (
     <div>
-      <TableNodes tableData={data}></TableNodes>
+      {/*<TableNodes tableData={data}></TableNodes>*/}
+      <DataGridNodes tableData={data}></DataGridNodes>
     </div>
   );
 };

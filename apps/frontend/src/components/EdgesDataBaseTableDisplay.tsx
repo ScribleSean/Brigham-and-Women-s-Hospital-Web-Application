@@ -1,66 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { edge } from "common/src/interfaces.ts";
-import {
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  tableCellClasses,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#012D5A",
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+const columns = [
+  { field: "edgeID", headerName: "Edge ID", width: 300 },
+  { field: "startNodeID", headerName: "Start Node ID", width: 300 },
+  { field: "endNodeID", headerName: "End Node ID", width: 300 },
+];
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-const StyledTableContainer = styled(TableContainer)(() => ({
-  borderRadius: 10, // Adjust the value as per your preference
-}));
-
-function GenerateTableRowsEdges(tableData: edge[]): JSX.Element[] {
-  return tableData.map((item, index) => (
-    <StyledTableRow key={index}>
-      <StyledTableCell>{tableData[index].edgeID}</StyledTableCell>
-      <StyledTableCell>{tableData[index].startNodeID}</StyledTableCell>
-      <StyledTableCell>{tableData[index].endNodeID}</StyledTableCell>
-    </StyledTableRow>
-  ));
-}
-
-const TableEdges: React.FC<{ tableData: edge[] }> = ({ tableData }) => {
+const DataGridEdges: React.FC<{ tableData: edge[] }> = ({ tableData }) => {
   return (
-    <StyledTableContainer>
-      <Table size={"small"}>
-        <TableHead>
-          <StyledTableRow>
-            <StyledTableCell>Edge ID</StyledTableCell>
-            <StyledTableCell>Start Node ID</StyledTableCell>
-            <StyledTableCell>End Node ID</StyledTableCell>
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>{GenerateTableRowsEdges(tableData)}</TableBody>
-      </Table>
-    </StyledTableContainer>
+    <div style={{ width: "100%" }}>
+      <DataGrid rows={tableData} columns={columns} />
+    </div>
   );
 };
+
 interface GetDataEdgesProps {
   dataUpdated: boolean;
 }
@@ -84,8 +39,13 @@ export const GetDataEdges: React.FC<GetDataEdgesProps> = ({ dataUpdated }) => {
         // Parse the JSON response
         const result = await response.json();
 
+        const dataWithIDs = result.map((item: edge) => ({
+          ...item,
+          id: item.edgeID,
+        }));
+
         // Set the data in the state
-        setData(result);
+        setData(dataWithIDs);
       } catch (err) {
         // Handle errors
         console.log(err);
@@ -104,7 +64,7 @@ export const GetDataEdges: React.FC<GetDataEdgesProps> = ({ dataUpdated }) => {
 
   return (
     <div>
-      <TableEdges tableData={data}></TableEdges>
+      <DataGridEdges tableData={data}></DataGridEdges>
     </div>
   );
 };
