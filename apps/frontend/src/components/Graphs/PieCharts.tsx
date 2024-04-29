@@ -31,7 +31,15 @@ export default function PieCharts() {
           value,
           // color: getColor(index), // Assign a color based on index or any other logic
         }));
-        setGraphData(formattedData);
+        const totalRequests = formattedData.reduce(
+          (total, item) => total + item.value,
+          0,
+        );
+        const percentageData = formattedData.map((item) => ({
+          ...item,
+          value: parseFloat(((item.value / totalRequests) * 100).toFixed(1)),
+        }));
+        setGraphData(percentageData);
       });
   }, [selection]);
 
@@ -77,11 +85,12 @@ export default function PieCharts() {
             data: graphData,
             highlightScope: { faded: "global", highlighted: "item" },
             faded: { additionalRadius: -20, color: "gray" },
-            cx: 250,
+            cx: 200,
+            valueFormatter: (value) => `${value.value}%`,
           },
         ]}
-        height={500}
-        margin={{ right: 20, bottom: 150, left: 20 }}
+        height={520}
+        margin={{ right: 20, bottom: 170, left: 20 }}
         slotProps={{
           legend: {
             direction: "row",

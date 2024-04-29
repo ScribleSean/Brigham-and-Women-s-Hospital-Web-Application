@@ -48,7 +48,9 @@ export default function RequestsByUser() {
 
   return (
     <>
-      <h1 className={`${styles.graphTitle}`}>Requests by Type by User</h1>
+      <h1 className={`${styles.graphTitle}`}>
+        Number of Requests by Type by User
+      </h1>
       <BarChart
         xAxis={[
           {

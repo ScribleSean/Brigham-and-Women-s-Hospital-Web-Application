@@ -153,7 +153,7 @@ export default function RequestsByPriorityStatus() {
     <>
       <div className={`${styles.chartHeader}`}>
         <h1 className={`${styles.graphTitle}`}>
-          Requests by Type by {selection}
+          Number of Requests by Type by {selection}
         </h1>
         <ToggleButtonGroup
           value={selection}
