@@ -279,6 +279,10 @@ const josephFrames = [
   "/characterSprites/joseph1.png",
   "/characterSprites/joseph2.png",
   "/characterSprites/joseph3.png",
+  "/characterSprites/joseph4.png",
+  "/characterSprites/joseph5.png",
+  "/characterSprites/joseph6.png",
+  "/characterSprites/joseph7.png",
 ];
 const josephHead = "/heads/josephHead.png";
 const josephPassive = "passive";
