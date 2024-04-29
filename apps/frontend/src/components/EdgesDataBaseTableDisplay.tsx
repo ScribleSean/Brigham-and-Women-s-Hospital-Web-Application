@@ -12,9 +12,9 @@ import FileUpload from "./FileUpload.tsx";
 import { Box } from "@mui/material";
 
 const columns = [
-  { field: "edgeID", headerName: "Edge ID", width: 300 },
-  { field: "startNodeID", headerName: "Start Node ID", width: 300 },
-  { field: "endNodeID", headerName: "End Node ID", width: 300 },
+  { field: "edgeID", headerName: "Edge ID", flex: 1 },
+  { field: "startNodeID", headerName: "Start Node ID", flex: 1 },
+  { field: "endNodeID", headerName: "End Node ID", flex: 1 },
 ];
 
 function CustomToolbar({ onFileDrop }: { onFileDrop: (file: File) => void }) {
