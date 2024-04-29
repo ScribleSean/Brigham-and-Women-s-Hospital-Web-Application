@@ -4,8 +4,38 @@ import Disease from "./Disease.jsx";
 import JoseSprite from "./JoseSprite.jsx";
 import HealthPickup from "./HealthPickup.jsx";
 import Shield from "./Shield.jsx";
+import { allCharacters } from "./Characters";
+import { useLocation } from "react-router-dom";
 
 const Canvas = () => {
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+  const characterIndex = parseInt(params.get("characterIndex"));
+
+  const characterParam =
+    characterIndex !== null ? allCharacters[characterIndex] : null;
+
+  let characterWidth;
+  let characterHeight;
+
+  if (characterParam.size === 1) {
+    characterWidth = 130;
+    characterHeight = 260;
+  } else if (characterParam.size === 2) {
+    characterWidth = 110;
+    characterHeight = 220;
+  } else if (characterParam.size === 3) {
+    characterWidth = 90;
+    characterHeight = 180;
+  } else if (characterParam.size === 4) {
+    characterWidth = 70;
+    characterHeight = 140;
+  } else if (characterParam.size === 5) {
+    characterWidth = 50;
+    characterHeight = 100;
+  }
+
   // Define fixed width and height for the canvas
   const canvasWidth = 1500; // Example width
   const canvasHeight = 800; // Example height
@@ -39,7 +69,7 @@ const Canvas = () => {
 
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const animationRef = useRef();
-  const speed = 200;
+  const [speed, setSpeed] = useState(100 + 25 * characterParam.speed);
 
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -53,8 +83,8 @@ const Canvas = () => {
     }
   }, [isAlive]);
 
-  const [playerHP, setPlayerHP] = useState(3);
-  const [playerMaxHP] = useState(3);
+  const [playerHP, setPlayerHP] = useState(characterParam.health + 1);
+  const [playerMaxHP] = useState(characterParam.health + 1);
   const [playerShields, setPlayerShields] = useState(0);
 
   const [gameOverDisplayed, setGameOverDisplayed] = useState(false);
@@ -134,22 +164,22 @@ const Canvas = () => {
         case "ArrowUp":
         case "w":
         case "W":
-          newVelocity.y = newVelocity.y + speed;
+          newVelocity.y = 0;
           break;
         case "ArrowDown":
         case "s":
         case "S":
-          newVelocity.y = newVelocity.y - speed;
+          newVelocity.y = 0;
           break;
         case "ArrowLeft":
         case "a":
         case "A":
-          newVelocity.x = newVelocity.x + speed;
+          newVelocity.x = 0;
           break;
         case "ArrowRight":
         case "d":
         case "D":
-          newVelocity.x = newVelocity.x - speed;
+          newVelocity.x = 0;
           break;
         default:
           break;
@@ -165,8 +195,8 @@ const Canvas = () => {
         const nextX = prevPosition.x + velocity.x / 60;
         const nextY = prevPosition.y + velocity.y / 60;
 
-        const playerWidth = 75;
-        const playerHeight = 100;
+        const playerWidth = characterWidth;
+        const playerHeight = characterHeight;
 
         const minX = viewBox[0];
         const minY = viewBox[1];
@@ -208,6 +238,9 @@ const Canvas = () => {
     playerShields,
     playerHP,
     setPlayerHP,
+    speed,
+    characterWidth,
+    characterHeight,
   ]);
 
   const [healthSpawnPoints, setHealthSpawnPoints] = useState([]);
@@ -267,7 +300,18 @@ const Canvas = () => {
         { x: spawnX, y: spawnY },
       ]);
 
-      const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
+      let shieldSpawnRateUpper;
+      let shieldSpawnRateLower;
+      if (characterParam.name === "Gabe") {
+        shieldSpawnRateUpper = 10000;
+        shieldSpawnRateLower = 5000;
+      } else {
+        shieldSpawnRateUpper = 15000;
+        shieldSpawnRateLower = 10000;
+      }
+
+      const nextSpawnInterval =
+        Math.random() * shieldSpawnRateUpper + shieldSpawnRateLower; // Random interval between 10 and 25 seconds
       setSpawnIntervalShield(
         setTimeout(() => {
           setShieldSpawning(false);
@@ -284,7 +328,7 @@ const Canvas = () => {
     return () => {
       clearTimeout(spawnInterval); // Clear the shield spawn interval
     };
-  }, [viewBox, shieldSpawning, spawnIntervalShield]);
+  }, [viewBox, shieldSpawning, spawnIntervalShield, characterParam.name]);
 
   const [diseases, setDiseases] = useState([]);
   const spawnIntervalRef = useRef(null);
@@ -295,7 +339,7 @@ const Canvas = () => {
       const DiseaseComponent = maybeJose <= 0.2 ? JoseSprite : Disease;
 
       // Base speed for diseases
-      let baseSpeed = 5;
+      const baseSpeed = 5;
 
       // Adjust speed every ten seconds
       const adjustedSpeed = baseSpeed + Math.floor(elapsedTime / 10) * 0.5;
@@ -361,22 +405,18 @@ const Canvas = () => {
   }, []);
 
   const imageRef = useRef(null);
-  const [currentFrame, setCurrentFrame] = useState(0);
-  const frames = [
-    "/playerSoftEngF1.png",
-    "/playerSoftEngF2.png",
-    "/playerSoftEngF3.png",
-  ];
 
-  const toggleFrame = () => {
-    setCurrentFrame((prevFrame) => (prevFrame === 0 ? 1 : 0));
-  };
+  const [currentFrame, setCurrentFrame] = useState(0);
 
   useEffect(() => {
-    const frameTimer = setInterval(toggleFrame, 200);
+    const frameInterval = setInterval(() => {
+      setCurrentFrame(
+        (prevFrame) => (prevFrame + 1) % characterParam.frames.length,
+      );
+    }, 200); // Change the interval time as needed
 
-    return () => clearInterval(frameTimer);
-  }, []);
+    return () => clearInterval(frameInterval);
+  }, [characterParam.frames.length]);
 
   const GameOverText = {
     fontFamily: "'Halogen by Pixel Surplus', sans-serif",
@@ -482,12 +522,16 @@ const Canvas = () => {
           {isAlive && (
             <g
               ref={imageRef}
-              width={75}
+              width={50}
               height={100}
               id={"Player"}
               transform={`translate(${position.x}, ${position.y})`}
             >
-              <image width={75} height={100} href={frames[currentFrame]} />
+              <image
+                width={characterWidth}
+                height={characterHeight}
+                href={characterParam.frames[currentFrame]}
+              />
             </g>
           )}
           {/* Loop through an array of spawn points to create multiple hearts */}
@@ -514,6 +558,8 @@ const Canvas = () => {
               playerShields={playerShields}
               player={document.getElementById("Player")}
               isAlive={isAlive}
+              characterParam={characterParam}
+              setSpeed={setSpeed}
             />
           ))}
           {diseases.map((disease, index) => {

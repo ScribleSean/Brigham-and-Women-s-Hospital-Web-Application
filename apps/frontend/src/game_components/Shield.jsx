@@ -8,6 +8,8 @@ const Shield = ({
   isAlive,
   playerShields,
   setPlayerShields,
+  characterParam,
+  setSpeed,
 }) => {
   const position = useRef({ x: x, y: y });
   const playerRef = useRef(player);
@@ -45,14 +47,18 @@ const Shield = ({
 
       const playerRect = playerRef.current.getBoundingClientRect();
       const imageRect = imageRef.current.getBoundingClientRect();
-      playerRect.width *= 0.7;
-      playerRect.height *= 0.7;
+      playerRect.width *= 0.9;
+      playerRect.height *= 0.9;
       imageRect.width *= 0.95;
       imageRect.height *= 0.95;
 
       if (isIntersecting(playerRect, imageRect)) {
         console.log("Collision detected!");
         setPlayerShields(playerShields + 1);
+        if (characterParam.name === "Christian") {
+          const boostedSpeed = playerShields * 10;
+          setSpeed((prevSpeed) => prevSpeed + boostedSpeed);
+        }
         setShowPickup(false);
       }
 
@@ -71,6 +77,8 @@ const Shield = ({
     playerShields,
     setPlayerShields,
     updateTime,
+    setSpeed,
+    characterParam,
   ]);
 
   const imageSrc = `/maskSpriteF${currentFrame + 1}.png`;

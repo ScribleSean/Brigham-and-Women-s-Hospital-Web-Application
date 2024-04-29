@@ -54,7 +54,8 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
 
   const renderSpeedSquares = () => {
     const squares = [];
-    for (let i = 0; i < 5; i++) {
+    let limit = character.speed < 5 ? 5 : character.speed;
+    for (let i = 0; i < limit; i++) {
       const backgroundColor = character.speed <= i ? "white" : "#4FC0FF";
       squares.push(
         <div
@@ -154,7 +155,7 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
         <div style={{ display: "flex", flexDirection: "row" }}>
           {renderHealthSquares()}
         </div>
-        <h3 className={"pt-2"}>Size</h3>
+        <h3 className={"pt-2"}>Evasion</h3>
         <div style={{ display: "flex", flexDirection: "row" }}>
           {renderDimensionsSquares()}
         </div>

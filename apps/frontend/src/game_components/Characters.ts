@@ -248,8 +248,8 @@ const ethanFrames = [
   "/characterSprites/ethan4.png",
 ];
 const ethanHead = "/heads/ethanHead.png";
-const ethanPassive = "passive";
-const ethanRole = "frontend";
+const ethanPassive = "Randomly teleports to an unoccupied space";
+const ethanRole = "Frontend";
 const ethanQuote =
   "And such were some of you: but ye are washed, but ye are sanctified, but ye are justified in the name of the Lord Jesus, and by the Spirit of our God. - 1 Corinthians 6:11";
 const ethanBackstory = "backStory";
@@ -257,7 +257,7 @@ const Ethan = new Character(
   "Ethan",
   3,
   4,
-  4,
+  3,
   ethanPassive,
   ethanFrames,
   ethanHead,
@@ -275,7 +275,7 @@ const wongFrames = [
 ];
 const wongHead = "/heads/wongHead.png";
 const wongPassive =
-  "Knowledgeable: Through his wealth of Knowledge in CS, he hacked into the code and found a way to give himself another stat point";
+  "Knowledgeable: Through his wealth of Knowledge in CS, he hacked into the code and found a way to give himself max stats. But as a just man, has disallowed his scores to be on the leaderboard";
 const wongRole = "Professor";
 const wongQuote =
   "The application of a systematic, disciplined quantifiable approach to the development operation, and maintenance of software -IEEE";
@@ -283,9 +283,9 @@ const wongBackstory =
   "Purchasing an ancient pottery work off a sketchy website caused him to be cursed. He must keep his glasses on to avoid shooting lasers wherever he is looking.";
 const Wong = new Character(
   "Wong",
-  4,
-  4,
-  4,
+  5,
+  5,
+  5,
   wongPassive,
   wongFrames,
   wongHead,

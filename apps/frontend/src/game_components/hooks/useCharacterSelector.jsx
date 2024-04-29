@@ -64,7 +64,7 @@ export function useCharacterSelector(initialIndex) {
     if (selectedStatus === SelectionStatus.unselected) {
       setSelectedStatus(SelectionStatus.selected);
     } else {
-      window.location.href = `/game-over?endTime=${index}`;
+      window.location.href = `/brigham-breakout?characterIndex=${index}`;
     }
   }, [selectedStatus, index]);
 
