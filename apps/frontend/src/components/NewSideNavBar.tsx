@@ -3,6 +3,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import StorageIcon from "@mui/icons-material/Storage";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PeopleIcon from "@mui/icons-material/People";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import styles from "../styles/NewSideNavBar.module.css";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -83,6 +84,16 @@ function NewSideNavBar() {
             >
               <PeopleIcon sx={{ fontSize: "35px" }} />
               <p className={`${styles.navbarLabels}`}>Employees</p>
+            </div>
+          </Link>
+          <Link to="/statistics" className={`${styles.navButtons}`}>
+            <div
+              className={`${styles.row} ${
+                currentLocation === "/statistics" ? styles.selected : ""
+              }`}
+            >
+              <BarChartIcon sx={{ fontSize: "35px" }} />
+              <p className={`${styles.navbarLabels}`}>Statistics</p>
             </div>
           </Link>
         </div>

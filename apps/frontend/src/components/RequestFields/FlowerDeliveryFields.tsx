@@ -29,8 +29,8 @@ function FlowerDeliveryFields({
     try {
       const response = await axios.get("/api/employee-email-fetch");
       const employeeData = response.data.map(
-        (employee: { name: string; employeeEmail: string }) => ({
-          name: employee.name,
+        (employee: { employeeFullName: string; employeeEmail: string }) => ({
+          name: employee.employeeFullName,
           employeeEmail: employee.employeeEmail,
         }),
       );
@@ -187,6 +187,10 @@ function FlowerDeliveryFields({
               renderInput={(params) => (
                 <TextField {...params} label="Employee" required />
               )}
+              sx={{
+                marginRight: "2%",
+                width: "100%",
+              }}
               value={formData.employeeEmail}
               onChange={(e, value) =>
                 handleEmployeeEmailAutocompleteChange(value)

@@ -33,7 +33,6 @@ import styles from "../styles/Dashboard.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-// import DeleteIcon from '@mui/icons-material/Delete';
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import axios from "axios";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
@@ -702,8 +701,8 @@ export default function DashCurrentRequests({
       try {
         const response = await axios.get("/api/employee-email-fetch");
         const employeeData = response.data.map(
-          (employee: { name: string; employeeEmail: string }) => ({
-            name: employee.name,
+          (employee: { employeeFullName: string; employeeEmail: string }) => ({
+            name: employee.employeeFullName,
             employeeEmail: employee.employeeEmail,
           }),
         );

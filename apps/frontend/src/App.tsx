@@ -23,6 +23,7 @@ import Platformer from "./games/Platformer.jsx";
 import GameOver from "./game_components/GameOver.tsx";
 import StartScreen from "./game_components/StartScreen";
 import EmployeePage from "./routes/EmployeePage.tsx";
+import Statistics from "./routes/Statistics.tsx";
 // import {useAuth0} from "@auth0/auth0-react";
 
 function App() {
@@ -64,6 +65,14 @@ function App() {
           element={
             <ProtectedRoute roles={["admin", "staff"]}>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/statistics"
+          element={
+            <ProtectedRoute roles={["admin", "staff"]}>
+              <Statistics />
             </ProtectedRoute>
           }
         />
