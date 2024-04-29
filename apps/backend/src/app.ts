@@ -94,6 +94,16 @@ app.use("/api/pie-request-by-user", pieRequestByUserRouter);
 app.use("/api/pie-request-by-priority", pieRequestByPriorityRouter);
 app.use("/api/pie-request-by-status", pieRequestByStatusRouter);
 
+// Graphs
+app.use("/api/request-by-user", requestByUserRouter);
+app.use("/api/request-by-priority", requestByPriorityRouter);
+app.use("/api/request-by-status", requestByStatusRouter);
+
+app.use("/api/pie-request-by-type", pieRequestByTypeRouter);
+app.use("/api/pie-request-by-user", pieRequestByUserRouter);
+app.use("/api/pie-request-by-priority", pieRequestByPriorityRouter);
+app.use("/api/pie-request-by-status", pieRequestByStatusRouter);
+
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
