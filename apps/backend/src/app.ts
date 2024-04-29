@@ -37,6 +37,7 @@ import pieRequestByUserRouter from "./routes/pieRequestByUserRouter.ts";
 import pieRequestByPriorityRouter from "./routes/pieRequestByPriorityRouter.ts";
 import pieRequestByStatusRouter from "./routes/pieRequestByStatusRouter.ts";
 import pieRequestByTypeRouter from "./routes/pieRequestByTypeRouter.ts";
+import updateTemperatureRouter from "./routes/updateTemperature.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -110,6 +111,8 @@ app.use("/api/add-nodes", addNodesRouter);
 app.use("/api/delete-edges", deleteEdgesRouter);
 app.use("/api/refactor-edges", refactorEdgesRouter);
 app.use("/api/add-edges", addEdgesRouter);
+
+app.use("/api/update-temperature", updateTemperatureRouter);
 
 /**
  * Catch all 404 errors, and forward them to the error handler
