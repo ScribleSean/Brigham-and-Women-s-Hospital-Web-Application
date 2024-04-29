@@ -71,6 +71,10 @@ function RequestsByPriority() {
           ...item,
           stack: "total",
           color: priorityColors[item.label],
+          highlightScope: {
+            highlighted: "series",
+            faded: "global",
+          },
         }))}
         height={250}
         slotProps={{
@@ -78,6 +82,7 @@ function RequestsByPriority() {
             labelStyle: { fontSize: 12 },
           },
         }}
+        tooltip={{ trigger: "item" }}
       />
     </>
   );
@@ -136,6 +141,10 @@ function RequestsByStatus() {
           ...item,
           stack: "total",
           color: statusColors[item.label],
+          highlightScope: {
+            highlighted: "series",
+            faded: "global",
+          },
         }))}
         height={250}
         slotProps={{
@@ -143,6 +152,7 @@ function RequestsByStatus() {
             labelStyle: { fontSize: 12 },
           },
         }}
+        tooltip={{ trigger: "item" }}
       />
     </>
   );

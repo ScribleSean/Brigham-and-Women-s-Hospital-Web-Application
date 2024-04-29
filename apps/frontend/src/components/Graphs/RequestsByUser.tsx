@@ -61,6 +61,10 @@ export default function RequestsByUser() {
         series={graphData.map((item: GraphData) => ({
           ...item,
           stack: "total",
+          highlightScope: {
+            highlighted: "series",
+            faded: "global",
+          },
         }))}
         height={250}
         slotProps={{
@@ -68,6 +72,7 @@ export default function RequestsByUser() {
             hidden: true,
           },
         }}
+        tooltip={{ trigger: "item" }}
       />
     </>
   );
