@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../styles/About.module.css";
-import Christian from "../../public/CS3737Photos/Christian.png";
+/*import Christian from "../../public/CS3737Photos/Christian.png";
 import Ethan from "../../public/CS3737Photos/Ethan.png";
 import Gabe from "../../public/CS3737Photos/Gabe.png";
 import Gus from "../../public/CS3737Photos/Gus.png";
@@ -10,15 +10,180 @@ import Maddux from "../../public/CS3737Photos/Maddux.png";
 import Peter from "../../public/CS3737Photos/Peter.png";
 import Sean from "../../public/CS3737Photos/Sean.png";
 import Sophia from "../../public/CS3737Photos/Sophia.png";
-import Timothy from "../../public/CS3737Photos/Timothy.png";
+import Timothy from "../../public/CS3737Photos/Timothy.png";*/
+import { Box, Container } from "@mui/material";
 //import { Container, Box } from "@mui/material";
 
 function About() {
+  const everyone = [
+    {
+      gamertag: "Sean Arackal",
+      description: "Full-Stack Developer",
+      image: "/gitHubLogo.png",
+    },
+    {
+      gamertag: "Maddux Berry",
+      description: "Project Manager / Full-Stack Developer",
+      image: "/gitHubLogo.png",
+    },
+
+    {
+      gamertag: "Lorenzo Cassano",
+      description: "Full-Stack Developer",
+      image: "/gitHubLogo.png",
+    },
+  ];
   return (
-    <div className={`${styles.commonInputsContainer}`}>
+    <div className={styles.pageContainer}>
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "1vh",
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "#F0F0F0",
+            borderRadius: "10px",
+            width: "95%",
+            padding: "10px",
+            textAlign: "center",
+            fontColor: "#F00E0E",
+          }}
+        >
+          <div style={{ fontSize: 16, color: "#F00E0E" }}>
+            The Brigham & Women’s Hospital maps and data used in this
+            application are copyrighted and provided for the sole use of
+            educational purposes.
+          </div>
+        </Box>
+      </Container>
+
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "2vw",
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "#F0F0F0",
+            borderRadius: "10px",
+            width: "120%",
+            padding: "30px",
+          }}
+        >
+          <Box
+            sx={{
+              textAlign: "center",
+              marginBottom: "4vh",
+              width: "100%",
+            }}
+          >
+            <h1 style={{ fontSize: 50 }}>Meet the Team</h1>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              textAlign: "center",
+              width: "100%",
+              marginBottom: "20px",
+              fontSize: 20,
+              fontColor: "#012d5a",
+            }}
+          >
+            <Box
+              sx={{
+                flexBasis: "33%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                padding: "1rem",
+                borderRadius: "10px",
+                height: "100%",
+                boxShadow: "0px 0px 3px",
+                minHeight: "65vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <img
+                src={everyone[0].image}
+                alt="Tool Image"
+                style={{
+                  width: "100%",
+                  maxHeight: "200px",
+                  objectFit: "contain",
+                }}
+              />
+              <div>{everyone[0].gamertag}</div>
+              <div>{everyone[0].description}</div>
+            </Box>
+
+            <Box
+              sx={{
+                flexBasis: "33%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                padding: "1rem",
+                borderRadius: "10px",
+                height: "100%",
+                boxShadow: "0px 0px 3px",
+                minHeight: "65vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <img
+                src={everyone[1].image}
+                alt="Tool Image"
+                style={{
+                  width: "100%",
+                  maxHeight: "200px",
+                  objectFit: "contain",
+                }}
+              />
+              <div>{everyone[1].gamertag}</div>
+              <div>{everyone[1].description}</div>
+            </Box>
+
+            <Box
+              sx={{
+                flexBasis: "33%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                padding: "1rem",
+                borderRadius: "10px",
+                height: "100%",
+                boxShadow: "0px 0px 3px",
+                minHeight: "65vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <img
+                src={everyone[2].image}
+                alt="Tool Image"
+                style={{
+                  width: "100%",
+                  maxHeight: "200px",
+                  objectFit: "contain",
+                }}
+              />
+              <div>{everyone[2].gamertag}</div>
+              <div>{everyone[2].description}</div>
+            </Box>
+          </Box>
+        </Box>
+      </Container>
+    </div>
+  );
+
+  {
+    /*
+        <div className={`${styles.commonInputsContainer}`}>
       <div className={`${styles.imageArea}`}>
         <div className={`${styles.gradient} ${styles.row}`}>
-          {/*, "row"*/}
+
           <div
             className={"col-12"}
             style={{ height: "100%", paddingLeft: "5%" }}
@@ -111,7 +276,8 @@ function About() {
         </div>
       </div>
     </div>
-  );
+    */
+  }
 }
 
 export default About;
