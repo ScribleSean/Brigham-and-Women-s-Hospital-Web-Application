@@ -32,10 +32,14 @@ const joseFrames = [
   "/characterSprites/jose1.png",
   "/characterSprites/jose2.png",
   "/characterSprites/jose3.png",
+  "/characterSprites/jose4.png",
+  "/characterSprites/jose5.png",
+  "/characterSprites/jose6.png",
+  "/characterSprites/jose7.png",
 ];
 const joseHead = "/heads/joseHead.png";
 const josePassive = "passive";
-const joseRole = "frontend";
+const joseRole = "Algorithms Yoda";
 const joseQuote = '"Un vaso es un vaso y un plato es un plato" - Mariano Rajoy';
 const joseBackstory =
   "Physically detached from everyday interactions, nestled among ancient oak trees and class diagrams, this sage devoted his entire being to the intricate art of map-making. This enlightenment drove him to the brink of madness but also flung wide open the doors of his heart";
@@ -278,11 +282,6 @@ const Wong = new Character(
 const josephFrames = [
   "/characterSprites/joseph1.png",
   "/characterSprites/joseph2.png",
-  "/characterSprites/joseph3.png",
-  "/characterSprites/joseph4.png",
-  "/characterSprites/joseph5.png",
-  "/characterSprites/joseph6.png",
-  "/characterSprites/joseph7.png",
 ];
 const josephHead = "/heads/josephHead.png";
 const josephPassive = "passive";
