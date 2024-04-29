@@ -73,6 +73,11 @@ function RequestsByPriority() {
           color: priorityColors[item.label],
         }))}
         height={250}
+        slotProps={{
+          legend: {
+            labelStyle: { fontSize: 12 },
+          },
+        }}
       />
     </>
   );
@@ -133,6 +138,11 @@ function RequestsByStatus() {
           color: statusColors[item.label],
         }))}
         height={250}
+        slotProps={{
+          legend: {
+            labelStyle: { fontSize: 12 },
+          },
+        }}
       />
     </>
   );

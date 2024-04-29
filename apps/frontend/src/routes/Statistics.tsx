@@ -40,17 +40,11 @@ export default function Statistics() {
           </div>
           <div className={`${styles.graphsContainer}`}>
             <div className={`${styles.barCharts}`}>
-              <div className="chart-container">
-                <RequestsByUser />
-              </div>
-              <div className="chart-container">
-                <RequestByPriorityStatus />
-              </div>
+              <RequestByPriorityStatus />
+              <RequestsByUser />
             </div>
             <div className={`${styles.pieCharts}`}>
-              <div className="chart-container">
-                <PieCharts />
-              </div>
+              <PieCharts />
             </div>
           </div>
         </div>

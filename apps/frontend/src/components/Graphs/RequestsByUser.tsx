@@ -61,6 +61,11 @@ export default function RequestsByUser() {
           stack: "total",
         }))}
         height={250}
+        slotProps={{
+          legend: {
+            hidden: true,
+          },
+        }}
       />
     </>
   );
