@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { node } from "common/src/interfaces.ts";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
+import FileUpload from "./FileUpload.tsx";
+import { Box } from "@mui/material";
 
 const columns = [
   { field: "nodeID", headerName: "Node ID", width: 130 },
@@ -12,11 +21,32 @@ const columns = [
   { field: "longName", headerName: "Long Name", width: 300 },
   { field: "shortName", headerName: "Short Name", width: 250 },
 ];
+function CustomToolbar({ onFileDrop }: { onFileDrop: (file: File) => void }) {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
+      <Box sx={{ flexGrow: 1 }} />
+      <GridToolbarExport />
+      <FileUpload onFileDrop={onFileDrop} />
+    </GridToolbarContainer>
+  );
+}
 
-const DataGridNodes: React.FC<{ tableData: node[] }> = ({ tableData }) => {
+const DataGridNodes: React.FC<{
+  tableData: node[];
+  onFileDrop: (file: File) => void;
+}> = ({ tableData, onFileDrop }) => {
   return (
     <div style={{ width: "100%" }}>
-      <DataGrid rows={tableData} columns={columns} />
+      <DataGrid
+        rows={tableData}
+        columns={columns}
+        slots={{
+          toolbar: () => <CustomToolbar onFileDrop={onFileDrop} />,
+        }}
+      />
     </div>
   );
 };
@@ -25,7 +55,9 @@ interface GetDataNodesProps {
   dataUpdated: boolean;
 }
 
-export const GetDataNodes: React.FC<GetDataNodesProps> = ({ dataUpdated }) => {
+export const GetDataNodes: React.FC<
+  GetDataNodesProps & { onFileDrop: (file: File) => void }
+> = ({ dataUpdated, onFileDrop }) => {
   const [data, setData] = useState<node[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -68,8 +100,7 @@ export const GetDataNodes: React.FC<GetDataNodesProps> = ({ dataUpdated }) => {
 
   return (
     <div>
-      {/*<TableNodes tableData={data}></TableNodes>*/}
-      <DataGridNodes tableData={data}></DataGridNodes>
+      <DataGridNodes tableData={data} onFileDrop={onFileDrop}></DataGridNodes>
     </div>
   );
 };

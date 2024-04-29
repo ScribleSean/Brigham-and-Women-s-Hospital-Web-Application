@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { edge } from "common/src/interfaces.ts";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
+import FileUpload from "./FileUpload.tsx";
+import { Box } from "@mui/material";
 
 const columns = [
   { field: "edgeID", headerName: "Edge ID", width: 300 },
@@ -8,10 +17,32 @@ const columns = [
   { field: "endNodeID", headerName: "End Node ID", width: 300 },
 ];
 
-const DataGridEdges: React.FC<{ tableData: edge[] }> = ({ tableData }) => {
+function CustomToolbar({ onFileDrop }: { onFileDrop: (file: File) => void }) {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
+      <Box sx={{ flexGrow: 1 }} />
+      <GridToolbarExport />
+      <FileUpload onFileDrop={onFileDrop} />
+    </GridToolbarContainer>
+  );
+}
+
+const DataGridEdges: React.FC<{
+  tableData: edge[];
+  onFileDrop: (file: File) => void;
+}> = ({ tableData, onFileDrop }) => {
   return (
     <div style={{ width: "100%" }}>
-      <DataGrid rows={tableData} columns={columns} />
+      <DataGrid
+        rows={tableData}
+        columns={columns}
+        slots={{
+          toolbar: () => <CustomToolbar onFileDrop={onFileDrop} />,
+        }}
+      />
     </div>
   );
 };
@@ -19,7 +50,9 @@ const DataGridEdges: React.FC<{ tableData: edge[] }> = ({ tableData }) => {
 interface GetDataEdgesProps {
   dataUpdated: boolean;
 }
-export const GetDataEdges: React.FC<GetDataEdgesProps> = ({ dataUpdated }) => {
+export const GetDataEdges: React.FC<
+  GetDataEdgesProps & { onFileDrop: (file: File) => void }
+> = ({ dataUpdated, onFileDrop }) => {
   const [data, setData] = useState<edge[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -64,7 +97,7 @@ export const GetDataEdges: React.FC<GetDataEdgesProps> = ({ dataUpdated }) => {
 
   return (
     <div>
-      <DataGridEdges tableData={data}></DataGridEdges>
+      <DataGridEdges tableData={data} onFileDrop={onFileDrop}></DataGridEdges>
     </div>
   );
 };

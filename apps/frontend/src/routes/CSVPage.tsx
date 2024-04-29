@@ -1,7 +1,5 @@
 import FileUpload from "../components/FileUpload.tsx";
 import { GetDataNodes } from "../components/NodesDataBaseTableDisplay.tsx";
-import ExportNodeDataButton from "../components/ExportNodeDataButton.tsx";
-import ExportEdgeDataButton from "../components/ExportEdgeDataButton.tsx";
 import ExportEmployeeDataButton from "../components/ExportEmployeeDataButton.tsx";
 import { GetDataEdges } from "../components/EdgesDataBaseTableDisplay.tsx";
 import { GetDataEmployee } from "../components/EmployeeDataBaseTableDisplay.tsx";
@@ -98,34 +96,18 @@ export function CSVPage() {
       </div>
       <CustomTabPanel value={value} index={0}>
         <div className={`${styles.tabPanel}`}>
-          <div className={`${styles.subheader}`}>
-            <h2 className={`${styles.pageSubheading}`}>Nodes</h2>
-            <div className={`${styles.buttonCluster}`}>
-              <FileUpload
-                onFileDrop={(file) =>
-                  handleFileDrop(file, "/api/node-populate")
-                }
-              />
-              <ExportNodeDataButton />
-            </div>
-          </div>
-          <GetDataNodes dataUpdated={dataUpdated} />
+          <GetDataNodes
+            dataUpdated={dataUpdated}
+            onFileDrop={(file) => handleFileDrop(file, "/api/node-populate")}
+          />
         </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <div className={`${styles.tabPanel}`}>
-          <div className={`${styles.subheader}`}>
-            <h2 className={`${styles.pageSubheading}`}>Edges</h2>
-            <div className={`${styles.buttonCluster}`}>
-              <FileUpload
-                onFileDrop={(file) =>
-                  handleFileDrop(file, "/api/edge-populate")
-                }
-              />
-              <ExportEdgeDataButton />
-            </div>
-          </div>
-          <GetDataEdges dataUpdated={dataUpdated} />
+          <GetDataEdges
+            dataUpdated={dataUpdated}
+            onFileDrop={(file) => handleFileDrop(file, "api/edge-populate")}
+          />
         </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
