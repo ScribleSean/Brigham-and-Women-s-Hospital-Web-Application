@@ -76,7 +76,6 @@ function FoodDeliveryFields({
     "Grilled Chicken",
     "Tofu",
     "Granola Bar",
-    "Confucianism",
     "Chicken Soup",
   ];
 
