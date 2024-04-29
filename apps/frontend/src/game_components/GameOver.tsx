@@ -162,6 +162,50 @@ const GameOver = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
+    // const handleSubmit_AbideByViteOurLordAndGreatRuler = async () => { // this is the dumbest thing I have ever had to code. I know this is dumb but i know no other way
+    //   try {
+    //     formData.initial = initials;
+    //
+    //     const response = await axios.post("/api/brig-hs-request", formData);
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.error("Unable to create form");
+    //     console.log(error);
+    //   }
+    //
+    //   setSubmitted(true);
+    //
+    //   try { // fetchTop. This is Bad.
+    //     const response = await axios.get("/api/hs-all-time");
+    //     const highscores = response.data;
+    //
+    //     while (highscores.length < 20) {
+    //       highscores.push({ HSID: -1, initial: ". . . .", time: "" });
+    //     }
+    //
+    //     const send = response.data;
+    //
+    //     setHighScores(send);
+    //   } catch (error) {
+    //     console.log("ERROR");
+    //   }
+    //
+    //   try { // fetchRecent. BAD!
+    //     const response = await axios.get("/api/hs-today");
+    //     const highscores = response.data;
+    //
+    //     while (highscores.length < 20) {
+    //       highscores.push({ HSID: -1, initial: ". . . .", time: "" });
+    //     }
+    //
+    //     const send = response.data;
+    //
+    //     setRecentScores(send);
+    //   } catch (error) {
+    //     console.log("ERROR");
+    //   }
+    // };
+
     const keyboardRows = [
       [
         "A",
@@ -208,32 +252,30 @@ const GameOver = () => {
         setSelectedIndex((prevIndex) => (prevIndex - 7 + 28) % 28);
       } else if (e.key === "ArrowDown") {
         setSelectedIndex((prevIndex) => (prevIndex + 7) % 28);
-      } else if (e.key === " ") {
-        if (!(selectedIndex === 26)) {
+      } else if (e.key === " " || e.key === "Enter") {
+        // i literally dont understand this line. its the opposite of what i think it should be, but this is the right way, my way only allowed inputs of anything other than space and enter (and ofc arrow keys)
+        console.log(selectedIndex);
+        console.log("FUCK");
+        if (selectedIndex === 26) {
+          setInitials(initials.slice(0, -1));
+        } else if (selectedIndex === 27) {
+          console.log("I LOVE VITE!!!!"); // handleSubmit().then(); // it wont let me do it, i need someone who gets this
+        } else {
           if (initials.length === 3) {
             setInitials(initials.slice(0, -1) + keyboardRows[0][selectedIndex]);
           } else {
             setInitials(initials + keyboardRows[0][selectedIndex]);
           }
-        } else {
-          setInitials(initials.slice(0, -1));
+          console.log(initials);
         }
-        console.log(initials);
-      } else if (e.key === "Enter") {
-        handleSubmit2();
       }
-    };
-
-    const handleSubmit2 = () => {
-      // Handle submission logic (e.g., send the initial to the server)
-      console.log("Submitted:", initial);
     };
 
     window.addEventListener("keydown", handleKeyPress);
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [selectedIndex, initial, initials]);
+  }, [selectedIndex, initial, initials, formData]);
 
   const handleKeyPress = (key: string, index: number) => {
     if (key === keyboardRows[keyboardRows.length - 1]) {
@@ -321,7 +363,7 @@ const GameOver = () => {
                                 : "transparent",
                             borderColor: "#39ff14",
                             color:
-                              selectedIndex === colIndex ? "black" : "#39ff14",
+                              selectedIndex === colIndex ? "black" : "white",
                             fontFamily: '"Halogen by Pixel Surplus", monospace',
                             fontWeight: "700",
                           }}
@@ -350,7 +392,7 @@ const GameOver = () => {
                             color:
                               selectedIndex === colIndex + 7
                                 ? "black"
-                                : "#39ff14",
+                                : "white",
                             fontFamily: '"Halogen by Pixel Surplus", monospace',
                             fontWeight:
                               selectedIndex === colIndex + 7 ? "700" : "600",
@@ -380,7 +422,7 @@ const GameOver = () => {
                             color:
                               selectedIndex === colIndex + 7 * 2
                                 ? "black"
-                                : "#39ff14",
+                                : "white",
                             fontFamily: '"Halogen by Pixel Surplus", monospace',
                             fontWeight:
                               selectedIndex === colIndex + 7 * 2
@@ -412,7 +454,7 @@ const GameOver = () => {
                             color:
                               selectedIndex === colIndex + 7 * 3
                                 ? "black"
-                                : "#39ff14",
+                                : "white",
                             fontFamily: '"Halogen by Pixel Surplus", monospace',
                             fontWeight:
                               selectedIndex === colIndex + 7 * 3
