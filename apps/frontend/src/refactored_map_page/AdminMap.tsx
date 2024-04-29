@@ -21,6 +21,7 @@ import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
 import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
 import MapLegend from "./MapLegend.tsx";
+import ToggleFixEdges from "./ToggleFixEdges.tsx";
 import { Box } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 
@@ -98,6 +99,7 @@ function MapContents() {
       <ShowNodesEdgesDropDown />
       <DisplayEditingOptions />
       <MapLegend />
+      <ToggleFixEdges />
       <Box
         sx={{
           right: 0,
