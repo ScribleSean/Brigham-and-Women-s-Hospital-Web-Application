@@ -18,6 +18,14 @@ model BreakOutHighScore {
   time    String
 }
 
+model BrighamBreakoutUsers {
+  userID       Int     @id @default(autoincrement())
+  username     String  @unique
+  highscore    Int
+  joeUnlocked  Boolean
+  wongUnlocked Boolean
+}
+
 model Edge {
   edgeID      String @id
   startNodeID String

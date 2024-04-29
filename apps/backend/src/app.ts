@@ -29,6 +29,8 @@ import refactorEdgesRouter from "./routes/refactorEdges";
 import employeeRouter from "./routes/employee-router.ts";
 import downloadEmployeeDataRouter from "./routes/data-to-csv-employee.ts";
 import brigRouter from "./routes/breakoutGameRouter.ts";
+import brigBreakUserLoginRouter from "./routes/brigBreakUserLoginRouter.ts";
+import brigBreakUnlockRouter from "./routes/brigBreakUnlockRouter.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -71,6 +73,9 @@ app.use("/api/download-edge-csv", downloadEdgeDataRouter);
 // CSV Page: Employees
 app.use("/api/employee-populate", employeeRouter);
 app.use("/api/download-employee-csv", downloadEmployeeDataRouter);
+// Brig Breakout: User Login and Unlocks
+app.use("/api/sign-in-brig-user", brigBreakUserLoginRouter);
+app.use("/api/unlock-character", brigBreakUnlockRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
