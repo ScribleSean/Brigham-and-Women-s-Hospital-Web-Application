@@ -38,7 +38,8 @@ const joseFrames = [
   "/characterSprites/jose7.png",
 ];
 const joseHead = "/heads/joseHead.png";
-const josePassive = "passive";
+const josePassive =
+  "Ethereal Existence: Starts as a mortal cartographer with just one health point, but his health has infinite potential for expansion";
 const joseRole = "Algorithms Yoda";
 const joseQuote = '"Un vaso es un vaso y un plato es un plato" - Mariano Rajoy';
 const joseBackstory =
@@ -90,21 +91,20 @@ const Christian = new Character(
 const sophiaFrames = [
   "/characterSprites/sophia1.png",
   "/characterSprites/sophia2.png",
-  "/characterSprites/sophia3.png",
 ];
-const sohpiaHead = "/heads/sophiaHead.png";
+const sophiaHead = "/heads/sophiaHead.png";
 const sophiaPassive = "passive";
 const sophiaRole = "frontend";
 const sophiaQuote = "quote";
 const sophiaBackstory = "backStory";
 const Sophia = new Character(
-  "Sophia",
+  "Sofia",
   3,
   4,
   2,
   sophiaPassive,
   sophiaFrames,
-  sohpiaHead,
+  sophiaHead,
   sophiaRole,
   sophiaQuote,
   sophiaBackstory,
