@@ -19,7 +19,12 @@ import StairsIcon from "@mui/icons-material/Stairs";
 import PlaceIcon from "@mui/icons-material/Place";
 import ModeStandbyIcon from "@mui/icons-material/ModeStandby";
 import QrCodeIcon from "@mui/icons-material/QrCode";
-import QRPopup from "./QRPopup.tsx";
+import QRCode from "qrcode.react";
+
+function QRPopup({ textDirections }: { textDirections: string[] }) {
+  const value = textDirections.join("\n");
+  return <QRCode value={value} />;
+}
 
 export default TextDirections;
 
@@ -92,12 +97,17 @@ function TextDirections() {
     (paths: Array<Path>) => {
       const directions: Array<string> = [];
       let floorChangeDirection = null;
-      // let arrive = null;
+      let arrive = null;
 
       if (paths[directionsCounter] && paths[directionsCounter].edges) {
         const currentPathEdges: Array<Edge> = paths[directionsCounter].edges;
         if (directionsCounter === 0) {
           directions.push(`Start at ${currentPathEdges[0].startNode.longName}`);
+        }
+        if (currentPathEdges) {
+          if (paths[directionsCounter] === paths[paths.length - 1]) {
+            arrive = `Arrive at ${currentPathEdges[currentPathEdges.length - 1].endNode.longName}`;
+          }
         }
         // } else if (directionsCounter === paths.length - 1) {
         //   arrive = `Arrive at ${currentPathEdges[currentPathEdges.length - 1].endNode.longName}`;
@@ -194,9 +204,6 @@ function TextDirections() {
             directions.push(`${direction}${detail}`);
           }
         }
-        const lastEdge = currentPathEdges[currentPathEdges.length - 1];
-        const arrive = `Arrive at ${lastEdge.endNode.longName}`;
-        directions.push(arrive);
       }
 
       if (
@@ -213,25 +220,37 @@ function TextDirections() {
         directions.push(floorChangeDirection);
       }
 
-      // if (arrive) {
-      //   directions.push(arrive);
-      // }
+      if (arrive) {
+        directions.push(arrive);
+      }
 
       return directions;
     },
     [directionsCounter],
   );
 
-  // const [allFloorsDirections, setAllFloorsDirections] = useState<Array<string>>([]);
-  //
-  // const generateAllFloorsDirections = useCallback(() => {
-  //   const allDirections: Array<string[]> = paths.map(path => generateDirections([path]));
-  //   setAllFloorsDirections(allDirections.flat());
-  // }, [paths, generateDirections]);
-  //
-  // useEffect(() => {
-  //   generateAllFloorsDirections();
-  // }, [paths, generateDirections, generateAllFloorsDirections, currentFloor]);
+  const [allFloorsDirections, setAllFloorsDirections] = useState<Array<string>>(
+    [],
+  );
+  const [qrCode, setQrCode] = useState<React.ReactNode>(null);
+
+  const generateAllFloorsDirections = useCallback(() => {
+    const allDirections: Array<string[]> = paths.map((path) =>
+      generateDirections([path]),
+    );
+    setAllFloorsDirections(allDirections.flat());
+    console.log(allDirections.flat());
+  }, [paths, generateDirections]);
+
+  useEffect(() => {
+    generateAllFloorsDirections();
+  }, [generateAllFloorsDirections]);
+
+  useEffect(() => {
+    if (allFloorsDirections.length > 0) {
+      setQrCode(<QRPopup textDirections={allFloorsDirections} />);
+    }
+  }, [allFloorsDirections]);
 
   useEffect(() => {
     const newDirections: Array<string> = generateDirections(paths);
@@ -322,9 +341,7 @@ function TextDirections() {
   return (
     <div>
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-        <Box sx={{ padding: "1rem" }}>
-          <QRPopup textDirections={directionsText} />
-        </Box>
+        <Box sx={{ padding: "1rem" }}>{qrCode}</Box>
       </Dialog>
       {startNode && endNode ? (
         <div className={`${styles.directionsContainer}`}>
