@@ -178,6 +178,10 @@ function RoomSchedulingFields({
               id="employeeEmail"
               options={employeeEmailOptions}
               fullWidth
+              sx={{
+                marginRight: "2%",
+                width: "100%",
+              }}
               renderInput={(params) => (
                 <TextField {...params} label="Employee" required />
               )}

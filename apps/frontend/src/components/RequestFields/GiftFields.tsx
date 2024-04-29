@@ -181,6 +181,10 @@ function GiftFields({
             <Autocomplete
               id="employeeEmail"
               options={employeeEmailOptions}
+              sx={{
+                marginRight: "2%",
+                width: "100%",
+              }}
               fullWidth
               renderInput={(params) => (
                 <TextField {...params} label="Employee" required />

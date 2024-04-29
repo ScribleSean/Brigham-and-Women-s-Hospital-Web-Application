@@ -187,6 +187,10 @@ function FlowerDeliveryFields({
               renderInput={(params) => (
                 <TextField {...params} label="Employee" required />
               )}
+              sx={{
+                marginRight: "2%",
+                width: "100%",
+              }}
               value={formData.employeeEmail}
               onChange={(e, value) =>
                 handleEmployeeEmailAutocompleteChange(value)

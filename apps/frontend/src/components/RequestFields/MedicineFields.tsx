@@ -238,6 +238,10 @@ function MedicineFields({
               id="employeeEmail"
               options={employeeEmailOptions}
               fullWidth
+              sx={{
+                marginRight: "2%",
+                width: "100%",
+              }}
               renderInput={(params) => (
                 <TextField {...params} label="Employee" required />
               )}
@@ -329,7 +333,7 @@ function MedicineFields({
           />
         </div>
         <div className={`${styles.doubleInputRow}`}>
-          <FormControl fullWidth sx={{ marginTop: "2%" }}>
+          <FormControl fullWidth sx={{ marginTop: "2%", marginRight: "2%" }}>
             <InputLabel id="dosageFormLabel">Dosage Form</InputLabel>
             <Select
               labelId="dosageFormLabel"
