@@ -279,10 +279,12 @@ function TextDirections() {
       return <TurnSlightLeftIcon />;
     } else if (direction.includes("Continue straight")) {
       return <StraightIcon />;
-    } else if (direction.includes("Elevator")) {
-      return <ElevatorIcon />;
-    } else if (direction.includes("Stairs")) {
-      return <StairsIcon />;
+    } else if (direction.includes("Take")) {
+      if (direction.includes("Elevator")) {
+        return <ElevatorIcon />;
+      } else {
+        return <StairsIcon />;
+      }
     } else if (direction.includes("Start")) {
       return <PlaceIcon />;
     } else if (direction.includes("Arrive")) {
