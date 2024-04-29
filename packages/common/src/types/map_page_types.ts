@@ -76,7 +76,7 @@ export interface DeleteEdgesOptionsRequest {
 }
 
 export interface AddNodesOptionsRequest {
-  nodesWithAssociatedEdges: Array<NodeWithAssociatedEdges>;
+  nodes: Array<Node>;
 }
 
 export interface AddEdgesOptionsRequest {
@@ -122,4 +122,5 @@ export enum EditorMode {
   addNodes = "add nodes",
   addEdges = "add edges",
   disabled = "disabled",
+  editMode = "edit mode",
 }

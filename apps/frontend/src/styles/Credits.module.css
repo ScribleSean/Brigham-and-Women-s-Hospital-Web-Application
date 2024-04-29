@@ -13,6 +13,5 @@
       rgba(227, 247, 255, 0.49)
     ),
     url("../../public/brighamWebsiteGeometricBG.jpg");
-    overflow-y: auto;
+  overflow-y: auto;
 }
-

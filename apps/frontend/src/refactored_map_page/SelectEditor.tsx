@@ -1,61 +1,77 @@
 import React, { useState } from "react";
-import { IconButton } from "@mui/material";
+import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useMapContext } from "./MapContext.ts";
 import { EditorMode } from "common/src/types/map_page_types.ts"; // Adjust the import path as needed
+import HandymanIcon from "@mui/icons-material/Handyman";
+import CommitIcon from "@mui/icons-material/Commit";
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function EditorSelector() {
-  const { editorMode, setEditorMode } = useMapContext();
-  const [hoverActive, setHoverActive] = useState(false);
+  const { setEditorMode } = useMapContext();
 
-  const handleMouseEnter = () => {
-    setHoverActive(true);
-  };
+  const [open, setOpen] = React.useState(false);
+  const [currentIcon, setCurrentIcon] = useState(<HandymanIcon />);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleMouseLeave = () => {
-    setHoverActive(false);
-  };
-
-  const handleOnClick = () => {
-    if (editorMode === EditorMode.disabled) {
-      setEditorMode(EditorMode.addEdges);
+  const handleClick = (editMode: EditorMode) => {
+    setEditorMode(editMode);
+    if (editMode === EditorMode.editMode) {
+      setCurrentIcon(<EditIcon />);
+    } else if (editMode === EditorMode.addEdges) {
+      setCurrentIcon(<CommitIcon />);
+    } else if (editMode === EditorMode.addNodes) {
+      setCurrentIcon(<AddLocationAltIcon />);
     } else {
-      setEditorMode(EditorMode.disabled);
+      setCurrentIcon(<HandymanIcon />);
     }
-    setHoverActive(false);
+    setOpen(false);
   };
+
+  const actions = [
+    { icon: <EditIcon />, name: "Edit Mode", mode: EditorMode.editMode },
+    { icon: <CommitIcon />, name: "Add Edges", mode: EditorMode.addEdges },
+    {
+      icon: <AddLocationAltIcon />,
+      name: "Add Nodes",
+      mode: EditorMode.addNodes,
+    },
+    { icon: <CloseIcon />, name: "Exit Edit Mode", mode: EditorMode.disabled },
+  ];
 
   return (
-    <IconButton
-      onClick={handleOnClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      disableRipple
-      sx={{
-        position: "absolute",
-        borderRadius: "50%", // Ensuring the button is circular
-        width: "50px", // Adjust size as necessary
-        height: "50px", // Adjust size as necessary
-        backgroundColor:
-          editorMode === EditorMode.disabled ? "#012D5A" : "#1665c0",
-        color: "white",
-        boxShadow: 8,
-        zIndex: 4,
-        marginLeft: "2vw",
-        marginTop: "90vh",
-        ":hover": {
-          backgroundColor: hoverActive
-            ? editorMode !== EditorMode.disabled
-              ? "#012D5A!important"
-              : "#1665c0!important"
-            : editorMode !== EditorMode.disabled
-              ? "#1665c0!important"
-              : "#012D5A!important",
-        },
-      }}
-      aria-label="Edit Map"
-    >
-      <EditIcon />
-    </IconButton>
+    <Box>
+      <SpeedDial
+        ariaLabel="Edit Toolbox"
+        sx={{
+          position: "absolute",
+          bottom: 57,
+          left: 80,
+          zIndex: 2,
+          "& .MuiButtonBase-root": {
+            backgroundColor: "#012D5A",
+          },
+        }}
+        icon={currentIcon}
+        onClose={handleClose}
+        onOpen={handleOpen}
+        open={open}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            tooltipPlacement={"right"}
+            onClick={() => handleClick(action.mode)}
+            sx={{
+              backgroundColor: "white!important",
+            }}
+          />
+        ))}
+      </SpeedDial>
+    </Box>
   );
 }

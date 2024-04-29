@@ -7,7 +7,6 @@ import {
   DeleteEdgesOptionsRequest,
   DeleteNodesOptionsRequest,
   EditorMode,
-  NodeWithAssociatedEdges,
   OldNewEdge,
   OldNewNode,
   RefactorEdgesOptionsRequest,
@@ -82,13 +81,10 @@ function ConfirmChanges() {
     if (nodesToBeAdded.length > 0) {
       try {
         const addNodesOptionsRequest: AddNodesOptionsRequest = {
-          nodesWithAssociatedEdges: nodesToBeAdded,
+          nodes: nodesToBeAdded,
         };
-        await axios.post(
-          "/api/add-nodes-and-associated-edges",
-          addNodesOptionsRequest,
-        );
-        setNodesToBeAdded(new Array<NodeWithAssociatedEdges>());
+        await axios.post("/api/add-nodes", addNodesOptionsRequest);
+        setNodesToBeAdded(new Array<Node>());
       } catch (error) {
         console.error("Failed to add nodes data:", error);
       }
@@ -140,22 +136,22 @@ function ConfirmChanges() {
 
   const handleConfirm = async () => {
     if (nodesToBeAdded.length > 0) {
-      addNodes();
+      await addNodes();
     }
     if (nodesToBeEdited.length > 0) {
-      editNodes();
+      await editNodes();
     }
     if (nodesToBeDeleted.length > 0) {
-      deleteNodes();
+      await deleteNodes();
     }
     if (edgesToBeAdded.length > 0) {
-      addEdges();
+      await addEdges();
     }
     if (edgesToBeEdited.length > 0) {
-      editEdges();
+      await editEdges();
     }
     if (edgesToBeDeleted.length > 0) {
-      deleteEdges();
+      await deleteEdges();
     }
     setUnsavedChanges(false);
     setDialogueOpen(false);

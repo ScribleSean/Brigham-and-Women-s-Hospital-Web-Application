@@ -6,3 +6,4 @@
 **/node_modules
 **/.turbo
 **/.prisma
+**/apps/frontend/src/game_components/Canvas.jsx

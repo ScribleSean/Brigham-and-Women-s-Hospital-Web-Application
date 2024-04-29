@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FloorType, Path } from "common/src/DataStructures.ts";
 import { Button } from "@mui/material";
 import "../map_page/FloorSelector.css";
@@ -11,7 +11,17 @@ export function FloorSelector(): React.JSX.Element {
     directionsCounter,
     setDirectionsCounter,
     paths,
+    resetZoomingFunction,
   } = useMapContext();
+
+  useEffect(() => {
+    if (typeof resetZoomingFunction === "function") {
+      console.log("hola");
+      resetZoomingFunction();
+    } else {
+      console.error("resetZoomingFunction is not defined as a function");
+    }
+  }, [resetZoomingFunction, currentFloor]);
 
   /*function closestPathNextFloor(floorPaths: Array<number>) : number {
       let closestPath: number = 0;
@@ -37,7 +47,6 @@ export function FloorSelector(): React.JSX.Element {
     if (
       paths.length > 0 &&
       paths[directionsCounter].edges[0].startNode.floor !== floor
-      //When currentFloor takes two clicks, currentFloor does not update on first click in time for floor check
     ) {
       paths.forEach((path: Path) => {
         if (path.edges[0].startNode.floor === floor) {

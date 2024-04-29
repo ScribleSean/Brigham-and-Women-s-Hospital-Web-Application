@@ -12,6 +12,7 @@ import serviceRequestRouter from "./routes/service-requests/serviceRequestRouter
 import medicalDeviceRouter from "./routes/service-requests/medicalDeviceServiceRequestRouter.ts";
 import medicineDeliveryRouter from "./routes/service-requests/medicineDeliveryServiceRequestRouter.ts";
 import religiousServiceRequestRouter from "./routes/service-requests/religiousServiceRequestRouter.ts";
+import foodDeliveryRequestRouter from "./routes/service-requests/foodDeliveryRequestRouter.ts";
 import csvRouter from "./routes/csv-handler";
 import nodeRouter from "./routes/node-route";
 import edgeRouter from "./routes/edge-route";
@@ -20,7 +21,7 @@ import downloadEdgeDataRouter from "./routes/data-to-csv-edge";
 import deleteDataRouter from "./routes/deleteDataRoute";
 import roomNameFetchRouter from "./routes/dropdowns/room-name-fetch.ts";
 import employeeEmailFetchRouter from "./routes/dropdowns/employeeEmailRouter.ts";
-import addNodesAndAssociatedEdgesRouter from "./routes/addNodesEdges";
+import addNodesRouter from "./routes/addNodes.ts";
 import deleteNodesAndAssociatedEdgesRouter from "./routes/deleteNodesEdges";
 import refactorNodesRouter from "./routes/refactorNodes";
 import addEdgesRouter from "./routes/addEdges";
@@ -28,6 +29,15 @@ import deleteEdgesRouter from "./routes/deleteEdges";
 import refactorEdgesRouter from "./routes/refactorEdges";
 import employeeRouter from "./routes/employee-router.ts";
 import downloadEmployeeDataRouter from "./routes/data-to-csv-employee.ts";
+import brigRouter from "./routes/breakoutGameRouter.ts";
+import requestByUserRouter from "./routes/requestByUserRouter.ts";
+import requestByPriorityRouter from "./routes/requestByPriorityRouter.ts";
+import requestByStatusRouter from "./routes/requestByStatusRouter";
+import pieRequestByUserRouter from "./routes/pieRequestByUserRouter.ts";
+import pieRequestByPriorityRouter from "./routes/pieRequestByPriorityRouter.ts";
+import pieRequestByStatusRouter from "./routes/pieRequestByStatusRouter.ts";
+import pieRequestByTypeRouter from "./routes/pieRequestByTypeRouter.ts";
+import updateTemperatureRouter from "./routes/updateTemperature.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -51,7 +61,9 @@ app.use("/api/room-scheduling-request", roomSchedulingRequestRouter);
 app.use("/api/medical-device-service-request", medicalDeviceRouter);
 app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
 app.use("/api/religious-service-request", religiousServiceRequestRouter);
+app.use("/api/food-delivery-service-request", foodDeliveryRequestRouter);
 app.use("/api/gift-service-request", giftServiceRequestRouter);
+app.use("/api/brig-hs-request", brigRouter);
 
 // api fetch (for the dropdowns)
 app.use("/api/room-name-fetch", roomNameFetchRouter);
@@ -70,6 +82,16 @@ app.use("/api/download-edge-csv", downloadEdgeDataRouter);
 app.use("/api/employee-populate", employeeRouter);
 app.use("/api/download-employee-csv", downloadEmployeeDataRouter);
 
+// Graphs
+app.use("/api/request-by-user", requestByUserRouter);
+app.use("/api/request-by-priority", requestByPriorityRouter);
+app.use("/api/request-by-status", requestByStatusRouter);
+
+app.use("/api/pie-request-by-type", pieRequestByTypeRouter);
+app.use("/api/pie-request-by-user", pieRequestByUserRouter);
+app.use("/api/pie-request-by-priority", pieRequestByPriorityRouter);
+app.use("/api/pie-request-by-status", pieRequestByStatusRouter);
+
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
@@ -84,14 +106,13 @@ app.use(
   deleteNodesAndAssociatedEdgesRouter,
 );
 app.use("/api/refactor-nodes", refactorNodesRouter);
-app.use(
-  "/api/add-nodes-and-associated-edges",
-  addNodesAndAssociatedEdgesRouter,
-);
+app.use("/api/add-nodes", addNodesRouter);
 
 app.use("/api/delete-edges", deleteEdgesRouter);
 app.use("/api/refactor-edges", refactorEdgesRouter);
 app.use("/api/add-edges", addEdgesRouter);
+
+app.use("/api/update-temperature", updateTemperatureRouter);
 
 /**
  * Catch all 404 errors, and forward them to the error handler

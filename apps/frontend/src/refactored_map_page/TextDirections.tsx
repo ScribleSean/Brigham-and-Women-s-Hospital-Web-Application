@@ -1,42 +1,182 @@
 import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useMapContext } from "./MapContext.ts";
-import { List, ListItem, ListSubheader, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, IconButton } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
-import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
+import styles from "../styles/TextDirections.module.css";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TurnRightIcon from "@mui/icons-material/TurnRight";
+import TurnLeftIcon from "@mui/icons-material/TurnLeft";
+import TurnSlightRightIcon from "@mui/icons-material/TurnSlightRight";
+import TurnSlightLeftIcon from "@mui/icons-material/TurnSlightLeft";
+import StraightIcon from "@mui/icons-material/Straight";
+import EastIcon from "@mui/icons-material/East";
 
 export default TextDirections;
 
 function TextDirections() {
-  const { paths, startNode, endNode, directionsCounter, editorMode } =
-    useMapContext();
+  const {
+    paths,
+    startNode,
+    endNode,
+    directionsCounter,
+    setDirectionsCounter,
+    editorMode,
+    currentFloor,
+  } = useMapContext();
 
   const [directionsText, setDirectionsText] = useState<Array<string>>([]);
   const [currentPage, setCurrentPage] = useState(0);
+
+  const [expanded, setExpanded] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [maxHeight, setMaxHeight] = useState("0px");
+
+  const toggleExpanded = () => {
+    setExpanded((prev) => !prev);
+    // Adjust height immediately on toggle
+    if (expanded) {
+      setMaxHeight("0px"); // Collapse
+    } else {
+      if (contentRef.current) {
+        setMaxHeight(`${contentRef.current.scrollHeight}px`);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (expanded && contentRef.current) {
+        setMaxHeight(`${contentRef.current.scrollHeight}px`);
+      }
+    };
+    updateSize(); // Call when component mounts or updates
+    window.addEventListener("resize", updateSize); // Adjust if window size changes
+    return () => window.removeEventListener("resize", updateSize);
+  }, [expanded]);
+
+  const prevDirectionRef = useRef("");
+  const floorPaths = useRef(new Array<Path>());
+  let prevPathIndex: number = directionsCounter;
+  let nextPathIndex: number = directionsCounter;
+  const directionsPerPage = 5;
+
+  useEffect(() => {
+    floorPaths.current = [];
+    if (paths) {
+      paths.forEach((path: Path) => {
+        if (path.edges[0].startNode.floor === currentFloor) {
+          floorPaths.current.push(path);
+        }
+      });
+    }
+  }, [currentFloor, paths]);
 
   const generateDirections = useCallback(
     (paths: Array<Path>) => {
       const directions: Array<string> = [];
 
       if (paths[directionsCounter] && paths[directionsCounter].edges) {
-        paths[directionsCounter].edges.forEach((edge: Edge): void => {
-          if (edge.startNode.type !== NodeType.HALL) {
-            const dx: number = edge.endNode.x - edge.startNode.x;
-            const dy: number = edge.endNode.y - edge.startNode.y;
+        const currentPathEdges: Array<Edge> = paths[directionsCounter].edges;
+        for (let i = 0; i < currentPathEdges.length - 1; i++) {
+          const currentEdge = currentPathEdges[i];
+          const nextEdge = currentPathEdges[i + 1];
+
+          if (currentEdge.startNode.type) {
+            const dx1 = currentEdge.endNode.x - currentEdge.startNode.x;
+            const dy1 = currentEdge.endNode.y - currentEdge.startNode.y;
+            const dx2 = nextEdge.endNode.x - nextEdge.startNode.x;
+            const dy2 = nextEdge.endNode.y - nextEdge.startNode.y;
+
+            const angle1 = Math.atan2(dy1, dx1);
+            const angle2 = Math.atan2(dy2, dx2);
+            const angleDifference = angle2 - angle1;
+
+            // Normalize angleDifference to the range of -π to π
+            const normalizedAngleDifference = Math.atan2(
+              Math.sin(angleDifference),
+              Math.cos(angleDifference),
+            );
+
             let direction: string;
 
-            if (Math.abs(dx) > Math.abs(dy)) {
-              direction = dx > 0 ? "Turn right" : "Turn left";
+            if (Math.abs(normalizedAngleDifference) < Math.PI / 10) {
+              if (prevDirectionRef.current !== "Continue straight") {
+                direction = "Continue straight";
+              } else {
+                continue;
+              }
+            } else if (
+              normalizedAngleDifference > 0 &&
+              Math.abs(normalizedAngleDifference) < Math.PI / 5
+            ) {
+              direction = "Bear right";
+            } else if (
+              normalizedAngleDifference < 0 &&
+              Math.abs(normalizedAngleDifference) < Math.PI / 5
+            ) {
+              direction = "Bear left";
+            } else if (normalizedAngleDifference > 0) {
+              direction = "Turn right";
+            } else if (normalizedAngleDifference < 0) {
+              direction = "Turn left";
             } else {
-              direction = dy > 0 ? "Go down" : "Go up";
+              continue;
             }
 
-            const detail = edge.startNode.shortName
-              ? ` on ${edge.startNode.shortName}`
-              : "";
+            // Update the ref with the new direction
+            prevDirectionRef.current = direction;
+
+            let detail: string;
+
+            if (direction === "Continue straight") {
+              detail = "";
+            } else {
+              if (currentEdge.startNode.type === NodeType.HALL) {
+                if (nextEdge.endNode.type === NodeType.HALL) {
+                  detail = "";
+                } else {
+                  detail = ` towards ${nextEdge.endNode.shortName}`;
+                }
+              } else {
+                if (nextEdge.endNode.type === NodeType.HALL) {
+                  detail = ` at ${currentEdge.startNode.shortName}`;
+                } else {
+                  detail = "";
+                }
+              }
+            }
+
+            /*if (currentPathEdges[i + 2]) {
+                                   const nextNextEdge = currentPathEdges[i + 2];
+                                   const dx3 = nextNextEdge.endNode.x - nextNextEdge.startNode.x;
+                                   const dy3 = nextNextEdge.endNode.y - nextNextEdge.startNode.y;
+                                   const angle3 = Math.atan2(dy3, dx3);
+                                   const angleDifferenceStraightCheck = angle3 - angle1;
+                                   const normalizedAngleDifferenceStraightCheck = Math.atan2(Math.sin(angleDifferenceStraightCheck), Math.cos(angleDifferenceStraightCheck));
+                                   if (nextNextEdge) {
+                                       if(Math.abs(normalizedAngleDifferenceStraightCheck) < Math.PI / 20 ) {
+                                           continue;
+                                       }
+                                   }
+                               }*/
+
             directions.push(`${direction}${detail}`);
           }
-        });
+        }
+      }
+
+      if (
+        paths[directionsCounter] &&
+        paths[directionsCounter].edges &&
+        directions.length === 0
+      ) {
+        directions.push(
+          `Continue straight towards ${paths[directionsCounter].edges[0].endNode.shortName}`,
+        );
       }
 
       return directions;
@@ -59,122 +199,212 @@ function TextDirections() {
     return <></>;
   }
 
-  const directionsPerPage = 3;
-  const numPages = Math.ceil(directionsText.length / directionsPerPage);
-  const pagedDirections = directionsText.slice(
-    currentPage * directionsPerPage,
-    (currentPage + 1) * directionsPerPage,
-  );
+  let numPages: number = 0;
+  let pagedDirections: Array<string> = [];
 
-  const handleNext = () => {
+  if (paths) {
+    numPages = Math.ceil(directionsText.length / directionsPerPage);
+    pagedDirections = directionsText.slice(
+      currentPage * directionsPerPage,
+      (currentPage + 1) * directionsPerPage,
+    );
+  }
+
+  const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, numPages - 1));
   };
 
-  const handlePrev = () => {
+  const handlePrevPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 0));
   };
+
+  const handleNextPath = () => {
+    for (let i = directionsCounter + 1; i < paths.length; i++) {
+      if (floorPaths.current.includes(paths[i])) {
+        nextPathIndex = i;
+        break;
+      }
+    }
+    setDirectionsCounter(nextPathIndex);
+  };
+
+  const handlePrevPath = () => {
+    for (let i = 0; i < paths.length - 1; i++) {
+      if (i < directionsCounter && floorPaths.current.includes(paths[i])) {
+        prevPathIndex = i;
+      }
+    }
+    setDirectionsCounter(prevPathIndex);
+  };
+
+  const getIcon = (direction: string) => {
+    if (direction.includes("Turn right")) {
+      return <TurnRightIcon />;
+    } else if (direction.includes("Turn left")) {
+      return <TurnLeftIcon />;
+    } else if (direction.includes("Bear right")) {
+      return <TurnSlightRightIcon />;
+    } else if (direction.includes("Bear left")) {
+      return <TurnSlightLeftIcon />;
+    } else if (direction.includes("Continue straight")) {
+      return <StraightIcon />;
+    } else {
+      return null;
+    }
+  };
+
+  const prevPathDisabled =
+    floorPaths.current.findIndex((path) => path === paths[directionsCounter]) <=
+    0;
+  const nextPathDisabled =
+    floorPaths.current.findIndex((path) => path === paths[directionsCounter]) >=
+    floorPaths.current.length - 1;
 
   return (
     <div>
       {startNode && endNode ? (
-        <div>
-          <List
-            subheader={
-              <ListSubheader
-                sx={{
-                  color: "#012D5A",
-                  fontWeight: "bold",
-                  fontSize: "1.5rem",
-                  fontFamily: "inter",
-                  textAlign: "center",
-                }}
-              >
-                Directions
-              </ListSubheader>
-            }
-            sx={{
-              position: "absolute",
-              height: "28vh",
-              width: "24.5vw",
-              backgroundColor: "background.paper",
-              borderRadius: "1rem",
-              bottom: 0,
-              right: 0,
-              marginBottom: "3vh",
-              marginRight: "9vw",
-              zIndex: 1,
-              boxShadow: 5,
-              overflow: "hidden",
-            }}
-          >
-            {pagedDirections.map((direction, i) => (
-              <ListItem
-                key={i}
-                sx={{
-                  color: "black",
-                  backgroundColor: "#e0e0e0",
-                  fontFamily: "inter",
-                }}
-              >
-                <Typography
-                  sx={{
-                    marginRight: "1rem",
-                    color: "#012D5A",
-                    fontFamily: "inter",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {i + 1 + currentPage * directionsPerPage}.
-                </Typography>
-                <Typography>{direction}</Typography>
-              </ListItem>
-            ))}
-            <ListItem
-              sx={{
-                color: "black",
-                fontSize: "0.8rem",
-                textAlign: "right!important",
+        <div className={`${styles.directionsContainer}`}>
+          <div className={`${styles.textDirectionsContainer}`}>
+            <div className={styles.directionsHeader}>
+              <h5>Text Directions</h5>
+              <IconButton onClick={toggleExpanded}>
+                {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </IconButton>
+            </div>
+            <div
+              ref={contentRef}
+              style={{
+                maxHeight: maxHeight,
+                overflow: "hidden",
+                transition: "max-height 0.5s ease-in-out",
               }}
             >
-              Page {currentPage + 1} of {numPages}
-            </ListItem>
-          </List>
-          <ForwardRoundedIcon
-            onClick={handleNext}
-            sx={{
-              position: "absolute",
-              color: "#012D5A!important",
-              fontSize: "3rem",
-              bottom: 0,
-              right: 0,
-              marginBottom: "24.5vh",
-              marginRight: "9vw",
-              zIndex: 3,
-              ":hover": {
-                cursor: "pointer",
-                color: "#2196F3!important",
-              },
-            }}
-          />
+              <div className={`${styles.directionsContent}`}>
+                {pagedDirections.map((direction, i) => (
+                  <div key={i} className={`${styles.directionsText}`}>
+                    {getIcon(direction)}
+                    <p>{direction}</p>
+                  </div>
+                ))}
+              </div>
+              <div className={`${styles.directionsFooter}`}>
+                <div className={`${styles.pagination}`}>
+                  <p
+                    style={{
+                      marginRight: "16px",
+                    }}
+                  >
+                    Page {currentPage + 1} of {numPages}
+                  </p>
+                  <ButtonGroup size="small">
+                    <Button
+                      onClick={handlePrevPath}
+                      disabled={prevPathDisabled}
+                      sx={{
+                        height: "2rem",
+                        minWidth: "5rem",
+                        backgroundColor: "white",
+                        color: "#012D5A",
+                        fontFamily: "inter",
+                        fontWeight: "bold",
+                        fontSize: "0.875rem",
+                        textTransform: "capitalize",
+                        borderRadius: "4px",
+                        border: "1px solid #c4c4c4",
+                        boxShadow: "none",
+                        "&:hover": {
+                          backgroundColor: "#f5f5f5",
+                          borderColor: "#a8a8a8",
+                        },
+                        "&:disabled": {
+                          backgroundColor: "#f5f5f5",
+                          color: "#c4c4c4",
+                        },
+                      }}
+                    >
+                      Prev Path
+                    </Button>
 
-          <ForwardRoundedIcon
-            onClick={handlePrev}
-            sx={{
-              position: "absolute",
-              color: "#012D5A!important",
-              fontSize: "3rem",
-              bottom: 0,
-              right: 0,
-              marginBottom: "24.5vh",
-              marginRight: "11.5vw",
-              zIndex: 3,
-              transform: "rotate(180deg)",
-              ":hover": {
-                cursor: "pointer",
-                color: "#2196F3!important",
-              },
-            }}
-          />
+                    <Button
+                      onClick={handleNextPath}
+                      disabled={nextPathDisabled}
+                      sx={{
+                        height: "2rem",
+                        minWidth: "5rem",
+                        backgroundColor: "white",
+                        color: "#012D5A",
+                        fontFamily: "inter",
+                        fontWeight: "bold",
+                        fontSize: "0.875rem",
+                        textTransform: "capitalize",
+                        borderRadius: "4px",
+                        border: "1px solid #c4c4c4",
+                        boxShadow: "none",
+                        "&:hover": {
+                          backgroundColor: "#f5f5f5",
+                          borderColor: "#a8a8a8",
+                        },
+                        "&:disabled": {
+                          backgroundColor: "#f5f5f5",
+                          color: "#c4c4c4",
+                        },
+                      }}
+                    >
+                      Next Path
+                    </Button>
+                  </ButtonGroup>
+                  <div>
+                    <IconButton
+                      onClick={handlePrevPage}
+                      disabled={currentPage == 0}
+                    >
+                      <ChevronLeftIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={handleNextPage}
+                      disabled={currentPage + 1 == numPages}
+                    >
+                      <ChevronRightIcon />
+                    </IconButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Box className={`${styles.textDirectionFloorGroup}`}>
+            {paths.map((path, i) => (
+              <Box
+                key={i}
+                sx={{
+                  color:
+                    paths[directionsCounter] === path ? "#2196F3" : "#012D5A",
+                  flexDirection: "row",
+                  justifyContent: "space between",
+                  display: "flex",
+                }}
+              >
+                <Box
+                  sx={{
+                    ":hover": {
+                      cursor: "pointer",
+                    },
+                  }}
+                  onClick={() => setDirectionsCounter(i)}
+                >
+                  {path.edges[0].startNode.floor}
+                </Box>
+                {paths.length - 1 === i ? null : (
+                  <EastIcon
+                    sx={{
+                      color: "black",
+                      fontSize: "1rem",
+                      margin: "4px",
+                    }}
+                  ></EastIcon>
+                )}
+              </Box>
+            ))}
+          </Box>
         </div>
       ) : null}
     </div>

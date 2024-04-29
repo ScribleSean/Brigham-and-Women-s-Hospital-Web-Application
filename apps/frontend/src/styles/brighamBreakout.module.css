@@ -1,0 +1,15 @@
+.highScoreTable {
+  display: flex;
+  justify-content: space-around;
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.highScoreTableInitials {
+  font-family: "Halogen by Pixel Surplus", sans-serif;
+  text-align: right;
+  color: #012d5a;
+}
+
+.hi {
+}

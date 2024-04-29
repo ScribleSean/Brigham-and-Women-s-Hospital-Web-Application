@@ -39,8 +39,8 @@ function GenerateTableRowsEdges(tableData: EmployeeType[]): JSX.Element[] {
   return tableData.map((item, index) => (
     <StyledTableRow key={index}>
       <StyledTableCell>{tableData[index].employeeEmail}</StyledTableCell>
-      <StyledTableCell>{tableData[index].name}</StyledTableCell>
-      <StyledTableCell>{tableData[index].position}</StyledTableCell>
+      <StyledTableCell>{tableData[index].employeeFullName}</StyledTableCell>
+      <StyledTableCell>{tableData[index].employeePosition}</StyledTableCell>
       <StyledTableCell>
         {tableData[index].numberOfServiceRequests}
       </StyledTableCell>
@@ -65,8 +65,12 @@ const TableEdges: React.FC<{ tableData: EmployeeType[] }> = ({ tableData }) => {
     </StyledTableContainer>
   );
 };
-
-export const GetDataEmployee = () => {
+interface GetDataEmployeeProps {
+  dataUpdated: boolean;
+}
+export const GetDataEmployee: React.FC<GetDataEmployeeProps> = ({
+  dataUpdated,
+}) => {
   const [data, setData] = useState<EmployeeType[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -98,7 +102,7 @@ export const GetDataEmployee = () => {
     };
 
     fetchData().then();
-  }, []); //
+  }, [dataUpdated]); //
 
   if (loading) {
     return <div>Loading...</div>;

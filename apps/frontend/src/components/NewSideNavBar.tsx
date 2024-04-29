@@ -2,8 +2,9 @@ import MapIcon from "@mui/icons-material/Map";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import StorageIcon from "@mui/icons-material/Storage";
 import LogoutIcon from "@mui/icons-material/Logout";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import styles from "../styles/NewSideNavBar.module.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -72,6 +73,16 @@ function NewSideNavBar() {
             >
               <StorageIcon sx={{ fontSize: "35px" }} />
               <p className={`${styles.navbarLabels}`}>File Viewer</p>
+            </div>
+          </Link>
+          <Link to="/statistics" className={`${styles.navButtons}`}>
+            <div
+              className={`${styles.row} ${
+                currentLocation === "/statistics" ? styles.selected : ""
+              }`}
+            >
+              <BarChartIcon sx={{ fontSize: "35px" }} />
+              <p className={`${styles.navbarLabels}`}>Statistics</p>
             </div>
           </Link>
         </div>

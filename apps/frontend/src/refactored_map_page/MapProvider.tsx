@@ -2,9 +2,6 @@ import React, { ReactNode, useState } from "react";
 import {
   AccessibilityType,
   EditorMode,
-  NodesByFloor,
-  EdgesByFloor,
-  NodeWithAssociatedEdges,
   OldNewEdge,
   OldNewNode,
 } from "common/src/types/map_page_types.ts";
@@ -16,6 +13,7 @@ import {
   Path,
 } from "common/src/DataStructures.ts";
 import MapContext from "./MapContext.ts";
+import GraphFrontend from "./GraphFrontend.ts";
 
 interface MapProviderProps {
   children: ReactNode;
@@ -25,8 +23,6 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [startNode, setStartNode] = useState<Node | null>(null);
   const [endNode, setEndNode] = useState<Node | null>(null);
 
-  const [nodesByFloor, setNodesByFloor] = useState<NodesByFloor | null>(null);
-  const [edgesByFloor, setEdgesByFloor] = useState<EdgesByFloor | null>(null);
   const [paths, setPaths] = useState<Array<Path>>(new Array<Path>());
 
   const [currentFloor, setCurrentFloor] = useState<FloorType>(FloorType.first);
@@ -62,14 +58,31 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   const [edgesToBeEdited, setEdgesToBeEdited] = useState<Array<OldNewEdge>>(
     new Array<OldNewEdge>(),
   );
-  const [nodesToBeAdded, setNodesToBeAdded] = useState<
-    Array<NodeWithAssociatedEdges>
-  >(new Array<NodeWithAssociatedEdges>());
+  const [nodesToBeAdded, setNodesToBeAdded] = useState<Array<Node>>(
+    new Array<Node>(),
+  );
   const [edgesToBeAdded, setEdgesToBeAdded] = useState<Array<Edge>>(
     new Array<Edge>(),
   );
 
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
+  const [graph, setGraph] = useState<GraphFrontend | null>(null);
+
+  const [resetZoomingFunction, setResetZoomingFunction] = useState(() => () => {
+    // This is a no-op function intentionally left empty as a placeholder.
+  });
+
+  const [translationX, setTranslationX] = useState<number>(0);
+  const [translationY, setTranslationY] = useState<number>(0);
+
+  const [edgeStartNode, setEdgeStartNode] = useState<Node | null>(null);
+  const [edgeEndNode, setEdgeEndNode] = useState<Node | null>(null);
+
+  const [selectedOption, setSelectedOption] = useState("showBasicNodes");
+
+  const [selectedNodes, setSelectedNodes] = useState<Array<string>>(
+    new Array<string>(),
+  );
 
   const value = {
     startNode,
@@ -77,10 +90,6 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     endNode,
     setEndNode,
 
-    nodesByFloor,
-    setNodesByFloor,
-    edgesByFloor,
-    setEdgesByFloor,
     paths,
     setPaths,
 
@@ -113,6 +122,10 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     setDisableZoomPanning,
     scale,
     setScale,
+    translationX,
+    setTranslationX,
+    translationY,
+    setTranslationY,
 
     nodesToBeDeleted,
     setNodesToBeDeleted,
@@ -129,6 +142,23 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     unsavedChanges,
     setUnsavedChanges,
+
+    graph,
+    setGraph,
+
+    resetZoomingFunction,
+    setResetZoomingFunction,
+
+    edgeStartNode,
+    setEdgeStartNode,
+    edgeEndNode,
+    setEdgeEndNode,
+
+    selectedOption,
+    setSelectedOption,
+
+    selectedNodes,
+    setSelectedNodes,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;
