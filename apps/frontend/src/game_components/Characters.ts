@@ -46,7 +46,7 @@ const joseBackstory =
   "Physically detached from everyday interactions, nestled among ancient oak trees and class diagrams, this sage devoted his entire being to the intricate art of map-making. This enlightenment drove him to the brink of madness but also flung wide open the doors of his heart";
 const Jose = new Character(
   "Jose",
-  3,
+  1,
   4,
   3,
   josePassive,
