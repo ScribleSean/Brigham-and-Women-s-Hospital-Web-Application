@@ -14,6 +14,8 @@ import TurnSlightRightIcon from "@mui/icons-material/TurnSlightRight";
 import TurnSlightLeftIcon from "@mui/icons-material/TurnSlightLeft";
 import StraightIcon from "@mui/icons-material/Straight";
 import EastIcon from "@mui/icons-material/East";
+import ElevatorIcon from "@mui/icons-material/Elevator";
+import StairsIcon from "@mui/icons-material/Stairs";
 
 export default TextDirections;
 
@@ -84,12 +86,19 @@ function TextDirections() {
   const generateDirections = useCallback(
     (paths: Array<Path>) => {
       const directions: Array<string> = [];
+      let floorChangeDirection = null;
 
       if (paths[directionsCounter] && paths[directionsCounter].edges) {
         const currentPathEdges: Array<Edge> = paths[directionsCounter].edges;
         for (let i = 0; i < currentPathEdges.length - 1; i++) {
           const currentEdge = currentPathEdges[i];
           const nextEdge = currentPathEdges[i + 1];
+
+          if (nextEdge.startNode.type == NodeType.ELEV) {
+            floorChangeDirection = `Take ${nextEdge.startNode.shortName} to floor ${nextEdge.endNode.floor}`;
+          } else if (nextEdge.startNode.type == NodeType.STAI) {
+            floorChangeDirection = `Take ${nextEdge.startNode.shortName} to floor ${nextEdge.endNode.floor}`;
+          }
 
           if (currentEdge.startNode.type) {
             const dx1 = currentEdge.endNode.x - currentEdge.startNode.x;
@@ -185,6 +194,10 @@ function TextDirections() {
         );
       }
 
+      if (floorChangeDirection) {
+        directions.push(floorChangeDirection);
+      }
+
       return directions;
     },
     [directionsCounter],
@@ -254,6 +267,10 @@ function TextDirections() {
       return <TurnSlightLeftIcon />;
     } else if (direction.includes("Continue straight")) {
       return <StraightIcon />;
+    } else if (direction.includes("Elevator")) {
+      return <ElevatorIcon />;
+    } else if (direction.includes("Stairs")) {
+      return <StairsIcon />;
     } else {
       return null;
     }
@@ -274,7 +291,7 @@ function TextDirections() {
             <div className={styles.directionsHeader}>
               <h5>Text Directions</h5>
               <IconButton onClick={toggleExpanded}>
-                {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
               </IconButton>
             </div>
             <div
@@ -282,7 +299,7 @@ function TextDirections() {
               style={{
                 maxHeight: maxHeight,
                 overflow: "hidden",
-                transition: "max-height 0.5s ease-in-out",
+                transition: "max-height 0.2s ease-in-out",
               }}
             >
               <div className={`${styles.directionsContent}`}>
