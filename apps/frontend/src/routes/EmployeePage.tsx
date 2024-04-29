@@ -13,6 +13,8 @@ import {
   FormControl,
   Box,
   Snackbar,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import {
@@ -27,6 +29,8 @@ import { EmployeeType } from "common/src/backend_interfaces/Employee.ts";
 import FileUpload from "../components/FileUpload.tsx";
 import { SelectChangeEvent } from "@mui/material/Select";
 import axios from "axios";
+import BuildIcon from "@mui/icons-material/Build";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function CustomToolbar() {
   const handleFileDrop = async (file: File, apiEndpoint: string) => {
@@ -86,6 +90,8 @@ function EmployeePage() {
     employeeID: 0,
   });
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [areYouSureOpen, setAreYouSureOpen] = useState(false);
 
   const handlePermissionChange = (event: SelectChangeEvent) => {
     setFormData({
@@ -142,6 +148,38 @@ function EmployeePage() {
     setSnackbarIsOpen(true);
   };
 
+  const handleEditClick = (rowData: EmployeeType) => {
+    setFormData(rowData);
+    setEditOpen(true);
+  };
+
+  const handleEditSubmit = async () => {
+    try {
+      const response = await axios.post("/api/add-employee/update", formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Unable to update employee");
+      console.log(error);
+    }
+    setEditOpen(false);
+    fetchData().then();
+  };
+
+  const handleEditDelete = async () => {
+    try {
+      const response = await axios.delete("/api/add-employee", {
+        data: {
+          employeeEmail: formData.employeeEmail,
+        },
+      });
+      console.log("Employee deleted", response.data);
+    } catch (error) {
+      console.error("Unable to delete employee");
+    }
+    setEditOpen(false);
+    fetchData().then();
+  };
+
   const columns = [
     {
       field: "employeeID",
@@ -173,10 +211,165 @@ function EmployeePage() {
       headerName: "Permission Level",
       flex: 1,
     },
+    {
+      field: "edit",
+      headerName: "Edit",
+      sortable: false,
+      width: 100,
+      renderCell: (params: { row: EmployeeType }) => (
+        <IconButton
+          size={"small"}
+          onClick={() => {
+            handleEditClick(params.row as EmployeeType);
+          }}
+        >
+          <BuildIcon />
+        </IconButton>
+      ),
+    },
   ];
 
   return (
     <>
+      <Dialog
+        open={areYouSureOpen}
+        onClose={() => {
+          setAreYouSureOpen(false);
+        }}
+      >
+        <DialogContent>
+          Are you sure you want to delete this employee?
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setAreYouSureOpen(false);
+            }}
+          >
+            No
+          </Button>
+          <Button
+            onClick={() => {
+              setAreYouSureOpen(false);
+              handleEditDelete();
+            }}
+            color={"error"}
+            variant={"contained"}
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={editOpen}
+        onClose={() => {
+          setEditOpen(false);
+        }}
+        sx={{
+          "& .MuiDialog-container": {
+            "& .MuiPaper-root": {
+              borderRadius: 2,
+              borderColor: "#012D5A",
+              minWidth: "600px",
+              maxWidth: "600px",
+              boxShadow: "0px 3px 15px rgba(0,0,0,0.2)",
+              padding: "3px",
+            },
+          },
+        }}
+      >
+        <DialogTitle sx={{ color: "#012d5a" }}>Edit Employee</DialogTitle>
+        <DialogContent>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <TextField
+              autoFocus
+              margin={"dense"}
+              id={"employeeFirstName"}
+              label={"First Name"}
+              fullWidth
+              value={formData.employeeFirstName}
+              required
+              variant={"outlined"}
+              sx={{ marginRight: "1%" }}
+              onChange={handleTextFieldChange}
+            />
+            <TextField
+              autoFocus
+              margin={"dense"}
+              id={"employeeLastName"}
+              label={"Last Name"}
+              fullWidth
+              value={formData.employeeLastName}
+              required
+              variant={"outlined"}
+              sx={{ marginLeft: "1%" }}
+              onChange={handleTextFieldChange}
+            />
+          </div>
+          <TextField
+            autoFocus
+            margin={"dense"}
+            id={"employeeEmail"}
+            label={"Email Address"}
+            fullWidth
+            value={formData.employeeEmail}
+            required
+            variant={"outlined"}
+            onChange={handleTextFieldChange}
+          />
+          <TextField
+            autoFocus
+            margin={"dense"}
+            id={"employeePosition"}
+            label={"Position"}
+            fullWidth
+            value={formData.employeePosition}
+            required
+            variant={"outlined"}
+            onChange={handleTextFieldChange}
+          />
+          <FormControl fullWidth margin={"dense"} required>
+            <InputLabel id={"permission-label"}>Permission Level</InputLabel>
+            <Select
+              labelId="permission-label"
+              id={"employeePermission"}
+              value={formData.employeePermission}
+              label={"Permission"}
+              onChange={handlePermissionChange}
+              variant={"outlined"}
+            >
+              <MenuItem value={""}>
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={"Staff"}>Staff</MenuItem>
+              <MenuItem value={"Admin"}>Admin</MenuItem>
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Tooltip title={"Delete"} placement={"bottom"}>
+            <IconButton
+              color={"error"}
+              onClick={() => {
+                setAreYouSureOpen(true);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+          <Box sx={{ flexGrow: 1 }} />
+          <Button onClick={() => setEditOpen(false)} color={"error"}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleEditSubmit}
+            variant={"contained"}
+            sx={{ backgroundColor: "#012d5a" }}
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Snackbar
         open={snackbarIsOpen}
         autoHideDuration={5000}
@@ -190,7 +383,7 @@ function EmployeePage() {
         <div className={`${styles.employeeDashboardBox}`}>
           <div className={`${styles.employeePageHeader}`}>
             <div className={`${styles.employeePageTitle}`}>
-              <h1>Employee Page</h1>
+              <h1>Manage Employees</h1>
             </div>
             <div className={`${styles.employeePageButtonsBox}`}>
               <Button
@@ -212,8 +405,8 @@ function EmployeePage() {
                   "& .MuiPaper-root": {
                     borderRadius: 2,
                     borderColor: "#012D5A",
-                    minWidth: "400px",
-                    maxWidth: "400px",
+                    minWidth: "600px",
+                    maxWidth: "600px",
                     boxShadow: "0px 3px 15px rgba(0,0,0,0.2)",
                     padding: "3px",
                   },
