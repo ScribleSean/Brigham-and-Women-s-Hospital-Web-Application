@@ -18,8 +18,8 @@ const columns = [
   { field: "floor", headerName: "Floor", width: 130 },
   { field: "building", headerName: "Building", width: 130 },
   { field: "nodeType", headerName: "Node Type", width: 130 },
-  { field: "longName", headerName: "Long Name", width: 300 },
-  { field: "shortName", headerName: "Short Name", width: 250 },
+  { field: "longName", headerName: "Long Name", flex: 1 },
+  { field: "shortName", headerName: "Short Name", flex: 1 },
 ];
 function CustomToolbar({ onFileDrop }: { onFileDrop: (file: File) => void }) {
   return (
