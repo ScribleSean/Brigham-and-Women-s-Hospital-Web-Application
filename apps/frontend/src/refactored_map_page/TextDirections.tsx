@@ -58,6 +58,12 @@ function TextDirections() {
     return () => window.removeEventListener("resize", updateSize);
   }, [expanded]);
 
+  useEffect(() => {
+    if (expanded && contentRef.current) {
+      setMaxHeight(`${contentRef.current.scrollHeight}px`);
+    }
+  }, [directionsText, expanded]);
+
   const prevDirectionRef = useRef("");
   const floorPaths = useRef(new Array<Path>());
   let prevPathIndex: number = directionsCounter;
