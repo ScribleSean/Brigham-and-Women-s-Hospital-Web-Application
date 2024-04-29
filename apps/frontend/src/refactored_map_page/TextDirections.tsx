@@ -94,11 +94,9 @@ function TextDirections() {
       if (paths[directionsCounter] && paths[directionsCounter].edges) {
         const currentPathEdges: Array<Edge> = paths[directionsCounter].edges;
         if (directionsCounter === 0) {
-          directions.push(
-            `Start at ${currentPathEdges[0].startNode.shortName}`,
-          );
+          directions.push(`Start at ${currentPathEdges[0].startNode.longName}`);
         } else if (directionsCounter === paths.length - 1) {
-          arrive = `Arrive at ${currentPathEdges[currentPathEdges.length - 1].endNode.shortName}`;
+          arrive = `Arrive at ${currentPathEdges[currentPathEdges.length - 1].endNode.longName}`;
         }
         for (let i = 0; i < currentPathEdges.length - 1; i++) {
           const currentEdge = currentPathEdges[i];
@@ -164,11 +162,11 @@ function TextDirections() {
                 if (nextEdge.endNode.type === NodeType.HALL) {
                   detail = "";
                 } else {
-                  detail = ` towards ${nextEdge.endNode.shortName}`;
+                  detail = ` towards ${nextEdge.endNode.longName}`;
                 }
               } else {
                 if (nextEdge.endNode.type === NodeType.HALL) {
-                  detail = ` at ${currentEdge.startNode.shortName}`;
+                  detail = ` at ${currentEdge.startNode.longName}`;
                 } else {
                   detail = "";
                 }
@@ -200,7 +198,7 @@ function TextDirections() {
         directions.length === 0
       ) {
         directions.push(
-          `Continue straight towards ${paths[directionsCounter].edges[0].endNode.shortName}`,
+          `Continue straight towards ${paths[directionsCounter].edges[0].endNode.longName}`,
         );
       }
 
