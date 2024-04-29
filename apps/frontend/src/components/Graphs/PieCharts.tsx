@@ -73,6 +73,7 @@ export default function PieCharts() {
               minWidth: "100px",
             }}
           >
+            <MenuItem value={"Type"}>Type</MenuItem>
             <MenuItem value={"User"}>User</MenuItem>
             <MenuItem value={"Priority"}>Priority</MenuItem>
             <MenuItem value={"Status"}>Status</MenuItem>
