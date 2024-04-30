@@ -36,3 +36,20 @@ describe("Employee API", () => {
     expect(response.status).toBe(204);
   });
 });
+
+describe("Delete Employee", () => {
+  test("pass", async () => {
+    const employee = {
+      employeeEmail: "test@example.com",
+    };
+    const response = await request.post("/api").send(employee);
+    expect(response.status).toBe(200);
+  });
+  test("fail", async () => {
+    const employee = {
+      employeeEmail: 7,
+    };
+    const response = await request.post("/api").send(employee);
+    expect(response.status).toBe(204);
+  });
+});
