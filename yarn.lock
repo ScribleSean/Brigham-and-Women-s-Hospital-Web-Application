@@ -8264,6 +8264,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-zoom-pan-pinch@npm:^3.4.4":
+  version: 3.4.4
+  resolution: "react-zoom-pan-pinch@npm:3.4.4"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+  checksum: c02a7047923ed85f6d5e45d754d3df8403c00c2bf39fce4ef07d81961bdb3bcd549ca27b3122fba17dc2ac7eb2eb4c2b4c656bb503402aa6f7869a446a8ddff4
+  languageName: node
+  linkType: hard
+
 "react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
@@ -9003,7 +9013,6 @@ __metadata:
     "@mui/icons-material": "npm:^5.15.15"
     "@mui/material": "npm:^5.15.15"
     "@mui/styled-engine-sc": "npm:6.0.0-alpha.18"
-    "@mui/x-data-grid": "npm:^7.3.1"
     "@prisma/client": "npm:^5.12.0"
     "@types/bootstrap": "npm:^5"
     "@types/file-saver": "npm:^2"
@@ -9012,8 +9021,6 @@ __metadata:
     "@types/qrcode": "npm:^1"
     "@types/react": "npm:^18.2.78"
     "@types/react-dom": "npm:^18.0.11"
-    "@types/react-slick": "npm:^0"
-    "@types/slick-carousel": "npm:^1"
     "@vitest/ui": "npm:^0.33.0"
     "@yarnpkg/pnpify": "npm:^4.0.0-rc.45"
     animate.css: "npm:^4.1.1"
@@ -9040,8 +9047,7 @@ __metadata:
     react-draggable: "npm:^4.4.6"
     react-google-charts: "npm:^4.0.1"
     react-multi-carousel: "npm:^2.8.5"
-    react-slick: "npm:^0.30.2"
-    slick-carousel: "npm:^1.8.1"
+    react-zoom-pan-pinch: "npm:^3.4.4"
     styled-components: "npm:^6.1.8"
     tsconfig-custom: "workspace:*"
     turbo: "npm:latest"

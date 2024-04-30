@@ -40,8 +40,6 @@
     "@types/qrcode": "^1",
     "@types/react": "^18.2.78",
     "@types/react-dom": "^18.0.11",
-    "@types/react-slick": "^0",
-    "@types/slick-carousel": "^1",
     "@vitest/ui": "^0.33.0",
     "eslint": "^8.56.0",
     "eslint-config-custom": "workspace:*",
@@ -65,7 +63,6 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/styled-engine-sc": "6.0.0-alpha.18",
-    "@mui/x-data-grid": "^7.3.1",
     "@prisma/client": "^5.12.0",
     "@types/jquery": "^3.5.29",
     "@yarnpkg/pnpify": "^4.0.0-rc.45",
@@ -86,8 +83,7 @@
     "react-draggable": "^4.4.6",
     "react-google-charts": "^4.0.1",
     "react-multi-carousel": "^2.8.5",
-    "react-slick": "^0.30.2",
-    "slick-carousel": "^1.8.1",
+    "react-zoom-pan-pinch": "^3.4.4",
     "styled-components": "^6.1.8"
   }
 }

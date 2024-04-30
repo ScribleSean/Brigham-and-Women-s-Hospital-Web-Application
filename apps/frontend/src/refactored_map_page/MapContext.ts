@@ -99,6 +99,9 @@ interface MapContextType {
 
   selectedNodes: Array<string>;
   setSelectedNodes: (selectedNodes: Array<string>) => void;
+
+  fixingEdges: boolean;
+  setFixingEdges: (fixEdge: boolean) => void;
 }
 
 const MapContext = createContext<MapContextType | undefined>(undefined);

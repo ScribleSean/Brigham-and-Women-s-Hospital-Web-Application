@@ -69,8 +69,8 @@ function MapLegend() {
         color: "black",
         bottom: 0,
         left: 0,
-        marginLeft: "30px",
-        marginBottom: "5px",
+        marginLeft: "1vw",
+        marginBottom: "2vh",
         borderRadius: "10px",
         boxShadow: "0px 0px 1px",
       }}

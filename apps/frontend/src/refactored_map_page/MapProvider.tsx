@@ -84,6 +84,8 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
     new Array<string>(),
   );
 
+  const [fixingEdges, setFixingEdges] = useState<boolean>(false);
+
   const value = {
     startNode,
     setStartNode,
@@ -159,6 +161,9 @@ const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
 
     selectedNodes,
     setSelectedNodes,
+
+    fixingEdges,
+    setFixingEdges,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

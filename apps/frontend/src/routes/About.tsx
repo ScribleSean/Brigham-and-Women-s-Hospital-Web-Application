@@ -1,16 +1,16 @@
 import React from "react";
 import styles from "../styles/About.module.css";
-import Christian from "../../public/CS3737Photos/Christian.png";
-import Ethan from "../../public/CS3737Photos/Ethan.png";
-import Gabe from "../../public/CS3737Photos/Gabe.png";
-import Gus from "../../public/CS3737Photos/Gus.png";
-import Jose from "../../public/CS3737Photos/Jose.png";
-import Lorenzo from "../../public/CS3737Photos/Lorenzo.png";
-import Maddux from "../../public/CS3737Photos/Maddux.png";
-import Peter from "../../public/CS3737Photos/Peter.png";
-import Sean from "../../public/CS3737Photos/Sean.png";
-import Sophia from "../../public/CS3737Photos/Sophia.png";
-import Timothy from "../../public/CS3737Photos/Timothy.png";
+import Christian from "../../public/ChristianBackgroundRemoved.png";
+import Ethan from "../../public/EthanBackgroundRemoved.png";
+import Gabe from "../../public/GabrielBackgroundRemoved.png";
+import Gus from "../../public/GustaveBackgroundRemoved.png";
+import Jose from "../../public/JoseBackgroundRemoved.png";
+import Lorenzo from "../../public/LorenzoBackgroundRemoved.png";
+import Maddux from "../../public/MadduxBackgroundRemoved.png";
+import Peter from "../../public/PeterBackgroundRemoved.png";
+import Sean from "../../public/SeanBackgroundRemoved.png";
+import Sofia from "../../public/SofiaBackgroundRemoved.png";
+import Timothy from "../../public/TimothyBackgroundRemoved.png";
 import { Box, Container } from "@mui/material";
 //import { Container, Box } from "@mui/material";
 
@@ -19,57 +19,76 @@ function About() {
     {
       gamertag: "Sean Arackal",
       description: "Full-Stack Developer",
+      quote: '"i smoked away my brain " - A$AP Rocky',
       image: Sean,
     },
     {
       gamertag: "Maddux Berry",
       description: "Project Manager / Full-Stack Developer",
+      quote:
+        '"If possible, as far as it depends on you, live at peace with everyone." - Romans 12:18',
       image: Maddux,
     },
     {
       gamertag: "Lorenzo Cassano",
       description: "Full-Stack Developer",
+      quote:
+        '"I visualize a time when we will be to robots what dogs are to humans, and I\'m rooting for the machines." - Claude Shannon',
       image: Lorenzo,
     },
     {
       gamertag: "Christian Consiglio",
       description: "Full-Stack Developer",
+      quote:
+        '"There\'s smoke in my iris. But I painted a sunny day on the insides of my eyelids" - Aesop Rock',
       image: Christian,
     },
     {
       gamertag: "Peter Czepiel",
       description: "Full-Stack Developer",
+      quote:
+        '"Real G\'s move in silence like lasagna" -Lil Wayne 6 Foot 7 Foot',
       image: Peter,
     },
     {
       gamertag: "Ethan Glasby",
       description: "Product Owner / Full-Stack Developer",
+      quote:
+        '"And such were some of you: but ye are washed, but ye are sanctified, but ye are justified in the name of the Lord Jesus, and by the Spirit of our God." - 1 Corinthians 6:11',
       image: Ethan,
     },
     {
       gamertag: "Timothy Hutzley",
       description: "Scrum Master / Full-Stack Developer",
+      quote:
+        '"I don\'t really care about fame or recognition. I just totally dig on advancing knowledge!" -Jimmy Lightning, Peggle',
       image: Timothy,
     },
     {
       gamertag: "José Manuel Pérez Jiménez",
       description: "Full-Stack Developer",
+      quote: '"Un vaso es un vaso y un plato es un plato" - Mariano Rajoy',
       image: Jose,
     },
     {
       gamertag: "Gustave Montana",
       description: "Full-Stack Developer",
+      quote:
+        '"In theory there\'s no difference between theory and practice. In practice there is." - Yogi Berra',
       image: Gus,
     },
     {
       gamertag: "Gabriel Olafsson",
       description: "Full-Stack Developer",
+      quote:
+        '"I be goofy, kinda funny. Acting stupid but they love me." - Mac Miller',
       image: Gabe,
     },
     {
       gamertag: "Sofia Xie",
       description: "Document Analyst / Full-Stack Developer",
-      image: Sophia,
+      quote: "",
+      image: Sofia,
     },
   ];
   return (
@@ -152,7 +171,7 @@ function About() {
                 marginRight: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -190,6 +209,15 @@ function About() {
               >
                 {everyone[0].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[0].quote}
+              </div>
             </Box>
 
             {/*Box 2*/}
@@ -200,7 +228,7 @@ function About() {
                 marginRight: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -238,6 +266,15 @@ function About() {
               >
                 {everyone[1].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[1].quote}
+              </div>
             </Box>
 
             {/*Box 3*/}
@@ -248,7 +285,7 @@ function About() {
                 marginRight: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -286,6 +323,15 @@ function About() {
               >
                 {everyone[2].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[2].quote}
+              </div>
             </Box>
           </Box>
 
@@ -309,7 +355,7 @@ function About() {
                 marginRight: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -347,6 +393,15 @@ function About() {
               >
                 {everyone[3].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[3].quote}
+              </div>
             </Box>
 
             {/*Box 5*/}
@@ -357,7 +412,7 @@ function About() {
                 marginRight: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -395,6 +450,15 @@ function About() {
               >
                 {everyone[4].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[4].quote}
+              </div>
             </Box>
 
             {/*Box 6*/}
@@ -405,7 +469,7 @@ function About() {
                 marginRight: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -443,6 +507,15 @@ function About() {
               >
                 {everyone[5].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[5].quote}
+              </div>
             </Box>
           </Box>
 
@@ -466,7 +539,7 @@ function About() {
                 marginRight: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -504,6 +577,15 @@ function About() {
               >
                 {everyone[6].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[6].quote}
+              </div>
             </Box>
 
             {/*Box 8*/}
@@ -514,7 +596,7 @@ function About() {
                 marginRight: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -552,6 +634,15 @@ function About() {
               >
                 {everyone[7].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[7].quote}
+              </div>
             </Box>
 
             {/*Box 9*/}
@@ -562,7 +653,7 @@ function About() {
                 marginRight: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -600,6 +691,15 @@ function About() {
               >
                 {everyone[8].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[8].quote}
+              </div>
             </Box>
           </Box>
 
@@ -624,7 +724,7 @@ function About() {
                 marginLeft: "15%",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -662,6 +762,15 @@ function About() {
               >
                 {everyone[9].description}
               </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[9].quote}
+              </div>
             </Box>
 
             {/*Box 11*/}
@@ -673,7 +782,7 @@ function About() {
                 marginLeft: "10px",
                 backgroundColor: "white",
                 height: "60%",
-                minHeight: "40vh",
+                minHeight: "45vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -710,6 +819,15 @@ function About() {
                 }}
               >
                 {everyone[10].description}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[10].quote}
               </div>
             </Box>
           </Box>
