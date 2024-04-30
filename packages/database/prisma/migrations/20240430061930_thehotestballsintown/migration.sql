@@ -3,8 +3,20 @@ CREATE TABLE "BreakOutHighScore" (
     "HSID" SERIAL NOT NULL,
     "initial" TEXT NOT NULL,
     "time" INTEGER NOT NULL,
+    "character" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "BreakOutHighScore_pkey" PRIMARY KEY ("HSID")
+);
+
+-- CreateTable
+CREATE TABLE "weather" (
+    "WID" INTEGER NOT NULL,
+    "temp" DOUBLE PRECISION NOT NULL,
+    "date" TEXT NOT NULL,
+    "time" TEXT NOT NULL,
+
+    CONSTRAINT "weather_pkey" PRIMARY KEY ("WID")
 );
 
 -- CreateTable
