@@ -29,8 +29,8 @@ function ReligiousFields({
     try {
       const response = await axios.get("/api/employee-email-fetch");
       const employeeData = response.data.map(
-        (employee: { name: string; employeeEmail: string }) => ({
-          name: employee.name,
+        (employee: { employeeFullName: string; employeeEmail: string }) => ({
+          name: employee.employeeFullName,
           employeeEmail: employee.employeeEmail,
         }),
       );
@@ -154,6 +154,13 @@ function ReligiousFields({
     fetchLocations();
   }, []);
 
+  async function fetchData() {
+    const res = await axios.get("/api/service-request");
+    console.log(res);
+    setReqData(res.data);
+    console.log("successfully got data from get request");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // comment out if this is a gabe issue
 
@@ -170,7 +177,7 @@ function ReligiousFields({
       console.error("Unable to create form");
       console.log(error);
     }
-    setReqData((prevData) => [...prevData, formData]);
+    fetchData().then();
     setSnackbarIsOpen(true);
     resetForm();
   };
@@ -193,6 +200,10 @@ function ReligiousFields({
               id="employeeEmail"
               options={employeeEmailOptions}
               fullWidth
+              sx={{
+                marginRight: "2%",
+                width: "100%",
+              }}
               renderInput={(params) => (
                 <TextField {...params} label="Employee" required />
               )}
@@ -312,7 +323,7 @@ function ReligiousFields({
             onChange={handleTextFieldChange}
           />
         </div>
-        <p className={`${styles.footer}`}>Created by Peter & Sofia</p>
+        <p className={`${styles.footer}`}>Created by Peter Czepiel</p>
         <div className={`${styles.formButtons}`}>
           <Button
             id={"clearButton"}

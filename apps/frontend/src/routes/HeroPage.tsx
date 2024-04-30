@@ -5,6 +5,9 @@ import "../styles/HeroPage.css";
 // @import "~animate.css/animate.css";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
+import { IconButton, Snackbar } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 function addAnimationClass(e: Event) {
   e.preventDefault(); // Prevent the default action (navigation)
@@ -16,13 +19,8 @@ function addAnimationClass(e: Event) {
   let timer = 0;
 
   if (linkElement) {
-    if (Math.floor(Math.random() * 5) == 1) {
-      linkElement.classList.add("animate__hinge");
-      timer = 2500;
-    } else {
-      linkElement.classList.add("animate__bounceOutRight");
-      timer = 1000;
-    }
+    linkElement.classList.add("animate__bounceOutRight");
+    timer = 1000;
   }
   // Remove and add classes as before
   // @ts-expect-error works
@@ -38,6 +36,45 @@ function addAnimationClass(e: Event) {
 
 function HeroPage() {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const [disclaimerOpen, setDisclaimerOpen] = useState(true);
+
+  const phrases: string[] = [
+    "Helping our patients and their families get back to what matters most.",
+    "Excellence in medical research and patient care, our commitment continues.",
+    "Dedicated to a century of leadership in healthcare and patient service.",
+    "Leading the way in comprehensive healthcare, where every patient is family.",
+    "Together in health, every step of the way—because family matters.",
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % phrases.length);
+    }, 3000); // Change phrases every 3 seconds
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [phrases.length]);
+
+  const handleDisclaimerClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setDisclaimerOpen(false);
+  };
+
+  const action = (
+    <>
+      <IconButton onClick={handleDisclaimerClose} sx={{ color: "white" }}>
+        <CloseIcon color={"inherit"} />
+      </IconButton>
+    </>
+  );
 
   return (
     <div className={"image-area"}>
@@ -50,45 +87,27 @@ function HeroPage() {
               Welcome to Brigham and Women's Hospital
             </div>
 
-            {/*Carousel*/}
-            <div className="carousel subtitle ">
-              <div>
-                <span>
-                  Helping our patients and their families get back to what
-                  matters most.
-                </span>
-                <span>
-                  Excellence in medical research and patient care, our
-                  commitment continues.
-                </span>
-                <span>
-                  Dedicated to a century of leadership in healthcare and patient
-                  service.
-                </span>
-                <span>
-                  Leading the way in comprehensive healthcare, where every
-                  patient is family.
-                </span>
-                <span>
-                  Together in health, every step of the way—because family
-                  matters.
-                </span>
-                <span>
-                  Helping our patients and their families get back to what
-                  matters most.
-                </span>
-              </div>
+            <div className={"subtitle"}>
+              <span
+                key={currentIndex}
+                className={currentIndex === currentIndex ? "fade-in-out" : ""}
+              >
+                {phrases[currentIndex]}
+              </span>
             </div>
           </div>
-
-          {/*disclaimer*/}
-          <div className={" disclaimer"}>
-            <p>
-              This website is a term project exercise for WPI CS 3733 Software
-              Engineering (Prof. Wong) and is not to be confused with the actual
-              Brigham & Women’s Hospital website{" "}
-            </p>
-          </div>
+          <Snackbar
+            open={disclaimerOpen}
+            onClose={handleDisclaimerClose}
+            message={
+              <p style={{ maxWidth: "700px" }}>
+                This website is a term project exercise for WPI CS 3733 Software
+                Engineering (Prof. Wong) and is not to be confused with the
+                actual Brigham & Women’s Hospital website
+              </p>
+            }
+            action={action}
+          />
         </div>
 
         {/*Right hand Column*/}
@@ -96,22 +115,21 @@ function HeroPage() {
           {/*room settings display*/}
           <div className={"boxPad"}>
             <div className={"tempBox paragraph "}>
-              <p className={"wordPad"}>21 C</p>
+              <p className={"wordPad"}>10° C</p>
               <DeviceThermostatIcon sx={{ color: "#ffffff", fontSize: 45 }}>
                 {" "}
               </DeviceThermostatIcon>
             </div>
 
             <div className={"tempSpace tempBox paragraph "}>
-              <p className={"wordPad"}>50% wet</p>
-              <img alt={"Image"} width={"45"} />
+              <p className={"wordPad"}>50% humidity</p>
             </div>
           </div>
 
           {/*Go to map*/}
           <div className={"boxMarg d-flex justify-content-end paragraph "}>
             <a
-              href={`${isAuthenticated ? "/dashboard" : "/public-map"}`}
+              href={`${isAuthenticated ? "/admin-map" : "/public-map"}`}
               id={"toMapClump"}
               className={
                 "toMap animate__animated animate__slower animate__headShake animate__infinite"

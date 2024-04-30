@@ -1,5 +1,6 @@
 export interface breakoutHighScore {
   HSID: number;
   initial: string;
-  time: string;
+  character: string;
+  time: number | string;
 }

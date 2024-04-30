@@ -19,14 +19,17 @@ import ClearPathButton from "./ClearPathButton.tsx";
 import TextDirections from "./TextDirections.tsx";
 import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
-import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
+import EditingSwitchOptions from "./EditingSwitchOptions.tsx";
+import MapLegend from "./MapLegend.tsx";
 import { Box } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 
 const mapDiv: CSSProperties = {
-  height: "100vh",
-  maxWidth: "calc(100% - 55px)",
-  float: "right",
+  position: "absolute",
+  top: "70px",
+  left: "55px",
+  right: "0",
+  bottom: "0",
   overflow: "hidden",
 };
 
@@ -94,15 +97,16 @@ function MapContents() {
   return (
     <div style={mapDiv}>
       <TextDirections />
-      <ShowNodesEdgesDropDown />
       <DisplayEditingOptions />
+      <MapLegend />
+      <EditingSwitchOptions />
       <Box
         sx={{
           right: 0,
           display: "flex",
           flexDirection: "row",
           position: "absolute",
-          marginTop: "10vh",
+          marginTop: "2vh",
           marginRight: "1vw",
           justifyContent: "space-between",
         }}
@@ -116,8 +120,8 @@ function MapContents() {
           left: 0,
           display: "flex",
           flexDirection: "column",
-          marginTop: "11vh",
-          marginLeft: "5vw",
+          marginTop: "2vh",
+          marginLeft: "1vw",
           backgroundColor: editorMode === EditorMode.disabled ? "white" : null,
           zIndex: 3,
           padding: "1rem",

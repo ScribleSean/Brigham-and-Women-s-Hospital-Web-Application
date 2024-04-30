@@ -1,5 +1,5 @@
 import {
-  TableCell,
+  // TableCell,
   styled,
   tableCellClasses,
   TableRow,
@@ -25,6 +25,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  TableCell,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -33,11 +34,11 @@ import styles from "../styles/Dashboard.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-// import DeleteIcon from '@mui/icons-material/Delete';
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import axios from "axios";
 import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 
 function createData(
   SRID: number,
@@ -97,6 +98,10 @@ function Row(props: {
     description: "",
     religionName: "",
     objectName: "",
+    foodItem: "",
+    foodQuantity: "",
+    utensilItem: "",
+    deliveryTime: "",
     senderName: "",
     receiverName: "",
     flowerType: "",
@@ -226,6 +231,20 @@ function Row(props: {
     }
   };
 
+  const getFoodData = async (SRID: number) => {
+    try {
+      const res = await axios.get(`/api/food-delivery-service-request`, {
+        params: {
+          SRID: SRID,
+        },
+      });
+      console.log(res.data);
+      setRequestData(res.data);
+    } catch {
+      console.error("Error getting food data");
+    }
+  };
+
   const handleDelete = async (SRID: number) => {
     setDialogueOpen(false);
     try {
@@ -269,7 +288,7 @@ function Row(props: {
         </DialogActions>
       </Dialog>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>
+        <StyledTableCell>
           <IconButton
             size="small"
             onClick={() => {
@@ -287,20 +306,22 @@ function Row(props: {
                   getRoomSchedulingData(row.SRID).then();
                 } else if (row.serviceType === "Religious") {
                   getReligiousData(row.SRID).then();
+                } else if (row.serviceType === "Food Delivery") {
+                  getFoodData(row.SRID).then();
                 }
               }
             }}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
+        </StyledTableCell>
+        <StyledTableCell component="th" scope="row">
           {row.SRID}
-        </TableCell>
-        <TableCell align="right">{row.serviceType}</TableCell>
-        <TableCell align="right">{row.employeeEmail}</TableCell>
-        <TableCell align="right">{row.location}</TableCell>
-        <TableCell align="right" sx={{ textWrap: "nowrap" }}>
+        </StyledTableCell>
+        <StyledTableCell align="right">{row.serviceType}</StyledTableCell>
+        <StyledTableCell align="right">{row.employeeEmail}</StyledTableCell>
+        <StyledTableCell align="right">{row.location}</StyledTableCell>
+        <StyledTableCell align="right" sx={{ textWrap: "nowrap" }}>
           <span
             style={{
               display: "inline-block",
@@ -312,32 +333,53 @@ function Row(props: {
             }}
           />
           {row.priority}
-        </TableCell>
-        <TableCell align="right">
+        </StyledTableCell>
+        <StyledTableCell align="right">
           <FormControl fullWidth size={"small"}>
             <Select
               id="filterStatus"
               defaultValue={row.status}
               onChange={(event) => handleStatusChange(row, event)}
+              sx={{
+                fontSize: "14px",
+              }}
             >
-              <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"Assigned"}>Assigned</MenuItem>
-              <MenuItem value={"In Progress"}>In Progress</MenuItem>
-              <MenuItem value={"Closed"}>Closed</MenuItem>
+              <MenuItem value={"Unassigned"} sx={{ fontSize: "14px" }}>
+                Unassigned
+              </MenuItem>
+              <MenuItem value={"Assigned"} sx={{ fontSize: "14px" }}>
+                Assigned
+              </MenuItem>
+              <MenuItem value={"In Progress"} sx={{ fontSize: "14px" }}>
+                In Progress
+              </MenuItem>
+              <MenuItem value={"Closed"} sx={{ fontSize: "14px" }}>
+                Closed
+              </MenuItem>
             </Select>
           </FormControl>
-        </TableCell>
-        <TableCell>
+        </StyledTableCell>
+        <StyledTableCell align={"center"}>
           <IconButton
-            sx={{ color: "red" }}
+            sx={{
+              color: "#484848",
+              transition: "color 0.15s ease-in-out",
+              "&:hover": {
+                color: "red",
+              },
+              padding: 0,
+            }}
             onClick={() => setDialogueOpen(true)}
           >
             <DeleteIcon />
           </IconButton>
-        </TableCell>
+        </StyledTableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={8}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               {row.serviceType === "Flower Delivery" ? (
@@ -364,11 +406,27 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.senderName}</TableCell>
-                        <TableCell>{requestData.receiverName}</TableCell>
-                        <TableCell>{requestData.flowerType}</TableCell>
-                        <TableCell>{requestData.deliveryDate}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <StyledTableCell>
+                          {requestData.senderName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.receiverName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.flowerType}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.deliveryDate}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -397,11 +455,27 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.senderName}</TableCell>
-                        <TableCell>{requestData.receiverName}</TableCell>
-                        <TableCell>{requestData.giftType}</TableCell>
-                        <TableCell>{requestData.deliveryDate}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <StyledTableCell>
+                          {requestData.senderName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.receiverName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.giftType}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.deliveryDate}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -427,10 +501,24 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.medicineType}</TableCell>
-                        <TableCell>{requestData.dosageAmount} mg</TableCell>
-                        <TableCell>{requestData.dosageType}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <StyledTableCell>
+                          {requestData.medicineType}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.dosageAmount} mg
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.dosageType}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -453,9 +541,21 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.deviceName}</TableCell>
-                        <TableCell>{requestData.deviceQuantity}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <StyledTableCell>
+                          {requestData.deviceName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.deviceQuantity}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -478,9 +578,19 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.startTime}</TableCell>
-                        <TableCell>{requestData.endTime}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <StyledTableCell>
+                          {requestData.startTime}
+                        </StyledTableCell>
+                        <StyledTableCell>{requestData.endTime}</StyledTableCell>
+                        <StyledTableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -503,9 +613,70 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.religionName}</TableCell>
-                        <TableCell>{requestData.objectName}</TableCell>
-                        <TableCell>{row.description}</TableCell>
+                        <StyledTableCell>
+                          {requestData.religionName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.objectName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </StyledTableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </>
+              ) : row.serviceType === "Food Delivery" ? (
+                <>
+                  <Table size={"small"}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Food Item</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Food Quantity</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Utensil Item</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Delivery Time</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Description</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <StyledTableCell>
+                          {requestData.foodItem}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.foodQuantity}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.utensilItem}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.deliveryTime}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {row.description ? (
+                            row.description
+                          ) : (
+                            <p>
+                              <em>None</em>
+                            </p>
+                          )}
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -515,7 +686,7 @@ function Row(props: {
               )}
             </Box>
           </Collapse>
-        </TableCell>
+        </StyledTableCell>
       </TableRow>
     </React.Fragment>
   );
@@ -586,8 +757,8 @@ export default function DashCurrentRequests({
       try {
         const response = await axios.get("/api/employee-email-fetch");
         const employeeData = response.data.map(
-          (employee: { name: string; employeeEmail: string }) => ({
-            name: employee.name,
+          (employee: { employeeFullName: string; employeeEmail: string }) => ({
+            name: employee.employeeFullName,
             employeeEmail: employee.employeeEmail,
           }),
         );
@@ -663,13 +834,34 @@ export default function DashCurrentRequests({
           <div className={`${styles.filterMenu}`}>
             <Button
               variant={"outlined"}
-              startIcon={<FilterAltIcon />}
+              color={"error"}
+              onClick={() => {
+                setFilterEmployee("Any");
+                setFilterType("Any");
+                setFilterPriority("Any");
+                setFilterStatus("Any");
+              }}
+              sx={{
+                mr: "8px",
+              }}
+            >
+              <FilterAltOffIcon />
+            </Button>
+            <Button
+              variant={"contained"}
+              // startIcon={<FilterAltIcon />}
               onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                 setPopoverOpen(true);
                 setAnchorEl(event.currentTarget);
               }}
+              sx={{
+                ml: "8px",
+                backgroundColor: "#012d5a",
+                color: "white",
+              }}
             >
-              Filter
+              {/*Filter*/}
+              <FilterAltIcon />
             </Button>
             <div>
               <Popover
@@ -689,23 +881,6 @@ export default function DashCurrentRequests({
                 }}
               >
                 <div className={`${styles.filterSelectors}`}>
-                  <Button
-                    variant={"contained"}
-                    onClick={() => {
-                      setFilterEmployee("Any");
-                      setFilterType("Any");
-                      setFilterPriority("Any");
-                      setFilterStatus("Any");
-                    }}
-                    sx={{
-                      ml: "4px",
-                      mr: "16px",
-                      backgroundColor: "#012d5a",
-                      color: "white",
-                    }}
-                  >
-                    Reset
-                  </Button>
                   <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
                     <InputLabel id="filterEmployeeLabel">Employee</InputLabel>
                     <Select
@@ -733,7 +908,7 @@ export default function DashCurrentRequests({
                       labelId="filterTypeLabel"
                       id="filterType"
                       label="Type"
-                      value={filterType} // Add this line
+                      value={filterType}
                       onChange={(event) =>
                         setFilterType(event.target.value as string)
                       }
@@ -753,6 +928,7 @@ export default function DashCurrentRequests({
                         Room Scheduling
                       </MenuItem>
                       <MenuItem value={"Religious"}>Religious</MenuItem>
+                      <MenuItem value={"Food Delivery"}>Food Delivery</MenuItem>
                     </Select>
                   </FormControl>
                   <FormControl fullWidth size={"small"} sx={{ mx: "4px" }}>
@@ -825,7 +1001,7 @@ export default function DashCurrentRequests({
                 <StyledTableCell align="right">
                   <b>Priority</b>
                 </StyledTableCell>
-                <StyledTableCell align="right">
+                <StyledTableCell align="center">
                   <b>Status</b>
                 </StyledTableCell>
                 <StyledTableCell

@@ -17,6 +17,7 @@ import FloorDisplay from "./DisplayFloor.tsx";
 import ClearPathButton from "./ClearPathButton.tsx";
 import TextDirections from "./TextDirections.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
+import PublicMapLegend from "./PublicMapLegend.tsx";
 import { Box } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -44,7 +45,7 @@ function MapContents() {
   const { isAuthenticated } = useAuth0();
 
   const mapDiv: CSSProperties = {
-    height: "100vh",
+    height: "100%",
     maxWidth: `${isAuthenticated ? "calc(100% - 55px)" : "100%"}`,
     float: `${isAuthenticated ? "right" : "none"}`,
     position: `${isAuthenticated ? "relative" : "absolute"}`,
@@ -95,6 +96,7 @@ function MapContents() {
   return (
     <div style={mapDiv}>
       <TextDirections />
+      <PublicMapLegend />
       <Box
         sx={{
           right: 0,
@@ -115,8 +117,8 @@ function MapContents() {
           left: 0,
           display: "flex",
           flexDirection: "column",
-          marginTop: "11vh",
-          marginLeft: "2vw",
+          marginTop: "10vh",
+          marginLeft: "1vw",
           backgroundColor: editorMode === EditorMode.disabled ? "white" : null,
           zIndex: 3,
           padding: "1rem",
