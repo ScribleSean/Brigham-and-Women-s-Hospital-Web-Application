@@ -9,7 +9,7 @@ const gabeFrames = [
   "/characterSprites/gabe6.png",
 ];
 const gabeHead = "/heads/gabeHead.png";
-const gabePassive = "Shields spawn at an increased rate";
+const gabePassive = "Extra Thick: Shields spawn at an increased rate";
 const gabeRole = "Backend Lead";
 const gabeQuote =
   '"I be goofy, kinda funny. Acting stupid but they love me." - Mac Miller';
@@ -40,7 +40,7 @@ const joseFrames = [
 const joseHead = "/heads/joseHead.png";
 const josePassive =
   "Ethereal Existence: Starts as a mortal cartographer with just one health point, but his health has infinite potential for expansion";
-const joseRole = "Algorithms Yoda";
+const joseRole = "Algorithms Lead";
 const joseQuote = '"Un vaso es un vaso y un plato es un plato" - Mariano Rajoy';
 const joseBackstory =
   "Physically detached from everyday interactions, nestled among ancient oak trees and class diagrams, this sage devoted his entire being to the intricate art of map-making. This enlightenment drove him to the brink of madness but also flung wide open the doors of his heart";
@@ -69,7 +69,8 @@ const christianFrames = [
   "/characterSprites/christian9.png",
 ];
 const christianHead = "/heads/christianHead.png";
-const christianPassive = "Saved shields grant stacking speed";
+const christianPassive =
+  "Professional Hoarder: Saved shields grant stacking speed";
 const christianRole = "Lead Software Developer";
 const christianQuote =
   "There's smoke in my iris. But I painted a sunny day on the insides of my eyelids - Aesop Rock";
@@ -93,10 +94,12 @@ const sophiaFrames = [
   "/characterSprites/sophia2.png",
 ];
 const sophiaHead = "/heads/sophiaHead.png";
-const sophiaPassive = "passive";
-const sophiaRole = "frontend";
-const sophiaQuote = "quote";
-const sophiaBackstory = "backStory";
+const sophiaPassive =
+  "Woman in STEM: regenerate a heart every 20 seconds if not at full health";
+const sophiaRole = "Frontend";
+const sophiaQuote = "Fashion over function -Coco Chanel";
+const sophiaBackstory =
+  "Centuries of being a woman in a male dominated field have shaped her to become stronger than all her male peers. This strength is shown in her expert healing abilities.";
 const Sophia = new Character(
   "Sofia",
   3,
@@ -119,7 +122,7 @@ const timothyFrames = [
 const timothyHead = "/heads/timothyHead.png";
 const timothyPassive =
   "Professor Zoom: All controls are inverted but you are extremely fast";
-const timothyRole = "frontend";
+const timothyRole = "Frontend";
 const timothyQuote =
   "I don't really care about fame or recognition. I just totally dig on advancing knowledge! -Jimmy Lightning Peggle";
 const timothyBackstory =
@@ -145,7 +148,7 @@ const peterFrames = [
 const peterHead = "/heads/peterHead.png";
 const peterPassive =
   "Atomic Sneeze: after taking damage send out a sneeze that repels all diseases on screen, but heart pickups are unavailable";
-const peterRole = "frontend";
+const peterRole = "Frontend";
 const peterQuote =
   "Real G's move in silence like lasagna -Lil Wayne 6 Foot 7 Foot";
 const peterBackstory =
@@ -171,16 +174,17 @@ const madduxFrames = [
   "/characterSprites/maddux5.png",
 ];
 const madduxHead = "/heads/madduxHead.png";
-const madduxPassive = "passive";
-const madduxRole = "frontend";
+const madduxPassive = "Powerlifting: Shields last longer when activated.";
+const madduxRole = "Algorithms";
 const madduxQuote =
   "If possible, as far as it depends on you, live at peace with everyone. - Romans";
-const madduxBackstory = "backStory";
+const madduxBackstory =
+  "If wondering around the gym, you may be able to find him moving tons of weight at a time. He intimidates lesser individuals with his deep smolder.";
 const Maddux = new Character(
   "Maddux",
-  3,
   4,
-  4,
+  2,
+  2,
   madduxPassive,
   madduxFrames,
   madduxHead,
@@ -193,17 +197,21 @@ const seanFrames = [
   "/characterSprites/sean1.png",
   "/characterSprites/sean2.png",
   "/characterSprites/sean3.png",
+  "/characterSprites/sean4.png",
+  "/characterSprites/sean5.png",
 ];
 const seanHead = "/heads/seanHead.png";
-const seanPassive = "passive";
-const seanRole = "frontend";
+const seanPassive =
+  "Regeneration: After 5 seconds of inactivity, you regain a heart";
+const seanRole = "Backend";
 const seanQuote = "I smoked away my brain -A$AP Rocky";
-const seanBackstory = "backStory";
+const seanBackstory =
+  "No one is sure where he came from, but he's here and people think he's chill. It seems his hair has a mind of its own.";
 const Sean = new Character(
   "Sean",
   3,
+  1,
   4,
-  5,
   seanPassive,
   seanFrames,
   seanHead,
@@ -225,11 +233,12 @@ const lorenzoFrames = [
   "/characterSprites/lorenzo10.png",
 ];
 const lorenzoHead = "/heads/lorenzoHead.png";
-const lorenzoPassive = "passive";
-const lorenzoRole = "backend";
-const lorenzoQuote = "quote";
+const lorenzoPassive = "Stainless Steel: Starts each game with 2 shields";
+const lorenzoRole = "Backend";
+const lorenzoQuote =
+  "I visualize a time when we will be to robots what dogs are to humans, and I'm rooting for the machines -Claude Shannon";
 const lorenzoBackstory =
-  "Obsessed with immortality, he transferred his brain into an android body, granting him the eternity he sought but at the cost of his humanity. Now only the virus can pass through his mechanical shell and destroy his mind";
+  "Obsessed with immortality, he transferred his brain into an android body, granting him the eternity he sought but at the cost of his humanity.";
 const Lorenzo = new Character(
   "Lorenzo",
   3,
@@ -250,11 +259,13 @@ const ethanFrames = [
   "/characterSprites/ethan4.png",
 ];
 const ethanHead = "/heads/ethanHead.png";
-const ethanPassive = "Randomly teleports to an unoccupied space";
+const ethanPassive =
+  "Chorus Conundrum: Randomly teleports to an unoccupied space";
 const ethanRole = "Frontend";
 const ethanQuote =
   "And such were some of you: but ye are washed, but ye are sanctified, but ye are justified in the name of the Lord Jesus, and by the Spirit of our God. - 1 Corinthians 6:11";
-const ethanBackstory = "backStory";
+const ethanBackstory =
+  "A diet of a few too many chorus fruits has turned him into a block-like creature. It's hard for him to control his powers.";
 const Ethan = new Character(
   "Ethan",
   3,
@@ -325,14 +336,17 @@ const Joseph = new Character(
 
 const gusFrames = ["/characterSprites/gus1.png", "/characterSprites/gus2.png"];
 const gusHead = "/heads/gusHead.png";
-const gusPassive = "passive";
-const gusRole = "frontend";
-const gusQuote = "quote";
-const gusBackstory = "backStory";
+const gusPassive =
+  "War Scream: All diseases are smaller due to his piercing repetition of house music";
+const gusRole = "Frontend";
+const gusQuote =
+  "In theory there's no difference between theory and practice. In practice there is -Yogi Berra";
+const gusBackstory =
+  "His true origins are a mystery, some say he appeared on day in the basement of SAE. Too much house music has affected his mind.";
 const Gus = new Character(
   "Gus",
   3,
-  4,
+  3,
   2,
   gusPassive,
   gusFrames,
