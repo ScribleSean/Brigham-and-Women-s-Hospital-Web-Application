@@ -41,7 +41,6 @@ import brigRouter from "./routes/brigham-breakout/brigGameRouter.ts";
 import brigAllTime from "./routes/brigham-breakout/breakoutAllTimeRouter.ts";
 import brigToday from "./routes/brigham-breakout/breakoutTodayRouter.ts";
 import addEmployee from "./routes/addEmployee.ts";
-import brigRouter from "./routes/breakoutGameRouter.ts";
 import brigBreakUserLoginRouter from "./routes/brigBreakUserLoginRouter.ts";
 import brigBreakUnlockRouter from "./routes/brigBreakUnlockRouter.ts";
 
@@ -68,8 +67,10 @@ app.use("/api/medical-device-service-request", medicalDeviceRouter);
 app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
 app.use("/api/religious-service-request", religiousServiceRequestRouter);
 app.use("/api/gift-service-request", giftServiceRequestRouter);
+app.use("/api/food-delivery-service-request", foodDeliveryRequestRouter);
 app.use("/api/brig-hs-request", brigRouter);
-
+app.use("/api/hs-all-time", brigAllTime);
+app.use("/api/hs-today", brigToday);
 // api fetch (for the dropdowns)
 app.use("/api/room-name-fetch", roomNameFetchRouter);
 app.use("/api/employee-email-fetch", employeeEmailFetchRouter);

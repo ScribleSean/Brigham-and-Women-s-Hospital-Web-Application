@@ -3,8 +3,21 @@ CREATE TABLE "BreakOutHighScore" (
     "HSID" SERIAL NOT NULL,
     "initial" TEXT NOT NULL,
     "time" INTEGER NOT NULL,
+    "character" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "BreakOutHighScore_pkey" PRIMARY KEY ("HSID")
+);
+
+-- CreateTable
+CREATE TABLE "BrighamBreakoutUsers" (
+    "userID" SERIAL NOT NULL,
+    "username" TEXT NOT NULL,
+    "highscore" INTEGER NOT NULL,
+    "joeUnlocked" BOOLEAN NOT NULL,
+    "wongUnlocked" BOOLEAN NOT NULL,
+
+    CONSTRAINT "BrighamBreakoutUsers_pkey" PRIMARY KEY ("userID")
 );
 
 -- CreateTable
@@ -126,6 +139,9 @@ CREATE TABLE "MedicineDeliveryServiceRequest" (
 
     CONSTRAINT "MedicineDeliveryServiceRequest_pkey" PRIMARY KEY ("SRID")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "BrighamBreakoutUsers_username_key" ON "BrighamBreakoutUsers"("username");
 
 -- AddForeignKey
 ALTER TABLE "Edge" ADD CONSTRAINT "Edge_startNodeID_fkey" FOREIGN KEY ("startNodeID") REFERENCES "Node"("nodeID") ON DELETE CASCADE ON UPDATE CASCADE;
