@@ -27,6 +27,7 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Box,
 } from "@mui/material";
 import {
   displayToImageCoordinates,
@@ -49,8 +50,8 @@ function startBorderNode(node: Node, path: Path) {
 
 function endBorderNode(node: Node, path: Path) {
   const len: number = path.edges.length;
-  if (len === 1) return false;
-  return path.edges[len - 2].endNode.ID === node.ID;
+  if (len === 1) return true;
+  return path.edges[len - 1].startNode.ID === node.ID;
 }
 
 export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
@@ -87,6 +88,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     setEdgeEndNode,
     edgesToBeAdded,
     setEdgesToBeAdded,
+    selectedNodes,
+    fixingEdges,
   } = useMapContext();
 
   const [triggerRed, setTriggerRed] = useState<boolean>(false);
@@ -136,6 +139,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         return path.edges.some((edge) => {
           return (
             startBorderNode(node, path) &&
+            paths.length >= 0 &&
+            directionsCounter < paths.length &&
             (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
             (node.type === "ELEV" || node.type === "STAI") &&
             paths[directionsCounter].edges[0].startNode.ID === node.ID
@@ -152,11 +157,13 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         return path.edges.some((edge) => {
           return (
             endBorderNode(node, path) &&
+            paths.length >= 0 &&
+            directionsCounter < paths.length &&
             (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
             (node.type === "ELEV" || node.type === "STAI") &&
             paths[directionsCounter].edges[
-              paths[directionsCounter].edges.length - 2
-            ].endNode.ID === node.ID
+              paths[directionsCounter].edges.length - 1
+            ].startNode.ID === node.ID
           );
         });
       });
@@ -194,7 +201,20 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     heightScaling,
   );
 
-  const changingFloorNodeStyle: CSSProperties = {
+  const changingFloorNodeStyleBack: CSSProperties = {
+    position: "absolute",
+    left: `${displayX}px`,
+    top: `${displayY}px`,
+    zIndex: 11,
+    marginTop:
+      nodeInPathChangingFloorStart(node, paths) &&
+      nodeInPathChangingFloorEnd(node, paths) &&
+      paths[directionsCounter].edges.length === 1
+        ? "25px"
+        : 0,
+  };
+
+  const changingFloorNodeStyleNext: CSSProperties = {
     position: "absolute",
     left: `${displayX}px`,
     top: `${displayY}px`,
@@ -239,23 +259,35 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
   const hidden: CSSProperties = {
     opacity: 0,
   };
+  const [startMousePosition, setStartMousePosition] = useState<{
+    x: number;
+    y: number;
+  }>({ x: 0, y: 0 });
 
   const handleMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
     setDisableZoomPanning(true);
     setDragging(true);
     setDragged(true);
     event.preventDefault();
+    const { imageX, imageY } = displayToImageCoordinates(
+      event.clientX,
+      event.clientY,
+      translationX,
+      translationY,
+      scale,
+      widthScaling,
+      heightScaling,
+    );
+    setStartMousePosition({ x: imageX, y: imageY });
   };
 
   const handleMouseMove = useCallback(
     (event: MouseEvent) => {
       if (!dragging) return;
-
       console.log("Mouse Position:", event.clientX, event.clientY);
       console.log("Translations:", translationX, translationY);
       console.log("Scale:", scale);
       console.log("Width & Height Scaling:", widthScaling, heightScaling);
-
       // Calculate the new position of the node based on mouse movement
       const { imageX, imageY } = displayToImageCoordinates(
         event.clientX,
@@ -267,6 +299,9 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         heightScaling,
       );
       console.log("Converted Coordinates:", imageX, imageY);
+      const deltaX: number = imageX - startMousePosition.x;
+      const deltaY: number = imageY - startMousePosition.y;
+      console.error(deltaX);
 
       const newNode: Node = new Node(
         node.ID,
@@ -279,20 +314,36 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         node.shortName,
       );
 
-      setEditedNode(newNode);
+      if (
+        graph &&
+        selectedNodes.length > 0 &&
+        selectedNodes.some((nodeID: string) => nodeID === node.ID)
+      ) {
+        setStartMousePosition({
+          x: startMousePosition.x + deltaX,
+          y: startMousePosition.y + deltaY,
+        });
+        setGraph(graph.editNodes(selectedNodes, deltaX, deltaY));
+        setUnsavedChanges(true);
+        setIsSaved(false);
+      } else {
+        setEditedNode(newNode);
 
-      const newOldNewNode: OldNewNode = {
-        newNode: editedNode,
-        oldNode: node,
-      };
-      if (graph) {
-        setGraph(graph.editNode(editedNode));
+        const newOldNewNode: OldNewNode = {
+          newNode: editedNode,
+          oldNode: node,
+        };
+        if (graph) {
+          setGraph(graph.editNode(editedNode));
+        }
+        setUnsavedChanges(true);
+        setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
+        setIsSaved(false);
       }
-      setUnsavedChanges(true);
-      setNodesToBeEdited([...nodesToBeEdited, newOldNewNode]);
-      setIsSaved(false);
     },
     [
+      startMousePosition,
+      selectedNodes,
       dragging,
       translationX,
       translationY,
@@ -343,7 +394,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
 
   const handleDeleteNode = (deletedNode: Node): void => {
     if (graph) {
-      setGraph(graph.removeNode(node.ID));
+      if (fixingEdges) {
+        setGraph(graph.removeNodeFixing(node.ID));
+      } else {
+        setGraph(graph.removeNode(node.ID));
+      }
       setNodesToBeDeleted([...nodesToBeDeleted, deletedNode]);
       setUnsavedChanges(true);
     }
@@ -439,21 +494,38 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
     }
   };
 
-  // if (editorMode === EditorMode.deleteNodes) {
-  //   return (
-  //     <button
-  //       className="none"
-  //       style={normalNodeStyle}
-  //       onClick={() => handleDeleteNode(node)}
-  //     />
-  //   );
-  // }
+  const selectedNodeStyle: CSSProperties = {
+    position: "absolute",
+    left: `calc(${displayX}px - 2px)`,
+    top: `calc(${displayY}px - 2px)`,
+    zIndex: 11,
+    borderRadius: "100%",
+    padding: "0",
+    borderColor: "red",
+    backgroundColor: "red",
+  };
+
+  if (selectedNodes.some((nodeID: string) => nodeID === node.ID)) {
+    return (
+      <div>
+        <button
+          className="node-selector"
+          style={{
+            ...selectedNodeStyle,
+            cursor: dragging ? "grabbing" : "grab",
+          }}
+          onMouseDown={handleMouseDown}
+          onClick={() => handleAddEdge()}
+        ></button>
+      </div>
+    );
+  }
 
   /*useEffect(() => {
-      if (editorMode === EditorMode.addEdges) {
-        setSelectedOption("showBoth");
-      }
-    }, [editorMode, setSelectedOption]);*/
+        if (editorMode === EditorMode.addEdges) {
+          setSelectedOption("showBoth");
+        }
+      }, [editorMode, setSelectedOption]);*/
 
   if (editorMode === EditorMode.addEdges) {
     if (showNodes) {
@@ -501,13 +573,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
             {nodeInPathChangingFloorStart(node, paths) && (
               <React.Fragment>
                 {node.type === NodeType.ELEV ? (
-                  <div style={changingFloorNodeStyle}>
-                    <ElevatorIcon
-                      onClick={handleChangingFloorBackNodeClick}
-                      sx={{
-                        cursor: "pointer",
-                      }}
-                    />
+                  <div style={changingFloorNodeStyleBack}>
                     <Typography
                       variant="button"
                       onClick={handleChangingFloorBackNodeClick}
@@ -523,22 +589,32 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      Elevator Back to Floor {""}
-                      {directionsCounter - 1 >= 0
-                        ? paths[directionsCounter - 1].edges[
+                      <Box
+                        sx={{
+                          ":hover": {
+                            backgroundColor: "white",
+                          },
+                          padding: "2px",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <ElevatorIcon
+                          onClick={handleChangingFloorBackNodeClick}
+                          sx={{
+                            cursor: "pointer",
+                          }}
+                        />
+                        Elevator Back to Floor {""}
+                        {
+                          paths[directionsCounter - 1].edges[
                             paths[directionsCounter - 1].edges.length - 1
                           ].startNode.floor
-                        : ""}
+                        }
+                      </Box>
                     </Typography>
                   </div>
                 ) : (
-                  <div style={changingFloorNodeStyle}>
-                    <StairsIcon
-                      onClick={handleChangingFloorBackNodeClick}
-                      sx={{
-                        cursor: "pointer",
-                      }}
-                    />
+                  <div style={changingFloorNodeStyleBack}>
                     <Typography
                       variant="button"
                       onClick={handleChangingFloorBackNodeClick}
@@ -547,6 +623,11 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         fontWeight: "bold",
                         fontFamily: "inter",
                         transition: "font-size 0.3s ease",
+                        marginTop:
+                          nodeInPathChangingFloorStart(node, paths) &&
+                          nodeInPathChangingFloorEnd(node, paths)
+                            ? "50px"
+                            : 0,
                         ":hover": {
                           backgroundColor: "white",
                           fontSize: "1rem",
@@ -554,12 +635,28 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      Stairs Back to Floor {""}
-                      {directionsCounter - 1 >= 0
-                        ? paths[directionsCounter - 1].edges[
+                      <Box
+                        sx={{
+                          ":hover": {
+                            backgroundColor: "white",
+                          },
+                          padding: "2px",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <StairsIcon
+                          onClick={handleChangingFloorBackNodeClick}
+                          sx={{
+                            cursor: "pointer",
+                          }}
+                        />
+                        Stairs Back to Floor {""}
+                        {
+                          paths[directionsCounter - 1].edges[
                             paths[directionsCounter - 1].edges.length - 1
                           ].startNode.floor
-                        : ""}
+                        }
+                      </Box>
                     </Typography>
                   </div>
                 )}
@@ -568,13 +665,7 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
             {nodeInPathChangingFloorEnd(node, paths) && (
               <React.Fragment>
                 {node.type === NodeType.ELEV ? (
-                  <div style={changingFloorNodeStyle}>
-                    <ElevatorIcon
-                      onClick={handleChangingFloorNextNodeClick}
-                      sx={{
-                        cursor: "pointer",
-                      }}
-                    />
+                  <div style={changingFloorNodeStyleNext}>
                     <Typography
                       variant="button"
                       onClick={handleChangingFloorNextNodeClick}
@@ -590,20 +681,31 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      Elevator to Floor {""}
-                      {paths.length > directionsCounter + 1
-                        ? paths[directionsCounter + 1].edges[0].startNode.floor
-                        : ""}
+                      <Box
+                        sx={{
+                          ":hover": {
+                            backgroundColor: "white",
+                          },
+                          padding: "2px",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <ElevatorIcon
+                          onClick={handleChangingFloorNextNodeClick}
+                          sx={{
+                            cursor: "pointer",
+                          }}
+                        />
+                        Elevator to Floor {""}
+                        {paths[directionsCounter + 1]
+                          ? paths[directionsCounter + 1].edges[0].startNode
+                              .floor
+                          : FloorType.first}
+                      </Box>
                     </Typography>
                   </div>
                 ) : (
-                  <div style={changingFloorNodeStyle}>
-                    <StairsIcon
-                      onClick={handleChangingFloorNextNodeClick}
-                      sx={{
-                        cursor: "pointer",
-                      }}
-                    />
+                  <div style={changingFloorNodeStyleNext}>
                     <Typography
                       variant="button"
                       onClick={handleChangingFloorNextNodeClick}
@@ -619,10 +721,38 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      Stairs to Floor {""}
-                      {paths.length > directionsCounter + 1
-                        ? paths[directionsCounter + 1].edges[0].startNode.floor
-                        : ""}
+                      {paths.length > directionsCounter + 1 && (
+                        <Box
+                          sx={{
+                            ":hover": {
+                              backgroundColor: "white",
+                            },
+                            padding: "2px",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          <StairsIcon
+                            onClick={
+                              paths.length > directionsCounter + 1
+                                ? handleChangingFloorNextNodeClick
+                                : undefined
+                            }
+                            sx={{
+                              cursor:
+                                paths.length > directionsCounter + 1
+                                  ? "pointer"
+                                  : "cursor",
+                              opacity:
+                                paths.length > directionsCounter + 1 ? 1 : 0,
+                            }}
+                          />
+                          Stairs to Floor{" "}
+                          {
+                            paths[directionsCounter + 1].edges[0].startNode
+                              .floor
+                          }
+                        </Box>
+                      )}
                     </Typography>
                   </div>
                 )}

@@ -13,8 +13,13 @@ import {
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { giftDeliveryRequest } from "common/src/backend_interfaces/giftDeliveryRequest.ts";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
-function GiftFields() {
+function GiftFields({
+  setReqData,
+}: {
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
+}) {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
 
   const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
@@ -25,8 +30,8 @@ function GiftFields() {
     try {
       const response = await axios.get("/api/employee-email-fetch");
       const employeeData = response.data.map(
-        (employee: { name: string; employeeEmail: string }) => ({
-          name: employee.name,
+        (employee: { employeeFullName: string; employeeEmail: string }) => ({
+          name: employee.employeeFullName,
           employeeEmail: employee.employeeEmail,
         }),
       );
@@ -134,6 +139,13 @@ function GiftFields() {
     });
   };
 
+  async function fetchData() {
+    const res = await axios.get("/api/service-request");
+    console.log(res);
+    setReqData(res.data);
+    console.log("successfully got data from get request");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // comment back out if it is only a gabe issue
 
@@ -147,6 +159,7 @@ function GiftFields() {
       console.error("Unable to create form");
       console.log(error);
     }
+    fetchData().then();
     setSnackbarIsOpen(true);
     resetForm();
   };
@@ -168,6 +181,10 @@ function GiftFields() {
             <Autocomplete
               id="employeeEmail"
               options={employeeEmailOptions}
+              sx={{
+                marginRight: "2%",
+                width: "100%",
+              }}
               fullWidth
               renderInput={(params) => (
                 <TextField {...params} label="Employee" required />

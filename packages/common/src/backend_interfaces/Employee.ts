@@ -1,6 +1,10 @@
 export interface EmployeeType {
   employeeEmail: string;
-  name: string;
-  position: string;
+  employeeFirstName: string;
+  employeeLastName: string;
+  employeeFullName: string;
+  employeePosition: string;
+  employeePermission: string;
   numberOfServiceRequests: number;
+  employeeID: number;
 }

@@ -13,8 +13,13 @@ import {
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MedicalDevice } from "common/src/backend_interfaces/medicalDeviceRequest.ts";
+import { ServiceRequest } from "common/src/backend_interfaces/ServiceRequest.ts";
 
-function MedicalDeviceFields() {
+function MedicalDeviceFields({
+  setReqData,
+}: {
+  setReqData: React.Dispatch<React.SetStateAction<ServiceRequest[]>>;
+}) {
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
   const [employeeEmailOptions, setemployeeEmailOptions] = useState<string[]>(
     [],
@@ -24,8 +29,8 @@ function MedicalDeviceFields() {
     try {
       const response = await axios.get("/api/employee-email-fetch");
       const employeeData = response.data.map(
-        (employee: { name: string; employeeEmail: string }) => ({
-          name: employee.name,
+        (employee: { employeeFullName: string; employeeEmail: string }) => ({
+          name: employee.employeeFullName,
           employeeEmail: employee.employeeEmail,
         }),
       );
@@ -182,6 +187,13 @@ function MedicalDeviceFields() {
     });
   };
 
+  async function fetchData() {
+    const res = await axios.get("/api/service-request");
+    console.log(res);
+    setReqData(res.data);
+    console.log("successfully got data from get request");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // comment back out if it is only a gabe issue
 
@@ -198,6 +210,7 @@ function MedicalDeviceFields() {
       console.error("Unable to create form");
       console.log(error);
     }
+    fetchData().then();
     setSnackbarIsOpen(true);
     resetForm();
   };
@@ -220,6 +233,10 @@ function MedicalDeviceFields() {
               id="employeeEmail"
               options={employeeEmailOptions}
               fullWidth
+              sx={{
+                marginRight: "2%",
+                width: "100%",
+              }}
               renderInput={(params) => (
                 <TextField {...params} label="Employee" required />
               )}

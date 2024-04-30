@@ -8,6 +8,7 @@ import LogoutButton from "./LogoutButton.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import PlayCircleOutlineOutlinedIcon from "@mui/icons-material/PlayCircleOutlineOutlined";
 
 function RightSide() {
   const { isAuthenticated, user } = useAuth0();
@@ -110,6 +111,19 @@ function Banner() {
               href={"/credits"}
             >
               <CopyrightIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={"Brigham Breakout"} arrow>
+            <IconButton
+              sx={{
+                color: "#012d5a",
+                "&:hover": {
+                  color: "#1665c0",
+                },
+              }}
+              href={"/brigham-breakout-start"}
+            >
+              <PlayCircleOutlineOutlinedIcon />
             </IconButton>
           </Tooltip>
         </div>

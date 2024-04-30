@@ -1,68 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { edge } from "common/src/interfaces.ts";
 import {
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  tableCellClasses,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+  DataGrid,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
+import FileUpload from "./FileUpload.tsx";
+import { Box } from "@mui/material";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#012D5A",
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+const columns = [
+  { field: "edgeID", headerName: "Edge ID", flex: 1 },
+  { field: "startNodeID", headerName: "Start Node ID", flex: 1 },
+  { field: "endNodeID", headerName: "End Node ID", flex: 1 },
+];
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-const StyledTableContainer = styled(TableContainer)(() => ({
-  borderRadius: 10, // Adjust the value as per your preference
-}));
-
-function GenerateTableRowsEdges(tableData: edge[]): JSX.Element[] {
-  return tableData.map((item, index) => (
-    <StyledTableRow key={index}>
-      <StyledTableCell>{tableData[index].edgeID}</StyledTableCell>
-      <StyledTableCell>{tableData[index].startNodeID}</StyledTableCell>
-      <StyledTableCell>{tableData[index].endNodeID}</StyledTableCell>
-    </StyledTableRow>
-  ));
+function CustomToolbar({ onFileDrop }: { onFileDrop: (file: File) => void }) {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
+      <Box sx={{ flexGrow: 1 }} />
+      <GridToolbarExport />
+      <FileUpload onFileDrop={onFileDrop} />
+    </GridToolbarContainer>
+  );
 }
 
-const TableEdges: React.FC<{ tableData: edge[] }> = ({ tableData }) => {
+const DataGridEdges: React.FC<{
+  tableData: edge[];
+  onFileDrop: (file: File) => void;
+}> = ({ tableData, onFileDrop }) => {
   return (
-    <StyledTableContainer>
-      <Table size={"small"}>
-        <TableHead>
-          <StyledTableRow>
-            <StyledTableCell>Edge ID</StyledTableCell>
-            <StyledTableCell>Start Node ID</StyledTableCell>
-            <StyledTableCell>End Node ID</StyledTableCell>
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>{GenerateTableRowsEdges(tableData)}</TableBody>
-      </Table>
-    </StyledTableContainer>
+    <div style={{ width: "100%" }}>
+      <DataGrid
+        rows={tableData}
+        columns={columns}
+        slots={{
+          toolbar: () => <CustomToolbar onFileDrop={onFileDrop} />,
+        }}
+      />
+    </div>
   );
 };
 
-export const GetDataEdges = () => {
+interface GetDataEdgesProps {
+  dataUpdated: boolean;
+}
+export const GetDataEdges: React.FC<
+  GetDataEdgesProps & { onFileDrop: (file: File) => void }
+> = ({ dataUpdated, onFileDrop }) => {
   const [data, setData] = useState<edge[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -82,8 +72,13 @@ export const GetDataEdges = () => {
         // Parse the JSON response
         const result = await response.json();
 
+        const dataWithIDs = result.map((item: edge) => ({
+          ...item,
+          id: item.edgeID,
+        }));
+
         // Set the data in the state
-        setData(result);
+        setData(dataWithIDs);
       } catch (err) {
         // Handle errors
         console.log(err);
@@ -94,7 +89,7 @@ export const GetDataEdges = () => {
     };
 
     fetchData().then();
-  }, []); //
+  }, [dataUpdated]); //
 
   if (loading) {
     return <div>Loading...</div>;
@@ -102,7 +97,7 @@ export const GetDataEdges = () => {
 
   return (
     <div>
-      <TableEdges tableData={data}></TableEdges>
+      <DataGridEdges tableData={data} onFileDrop={onFileDrop}></DataGridEdges>
     </div>
   );
 };

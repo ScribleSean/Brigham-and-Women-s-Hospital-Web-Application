@@ -13,9 +13,26 @@ datasource db {
 }
 
 model BreakOutHighScore {
-  HSID    Int    @id @default(autoincrement())
-  initial String
-  time    String
+  HSID      Int      @id @default(autoincrement())
+  initial   String
+  time      Int
+  character String
+  date      DateTime
+}
+
+model BrighamBreakoutUsers {
+  userID       Int     @id @default(autoincrement())
+  username     String  @unique
+  highscore    Int
+  joeUnlocked  Boolean
+  wongUnlocked Boolean
+}
+
+model weather {
+  WID  Int    @id
+  temp Float
+  date String
+  time String
 }
 
 model Edge {
@@ -56,15 +73,20 @@ model ServiceRequest {
   GiftServiceRequest             GiftServiceRequest?             @relation("GiftServiceRequest")
   MedicineDeliveryServiceRequest MedicineDeliveryServiceRequest? @relation("MedicineDeliveryServiceRequest")
   ReligiousServiceRequest        ReligiousServiceRequest?        @relation("ReligiousServiceRequest")
+  FoodDeliveryServiceRequest     FoodDeliveryServiceRequest?     @relation("FoodDeliveryServiceRequest")
   Employee                       Employee                        @relation(fields: [employeeEmail], references: [employeeEmail], onDelete: Cascade)
   Node                           Node                            @relation(fields: [location], references: [nodeID], onDelete: Cascade)
 }
 
 model Employee {
   employeeEmail           String           @id
-  name                    String
-  position                String
+  employeeFirstName       String
+  employeeLastName        String
+  employeeFullName        String
+  employeePosition        String
+  employeePermission      String
   numberOfServiceRequests Int
+  employeeID              Int
   ServiceRequests         ServiceRequest[]
 }
 
@@ -105,6 +127,15 @@ model GiftServiceRequest {
   receiverName   String
   giftType       String
   deliveryDate   String
+}
+
+model FoodDeliveryServiceRequest {
+  ServiceRequest ServiceRequest @relation("FoodDeliveryServiceRequest", fields: [SRID], references: [SRID])
+  SRID           Int            @id
+  foodItem       String
+  foodQuantity   String
+  utensilItem    String
+  deliveryTime   String
 }
 
 model MedicineDeliveryServiceRequest {

@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import axios from "axios";
 
-function ClearDataButton() {
+function ClearDataButton({ onClear }: { onClear: () => void }) {
   const [dialogueOpen, setDialogueOpen] = useState(false);
 
   const handleConfirm = async () => {
@@ -20,10 +20,10 @@ function ClearDataButton() {
     try {
       const response = await axios.delete("/api/delete-data");
       console.log("Tables Cleared", response.data);
+      onClear(); // Call the callback function
     } catch (error) {
       console.error("Error Clearing Tables", error);
     }
-    location.reload();
   };
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -45,9 +45,9 @@ function ClearDataButton() {
         <DialogTitle>Are you sure?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            This will delete all map node and edge data as well as employee data
-            and connected service requests from the database. This action cannot
-            be undone.
+            This will delete all map node and edge data, employee data, service
+            requests and other tables from the database. This action cannot be
+            undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

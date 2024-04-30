@@ -9,6 +9,9 @@ const Disease = ({
   isAlive,
   playerHP,
   setPlayerHP,
+  isShielded,
+  setSpeed,
+  characterParam,
 }) => {
   const position = useRef({ x: x, y: y });
   const playerRef = useRef(player);
@@ -20,10 +23,10 @@ const Disease = ({
 
   const diseaseData = useMemo(
     () => [
-      { width: 160, height: 160, color: "red" },
-      { width: 65, height: 65, color: "blue" },
-      { width: 70, height: 70, color: "pink" },
-      { width: 65, height: 65, color: "green" },
+      { width: 130, height: 130, color: "red" },
+      { width: 52, height: 52, color: "blue" },
+      { width: 62, height: 62, color: "pink" },
+      { width: 56, height: 56, color: "green" },
     ],
     [],
   );
@@ -51,9 +54,7 @@ const Disease = ({
   }, []);
 
   useEffect(() => {
-    if (!showDisease || !isAlive) {
-      return () => {};
-    } else {
+    if (showDisease && isAlive) {
       position.current = { x: x, y: y };
 
       const playerRect = playerRef.current.getBoundingClientRect();
@@ -65,15 +66,17 @@ const Disease = ({
 
       if (isIntersecting(playerRect, imageRect)) {
         console.log("Collision detected!");
-        setPlayerHP(playerHP - 1);
-        if (playerHP <= 1) {
-          setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+        if (!isShielded) {
+          if (characterParam.name === "Lorenzo") {
+            setSpeed((prevSpeed) => prevSpeed + 30);
+          }
+          setPlayerHP(playerHP - 1);
         }
         setShowDisease(false);
       }
 
-      // Hide the disease after 3 seconds
-      if (elapsedTime >= 20) {
+      // Hide the disease after 15 seconds
+      if (elapsedTime >= 10) {
         setShowDisease(false);
       }
     }
@@ -88,6 +91,9 @@ const Disease = ({
     isAlive,
     playerHP,
     setPlayerHP,
+    isShielded,
+    characterParam.name,
+    setSpeed,
   ]);
 
   const imageSrc = `/${randDisease?.color}Disease${currentFrame + 1}.png`;
@@ -99,8 +105,16 @@ const Disease = ({
           ref={imageRef}
           x={position.current.x}
           y={position.current.y}
-          width={randDisease?.width}
-          height={randDisease?.height}
+          width={
+            characterParam.name === "Gus"
+              ? randDisease?.width - 10
+              : randDisease?.width
+          }
+          height={
+            characterParam.name === "Gus"
+              ? randDisease?.height - 10
+              : randDisease?.height
+          }
           href={imageSrc}
         />
       )}

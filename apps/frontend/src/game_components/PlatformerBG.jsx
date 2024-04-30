@@ -1,6 +1,6 @@
 import React from "react";
 
-const PlatformerBG = () => {
+const PlatformerBG = ({ canvasWidth, canvasHeight }) => {
   const containerStyle = {
     position: "fixed",
     top: 0,
@@ -9,7 +9,7 @@ const PlatformerBG = () => {
     height: "100%",
     zIndex: -1,
     backgroundImage: "url('/backgroundCancerGame.png')",
-    backgroundSize: "cover",
+    backgroundSize: `${canvasWidth}px ${canvasHeight}px`, // Set background size based on canvas dimensions
     backgroundRepeat: "no-repeat",
   };
 
