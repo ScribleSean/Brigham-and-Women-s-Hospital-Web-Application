@@ -21,7 +21,7 @@ const StartScreen = () => {
     fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
     fontSize: "2rem", // Increase font size
     color: "black",
-    backgroundColor: "grey",
+    backgroundColor: "#FFFFFF",
     border: "none",
     padding: "20px 40px", // Increase padding
     textAlign: "center",
@@ -202,7 +202,7 @@ const StartScreen = () => {
             <Button
               type="submit"
               style={{
-                backgroundColor: "#757575FF",
+                backgroundColor: "#4c84af",
                 color: "#FFFFFF",
                 border: "3px solid #FFFFFF",
                 padding: "10px 20px",
