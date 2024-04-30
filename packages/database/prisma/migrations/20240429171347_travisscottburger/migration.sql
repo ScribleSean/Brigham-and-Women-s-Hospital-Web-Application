@@ -46,9 +46,13 @@ CREATE TABLE "ServiceRequest" (
 -- CreateTable
 CREATE TABLE "Employee" (
     "employeeEmail" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "position" TEXT NOT NULL,
+    "employeeFirstName" TEXT NOT NULL,
+    "employeeLastName" TEXT NOT NULL,
+    "employeeFullName" TEXT NOT NULL,
+    "employeePosition" TEXT NOT NULL,
+    "employeePermission" TEXT NOT NULL,
     "numberOfServiceRequests" INTEGER NOT NULL,
+    "employeeID" INTEGER NOT NULL,
 
     CONSTRAINT "Employee_pkey" PRIMARY KEY ("employeeEmail")
 );
@@ -103,6 +107,17 @@ CREATE TABLE "GiftServiceRequest" (
 );
 
 -- CreateTable
+CREATE TABLE "FoodDeliveryServiceRequest" (
+    "SRID" INTEGER NOT NULL,
+    "foodItem" TEXT NOT NULL,
+    "foodQuantity" TEXT NOT NULL,
+    "utensilItem" TEXT NOT NULL,
+    "deliveryTime" TEXT NOT NULL,
+
+    CONSTRAINT "FoodDeliveryServiceRequest_pkey" PRIMARY KEY ("SRID")
+);
+
+-- CreateTable
 CREATE TABLE "MedicineDeliveryServiceRequest" (
     "SRID" INTEGER NOT NULL,
     "medicineType" TEXT NOT NULL,
@@ -138,6 +153,9 @@ ALTER TABLE "ReligiousServiceRequest" ADD CONSTRAINT "ReligiousServiceRequest_SR
 
 -- AddForeignKey
 ALTER TABLE "GiftServiceRequest" ADD CONSTRAINT "GiftServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FoodDeliveryServiceRequest" ADD CONSTRAINT "FoodDeliveryServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MedicineDeliveryServiceRequest" ADD CONSTRAINT "MedicineDeliveryServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;

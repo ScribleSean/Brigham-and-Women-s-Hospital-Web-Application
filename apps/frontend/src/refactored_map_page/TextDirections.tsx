@@ -1,7 +1,7 @@
 import { Path, Edge, NodeType } from "common/src/DataStructures.ts";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useMapContext } from "./MapContext.ts";
-import { Box, Button, ButtonGroup, IconButton } from "@mui/material";
+import { Box, Button, ButtonGroup, Dialog, IconButton } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 import styles from "../styles/TextDirections.module.css";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -14,6 +14,17 @@ import TurnSlightRightIcon from "@mui/icons-material/TurnSlightRight";
 import TurnSlightLeftIcon from "@mui/icons-material/TurnSlightLeft";
 import StraightIcon from "@mui/icons-material/Straight";
 import EastIcon from "@mui/icons-material/East";
+import ElevatorIcon from "@mui/icons-material/Elevator";
+import StairsIcon from "@mui/icons-material/Stairs";
+import PlaceIcon from "@mui/icons-material/Place";
+import ModeStandbyIcon from "@mui/icons-material/ModeStandby";
+import QrCodeIcon from "@mui/icons-material/QrCode";
+import QRCode from "qrcode.react";
+
+function QRPopup({ textDirections }: { textDirections: string[] }) {
+  const value = textDirections.join("\n");
+  return <QRCode value={value} />;
+}
 
 export default TextDirections;
 
@@ -34,6 +45,7 @@ function TextDirections() {
   const [expanded, setExpanded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [maxHeight, setMaxHeight] = useState("0px");
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const toggleExpanded = () => {
     setExpanded((prev) => !prev);
@@ -58,6 +70,12 @@ function TextDirections() {
     return () => window.removeEventListener("resize", updateSize);
   }, [expanded]);
 
+  useEffect(() => {
+    if (expanded && contentRef.current) {
+      setMaxHeight(`${contentRef.current.scrollHeight}px`);
+    }
+  }, [directionsText, expanded]);
+
   const prevDirectionRef = useRef("");
   const floorPaths = useRef(new Array<Path>());
   let prevPathIndex: number = directionsCounter;
@@ -78,12 +96,31 @@ function TextDirections() {
   const generateDirections = useCallback(
     (paths: Array<Path>) => {
       const directions: Array<string> = [];
+      let floorChangeDirection = null;
+      let arrive = null;
 
       if (paths[directionsCounter] && paths[directionsCounter].edges) {
         const currentPathEdges: Array<Edge> = paths[directionsCounter].edges;
+        if (directionsCounter === 0) {
+          directions.push(`Start at ${currentPathEdges[0].startNode.longName}`);
+        }
+        if (currentPathEdges) {
+          if (paths[directionsCounter] === paths[paths.length - 1]) {
+            arrive = `Arrive at ${currentPathEdges[currentPathEdges.length - 1].endNode.longName}`;
+          }
+        }
+        // } else if (directionsCounter === paths.length - 1) {
+        //   arrive = `Arrive at ${currentPathEdges[currentPathEdges.length - 1].endNode.longName}`;
+        // }
         for (let i = 0; i < currentPathEdges.length - 1; i++) {
           const currentEdge = currentPathEdges[i];
           const nextEdge = currentPathEdges[i + 1];
+
+          if (nextEdge.startNode.type == NodeType.ELEV) {
+            floorChangeDirection = `Take ${nextEdge.startNode.shortName} to floor ${nextEdge.endNode.floor}`;
+          } else if (nextEdge.startNode.type == NodeType.STAI) {
+            floorChangeDirection = `Take ${nextEdge.startNode.shortName} to floor ${nextEdge.endNode.floor}`;
+          }
 
           if (currentEdge.startNode.type) {
             const dx1 = currentEdge.endNode.x - currentEdge.startNode.x;
@@ -139,11 +176,11 @@ function TextDirections() {
                 if (nextEdge.endNode.type === NodeType.HALL) {
                   detail = "";
                 } else {
-                  detail = ` towards ${nextEdge.endNode.shortName}`;
+                  detail = ` towards ${nextEdge.endNode.longName}`;
                 }
               } else {
                 if (nextEdge.endNode.type === NodeType.HALL) {
-                  detail = ` at ${currentEdge.startNode.shortName}`;
+                  detail = ` at ${currentEdge.startNode.longName}`;
                 } else {
                   detail = "";
                 }
@@ -175,14 +212,45 @@ function TextDirections() {
         directions.length === 0
       ) {
         directions.push(
-          `Continue straight towards ${paths[directionsCounter].edges[0].endNode.shortName}`,
+          `Continue straight towards ${paths[directionsCounter].edges[0].endNode.longName}`,
         );
+      }
+
+      if (floorChangeDirection) {
+        directions.push(floorChangeDirection);
+      }
+
+      if (arrive) {
+        directions.push(arrive);
       }
 
       return directions;
     },
     [directionsCounter],
   );
+
+  const [allFloorsDirections, setAllFloorsDirections] = useState<Array<string>>(
+    [],
+  );
+  const [qrCode, setQrCode] = useState<React.ReactNode>(null);
+
+  const generateAllFloorsDirections = useCallback(() => {
+    const allDirections: Array<string[]> = paths.map((path) =>
+      generateDirections([path]),
+    );
+    setAllFloorsDirections(allDirections.flat());
+    console.log(allDirections.flat());
+  }, [paths, generateDirections]);
+
+  useEffect(() => {
+    generateAllFloorsDirections();
+  }, [generateAllFloorsDirections]);
+
+  useEffect(() => {
+    if (allFloorsDirections.length > 0) {
+      setQrCode(<QRPopup textDirections={allFloorsDirections} />);
+    }
+  }, [allFloorsDirections]);
 
   useEffect(() => {
     const newDirections: Array<string> = generateDirections(paths);
@@ -248,6 +316,16 @@ function TextDirections() {
       return <TurnSlightLeftIcon />;
     } else if (direction.includes("Continue straight")) {
       return <StraightIcon />;
+    } else if (direction.includes("Take")) {
+      if (direction.includes("Elevator")) {
+        return <ElevatorIcon />;
+      } else {
+        return <StairsIcon />;
+      }
+    } else if (direction.includes("Start")) {
+      return <PlaceIcon />;
+    } else if (direction.includes("Arrive")) {
+      return <ModeStandbyIcon />;
     } else {
       return null;
     }
@@ -262,13 +340,27 @@ function TextDirections() {
 
   return (
     <div>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <Box sx={{ padding: "1rem" }}>{qrCode}</Box>
+      </Dialog>
       {startNode && endNode ? (
         <div className={`${styles.directionsContainer}`}>
           <div className={`${styles.textDirectionsContainer}`}>
             <div className={styles.directionsHeader}>
-              <h5>Text Directions</h5>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <h5 style={{ marginRight: "8px" }}>Text Directions</h5>
+                <IconButton onClick={() => setDialogOpen(true)}>
+                  <QrCodeIcon />
+                </IconButton>
+              </div>
               <IconButton onClick={toggleExpanded}>
-                {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
               </IconButton>
             </div>
             <div
@@ -276,7 +368,7 @@ function TextDirections() {
               style={{
                 maxHeight: maxHeight,
                 overflow: "hidden",
-                transition: "max-height 0.5s ease-in-out",
+                transition: "max-height 0.2s ease-in-out",
               }}
             >
               <div className={`${styles.directionsContent}`}>

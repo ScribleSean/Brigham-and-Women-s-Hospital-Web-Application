@@ -15,9 +15,13 @@ router.post("/", async (req: Request, res: Response) => {
       const rowval = Object.values(row);
       return {
         employeeEmail: rowval[0],
-        name: rowval[1],
-        position: rowval[2],
-        numberOfServiceRequests: parseInt(rowval[3]),
+        employeeFirstName: rowval[1],
+        employeeLastName: rowval[2],
+        employeeFullName: rowval[1] + " " + rowval[2],
+        employeePosition: rowval[3],
+        employeePermission: rowval[4],
+        numberOfServiceRequests: parseInt(rowval[5]),
+        employeeID: parseInt(rowval[6]),
       };
     });
 
@@ -25,9 +29,13 @@ router.post("/", async (req: Request, res: Response) => {
       data: transformedEmployee.map((self) => {
         return {
           employeeEmail: self.employeeEmail,
-          name: self.name,
-          position: self.position,
+          employeeFirstName: self.employeeFirstName,
+          employeeLastName: self.employeeLastName,
+          employeeFullName: self.employeeFullName,
+          employeePosition: self.employeePosition,
+          employeePermission: self.employeePermission,
           numberOfServiceRequests: self.numberOfServiceRequests,
+          employeeID: self.employeeID,
         };
       }),
     });
