@@ -139,6 +139,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         return path.edges.some((edge) => {
           return (
             startBorderNode(node, path) &&
+            paths.length >= 0 &&
+            directionsCounter < paths.length &&
             (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
             (node.type === "ELEV" || node.type === "STAI") &&
             paths[directionsCounter].edges[0].startNode.ID === node.ID
@@ -155,6 +157,8 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
         return path.edges.some((edge) => {
           return (
             endBorderNode(node, path) &&
+            paths.length >= 0 &&
+            directionsCounter < paths.length &&
             (edge.startNode.ID === node.ID || edge.endNode.ID === node.ID) &&
             (node.type === "ELEV" || node.type === "STAI") &&
             paths[directionsCounter].edges[
@@ -693,7 +697,10 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                           }}
                         />
                         Elevator to Floor {""}
-                        {paths[directionsCounter + 1].edges[0].startNode.floor}
+                        {paths[directionsCounter + 1]
+                          ? paths[directionsCounter + 1].edges[0].startNode
+                              .floor
+                          : FloorType.first}
                       </Box>
                     </Typography>
                   </div>
