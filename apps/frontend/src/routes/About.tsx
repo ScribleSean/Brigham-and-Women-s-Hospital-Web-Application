@@ -1,16 +1,16 @@
 import React from "react";
 import styles from "../styles/About.module.css";
-import Christian from "../../public/CS3737Photos/Christian.png";
-import Ethan from "../../public/CS3737Photos/Ethan.png";
-import Gabe from "../../public/CS3737Photos/Gabe.png";
-import Gus from "../../public/CS3737Photos/Gus.png";
-import Jose from "../../public/CS3737Photos/Jose.png";
-import Lorenzo from "../../public/CS3737Photos/Lorenzo.png";
-import Maddux from "../../public/CS3737Photos/Maddux.png";
-import Peter from "../../public/CS3737Photos/Peter.png";
-import Sean from "../../public/CS3737Photos/Sean.png";
-import Sophia from "../../public/CS3737Photos/Sophia.png";
-import Timothy from "../../public/CS3737Photos/Timothy.png";
+import Christian from "../../public/ChristianBackgroundRemoved.png";
+import Ethan from "../../public/EthanBackgroundRemoved.png";
+import Gabe from "../../public/GabrielBackgroundRemoved.png";
+import Gus from "../../public/GustaveBackgroundRemoved.png";
+import Jose from "../../public/JoseBackgroundRemoved.png";
+import Lorenzo from "../../public/LorenzoBackgroundRemoved.png";
+import Maddux from "../../public/MadduxBackgroundRemoved.png";
+import Peter from "../../public/PeterBackgroundRemoved.png";
+import Sean from "../../public/SeanBackgroundRemoved.png";
+import Sofia from "../../public/SofiaBackgroundRemoved.png";
+import Timothy from "../../public/TimothyBackgroundRemoved.png";
 import { Box, Container } from "@mui/material";
 //import { Container, Box } from "@mui/material";
 
@@ -69,7 +69,7 @@ function About() {
     {
       gamertag: "Sofia Xie",
       description: "Document Analyst / Full-Stack Developer",
-      image: Sophia,
+      image: Sofia,
     },
   ];
   return (
