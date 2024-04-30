@@ -33,7 +33,7 @@ function About() {
       gamertag: "Lorenzo Cassano",
       description: "Full-Stack Developer",
       quote:
-        '"I visualize a time when we will be to robots what dogs are to humans, and I\'m rooting for the machines." - Claude Shannon',
+        '"In the kingdom of the blind, the one-eyed man is king." - Desiderius Erasmus',
       image: Lorenzo,
     },
     {
