@@ -26,9 +26,11 @@ import { Box } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 
 const mapDiv: CSSProperties = {
-  height: "100vh",
-  maxWidth: "calc(100% - 55px)",
-  float: "right",
+  position: "absolute",
+  top: "70px",
+  left: "55px",
+  right: "0",
+  bottom: "0",
   overflow: "hidden",
 };
 
