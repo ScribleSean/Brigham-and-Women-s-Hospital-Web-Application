@@ -740,6 +740,14 @@ const GameOver = () => {
                   BACK TO MAP
                 </a>
                 <a
+                  id="character"
+                  style={{ ...leaveButton }} // Merge styles based on hovering state
+                  className={`btn py-4 px-5 shadow-lg ${styles.backToCharacter}`}
+                  href={"/brigham-breakout"}
+                >
+                  CHANGE CHARACTER
+                </a>
+                <a
                   id="restart"
                   style={{ ...leaveButton }} // Merge styles based on hovering state
                   className={`btn py-4 px-5 shadow-lg ${styles.tryAgain}`}

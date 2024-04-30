@@ -1,15 +1,37 @@
 import React, { useState, useRef } from "react";
+import { Button, Modal } from "react-bootstrap";
+import axios from "axios";
 
 const StartScreen = () => {
-  const [hovering, setHovering] = useState(false);
-
   const startScreenContainer = {
     height: "100vh",
+    width: "100vw",
     background:
       "linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/backgroundCancerGame.png')",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     color: "white",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const retroButton = {
+    fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+    fontSize: "2rem", // Increase font size
+    color: "black",
+    backgroundColor: "#FFFFFF",
+    border: "none",
+    padding: "20px 40px", // Increase padding
+    textAlign: "center",
+    textDecoration: "none",
+    display: "inline-block",
+    margin: "4px 2px",
+    cursor: "pointer",
+    borderRadius: "12px",
+    boxShadow: "0 9px #999", // This creates a 'press' effect
+    outline: "none",
   };
 
   const gameTitle = {
@@ -40,21 +62,26 @@ const StartScreen = () => {
     paddingRight: "15%",
   };
 
-  const playButton = {
-    fontFamily: "'Halogen by Pixel Surplus', sans-serif",
-    fontSize: "3rem",
-    backgroundColor: "#012D5A",
-    color: "white",
-    borderRadius: 0,
-    transition: "background-color 0.3s", // Add transition for smooth effect
-  };
-
-  const playButtonHover = {
-    backgroundColor: "#428fdd", // Background color on hover
-  };
-
   const imageRef1 = useRef(null);
   const imageRef2 = useRef(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const username = event.target.elements[0].value; // get the value of the text input
+
+    axios
+      .post("/api/sign-in-brig-user", { username })
+      .then((response) => {
+        // handle response here
+        console.log(response.data);
+        window.location.href = "/character-select";
+      })
+      .catch((error) => {
+        // handle error here
+        console.error(error);
+      });
+  };
 
   return (
     <div
@@ -112,18 +139,83 @@ const StartScreen = () => {
           />
         </div>
       </div>
-      <div className={"text-center pt-5"}>
-        <a
-          id="playButton"
-          style={{ ...playButton, ...(hovering && playButtonHover) }} // Merge styles based on hovering state
-          className={"btn py-4 px-5 shadow-lg"}
-          onMouseEnter={() => setHovering(true)} // Set hovering state to true on mouse enter
-          onMouseLeave={() => setHovering(false)} // Set hovering state to false on mouse leave
-          href={"/brigham-breakout"}
-        >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Button style={retroButton} onClick={() => setShowModal(true)}>
           PLAY
-        </a>
+        </Button>
       </div>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        {/* Modal Header with pixel art styling */}
+        <Modal.Header
+          closeButton
+          style={{
+            backgroundColor: "#333333",
+            color: "#FFFFFF",
+            fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+            fontSize: "16px",
+            borderBottom: "3px solid #FFFFFF",
+          }}
+        >
+          <Modal.Title>Enter Username</Modal.Title>
+        </Modal.Header>
+
+        {/* Modal Body with pixel art styling */}
+        <Modal.Body
+          style={{
+            backgroundColor: "white",
+            color: "#6c6c6c",
+            padding: "20px",
+            fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+            fontSize: "16px",
+            borderColor: "grey",
+            borderRadius: "12px",
+            maxHeight: "80vh", // Makes the modal body scrollable beyond a certain height
+            overflowY: "auto", // Adds a scrollbar when content exceeds the modal body's height
+          }}
+        >
+          <form
+            onSubmit={handleFormSubmit}
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            {/* Username input field with pixel art styling */}
+            <input
+              type="text"
+              required
+              style={{
+                width: "100%",
+                marginBottom: "10px",
+                padding: "10px",
+                border: "3px solid #FFFFFF",
+                backgroundColor: "#757575",
+                color: "#FFFFFF",
+                fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+                fontSize: "16px",
+              }}
+            />
+            {/* Submit button with pixel art styling */}
+            <Button
+              type="submit"
+              style={{
+                backgroundColor: "#4c84af",
+                color: "#FFFFFF",
+                border: "3px solid #FFFFFF",
+                padding: "10px 20px",
+                fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              PLAY
+            </Button>
+          </form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

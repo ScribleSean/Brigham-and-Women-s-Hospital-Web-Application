@@ -42,6 +42,8 @@ import brigAllTime from "./routes/brigham-breakout/breakoutAllTimeRouter.ts";
 import brigToday from "./routes/brigham-breakout/breakoutTodayRouter.ts";
 import weatherRouter from "./routes/weather/weatherRouter.ts";
 import addEmployee from "./routes/addEmployee.ts";
+import brigBreakUserLoginRouter from "./routes/brigBreakUserLoginRouter.ts";
+import brigBreakUnlockRouter from "./routes/brigBreakUnlockRouter.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -65,14 +67,11 @@ app.use("/api/room-scheduling-request", roomSchedulingRequestRouter);
 app.use("/api/medical-device-service-request", medicalDeviceRouter);
 app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
 app.use("/api/religious-service-request", religiousServiceRequestRouter);
-app.use("/api/food-delivery-service-request", foodDeliveryRequestRouter);
 app.use("/api/gift-service-request", giftServiceRequestRouter);
-
-// brig break
+app.use("/api/food-delivery-service-request", foodDeliveryRequestRouter);
 app.use("/api/brig-hs-request", brigRouter);
 app.use("/api/hs-all-time", brigAllTime);
 app.use("/api/hs-today", brigToday);
-
 // api fetch (for the dropdowns)
 app.use("/api/room-name-fetch", roomNameFetchRouter);
 app.use("/api/employee-email-fetch", employeeEmailFetchRouter);
@@ -89,6 +88,9 @@ app.use("/api/download-edge-csv", downloadEdgeDataRouter);
 // CSV Page: Employees
 app.use("/api/employee-populate", employeeRouter);
 app.use("/api/download-employee-csv", downloadEmployeeDataRouter);
+// Brig Breakout: User Login and Unlocks
+app.use("/api/sign-in-brig-user", brigBreakUserLoginRouter);
+app.use("/api/unlock-character", brigBreakUnlockRouter);
 app.use("/api/add-employee", addEmployee);
 
 // Graphs

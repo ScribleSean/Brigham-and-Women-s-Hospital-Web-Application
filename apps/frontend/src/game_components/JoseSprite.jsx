@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const Disease = ({
+const JoseSprite = ({
   x,
   y,
   viewBox,
@@ -9,6 +9,7 @@ const Disease = ({
   isAlive,
   playerHP,
   setPlayerHP,
+  isShielded,
 }) => {
   const position = useRef({ x: x, y: y });
   const playerRef = useRef(player);
@@ -43,20 +44,19 @@ const Disease = ({
       const imageRect = imageRef.current.getBoundingClientRect();
       playerRect.width *= 0.7;
       playerRect.height *= 0.7;
-      imageRect.width *= 0.8;
-      imageRect.height *= 0.8;
+      imageRect.width *= 0.6;
+      imageRect.height *= 0.6;
 
       if (isIntersecting(playerRect, imageRect)) {
         console.log("Collision detected!");
-        setPlayerHP(playerHP - 1);
-        if (playerHP <= 1) {
-          setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+        if (!isShielded) {
+          setPlayerHP(playerHP - 1);
         }
         setShowDisease(false);
       }
 
       // Hide the disease after 3 seconds
-      if (elapsedTime >= 20) {
+      if (elapsedTime >= 15) {
         setShowDisease(false);
       }
     }
@@ -71,6 +71,7 @@ const Disease = ({
     isAlive,
     playerHP,
     setPlayerHP,
+    isShielded,
   ]);
 
   const imageSrc = `/jose${currentFrame + 1}.png`;
@@ -100,4 +101,4 @@ function isIntersecting(a, b) {
   );
 }
 
-export default Disease;
+export default JoseSprite;
