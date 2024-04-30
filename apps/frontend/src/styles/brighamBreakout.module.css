@@ -34,6 +34,9 @@
 .buttons {
   position: fixed;
   bottom: 10rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .backToMap {
@@ -46,6 +49,14 @@
 .tryAgain {
   position: fixed;
   right: 2.5rem;
+  background-color: black;
+  color: #39ff14;
+}
+
+.backToCharacter {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-45%); /* Centers the button */
   background-color: black;
   color: #39ff14;
 }

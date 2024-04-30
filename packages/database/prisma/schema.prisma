@@ -20,6 +20,14 @@ model BreakOutHighScore {
   date      DateTime
 }
 
+model BrighamBreakoutUsers {
+  userID       Int     @id @default(autoincrement())
+  username     String  @unique
+  highscore    Int
+  joeUnlocked  Boolean
+  wongUnlocked Boolean
+}
+
 model weather {
   WID  Int    @id
   temp Float
