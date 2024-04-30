@@ -190,10 +190,29 @@ const Canvas = () => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
+    let lastTimestamp = 0;
+    let frameCount = 0;
+    let refreshRate = 60; // Default refresh rate
+
+    function estimateRefreshRate(timestamp) {
+      if (lastTimestamp) {
+        frameCount++;
+        const elapsed = timestamp - lastTimestamp;
+        if (elapsed > 1000) {
+          refreshRate = (frameCount / elapsed) * 1000;
+          frameCount = 0;
+        }
+      }
+      lastTimestamp = timestamp;
+      requestAnimationFrame(estimateRefreshRate);
+    }
+
+    requestAnimationFrame(estimateRefreshRate);
+
     const updatePosition = () => {
       setPosition((prevPosition) => {
-        const nextX = prevPosition.x + velocity.x / 60;
-        const nextY = prevPosition.y + velocity.y / 60;
+        const nextX = prevPosition.x + velocity.x / (refreshRate / 2);
+        const nextY = prevPosition.y + velocity.y / (refreshRate / 2);
 
         const playerWidth = characterWidth;
         const playerHeight = characterHeight;
