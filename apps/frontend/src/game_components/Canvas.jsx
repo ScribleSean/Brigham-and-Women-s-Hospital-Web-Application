@@ -26,14 +26,14 @@ const Canvas = () => {
     characterWidth = 110;
     characterHeight = 220;
   } else if (characterParam.size === 3) {
-    characterWidth = 90;
-    characterHeight = 180;
+    characterWidth = 95;
+    characterHeight = 190;
   } else if (characterParam.size === 4) {
+    characterWidth = 85;
+    characterHeight = 170;
+  } else if (characterParam.size === 5) {
     characterWidth = 70;
     characterHeight = 140;
-  } else if (characterParam.size === 5) {
-    characterWidth = 50;
-    characterHeight = 100;
   }
 
   // Define fixed width and height for the canvas
@@ -68,7 +68,7 @@ const Canvas = () => {
   const [isAlive, setIsAlive] = useState(true);
 
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
-  const [speed, setSpeed] = useState(100 + 25 * characterParam.speed);
+  const [speed, setSpeed] = useState(150 + 30 * characterParam.speed);
 
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -80,11 +80,25 @@ const Canvas = () => {
 
       return () => clearInterval(timer);
     }
-  }, [isAlive]);
+  }, [isAlive, elapsedTime]);
 
   const [playerHP, setPlayerHP] = useState(characterParam.health + 1);
   const [playerMaxHP] = useState(characterParam.health + 1);
   const [playerShields, setPlayerShields] = useState(0);
+
+  useEffect(() => {
+    if (characterParam.name === "Sofia") {
+      const timer = setInterval(() => {
+        if (elapsedTime % 12 === 0) {
+          if (playerHP < playerMaxHP) {
+            setPlayerHP((prevHP) => prevHP + 1);
+          }
+        }
+      }, 1000); // Check every second
+
+      return () => clearInterval(timer);
+    }
+  }, [characterParam.name, elapsedTime, setPlayerHP, playerHP, playerMaxHP]);
 
   const [gameOverDisplayed, setGameOverDisplayed] = useState(false);
   useEffect(() => {
@@ -104,59 +118,146 @@ const Canvas = () => {
 
   const [isShielded, setIsShielded] = useState(false);
 
+  const [invertedControls, setInvertedControls] = useState(false); // State to toggle inverted controls
+
   useEffect(() => {
+    if (characterParam.name === "Timothy") {
+      setInvertedControls(true);
+    } else {
+      setInvertedControls(false);
+    }
+  }, [characterParam.name]);
+
+  const [timeSinceLastMovement, setTimeSinceLastMovement] = useState(0);
+
+  // Function to reset the time since last movement
+  const resetTimeSinceLastMovement = () => {
+    setTimeSinceLastMovement(0);
+  };
+
+  useEffect(() => {
+    // Reset the time since last movement whenever the player moves
+    const timer = setTimeout(resetTimeSinceLastMovement, 4000);
+
+    return () => clearTimeout(timer);
+  }, [velocity]);
+
+  // Increment the time since last movement when the player is alive
+  useEffect(() => {
+    if (isAlive) {
+      const timer = setInterval(() => {
+        setTimeSinceLastMovement((prevTime) => prevTime + 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [isAlive]);
+
+  useEffect(() => {
+    const adjustVelocity = (newVelocity, key, speed) => {
+      if (!invertedControls) {
+        switch (key) {
+          case "ArrowUp":
+          case "w":
+          case "W":
+            if (newVelocity.y > -speed) {
+              newVelocity.y -= speed;
+            }
+            break;
+          case "ArrowDown":
+          case "s":
+          case "S":
+            if (newVelocity.y < speed) {
+              newVelocity.y += speed;
+            }
+            break;
+          case "ArrowLeft":
+          case "a":
+          case "A":
+            if (newVelocity.x > -speed) {
+              newVelocity.x -= speed;
+            }
+            break;
+          case "ArrowRight":
+          case "d":
+          case "D":
+            if (newVelocity.x < speed) {
+              newVelocity.x += speed;
+            }
+            break;
+          case " ": // Spacebar key
+            if (playerShields >= 1 && !isShielded) {
+              setIsShielded(true); // Set isShielded to true when spacebar is pressed
+              setPlayerShields(playerShields - 1);
+              let shieldedTimer = 1000;
+              if (characterParam.name === "Maddux") {
+                shieldedTimer = 3000;
+              }
+              setTimeout(() => setIsShielded(false), shieldedTimer); // Set isShielded back to false after 1 second
+            }
+            break;
+          default:
+            break;
+        }
+      } else {
+        switch (key) {
+          case "ArrowUp":
+          case "w":
+          case "W":
+            if (newVelocity.y < speed) {
+              newVelocity.y += speed;
+            }
+            break;
+          case "ArrowDown":
+          case "s":
+          case "S":
+            if (newVelocity.y > -speed) {
+              newVelocity.y -= speed;
+            }
+            break;
+          case "ArrowLeft":
+          case "a":
+          case "A":
+            if (newVelocity.x < speed) {
+              newVelocity.x += speed;
+            }
+            break;
+          case "ArrowRight":
+          case "d":
+          case "D":
+            if (newVelocity.x > -speed) {
+              newVelocity.x -= speed;
+            }
+            break;
+          case " ": // Spacebar key
+            if (playerShields >= 1 && !isShielded) {
+              setIsShielded(true); // Set isShielded to true when spacebar is pressed
+              setPlayerShields(playerShields - 1);
+              setTimeout(() => setIsShielded(false), 1000); // Set isShielded back to false after 1 second
+            }
+            break;
+          default:
+            break;
+        }
+      }
+    };
+
+    // Handle key down events
     const handleKeyDown = (event) => {
       if (!event.repeat) {
+        resetTimeSinceLastMovement();
         const newVelocity = { ...velocity };
         if (event.key) {
-          switch (event.key) {
-            case "ArrowUp":
-            case "w":
-            case "W":
-              if (newVelocity.y > -speed) {
-                newVelocity.y -= speed;
-              }
-              break;
-            case "ArrowDown":
-            case "s":
-            case "S":
-              if (newVelocity.y < speed) {
-                newVelocity.y += speed;
-              }
-              break;
-            case "ArrowLeft":
-            case "a":
-            case "A":
-              if (newVelocity.x > -speed) {
-                newVelocity.x -= speed;
-              }
-              break;
-            case "ArrowRight":
-            case "d":
-            case "D":
-              if (newVelocity.x < speed) {
-                newVelocity.x += speed;
-              }
-              break;
-            case " ": // Spacebar key
-              if (playerShields >= 1 && !isShielded) {
-                setIsShielded(true); // Set isShielded to true when spacebar is pressed
-                setPlayerShields(playerShields - 1);
-                setTimeout(() => setIsShielded(false), 1000); // Set isShielded back to false after 1 second
-              }
-              break;
-            default:
-              break;
-          }
+          adjustVelocity(newVelocity, event.key, speed);
         } else {
           newVelocity.y = 0;
           newVelocity.x = 0;
         }
-
         setVelocity(newVelocity);
       }
     };
 
+    // Handle key up events
     const handleKeyUp = (event) => {
       const newVelocity = { ...velocity };
       switch (event.key) {
@@ -204,6 +305,8 @@ const Canvas = () => {
     speed,
     characterWidth,
     characterHeight,
+    invertedControls,
+    characterParam.name,
   ]);
 
   const [healthSpawnPoints, setHealthSpawnPoints] = useState([]);
@@ -390,6 +493,48 @@ const Canvas = () => {
     return () => clearInterval(interval);
   }, [velocity, viewBox, characterWidth, characterHeight, playerHP]);
 
+  const prevHPRef = useRef(playerHP);
+  useEffect(() => {
+    // Track the previous HP value using a ref
+    const prevHP = prevHPRef.current;
+
+    // Logic to remove diseases upon damage if the character is "Peter"
+    if (characterParam.name === "Peter" && playerHP < prevHP) {
+      setDiseases([]); // Clear all currently spawned diseases
+    }
+
+    // Update the previous HP value after each render
+    prevHPRef.current = playerHP;
+  }, [characterParam.name, playerHP, playerMaxHP]);
+
+  useEffect(() => {
+    // Function to handle teleportation for Ethan
+    const teleportEthan = () => {
+      // Calculate random coordinates within the canvas bounds
+      const randomX = Math.random() * viewBox[2] + viewBox[0];
+      const randomY = Math.random() * viewBox[3] + viewBox[1];
+
+      // Update Ethan's position
+      setPosition({ x: randomX, y: randomY });
+
+      // Set Ethan as shielded for 500ms
+      setIsShielded(true);
+      setTimeout(() => setIsShielded(false), 500);
+
+      // Schedule the next teleportation
+      const nextTeleportTime = Math.random() * 10000 + 5000; // Random interval between 5 and 15 seconds
+      setTimeout(teleportEthan, nextTeleportTime);
+    };
+
+    // Check if the character is Ethan and start teleportation
+    if (characterParam.name === "Ethan") {
+      teleportEthan();
+    }
+
+    // Cleanup function to clear any pending teleportation
+    return () => clearTimeout(spawnIntervalRef.current);
+  }, [characterParam.name, viewBox]);
+
   const imageRef = useRef(null);
 
   const [currentFrame, setCurrentFrame] = useState(0);
@@ -403,6 +548,13 @@ const Canvas = () => {
 
     return () => clearInterval(frameInterval);
   }, [characterParam.frames.length]);
+
+  useEffect(() => {
+    if (timeSinceLastMovement >= 5) {
+      setPlayerShields((prevShields) => prevShields + 1);
+      resetTimeSinceLastMovement();
+    }
+  }, [timeSinceLastMovement, playerShields]);
 
   const GameOverText = {
     fontFamily: "'Halogen by Pixel Surplus', sans-serif",
@@ -533,6 +685,8 @@ const Canvas = () => {
               playerMaxHP={playerMaxHP}
               player={document.getElementById("Player")}
               isAlive={isAlive}
+              characterParam={characterParam}
+              setSpeed={setSpeed}
             />
           ))}
           {shieldSpawnPoints.map((spawnPoint, index) => (
@@ -563,6 +717,8 @@ const Canvas = () => {
                 setIsAlive={setIsAlive}
                 isAlive={isAlive}
                 isShielded={isShielded}
+                characterParam={characterParam}
+                setSpeed={setSpeed}
               />
             );
           })}

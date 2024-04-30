@@ -56,7 +56,7 @@ const Shield = ({
         console.log("Collision detected!");
         setPlayerShields(playerShields + 1);
         if (characterParam.name === "Christian") {
-          const boostedSpeed = playerShields * 10;
+          const boostedSpeed = playerShields * 15;
           setSpeed((prevSpeed) => prevSpeed + boostedSpeed);
         }
         setShowPickup(false);

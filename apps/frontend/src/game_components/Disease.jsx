@@ -10,6 +10,8 @@ const Disease = ({
   playerHP,
   setPlayerHP,
   isShielded,
+  setSpeed,
+  characterParam,
 }) => {
   const position = useRef({ x: x, y: y });
   const playerRef = useRef(player);
@@ -65,6 +67,9 @@ const Disease = ({
       if (isIntersecting(playerRect, imageRect)) {
         console.log("Collision detected!");
         if (!isShielded) {
+          if (characterParam.name === "Lorenzo") {
+            setSpeed((prevSpeed) => prevSpeed + 30);
+          }
           setPlayerHP(playerHP - 1);
         }
         setShowDisease(false);
@@ -87,6 +92,8 @@ const Disease = ({
     playerHP,
     setPlayerHP,
     isShielded,
+    characterParam.name,
+    setSpeed,
   ]);
 
   const imageSrc = `/${randDisease?.color}Disease${currentFrame + 1}.png`;
@@ -98,8 +105,16 @@ const Disease = ({
           ref={imageRef}
           x={position.current.x}
           y={position.current.y}
-          width={randDisease?.width}
-          height={randDisease?.height}
+          width={
+            characterParam.name === "Gus"
+              ? randDisease?.width - 10
+              : randDisease?.width
+          }
+          height={
+            characterParam.name === "Gus"
+              ? randDisease?.height - 10
+              : randDisease?.height
+          }
           href={imageSrc}
         />
       )}
