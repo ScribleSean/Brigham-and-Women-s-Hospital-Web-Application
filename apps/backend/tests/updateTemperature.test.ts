@@ -15,4 +15,10 @@ describe("Temperature API", () => {
       .send({ value: 20 });
     expect(response.status).toBe(200);
   });
+  test("should fail to update temperature", async () => {
+    const response = await request
+      .post("/api/update-temperature")
+      .send({ value: "20" });
+    expect(response.status).toBe(500);
+  });
 });
