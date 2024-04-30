@@ -115,7 +115,9 @@ const StartScreen = () => {
         Use the arrow keys or WASD to move your character around, dodging all
         diseases that fly across the screen. Upon colliding with a disease, you
         will lose one heart. Look out for hearts that appear to refill lost
-        health. Survive as long as you can! Your score is your final time.
+        health and look out for shields (masks) which can be used for temporary
+        invulnerability by pressing 'SPACEBAR' Survive as long as you can! Your
+        score is your final time.
       </div>
       <div className={"row"}>
         <div className={"col px-5 text-end"}>
