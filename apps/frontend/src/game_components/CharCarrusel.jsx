@@ -14,7 +14,7 @@ const CharCarrusel = ({ currentIndex, getCharacter, selectedStatus }) => {
       if (sliderRef.current) {
         sliderRef.current.slickGoTo(currentIndex);
       }
-    }, 0.2);
+    }, 0);
 
     return () => clearInterval(intervalId);
   }, [currentIndex, sliderRef, character]);

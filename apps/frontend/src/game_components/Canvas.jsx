@@ -517,6 +517,7 @@ const Canvas = () => {
                 width={characterWidth}
                 height={characterHeight}
                 href={characterParam.frames[currentFrame]}
+                style={{ filter: isShielded ? "brightness(300%)" : "none" }}
               />
             </g>
           )}
