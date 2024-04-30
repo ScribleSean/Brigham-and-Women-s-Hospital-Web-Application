@@ -21,6 +21,16 @@ CREATE TABLE "BrighamBreakoutUsers" (
 );
 
 -- CreateTable
+CREATE TABLE "weather" (
+    "WID" INTEGER NOT NULL,
+    "temp" DOUBLE PRECISION NOT NULL,
+    "date" TEXT NOT NULL,
+    "time" TEXT NOT NULL,
+
+    CONSTRAINT "weather_pkey" PRIMARY KEY ("WID")
+);
+
+-- CreateTable
 CREATE TABLE "Edge" (
     "edgeID" TEXT NOT NULL,
     "startNodeID" TEXT NOT NULL,

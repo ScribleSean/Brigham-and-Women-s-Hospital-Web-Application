@@ -40,6 +40,7 @@ import updateTemperatureRouter from "./routes/updateTemperature.ts";
 import brigRouter from "./routes/brigham-breakout/brigGameRouter.ts";
 import brigAllTime from "./routes/brigham-breakout/breakoutAllTimeRouter.ts";
 import brigToday from "./routes/brigham-breakout/breakoutTodayRouter.ts";
+import weatherRouter from "./routes/weather/weatherRouter.ts";
 import addEmployee from "./routes/addEmployee.ts";
 import brigBreakUserLoginRouter from "./routes/brigBreakUserLoginRouter.ts";
 import brigBreakUnlockRouter from "./routes/brigBreakUnlockRouter.ts";
@@ -111,6 +112,9 @@ app.use("/api/pie-request-by-type", pieRequestByTypeRouter);
 app.use("/api/pie-request-by-user", pieRequestByUserRouter);
 app.use("/api/pie-request-by-priority", pieRequestByPriorityRouter);
 app.use("/api/pie-request-by-status", pieRequestByStatusRouter);
+
+// weather
+app.use("/api/weather", weatherRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();

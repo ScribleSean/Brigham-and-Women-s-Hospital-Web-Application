@@ -28,6 +28,13 @@ model BrighamBreakoutUsers {
   wongUnlocked Boolean
 }
 
+model weather {
+  WID  Int    @id
+  temp Float
+  date String
+  time String
+}
+
 model Edge {
   edgeID      String @id
   startNodeID String
