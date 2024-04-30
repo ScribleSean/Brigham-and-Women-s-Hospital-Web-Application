@@ -1,18 +1,8 @@
 //router to handle breakout brighman game highscores
 import express, { Router } from "express";
-import PrismaClient from "../bin/database-connection.ts";
+import PrismaClient from "../../bin/database-connection.ts";
 const router: Router = express.Router();
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.ts";
-
-router.get("/", async function (req, res) {
-  const highScoreFetch = await PrismaClient.breakOutHighScore.findMany({
-    orderBy: {
-      time: "desc",
-    },
-    take: 5,
-  });
-  res.json(highScoreFetch);
-});
 
 router.post("/", async function (req, res) {
   const newhs: breakoutHighScore = req.body;
@@ -20,8 +10,10 @@ router.post("/", async function (req, res) {
   try {
     await PrismaClient.breakOutHighScore.create({
       data: {
-        initial: newhs.initial,
+        initial: newhs.initial.toLowerCase(),
         time: Number(newhs.time),
+        date: new Date(),
+        character: newhs.character.toLowerCase(),
       },
     });
     res.status(200).json({ message: "HS Posted" });

@@ -29,7 +29,6 @@ import deleteEdgesRouter from "./routes/deleteEdges";
 import refactorEdgesRouter from "./routes/refactorEdges";
 import employeeRouter from "./routes/employee-router.ts";
 import downloadEmployeeDataRouter from "./routes/data-to-csv-employee.ts";
-import brigRouter from "./routes/breakoutGameRouter.ts";
 import requestByUserRouter from "./routes/requestByUserRouter.ts";
 import requestByPriorityRouter from "./routes/requestByPriorityRouter.ts";
 import requestByStatusRouter from "./routes/requestByStatusRouter";
@@ -38,6 +37,9 @@ import pieRequestByPriorityRouter from "./routes/pieRequestByPriorityRouter.ts";
 import pieRequestByStatusRouter from "./routes/pieRequestByStatusRouter.ts";
 import pieRequestByTypeRouter from "./routes/pieRequestByTypeRouter.ts";
 import updateTemperatureRouter from "./routes/updateTemperature.ts";
+import brigRouter from "./routes/brigham-breakout/brigGameRouter.ts";
+import brigAllTime from "./routes/brigham-breakout/breakoutAllTimeRouter.ts";
+import brigToday from "./routes/brigham-breakout/breakoutTodayRouter.ts";
 import addEmployee from "./routes/addEmployee.ts";
 
 const app: Express = express(); // Set up the backend
@@ -64,7 +66,11 @@ app.use("/api/medicine-delivery-service-request", medicineDeliveryRouter);
 app.use("/api/religious-service-request", religiousServiceRequestRouter);
 app.use("/api/food-delivery-service-request", foodDeliveryRequestRouter);
 app.use("/api/gift-service-request", giftServiceRequestRouter);
+
+// brig break
 app.use("/api/brig-hs-request", brigRouter);
+app.use("/api/hs-all-time", brigAllTime);
+app.use("/api/hs-today", brigToday);
 
 // api fetch (for the dropdowns)
 app.use("/api/room-name-fetch", roomNameFetchRouter);
