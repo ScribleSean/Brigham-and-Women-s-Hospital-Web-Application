@@ -4,6 +4,7 @@ import axios from "axios";
 import { Button, Tabs, Tab, Box, Grid } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import styles from "../styles/brighamBreakout.module.css";
+import { allCharacters } from "./Characters.ts";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -139,9 +140,14 @@ const GameOver = () => {
     if (initials.length === 3) {
       try {
         formData.initial = initials;
-
-        const response = await axios.post("/api/brig-hs-request", formData);
-        console.log(response.data);
+        if (allCharacters[12].name === allCharacters[characterIndex].name) {
+          formData.time = 0;
+          const response = await axios.post("/api/brig-hs-request", formData);
+          console.log(response.data);
+        } else {
+          const response = await axios.post("/api/brig-hs-request", formData);
+          console.log(response.data);
+        }
       } catch (error) {
         console.error("Unable to create form");
         console.log(error);
@@ -154,7 +160,7 @@ const GameOver = () => {
     } else {
       return;
     }
-  }, [endTime, formData, initials]);
+  }, [characterIndex, endTime, formData, initials]);
 
   const keyboardRows = [
     "A",
