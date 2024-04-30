@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-const CharCarruselChunk = ({ character, selectedStatus }) => {
+const CharCarruselChunk = ({
+  character,
+  selectedStatus,
+  wongUnlocked,
+  joeUnlocked,
+}) => {
   const generalStyle = {
     marginLeft: "20%",
     marginRight: "20%",
   };
 
-  console.log(selectedStatus);
+  const showNothing =
+    (character.name === "Joseph" && !joeUnlocked) ||
+    (character.name === "Wong" && !wongUnlocked);
 
   const imageStyle = {
     display: "block",
@@ -128,19 +135,19 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
       {/* Bio */}
       <div className={"col-lg-3 mx-3"} style={bioStyle}>
         <h3>Role:</h3>
-        <p>{character.role}</p>
+        <p>{showNothing ? "" : character.role}</p>
         <h3 className={"pt-2"}>Quote:</h3>
-        <p>{character.quote}</p>
+        <p>{showNothing ? "" : character.quote}</p>
         <h3 className={"pt-2"}>Back Story:</h3>
-        <p>{character.backstory}</p>
+        <p>{showNothing ? "" : character.backstory}</p>
       </div>
       {/* Portrait */}
       <div className={"col-lg p-2 mx-3"} style={portraitStyle}>
-        <h1 className={"mt-5"}>{character.name}</h1>
+        <h1 className={"mt-5"}>{showNothing ? "" : character.name}</h1>
         <img
           width={"210px"}
           height={"380px"}
-          src={character.frames[currentFrame]} // Use currentFrame
+          src={showNothing ? "/question.png" : character.frames[currentFrame]} // Use currentFrame
           alt={character.name}
           style={imageStyle}
         />
@@ -149,18 +156,18 @@ const CharCarruselChunk = ({ character, selectedStatus }) => {
       <div className={"col-lg-3 mx-3"} style={statsStyle}>
         <h3>Speed</h3>
         <div style={{ display: "flex", flexDirection: "row" }}>
-          {renderSpeedSquares()}
+          {!showNothing && renderSpeedSquares()}
         </div>
         <h3 className={"pt-2"}>Health</h3>
         <div style={{ display: "flex", flexDirection: "row" }}>
-          {renderHealthSquares()}
+          {!showNothing && renderHealthSquares()}
         </div>
         <h3 className={"pt-2"}>Evasion</h3>
         <div style={{ display: "flex", flexDirection: "row" }}>
-          {renderDimensionsSquares()}
+          {!showNothing && renderDimensionsSquares()}
         </div>
         <h3 className={"pt-2"}>Passive:</h3>
-        <p className={"mx-1"}>{character.passive}</p>
+        <p className={"mx-1"}>{!showNothing ? character.passive : ""}</p>
       </div>
     </div>
   );

@@ -5,7 +5,13 @@ import "slick-carousel/slick/slick-theme.css";
 import CharCarruselChunk from "./CharCarruselChunk.jsx";
 import { allCharacters } from "./Characters";
 
-const CharCarrusel = ({ currentIndex, getCharacter, selectedStatus }) => {
+const CharCarrusel = ({
+  currentIndex,
+  getCharacter,
+  selectedStatus,
+  joeUnlocked,
+  wongUnlocked,
+}) => {
   const sliderRef = useRef(null);
   const character = getCharacter();
 
@@ -37,6 +43,8 @@ const CharCarrusel = ({ currentIndex, getCharacter, selectedStatus }) => {
       <Slider {...settings} ref={sliderRef}>
         {allCharacters.map((character, index) => (
           <CharCarruselChunk
+            joeUnlocked={joeUnlocked}
+            wongUnlocked={wongUnlocked}
             character={character}
             key={index}
             selectedStatus={selectedStatus}

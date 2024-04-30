@@ -1,7 +1,21 @@
 import React from "react";
 
-const CharSquare = ({ getCharacter, character, onClick }) => {
+const CharSquare = ({
+  getCharacter,
+  character,
+  onClick,
+  wongUnlocked,
+  joeUnlocked,
+}) => {
   const selected = getCharacter() === character;
+
+  let image = character.head;
+  if (
+    (character.name === "Joseph" && !joeUnlocked) ||
+    (character.name === "Wong" && !wongUnlocked)
+  ) {
+    image = "/question.png";
+  }
 
   const style = {
     cursor: "pointer",
@@ -10,7 +24,7 @@ const CharSquare = ({ getCharacter, character, onClick }) => {
     marginRight: "1px",
     marginBottom: "2px",
     backgroundColor: "black",
-    backgroundImage: `url(${character.head})`,
+    backgroundImage: `url(${image})`,
     backgroundSize: "cover",
     width: "135px",
     height: "135px",

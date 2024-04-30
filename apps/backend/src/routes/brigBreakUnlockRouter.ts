@@ -4,7 +4,9 @@ const router: Router = express.Router();
 
 // Unlock Joe for a user
 router.post("/joe", async function (req, res) {
+  console.log("request received");
   const { username } = req.body;
+  console.log(username);
   try {
     const user = await PrismaClient.brighamBreakoutUsers.update({
       where: { username: username },

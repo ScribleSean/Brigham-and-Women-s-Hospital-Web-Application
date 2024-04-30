@@ -6,7 +6,12 @@ const SelectionStatus = {
   selected: 1,
 };
 
-export function useCharacterSelector(initialIndex) {
+export function useCharacterSelector(
+  initialIndex,
+  username,
+  joeUnlocked,
+  wongUnlocked,
+) {
   const [index, setIndex] = useState(initialIndex);
   const [activeArrowKey, setActiveArrowKey] = useState(null);
   const itemCount = allCharacters.length;
@@ -61,12 +66,18 @@ export function useCharacterSelector(initialIndex) {
   }, [index, activeArrowKey, firstRowSize, secondRowSize, setIndexSafely]);
 
   const keyboardEnter = useCallback(() => {
+    if (index === 7 && !joeUnlocked) {
+      return;
+    }
+    if (index === 12 && !wongUnlocked) {
+      return;
+    }
     if (selectedStatus === SelectionStatus.unselected) {
       setSelectedStatus(SelectionStatus.selected);
     } else {
-      window.location.href = `/brigham-breakout?characterIndex=${index}`;
+      window.location.href = `/brigham-breakout?characterIndex=${index}&username=${username}`;
     }
-  }, [selectedStatus, index]);
+  }, [wongUnlocked, joeUnlocked, username, selectedStatus, index]);
 
   const keyboardEscape = useCallback(() => {
     setSelectedStatus(SelectionStatus.unselected);

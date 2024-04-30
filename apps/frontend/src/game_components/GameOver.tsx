@@ -32,6 +32,11 @@ const GameOver = () => {
 
   const params = new URLSearchParams(location.search);
   const endTime: string | null = params.get("endTime");
+  const characterIndexString: string | null = params.get("characterIndex");
+  const characterIndex = characterIndexString
+    ? parseInt(characterIndexString)
+    : 0;
+  const username = params.get("username");
 
   const [submitted, setSubmitted] = useState(false);
   const [value, setValue] = useState(0);
@@ -743,7 +748,9 @@ const GameOver = () => {
                   id="character"
                   style={{ ...leaveButton }} // Merge styles based on hovering state
                   className={`btn py-4 px-5 shadow-lg ${styles.backToCharacter}`}
-                  href={"/brigham-breakout"}
+                  onClick={() => {
+                    window.location.href = `/character-select?username=${username}`;
+                  }}
                 >
                   CHANGE CHARACTER
                 </a>
@@ -751,7 +758,9 @@ const GameOver = () => {
                   id="restart"
                   style={{ ...leaveButton }} // Merge styles based on hovering state
                   className={`btn py-4 px-5 shadow-lg ${styles.tryAgain}`}
-                  href={"/brigham-breakout"}
+                  onClick={() => {
+                    window.location.href = `/brigham-breakout?characterIndex=${characterIndex}&username=${username}`;
+                  }}
                 >
                   TRY AGAIN
                 </a>

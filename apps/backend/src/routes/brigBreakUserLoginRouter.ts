@@ -25,7 +25,7 @@ router.get("/joe", async function (req, res) {
     const user = await PrismaClient.brighamBreakoutUsers.findUnique({
       where: { username: username },
     });
-    res.status(200).json({ joeUnlocked: user?.joeUnlocked });
+    res.status(200).json(user?.joeUnlocked);
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }
@@ -39,7 +39,7 @@ router.get("/wong", async function (req, res) {
     const user = await PrismaClient.brighamBreakoutUsers.findUnique({
       where: { username: username },
     });
-    res.status(200).json({ wongUnlocked: user?.wongUnlocked });
+    res.status(200).json(user?.wongUnlocked);
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }

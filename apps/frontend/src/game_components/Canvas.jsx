@@ -6,12 +6,14 @@ import HealthPickup from "./HealthPickup.jsx";
 import Shield from "./Shield.jsx";
 import { allCharacters } from "./Characters";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Canvas = () => {
   const location = useLocation();
 
   const params = new URLSearchParams(location.search);
   const characterIndex = parseInt(params.get("characterIndex"));
+  const username = params.get("username");
 
   const characterParam =
     characterIndex !== null ? allCharacters[characterIndex] : null;
@@ -111,10 +113,37 @@ const Canvas = () => {
     }
 
     if (!isAlive && gameOverDisplayed) {
-      window.location.href = `/game-over?endTime=${elapsedTime}`;
+      console.log("elapsed time:", elapsedTime);
+      if (elapsedTime >= 160) {
+        axios
+          .post("/api/unlock-character/wong", { username })
+          .then((response) => {
+            // handle response here
+            console.log(response.data);
+          })
+          .catch((error) => {
+            // handle error here
+            console.error(error);
+          });
+      }
+      if (elapsedTime >= 100) {
+        console.log("sending data");
+        console.log("username", username);
+        axios
+          .post("/api/unlock-character/joe", { username })
+          .then((response) => {
+            // handle response here
+            console.log(response.data);
+          })
+          .catch((error) => {
+            // handle error here
+            console.error(error);
+          });
+      }
+      window.location.href = `/game-over?endTime=${elapsedTime}&characterIndex=${characterIndex}&username=${username}`;
     }
     return () => clearTimeout(gameOverTimer);
-  }, [isAlive, gameOverDisplayed, elapsedTime]);
+  }, [characterIndex, username, isAlive, gameOverDisplayed, elapsedTime]);
 
   const [isShielded, setIsShielded] = useState(false);
 

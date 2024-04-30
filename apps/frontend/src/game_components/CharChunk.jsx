@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { allCharacters } from "./Characters";
 import CharSquare from "./CharSquare.jsx";
 
-const CharChunk = ({ getCharacter, setCurrentIndex, selectedStatus }) => {
+const CharChunk = ({
+  getCharacter,
+  setCurrentIndex,
+  selectedStatus,
+  joeUnlocked,
+  wongUnlocked,
+}) => {
   // Define the styles
   const containerStyle = {
     display: "flex",
@@ -68,6 +74,8 @@ const CharChunk = ({ getCharacter, setCurrentIndex, selectedStatus }) => {
               character={character}
               onClick={() => setCurrentIndex(index)}
               getCharacter={getCharacter}
+              joeUnlocked={joeUnlocked}
+              wongUnlocked={wongUnlocked}
             />
           </div>
         ))}
@@ -77,6 +85,8 @@ const CharChunk = ({ getCharacter, setCurrentIndex, selectedStatus }) => {
         {allCharacters.slice(7, 13).map((character, index) => (
           <div key={index + 7}>
             <CharSquare
+              joeUnlocked={joeUnlocked}
+              wongUnlocked={wongUnlocked}
               character={character}
               onClick={() => setCurrentIndex(index + 7)}
               getCharacter={getCharacter}

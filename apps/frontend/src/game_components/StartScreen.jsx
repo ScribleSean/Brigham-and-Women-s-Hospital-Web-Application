@@ -75,7 +75,7 @@ const StartScreen = () => {
       .then((response) => {
         // handle response here
         console.log(response.data);
-        window.location.href = "/character-select";
+        window.location.href = `/character-select?username=${username}`;
       })
       .catch((error) => {
         // handle error here

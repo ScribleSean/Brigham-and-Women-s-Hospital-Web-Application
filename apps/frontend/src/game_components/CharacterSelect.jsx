@@ -1,11 +1,46 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useCharacterSelector } from "./hooks/useCharacterSelector.jsx";
 import CharCarrusel from "./CharCarrusel.jsx";
 import CharChunk from "./CharChunk.jsx";
 import { Characters } from "./Characters";
 import "../game_styles/CharacterSelect.css";
+import { useLocation } from "react-router-dom";
 
 const CharacterSelect = () => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const username = params.get("username");
+
+  const [joeUnlocked, setJoeUnlocked] = useState(false);
+  const [wongUnlocked, setWongUnlocked] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("/api/sign-in-brig-user/wong", { params: { username: username } })
+      .then((response) => {
+        // handle response here
+        console.log(response.data);
+        setWongUnlocked(response.data);
+      })
+      .catch((error) => {
+        // handle error here
+        console.error(error);
+      });
+
+    axios
+      .get("/api/sign-in-brig-user/joe", { params: { username: username } })
+      .then((response) => {
+        // handle response here
+        console.log(response.data);
+        setJoeUnlocked(response.data);
+      })
+      .catch((error) => {
+        // handle error here
+        console.error(error);
+      });
+  }, [username]);
+
   const {
     currentIndex,
     setCurrentIndex,
@@ -13,7 +48,12 @@ const CharacterSelect = () => {
     moveNext,
     getCharacter,
     selectedStatus,
-  } = useCharacterSelector(Characters.Gabe);
+  } = useCharacterSelector(
+    Characters.Gabe,
+    username,
+    joeUnlocked,
+    wongUnlocked,
+  );
 
   const [showContinueImage, setShowContinueImage] = useState(true);
 
@@ -72,6 +112,8 @@ const CharacterSelect = () => {
       >
         <div className={"row row-8 p-0 m-0"}>
           <CharCarrusel
+            joeUnlocked={joeUnlocked}
+            wongUnlocked={wongUnlocked}
             movePrev={movePrev}
             moveNext={moveNext}
             getCharacter={getCharacter}
@@ -81,6 +123,8 @@ const CharacterSelect = () => {
         </div>
         <div className={"row row-4 p-0 m-0"}>
           <CharChunk
+            joeUnlocked={joeUnlocked}
+            wongUnlocked={wongUnlocked}
             selectedStatus={selectedStatus}
             setCurrentIndex={setCurrentIndex}
             getCharacter={getCharacter}
