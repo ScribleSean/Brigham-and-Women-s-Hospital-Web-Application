@@ -151,13 +151,68 @@ const StartScreen = () => {
         </Button>
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
+        {/* Modal Header with pixel art styling */}
+        <Modal.Header
+          closeButton
+          style={{
+            backgroundColor: "#333333",
+            color: "#FFFFFF",
+            fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+            fontSize: "16px",
+            borderBottom: "3px solid #FFFFFF",
+          }}
+        >
           <Modal.Title>Enter Username</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={handleFormSubmit}>
-            <input type="text" required />
-            <Button type="submit">PLAY</Button>
+
+        {/* Modal Body with pixel art styling */}
+        <Modal.Body
+          style={{
+            backgroundColor: "white",
+            color: "#6c6c6c",
+            padding: "20px",
+            fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+            fontSize: "16px",
+            borderColor: "grey",
+            borderRadius: "12px",
+            maxHeight: "80vh", // Makes the modal body scrollable beyond a certain height
+            overflowY: "auto", // Adds a scrollbar when content exceeds the modal body's height
+          }}
+        >
+          <form
+            onSubmit={handleFormSubmit}
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            {/* Username input field with pixel art styling */}
+            <input
+              type="text"
+              required
+              style={{
+                width: "100%",
+                marginBottom: "10px",
+                padding: "10px",
+                border: "3px solid #FFFFFF",
+                backgroundColor: "#757575",
+                color: "#FFFFFF",
+                fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+                fontSize: "16px",
+              }}
+            />
+            {/* Submit button with pixel art styling */}
+            <Button
+              type="submit"
+              style={{
+                backgroundColor: "#757575FF",
+                color: "#FFFFFF",
+                border: "3px solid #FFFFFF",
+                padding: "10px 20px",
+                fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              PLAY
+            </Button>
           </form>
         </Modal.Body>
       </Modal>
