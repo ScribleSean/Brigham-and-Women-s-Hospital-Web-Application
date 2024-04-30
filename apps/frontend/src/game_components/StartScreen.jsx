@@ -4,12 +4,17 @@ import axios from "axios";
 
 const StartScreen = () => {
   const startScreenContainer = {
-    height: "100%",
+    height: "100vh",
+    width: "100vw",
     background:
       "linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/backgroundCancerGame.png')",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     color: "white",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   };
 
   const gameTitle = {
@@ -117,7 +122,13 @@ const StartScreen = () => {
           />
         </div>
       </div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Button onClick={() => setShowModal(true)}>PLAY</Button>
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
