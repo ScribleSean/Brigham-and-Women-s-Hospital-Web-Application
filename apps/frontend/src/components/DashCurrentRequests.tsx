@@ -1,5 +1,5 @@
 import {
-  TableCell,
+  // TableCell,
   styled,
   tableCellClasses,
   TableRow,
@@ -25,6 +25,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  TableCell,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -287,7 +288,7 @@ function Row(props: {
         </DialogActions>
       </Dialog>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>
+        <StyledTableCell>
           <IconButton
             size="small"
             onClick={() => {
@@ -313,14 +314,14 @@ function Row(props: {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
+        </StyledTableCell>
+        <StyledTableCell component="th" scope="row">
           {row.SRID}
-        </TableCell>
-        <TableCell align="right">{row.serviceType}</TableCell>
-        <TableCell align="right">{row.employeeEmail}</TableCell>
-        <TableCell align="right">{row.location}</TableCell>
-        <TableCell align="right" sx={{ textWrap: "nowrap" }}>
+        </StyledTableCell>
+        <StyledTableCell align="right">{row.serviceType}</StyledTableCell>
+        <StyledTableCell align="right">{row.employeeEmail}</StyledTableCell>
+        <StyledTableCell align="right">{row.location}</StyledTableCell>
+        <StyledTableCell align="right" sx={{ textWrap: "nowrap" }}>
           <span
             style={{
               display: "inline-block",
@@ -332,22 +333,33 @@ function Row(props: {
             }}
           />
           {row.priority}
-        </TableCell>
-        <TableCell align="right">
+        </StyledTableCell>
+        <StyledTableCell align="right">
           <FormControl fullWidth size={"small"}>
             <Select
               id="filterStatus"
               defaultValue={row.status}
               onChange={(event) => handleStatusChange(row, event)}
+              sx={{
+                fontSize: "14px",
+              }}
             >
-              <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"Assigned"}>Assigned</MenuItem>
-              <MenuItem value={"In Progress"}>In Progress</MenuItem>
-              <MenuItem value={"Closed"}>Closed</MenuItem>
+              <MenuItem value={"Unassigned"} sx={{ fontSize: "14px" }}>
+                Unassigned
+              </MenuItem>
+              <MenuItem value={"Assigned"} sx={{ fontSize: "14px" }}>
+                Assigned
+              </MenuItem>
+              <MenuItem value={"In Progress"} sx={{ fontSize: "14px" }}>
+                In Progress
+              </MenuItem>
+              <MenuItem value={"Closed"} sx={{ fontSize: "14px" }}>
+                Closed
+              </MenuItem>
             </Select>
           </FormControl>
-        </TableCell>
-        <TableCell align={"right"}>
+        </StyledTableCell>
+        <StyledTableCell align={"center"}>
           <IconButton
             sx={{
               color: "#484848",
@@ -355,15 +367,19 @@ function Row(props: {
               "&:hover": {
                 color: "red",
               },
+              padding: 0,
             }}
             onClick={() => setDialogueOpen(true)}
           >
             <DeleteIcon />
           </IconButton>
-        </TableCell>
+        </StyledTableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
+        <StyledTableCell
+          style={{ paddingBottom: 0, paddingTop: 0 }}
+          colSpan={8}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               {row.serviceType === "Flower Delivery" ? (
@@ -390,11 +406,19 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.senderName}</TableCell>
-                        <TableCell>{requestData.receiverName}</TableCell>
-                        <TableCell>{requestData.flowerType}</TableCell>
-                        <TableCell>{requestData.deliveryDate}</TableCell>
-                        <TableCell>
+                        <StyledTableCell>
+                          {requestData.senderName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.receiverName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.flowerType}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.deliveryDate}
+                        </StyledTableCell>
+                        <StyledTableCell>
                           {row.description ? (
                             row.description
                           ) : (
@@ -402,7 +426,7 @@ function Row(props: {
                               <em>None</em>
                             </p>
                           )}
-                        </TableCell>
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -431,11 +455,19 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.senderName}</TableCell>
-                        <TableCell>{requestData.receiverName}</TableCell>
-                        <TableCell>{requestData.giftType}</TableCell>
-                        <TableCell>{requestData.deliveryDate}</TableCell>
-                        <TableCell>
+                        <StyledTableCell>
+                          {requestData.senderName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.receiverName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.giftType}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.deliveryDate}
+                        </StyledTableCell>
+                        <StyledTableCell>
                           {row.description ? (
                             row.description
                           ) : (
@@ -443,7 +475,7 @@ function Row(props: {
                               <em>None</em>
                             </p>
                           )}
-                        </TableCell>
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -469,10 +501,16 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.medicineType}</TableCell>
-                        <TableCell>{requestData.dosageAmount} mg</TableCell>
-                        <TableCell>{requestData.dosageType}</TableCell>
-                        <TableCell>
+                        <StyledTableCell>
+                          {requestData.medicineType}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.dosageAmount} mg
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.dosageType}
+                        </StyledTableCell>
+                        <StyledTableCell>
                           {row.description ? (
                             row.description
                           ) : (
@@ -480,7 +518,7 @@ function Row(props: {
                               <em>None</em>
                             </p>
                           )}
-                        </TableCell>
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -503,9 +541,13 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.deviceName}</TableCell>
-                        <TableCell>{requestData.deviceQuantity}</TableCell>
-                        <TableCell>
+                        <StyledTableCell>
+                          {requestData.deviceName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.deviceQuantity}
+                        </StyledTableCell>
+                        <StyledTableCell>
                           {row.description ? (
                             row.description
                           ) : (
@@ -513,7 +555,7 @@ function Row(props: {
                               <em>None</em>
                             </p>
                           )}
-                        </TableCell>
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -536,9 +578,11 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.startTime}</TableCell>
-                        <TableCell>{requestData.endTime}</TableCell>
-                        <TableCell>
+                        <StyledTableCell>
+                          {requestData.startTime}
+                        </StyledTableCell>
+                        <StyledTableCell>{requestData.endTime}</StyledTableCell>
+                        <StyledTableCell>
                           {row.description ? (
                             row.description
                           ) : (
@@ -546,7 +590,7 @@ function Row(props: {
                               <em>None</em>
                             </p>
                           )}
-                        </TableCell>
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -569,9 +613,13 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.religionName}</TableCell>
-                        <TableCell>{requestData.objectName}</TableCell>
-                        <TableCell>
+                        <StyledTableCell>
+                          {requestData.religionName}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.objectName}
+                        </StyledTableCell>
+                        <StyledTableCell>
                           {row.description ? (
                             row.description
                           ) : (
@@ -579,7 +627,7 @@ function Row(props: {
                               <em>None</em>
                             </p>
                           )}
-                        </TableCell>
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -608,11 +656,19 @@ function Row(props: {
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{requestData.foodItem}</TableCell>
-                        <TableCell>{requestData.foodQuantity}</TableCell>
-                        <TableCell>{requestData.utensilItem}</TableCell>
-                        <TableCell>{requestData.deliveryTime}</TableCell>
-                        <TableCell>
+                        <StyledTableCell>
+                          {requestData.foodItem}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.foodQuantity}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.utensilItem}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {requestData.deliveryTime}
+                        </StyledTableCell>
+                        <StyledTableCell>
                           {row.description ? (
                             row.description
                           ) : (
@@ -620,7 +676,7 @@ function Row(props: {
                               <em>None</em>
                             </p>
                           )}
-                        </TableCell>
+                        </StyledTableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -630,7 +686,7 @@ function Row(props: {
               )}
             </Box>
           </Collapse>
-        </TableCell>
+        </StyledTableCell>
       </TableRow>
     </React.Fragment>
   );
