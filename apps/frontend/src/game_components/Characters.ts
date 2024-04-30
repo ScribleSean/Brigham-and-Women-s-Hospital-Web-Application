@@ -46,7 +46,7 @@ const joseBackstory =
   "Physically detached from everyday interactions, nestled among ancient oak trees and class diagrams, this sage devoted his entire being to the intricate art of map-making. This enlightenment drove him to the brink of madness but also flung wide open the doors of his heart";
 const Jose = new Character(
   "Jose",
-  1,
+  0,
   4,
   3,
   josePassive,
@@ -70,7 +70,7 @@ const christianFrames = [
 ];
 const christianHead = "/heads/christianHead.png";
 const christianPassive =
-  "Professional Hoarder: Saved shields grant stacking speed";
+  "Blue Sword, Blue Shields: Saved shields grant stacking speed";
 const christianRole = "Lead Software Developer";
 const christianQuote =
   "There's smoke in my iris. But I painted a sunny day on the insides of my eyelids - Aesop Rock";
@@ -79,8 +79,8 @@ const christianBackstory =
 const Christian = new Character(
   "Christian",
   1,
-  4,
   3,
+  4,
   christianPassive,
   christianFrames,
   christianHead,
@@ -102,8 +102,8 @@ const sophiaBackstory =
   "Centuries of being a woman in a male dominated field have shaped her to become stronger than all her male peers. This strength is shown in her expert healing abilities.";
 const Sophia = new Character(
   "Sofia",
-  3,
   4,
+  2,
   2,
   sophiaPassive,
   sophiaFrames,
@@ -147,17 +147,17 @@ const peterFrames = [
 ];
 const peterHead = "/heads/peterHead.png";
 const peterPassive =
-  "Atomic Sneeze: after taking damage send out a sneeze that repels all diseases on screen, but heart pickups are unavailable";
+  "Atomic Sneeze: after taking damage send out a sneeze that destroys all diseases on screen";
 const peterRole = "Frontend";
 const peterQuote =
   "Real G's move in silence like lasagna -Lil Wayne 6 Foot 7 Foot";
 const peterBackstory =
-  "Emerging from the shadows with seemingly no origins, he roams campus in his trusty black hat. No one has ever seen him wihtout his hat. Everyone wonders what is under it.";
+  "Emerging from the shadows with seemingly no origins, he roams campus in his trusty black hat. No one has ever seen him without his hat. Everyone wonders what is under it.";
 const Peter = new Character(
   "Peter",
-  3,
-  3,
   2,
+  3,
+  3,
   peterPassive,
   peterFrames,
   peterHead,
@@ -183,8 +183,8 @@ const madduxBackstory =
 const Maddux = new Character(
   "Maddux",
   4,
-  2,
-  2,
+  3,
+  1,
   madduxPassive,
   madduxFrames,
   madduxHead,
@@ -202,7 +202,7 @@ const seanFrames = [
 ];
 const seanHead = "/heads/seanHead.png";
 const seanPassive =
-  "Regeneration: After 5 seconds of inactivity, you regain a heart";
+  "Regeneration: After 5 seconds of inactivity, you gain a shield";
 const seanRole = "Backend";
 const seanQuote = "I smoked away my brain -A$AP Rocky";
 const seanBackstory =
@@ -233,7 +233,7 @@ const lorenzoFrames = [
   "/characterSprites/lorenzo10.png",
 ];
 const lorenzoHead = "/heads/lorenzoHead.png";
-const lorenzoPassive = "Stainless Steel: Starts each game with 2 shields";
+const lorenzoPassive = "Short Circuit: Speed increases as health decreases";
 const lorenzoRole = "Backend";
 const lorenzoQuote =
   "I visualize a time when we will be to robots what dogs are to humans, and I'm rooting for the machines -Claude Shannon";
@@ -241,9 +241,9 @@ const lorenzoBackstory =
   "Obsessed with immortality, he transferred his brain into an android body, granting him the eternity he sought but at the cost of his humanity.";
 const Lorenzo = new Character(
   "Lorenzo",
-  3,
   4,
-  3,
+  2,
+  2,
   lorenzoPassive,
   lorenzoFrames,
   lorenzoHead,
@@ -268,8 +268,8 @@ const ethanBackstory =
   "A diet of a few too many chorus fruits has turned him into a block-like creature. It's hard for him to control his powers.";
 const Ethan = new Character(
   "Ethan",
-  3,
   4,
+  2,
   3,
   ethanPassive,
   ethanFrames,
@@ -346,8 +346,8 @@ const gusBackstory =
 const Gus = new Character(
   "Gus",
   3,
-  3,
-  2,
+  4,
+  1,
   gusPassive,
   gusFrames,
   gusHead,
