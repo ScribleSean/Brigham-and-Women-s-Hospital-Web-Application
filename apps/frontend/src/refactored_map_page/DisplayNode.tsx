@@ -681,27 +681,38 @@ export function NodeDisplay(props: NodeDisplayProps): React.JSX.Element {
                         },
                       }}
                     >
-                      <Box
-                        sx={{
-                          ":hover": {
-                            backgroundColor: "white",
-                          },
-                          padding: "2px",
-                          borderRadius: "5px",
-                        }}
-                      >
-                        <ElevatorIcon
-                          onClick={handleChangingFloorNextNodeClick}
+                      {paths.length > directionsCounter + 1 && (
+                        <Box
                           sx={{
-                            cursor: "pointer",
+                            ":hover": {
+                              backgroundColor: "white",
+                            },
+                            padding: "2px",
+                            borderRadius: "5px",
                           }}
-                        />
-                        Elevator to Floor {""}
-                        {paths[directionsCounter + 1]
-                          ? paths[directionsCounter + 1].edges[0].startNode
+                        >
+                          <ElevatorIcon
+                            onClick={
+                              paths.length > directionsCounter + 1
+                                ? handleChangingFloorNextNodeClick
+                                : undefined
+                            }
+                            sx={{
+                              cursor:
+                                paths.length > directionsCounter + 1
+                                  ? "pointer"
+                                  : "cursor",
+                              opacity:
+                                paths.length > directionsCounter + 1 ? 1 : 0,
+                            }}
+                          />
+                          Elevator to Floor{" "}
+                          {
+                            paths[directionsCounter + 1].edges[0].startNode
                               .floor
-                          : FloorType.first}
-                      </Box>
+                          }
+                        </Box>
+                      )}
                     </Typography>
                   </div>
                 ) : (
