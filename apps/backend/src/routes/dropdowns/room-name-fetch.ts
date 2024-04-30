@@ -8,7 +8,7 @@ router.get("/", async function (req, res) {
   const roomFetch = await PrismaClient.node.findMany({
     where: {
       nodeType: {
-        in: ["CONF", "DEPT", "ELEV", "INFO", "LABS", "REST", "STAI", "RETL"],
+        notIn: ["HALL", "REST", "STAI", "ELEV", "DEPT"],
       },
     },
     select: {
