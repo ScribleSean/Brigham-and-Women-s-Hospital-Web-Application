@@ -114,7 +114,7 @@ const Canvas = () => {
 
     if (!isAlive && gameOverDisplayed) {
       console.log("elapsed time:", elapsedTime);
-      if (elapsedTime >= 5) {
+      if (elapsedTime >= 160) {
         axios
           .post("/api/unlock-character/wong", { username })
           .then((response) => {
