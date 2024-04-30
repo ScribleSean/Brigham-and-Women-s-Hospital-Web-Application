@@ -50,8 +50,8 @@ function HeroPage() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [temp, setTemp] = useState(0);
-  const [time, setTime] = useState("time");
-  const [date, setDate] = useState("date");
+  const [time, setTime] = useState("15:03");
+  const [date, setDate] = useState("Tuesday, April 30th");
   const [toCelsius, setFahrenheit] = useState(false);
 
   useEffect(() => {

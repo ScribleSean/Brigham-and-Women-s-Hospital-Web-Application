@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.js";
 import axios from "axios";
-import { Button, Tabs, Tab, TextField, Box } from "@mui/material";
+import { Button, Tabs, Tab, Box, Grid } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import styles from "../styles/brighamBreakout.module.css";
 
@@ -67,10 +67,6 @@ const GameOver = () => {
     borderRadius: 0,
     transition: "background-color 0.3s", // Add transition for smooth effect
   };
-  //
-  // const leaveButtonHover = {
-  //     backgroundColor: "#428fdd", // Background color on hover
-  // };
 
   const [formData, setFormData] = useState<breakoutHighScore>({
     HSID: 0,
@@ -78,8 +74,13 @@ const GameOver = () => {
     time: endTime ? endTime : "",
     character: "",
   });
+
   const [highScores, setHighScores] = useState<breakoutHighScore[]>([]);
   const [recentScores, setRecentScores] = useState<breakoutHighScore[]>([]);
+
+  const [initials, setInitials] = useState("");
+  const [initial, setInitial] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const fetchTop = async () => {
     try {
@@ -120,39 +121,152 @@ const GameOver = () => {
     fetchRecent();
   }, []);
 
-  console.log(highScores);
+  const handleSubmit = useCallback(async () => {
+    const resetForm = () => {
+      setFormData({
+        HSID: 0,
+        initial: "",
+        time: endTime ? endTime : "",
+        character: "",
+      });
+    };
 
-  const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.id === "initial" && e.target.value.length > 3) {
+    if (initials.length === 3) {
+      try {
+        formData.initial = initials;
+
+        const response = await axios.post("/api/brig-hs-request", formData);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Unable to create form");
+        console.log(error);
+      }
+      resetForm();
+      setSubmitted(true);
+
+      fetchTop();
+      fetchRecent();
+    } else {
       return;
     }
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
+  }, [endTime, formData, initials]);
 
-  const resetForm = () => {
-    setFormData({
-      HSID: 0,
-      initial: "",
-      time: endTime ? endTime : "",
-      character: "",
-    });
-  };
+  const keyboardRows = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "Del",
+    "Go",
+  ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    const keyboardRows = [
+      [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        "Del",
+        "Go",
+      ],
+    ];
 
-    try {
-      const response = await axios.post("/api/brig-hs-request", formData);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Unable to create form");
-      console.log(error);
+    const handleKeyPress = async (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        setSelectedIndex((prevIndex) =>
+          (prevIndex + 1) % 7 ? (prevIndex + 1) % 28 : prevIndex - 6,
+        );
+      } else if (e.key === "ArrowLeft") {
+        setSelectedIndex((prevIndex) =>
+          prevIndex % 7 ? (prevIndex - 1) % 28 : prevIndex + 6,
+        );
+      } else if (e.key === "ArrowUp") {
+        setSelectedIndex((prevIndex) => (prevIndex - 7 + 28) % 28);
+      } else if (e.key === "ArrowDown") {
+        setSelectedIndex((prevIndex) => (prevIndex + 7) % 28);
+      } else if (e.key === " " || e.key === "Enter") {
+        // i literally dont understand this line. its the opposite of what i think it should be, but this is the right way, my way only allowed inputs of anything other than space and enter (and ofc arrow keys)
+        console.log(selectedIndex);
+        console.log("FUCK");
+        if (selectedIndex === 26) {
+          setInitials(initials.slice(0, -1));
+        } else if (selectedIndex === 27) {
+          console.log("I LOVE VITE!!!!");
+          await handleSubmit();
+        } else {
+          if (initials.length === 3) {
+            setInitials(initials.slice(0, -1) + keyboardRows[0][selectedIndex]);
+          } else {
+            setInitials(initials + keyboardRows[0][selectedIndex]);
+          }
+          console.log(initials);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [selectedIndex, initial, initials, formData, handleSubmit]);
+
+  const handleKeyPress = (key: string, index: number) => {
+    if (key === keyboardRows[keyboardRows.length - 1]) {
+      handleSubmit().then();
+    } else if (key === keyboardRows[keyboardRows.length - 2]) {
+      setInitials((prevInitials) => prevInitials.slice(0, -1));
+    } else if (initials.length < 3) {
+      setInitials((prevInitials) => prevInitials + key);
+      setInitial((prevInitial) => prevInitial + key);
+    } else {
+      setInitials((prevInitials) => prevInitials.slice(0, -1) + key);
     }
-    resetForm();
-    setSubmitted(true);
+    setSelectedIndex(index);
   };
 
   return (
@@ -169,24 +283,204 @@ const GameOver = () => {
         >
           {!submitted ? (
             <>
-              <form onSubmit={handleSubmit}>
-                <div>End Time: {endTime}</div>
-                <TextField
-                  id={"initial"}
-                  variant={"filled"}
-                  label={"Your Initials"}
-                  required
-                  value={formData.initial}
-                  onChange={handleTextFieldChange}
-                  InputProps={{
-                    style: {
-                      backgroundColor: "white",
-                    },
+              <h1
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  fontFamily: '"Halogen by Pixel Surplus", monospace',
+                  fontSize: "5rem",
+                  marginTop: "2rem",
+                }}
+              >
+                Enter Initials
+              </h1>
+              <div>
+                <h1
+                  className={"justify-content-center d-flex display-1 pt-5"}
+                  style={{
+                    fontFamily: '"Halogen by Pixel Surplus", monospace',
                   }}
-                />
-
-                <Button type={"submit"}>Click</Button>
-              </form>
+                >
+                  {initials.length > 0 ? initials[0] : "_ "}
+                  {initials.length > 1 ? initials[1] : "_ "}
+                  {initials.length > 2 ? initials[2] : "_ "}
+                </h1>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Grid item>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      gap: "1rem",
+                    }}
+                  >
+                    <Grid
+                      container
+                      spacing={4}
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
+                      {keyboardRows.slice(0, 7).map((key, colIndex) => (
+                        <Grid item key={key} style={{ flex: "1" }}>
+                          <Button
+                            variant="outlined"
+                            onClick={() => handleKeyPress(key, colIndex)}
+                            style={{
+                              backgroundColor:
+                                selectedIndex === colIndex
+                                  ? "#39ff14"
+                                  : "transparent",
+                              borderColor: "#39ff14",
+                              color:
+                                selectedIndex === colIndex ? "black" : "white",
+                              fontFamily:
+                                '"Halogen by Pixel Surplus", monospace',
+                              fontWeight: "700",
+                              fontSize: "2rem",
+                              height: "4rem",
+                              width: "6rem",
+                            }}
+                          >
+                            {key}
+                          </Button>
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={4}
+                      style={{ justifyContent: "space-evenly" }}
+                    >
+                      {keyboardRows.slice(7, 14).map((key, colIndex) => (
+                        <Grid item key={key}>
+                          <Button
+                            variant="outlined"
+                            onClick={() => handleKeyPress(key, colIndex + 7)}
+                            style={{
+                              backgroundColor:
+                                selectedIndex === colIndex + 7
+                                  ? "#39ff14"
+                                  : "transparent",
+                              borderColor: "#39ff14",
+                              color:
+                                selectedIndex === colIndex + 7
+                                  ? "black"
+                                  : "white",
+                              fontFamily:
+                                '"Halogen by Pixel Surplus", monospace',
+                              fontWeight:
+                                selectedIndex === colIndex + 7 ? "700" : "600",
+                              fontSize: "2rem",
+                              height: "4rem",
+                              width: "6rem",
+                            }}
+                          >
+                            {key}
+                          </Button>
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={4}
+                      style={{ justifyContent: "space-evenly" }}
+                    >
+                      {keyboardRows.slice(14, 21).map((key, colIndex) => (
+                        <Grid item key={key}>
+                          <Button
+                            variant="outlined"
+                            onClick={() =>
+                              handleKeyPress(key, colIndex + 7 * 2)
+                            }
+                            style={{
+                              backgroundColor:
+                                selectedIndex === colIndex + 7 * 2
+                                  ? "#39ff14"
+                                  : "transparent",
+                              borderColor: "#39ff14",
+                              color:
+                                selectedIndex === colIndex + 7 * 2
+                                  ? "black"
+                                  : "white",
+                              fontFamily:
+                                '"Halogen by Pixel Surplus", monospace',
+                              fontWeight:
+                                selectedIndex === colIndex + 7 * 2
+                                  ? "700"
+                                  : "600",
+                              fontSize: "2rem",
+                              height: "4rem",
+                              width: "6rem",
+                            }}
+                          >
+                            {key}
+                          </Button>
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={4}
+                      style={{ justifyContent: "space-evenly" }}
+                    >
+                      {keyboardRows.slice(21, 28).map((key, colIndex) => (
+                        <Grid item key={key}>
+                          <Button
+                            variant="outlined"
+                            onClick={() =>
+                              handleKeyPress(key, colIndex + 7 * 3)
+                            }
+                            style={{
+                              backgroundColor:
+                                selectedIndex === colIndex + 7 * 3
+                                  ? "#39ff14"
+                                  : "transparent",
+                              borderColor: "#39ff14",
+                              color:
+                                selectedIndex === colIndex + 7 * 3
+                                  ? "black"
+                                  : "white",
+                              fontFamily:
+                                '"Halogen by Pixel Surplus", monospace',
+                              fontWeight:
+                                selectedIndex === colIndex + 7 * 3
+                                  ? "700"
+                                  : "600",
+                              fontSize: "2rem",
+                              height: "4rem",
+                              width: "6rem",
+                            }}
+                          >
+                            {key}
+                          </Button>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </div>
+                </Grid>
+              </div>
+              <h1
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  fontFamily: '"Halogen by Pixel Surplus", monospace',
+                  fontSize: "5rem",
+                  marginTop: "6rem",
+                }}
+              >
+                Final Time: {endTime}
+              </h1>
             </>
           ) : (
             <>
