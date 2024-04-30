@@ -371,7 +371,7 @@ function Row(props: {
             }}
             onClick={() => setDialogueOpen(true)}
           >
-            <DeleteIcon sx={{ fontSize: "18px" }} />
+            <DeleteIcon />
           </IconButton>
         </StyledTableCell>
       </TableRow>
@@ -387,21 +387,21 @@ function Row(props: {
                   <Table size={"small"}>
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell>
+                        <TableCell>
                           <b>Sender Name</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Receiver Name</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Flower Type</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Delivery Date</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Description</b>
-                        </StyledTableCell>
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -436,21 +436,21 @@ function Row(props: {
                   <Table size={"small"}>
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell>
+                        <TableCell>
                           <b>Sender Name</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Receiver Name</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Gift Type</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Delivery Date</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Description</b>
-                        </StyledTableCell>
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -485,18 +485,18 @@ function Row(props: {
                   <Table size={"small"}>
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell>
+                        <TableCell>
                           <b>Medicine Type</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Dosage Amount</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Dosage Form</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Description</b>
-                        </StyledTableCell>
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -528,15 +528,15 @@ function Row(props: {
                   <Table size={"small"}>
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell>
+                        <TableCell>
                           <b>Device Type</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Quantity</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Description</b>
-                        </StyledTableCell>
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -565,15 +565,15 @@ function Row(props: {
                   <Table size={"small"}>
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell>
+                        <TableCell>
                           <b>Start Time</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>End Time</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Description</b>
-                        </StyledTableCell>
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -600,15 +600,15 @@ function Row(props: {
                   <Table size={"small"}>
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell>
+                        <TableCell>
                           <b>Religion</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Object</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Description</b>
-                        </StyledTableCell>
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -637,21 +637,21 @@ function Row(props: {
                   <Table size={"small"}>
                     <TableHead>
                       <TableRow>
-                        <StyledTableCell>
+                        <TableCell>
                           <b>Food Item</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Food Quantity</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Utensil Item</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Delivery Time</b>
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </TableCell>
+                        <TableCell>
                           <b>Description</b>
-                        </StyledTableCell>
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
