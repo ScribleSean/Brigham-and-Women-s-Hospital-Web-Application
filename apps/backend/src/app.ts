@@ -12,6 +12,7 @@ import serviceRequestRouter from "./routes/service-requests/serviceRequestRouter
 import medicalDeviceRouter from "./routes/service-requests/medicalDeviceServiceRequestRouter.ts";
 import medicineDeliveryRouter from "./routes/service-requests/medicineDeliveryServiceRequestRouter.ts";
 import religiousServiceRequestRouter from "./routes/service-requests/religiousServiceRequestRouter.ts";
+import foodDeliveryRequestRouter from "./routes/service-requests/foodDeliveryRequestRouter.ts";
 import csvRouter from "./routes/csv-handler";
 import nodeRouter from "./routes/node-route";
 import edgeRouter from "./routes/edge-route";
@@ -28,6 +29,18 @@ import deleteEdgesRouter from "./routes/deleteEdges";
 import refactorEdgesRouter from "./routes/refactorEdges";
 import employeeRouter from "./routes/employee-router.ts";
 import downloadEmployeeDataRouter from "./routes/data-to-csv-employee.ts";
+import requestByUserRouter from "./routes/requestByUserRouter.ts";
+import requestByPriorityRouter from "./routes/requestByPriorityRouter.ts";
+import requestByStatusRouter from "./routes/requestByStatusRouter";
+import pieRequestByUserRouter from "./routes/pieRequestByUserRouter.ts";
+import pieRequestByPriorityRouter from "./routes/pieRequestByPriorityRouter.ts";
+import pieRequestByStatusRouter from "./routes/pieRequestByStatusRouter.ts";
+import pieRequestByTypeRouter from "./routes/pieRequestByTypeRouter.ts";
+import updateTemperatureRouter from "./routes/updateTemperature.ts";
+import brigRouter from "./routes/brigham-breakout/brigGameRouter.ts";
+import brigAllTime from "./routes/brigham-breakout/breakoutAllTimeRouter.ts";
+import brigToday from "./routes/brigham-breakout/breakoutTodayRouter.ts";
+import addEmployee from "./routes/addEmployee.ts";
 import brigRouter from "./routes/breakoutGameRouter.ts";
 import brigBreakUserLoginRouter from "./routes/brigBreakUserLoginRouter.ts";
 import brigBreakUnlockRouter from "./routes/brigBreakUnlockRouter.ts";
@@ -76,6 +89,27 @@ app.use("/api/download-employee-csv", downloadEmployeeDataRouter);
 // Brig Breakout: User Login and Unlocks
 app.use("/api/sign-in-brig-user", brigBreakUserLoginRouter);
 app.use("/api/unlock-character", brigBreakUnlockRouter);
+app.use("/api/add-employee", addEmployee);
+
+// Graphs
+app.use("/api/request-by-user", requestByUserRouter);
+app.use("/api/request-by-priority", requestByPriorityRouter);
+app.use("/api/request-by-status", requestByStatusRouter);
+
+app.use("/api/pie-request-by-type", pieRequestByTypeRouter);
+app.use("/api/pie-request-by-user", pieRequestByUserRouter);
+app.use("/api/pie-request-by-priority", pieRequestByPriorityRouter);
+app.use("/api/pie-request-by-status", pieRequestByStatusRouter);
+
+// Graphs
+app.use("/api/request-by-user", requestByUserRouter);
+app.use("/api/request-by-priority", requestByPriorityRouter);
+app.use("/api/request-by-status", requestByStatusRouter);
+
+app.use("/api/pie-request-by-type", pieRequestByTypeRouter);
+app.use("/api/pie-request-by-user", pieRequestByUserRouter);
+app.use("/api/pie-request-by-priority", pieRequestByPriorityRouter);
+app.use("/api/pie-request-by-status", pieRequestByStatusRouter);
 
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
@@ -96,6 +130,8 @@ app.use("/api/add-nodes", addNodesRouter);
 app.use("/api/delete-edges", deleteEdgesRouter);
 app.use("/api/refactor-edges", refactorEdgesRouter);
 app.use("/api/add-edges", addEdgesRouter);
+
+app.use("/api/update-temperature", updateTemperatureRouter);
 
 /**
  * Catch all 404 errors, and forward them to the error handler

@@ -34,16 +34,10 @@ const FileUpload: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
       <div>
         <Button
           component={"label"}
-          variant={"contained"}
           tabIndex={-1}
           startIcon={<CloudUploadIcon />}
-          sx={{
-            backgroundColor: "#012d5a",
-            height: "40px",
-            marginRight: "16px",
-          }}
         >
-          Upload Data
+          Upload
           <VisuallyHiddenInput
             type={"file"}
             accept={".csv"}
@@ -51,7 +45,6 @@ const FileUpload: React.FC<FileDropBoxProps> = ({ onFileDrop }) => {
           />
         </Button>
       </div>
-      <br />
     </div>
   );
 };

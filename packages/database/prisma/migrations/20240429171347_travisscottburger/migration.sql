@@ -2,20 +2,9 @@
 CREATE TABLE "BreakOutHighScore" (
     "HSID" SERIAL NOT NULL,
     "initial" TEXT NOT NULL,
-    "time" TEXT NOT NULL,
+    "time" INTEGER NOT NULL,
 
     CONSTRAINT "BreakOutHighScore_pkey" PRIMARY KEY ("HSID")
-);
-
--- CreateTable
-CREATE TABLE "BrighamBreakoutUsers" (
-    "userID" SERIAL NOT NULL,
-    "username" TEXT NOT NULL,
-    "highscore" INTEGER NOT NULL,
-    "joeUnlocked" BOOLEAN NOT NULL,
-    "wongUnlocked" BOOLEAN NOT NULL,
-
-    CONSTRAINT "BrighamBreakoutUsers_pkey" PRIMARY KEY ("userID")
 );
 
 -- CreateTable
@@ -57,9 +46,13 @@ CREATE TABLE "ServiceRequest" (
 -- CreateTable
 CREATE TABLE "Employee" (
     "employeeEmail" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "position" TEXT NOT NULL,
+    "employeeFirstName" TEXT NOT NULL,
+    "employeeLastName" TEXT NOT NULL,
+    "employeeFullName" TEXT NOT NULL,
+    "employeePosition" TEXT NOT NULL,
+    "employeePermission" TEXT NOT NULL,
     "numberOfServiceRequests" INTEGER NOT NULL,
+    "employeeID" INTEGER NOT NULL,
 
     CONSTRAINT "Employee_pkey" PRIMARY KEY ("employeeEmail")
 );
@@ -114,6 +107,17 @@ CREATE TABLE "GiftServiceRequest" (
 );
 
 -- CreateTable
+CREATE TABLE "FoodDeliveryServiceRequest" (
+    "SRID" INTEGER NOT NULL,
+    "foodItem" TEXT NOT NULL,
+    "foodQuantity" TEXT NOT NULL,
+    "utensilItem" TEXT NOT NULL,
+    "deliveryTime" TEXT NOT NULL,
+
+    CONSTRAINT "FoodDeliveryServiceRequest_pkey" PRIMARY KEY ("SRID")
+);
+
+-- CreateTable
 CREATE TABLE "MedicineDeliveryServiceRequest" (
     "SRID" INTEGER NOT NULL,
     "medicineType" TEXT NOT NULL,
@@ -122,9 +126,6 @@ CREATE TABLE "MedicineDeliveryServiceRequest" (
 
     CONSTRAINT "MedicineDeliveryServiceRequest_pkey" PRIMARY KEY ("SRID")
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "BrighamBreakoutUsers_username_key" ON "BrighamBreakoutUsers"("username");
 
 -- AddForeignKey
 ALTER TABLE "Edge" ADD CONSTRAINT "Edge_startNodeID_fkey" FOREIGN KEY ("startNodeID") REFERENCES "Node"("nodeID") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -152,6 +153,9 @@ ALTER TABLE "ReligiousServiceRequest" ADD CONSTRAINT "ReligiousServiceRequest_SR
 
 -- AddForeignKey
 ALTER TABLE "GiftServiceRequest" ADD CONSTRAINT "GiftServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FoodDeliveryServiceRequest" ADD CONSTRAINT "FoodDeliveryServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MedicineDeliveryServiceRequest" ADD CONSTRAINT "MedicineDeliveryServiceRequest_SRID_fkey" FOREIGN KEY ("SRID") REFERENCES "ServiceRequest"("SRID") ON DELETE RESTRICT ON UPDATE CASCADE;

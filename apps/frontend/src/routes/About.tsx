@@ -11,105 +11,745 @@ import Peter from "../../public/CS3737Photos/Peter.png";
 import Sean from "../../public/CS3737Photos/Sean.png";
 import Sophia from "../../public/CS3737Photos/Sophia.png";
 import Timothy from "../../public/CS3737Photos/Timothy.png";
+import { Box, Container } from "@mui/material";
 //import { Container, Box } from "@mui/material";
 
 function About() {
+  const everyone = [
+    {
+      gamertag: "Sean Arackal",
+      description: "Full-Stack Developer",
+      image: Sean,
+    },
+    {
+      gamertag: "Maddux Berry",
+      description: "Project Manager / Full-Stack Developer",
+      image: Maddux,
+    },
+    {
+      gamertag: "Lorenzo Cassano",
+      description: "Full-Stack Developer",
+      image: Lorenzo,
+    },
+    {
+      gamertag: "Christian Consiglio",
+      description: "Full-Stack Developer",
+      image: Christian,
+    },
+    {
+      gamertag: "Peter Czepiel",
+      description: "Full-Stack Developer",
+      image: Peter,
+    },
+    {
+      gamertag: "Ethan Glasby",
+      description: "Product Owner / Full-Stack Developer",
+      image: Ethan,
+    },
+    {
+      gamertag: "Timothy Hutzley",
+      description: "Scrum Master / Full-Stack Developer",
+      image: Timothy,
+    },
+    {
+      gamertag: "José Manuel Pérez Jiménez",
+      description: "Full-Stack Developer",
+      image: Jose,
+    },
+    {
+      gamertag: "Gustave Montana",
+      description: "Full-Stack Developer",
+      image: Gus,
+    },
+    {
+      gamertag: "Gabriel Olafsson",
+      description: "Full-Stack Developer",
+      image: Gabe,
+    },
+    {
+      gamertag: "Sofia Xie",
+      description: "Document Analyst / Full-Stack Developer",
+      image: Sophia,
+    },
+  ];
   return (
-    <div className={`${styles.commonInputsContainer}`}>
-      <div className={`${styles.imageArea}`}>
-        <div className={`${styles.gradient} ${styles.row}`}>
-          {/*, "row"*/}
-          <div
-            className={"col-12"}
-            style={{ height: "100%", paddingLeft: "5%" }}
-          >
-            <div className={`${styles.heroText}`}>
-              <p>About Us</p>
-            </div>
-            <div className={`${styles.thanksP}`}>
-              <p>Special thanks to Brigham and Women’s Hospital</p>
-              <p>and their representative, Andrew Shinn</p>
-            </div>
-            <div
-              className={`${styles.carousel} ${styles.heroTextP}`}
-              style={{ display: "flex" }}
-            >
-              <div>
-                <img src={Sean} alt="Sean" style={{ height: "30vh" }} />
-                <p>Sean Arackal</p>
-                <p>Back-End Dev</p>
-              </div>
-              <div style={{ transform: "translateX(100%)" }}>
-                <img src={Maddux} alt="Maddux" style={{ height: "30vh" }} />
-                <p>Maddux Berry</p>
-                <p>Project Manager / Front-End Dev</p>
-              </div>
-              <div style={{ transform: "translateX(200%)" }}>
-                <img src={Lorenzo} alt="Lorenzo" style={{ height: "30vh" }} />
-                <p>Lorenzo Cassano</p>
-                <p>Back-End Dev</p>
-              </div>
-              <div style={{ transform: "translateX(300%)" }}>
-                <img src={Peter} alt="Peter" style={{ height: "30vh" }} />
-                <p>Peter Czepiel</p>
-                <p>Front-End Dev</p>
-              </div>
-              <div style={{ transform: "translateX(400%)" }}>
-                <img
-                  src={Christian}
-                  alt="Christian"
-                  style={{ height: "30vh" }}
-                />
-                <p>Christian Consiglio</p>
-                <p>Lead Software Engineer (Front-End)</p>
-              </div>
-              <div style={{ transform: "translateX(500%)" }}>
-                <img src={Ethan} alt="Ethan" style={{ height: "30vh" }} />
-                <p>Ethan Glasby</p>
-                <p>Product Owner / Front-End Dev</p>
-              </div>
-              <div style={{ transform: "translateX(600%)" }}>
-                <img src={Timothy} alt="Timothy" style={{ height: "30vh" }} />
-                <p>Timothy Hutzley</p>
-                <p>Scrum Master / Front-End Dev</p>
-              </div>
-              <div style={{ transform: "translateX(700%)" }}>
-                <img src={Jose} alt="Jose" style={{ height: "30vh" }} />
-                <p>José Manuel Pérez Jiménez</p>
-                <p>Assistant Lead Software Engineer (Algorithms)</p>
-              </div>
-              <div style={{ transform: "translateX(800%)" }}>
-                <img src={Gus} alt="Gustave" style={{ height: "30vh" }} />
-                <p>Gustave Montana</p>
-                <p>Front-End Dev</p>
-              </div>
-              <div style={{ transform: "translateX(900%)" }}>
-                <img src={Gabe} alt="Gabriel" style={{ height: "30vh" }} />
-                <p>Gabriel Olafsson</p>
-                <p>Assistant Lead Software Engineer (Back-End)</p>
-              </div>
-              <div style={{ transform: "translateX(1000%)" }}>
-                <img src={Sophia} alt="Sofia" style={{ height: "30vh" }} />
-                <p>Sofia Xie</p>
-                <p>Document Analyst / Front-End Dev</p>
-              </div>
-            </div>
-            <div className={`${styles.wpiCsP}`}>
-              <p>WPI Computer Science Department</p>
-              <p>CS3733-D24 Software Engineering</p>
-              <p>Prof. Wilson Wong</p>
-              <p>Team Coach Joseph Cardarelli</p>
-            </div>
-            <div className={`${styles.disclosureP}`}>
-              <p>
-                The Brigham & Women’s Hospital maps and data used in this
-                application are copyrighted and provided for the sole use of
-                educational purposes.
-              </p>
-            </div>
+    <div className={styles.pageContainer}>
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "1vh",
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "#F0F0F0",
+            borderRadius: "10px",
+            width: "95%",
+            padding: "10px",
+            textAlign: "center",
+            fontColor: "#F00E0E",
+          }}
+        >
+          <div style={{ fontSize: 18, color: "#F00E0E" }}>
+            The Brigham & Women’s Hospital maps and data used in this
+            application are copyrighted and provided for the sole use of
+            educational purposes.
           </div>
-        </div>
-      </div>
+        </Box>
+      </Container>
+
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "2vw",
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "white",
+            borderRadius: "10px",
+            width: "120%",
+            padding: "30px",
+          }}
+        >
+          <Box
+            sx={{
+              textAlign: "center",
+              marginBottom: "4vh",
+              width: "100%",
+            }}
+          >
+            <h1
+              style={{
+                fontSize: 50,
+                color: "#012D5A",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              Meet the Team
+            </h1>
+          </Box>
+
+          {/*Big Box 1*/}
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              textAlign: "left",
+              width: "100%",
+              fontSize: 20,
+              fontColor: "#012d5a",
+            }}
+          >
+            {/*Box 1*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#59B7CF",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[0].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[0].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[0].description}
+              </div>
+            </Box>
+
+            {/*Box 2*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#6EB5FF",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[1].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[1].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[1].description}
+              </div>
+            </Box>
+
+            {/*Box 3*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#40BBE0",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[2].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[2].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[2].description}
+              </div>
+            </Box>
+          </Box>
+
+          {/*Big Box 2*/}
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              textAlign: "left",
+              width: "100%",
+              fontSize: 20,
+              fontColor: "#012d5a",
+            }}
+          >
+            {/*Box 4*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#60A3E0",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[3].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[3].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[3].description}
+              </div>
+            </Box>
+
+            {/*Box 5*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#4194E0",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[4].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[4].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[4].description}
+              </div>
+            </Box>
+
+            {/*Box 6*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#59B7CF",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[5].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[5].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[5].description}
+              </div>
+            </Box>
+          </Box>
+
+          {/*Big Box 3*/}
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              textAlign: "left",
+              width: "100%",
+              fontSize: 20,
+              fontColor: "#012d5a",
+            }}
+          >
+            {/*Box 7*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#4194E0",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[6].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[6].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[6].description}
+              </div>
+            </Box>
+
+            {/*Box 8*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#40BBE0",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[7].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[7].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[7].description}
+              </div>
+            </Box>
+
+            {/*Box 9*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#60A3E0",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[8].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[8].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[8].description}
+              </div>
+            </Box>
+          </Box>
+
+          {/*Big Box 4*/}
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              textAlign: "left",
+              width: "100%",
+              fontSize: 20,
+              fontColor: "#012d5a",
+            }}
+          >
+            {/*Box 10*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "10px",
+                marginLeft: "15%",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#6EB5FF",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[9].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[9].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[9].description}
+              </div>
+            </Box>
+
+            {/*Box 11*/}
+
+            <Box
+              sx={{
+                flexBasis: "30%",
+                marginRight: "15%",
+                marginLeft: "10px",
+                backgroundColor: "white",
+                height: "60%",
+                minHeight: "40vh",
+                fontColor: "#012d5a",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "#60A3E0",
+                  width: "100%",
+                }}
+              >
+                <img
+                  src={everyone[10].image}
+                  alt="Team Image"
+                  style={{
+                    width: "100%",
+                    maxHeight: "230px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <div
+                style={{
+                  fontSize: 20,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[10].gamertag}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  color: "#012D5A",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                {everyone[10].description}
+              </div>
+            </Box>
+          </Box>
+        </Box>
+      </Container>
+
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "1vh",
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "#F0F0F0",
+            borderRadius: "10px",
+            width: "75%",
+            padding: "10px",
+            textAlign: "center",
+            fontColor: "black",
+          }}
+        >
+          <div style={{ fontSize: 16, color: "black" }}>
+            Special thanks to Brigham and Women’s Hospital and their
+            representative, Andrew Shinn
+          </div>
+          <div style={{ fontSize: 12, color: "black" }}> - - - - - </div>
+          <div style={{ fontSize: 16, color: "black" }}>
+            WPI Computer Science Department
+          </div>
+          <div style={{ fontSize: 16, color: "black" }}>
+            CS3733-D24 Software Engineering
+          </div>
+          <div style={{ fontSize: 16, color: "black" }}>Prof. Wilson Wong</div>
+          <div style={{ fontSize: 16, color: "black" }}>
+            Team Coach Joseph Cardarelli
+          </div>
+        </Box>
+      </Container>
     </div>
   );
 }

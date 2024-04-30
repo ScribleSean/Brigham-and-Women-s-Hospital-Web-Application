@@ -95,7 +95,7 @@ function LocationSelector(): React.JSX.Element {
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <ModeStandbyIcon />
+                    <PlaceIcon />
                   </InputAdornment>
                 ),
               }}
@@ -134,7 +134,7 @@ function LocationSelector(): React.JSX.Element {
                 ...params.InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <PlaceIcon />
+                    <ModeStandbyIcon />
                   </InputAdornment>
                 ),
               }}

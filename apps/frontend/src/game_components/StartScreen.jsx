@@ -119,7 +119,7 @@ const StartScreen = () => {
           className={"btn py-4 px-5 shadow-lg"}
           onMouseEnter={() => setHovering(true)} // Set hovering state to true on mouse enter
           onMouseLeave={() => setHovering(false)} // Set hovering state to false on mouse leave
-          href={"/brigham-breakout"}
+          href={"/character-select"}
         >
           PLAY
         </a>
