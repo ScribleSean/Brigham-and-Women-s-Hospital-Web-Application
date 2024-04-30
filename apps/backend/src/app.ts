@@ -38,6 +38,7 @@ import pieRequestByPriorityRouter from "./routes/pieRequestByPriorityRouter.ts";
 import pieRequestByStatusRouter from "./routes/pieRequestByStatusRouter.ts";
 import pieRequestByTypeRouter from "./routes/pieRequestByTypeRouter.ts";
 import updateTemperatureRouter from "./routes/updateTemperature.ts";
+import addEmployee from "./routes/addEmployee.ts";
 
 const app: Express = express(); // Set up the backend
 
@@ -81,6 +82,17 @@ app.use("/api/download-edge-csv", downloadEdgeDataRouter);
 // CSV Page: Employees
 app.use("/api/employee-populate", employeeRouter);
 app.use("/api/download-employee-csv", downloadEmployeeDataRouter);
+app.use("/api/add-employee", addEmployee);
+
+// Graphs
+app.use("/api/request-by-user", requestByUserRouter);
+app.use("/api/request-by-priority", requestByPriorityRouter);
+app.use("/api/request-by-status", requestByStatusRouter);
+
+app.use("/api/pie-request-by-type", pieRequestByTypeRouter);
+app.use("/api/pie-request-by-user", pieRequestByUserRouter);
+app.use("/api/pie-request-by-priority", pieRequestByPriorityRouter);
+app.use("/api/pie-request-by-status", pieRequestByStatusRouter);
 
 // Graphs
 app.use("/api/request-by-user", requestByUserRouter);
