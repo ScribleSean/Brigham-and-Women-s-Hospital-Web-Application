@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
+import { Button, Modal } from "react-bootstrap";
+import axios from "axios";
 
 const StartScreen = () => {
-  const [hovering, setHovering] = useState(false);
-
   const startScreenContainer = {
     height: "100%",
     background:
@@ -40,21 +40,26 @@ const StartScreen = () => {
     paddingRight: "15%",
   };
 
-  const playButton = {
-    fontFamily: "'Halogen by Pixel Surplus', sans-serif",
-    fontSize: "3rem",
-    backgroundColor: "#012D5A",
-    color: "white",
-    borderRadius: 0,
-    transition: "background-color 0.3s", // Add transition for smooth effect
-  };
-
-  const playButtonHover = {
-    backgroundColor: "#428fdd", // Background color on hover
-  };
-
   const imageRef1 = useRef(null);
   const imageRef2 = useRef(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const username = event.target.elements[0].value; // get the value of the text input
+
+    axios
+      .post("/api/sign-in-brig-user", { username })
+      .then((response) => {
+        // handle response here
+        console.log(response.data);
+        window.location.href = "/character-select";
+      })
+      .catch((error) => {
+        // handle error here
+        console.error(error);
+      });
+  };
 
   return (
     <div
@@ -112,18 +117,20 @@ const StartScreen = () => {
           />
         </div>
       </div>
-      <div className={"text-center py-5"}>
-        <a
-          id="playButton"
-          style={{ ...playButton, ...(hovering && playButtonHover) }} // Merge styles based on hovering state
-          className={"btn py-4 px-5 shadow-lg"}
-          onMouseEnter={() => setHovering(true)} // Set hovering state to true on mouse enter
-          onMouseLeave={() => setHovering(false)} // Set hovering state to false on mouse leave
-          href={"/brigham-breakout"}
-        >
-          PLAY
-        </a>
+      <div>
+        <Button onClick={() => setShowModal(true)}>PLAY</Button>
       </div>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Enter Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleFormSubmit}>
+            <input type="text" required />
+            <Button type="submit">PLAY</Button>
+          </form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
