@@ -17,6 +17,23 @@ const StartScreen = () => {
     alignItems: "center",
   };
 
+  const retroButton = {
+    fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
+    fontSize: "2rem", // Increase font size
+    color: "black",
+    backgroundColor: "grey",
+    border: "none",
+    padding: "20px 40px", // Increase padding
+    textAlign: "center",
+    textDecoration: "none",
+    display: "inline-block",
+    margin: "4px 2px",
+    cursor: "pointer",
+    borderRadius: "12px",
+    boxShadow: "0 9px #999", // This creates a 'press' effect
+    outline: "none",
+  };
+
   const gameTitle = {
     fontFamily: "'Halogen Rough by Pixel Surplus', sans-serif",
     fontSize: "4rem",
@@ -129,11 +146,13 @@ const StartScreen = () => {
           alignItems: "center",
         }}
       >
-        <Button onClick={() => setShowModal(true)}>PLAY</Button>
+        <Button style={retroButton} onClick={() => setShowModal(true)}>
+          PLAY
+        </Button>
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Enter Details</Modal.Title>
+          <Modal.Title>Enter Username</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleFormSubmit}>
