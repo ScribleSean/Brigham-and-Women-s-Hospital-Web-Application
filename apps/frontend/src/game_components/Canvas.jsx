@@ -68,7 +68,6 @@ const Canvas = () => {
   const [isAlive, setIsAlive] = useState(true);
 
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
-  const animationRef = useRef();
   const [speed, setSpeed] = useState(100 + 25 * characterParam.speed);
 
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -190,62 +189,7 @@ const Canvas = () => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
-    let lastTimestamp = 0;
-    let frameCount = 0;
-    let refreshRate = 60; // Default refresh rate
-
-    function estimateRefreshRate(timestamp) {
-      if (lastTimestamp) {
-        frameCount++;
-        const elapsed = timestamp - lastTimestamp;
-        if (elapsed > 1000) {
-          refreshRate = (frameCount / elapsed) * 1000;
-          frameCount = 0;
-        }
-      }
-      lastTimestamp = timestamp;
-      requestAnimationFrame(estimateRefreshRate);
-    }
-
-    requestAnimationFrame(estimateRefreshRate);
-
-    const updatePosition = () => {
-      setPosition((prevPosition) => {
-        const nextX = prevPosition.x + velocity.x / (refreshRate / 2);
-        const nextY = prevPosition.y + velocity.y / (refreshRate / 2);
-
-        const playerWidth = characterWidth;
-        const playerHeight = characterHeight;
-
-        const minX = viewBox[0];
-        const minY = viewBox[1];
-        const maxX = viewBox[0] + viewBox[2] - playerWidth;
-        const maxY = viewBox[1] + viewBox[3] - playerHeight;
-
-        const adjustedX = Math.min(Math.max(nextX, minX), maxX);
-        const adjustedY = Math.min(Math.max(nextY, minY), maxY);
-
-        return { x: adjustedX, y: adjustedY };
-      });
-      if (isShielded) {
-        // Brighten (whiten) the player image when shielded
-        imageRef.current.style.filter = "brightness(300%)";
-      } else {
-        // Reset player image style when not shielded
-        imageRef.current.style.filter = "none";
-      }
-      if (playerHP <= 0) {
-        setPlayerHP(0);
-        setIsAlive(false); // Call the setIsAlive function to set isAlive to false
-      }
-
-      animationRef.current = requestAnimationFrame(updatePosition);
-    };
-
-    animationRef.current = requestAnimationFrame(updatePosition);
-
     return () => {
-      cancelAnimationFrame(animationRef.current);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
@@ -416,12 +360,35 @@ const Canvas = () => {
           y: disease.y + disease.velocityY,
         })),
       );
+
+      // Update player's position
+      setPosition((prevPosition) => {
+        const nextX = prevPosition.x + velocity.x / (60 / 2);
+        const nextY = prevPosition.y + velocity.y / (60 / 2);
+
+        const playerWidth = characterWidth;
+        const playerHeight = characterHeight;
+
+        const minX = viewBox[0];
+        const minY = viewBox[1];
+        const maxX = viewBox[0] + viewBox[2] - playerWidth;
+        const maxY = viewBox[1] + viewBox[3] - playerHeight;
+
+        const adjustedX = Math.min(Math.max(nextX, minX), maxX);
+        const adjustedY = Math.min(Math.max(nextY, minY), maxY);
+
+        return { x: adjustedX, y: adjustedY };
+      });
     };
 
     const interval = setInterval(moveDiseases, 1000 / 60);
+    if (playerHP <= 0) {
+      setPlayerHP(0);
+      setIsAlive(false); // Call the setIsAlive function to set isAlive to false
+    }
 
     return () => clearInterval(interval);
-  }, []);
+  }, [velocity, viewBox, characterWidth, characterHeight, playerHP]);
 
   const imageRef = useRef(null);
 
