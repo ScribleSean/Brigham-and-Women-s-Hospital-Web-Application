@@ -101,7 +101,7 @@ function HeroPage() {
             open={disclaimerOpen}
             onClose={handleDisclaimerClose}
             message={
-              <p>
+              <p style={{ maxWidth: "700px" }}>
                 This website is a term project exercise for WPI CS 3733 Software
                 Engineering (Prof. Wong) and is not to be confused with the
                 actual Brigham & Women’s Hospital website
