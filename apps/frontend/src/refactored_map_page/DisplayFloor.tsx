@@ -399,13 +399,14 @@ function FloorDisplay() {
   }
 
   const divStyleBig: CSSProperties = {
-    width: "100vw",
+    position: "relative",
+    overflow: "visible",
   };
 
   const imgStyle: CSSProperties = {
     width: "100%",
-    maxWidth: "100%",
     height: "auto",
+    objectFit: "cover",
     zIndex: "1",
   };
 

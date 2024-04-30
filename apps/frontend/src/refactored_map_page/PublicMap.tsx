@@ -45,7 +45,7 @@ function MapContents() {
   const { isAuthenticated } = useAuth0();
 
   const mapDiv: CSSProperties = {
-    height: "100vh",
+    height: "100%",
     maxWidth: `${isAuthenticated ? "calc(100% - 55px)" : "100%"}`,
     float: `${isAuthenticated ? "right" : "none"}`,
     position: `${isAuthenticated ? "relative" : "absolute"}`,
@@ -103,8 +103,8 @@ function MapContents() {
           display: "flex",
           flexDirection: "row",
           position: "absolute",
-          marginTop: "80px",
-          marginRight: "10px",
+          marginTop: "10vh",
+          marginRight: "1vw",
           justifyContent: "space-between",
         }}
       >
@@ -117,8 +117,8 @@ function MapContents() {
           left: 0,
           display: "flex",
           flexDirection: "column",
-          marginTop: "11vh",
-          marginLeft: "2vw",
+          marginTop: "10vh",
+          marginLeft: "1vw",
           backgroundColor: editorMode === EditorMode.disabled ? "white" : null,
           zIndex: 3,
           padding: "1rem",

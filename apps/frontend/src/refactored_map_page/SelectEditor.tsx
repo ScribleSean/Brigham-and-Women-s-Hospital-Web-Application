@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useMapContext } from "./MapContext.ts";
-import { EditorMode } from "common/src/types/map_page_types.ts"; // Adjust the import path as needed
+import { EditorMode } from "common/src/types/map_page_types.ts";
 import HandymanIcon from "@mui/icons-material/Handyman";
 import CommitIcon from "@mui/icons-material/Commit";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
@@ -47,8 +47,10 @@ export default function EditorSelector() {
         ariaLabel="Edit Toolbox"
         sx={{
           position: "absolute",
-          bottom: 57,
-          left: 80,
+          bottom: 0,
+          left: 0,
+          marginBottom: "2vh",
+          marginLeft: "1vw",
           zIndex: 2,
           "& .MuiButtonBase-root": {
             backgroundColor: "#012D5A",

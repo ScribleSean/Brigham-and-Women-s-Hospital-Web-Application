@@ -190,7 +190,7 @@ function ConfirmChanges() {
           fontSize: "1rem",
           right: 0,
           marginRight: "1vw",
-          marginTop: "12vh",
+          marginTop: "2vh",
           fontWeight: "bold",
           textTransform: "capitalize",
           backgroundColor: "#012d5a",
