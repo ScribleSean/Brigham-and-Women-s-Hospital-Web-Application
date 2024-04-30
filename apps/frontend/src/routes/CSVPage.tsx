@@ -1,8 +1,5 @@
-import FileUpload from "../components/FileUpload.tsx";
 import { GetDataNodes } from "../components/NodesDataBaseTableDisplay.tsx";
-import ExportEmployeeDataButton from "../components/ExportEmployeeDataButton.tsx";
 import { GetDataEdges } from "../components/EdgesDataBaseTableDisplay.tsx";
-import { GetDataEmployee } from "../components/EmployeeDataBaseTableDisplay.tsx";
 import ExportAllButton from "../components/ExportAllButton.tsx";
 import "../styles/csvPage.css";
 import React, { useState } from "react";
@@ -73,7 +70,7 @@ export function CSVPage() {
   return (
     <div className={`${styles.pageContainer}`}>
       <div className={`${styles.header}`}>
-        <h1 className={`${styles.pageTitle}`}>Database</h1>
+        <h1 className={`${styles.pageTitle}`}>Map Data</h1>
         <div className={`${styles.buttonCluster}`}>
           <ExportAllButton />
           <ClearDataButton onClear={() => setDataUpdated(!dataUpdated)} />
@@ -90,7 +87,6 @@ export function CSVPage() {
           <Tabs value={value} onChange={handleChange} variant={"fullWidth"}>
             <Tab label="Nodes" />
             <Tab label="Edges" />
-            <Tab label="Employees" />
           </Tabs>
         </Box>
       </div>
@@ -108,22 +104,6 @@ export function CSVPage() {
             dataUpdated={dataUpdated}
             onFileDrop={(file) => handleFileDrop(file, "api/edge-populate")}
           />
-        </div>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <div className={`${styles.tabPanel}`}>
-          <div className={`${styles.subheader}`}>
-            <h2 className={`${styles.pageSubheading}`}>Employees</h2>
-            <div className={`${styles.buttonCluster}`}>
-              <FileUpload
-                onFileDrop={(file) =>
-                  handleFileDrop(file, "/api/employee-populate")
-                }
-              />
-              <ExportEmployeeDataButton />
-            </div>
-          </div>
-          <GetDataEmployee dataUpdated={dataUpdated} />
         </div>
       </CustomTabPanel>
     </div>

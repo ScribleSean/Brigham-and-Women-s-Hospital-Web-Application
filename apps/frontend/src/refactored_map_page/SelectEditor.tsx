@@ -47,8 +47,10 @@ export default function EditorSelector() {
         ariaLabel="Edit Toolbox"
         sx={{
           position: "absolute",
-          bottom: 57,
-          left: 80,
+          bottom: 0,
+          left: 0,
+          marginBottom: "2vh",
+          marginLeft: "1vw",
           zIndex: 2,
           "& .MuiButtonBase-root": {
             backgroundColor: "#012D5A",
