@@ -87,7 +87,7 @@ function About() {
     {
       gamertag: "Sofia Xie",
       description: "Document Analyst / Full-Stack Developer",
-      quote: "",
+      quote: '"Fashion over function"',
       image: Sofia,
     },
   ];
