@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import PlatformerBG from "./PlatformerBG.jsx";
 import Disease from "./Disease.jsx";
 import JoseSprite from "./JoseSprite.jsx";
@@ -22,20 +22,20 @@ const Canvas = () => {
   let characterHeight;
 
   if (characterParam.size === 1) {
-    characterWidth = 130;
-    characterHeight = 260;
+    characterWidth = 120;
+    characterHeight = 240;
   } else if (characterParam.size === 2) {
     characterWidth = 110;
     characterHeight = 220;
   } else if (characterParam.size === 3) {
-    characterWidth = 95;
-    characterHeight = 190;
+    characterWidth = 100;
+    characterHeight = 200;
   } else if (characterParam.size === 4) {
+    characterWidth = 90;
+    characterHeight = 180;
+  } else if (characterParam.size === 5) {
     characterWidth = 85;
     characterHeight = 170;
-  } else if (characterParam.size === 5) {
-    characterWidth = 70;
-    characterHeight = 140;
   }
 
   // Define fixed width and height for the canvas
@@ -343,11 +343,22 @@ const Canvas = () => {
   const [spawnIntervalHeart, setSpawnIntervalHeart] = useState(null);
 
   useEffect(() => {
+    let nextSpawnInterval = 0;
+    if (characterParam.name === "Gabe") {
+      nextSpawnInterval = 5000;
+    } else {
+      const heartSpawnRateUpper = 15000;
+      const heartSpawnRateLower = 10000;
+      nextSpawnInterval =
+        Math.random() * (heartSpawnRateUpper - heartSpawnRateLower) +
+        heartSpawnRateLower;
+    }
+
     const spawnHeart = () => {
       setHeartSpawning(true);
 
-      const heartWidth = 50;
-      const heartHeight = 50;
+      const heartWidth = 75;
+      const heartHeight = 40;
 
       const spawnX = Math.random() * (viewBox[2] - heartWidth) + viewBox[0];
       const spawnY = Math.random() * (viewBox[3] - heartHeight) + viewBox[1];
@@ -357,7 +368,6 @@ const Canvas = () => {
         { x: spawnX, y: spawnY },
       ]);
 
-      const nextSpawnInterval = Math.random() * 15000 + 10000; // Random interval between 10 and 25 seconds
       setSpawnIntervalHeart(
         setTimeout(() => {
           setHeartSpawning(false);
@@ -368,19 +378,30 @@ const Canvas = () => {
     let spawnInterval;
 
     if (!heartSpawning) {
-      spawnInterval = setTimeout(spawnHeart, Math.random() * 10000 + 5000); // Random interval between 5 and 15 seconds
+      spawnInterval = setTimeout(spawnHeart, nextSpawnInterval);
     }
 
     return () => {
       clearTimeout(spawnInterval); // Clear the heart spawn interval
     };
-  }, [viewBox, heartSpawning, spawnIntervalHeart]);
+  }, [viewBox, heartSpawning, spawnIntervalHeart, characterParam.name]);
 
   const [shieldSpawnPoints, setShieldSpawnPoints] = useState([]);
   const [shieldSpawning, setShieldSpawning] = useState(false);
   const [spawnIntervalShield, setSpawnIntervalShield] = useState(null);
 
   useEffect(() => {
+    let nextSpawnInterval = 0;
+    if (characterParam.name === "Gabe") {
+      nextSpawnInterval = 5000;
+    } else {
+      const shieldSpawnRateUpper = 15000;
+      const shieldSpawnRateLower = 10000;
+      nextSpawnInterval =
+        Math.random() * (shieldSpawnRateUpper - shieldSpawnRateLower) +
+        shieldSpawnRateLower;
+    }
+
     const spawnShield = () => {
       setShieldSpawning(true);
 
@@ -395,18 +416,6 @@ const Canvas = () => {
         { x: spawnX, y: spawnY },
       ]);
 
-      let shieldSpawnRateUpper;
-      let shieldSpawnRateLower;
-      if (characterParam.name === "Gabe") {
-        shieldSpawnRateUpper = 10000;
-        shieldSpawnRateLower = 5000;
-      } else {
-        shieldSpawnRateUpper = 15000;
-        shieldSpawnRateLower = 10000;
-      }
-
-      const nextSpawnInterval =
-        Math.random() * shieldSpawnRateUpper + shieldSpawnRateLower; // Random interval between 10 and 25 seconds
       setSpawnIntervalShield(
         setTimeout(() => {
           setShieldSpawning(false);
@@ -417,7 +426,7 @@ const Canvas = () => {
     let spawnInterval;
 
     if (!shieldSpawning) {
-      spawnInterval = setTimeout(spawnShield, Math.random() * 10000 + 5000); // Random interval between 5 and 15 seconds
+      spawnInterval = setTimeout(spawnShield, nextSpawnInterval);
     }
 
     return () => {
@@ -427,17 +436,16 @@ const Canvas = () => {
 
   const [diseases, setDiseases] = useState([]);
   const spawnIntervalRef = useRef(null);
+  const baseSpeed = useRef(5);
 
   useEffect(() => {
     const spawnDisease = () => {
       const maybeJose = Math.random();
       const DiseaseComponent = maybeJose <= 0.2 ? JoseSprite : Disease;
 
-      // Base speed for diseases
-      const baseSpeed = 5;
-
       // Adjust speed every ten seconds
-      const adjustedSpeed = baseSpeed + Math.floor(elapsedTime / 10) * 0.5;
+      const adjustedSpeed =
+        baseSpeed.current + Math.floor(elapsedTime / 10) * 0.5;
 
       const margin = 50;
 
@@ -548,7 +556,7 @@ const Canvas = () => {
 
       // Set Ethan as shielded for 500ms
       setIsShielded(true);
-      setTimeout(() => setIsShielded(false), 500);
+      setTimeout(() => setIsShielded(false), 500 + baseSpeed.current * 50);
 
       // Schedule the next teleportation
       const nextTeleportTime = Math.random() * 10000 + 5000; // Random interval between 5 and 15 seconds
@@ -562,7 +570,7 @@ const Canvas = () => {
 
     // Cleanup function to clear any pending teleportation
     return () => clearTimeout(spawnIntervalRef.current);
-  }, [characterParam.name, viewBox]);
+  }, [baseSpeed, characterParam.name, viewBox]);
 
   const imageRef = useRef(null);
 
@@ -579,11 +587,21 @@ const Canvas = () => {
   }, [characterParam.frames.length]);
 
   useEffect(() => {
-    if (timeSinceLastMovement >= 5) {
-      setPlayerShields((prevShields) => prevShields + 1);
-      resetTimeSinceLastMovement();
+    if (characterParam.name === "Sean") {
+      if (timeSinceLastMovement >= 3) {
+        if (playerHP < playerMaxHP) {
+          setPlayerHP((prevPlayerHP) => prevPlayerHP + 1);
+          resetTimeSinceLastMovement();
+        }
+      }
     }
-  }, [timeSinceLastMovement, playerShields]);
+  }, [
+    characterParam.name,
+    timeSinceLastMovement,
+    playerHP,
+    setPlayerHP,
+    playerMaxHP,
+  ]);
 
   const GameOverText = {
     fontFamily: "'Halogen by Pixel Surplus', sans-serif",

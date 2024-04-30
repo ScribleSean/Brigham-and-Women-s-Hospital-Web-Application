@@ -9,7 +9,8 @@ const gabeFrames = [
   "/characterSprites/gabe6.png",
 ];
 const gabeHead = "/heads/gabeHead.png";
-const gabePassive = "Extra Thick: Shields spawn at an increased rate";
+const gabePassive =
+  "Extra Thick: Shields and Hearts spawn at a fixed, increased rate";
 const gabeRole = "Backend Lead";
 const gabeQuote =
   '"I be goofy, kinda funny. Acting stupid but they love me." - Mac Miller';
@@ -209,9 +210,9 @@ const seanBackstory =
   "No one is sure where he came from, but he's here and people think he's chill. It seems his hair has a mind of its own.";
 const Sean = new Character(
   "Sean",
-  3,
   1,
-  4,
+  2,
+  5,
   seanPassive,
   seanFrames,
   seanHead,
@@ -243,7 +244,7 @@ const Lorenzo = new Character(
   "Lorenzo",
   4,
   2,
-  2,
+  3,
   lorenzoPassive,
   lorenzoFrames,
   lorenzoHead,
@@ -268,7 +269,7 @@ const ethanBackstory =
   "A diet of a few too many chorus fruits has turned him into a block-like creature. It's hard for him to control his powers.";
 const Ethan = new Character(
   "Ethan",
-  4,
+  3,
   2,
   3,
   ethanPassive,

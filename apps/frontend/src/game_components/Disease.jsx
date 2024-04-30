@@ -59,8 +59,8 @@ const Disease = ({
 
       const playerRect = playerRef.current.getBoundingClientRect();
       const imageRect = imageRef.current.getBoundingClientRect();
-      playerRect.width *= 0.7;
-      playerRect.height *= 0.7;
+      playerRect.width *= 0.85;
+      playerRect.height *= 0.75;
       imageRect.width *= 0.8;
       imageRect.height *= 0.8;
 
