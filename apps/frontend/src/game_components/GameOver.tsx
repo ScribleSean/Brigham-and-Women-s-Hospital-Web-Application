@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.js";
 import axios from "axios";
 import { Button, Tabs, Tab, Box, Grid } from "@mui/material";
@@ -78,6 +78,10 @@ const GameOver = () => {
   const [highScores, setHighScores] = useState<breakoutHighScore[]>([]);
   const [recentScores, setRecentScores] = useState<breakoutHighScore[]>([]);
 
+  const [initials, setInitials] = useState("");
+  const [initial, setInitial] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const fetchTop = async () => {
     try {
       const response = await axios.get("/api/hs-all-time");
@@ -117,14 +121,35 @@ const GameOver = () => {
     fetchRecent();
   }, []);
 
-  const resetForm = () => {
-    setFormData({
-      HSID: 0,
-      initial: "",
-      time: endTime ? endTime : "",
-      character: "",
-    });
-  };
+  const handleSubmit = useCallback(async () => {
+    const resetForm = () => {
+      setFormData({
+        HSID: 0,
+        initial: "",
+        time: endTime ? endTime : "",
+        character: "",
+      });
+    };
+
+    if (initials.length === 3) {
+      try {
+        formData.initial = initials;
+
+        const response = await axios.post("/api/brig-hs-request", formData);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Unable to create form");
+        console.log(error);
+      }
+      resetForm();
+      setSubmitted(true);
+
+      fetchTop();
+      fetchRecent();
+    } else {
+      return;
+    }
+  }, [endTime, formData, initials]);
 
   const keyboardRows = [
     "A",
@@ -157,55 +182,7 @@ const GameOver = () => {
     "Go",
   ];
 
-  const [initials, setInitials] = useState("");
-  const [initial, setInitial] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
   useEffect(() => {
-    // const handleSubmit_AbideByViteOurLordAndGreatRuler = async () => { // this is the dumbest thing I have ever had to code. I know this is dumb but i know no other way
-    //   try {
-    //     formData.initial = initials;
-    //
-    //     const response = await axios.post("/api/brig-hs-request", formData);
-    //     console.log(response.data);
-    //   } catch (error) {
-    //     console.error("Unable to create form");
-    //     console.log(error);
-    //   }
-    //
-    //   setSubmitted(true);
-    //
-    //   try { // fetchTop. This is Bad.
-    //     const response = await axios.get("/api/hs-all-time");
-    //     const highscores = response.data;
-    //
-    //     while (highscores.length < 20) {
-    //       highscores.push({ HSID: -1, initial: ". . . .", time: "" });
-    //     }
-    //
-    //     const send = response.data;
-    //
-    //     setHighScores(send);
-    //   } catch (error) {
-    //     console.log("ERROR");
-    //   }
-    //
-    //   try { // fetchRecent. BAD!
-    //     const response = await axios.get("/api/hs-today");
-    //     const highscores = response.data;
-    //
-    //     while (highscores.length < 20) {
-    //       highscores.push({ HSID: -1, initial: ". . . .", time: "" });
-    //     }
-    //
-    //     const send = response.data;
-    //
-    //     setRecentScores(send);
-    //   } catch (error) {
-    //     console.log("ERROR");
-    //   }
-    // };
-
     const keyboardRows = [
       [
         "A",
@@ -239,7 +216,7 @@ const GameOver = () => {
       ],
     ];
 
-    const handleKeyPress = (e: KeyboardEvent) => {
+    const handleKeyPress = async (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") {
         setSelectedIndex((prevIndex) =>
           (prevIndex + 1) % 7 ? (prevIndex + 1) % 28 : prevIndex - 6,
@@ -260,7 +237,7 @@ const GameOver = () => {
           setInitials(initials.slice(0, -1));
         } else if (selectedIndex === 27) {
           console.log("I LOVE VITE!!!!");
-          // handleSubmit().then(); // it wont let me do it, i need someone who gets this
+          await handleSubmit();
         } else {
           if (initials.length === 3) {
             setInitials(initials.slice(0, -1) + keyboardRows[0][selectedIndex]);
@@ -276,7 +253,7 @@ const GameOver = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [selectedIndex, initial, initials, formData]);
+  }, [selectedIndex, initial, initials, formData, handleSubmit]);
 
   const handleKeyPress = (key: string, index: number) => {
     if (key === keyboardRows[keyboardRows.length - 1]) {
@@ -290,23 +267,6 @@ const GameOver = () => {
       setInitials((prevInitials) => prevInitials.slice(0, -1) + key);
     }
     setSelectedIndex(index);
-  };
-
-  const handleSubmit = async () => {
-    try {
-      formData.initial = initials;
-
-      const response = await axios.post("/api/brig-hs-request", formData);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Unable to create form");
-      console.log(error);
-    }
-    resetForm();
-    setSubmitted(true);
-
-    fetchTop();
-    fetchRecent();
   };
 
   return (
