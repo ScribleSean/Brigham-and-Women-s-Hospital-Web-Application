@@ -20,7 +20,7 @@
   text-align: right;
   background-color: black;
   color: white;
-  font-size: 30px;
+  font-size: 2rem;
 }
 
 .highScoreTableChar {
@@ -28,7 +28,7 @@
   text-align: left;
   background-color: black;
   color: white;
-  font-size: 30px;
+  font-size: 2rem;
 }
 
 .buttons {

@@ -259,7 +259,8 @@ const GameOver = () => {
         if (selectedIndex === 26) {
           setInitials(initials.slice(0, -1));
         } else if (selectedIndex === 27) {
-          console.log("I LOVE VITE!!!!"); // handleSubmit().then(); // it wont let me do it, i need someone who gets this
+          console.log("I LOVE VITE!!!!");
+          // handleSubmit().then(); // it wont let me do it, i need someone who gets this
         } else {
           if (initials.length === 3) {
             setInitials(initials.slice(0, -1) + keyboardRows[0][selectedIndex]);
@@ -322,6 +323,17 @@ const GameOver = () => {
         >
           {!submitted ? (
             <>
+              <h1
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  fontFamily: '"Halogen by Pixel Surplus", monospace',
+                  fontSize: "5rem",
+                  marginTop: "2rem",
+                }}
+              >
+                Enter Initials
+              </h1>
               <div>
                 <h1
                   className={"justify-content-center d-flex display-1 pt-5"}
@@ -343,132 +355,172 @@ const GameOver = () => {
                 }}
               >
                 <Grid item>
-                  <Grid
-                    container
-                    spacing={1}
+                  <div
                     style={{
-                      alignItems: "center",
-                      justifyContent: "space-evenly",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      gap: "1rem",
                     }}
                   >
-                    {keyboardRows.slice(0, 7).map((key, colIndex) => (
-                      <Grid item key={key} style={{ flex: "1" }}>
-                        <Button
-                          variant="outlined"
-                          onClick={() => handleKeyPress(key, colIndex)}
-                          style={{
-                            backgroundColor:
-                              selectedIndex === colIndex
-                                ? "#39ff14"
-                                : "transparent",
-                            borderColor: "#39ff14",
-                            color:
-                              selectedIndex === colIndex ? "black" : "white",
-                            fontFamily: '"Halogen by Pixel Surplus", monospace',
-                            fontWeight: "700",
-                          }}
-                        >
-                          {key}
-                        </Button>
-                      </Grid>
-                    ))}
-                  </Grid>
-                  <Grid
-                    container
-                    spacing={1}
-                    style={{ justifyContent: "space-evenly" }}
-                  >
-                    {keyboardRows.slice(7, 14).map((key, colIndex) => (
-                      <Grid item key={key}>
-                        <Button
-                          variant="outlined"
-                          onClick={() => handleKeyPress(key, colIndex + 7)}
-                          style={{
-                            backgroundColor:
-                              selectedIndex === colIndex + 7
-                                ? "#39ff14"
-                                : "transparent",
-                            borderColor: "#39ff14",
-                            color:
-                              selectedIndex === colIndex + 7
-                                ? "black"
-                                : "white",
-                            fontFamily: '"Halogen by Pixel Surplus", monospace',
-                            fontWeight:
-                              selectedIndex === colIndex + 7 ? "700" : "600",
-                          }}
-                        >
-                          {key}
-                        </Button>
-                      </Grid>
-                    ))}
-                  </Grid>
-                  <Grid
-                    container
-                    spacing={1}
-                    style={{ justifyContent: "space-evenly" }}
-                  >
-                    {keyboardRows.slice(14, 21).map((key, colIndex) => (
-                      <Grid item key={key}>
-                        <Button
-                          variant="outlined"
-                          onClick={() => handleKeyPress(key, colIndex + 7 * 2)}
-                          style={{
-                            backgroundColor:
-                              selectedIndex === colIndex + 7 * 2
-                                ? "#39ff14"
-                                : "transparent",
-                            borderColor: "#39ff14",
-                            color:
-                              selectedIndex === colIndex + 7 * 2
-                                ? "black"
-                                : "white",
-                            fontFamily: '"Halogen by Pixel Surplus", monospace',
-                            fontWeight:
-                              selectedIndex === colIndex + 7 * 2
-                                ? "700"
-                                : "600",
-                          }}
-                        >
-                          {key}
-                        </Button>
-                      </Grid>
-                    ))}
-                  </Grid>
-                  <Grid
-                    container
-                    spacing={1}
-                    style={{ justifyContent: "space-evenly" }}
-                  >
-                    {keyboardRows.slice(21, 28).map((key, colIndex) => (
-                      <Grid item key={key}>
-                        <Button
-                          variant="outlined"
-                          onClick={() => handleKeyPress(key, colIndex + 7 * 3)}
-                          style={{
-                            backgroundColor:
-                              selectedIndex === colIndex + 7 * 3
-                                ? "#39ff14"
-                                : "transparent",
-                            borderColor: "#39ff14",
-                            color:
-                              selectedIndex === colIndex + 7 * 3
-                                ? "black"
-                                : "white",
-                            fontFamily: '"Halogen by Pixel Surplus", monospace',
-                            fontWeight:
-                              selectedIndex === colIndex + 7 * 3
-                                ? "700"
-                                : "600",
-                          }}
-                        >
-                          {key}
-                        </Button>
-                      </Grid>
-                    ))}
-                  </Grid>
+                    <Grid
+                      container
+                      spacing={4}
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
+                      {keyboardRows.slice(0, 7).map((key, colIndex) => (
+                        <Grid item key={key} style={{ flex: "1" }}>
+                          <Button
+                            variant="outlined"
+                            onClick={() => handleKeyPress(key, colIndex)}
+                            style={{
+                              backgroundColor:
+                                selectedIndex === colIndex
+                                  ? "#39ff14"
+                                  : "transparent",
+                              borderColor: "#39ff14",
+                              color:
+                                selectedIndex === colIndex ? "black" : "white",
+                              fontFamily:
+                                '"Halogen by Pixel Surplus", monospace',
+                              fontWeight: "700",
+                              fontSize: "2rem",
+                              height: "4rem",
+                              width: "6rem",
+                            }}
+                          >
+                            {key}
+                          </Button>
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={4}
+                      style={{ justifyContent: "space-evenly" }}
+                    >
+                      {keyboardRows.slice(7, 14).map((key, colIndex) => (
+                        <Grid item key={key}>
+                          <Button
+                            variant="outlined"
+                            onClick={() => handleKeyPress(key, colIndex + 7)}
+                            style={{
+                              backgroundColor:
+                                selectedIndex === colIndex + 7
+                                  ? "#39ff14"
+                                  : "transparent",
+                              borderColor: "#39ff14",
+                              color:
+                                selectedIndex === colIndex + 7
+                                  ? "black"
+                                  : "white",
+                              fontFamily:
+                                '"Halogen by Pixel Surplus", monospace',
+                              fontWeight:
+                                selectedIndex === colIndex + 7 ? "700" : "600",
+                              fontSize: "2rem",
+                              height: "4rem",
+                              width: "6rem",
+                            }}
+                          >
+                            {key}
+                          </Button>
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={4}
+                      style={{ justifyContent: "space-evenly" }}
+                    >
+                      {keyboardRows.slice(14, 21).map((key, colIndex) => (
+                        <Grid item key={key}>
+                          <Button
+                            variant="outlined"
+                            onClick={() =>
+                              handleKeyPress(key, colIndex + 7 * 2)
+                            }
+                            style={{
+                              backgroundColor:
+                                selectedIndex === colIndex + 7 * 2
+                                  ? "#39ff14"
+                                  : "transparent",
+                              borderColor: "#39ff14",
+                              color:
+                                selectedIndex === colIndex + 7 * 2
+                                  ? "black"
+                                  : "white",
+                              fontFamily:
+                                '"Halogen by Pixel Surplus", monospace',
+                              fontWeight:
+                                selectedIndex === colIndex + 7 * 2
+                                  ? "700"
+                                  : "600",
+                              fontSize: "2rem",
+                              height: "4rem",
+                              width: "6rem",
+                            }}
+                          >
+                            {key}
+                          </Button>
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <Grid
+                      container
+                      spacing={4}
+                      style={{ justifyContent: "space-evenly" }}
+                    >
+                      {keyboardRows.slice(21, 28).map((key, colIndex) => (
+                        <Grid item key={key}>
+                          <Button
+                            variant="outlined"
+                            onClick={() =>
+                              handleKeyPress(key, colIndex + 7 * 3)
+                            }
+                            style={{
+                              backgroundColor:
+                                selectedIndex === colIndex + 7 * 3
+                                  ? "#39ff14"
+                                  : "transparent",
+                              borderColor: "#39ff14",
+                              color:
+                                selectedIndex === colIndex + 7 * 3
+                                  ? "black"
+                                  : "white",
+                              fontFamily:
+                                '"Halogen by Pixel Surplus", monospace',
+                              fontWeight:
+                                selectedIndex === colIndex + 7 * 3
+                                  ? "700"
+                                  : "600",
+                              fontSize: "2rem",
+                              height: "4rem",
+                              width: "6rem",
+                            }}
+                          >
+                            {key}
+                          </Button>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </div>
                 </Grid>
               </div>
+              <h1
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  fontFamily: '"Halogen by Pixel Surplus", monospace',
+                  fontSize: "5rem",
+                  marginTop: "6rem",
+                }}
+              >
+                Final Time: {endTime}
+              </h1>
             </>
           ) : (
             <>
