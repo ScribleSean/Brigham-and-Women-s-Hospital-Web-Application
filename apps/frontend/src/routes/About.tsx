@@ -26,7 +26,6 @@ function About() {
       description: "Project Manager / Full-Stack Developer",
       image: Maddux,
     },
-
     {
       gamertag: "Lorenzo Cassano",
       description: "Full-Stack Developer",
@@ -37,7 +36,6 @@ function About() {
       description: "Full-Stack Developer",
       image: Christian,
     },
-
     {
       gamertag: "Peter Czepiel",
       description: "Full-Stack Developer",
@@ -58,7 +56,6 @@ function About() {
       description: "Full-Stack Developer",
       image: Jose,
     },
-
     {
       gamertag: "Gustave Montana",
       description: "Full-Stack Developer",
@@ -69,7 +66,6 @@ function About() {
       description: "Full-Stack Developer",
       image: Gabe,
     },
-
     {
       gamertag: "Sofia Xie",
       description: "Document Analyst / Full-Stack Developer",
@@ -155,8 +151,8 @@ function About() {
                 flexBasis: "30%",
                 marginRight: "10px",
                 backgroundColor: "white",
-                height: "100%",
-                minHeight: "65vh",
+                height: "60%",
+                minHeight: "40vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -171,7 +167,7 @@ function About() {
                   alt="Team Image"
                   style={{
                     width: "100%",
-                    maxHeight: "200px",
+                    maxHeight: "230px",
                     objectFit: "contain",
                   }}
                 />
@@ -203,8 +199,8 @@ function About() {
                 flexBasis: "30%",
                 marginRight: "10px",
                 backgroundColor: "white",
-                height: "100%",
-                minHeight: "65vh",
+                height: "60%",
+                minHeight: "40vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -219,7 +215,7 @@ function About() {
                   alt="Team Image"
                   style={{
                     width: "100%",
-                    maxHeight: "200px",
+                    maxHeight: "230px",
                     objectFit: "contain",
                   }}
                 />
@@ -251,8 +247,8 @@ function About() {
                 flexBasis: "30%",
                 marginRight: "10px",
                 backgroundColor: "white",
-                height: "100%",
-                minHeight: "65vh",
+                height: "60%",
+                minHeight: "40vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -267,7 +263,7 @@ function About() {
                   alt="Team Image"
                   style={{
                     width: "100%",
-                    maxHeight: "200px",
+                    maxHeight: "230px",
                     objectFit: "contain",
                   }}
                 />
@@ -312,8 +308,8 @@ function About() {
                 flexBasis: "30%",
                 marginRight: "10px",
                 backgroundColor: "white",
-                height: "100%",
-                minHeight: "65vh",
+                height: "60%",
+                minHeight: "40vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -328,7 +324,7 @@ function About() {
                   alt="Team Image"
                   style={{
                     width: "100%",
-                    maxHeight: "200px",
+                    maxHeight: "230px",
                     objectFit: "contain",
                   }}
                 />
@@ -360,8 +356,8 @@ function About() {
                 flexBasis: "30%",
                 marginRight: "10px",
                 backgroundColor: "white",
-                height: "100%",
-                minHeight: "65vh",
+                height: "60%",
+                minHeight: "40vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -376,7 +372,7 @@ function About() {
                   alt="Team Image"
                   style={{
                     width: "100%",
-                    maxHeight: "200px",
+                    maxHeight: "230px",
                     objectFit: "contain",
                   }}
                 />
@@ -408,8 +404,8 @@ function About() {
                 flexBasis: "30%",
                 marginRight: "10px",
                 backgroundColor: "white",
-                height: "100%",
-                minHeight: "65vh",
+                height: "60%",
+                minHeight: "40vh",
                 fontColor: "#012d5a",
               }}
             >
@@ -424,7 +420,7 @@ function About() {
                   alt="Team Image"
                   style={{
                     width: "100%",
-                    maxHeight: "200px",
+                    maxHeight: "230px",
                     objectFit: "contain",
                   }}
                 />
@@ -449,6 +445,276 @@ function About() {
               </div>
             </Box>
           </Box>
+
+            
+
+            {/*Big Box 3*/}
+
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    textAlign: "left",
+                    width: "100%",
+                    fontSize: 20,
+                    fontColor: "#012d5a",
+                }}
+            >
+                {/*Box 7*/}
+
+                <Box
+                    sx={{
+                        flexBasis: "30%",
+                        marginRight: "10px",
+                        backgroundColor: "white",
+                        height: "60%",
+                        minHeight: "40vh",
+                        fontColor: "#012d5a",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: "#4194E0",
+                            width: "100%",
+                        }}
+                    >
+                        <img
+                            src={everyone[6].image}
+                            alt="Team Image"
+                            style={{
+                                width: "100%",
+                                maxHeight: "230px",
+                                objectFit: "contain",
+                            }}
+                        />
+                    </Box>
+                    <div
+                        style={{
+                            fontSize: 20,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[6].gamertag}
+                    </div>
+                    <div
+                        style={{
+                            fontSize: 15,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[6].description}
+                    </div>
+                </Box>
+
+                {/*Box 8*/}
+
+                <Box
+                    sx={{
+                        flexBasis: "30%",
+                        marginRight: "10px",
+                        backgroundColor: "white",
+                        height: "60%",
+                        minHeight: "40vh",
+                        fontColor: "#012d5a",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: "#40BBE0",
+                            width: "100%",
+                        }}
+                    >
+                        <img
+                            src={everyone[7].image}
+                            alt="Team Image"
+                            style={{
+                                width: "100%",
+                                maxHeight: "230px",
+                                objectFit: "contain",
+                            }}
+                        />
+                    </Box>
+                    <div
+                        style={{
+                            fontSize: 20,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[7].gamertag}
+                    </div>
+                    <div
+                        style={{
+                            fontSize: 15,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[7].description}
+                    </div>
+                </Box>
+
+                {/*Box 9*/}
+
+                <Box
+                    sx={{
+                        flexBasis: "30%",
+                        marginRight: "10px",
+                        backgroundColor: "white",
+                        height: "60%",
+                        minHeight: "40vh",
+                        fontColor: "#012d5a",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: "#60A3E0",
+                            width: "100%",
+                        }}
+                    >
+                        <img
+                            src={everyone[8].image}
+                            alt="Team Image"
+                            style={{
+                                width: "100%",
+                                maxHeight: "230px",
+                                objectFit: "contain",
+                            }}
+                        />
+                    </Box>
+                    <div
+                        style={{
+                            fontSize: 20,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[8].gamertag}
+                    </div>
+                    <div
+                        style={{
+                            fontSize: 15,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[8].description}
+                    </div>
+                </Box>
+            </Box>
+
+            {/*Big Box 4*/}
+
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    textAlign: "left",
+                    width: "100%",
+                    fontSize: 20,
+                    fontColor: "#012d5a",
+                }}
+            >
+                {/*Box 10*/}
+
+                <Box
+                    sx={{
+                        flexBasis: "30%",
+                        marginRight: "10px",
+                        marginLeft: "15%",
+                        backgroundColor: "white",
+                        height: "60%",
+                        minHeight: "40vh",
+                        fontColor: "#012d5a",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: "#6EB5FF",
+                            width: "100%",
+                        }}
+                    >
+                        <img
+                            src={everyone[9].image}
+                            alt="Team Image"
+                            style={{
+                                width: "100%",
+                                maxHeight: "230px",
+                                objectFit: "contain",
+                            }}
+                        />
+                    </Box>
+                    <div
+                        style={{
+                            fontSize: 20,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[9].gamertag}
+                    </div>
+                    <div
+                        style={{
+                            fontSize: 15,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[9].description}
+                    </div>
+                </Box>
+
+                {/*Box 11*/}
+
+                <Box
+                    sx={{
+                        flexBasis: "30%",
+                        marginRight: "15%",
+                        marginLeft: "10px",
+                        backgroundColor: "white",
+                        height: "60%",
+                        minHeight: "40vh",
+                        fontColor: "#012d5a",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: "#60A3E0",
+                            width: "100%",
+                        }}
+                    >
+                        <img
+                            src={everyone[10].image}
+                            alt="Team Image"
+                            style={{
+                                width: "100%",
+                                maxHeight: "230px",
+                                objectFit: "contain",
+                            }}
+                        />
+                    </Box>
+                    <div
+                        style={{
+                            fontSize: 20,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[10].gamertag}
+                    </div>
+                    <div
+                        style={{
+                            fontSize: 15,
+                            color: "#012D5A",
+                            fontFamily: "Inter, sans-serif",
+                        }}
+                    >
+                        {everyone[10].description}
+                    </div>
+                </Box>
+            </Box>
         </Box>
       </Container>
 
