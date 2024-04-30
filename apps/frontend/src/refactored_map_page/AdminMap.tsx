@@ -19,9 +19,8 @@ import ClearPathButton from "./ClearPathButton.tsx";
 import TextDirections from "./TextDirections.tsx";
 import ConfirmChanges from "./ConfirmChanges.tsx";
 import ShowPathsButton from "./ShowAllPaths.tsx";
-import ShowNodesEdgesDropDown from "./ShowNodesEdgesDropdown.tsx";
+import EditingSwitchOptions from "./EditingSwitchOptions.tsx";
 import MapLegend from "./MapLegend.tsx";
-import ToggleFixEdges from "./ToggleFixEdges.tsx";
 import { Box } from "@mui/material";
 import { EditorMode } from "common/src/types/map_page_types.ts";
 
@@ -100,20 +99,7 @@ function MapContents() {
       <TextDirections />
       <DisplayEditingOptions />
       <MapLegend />
-      <Box
-        sx={{
-          position: "absolute",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          gap: "1rem",
-          marginTop: "1vh",
-          zIndex: 3,
-        }}
-      >
-        <ShowNodesEdgesDropDown />
-        <ToggleFixEdges />
-      </Box>
+      <EditingSwitchOptions />
       <Box
         sx={{
           right: 0,
