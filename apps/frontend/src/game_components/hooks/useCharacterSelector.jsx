@@ -65,6 +65,25 @@ export function useCharacterSelector(
     }
   }, [index, activeArrowKey, firstRowSize, secondRowSize, setIndexSafely]);
 
+  const moveRandom = useCallback(() => {
+    const randomIndex = Math.floor(Math.random() * 13); // Random index between 0 and 12
+    const step = () => {
+      setIndex((currentIndex) => {
+        const nextIndex = (currentIndex + 1) % itemCount;
+        if (nextIndex === randomIndex) {
+          clearInterval(timer);
+        } else {
+          setIndexSafely(nextIndex);
+        }
+        return nextIndex;
+      });
+    };
+    const timer = setInterval(step, 100); // Adjust the time interval as needed
+  }, [setIndexSafely, itemCount]);
+
+
+
+
   const keyboardEnter = useCallback(() => {
     if (index === 7 && !joeUnlocked) {
       return;
@@ -114,9 +133,12 @@ export function useCharacterSelector(
           break;
         default:
           break;
+        case "r":
+          moveRandom();
+          break;
       }
     },
-    [movePrev, moveNext, moveUp, moveDown, keyboardEnter, keyboardEscape],
+    [moveRandom, movePrev, moveNext, moveUp, moveDown, keyboardEnter, keyboardEscape],
   );
 
   const handleKeyUp = useCallback(
@@ -155,3 +177,4 @@ export function useCharacterSelector(
     selectedStatus,
   };
 }
+
