@@ -6,8 +6,22 @@ import HealthPickup from "./HealthPickup.jsx";
 import Shield from "./Shield.jsx";
 import { allCharacters } from "./Characters";
 import axios from "axios";
+import CryptoJS from "crypto-js";
 
 const Canvas = () => {
+  const [encryptionKey, setEncryptionKey] = useState(""); // Add state for encryption key
+
+  useEffect(() => {
+    // Generate or fetch the encryption key and set it in state
+    const key = CryptoJS.lib.WordArray.random(16).toString();
+    setEncryptionKey(key);
+  }, []);
+  // Function to encrypt data
+  const encryptData = (data, key) => {
+    const ciphertext = CryptoJS.AES.encrypt(data, key).toString();
+    return ciphertext;
+  };
+
   const characterIndex = localStorage.getItem("characterIndex");
   const username = localStorage.getItem("username");
 
@@ -136,11 +150,19 @@ const Canvas = () => {
             console.error(error);
           });
       }
-      localStorage.setItem("score", elapsedTime);
-      window.location.href = `/game-over`;
+      const encryptedScore = encryptData(elapsedTime, encryptionKey);
+      localStorage.setItem("score", encryptedScore);
+      window.location.href = `/game-over?key=${encryptionKey}`;
     }
     return () => clearTimeout(gameOverTimer);
-  }, [characterIndex, username, isAlive, gameOverDisplayed, elapsedTime]);
+  }, [
+    characterIndex,
+    username,
+    isAlive,
+    gameOverDisplayed,
+    elapsedTime,
+    encryptionKey,
+  ]);
 
   const [isShielded, setIsShielded] = useState(false);
 

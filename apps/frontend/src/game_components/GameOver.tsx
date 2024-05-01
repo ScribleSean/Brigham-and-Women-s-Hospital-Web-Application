@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.js";
 import axios from "axios";
 import { Button, Tabs, Tab, Box, Grid } from "@mui/material";
-import { useLocation } from "react-router-dom";
 import styles from "../styles/brighamBreakout.module.css";
 import { allCharacters } from "./Characters.ts";
+import { useLocation } from "react-router-dom";
+import CryptoJS from "crypto-js";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -28,17 +29,32 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 const GameOver = () => {
-  // const [hovering, setHovering] = useState(false);
+  const [encryptionKey, setEncryptionKey] = useState(""); // Add state for encryption key
   const location = useLocation();
-
   const params = new URLSearchParams(location.search);
-  const endTime = localStorage.getItem("score");
-  const characterIndexString = localStorage.getItem("characterIndex");
-  const characterIndex = characterIndexString
-    ? parseInt(characterIndexString)
-    : 0;
-  const username = params.get("username");
+  const key = params.get("key"); // Get the encryption key from the location state
+  useEffect(() => {
+    // Generate or fetch the encryption key and set it in state
+    //@ts-expect-error bruh
+    setEncryptionKey(key);
+  }, [key]);
 
+  // Function to decrypt data
+  // @ts-expect-error bruh
+  // Function to decrypt data
+  const decryptData = (encryptedData, key) => {
+    const bytes = CryptoJS.AES.decrypt(encryptedData, key);
+    const originalData = bytes.toString(CryptoJS.enc.Utf8);
+    return originalData;
+  };
+
+  // const [hovering, setHovering] = useState(false);
+
+  const endTime = decryptData(localStorage.getItem("score"), encryptionKey);
+  const characterIndexString = decryptData(
+    localStorage.getItem("characterIndex"),
+    encryptionKey,
+  );
   const [submitted, setSubmitted] = useState(false);
   const [value, setValue] = useState(0);
 
@@ -133,25 +149,33 @@ const GameOver = () => {
         HSID: 0,
         initial: "",
         time: endTime ? endTime : "",
-        character: allCharacters[characterIndex].name,
+        character: "",
       });
     };
 
     if (initials.length === 3) {
       try {
         formData.initial = initials;
-        if (allCharacters[12].name === allCharacters[characterIndex].name) {
+        if (
+          allCharacters[12].name ===
+          allCharacters[
+            parseInt(
+              decryptData(
+                localStorage.getItem("characterIndex"),
+                encryptionKey,
+              ),
+            )
+          ].name
+        ) {
           formData.time = 0;
           const response = await axios.post("/api/brig-hs-request", formData);
           console.log(response.data);
           localStorage.setItem("characterIndex", "");
           localStorage.setItem("score", "");
         } else {
-          console.log(allCharacters[characterIndex].name);
-          formData.character = allCharacters[characterIndex].name.substring(
-            0,
-            4,
-          );
+          formData.character = allCharacters[
+            parseInt(characterIndexString)
+          ].name.substring(0, 4);
           const response = await axios.post("/api/brig-hs-request", formData);
           localStorage.setItem("characterIndex", "");
           localStorage.setItem("score", "");
@@ -169,7 +193,7 @@ const GameOver = () => {
     } else {
       return;
     }
-  }, [characterIndex, endTime, formData, initials]);
+  }, [characterIndexString, endTime, formData, initials, encryptionKey]);
 
   const keyboardRows = [
     "A",
@@ -288,8 +312,6 @@ const GameOver = () => {
     }
     setSelectedIndex(index);
   };
-
-  console.log(allCharacters[characterIndex]);
 
   return (
     <>
@@ -766,7 +788,7 @@ const GameOver = () => {
                   style={{ ...leaveButton }} // Merge styles based on hovering state
                   className={`btn py-4 px-5 shadow-lg ${styles.backToCharacter}`}
                   onClick={() => {
-                    window.location.href = `/character-select?username=${username}`;
+                    window.location.href = `/character-select`;
                   }}
                 >
                   CHANGE CHARACTER
@@ -776,7 +798,7 @@ const GameOver = () => {
                   style={{ ...leaveButton }} // Merge styles based on hovering state
                   className={`btn py-4 px-5 shadow-lg ${styles.tryAgain}`}
                   onClick={() => {
-                    window.location.href = `/brigham-breakout?characterIndex=${characterIndex}&username=${username}`;
+                    window.location.href = `/brigham-breakout`;
                   }}
                 >
                   TRY AGAIN

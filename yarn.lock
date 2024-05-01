@@ -1962,6 +1962,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/crypto-js@npm:^4":
+  version: 4.2.2
+  resolution: "@types/crypto-js@npm:4.2.2"
+  checksum: a40fc5a9219fd33f54ba3e094c5e5ab2904d3106681a76f1029bb038976591e9c8959099963bf4474fde21c2d8d00c1f896445206a3a58f85588f9cb1bd96a9a
+  languageName: node
+  linkType: hard
+
 "@types/emscripten@npm:^1.39.6":
   version: 1.39.10
   resolution: "@types/emscripten@npm:1.39.10"
@@ -3913,6 +3920,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"crypto-js@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "crypto-js@npm:4.2.0"
+  checksum: c7bcc56a6e01c3c397e95aa4a74e4241321f04677f9a618a8f48a63b5781617248afb9adb0629824792e7ec20ca0d4241a49b6b2938ae6f973ec4efc5c53c924
+  languageName: node
+  linkType: hard
+
 "css-color-keywords@npm:^1.0.0":
   version: 1.0.0
   resolution: "css-color-keywords@npm:1.0.0"
@@ -5388,6 +5402,7 @@ __metadata:
     "@tanstack/react-table": "npm:^8.9.3"
     "@types/bootstrap": "npm:^5.2.6"
     "@types/chartjs": "npm:^0"
+    "@types/crypto-js": "npm:^4"
     "@types/file-saver": "npm:^2"
     "@types/node": "npm:^20.2.5"
     "@types/papaparse": "npm:^5"
@@ -5404,6 +5419,7 @@ __metadata:
     axios: "npm:^1.4.0"
     bootstrap: "npm:^5.3.3"
     common: "workspace:*"
+    crypto-js: "npm:^4.2.0"
     csv-parse: "npm:^5.5.5"
     database: "workspace:*"
     eslint: "npm:latest"
@@ -9264,6 +9280,7 @@ __metadata:
     "@mui/styled-engine-sc": "npm:6.0.0-alpha.18"
     "@prisma/client": "npm:^5.12.0"
     "@types/bootstrap": "npm:^5"
+    "@types/crypto-js": "npm:^4"
     "@types/file-saver": "npm:^2"
     "@types/jquery": "npm:^3.5.29"
     "@types/prop-types": "npm:^15"
@@ -9275,6 +9292,7 @@ __metadata:
     animate.css: "npm:^4.1.1"
     bootstrap: "npm:^5.3.3"
     build: "npm:^0.1.4"
+    crypto-js: "npm:^4.2.0"
     dayjs: "npm:^1.11.10"
     dotenv: "npm:^16.4.5"
     dotenv-cli: "npm:^7.4.0"

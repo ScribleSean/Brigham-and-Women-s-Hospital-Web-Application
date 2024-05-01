@@ -29,6 +29,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.3",
     "common": "workspace:*",
+    "crypto-js": "^4.2.0",
     "csv-parse": "^5.5.5",
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
@@ -55,6 +56,7 @@
   "devDependencies": {
     "@types/bootstrap": "^5.2.6",
     "@types/chartjs": "^0",
+    "@types/crypto-js": "^4",
     "@types/file-saver": "^2",
     "@types/node": "^20.2.5",
     "@types/papaparse": "^5",
