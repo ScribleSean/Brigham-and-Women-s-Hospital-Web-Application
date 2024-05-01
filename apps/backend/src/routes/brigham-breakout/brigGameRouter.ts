@@ -7,6 +7,7 @@ import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighSco
 router.post("/", async function (req, res) {
   const newhs: breakoutHighScore = req.body;
 
+  console.log("Newhs.character", newhs.character);
   try {
     await PrismaClient.breakOutHighScore.create({
       data: {

@@ -133,7 +133,7 @@ const GameOver = () => {
         HSID: 0,
         initial: "",
         time: endTime ? endTime : "",
-        character: "",
+        character: allCharacters[characterIndex].name,
       });
     };
 
@@ -145,6 +145,11 @@ const GameOver = () => {
           const response = await axios.post("/api/brig-hs-request", formData);
           console.log(response.data);
         } else {
+          console.log(allCharacters[characterIndex].name);
+          formData.character = allCharacters[characterIndex].name.substring(
+            0,
+            4,
+          );
           const response = await axios.post("/api/brig-hs-request", formData);
           console.log(response.data);
         }
@@ -279,6 +284,8 @@ const GameOver = () => {
     }
     setSelectedIndex(index);
   };
+
+  console.log(allCharacters[characterIndex]);
 
   return (
     <>
