@@ -32,8 +32,8 @@ const GameOver = () => {
   const location = useLocation();
 
   const params = new URLSearchParams(location.search);
-  const endTime: string | null = params.get("endTime");
-  const characterIndexString: string | null = params.get("characterIndex");
+  const endTime = localStorage.getItem("score");
+  const characterIndexString = localStorage.getItem("characterIndex");
   const characterIndex = characterIndexString
     ? parseInt(characterIndexString)
     : 0;
@@ -144,6 +144,8 @@ const GameOver = () => {
           formData.time = 0;
           const response = await axios.post("/api/brig-hs-request", formData);
           console.log(response.data);
+          localStorage.setItem("characterIndex", "");
+          localStorage.setItem("score", "");
         } else {
           console.log(allCharacters[characterIndex].name);
           formData.character = allCharacters[characterIndex].name.substring(
@@ -151,6 +153,8 @@ const GameOver = () => {
             4,
           );
           const response = await axios.post("/api/brig-hs-request", formData);
+          localStorage.setItem("characterIndex", "");
+          localStorage.setItem("score", "");
           console.log(response.data);
         }
       } catch (error) {

@@ -5,15 +5,11 @@ import JoseSprite from "./JoseSprite.jsx";
 import HealthPickup from "./HealthPickup.jsx";
 import Shield from "./Shield.jsx";
 import { allCharacters } from "./Characters";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const Canvas = () => {
-  const location = useLocation();
-
-  const params = new URLSearchParams(location.search);
-  const characterIndex = parseInt(params.get("characterIndex"));
-  const username = params.get("username");
+  const characterIndex = localStorage.getItem("characterIndex");
+  const username = localStorage.getItem("username");
 
   const characterParam =
     characterIndex !== null ? allCharacters[characterIndex] : null;
@@ -140,7 +136,8 @@ const Canvas = () => {
             console.error(error);
           });
       }
-      window.location.href = `/game-over?endTime=${elapsedTime}&characterIndex=${characterIndex}&username=${username}`;
+      localStorage.setItem("score", elapsedTime);
+      window.location.href = `/game-over`;
     }
     return () => clearTimeout(gameOverTimer);
   }, [characterIndex, username, isAlive, gameOverDisplayed, elapsedTime]);
@@ -588,7 +585,7 @@ const Canvas = () => {
 
   useEffect(() => {
     if (characterParam.name === "Sean") {
-      if (timeSinceLastMovement >= 3) {
+      if (timeSinceLastMovement >= 2) {
         if (playerHP < playerMaxHP) {
           setPlayerHP((prevPlayerHP) => prevPlayerHP + 1);
           resetTimeSinceLastMovement();

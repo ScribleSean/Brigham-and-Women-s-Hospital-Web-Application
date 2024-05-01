@@ -75,7 +75,8 @@ const StartScreen = () => {
       .then((response) => {
         // handle response here
         console.log(response.data);
-        window.location.href = `/character-select?username=${username}`;
+        localStorage.setItem("username", username);
+        window.location.href = `/character-select`;
       })
       .catch((error) => {
         // handle error here

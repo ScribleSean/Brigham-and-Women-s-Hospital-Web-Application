@@ -180,7 +180,7 @@ const madduxRole = "Algorithms";
 const madduxQuote =
   "If possible, as far as it depends on you, live at peace with everyone. - Romans";
 const madduxBackstory =
-  "If wondering around the gym, you may be able to find him moving tons of weight at a time. He intimidates lesser individuals with his deep smolder.";
+  "If wandering around the gym, you may be able to find him moving tons of weight at a time. He intimidates lesser individuals with his deep smolder.";
 const Maddux = new Character(
   "Maddux",
   4,
@@ -210,9 +210,9 @@ const seanBackstory =
   "No one is sure where he came from, but he's here and people think he's chill. It seems his hair has a mind of its own.";
 const Sean = new Character(
   "Sean",
-  1,
   2,
-  5,
+  2,
+  4,
   seanPassive,
   seanFrames,
   seanHead,

@@ -75,9 +75,10 @@ export function useCharacterSelector(
     if (selectedStatus === SelectionStatus.unselected) {
       setSelectedStatus(SelectionStatus.selected);
     } else {
-      window.location.href = `/brigham-breakout?characterIndex=${index}&username=${username}`;
+      localStorage.setItem("characterIndex", index);
+      window.location.href = `/brigham-breakout`;
     }
-  }, [wongUnlocked, joeUnlocked, username, selectedStatus, index]);
+  }, [wongUnlocked, joeUnlocked, selectedStatus, index]);
 
   const keyboardEscape = useCallback(() => {
     setSelectedStatus(SelectionStatus.unselected);

@@ -5,12 +5,9 @@ import CharCarrusel from "./CharCarrusel.jsx";
 import CharChunk from "./CharChunk.jsx";
 import { Characters } from "./Characters";
 import "../game_styles/CharacterSelect.css";
-import { useLocation } from "react-router-dom";
 
 const CharacterSelect = () => {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const username = params.get("username");
+  const username = localStorage.getItem("username");
 
   const [joeUnlocked, setJoeUnlocked] = useState(false);
   const [wongUnlocked, setWongUnlocked] = useState(false);
