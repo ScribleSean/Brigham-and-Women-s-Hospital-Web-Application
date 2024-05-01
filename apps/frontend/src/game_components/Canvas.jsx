@@ -18,8 +18,7 @@ const Canvas = () => {
   }, []);
   // Function to encrypt data
   const encryptData = (data, key) => {
-    const ciphertext = CryptoJS.AES.encrypt(data, key).toString();
-    return ciphertext;
+    return CryptoJS.AES.encrypt(data, key).toString();
   };
 
   const characterIndex = localStorage.getItem("characterIndex");
@@ -150,7 +149,7 @@ const Canvas = () => {
             console.error(error);
           });
       }
-      const encryptedScore = encryptData(elapsedTime, encryptionKey);
+      const encryptedScore = encryptData(String(elapsedTime), encryptionKey);
       localStorage.setItem("score", encryptedScore);
       window.location.href = `/game-over?key=${encryptionKey}`;
     }

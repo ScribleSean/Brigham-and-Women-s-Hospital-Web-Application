@@ -6,12 +6,7 @@ const SelectionStatus = {
   selected: 1,
 };
 
-export function useCharacterSelector(
-  initialIndex,
-  username,
-  joeUnlocked,
-  wongUnlocked,
-) {
+export function useCharacterSelector(initialIndex, joeUnlocked, wongUnlocked) {
   const [index, setIndex] = useState(initialIndex);
   const [activeArrowKey, setActiveArrowKey] = useState(null);
   const itemCount = allCharacters.length;
@@ -75,7 +70,7 @@ export function useCharacterSelector(
     if (selectedStatus === SelectionStatus.unselected) {
       setSelectedStatus(SelectionStatus.selected);
     } else {
-      localStorage.setItem("characterIndex", index);
+      localStorage.setItem("characterIndex", String(index));
       window.location.href = `/brigham-breakout`;
     }
   }, [wongUnlocked, joeUnlocked, selectedStatus, index]);

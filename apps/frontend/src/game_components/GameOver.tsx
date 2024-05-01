@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { breakoutHighScore } from "common/src/backend_interfaces/breakoutHighScore.js";
 import axios from "axios";
-import { Button, Tabs, Tab, Box, Grid } from "@mui/material";
+import { Box, Button, Grid, Tab, Tabs } from "@mui/material";
 import styles from "../styles/brighamBreakout.module.css";
 import { allCharacters } from "./Characters.ts";
 import { useLocation } from "react-router-dom";
@@ -29,32 +29,23 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 const GameOver = () => {
-  const [encryptionKey, setEncryptionKey] = useState(""); // Add state for encryption key
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const key = params.get("key"); // Get the encryption key from the location state
-  useEffect(() => {
-    // Generate or fetch the encryption key and set it in state
-    //@ts-expect-error bruh
-    setEncryptionKey(key);
-  }, [key]);
 
   // Function to decrypt data
   // @ts-expect-error bruh
   // Function to decrypt data
   const decryptData = (encryptedData, key) => {
     const bytes = CryptoJS.AES.decrypt(encryptedData, key);
-    const originalData = bytes.toString(CryptoJS.enc.Utf8);
-    return originalData;
+    return bytes.toString(CryptoJS.enc.Utf8);
   };
 
   // const [hovering, setHovering] = useState(false);
 
-  const endTime = decryptData(localStorage.getItem("score"), encryptionKey);
-  const characterIndexString = decryptData(
-    localStorage.getItem("characterIndex"),
-    encryptionKey,
-  );
+  const endTime = decryptData(localStorage.getItem("score"), key);
+  const characterIndexString: string | null =
+    localStorage.getItem("characterIndex");
   const [submitted, setSubmitted] = useState(false);
   const [value, setValue] = useState(0);
 
@@ -153,31 +144,23 @@ const GameOver = () => {
       });
     };
 
-    if (initials.length === 3) {
+    if (initials.length === 3 && characterIndexString) {
       try {
         formData.initial = initials;
+        console.log("CharacterIndex", localStorage.getItem("characterIndex"));
         if (
           allCharacters[12].name ===
-          allCharacters[
-            parseInt(
-              decryptData(
-                localStorage.getItem("characterIndex"),
-                encryptionKey,
-              ),
-            )
-          ].name
+          allCharacters[parseInt(characterIndexString)].name
         ) {
           formData.time = 0;
           const response = await axios.post("/api/brig-hs-request", formData);
           console.log(response.data);
-          localStorage.setItem("characterIndex", "");
           localStorage.setItem("score", "");
         } else {
           formData.character = allCharacters[
             parseInt(characterIndexString)
           ].name.substring(0, 4);
           const response = await axios.post("/api/brig-hs-request", formData);
-          localStorage.setItem("characterIndex", "");
           localStorage.setItem("score", "");
           console.log(response.data);
         }
@@ -193,7 +176,7 @@ const GameOver = () => {
     } else {
       return;
     }
-  }, [characterIndexString, endTime, formData, initials, encryptionKey]);
+  }, [characterIndexString, endTime, formData, initials]);
 
   const keyboardRows = [
     "A",
