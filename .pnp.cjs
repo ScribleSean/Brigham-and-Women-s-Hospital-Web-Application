@@ -72,7 +72,6 @@ const RAW_RUNTIME_STATE =
           ["@mui/styled-engine-sc", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:6.0.0-alpha.18"],\
           ["@prisma/client", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.12.0"],\
           ["@types/bootstrap", "npm:5.2.10"],\
-          ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/file-saver", "npm:2.0.7"],\
           ["@types/jquery", "npm:3.5.29"],\
           ["@types/prop-types", "npm:15.7.12"],\
@@ -94,6 +93,7 @@ const RAW_RUNTIME_STATE =
           ["happy-dom", "npm:10.11.2"],\
           ["html2canvas", "npm:1.4.1"],\
           ["husky", "npm:9.0.11"],\
+          ["node-crypto", "npm:1.0.0"],\
           ["prettier", "npm:2.8.8"],\
           ["prettier-config-custom", "workspace:configs/prettier-config-custom"],\
           ["prisma", "npm:5.12.0"],\
@@ -7226,6 +7226,7 @@ const RAW_RUNTIME_STATE =
           ["husky", "npm:9.0.11"],\
           ["localforage", "npm:1.10.0"],\
           ["match-sorter", "npm:6.3.3"],\
+          ["node-crypto", "npm:1.0.0"],\
           ["papaparse", "npm:5.4.1"],\
           ["postcss", "npm:8.4.35"],\
           ["prettier", "npm:3.2.4"],\
@@ -9098,6 +9099,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/negotiator-npm-0.6.3-9d50e36171-2723fb822a.zip/node_modules/negotiator/",\
         "packageDependencies": [\
           ["negotiator", "npm:0.6.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["node-crypto", [\
+      ["npm:1.0.0", {\
+        "packageLocation": "./.yarn/cache/node-crypto-npm-1.0.0-c5b984cab5-0ee90f418d.zip/node_modules/node-crypto/",\
+        "packageDependencies": [\
+          ["node-crypto", "npm:1.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -11797,7 +11807,6 @@ const RAW_RUNTIME_STATE =
           ["@mui/styled-engine-sc", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:6.0.0-alpha.18"],\
           ["@prisma/client", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.12.0"],\
           ["@types/bootstrap", "npm:5.2.10"],\
-          ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/file-saver", "npm:2.0.7"],\
           ["@types/jquery", "npm:3.5.29"],\
           ["@types/prop-types", "npm:15.7.12"],\
@@ -11819,6 +11828,7 @@ const RAW_RUNTIME_STATE =
           ["happy-dom", "npm:10.11.2"],\
           ["html2canvas", "npm:1.4.1"],\
           ["husky", "npm:9.0.11"],\
+          ["node-crypto", "npm:1.0.0"],\
           ["prettier", "npm:2.8.8"],\
           ["prettier-config-custom", "workspace:configs/prettier-config-custom"],\
           ["prisma", "npm:5.12.0"],\

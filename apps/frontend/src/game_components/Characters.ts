@@ -40,7 +40,7 @@ const joseFrames = [
 ];
 const joseHead = "/heads/joseHead.png";
 const josePassive =
-  "Ethereal Existence: Starts as a mortal cartographer with just one health point, but his health has infinite potential for expansion";
+  "Ethereal Existence: Starts as a mortal cartographer with just one health point, but his health has infinite potential for expansion and hearts drop more frequently";
 const joseRole = "Algorithms Lead";
 const joseQuote = '"Un vaso es un vaso y un plato es un plato" - Mariano Rajoy';
 const joseBackstory =
@@ -91,21 +91,21 @@ const Christian = new Character(
 );
 
 const sophiaFrames = [
-  "/characterSprites/sophia1.png",
-  "/characterSprites/sophia2.png",
+  "/characterSprites/sofia1.png",
+  "/characterSprites/sofia2.png",
 ];
 const sophiaHead = "/heads/sophiaHead.png";
 const sophiaPassive =
-  "Woman in STEM: regenerate a heart every 20 seconds if not at full health";
+  "Woman in STEM: Regenerate health over time. If full health when regenerating, gain a shield. Regeneration frequency grows over time";
 const sophiaRole = "Frontend";
 const sophiaQuote = "Fashion over function -Coco Chanel";
 const sophiaBackstory =
   "Centuries of being a woman in a male dominated field have shaped her to become stronger than all her male peers. This strength is shown in her expert healing abilities.";
 const Sophia = new Character(
   "Sofia",
-  4,
   2,
-  2,
+  3,
+  3,
   sophiaPassive,
   sophiaFrames,
   sophiaHead,
@@ -130,7 +130,7 @@ const timothyBackstory =
   "After many years as a successful scientist he tried to teleport himself with his pet llama. The experiment went horribly wrong, fusing the two together and causing him to lose his sight.";
 const Timothy = new Character(
   "Timothy",
-  3,
+  4,
   6,
   3,
   timothyPassive,
@@ -203,7 +203,7 @@ const seanFrames = [
 ];
 const seanHead = "/heads/seanHead.png";
 const seanPassive =
-  "Regeneration: After 5 seconds of inactivity, you gain a shield";
+  "Hater Energy: Gains a shield upon taking damage from a disease";
 const seanRole = "Backend";
 const seanQuote = "I smoked away my brain -A$AP Rocky";
 const seanBackstory =
@@ -211,8 +211,8 @@ const seanBackstory =
 const Sean = new Character(
   "Sean",
   2,
-  2,
-  4,
+  3,
+  3,
   seanPassive,
   seanFrames,
   seanHead,
@@ -261,7 +261,7 @@ const ethanFrames = [
 ];
 const ethanHead = "/heads/ethanHead.png";
 const ethanPassive =
-  "Chorus Conundrum: Randomly teleports to an unoccupied space";
+  "Chorus Conundrum: Randomly teleports. When teleported, gains a temporary shield";
 const ethanRole = "Frontend";
 const ethanQuote =
   "And such were some of you: but ye are washed, but ye are sanctified, but ye are justified in the name of the Lord Jesus, and by the Spirit of our God. - 1 Corinthians 6:11";
@@ -346,9 +346,9 @@ const gusBackstory =
   "His true origins are a mystery, some say he appeared on day in the basement of SAE. Too much house music has affected his mind.";
 const Gus = new Character(
   "Gus",
+  2,
   3,
-  4,
-  1,
+  3,
   gusPassive,
   gusFrames,
   gusHead,

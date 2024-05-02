@@ -10,6 +10,7 @@ const JoseSprite = ({
   playerHP,
   setPlayerHP,
   isShielded,
+  characterParam,
 }) => {
   const position = useRef({ x: x, y: y });
   const playerRef = useRef(player);
@@ -83,8 +84,8 @@ const JoseSprite = ({
           ref={imageRef}
           x={position.current.x}
           y={position.current.y}
-          width={150}
-          height={150}
+          width={characterParam.name === "Gus" ? 135 : 150}
+          height={characterParam.name === "Gus" ? 135 : 150}
           href={imageSrc}
         />
       )}

@@ -5432,6 +5432,7 @@ __metadata:
     husky: "npm:^9.0.11"
     localforage: "npm:^1.10.0"
     match-sorter: "npm:^6.3.1"
+    node-crypto: "npm:^1.0.0"
     papaparse: "npm:^5.4.1"
     postcss: "npm:^8.4.35"
     prettier: "npm:latest"
@@ -7127,6 +7128,13 @@ __metadata:
   version: 0.6.3
   resolution: "negotiator@npm:0.6.3"
   checksum: 2723fb822a17ad55c93a588a4bc44d53b22855bf4be5499916ca0cab1e7165409d0b288ba2577d7b029f10ce18cf2ed8e703e5af31c984e1e2304277ef979837
+  languageName: node
+  linkType: hard
+
+"node-crypto@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "node-crypto@npm:1.0.0"
+  checksum: 0ee90f418d334e4806e0fdcc736a52c7f29451c446e6a7a859d3b2ade5b413c511809b342d5142a354f72d6113fe044d6084bd6f1195b4d61e555f14a3a4b086
   languageName: node
   linkType: hard
 
@@ -9280,7 +9288,6 @@ __metadata:
     "@mui/styled-engine-sc": "npm:6.0.0-alpha.18"
     "@prisma/client": "npm:^5.12.0"
     "@types/bootstrap": "npm:^5"
-    "@types/crypto-js": "npm:^4"
     "@types/file-saver": "npm:^2"
     "@types/jquery": "npm:^3.5.29"
     "@types/prop-types": "npm:^15"
@@ -9302,6 +9309,7 @@ __metadata:
     happy-dom: "npm:^10.6.3"
     html2canvas: "npm:^1.4.1"
     husky: "npm:^9.0.11"
+    node-crypto: "npm:^1.0.0"
     prettier: "npm:2.8.8"
     prettier-config-custom: "workspace:*"
     prisma: "npm:^5.12.0"

@@ -12,6 +12,8 @@ const Disease = ({
   isShielded,
   setSpeed,
   characterParam,
+  setPlayerShields,
+  playerShields,
 }) => {
   const position = useRef({ x: x, y: y });
   const playerRef = useRef(player);
@@ -59,8 +61,12 @@ const Disease = ({
 
       const playerRect = playerRef.current.getBoundingClientRect();
       const imageRect = imageRef.current.getBoundingClientRect();
-      playerRect.width *= 0.85;
-      playerRect.height *= 0.75;
+      playerRect.width *= 0.8;
+      if (characterParam.name === "Gus") {
+        playerRect.height *= 1;
+      } else {
+        playerRect.height *= 0.8;
+      }
       imageRect.width *= 0.8;
       imageRect.height *= 0.8;
 
@@ -69,6 +75,9 @@ const Disease = ({
         if (!isShielded) {
           if (characterParam.name === "Lorenzo") {
             setSpeed((prevSpeed) => prevSpeed + 30);
+          }
+          if (characterParam.name === "Sean") {
+            setPlayerShields(playerShields + 1);
           }
           setPlayerHP(playerHP - 1);
         }
@@ -94,6 +103,8 @@ const Disease = ({
     isShielded,
     characterParam.name,
     setSpeed,
+    setPlayerShields,
+    playerShields,
   ]);
 
   const imageSrc = `/${randDisease?.color}Disease${currentFrame + 1}.png`;

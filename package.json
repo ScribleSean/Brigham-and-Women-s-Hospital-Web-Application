@@ -35,7 +35,6 @@
   "packageManager": "yarn@4.0.2",
   "devDependencies": {
     "@types/bootstrap": "^5",
-    "@types/crypto-js": "^4",
     "@types/file-saver": "^2",
     "@types/prop-types": "^15",
     "@types/qrcode": "^1",
@@ -76,6 +75,7 @@
     "dotenv-cli": "^7.4.0",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
+    "node-crypto": "^1.0.0",
     "prop-types": "^15.8.1",
     "qrcode": "^1.5.3",
     "qrcode-generator-ts": "^0.0.4",
