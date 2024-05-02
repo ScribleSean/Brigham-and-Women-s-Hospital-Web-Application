@@ -7,6 +7,7 @@ import { Characters } from "./Characters";
 import "../game_styles/CharacterSelect.css";
 
 const CharacterSelect = () => {
+  localStorage.setItem("characterIndex", "");
   const username = localStorage.getItem("username");
 
   const [joeUnlocked, setJoeUnlocked] = useState(false);

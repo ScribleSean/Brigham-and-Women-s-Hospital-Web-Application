@@ -29,6 +29,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.3",
     "common": "workspace:*",
+    "crypto-js": "^4.2.0",
     "csv-parse": "^5.5.5",
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
@@ -36,6 +37,7 @@
     "husky": "^9.0.11",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
+    "node-crypto": "^1.0.0",
     "papaparse": "^5.4.1",
     "postcss": "^8.4.35",
     "qrcode.react": "^3.1.0",
@@ -55,6 +57,7 @@
   "devDependencies": {
     "@types/bootstrap": "^5.2.6",
     "@types/chartjs": "^0",
+    "@types/crypto-js": "^4",
     "@types/file-saver": "^2",
     "@types/node": "^20.2.5",
     "@types/papaparse": "^5",

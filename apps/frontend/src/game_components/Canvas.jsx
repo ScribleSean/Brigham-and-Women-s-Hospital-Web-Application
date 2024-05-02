@@ -6,32 +6,44 @@ import HealthPickup from "./HealthPickup.jsx";
 import Shield from "./Shield.jsx";
 import { allCharacters } from "./Characters";
 import axios from "axios";
+import CryptoJS from "crypto-js";
 
 const Canvas = () => {
+  const [encryptionKey, setEncryptionKey] = useState(""); // Add state for encryption key
+
+  useEffect(() => {
+    // Generate or fetch the encryption key and set it in state
+    const key = CryptoJS.lib.WordArray.random(16).toString();
+    setEncryptionKey(key);
+  }, []);
+  // Function to encrypt data
+  const encryptData = (data, key) => {
+    return CryptoJS.AES.encrypt(data, key).toString();
+  };
+
   const characterIndex = localStorage.getItem("characterIndex");
   const username = localStorage.getItem("username");
 
-  const characterParam =
-    characterIndex !== null ? allCharacters[characterIndex] : null;
+  const characterParam = allCharacters[parseInt(characterIndex)];
 
   let characterWidth;
   let characterHeight;
 
   if (characterParam.size === 1) {
-    characterWidth = 120;
-    characterHeight = 240;
+    characterWidth = 115;
+    characterHeight = 230;
   } else if (characterParam.size === 2) {
-    characterWidth = 110;
-    characterHeight = 220;
+    characterWidth = 105;
+    characterHeight = 210;
   } else if (characterParam.size === 3) {
-    characterWidth = 100;
-    characterHeight = 200;
-  } else if (characterParam.size === 4) {
     characterWidth = 90;
     characterHeight = 180;
+  } else if (characterParam.size === 4) {
+    characterWidth = 82;
+    characterHeight = 164;
   } else if (characterParam.size === 5) {
-    characterWidth = 85;
-    characterHeight = 170;
+    characterWidth = 75;
+    characterHeight = 150;
   }
 
   // Define fixed width and height for the canvas
@@ -71,32 +83,35 @@ const Canvas = () => {
   const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
+    let timer;
     if (isAlive) {
-      const timer = setInterval(() => {
+      timer = setInterval(() => {
         setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
       }, 1000);
-
-      return () => clearInterval(timer);
     }
-  }, [isAlive, elapsedTime]);
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        clearInterval(timer);
+        setIsAlive(false);
+      } else if (isAlive) {
+        timer = setInterval(() => {
+          setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
+        }, 1000);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [isAlive, setIsAlive]); // Only re-run the effect if `isAlive` changes
 
   const [playerHP, setPlayerHP] = useState(characterParam.health + 1);
   const [playerMaxHP] = useState(characterParam.health + 1);
   const [playerShields, setPlayerShields] = useState(0);
-
-  useEffect(() => {
-    if (characterParam.name === "Sofia") {
-      const timer = setInterval(() => {
-        if (elapsedTime % 12 === 0) {
-          if (playerHP < playerMaxHP) {
-            setPlayerHP((prevHP) => prevHP + 1);
-          }
-        }
-      }, 1000); // Check every second
-
-      return () => clearInterval(timer);
-    }
-  }, [characterParam.name, elapsedTime, setPlayerHP, playerHP, playerMaxHP]);
 
   const [gameOverDisplayed, setGameOverDisplayed] = useState(false);
   useEffect(() => {
@@ -136,11 +151,19 @@ const Canvas = () => {
             console.error(error);
           });
       }
-      localStorage.setItem("score", elapsedTime);
-      window.location.href = `/game-over`;
+      const encryptedScore = encryptData(String(elapsedTime), encryptionKey);
+      localStorage.setItem("score", encryptedScore);
+      window.location.href = `/game-over?key=${encryptionKey}`;
     }
     return () => clearTimeout(gameOverTimer);
-  }, [characterIndex, username, isAlive, gameOverDisplayed, elapsedTime]);
+  }, [
+    characterIndex,
+    username,
+    isAlive,
+    gameOverDisplayed,
+    elapsedTime,
+    encryptionKey,
+  ]);
 
   const [isShielded, setIsShielded] = useState(false);
 
@@ -154,30 +177,31 @@ const Canvas = () => {
     }
   }, [characterParam.name]);
 
-  const [timeSinceLastMovement, setTimeSinceLastMovement] = useState(0);
-
-  // Function to reset the time since last movement
-  const resetTimeSinceLastMovement = () => {
-    setTimeSinceLastMovement(0);
-  };
-
-  useEffect(() => {
-    // Reset the time since last movement whenever the player moves
-    const timer = setTimeout(resetTimeSinceLastMovement, 4000);
-
-    return () => clearTimeout(timer);
-  }, [velocity]);
+  //Also old sean passive
+  // const [timeSinceLastMovement, setTimeSinceLastMovement] = useState(0);
+  //
+  // // Function to reset the time since last movement
+  // const resetTimeSinceLastMovement = () => {
+  //   setTimeSinceLastMovement(0);
+  // };
+  //
+  // useEffect(() => {
+  //   // Reset the time since last movement whenever the player moves
+  //   const timer = setTimeout(resetTimeSinceLastMovement, 4000);
+  //
+  //   return () => clearTimeout(timer);
+  // }, [velocity]);
 
   // Increment the time since last movement when the player is alive
-  useEffect(() => {
-    if (isAlive) {
-      const timer = setInterval(() => {
-        setTimeSinceLastMovement((prevTime) => prevTime + 1);
-      }, 1000);
-
-      return () => clearInterval(timer);
-    }
-  }, [isAlive]);
+  // useEffect(() => {
+  //   if (isAlive) {
+  //     const timer = setInterval(() => {
+  //       setTimeSinceLastMovement((prevTime) => prevTime + 1);
+  //     }, 1000);
+  //
+  //     return () => clearInterval(timer);
+  //   }
+  // }, [isAlive]);
 
   useEffect(() => {
     const adjustVelocity = (newVelocity, key, speed) => {
@@ -271,7 +295,7 @@ const Canvas = () => {
     // Handle key down events
     const handleKeyDown = (event) => {
       if (!event.repeat) {
-        resetTimeSinceLastMovement();
+        // resetTimeSinceLastMovement();
         const newVelocity = { ...velocity };
         if (event.key) {
           adjustVelocity(newVelocity, event.key, speed);
@@ -343,6 +367,8 @@ const Canvas = () => {
     let nextSpawnInterval = 0;
     if (characterParam.name === "Gabe") {
       nextSpawnInterval = 5000;
+    } else if (characterParam.name === "Jose") {
+      nextSpawnInterval = 7000;
     } else {
       const heartSpawnRateUpper = 15000;
       const heartSpawnRateLower = 10000;
@@ -374,7 +400,7 @@ const Canvas = () => {
 
     let spawnInterval;
 
-    if (!heartSpawning) {
+    if (!heartSpawning && characterParam.name !== "Sofia") {
       spawnInterval = setTimeout(spawnHeart, nextSpawnInterval);
     }
 
@@ -422,7 +448,7 @@ const Canvas = () => {
 
     let spawnInterval;
 
-    if (!shieldSpawning) {
+    if (!shieldSpawning && characterParam.name !== "Sofia") {
       spawnInterval = setTimeout(spawnShield, nextSpawnInterval);
     }
 
@@ -541,9 +567,16 @@ const Canvas = () => {
     prevHPRef.current = playerHP;
   }, [characterParam.name, playerHP, playerMaxHP]);
 
+  // const [ethanTeleportMod, setEthanTeleportMod] = useState(0);
+
+  const teleportIntervalRef = useRef(null);
+
   useEffect(() => {
     // Function to handle teleportation for Ethan
     const teleportEthan = () => {
+      // Clear the previous timeout
+      clearTimeout(teleportIntervalRef.current);
+
       // Calculate random coordinates within the canvas bounds
       const randomX = Math.random() * viewBox[2] + viewBox[0];
       const randomY = Math.random() * viewBox[3] + viewBox[1];
@@ -553,11 +586,11 @@ const Canvas = () => {
 
       // Set Ethan as shielded for 500ms
       setIsShielded(true);
-      setTimeout(() => setIsShielded(false), 500 + baseSpeed.current * 50);
+      setTimeout(() => setIsShielded(false), 1500);
 
       // Schedule the next teleportation
       const nextTeleportTime = Math.random() * 10000 + 5000; // Random interval between 5 and 15 seconds
-      setTimeout(teleportEthan, nextTeleportTime);
+      teleportIntervalRef.current = setTimeout(teleportEthan, nextTeleportTime);
     };
 
     // Check if the character is Ethan and start teleportation
@@ -566,8 +599,57 @@ const Canvas = () => {
     }
 
     // Cleanup function to clear any pending teleportation
-    return () => clearTimeout(spawnIntervalRef.current);
-  }, [baseSpeed, characterParam.name, viewBox]);
+    return () => clearInterval(teleportIntervalRef.current);
+  }, [characterParam.name, viewBox]);
+
+  const [oldTime, setOldTime] = useState(0);
+
+  useEffect(() => {
+    if (characterParam.name === "Sofia") {
+      let adjustedSpeed;
+      if (elapsedTime <= 200) {
+        adjustedSpeed = baseSpeed.current + Math.floor(elapsedTime / 10) * 0.5;
+        const scalingRegen = 20 - (adjustedSpeed - 5);
+        if (
+          (elapsedTime % scalingRegen === 0 &&
+            elapsedTime > 1 &&
+            oldTime !== elapsedTime) ||
+          (elapsedTime === 20 && oldTime !== elapsedTime)
+        ) {
+          if (playerHP < playerMaxHP) {
+            setPlayerHP((prevHP) => prevHP + 1);
+          } else {
+            setPlayerShields(playerShields + 1);
+          }
+          setOldTime(elapsedTime);
+        }
+      } else {
+        // After 220 elapsed time, Sofia gains either a shield or heart every 3 seconds
+        if (
+          elapsedTime > 200 &&
+          elapsedTime % 3 === 0 &&
+          oldTime !== elapsedTime
+        ) {
+          if (playerHP < playerMaxHP) {
+            setPlayerHP((prevHP) => prevHP + 1);
+          } else {
+            setPlayerShields(playerShields + 1);
+          }
+          setOldTime(elapsedTime);
+        }
+      }
+    }
+  }, [
+    characterParam.name,
+    elapsedTime,
+    setPlayerHP,
+    playerHP,
+    playerMaxHP,
+    setPlayerShields,
+    playerShields,
+    baseSpeed,
+    oldTime,
+  ]);
 
   const imageRef = useRef(null);
 
@@ -583,22 +665,23 @@ const Canvas = () => {
     return () => clearInterval(frameInterval);
   }, [characterParam.frames.length]);
 
-  useEffect(() => {
-    if (characterParam.name === "Sean") {
-      if (timeSinceLastMovement >= 2) {
-        if (playerHP < playerMaxHP) {
-          setPlayerHP((prevPlayerHP) => prevPlayerHP + 1);
-          resetTimeSinceLastMovement();
-        }
-      }
-    }
-  }, [
-    characterParam.name,
-    timeSinceLastMovement,
-    playerHP,
-    setPlayerHP,
-    playerMaxHP,
-  ]);
+  //Old Sean Passive
+  // useEffect(() => {
+  //   if (characterParam.name === "Sean") {
+  //     if (timeSinceLastMovement >= 2) {
+  //       if (playerHP < playerMaxHP) {
+  //         setPlayerHP((prevPlayerHP) => prevPlayerHP + 1);
+  //         resetTimeSinceLastMovement();
+  //       }
+  //     }
+  //   }
+  // }, [
+  //   characterParam.name,
+  //   timeSinceLastMovement,
+  //   playerHP,
+  //   setPlayerHP,
+  //   playerMaxHP,
+  // ]);
 
   const GameOverText = {
     fontFamily: "'Halogen by Pixel Surplus', sans-serif",
@@ -704,8 +787,8 @@ const Canvas = () => {
           {isAlive && (
             <g
               ref={imageRef}
-              width={50}
-              height={100}
+              width={characterWidth}
+              height={characterHeight}
               id={"Player"}
               transform={`translate(${position.x}, ${position.y})`}
             >
@@ -763,6 +846,8 @@ const Canvas = () => {
                 isShielded={isShielded}
                 characterParam={characterParam}
                 setSpeed={setSpeed}
+                playerShields={playerShields}
+                setPlayerShields={setPlayerShields}
               />
             );
           })}
